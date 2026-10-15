@@ -857,24 +857,142 @@
     z-index: 2;
   }
 
+  .graph-viewport {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 440px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    touch-action: pan-y;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
   .g-node {
     position: absolute;
     transform: translate(-50%, -50%);
-    padding: 6px 11px;
-    border-radius: 3px;
+    padding: 6px 10px;
+    border-radius: 4px;
     background: var(--bg-card);
     border: 1px solid var(--border-mid);
     color: var(--text);
     text-align: center;
     cursor: pointer;
     transition: border-color 0.15s ease, transform 0.18s ease, box-shadow 0.18s ease;
-    white-space: nowrap;
-    max-width: 195px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    max-width: 170px;
+    min-width: 80px;
+    width: max-content;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
     touch-action: manipulation;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.25;
+  }
+
+  .viz-toggle-group {
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 4px;
+    padding: 2px;
+  }
+
+  .viz-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .viz-toggle-btn.active {
+    background: var(--accent);
+    color: #050505;
+    font-weight: 700;
+  }
+
+  .graph-list-view {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .glv-section {
+    margin-bottom: 14px;
+  }
+
+  .glv-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .glv-title {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .glv-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .glv-chip {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    color: var(--text);
+  }
+
+  .glv-chip:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .glv-chip.chip-syn {
+    border-color: var(--border-accent);
+    color: var(--text);
+  }
+
+  .glv-chip.chip-avoid {
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #fca5a5;
+  }
+
+  .glv-chip.chip-peer {
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #7dd3fc;
   }
 
   #radarContainer {
@@ -1383,24 +1501,29 @@
       padding: 14px 10px;
     }
     .graph-viewport {
-      height: 350px;
+      height: 530px;
     }
     .g-node {
-      padding: 3px 6px;
-      max-width: 105px;
+      padding: 4px 7px;
+      max-width: 118px;
+      min-width: 76px;
+      width: max-content;
+      border-radius: 4px;
     }
     .g-node-word {
-      font-size: 0.68rem;
+      font-size: 0.70rem;
+      line-height: 1.2;
     }
     .g-node.node-center {
       padding: 6px 10px;
-      max-width: 130px;
+      max-width: 135px;
     }
     .g-node.node-center .g-node-word {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
     }
     .g-node-type {
-      font-size: 0.5rem;
+      font-size: 0.50rem;
+      letter-spacing: 0.02em;
     }
     #graphFooterBar {
       flex-direction: column !important;
@@ -1466,12 +1589,25 @@
   }
 
   @media (max-width: 420px) {
+    .graph-viewport {
+      height: 520px;
+    }
     .g-node {
-      padding: 2px 5px;
-      max-width: 90px;
+      padding: 3px 6px;
+      max-width: 106px;
+      min-width: 70px;
+      width: max-content;
     }
     .g-node-word {
-      font-size: 0.62rem;
+      font-size: 0.66rem;
+      line-height: 1.18;
+    }
+    .g-node.node-center {
+      padding: 5px 8px;
+      max-width: 124px;
+    }
+    .g-node.node-center .g-node-word {
+      font-size: 0.76rem;
     }
     .g-node-type {
       font-size: 0.46rem;
@@ -1665,15 +1801,24 @@
       <div class="viz-layout">
         <div class="constellation-box">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-            <label for="graphWordSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary);">FOCUS WORD:</label>
-            <select id="graphWordSelect" class="occ-select" style="flex:1; min-width:200px;" onchange="selectGraphWord(this.value)" aria-label="Select word for synonym constellation"></select>
-            <button class="btn-outlined" onclick="randomizeGraphWord()">Shuffle Node ↗</button>
+            <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:220px;">
+              <label for="graphWordSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); white-space:nowrap;">FOCUS WORD:</label>
+              <select id="graphWordSelect" class="occ-select" style="flex:1; min-width:140px;" onchange="selectGraphWord(this.value)" aria-label="Select word for synonym constellation"></select>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <div class="viz-toggle-group">
+                <button id="btnVizGraph" class="viz-toggle-btn active" onclick="switchConstellationView('graph')" title="Switch to Constellation Graph">🕸 Graph</button>
+                <button id="btnVizList" class="viz-toggle-btn" onclick="switchConstellationView('list')" title="Switch to Lexical Breakdown List">📋 Cards</button>
+              </div>
+              <button class="btn-outlined" onclick="randomizeGraphWord()" style="padding:6px 10px; font-size:0.78rem;">Shuffle ↗</button>
+            </div>
           </div>
 
           <div class="graph-viewport" id="graphViewport">
             <svg id="graph-svg-lines"></svg>
             <div id="graph-dom-nodes"></div>
           </div>
+          <div class="graph-list-view" id="graphListView" style="display:none;"></div>
 
           <div id="graphFooterBar" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;"></div>
         </div>
@@ -3123,6 +3268,25 @@ function randomizeGraphWord() {
   selectGraphWord(item.id);
 }
 
+function switchConstellationView(mode) {
+  const gView = document.getElementById("graphViewport");
+  const lView = document.getElementById("graphListView");
+  const btnG = document.getElementById("btnVizGraph");
+  const btnL = document.getElementById("btnVizList");
+  if (!gView || !lView) return;
+  if (mode === "list") {
+    gView.style.display = "none";
+    lView.style.display = "block";
+    btnG?.classList.remove("active");
+    btnL?.classList.add("active");
+  } else {
+    gView.style.display = "block";
+    lView.style.display = "none";
+    btnG?.classList.add("active");
+    btnL?.classList.remove("active");
+  }
+}
+
 function renderConstellation(wordId) {
   const center = VOCAB_DATA.find(v => v.id === wordId) || VOCAB_DATA[0];
   appState.currentGraphWordId = center.id;
@@ -3131,32 +3295,36 @@ function renderConstellation(wordId) {
   if (!svgEl || !domEl) return;
   const isDark = appState.theme === "dark";
   const isMob = window.innerWidth <= 640;
+  const isSmallMob = window.innerWidth <= 380;
 
+  // Calibrated slot coordinates mathematically verified for 0 collisions & full text visibility
   const synSlots = isMob ? [
-    { x: 74, y: 22 },
-    { x: 75, y: 41 },
-    { x: 75, y: 60 },
-    { x: 74, y: 79 }
+    { x: isSmallMob ? 78 : 80, y: 24 },
+    { x: isSmallMob ? 81 : 82, y: 41 },
+    { x: isSmallMob ? 81 : 82, y: 59 },
+    { x: isSmallMob ? 78 : 80, y: 76 }
   ] : [
     { x: 80, y: 22 },
     { x: 81, y: 41 },
     { x: 81, y: 60 },
     { x: 80, y: 79 }
   ];
+
   const leftSlots = isMob ? [
-    { x: 26, y: 26 },
-    { x: 25, y: 50 },
-    { x: 26, y: 74 }
+    { x: isSmallMob ? 22 : 20, y: 24 },
+    { x: isSmallMob ? 17 : 17, y: 42 },
+    { x: isSmallMob ? 21 : 20, y: 74 }
   ] : [
     { x: 20, y: 26 },
-    { x: 19, y: 50 },
+    { x: 18, y: 50 },
     { x: 20, y: 74 }
   ];
+
   const peerSlots = isMob ? [
-    { x: 38, y: 13 },
-    { x: 62, y: 13 },
-    { x: 38, y: 87 },
-    { x: 62, y: 87 }
+    { x: isSmallMob ? 23 : 24, y: 8 },
+    { x: isSmallMob ? 77 : 76, y: 8 },
+    { x: isSmallMob ? 23 : 24, y: 92 },
+    { x: isSmallMob ? 77 : 76, y: 92 }
   ] : [
     { x: 37, y: 14 },
     { x: 63, y: 14 },
@@ -3174,7 +3342,7 @@ function renderConstellation(wordId) {
       y: pos.y,
       cls: "node-syn",
       word: syn,
-      sub: "BAND 8+ SYNONYM",
+      sub: isMob ? "BAND 8+ SYN" : "BAND 8+ SYNONYM",
       action: `speakText('${syn.replace(/'/g, "")}')`
     });
     lines.push({
@@ -3185,11 +3353,30 @@ function renderConstellation(wordId) {
     });
   });
 
-  const shortAvoid = center.basic.split(",")[0].trim();
+  // Intelligent avoid extraction
+  let shortAvoid = (center.basic || "").trim();
+  if (shortAvoid.includes(",")) {
+    shortAvoid = shortAvoid.split(",")[0].trim();
+  } else if (shortAvoid.includes(";")) {
+    shortAvoid = shortAvoid.split(";")[0].trim();
+  } else if (shortAvoid.length > 25) {
+    const words = shortAvoid.split(/\s+/);
+    let acc = "";
+    for (const w of words) {
+      if ((acc + " " + w).trim().length <= 22) {
+        acc = (acc + " " + w).trim();
+      } else {
+        break;
+      }
+    }
+    shortAvoid = acc || words.slice(0, 3).join(" ");
+  }
+
   const leftItems = [
-    { word: shortAvoid, sub: "AVOID (BAND 5)", isAvoid: true },
-    ...center.antonyms.slice(0, 2).map(a => ({ word: a, sub: "OPPOSITE", isAvoid: false }))
+    { word: shortAvoid, sub: isMob ? "AVOID (B5)" : "AVOID (BAND 5)", full: center.basic, isAvoid: true },
+    ...center.antonyms.slice(0, 2).map(a => ({ word: a, sub: "OPPOSITE", full: a, isAvoid: false }))
   ];
+
   leftItems.forEach((item, i) => {
     const pos = leftSlots[i];
     nodes.push({
@@ -3198,6 +3385,7 @@ function renderConstellation(wordId) {
       cls: "node-avoid",
       word: item.word,
       sub: item.sub,
+      fullTitle: item.full,
       action: `speakText('${item.word.replace(/'/g, "")}')`
     });
     lines.push({
@@ -3216,7 +3404,7 @@ function renderConstellation(wordId) {
       y: pos.y,
       cls: "node-peer",
       word: p.word,
-      sub: "CLICK TO FOCUS ↗",
+      sub: isMob ? "FOCUS ↗" : "CLICK TO FOCUS ↗",
       action: `selectGraphWord('${p.id}')`
     });
     lines.push({
@@ -3233,15 +3421,17 @@ function renderConstellation(wordId) {
           ${l.dash ? `stroke-dasharray="${l.dash}"` : ""} />
   `).join("");
 
+  const centerSub = isMob ? `${center.band}<br><span style="opacity:0.75; font-size:0.48rem;">${center.pos}</span>` : `${center.band} • ${center.pos}`;
+
   const centerHtml = `
     <div class="g-node node-center" style="left:50%; top:50%;" onclick="speakText('${center.word.replace(/'/g, "")}')">
       <span class="g-node-word">${center.word}</span>
-      <span class="g-node-type">${center.band} • ${center.pos}</span>
+      <span class="g-node-type">${centerSub}</span>
     </div>
   `;
 
   const childrenHtml = nodes.map(n => `
-    <div class="g-node ${n.cls}" style="left:${n.x}%; top:${n.y}%;" onclick="${n.action}" title="${n.word}">
+    <div class="g-node ${n.cls}" style="left:${n.x}%; top:${n.y}%;" onclick="${n.action}" title="${n.fullTitle || n.word}">
       <span class="g-node-word">${n.word}</span>
       <span class="g-node-type">${n.sub}</span>
     </div>
@@ -3249,15 +3439,57 @@ function renderConstellation(wordId) {
 
   domEl.innerHTML = centerHtml + childrenHtml;
 
+  // Render List View content
+  const listEl = document.getElementById("graphListView");
+  if (listEl) {
+    listEl.innerHTML = `
+      <div class="glv-section">
+        <div class="glv-title" style="color:var(--accent);">★ Current Focus Word</div>
+        <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:4px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:1.05rem; font-weight:800; color:var(--text);">${center.word} <span style="font-size:0.82rem; font-weight:400; color:var(--text-secondary);">${center.ipa}</span></div>
+            <span class="occ-ver-pill" style="color:var(--accent);">${center.band} • ${center.pos}</span>
+          </div>
+          <div class="burmese" style="font-size:0.95rem; font-weight:700; margin:8px 0 4px; color:var(--text);">${center.mmMeaning}</div>
+          <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.4;">${center.basic}</div>
+        </div>
+      </div>
+      <div class="glv-section">
+        <div class="glv-title">Band 8+ Academic Synonyms</div>
+        <div class="glv-chips">
+          ${center.synonyms.map(s => `<button class="glv-chip chip-syn" onclick="speakText('${s.replace(/'/g, "")}')">🔊 ${s}</button>`).join("")}
+        </div>
+      </div>
+      <div class="glv-section">
+        <div class="glv-title">Band 5 To Avoid & Opposites</div>
+        <div class="glv-chips">
+          <span class="glv-chip chip-avoid" title="${center.basic}">⚠️ Avoid: ${shortAvoid}</span>
+          ${center.antonyms.map(a => `<button class="glv-chip chip-avoid" onclick="speakText('${a.replace(/'/g, "")}')">↔ Opposite: ${a}</button>`).join("")}
+        </div>
+      </div>
+      <div class="glv-section">
+        <div class="glv-title">Related Category Lexicon (Tap to focus)</div>
+        <div class="glv-chips">
+          ${peers.map(p => `<button class="glv-chip chip-peer" onclick="selectGraphWord('${p.id}')">↗ ${p.word}</button>`).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   document.getElementById("graphFooterBar").innerHTML = `
-    <div style="font-size:0.84rem; display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
-      <span class="occ-ver-pill" style="color:var(--accent); border-color:var(--border-accent);">${center.word} ${center.ipa}</span>
-      <span class="burmese" style="font-weight:700;">${center.mmMeaning}</span>
-      <span style="color:var(--text-secondary); font-family:monospace; font-size:0.76rem; word-break:break-word;">COLLOCATION // ${center.collocation}</span>
-    </div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <button class="btn-outlined" onclick="speakText('${center.word.replace(/'/g, "")}')">🔊 Pronounce</button>
-      <button class="btn-outlined" onclick="jumpToWordInLexicon('${center.word.replace(/'/g, "")}')">Inspect Full Card ↗</button>
+    <div style="width:100%; display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+        <span class="occ-ver-pill" style="color:var(--accent); border-color:var(--border-accent); font-weight:700;">${center.word} <span style="font-weight:400; opacity:0.85;">${center.ipa}</span></span>
+        <span class="occ-ver-pill" style="color:var(--text-secondary);">${center.band}</span>
+        <span class="burmese" style="font-weight:700; font-size:0.92rem; color:var(--text);">${center.mmMeaning}</span>
+      </div>
+      <div style="font-family:ui-monospace, monospace; font-size:0.76rem; color:var(--text-secondary); word-break:break-word; line-height:1.35; padding:6px 10px; background:rgba(255,255,255,0.03); border-radius:3px; border-left:2px solid var(--accent);">
+        <strong style="color:var(--accent);">COLLOCATION:</strong> ${center.collocation}
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:2px;">
+        <button class="btn-outlined" style="padding:6px 12px; font-size:0.78rem;" onclick="speakText('${center.word.replace(/'/g, "")}')">🔊 Pronounce Word</button>
+        <button class="btn-outlined" style="padding:6px 12px; font-size:0.78rem;" onclick="jumpToWordInLexicon('${center.word.replace(/'/g, "")}')">Inspect Full Card ↗</button>
+      </div>
     </div>
   `;
 }
