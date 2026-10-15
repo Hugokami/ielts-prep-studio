@@ -1,0 +1,9 @@
+*-adminsdk-*.json
+service-account*.json
+*.key
+.env
+.env.local
+.firebase/
+test_*.js
+verify.py
+find_unclosed.py

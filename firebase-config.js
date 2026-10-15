@@ -7,12 +7,13 @@
 // Replace with your real Firebase Project Web App Credentials from:
 // https://console.firebase.google.com/project/_/settings/general
 window.FIREBASE_CONFIG = window.FIREBASE_CONFIG || {
-  apiKey: "AIzaSy_YOUR_API_KEY_HERE",
-  authDomain: "ielts-prep-studio.firebaseapp.com",
-  projectId: "ielts-prep-studio",
-  storageBucket: "ielts-prep-studio.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456"
+  apiKey: "AIzaSyDYZqW0Xxnjhlv3nQ4Ep1M_6zDYmZqMEMs",
+  authDomain: "ielts-20309.firebaseapp.com",
+  projectId: "ielts-20309",
+  storageBucket: "ielts-20309.firebasestorage.app",
+  messagingSenderId: "761262240112",
+  appId: "1:761262240112:web:82c497847829dbc78ddfb5",
+  measurementId: "G-8GHWTW7NMD"
 };
 
 window.isFirebaseConfigured = function() {
