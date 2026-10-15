@@ -27,15 +27,23 @@ service cloud.firestore {
     //   - createdAt: timestamp (optional, immutable) - State initialization timestamp
     //   - mastered: list (optional, max 1000 items) - IDs of mastered vocabulary items
     //   - srsSchedule: map (optional, max 1000 keys) - Spaced repetition schedule map
+    //   - drillBest: number (optional, 0 <= drillBest <= 100000) - Best score in vocabulary drill
     //   - drillScore: number (optional, 0 <= score <= 100000) - Cumulative drill performance
+    //   - writingDrafts: map (optional, max 100 items) - User essay drafts
     //   - savedEssays: list (optional, max 200 items) - User essay drafts and records
+    //   - readingDone: list (optional, max 100 items) - Completed reading practice test IDs
     //   - errorLog: list (optional, max 1000 items) - SRS error logs and mistake bank
     //   - userProfile: map (optional) - Nested user status and tier
-    //       * tier: string (optional, max 20 chars; 'vip' requires existing vip or admin)
-    //       * vipExpiresAt: timestamp | string | number (optional)
+    //       * tier: string (optional, max 20 chars; 'vip' requires valid voucher, existing vip, or admin)
+    //       * vipExpiresAt: timestamp | string | number | null (optional)
     //       * displayName: string (optional, <= 100 chars)
     //       * targetBand: number (optional, 0 <= band <= 9.0)
     //       * examDate: string (optional, <= 30 chars)
+    //       * monthlyUsage: map (optional, max 50 keys) - Monthly usage counters
+    //       * dailyUsage: map (optional, max 100 keys) - Daily usage counters
+    //       * voucherCode: string (optional, <= 30 chars) - Promotional / VIP voucher code
+    //       * plan: string (optional, <= 50 chars) - Membership plan type
+    //       * checkoutStatus: string (optional, <= 50 chars) - Checkout status
     //   - theme: string (optional, 'light' | 'dark')
     //   - showBurmese: bool (optional)
     //   - fontScale: number (optional, 0.5 <= scale <= 3.0)
@@ -153,24 +161,44 @@ service cloud.firestore {
     // 2. Studio State Document Validator (Progress & SRS state)
     function isValidUserProfileMap(profile) {
       return profile is map &&
-        profile.keys().hasOnly(['tier', 'vipExpiresAt', 'displayName', 'targetBand', 'examDate']) &&
+        profile.keys().hasOnly([
+          'tier', 'vipExpiresAt', 'displayName', 'targetBand', 'examDate',
+          'monthlyUsage', 'dailyUsage', 'voucherCode', 'plan', 'checkoutStatus'
+        ]) &&
         (!('tier' in profile) || (profile.tier is string && profile.tier.size() <= 20)) &&
-        (!('vipExpiresAt' in profile) || (profile.vipExpiresAt is timestamp || profile.vipExpiresAt is string || profile.vipExpiresAt is number)) &&
+        (!('vipExpiresAt' in profile) || profile.vipExpiresAt == null || profile.vipExpiresAt is timestamp || profile.vipExpiresAt is string || profile.vipExpiresAt is number) &&
         (!('displayName' in profile) || (profile.displayName is string && profile.displayName.size() <= 100)) &&
         (!('targetBand' in profile) || (profile.targetBand is number && profile.targetBand >= 0 && profile.targetBand <= 9.0)) &&
-        (!('examDate' in profile) || (profile.examDate is string && profile.examDate.size() <= 30));
+        (!('examDate' in profile) || (profile.examDate is string && profile.examDate.size() <= 30)) &&
+        (!('monthlyUsage' in profile) || (profile.monthlyUsage is map && profile.monthlyUsage.size() <= 50)) &&
+        (!('dailyUsage' in profile) || (profile.dailyUsage is map && profile.dailyUsage.size() <= 100)) &&
+        (!('voucherCode' in profile) || (profile.voucherCode is string && profile.voucherCode.size() <= 30)) &&
+        (!('plan' in profile) || (profile.plan is string && profile.plan.size() <= 50)) &&
+        (!('checkoutStatus' in profile) || (profile.checkoutStatus is string && profile.checkoutStatus.size() <= 50));
     }
 
-    // Prevent privilege escalation on create (cannot self-assign VIP tier)
+    // Check if the user document includes an approved promotional / VIP voucher code
+    function hasValidVoucherCode(data) {
+      return data != null &&
+        'userProfile' in data &&
+        data.userProfile is map &&
+        'voucherCode' in data.userProfile &&
+        data.userProfile.voucherCode in [
+          'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE'
+        ];
+    }
+
+    // Prevent privilege escalation on create (cannot self-assign VIP tier unless valid voucher or admin)
     function isNotEscalatingVipTierOnCreate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
       let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
       return !hasTier ||
         request.resource.data.userProfile.tier != 'vip' ||
+        hasValidVoucherCode(request.resource.data) ||
         isAdmin();
     }
 
-    // Prevent privilege escalation on update (cannot self-assign VIP tier unless already VIP or admin)
+    // Prevent privilege escalation on update (cannot self-assign VIP tier unless valid voucher, already VIP, or admin)
     function isNotEscalatingVipTierOnUpdate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
       let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
@@ -181,6 +209,7 @@ service cloud.firestore {
                    resource.data.userProfile.tier == 'vip';
       return !hasTier ||
         request.resource.data.userProfile.tier != 'vip' ||
+        hasValidVoucherCode(request.resource.data) ||
         wasVip ||
         isAdmin();
     }
@@ -188,15 +217,19 @@ service cloud.firestore {
     function isValidStudioState(data) {
       return hasOnlyAllowedFields([
         'updatedAt', 'createdAt', 'mastered', 'srsSchedule',
-        'drillScore', 'savedEssays', 'errorLog', 'userProfile',
+        'drillBest', 'drillScore', 'writingDrafts', 'savedEssays',
+        'readingDone', 'errorLog', 'userProfile',
         'theme', 'showBurmese', 'fontScale'
       ]) &&
       (!('updatedAt' in data) || data.updatedAt is timestamp) &&
       (!('createdAt' in data) || data.createdAt is timestamp) &&
       (!('mastered' in data) || (data.mastered is list && data.mastered.size() <= 1000)) &&
       (!('srsSchedule' in data) || (data.srsSchedule is map && data.srsSchedule.size() <= 1000)) &&
+      (!('drillBest' in data) || (data.drillBest is number && data.drillBest >= 0 && data.drillBest <= 100000)) &&
       (!('drillScore' in data) || (data.drillScore is number && data.drillScore >= 0 && data.drillScore <= 100000)) &&
+      (!('writingDrafts' in data) || (data.writingDrafts is map && data.writingDrafts.size() <= 100)) &&
       (!('savedEssays' in data) || (data.savedEssays is list && data.savedEssays.size() <= 200)) &&
+      (!('readingDone' in data) || (data.readingDone is list && data.readingDone.size() <= 100)) &&
       (!('errorLog' in data) || (data.errorLog is list && data.errorLog.size() <= 1000)) &&
       (!('userProfile' in data) || isValidUserProfileMap(data.userProfile)) &&
       (!('theme' in data) || data.theme in ['light', 'dark']) &&

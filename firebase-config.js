@@ -164,8 +164,9 @@ window.syncUserDataToCloud = async function() {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         mastered: appState.mastered || [],
         srsSchedule: appState.srsSchedule || {},
-        drillScore: appState.drillScore || 0,
-        savedEssays: appState.savedEssays || [],
+        drillBest: appState.drillBest || 0,
+        writingDrafts: appState.writingDrafts || {},
+        readingDone: appState.readingDone || [],
         errorLog: appState.errorLog || [],
         userProfile: appState.userProfile || {}
       };
@@ -191,15 +192,44 @@ window.loadUserDataFromCloud = async function() {
     const doc = await docRef.get();
     if (doc.exists) {
       const data = doc.data();
-      if (data.mastered) appState.mastered = data.mastered;
-      if (data.srsSchedule) appState.srsSchedule = data.srsSchedule;
-      if (data.drillScore) appState.drillScore = data.drillScore;
-      if (data.userProfile && data.userProfile.tier === "vip") {
-        appState.userProfile.tier = "vip";
-        appState.userProfile.vipExpiresAt = data.userProfile.vipExpiresAt;
+      if (Array.isArray(data.mastered)) {
+        appState.mastered = Array.from(new Set([...(appState.mastered || []), ...data.mastered]));
+      }
+      if (data.srsSchedule && typeof data.srsSchedule === 'object') {
+        appState.srsSchedule = Object.assign({}, appState.srsSchedule || {}, data.srsSchedule);
+      }
+      if (typeof data.drillBest === 'number') {
+        appState.drillBest = Math.max(appState.drillBest || 0, data.drillBest);
+      }
+      if (data.writingDrafts && typeof data.writingDrafts === 'object') {
+        appState.writingDrafts = Object.assign({}, appState.writingDrafts || {}, data.writingDrafts);
+      }
+      if (Array.isArray(data.readingDone)) {
+        appState.readingDone = Array.from(new Set([...(appState.readingDone || []), ...data.readingDone]));
+      }
+      if (Array.isArray(data.errorLog)) {
+        appState.errorLog = data.errorLog;
+      }
+      if (data.userProfile && typeof data.userProfile === 'object') {
+        if (!appState.userProfile) appState.userProfile = {};
+        if (data.userProfile.tier === "vip") {
+          appState.userProfile.tier = "vip";
+          appState.userProfile.vipExpiresAt = data.userProfile.vipExpiresAt;
+          if (data.userProfile.voucherCode) appState.userProfile.voucherCode = data.userProfile.voucherCode;
+        }
+        if (data.userProfile.monthlyUsage) {
+          appState.userProfile.monthlyUsage = Object.assign({}, appState.userProfile.monthlyUsage || {}, data.userProfile.monthlyUsage);
+        }
+        if (data.userProfile.dailyUsage) {
+          appState.userProfile.dailyUsage = Object.assign({}, appState.userProfile.dailyUsage || {}, data.userProfile.dailyUsage);
+        }
       }
       saveAppState();
-      renderLexiconGrid();
+      if (typeof refreshAllVipViews === "function") {
+        refreshAllVipViews();
+      } else {
+        renderLexiconGrid();
+      }
       showToast("☁️ Cloud progress restored!");
     }
   } catch (err) {

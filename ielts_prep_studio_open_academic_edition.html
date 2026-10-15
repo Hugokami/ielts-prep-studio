@@ -1640,6 +1640,8 @@
       display: block !important;
       margin-bottom: 32px;
     }
+  }
+
   /* =========================================================
      VIP STUDIO PASS & FIREBASE AUTH MONETIZATION UI
      ========================================================= */
@@ -1973,7 +1975,7 @@
       </button>
       <div class="auth-widget-box" id="authWidgetBox">
         <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Sign in with Google">
-          <svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
+          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
           <span id="authBtnLabel">Sign In</span>
         </button>
         <div id="accountDropdownMenu" class="account-dropdown" style="display:none;" onclick="event.stopPropagation()"></div>
@@ -2848,7 +2850,7 @@
       <div class="sec-eyebrow">CONTEXTUAL SYNONYM DRILL</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Paraphrase Recognition Lab <span class="ver-muted">10-Item Set</span></h2>
-        <button class="btn-accent-solid" onclick="generateDrill()">New 10-Question Drill ↗</button>
+        <button class="btn-accent-solid" onclick="generateDrill(true)">New 10-Question Drill ↗</button>
       </div>
 
       <div class="cbt-split">
@@ -3176,6 +3178,7 @@
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
+            <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()">🔍 Full CEFR &amp; Trap Audit (2 Free/Mo)</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
@@ -3554,10 +3557,29 @@ function closeVipPassModal() {
   if (m) m.style.display = "none";
 }
 
-function activateVipPass(planType) {
+function openVipCheckout(planType) {
+  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive;
+  const step = document.getElementById("vipCheckoutStep");
+  const title = document.getElementById("checkoutPlanTitle");
+  const mmk = document.getElementById("checkoutMmkAmount");
+  if (step) {
+    step.style.display = "block";
+    if (title) title.textContent = `${plan.name} — $${plan.priceUsd} (${plan.priceMmk})`;
+    if (mmk) mmk.textContent = plan.priceMmk;
+    step.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+function closeVipCheckout() {
+  const step = document.getElementById("vipCheckoutStep");
+  if (step) step.style.display = "none";
+}
+
+function activateVipPass(planType, voucherCode) {
   const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive;
   ensureUserProfileInitialized();
   appState.userProfile.tier = "vip";
+  if (voucherCode) appState.userProfile.voucherCode = voucherCode;
   if (plan.days === "lifetime") {
     appState.userProfile.vipExpiresAt = "lifetime";
   } else {
@@ -3582,6 +3604,7 @@ function toggleVipTestingStatus() {
   } else {
     appState.userProfile.tier = "vip";
     appState.userProfile.vipExpiresAt = "lifetime";
+    appState.userProfile.voucherCode = "VIPPASS2026";
     showStudioNotification("⚡ Instant VIP Testing Pass Activated (All modules & unlimited quotas unlocked)!");
   }
   saveAppState();
@@ -3597,10 +3620,10 @@ function redeemVoucherCode() {
   const found = VALID_VOUCHER_CODES[code];
   const fb = document.getElementById("vipVoucherFeedback");
   if (found) {
-    activateVipPass(found.plan);
+    activateVipPass(found.plan, code);
     if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name} applied.</span>`;
   } else {
-    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid code. Valid test codes: VIPPASS2026, BAND9VIP, SCHOLAR9.</span>`;
+    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact support.</span>`;
   }
 }
 
@@ -3714,7 +3737,7 @@ function updateAuthUI() {
     }
   } else {
     if (authLabel) authLabel.textContent = "Sign In";
-    if (authIcon) authIcon.innerHTML = "👤";
+    if (authIcon) authIcon.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>`;
     if (dd) dd.style.display = "none";
   }
 }
@@ -3931,6 +3954,11 @@ function initGraphSelector() {
 }
 
 function selectGraphWord(id) {
+  if (!isVipActive() && id !== VOCAB_DATA[0].id) {
+    openVipPassModal();
+    showStudioNotification("🔒 Interactive Synonym Constellation Filtering is a VIP Pass feature.");
+    return;
+  }
   appState.activeGraphWordId = id;
   const sel = document.getElementById("graphWordSelect");
   if (sel) sel.value = id;
@@ -3938,6 +3966,11 @@ function selectGraphWord(id) {
 }
 
 function randomizeGraphWord() {
+  if (!isVipActive()) {
+    openVipPassModal();
+    showStudioNotification("🔒 Interactive Synonym Constellation Filtering is a VIP Pass feature.");
+    return;
+  }
   const item = VOCAB_DATA[Math.floor(Math.random() * VOCAB_DATA.length)];
   selectGraphWord(item.id);
 }
@@ -4427,7 +4460,7 @@ function renderLexiconGrid(keepLimit) {
   }
 
   const now = Date.now();
-  grid.innerHTML = list.map((item, idx) => {
+  const cardsHtml = list.map((item, idx) => {
     const isM = appState.mastered.includes(item.id);
     const srs = appState.srsSchedule[item.id];
     const isDue = srs && srs.due <= now;
@@ -4695,6 +4728,13 @@ function renderSpeakingFramework(idx) {
     `;
     return;
   }
+
+  const fullExampleText = fw.exampleBreakdown ? fw.exampleBreakdown.map(b => b.text).join(" ") : "";
+
+  pane.innerHTML = `
+    <div class="sec-eyebrow">${fw.code}</div>
+    <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:4px;">${fw.name}: ${fw.subtitle}</h3>
+    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;"><strong>When to use:</strong> ${fw.whenToUse}</p>
 
     <div class="occ-body-mm burmese" style="margin-bottom:14px;">
       <div class="occ-mm-note">${fw.mmOverview}</div>
@@ -5029,7 +5069,7 @@ function renderAllEssentialsModules() {
             <div style="padding:10px; background:var(--bg); border:1px solid var(--border);">
               <div style="font-weight:700; font-size:0.84rem; margin-bottom:4px;">${it.q}</div>
               <div style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary); margin-bottom:6px;">${it.opts}</div>
-              <button class="btn-outlined" style="padding:3px 8px; font-size:0.72rem;" onclick="document.getElementById('ex_ans_${eIdx}_${iIdx}').style.display='block'">Reveal Answer</button>
+              <button class="btn-outlined" style="padding:3px 8px; font-size:0.72rem;" onclick="revealPart17Answer(${eIdx}, ${iIdx})">Reveal Answer</button>
               <div id="ex_ans_${eIdx}_${iIdx}" style="display:none; margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);">
                 <div style="color:var(--success); font-weight:700; font-size:0.83rem;">Answer: ${it.ans}</div>
                 <div class="burmese" style="font-size:0.79rem; color:var(--text-secondary);">${it.mm}</div>
@@ -5141,6 +5181,16 @@ function renderAllEssentialsModules() {
   }
 }
 
+function revealPart17Answer(eIdx, iIdx) {
+  if (!isVipActive()) {
+    openVipPassModal();
+    showStudioNotification("🔒 Part 17 Grammar Exercises & Answer Explanations are a VIP Pass feature.");
+    return;
+  }
+  const el = document.getElementById(`ex_ans_${eIdx}_${iIdx}`);
+  if (el) el.style.display = 'block';
+}
+
 function logMistakeItem(moduleName, questionPrompt, expectedAnswer, explanationText) {
   if (!appState.errorLog) appState.errorLog = [];
   const exists = appState.errorLog.some(e => e.q === questionPrompt);
@@ -5180,9 +5230,9 @@ function gradeListeningSet(sIdx) {
 // ==========================================
 let currentDrill = [];
 
-function generateDrill() {
+function generateDrill(isUserClick = false) {
   const quota = canUseParaphraseDrill();
-  if (!quota.allowed) {
+  if (isUserClick && !quota.allowed) {
     if (confirm("You have completed your 1 free daily Paraphrase Drill for today.\n\nUpgrade to VIP Studio Pass for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?")) {
       openVipPassModal();
     }
@@ -5492,7 +5542,27 @@ function saveCurrentEssay() {
   if (val) {
     appState.writingDrafts[w.id] = val;
     saveAppState();
+    showStudioNotification("💾 Essay draft saved locally!");
   }
+}
+
+function runManualWritingAudit() {
+  const text = document.getElementById("essayArea")?.value || "";
+  if (text.trim().length < 20) {
+    alert("Please write at least 20 words in your essay before running the full CEFR & Trap Audit.");
+    return;
+  }
+  const quota = canUseWritingCheck();
+  if (!isVipActive() && !quota.allowed) {
+    if (confirm("You have used your 2 free monthly CEFR & Trap Audits.\n\nUpgrade to VIP Studio Pass for unlimited live audits, AI grading, and all 13 Band 8.5 Burmese models! Would you like to view VIP options?")) {
+      openVipPassModal();
+    }
+    return;
+  }
+  recordWritingCheckUsage();
+  runLiveWritingDiagnostics();
+  const remaining = isVipActive() ? "Unlimited" : (canUseWritingCheck().remaining + " remaining this month");
+  showStudioNotification(`🔍 Full CEFR & Trap Audit Complete! (${remaining})`);
 }
 
 function toggleModelDrawer() {
@@ -5777,6 +5847,11 @@ function renderGlobalSearchResults() {
 }
 
 function openErrorLogModal() {
+  if (!isVipActive()) {
+    openVipPassModal();
+    showStudioNotification("🔒 Personal Error Log & Mistake Bank is a VIP Pass feature.");
+    return;
+  }
   document.getElementById("errorLogModal")?.classList.add("open");
   renderErrorLogModalList();
 }
@@ -6199,7 +6274,7 @@ window.addEventListener("DOMContentLoaded", () => {
   populateDynamicLexiconFilters();
   initGraphSelector();
   renderLexiconGrid();
-  generateDrill();
+  generateDrill(false);
   initReadingMocks();
   initWritingMocks();
   initSpeakingStudio();
@@ -6240,6 +6315,10 @@ window.addEventListener("DOMContentLoaded", () => {
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-outlined" onclick="bypassClozeGate()" style="font-size:0.78rem;">Skip Gate (Rate 3d)</button>
         <button class="btn-accent-solid" onclick="verifyClozeGate()" style="font-size:0.78rem;">Verify &amp; Master 7d ✓</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Engnovate-style VIP Pass Modal -->
   <div id="vipPassModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeVipPassModal()">
     <div class="modal-card" style="max-width:780px; width:95%; max-height:90vh; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:24px; box-sizing:border-box;">
@@ -6273,7 +6352,7 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Firebase Cloud Sync</strong> across devices</li>
             </ul>
           </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="activateVipPass('sprint')">Get 7-Day Pass ($7)</button>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('sprint')">Get 7-Day Pass ($7)</button>
         </div>
 
         <!-- 30-Day Intensive Pass -->
@@ -6292,7 +6371,7 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Priority Cloud Sync</strong></li>
             </ul>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="activateVipPass('intensive')">Get 30-Day Pass ($15)</button>
+          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="openVipCheckout('intensive')">Get 30-Day Pass ($15)</button>
         </div>
 
         <!-- Lifetime Pass -->
@@ -6309,18 +6388,66 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Unlimited Everything</strong></li>
             </ul>
           </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="activateVipPass('lifetime')">Get Lifetime Pass ($29)</button>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('lifetime')">Get Lifetime Pass ($29)</button>
         </div>
       </div>
 
-      <!-- Voucher Code & Instant Testing Sandbox -->
+      <!-- Interactive Checkout Step (Revealed on selecting a pass) -->
+      <div id="vipCheckoutStep" style="display:none; background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">Step 2: Complete Payment</span>
+            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Selected Plan</strong>
+          </div>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="closeVipCheckout()">← Change Plan</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin-bottom:14px;">
+          <!-- Payment Option A: Myanmar KBZPay / WavePay -->
+          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:14px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span style="font-size:1.1rem;">🇲🇲</span>
+              <strong style="font-size:0.86rem; color:var(--text);">Myanmar Local Pay (KBZPay / WavePay)</strong>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.45;">
+              Account: <strong>IELTS Studio Academy</strong><br>
+              KBZPay / WavePay Phone: <code style="font-size:0.85rem; color:var(--accent); font-weight:700;">09-770 123 456</code><br>
+              Amount to transfer: <strong id="checkoutMmkAmount" style="color:var(--accent);">25,000 MMK</strong>
+            </div>
+            <div class="burmese" style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">
+              ငွေလွှဲပြီးပါက transaction screenshot ကို Telegram သို့ ပို့ပေးပြီး ချက်ချင်း Voucher Code ရယူနိုင်ပါသည်။
+            </div>
+            <a href="https://t.me/IELTSStudioVIP" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; gap:6px; font-size:0.78rem; text-decoration:none; padding:6px 12px;">
+              💬 Send Receipt on Telegram (@IELTSStudioVIP) ↗
+            </a>
+          </div>
+
+          <!-- Payment Option B: International Card -->
+          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span style="font-size:1.1rem;">💳</span>
+                <strong style="font-size:0.86rem; color:var(--text);">Credit / Debit Card (International)</strong>
+              </div>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.45;">
+                Instant international card checkout via Stripe / LemonSqueezy. Receive your digital license voucher automatically.
+              </p>
+            </div>
+            <a href="https://buy.stripe.com/test_ieltsstudio" target="_blank" rel="noopener" class="btn-outlined" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.78rem; text-decoration:none; padding:6px 12px; color:var(--accent); border-color:var(--accent);">
+              💳 Pay by Card Online (Instant Voucher) ↗
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voucher Code Redemption -->
       <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
           <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Access Code or Voucher?</span>
-          <span style="font-size:0.75rem; color:var(--text-secondary);">Codes: <code style="color:var(--accent);">VIPPASS2026</code>, <code style="color:var(--accent);">BAND9VIP</code>, <code style="color:var(--accent);">SCHOLAR9</code></span>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem scholarship code or payment voucher below</span>
         </div>
         <div style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code..." style="flex:1; font-size:0.85rem; text-transform:uppercase;">
+          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher or access code..." style="flex:1; font-size:0.85rem; text-transform:uppercase;">
           <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap;">Activate Voucher</button>
         </div>
         <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
