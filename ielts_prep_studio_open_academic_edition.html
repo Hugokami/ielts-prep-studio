@@ -3650,12 +3650,65 @@ function toggleVipTestingStatus() {
   refreshAllVipViews();
 }
 
-function redeemVoucherCode() {
+async function redeemVoucherCode() {
   const inp = document.getElementById("vipVoucherInput");
   if (!inp) return;
   const code = inp.value.trim().toUpperCase();
-  const found = VALID_VOUCHER_CODES[code];
   const fb = document.getElementById("vipVoucherFeedback");
+  if (!code) {
+    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Please enter a voucher or access code.</span>`;
+    return;
+  }
+
+  // 1. Cloud-backed One-Time Voucher Verification (Firestore)
+  if (window.firebaseDbInstance) {
+    if (!window.currentUser) {
+      if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">⚠️ Please Sign In with Google (top right) first so your one-time voucher is securely registered to your account.</span>`;
+      return;
+    }
+
+    if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">⏳ Verifying voucher with cloud registry...</span>`;
+    try {
+      const vRef = window.firebaseDbInstance.collection("vouchers").doc(code);
+      const vDoc = await vRef.get();
+
+      if (!vDoc.exists) {
+        if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact support.</span>`;
+        return;
+      }
+
+      const vData = vDoc.data();
+      if (vData.isOneTime && vData.redeemed) {
+        if (vData.redeemedBy === window.currentUser.uid) {
+          if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">You have already redeemed this voucher on this account.</span>`;
+          activateVipPass(vData.plan, code);
+        } else {
+          if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⛔ This one-time voucher has already been redeemed by another user and cannot be reused.</span>`;
+        }
+        return;
+      }
+
+      // Claim one-time voucher atomically in Firestore
+      if (vData.isOneTime) {
+        await vRef.update({
+          redeemed: true,
+          redeemedBy: window.currentUser.uid,
+          redeemedByEmail: window.currentUser.email || "user",
+          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      activateVipPass(vData.plan, code);
+      if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${vData.name || "VIP Pass"} activated.</span>`;
+      return;
+    } catch (err) {
+      console.warn("[Cloud Voucher Verification Notice]", err);
+      // Fallback to local dictionary if Firestore network glitch
+    }
+  }
+
+  // 2. Offline / Local Dictionary Fallback
+  const found = VALID_VOUCHER_CODES[code];
   if (found) {
     activateVipPass(found.plan, code);
     if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name} applied.</span>`;

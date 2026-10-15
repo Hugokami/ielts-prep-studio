@@ -72,6 +72,17 @@ service cloud.firestore {
     //   - createdAt: timestamp (optional, immutable) - Submission timestamp
     //   - updatedAt: timestamp (optional) - Revision timestamp
     //
+    // Collection: vouchers/{voucherCode}
+    // Document ID: voucherCode (voucher identifier)
+    // Fields:
+    //   - plan: string (e.g. 'lifetime' | 'intensive' | 'sprint')
+    //   - isOneTime: bool (optional, defaults to true)
+    //   - redeemed: bool (required, initial false, updated to true upon redemption)
+    //   - redeemedBy: string (optional/nullable, Firebase Auth UID of redeeming user)
+    //   - redeemedByEmail: string (optional, contact email of redeeming user)
+    //   - redeemedAt: timestamp (optional, redemption timestamp)
+    //   - createdAt: timestamp (optional)
+    //
     // ===============================================================
 
     // ===============================================================
@@ -189,17 +200,37 @@ service cloud.firestore {
         ];
     }
 
-    // Prevent privilege escalation on create (cannot self-assign VIP tier unless valid voucher or admin)
+    // Check if the user document references a valid voucher redeemed by this user in vouchers/{code}
+    function hasRedeemedVoucher(data) {
+      return data != null &&
+        'userProfile' in data &&
+        data.userProfile is map &&
+        'voucherCode' in data.userProfile &&
+        data.userProfile.voucherCode is string &&
+        data.userProfile.voucherCode.size() > 0 &&
+        data.userProfile.voucherCode.size() <= 30 &&
+        (
+          (exists(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)) &&
+           'redeemedBy' in get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
+           get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemedBy == request.auth.uid) ||
+          (existsAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)) &&
+           'redeemedBy' in getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
+           getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemedBy == request.auth.uid)
+        );
+    }
+
+    // Prevent privilege escalation on create (cannot self-assign VIP tier unless valid voucher, redeemed voucher, or admin)
     function isNotEscalatingVipTierOnCreate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
       let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
       return !hasTier ||
         request.resource.data.userProfile.tier != 'vip' ||
         hasValidVoucherCode(request.resource.data) ||
+        hasRedeemedVoucher(request.resource.data) ||
         isAdmin();
     }
 
-    // Prevent privilege escalation on update (cannot self-assign VIP tier unless valid voucher, already VIP, or admin)
+    // Prevent privilege escalation on update (cannot self-assign VIP tier unless valid voucher, redeemed voucher, already VIP, or admin)
     function isNotEscalatingVipTierOnUpdate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
       let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
@@ -210,8 +241,9 @@ service cloud.firestore {
                    resource.data.userProfile.tier == 'vip';
       return !hasTier ||
         request.resource.data.userProfile.tier != 'vip' ||
-        hasValidVoucherCode(request.resource.data) ||
         wasVip ||
+        hasValidVoucherCode(request.resource.data) ||
+        hasRedeemedVoucher(request.resource.data) ||
         isAdmin();
     }
 
@@ -347,6 +379,32 @@ service cloud.firestore {
       // Only the author can delete their essay
       allow delete: if isAuthenticated() &&
                        request.auth.uid == resource.data.authorId;
+    }
+
+    // -------------------------------------------------------------
+    // Vouchers Collection (One-Time and Promotional Vouchers)
+    // -------------------------------------------------------------
+    match /vouchers/{voucherCode} {
+      // Allow authenticated users to look up a specific voucher document to check plan and redemption status
+      allow get: if request.auth != null;
+
+      // Prevent any user from querying/listing all vouchers in the database
+      allow list: if false;
+
+      // Allow an authenticated user to redeem an unredeemed voucher atomically:
+      // - resource.data.redeemed must be false
+      // - request.resource.data.redeemed must be true
+      // - request.resource.data.redeemedBy must match request.auth.uid
+      // - Only ['redeemed', 'redeemedBy', 'redeemedByEmail', 'redeemedAt'] can be modified
+      allow update: if request.auth != null &&
+        (!('isOneTime' in resource.data) || resource.data.isOneTime == true) &&
+        resource.data.redeemed == false &&
+        request.resource.data.redeemed == true &&
+        request.resource.data.redeemedBy == request.auth.uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['redeemed', 'redeemedBy', 'redeemedByEmail', 'redeemedAt']);
+
+      // Disallow client creation and deletion (managed via Admin SDK)
+      allow create, delete: if false;
     }
   }
 }
