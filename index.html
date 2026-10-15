@@ -1292,6 +1292,8 @@
   .modal-backdrop {
     position: fixed;
     inset: 0;
+    width: 100%;
+    max-width: 100vw;
     background: rgba(0, 0, 0, 0.72);
     z-index: 400;
     display: none;
@@ -1299,6 +1301,8 @@
     justify-content: center;
     padding: 60px 16px 24px 16px;
     overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 
   .modal-backdrop.open {
@@ -1308,11 +1312,13 @@
   .modal-card {
     background: var(--bg-card);
     border: 1px solid var(--border-accent);
-    border-radius: 4px;
+    border-radius: 6px;
     width: 100%;
     max-width: 720px;
     padding: 20px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   #word-inspector {
@@ -1592,6 +1598,47 @@
       text-align: left;
       margin-top: 4px;
       width: 100%;
+    }
+    .modal-backdrop {
+      padding: 16px 8px 32px 8px !important;
+      overflow-x: hidden !important;
+    }
+    .modal-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 16px 12px !important;
+      border-radius: 6px !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
+    .vip-pricing-grid {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+    .vip-pricing-card {
+      padding: 14px 12px !important;
+    }
+    .voucher-input-row {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 8px !important;
+    }
+    .voucher-input-row button,
+    .voucher-input-row .btn-accent-solid {
+      width: 100% !important;
+      padding: 10px 14px !important;
+      text-align: center;
+      justify-content: center;
+    }
+    .modal-header-actions {
+      flex-shrink: 0 !important;
+      white-space: nowrap !important;
+    }
+    .modal-close-btn {
+      flex-shrink: 0 !important;
+      white-space: nowrap !important;
+      min-width: 68px !important;
+      padding: 6px 12px !important;
     }
   }
 
@@ -1971,7 +2018,7 @@
         <span id="themeLabel">Light ↗</span>
       </button>
       <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
-        ⭐ <span id="vipBtnText">VIP Pass (25,000 MMK)</span>
+        ⭐ <span id="vipBtnText">VIP Pass (55,000 MMK)</span>
       </button>
       <div class="auth-widget-box" id="authWidgetBox">
         <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Sign in with Google">
@@ -3178,10 +3225,14 @@
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
+            <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;">✨ AI Examiner Grade (Gemini 3.8 Flash)</button>
             <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()">🔍 Full CEFR &amp; Trap Audit (2 Free/Mo)</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
+
+          <!-- Google Gemini 3.8 Flash Examiner Evaluation Container -->
+          <div id="geminiAuditResult" style="display:none; margin-top:14px; padding:16px; background:var(--bg); border:1px solid var(--accent); border-radius:6px; box-sizing:border-box;"></div>
 
           <div style="margin-top:14px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:3px;">
             <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-family:monospace; margin-bottom:6px; flex-wrap:wrap;">
@@ -3397,20 +3448,20 @@ const UPGRADE_RULES = [
 // FREEMIUM USAGE METER & VIP PASS ENGINE (ENGNOVATE MODEL)
 // ==========================================
 const VIP_PASS_PLANS = {
-  sprint: { name: "7-Day Sprint Pass", priceMmk: "25,000 MMK", days: 7 },
-  intensive: { name: "30-Day Intensive Pass", priceMmk: "55,000 MMK", days: 30 },
-  lifetime: { name: "Lifetime Studio Pass", priceMmk: "99,000 MMK", days: "lifetime" }
+  lifetime: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" },
+  sprint: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" },
+  intensive: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" }
 };
 
 const VALID_VOUCHER_CODES = {
-  // Campaign & Partner Codes
-  "VIPPASS2026": { plan: "intensive", name: "30-Day Intensive Pass" },
+  // Campaign & Partner Codes (All Lifetime Access)
+  "VIPPASS2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "BAND9VIP": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "SCHOLAR9": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "SCHOLAR9": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "BURMA2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "ENGNOVATE": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "ENGNOVATE": { plan: "lifetime", name: "Lifetime Studio Pass" },
 
-  // Batch 1: Lifetime Studio Pass (99,000 MMK)
+  // Batch 1: Customer One-Time Codes (All Lifetime Access - 55,000 MMK)
   "IPS-LIFE-901": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-902": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-903": { plan: "lifetime", name: "Lifetime Studio Pass" },
@@ -3421,30 +3472,26 @@ const VALID_VOUCHER_CODES = {
   "IPS-LIFE-908": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-909": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-910": { plan: "lifetime", name: "Lifetime Studio Pass" },
-
-  // Batch 1: 30-Day Intensive Pass (55,000 MMK)
-  "IPS-INT-301": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-302": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-303": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-304": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-305": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-306": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-307": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-308": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-309": { plan: "intensive", name: "30-Day Intensive Pass" },
-  "IPS-INT-310": { plan: "intensive", name: "30-Day Intensive Pass" },
-
-  // Batch 1: 7-Day Sprint Pass (25,000 MMK)
-  "IPS-SPRINT-101": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-102": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-103": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-104": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-105": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-106": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-107": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-108": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-109": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-110": { plan: "sprint", name: "7-Day Sprint Pass" }
+  "IPS-INT-301": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-302": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-303": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-304": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-305": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-306": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-307": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-308": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-309": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-INT-310": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-101": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-102": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-103": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-104": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-105": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-106": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-107": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-108": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-109": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-SPRINT-110": { plan: "lifetime", name: "Lifetime Studio Pass" }
 };
 
 const SPEAKING_FREE_MONTHLY_LIMIT = 2;
@@ -3769,7 +3816,7 @@ function updateAuthUI() {
       }
     } else {
       vipBtn.classList.remove("vip-active");
-      vipText.textContent = "⭐ VIP Pass (25,000 MMK)";
+      vipText.textContent = "⭐ VIP Pass (55,000 MMK)";
     }
   }
 
@@ -3817,7 +3864,7 @@ function updateAuthUI() {
             ☁️ Sync Progress to Cloud ${!isVip ? '(🔒 VIP)' : '✓'}
           </button>
           <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
-            ⭐ ${isVip ? 'Manage / Extend VIP Pass' : 'Upgrade to VIP Pass ($7+)'}
+            ⭐ ${isVip ? 'Manage Lifetime VIP Pass' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
           </button>
           <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border);" onclick="if(window.signOutUser) window.signOutUser();">
             🚪 Sign Out
@@ -4541,7 +4588,7 @@ function renderLexiconGrid(keepLimit) {
         ${list.length < (isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT))
           ? `<button class="btn-accent-solid" onclick="setLexLimit(lexDisplayLimit + 120)">Load More</button>`
           : (!isVip
-              ? `<button class="btn-accent-solid" onclick="openVipPassModal()">🔒 Unlock All ${fullList.length} Entries ($7+)</button>`
+              ? `<button class="btn-accent-solid" onclick="openVipPassModal()">🔒 Unlock All ${fullList.length} Entries (55,000 MMK)</button>`
               : `<span class="occ-ver-pill">All ${fullList.length} Matching Entries Displayed ✓</span>`
             )
         }
@@ -4618,7 +4665,7 @@ function renderLexiconGrid(keepLimit) {
       <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:280px; line-height:1.45;">
         Unlock all <strong>650 Band 8.5 Academic Collocations</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with a VIP Pass.
       </p>
-      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full 650 Lexicon ($7+)</button>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full 650 Lexicon (55,000 MMK)</button>
     </article>
   ` : "";
 
@@ -4807,7 +4854,7 @@ function renderSpeakingFramework(idx) {
           <div class="vip-lock-banner-title">🔒 VIP Framework: ${fw.name}</div>
           <div class="vip-lock-banner-desc">PELL Framework is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (AREA, PREP, CAUSE-EFFECT, STORY) + Full Band 9 Candidate Scripts with a VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks ($7+)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (55,000 MMK)</button>
       </div>
       <div class="vip-gated-blur">
         <div class="sec-eyebrow">${fw.code}</div>
@@ -5413,7 +5460,7 @@ function loadReadingMock() {
           <div class="vip-lock-banner-title">🔒 VIP Cambridge Reading Mock [${m.code}]</div>
           <div class="vip-lock-banner-desc">Passages 1 &amp; 2 are free. Unlock all 8 Cambridge Academic Reading CBT Mocks + High-Fidelity Audio + Burmese Answer Evidence with VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 8 Passages ($7+)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 8 Passages (55,000 MMK)</button>
       </div>
       <div class="vip-gated-blur">
         <h3 style="font-size:1.18rem; font-weight:700; margin-bottom:16px;">${m.title}</h3>
@@ -5430,7 +5477,7 @@ function loadReadingMock() {
           <div class="vip-lock-banner-title">🔒 Questions Locked for VIP Pass</div>
           <div class="vip-lock-banner-desc">Full ${m.questions.length}-item IELTS question sets, real-time band grading, and Burmese answer evidence are reserved for VIP members.</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get VIP Pass ($7+)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get Lifetime VIP Pass (55,000 MMK)</button>
       </div>
     `;
     return;
@@ -5655,6 +5702,251 @@ function runManualWritingAudit() {
   showStudioNotification(`🔍 Full CEFR & Trap Audit Complete! (${remaining})`);
 }
 
+// ==========================================
+// GOOGLE GEMINI 3.8 FLASH EVALUATION ENGINE
+// ==========================================
+async function callGeminiApi(promptText, systemInstruction) {
+  const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
+  const config = window.GEMINI_CONFIG || {
+    apiKey: (typeof localStorage !== "undefined" && localStorage.getItem("ielts_gemini_api_key")) || _DEFAULT_GEMINI_KEY,
+    model: "gemini-3.8-flash",
+    fallbackModels: ["gemini-3.5-flash", "gemini-flash-lite-latest"]
+  };
+
+  const modelsToTry = [config.model, ...(config.fallbackModels || ["gemini-3.5-flash", "gemini-flash-lite-latest"])];
+
+  let lastError = null;
+  for (const model of modelsToTry) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${config.apiKey}`;
+      const payload = {
+        contents: [
+          {
+            parts: [{ text: promptText }]
+          }
+        ]
+      };
+      if (systemInstruction) {
+        payload.system_instruction = {
+          parts: [{ text: systemInstruction }]
+        };
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 25000);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.warn(`[Gemini API] Model ${model} returned HTTP ${response.status}:`, errText);
+        if (response.status === 503 || response.status === 404 || response.status === 429) {
+          lastError = new Error(`HTTP ${response.status}: ${errText}`);
+          continue; // Try next fallback model
+        }
+        throw new Error(`Gemini API Error (${response.status}): ${errText}`);
+      }
+
+      const data = await response.json();
+      const candidate = data.candidates && data.candidates[0];
+      if (candidate && candidate.content && candidate.content.parts && candidate.content.parts[0]) {
+        return {
+          text: candidate.content.parts[0].text,
+          modelUsed: model
+        };
+      }
+      throw new Error("No candidate text returned by Gemini API.");
+    } catch (err) {
+      console.warn(`[Gemini API] Failed with model ${model}:`, err);
+      lastError = err;
+    }
+  }
+  throw lastError || new Error("Failed to generate content with Google Gemini API.");
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function renderMarkdownToHtml(md) {
+  if (!md) return "";
+  return md
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/^### (.*$)/gim, '<h4 style="font-size:1rem; font-weight:800; color:var(--accent); margin:14px 0 6px 0;">$1</h4>')
+    .replace(/^## (.*$)/gim, '<h3 style="font-size:1.12rem; font-weight:900; color:var(--text); margin:16px 0 8px 0;">$1</h3>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/```([\s\S]*?)```/g, '<pre style="background:var(--bg-card); padding:10px; border-radius:4px; overflow-x:auto;"><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g, '<code style="background:var(--bg-card); padding:2px 5px; border-radius:3px; color:var(--accent); font-size:0.85em;">$1</code>')
+    .replace(/^\s*-\s+(.*$)/gim, '<li style="margin-bottom:6px; margin-left:18px;">$1</li>')
+    .replace(/^\s*\d+\.\s+(.*$)/gim, '<li style="margin-bottom:6px; margin-left:18px;">$1</li>')
+    .replace(/\n\n/g, '<br><br>');
+}
+
+function syncSlidersFromGeminiText(text) {
+  try {
+    const taMatch = text.match(/Task (?:Achievement|Response)[^:]*:\s*Band\s*([0-9.]+)/i);
+    const ccMatch = text.match(/Coherence[^:]*:\s*Band\s*([0-9.]+)/i);
+    const lrMatch = text.match(/Lexical[^:]*:\s*Band\s*([0-9.]+)/i);
+    const graMatch = text.match(/Grammatical[^:]*:\s*Band\s*([0-9.]+)/i);
+
+    if (taMatch && taMatch[1]) {
+      const v = parseFloat(taMatch[1]);
+      const el = document.getElementById("rubTA");
+      if (el && !isNaN(v)) el.value = v;
+    }
+    if (ccMatch && ccMatch[1]) {
+      const v = parseFloat(ccMatch[1]);
+      const el = document.getElementById("rubCC");
+      if (el && !isNaN(v)) el.value = v;
+    }
+    if (lrMatch && lrMatch[1]) {
+      const v = parseFloat(lrMatch[1]);
+      const el = document.getElementById("rubLR");
+      if (el && !isNaN(v)) el.value = v;
+    }
+    if (graMatch && graMatch[1]) {
+      const v = parseFloat(graMatch[1]);
+      const el = document.getElementById("rubGRA");
+      if (el && !isNaN(v)) el.value = v;
+    }
+    updateRubricScore();
+  } catch (e) {}
+}
+
+async function gradeEssayWithGemini() {
+  const text = document.getElementById("essayArea")?.value || "";
+  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+  if (wordCount < 40) {
+    alert("Please write at least 40 words before requesting an AI Examiner Grade.");
+    return;
+  }
+
+  const quota = canUseWritingCheck();
+  if (!isVipActive() && !quota.allowed) {
+    if (confirm("You have completed your 2 free monthly writing audits.\n\nUpgrade to Lifetime Studio Pass (55,000 MMK) for unlimited AI Examiner grading with Gemini 3.8 Flash! Would you like to view VIP options?")) {
+      openVipPassModal();
+    }
+    return;
+  }
+
+  const idx = parseInt(document.getElementById("wSelect")?.value || "0", 10) || 0;
+  const w = WRITING_MOCKS[idx] || { code: "Task 2", title: "IELTS Essay", prompt: "IELTS Writing Prompt" };
+
+  const btn = document.getElementById("geminiEssayGradeBtn");
+  const resultBox = document.getElementById("geminiAuditResult");
+  if (!resultBox) return;
+
+  const originalBtnText = btn ? btn.innerHTML : "";
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `⏳ Analyzing with Gemini 3.8 Flash...`;
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = `
+    <div style="display:flex; align-items:center; gap:10px; padding:12px; color:var(--text-secondary);">
+      <div class="spinning-loader" style="width:18px; height:18px; border:2px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+      <span>Sending prompt to Cambridge Examiner AI (Google Gemini 3.8 Flash)... Evaluating TA, CC, LR &amp; GRA rubrics.</span>
+    </div>
+  `;
+  resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+  const systemPrompt = `You are a Senior Official Cambridge IELTS Academic Writing Examiner with 15+ years of examining experience.
+Your grading must be rigorous, precise, constructive, and strictly aligned with the public IELTS band descriptors.
+Always format your response in clean markdown with the exact sections requested below.`;
+
+  const userPrompt = `Please evaluate this student response for IELTS Academic Writing:
+TOPIC CODE: ${w.code}
+TOPIC TITLE: ${w.title}
+PROMPT: ${w.prompt}
+
+STUDENT ESSAY (${wordCount} words):
+"""
+${text}
+"""
+
+Please provide your evaluation in this exact structured format:
+### 1. Overall Estimated Band: [e.g. Band 6.5, Band 7.0, Band 7.5, Band 8.0]
+
+### 2. Official 4-Criteria Score Breakdown:
+- **Task Achievement / Task Response (TA/TR)**: Band [Score] — [1-2 sentences on whether all parts of prompt were answered with well-developed ideas and clear position]
+- **Coherence & Cohesion (CC)**: Band [Score] — [1-2 sentences on paragraph progression, logical sequencing, and linking devices]
+- **Lexical Resource (LR)**: Band [Score] — [1-2 sentences on C1/C2 collocations, precision, and repetitive or inappropriate words]
+- **Grammatical Range & Accuracy (GRA)**: Band [Score] — [1-2 sentences on complex structures, punctuation, and error density]
+
+### 3. Top 2 Band 9 Paraphrased Sentence Rewrites:
+1. **Original**: "[Quote a weak or error-prone sentence from student draft]"
+   **Band 9 Upgrade**: "[Rewrite into sophisticated C2 academic prose]"
+   **Key Lesson**: [Explain the grammatical or lexical improvement]
+
+2. **Original**: "[Quote another sentence]"
+   **Band 9 Upgrade**: "[Rewrite into sophisticated C2 academic prose]"
+   **Key Lesson**: [Explain the grammatical or lexical improvement]
+
+### 4. Examiner Advice in Burmese (မြန်မာဘာသာ အကြံပြုချက်):
+[Provide 2-3 concise, actionable bullet points in clear, natural Burmese explaining how the student can push their score to the next band level.]`;
+
+  try {
+    const res = await callGeminiApi(userPrompt, systemPrompt);
+    recordWritingCheckUsage();
+
+    const formattedHtml = renderMarkdownToHtml(res.text);
+
+    resultBox.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-mid); flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.3rem;">✨</span>
+          <strong style="font-size:1.05rem; color:var(--text);">Cambridge Examiner Evaluation (Google Gemini)</strong>
+          <span class="occ-ver-pill" style="color:var(--accent); font-weight:700;">${res.modelUsed}</span>
+        </div>
+        <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="document.getElementById('geminiAuditResult').style.display='none'">✕ Dismiss</button>
+      </div>
+      <div class="gemini-content-body" style="font-size:0.88rem; line-height:1.75; color:var(--text);">
+        ${formattedHtml}
+      </div>
+      <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); flex-wrap:wrap; gap:6px;">
+        <span>Evaluated against Cambridge Academic IELTS Band Descriptors (Version 2026)</span>
+        <button class="btn-outlined" style="font-size:0.75rem; padding:3px 8px;" onclick="gradeEssayWithGemini()">🔄 Re-Grade with Gemini</button>
+      </div>
+    `;
+
+    syncSlidersFromGeminiText(res.text);
+    showStudioNotification("✨ AI Examiner Evaluation Completed!");
+  } catch (err) {
+    console.error("Gemini Evaluation Failed:", err);
+    resultBox.innerHTML = `
+      <div style="padding:12px; background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.4); border-radius:4px; color:var(--text);">
+        <div style="font-weight:700; color:var(--crimson); margin-bottom:4px;">⚠️ AI Examiner Evaluation Error</div>
+        <p style="font-size:0.83rem; margin:0 0 10px 0; color:var(--text-secondary); line-height:1.5;">
+          ${escapeHtml(err.message || "Failed to communicate with Google Generative AI API.")}
+        </p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-accent-solid" style="font-size:0.78rem;" onclick="gradeEssayWithGemini()">Retry Evaluation</button>
+          <button class="btn-outlined" style="font-size:0.78rem;" onclick="document.getElementById('geminiAuditResult').style.display='none'">Close</button>
+        </div>
+      </div>
+    `;
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalBtnText;
+    }
+  }
+}
+
 function toggleModelDrawer() {
   const d = document.getElementById("wModelDrawer");
   if (!d) return;
@@ -5667,7 +5959,7 @@ function toggleModelDrawer() {
           <div class="vip-lock-banner-title">🔒 VIP Band 8.5 Model Essay #${idx + 1}</div>
           <div class="vip-lock-banner-desc">Model Essay #1 is free. Unlock all 13 Band 8.5 Cambridge Academic Model Essays with Examiner Commentary &amp; Burmese Analysis with VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock All 13 Models ($7+)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock All 13 Models (55,000 MMK)</button>
       </div>
     `;
     const notes = document.getElementById("wModelMmNotes");
@@ -6411,103 +6703,92 @@ window.addEventListener("DOMContentLoaded", () => {
 
   <!-- Engnovate-style VIP Pass Modal -->
   <div id="vipPassModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeVipPassModal()">
-    <div class="modal-card" style="max-width:780px; width:95%; max-height:90vh; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:24px; box-sizing:border-box;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px;">
+    <div class="modal-card" style="max-width:760px; width:100%; max-height:92vh; overflow-y:auto; overflow-x:hidden; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:20px; box-sizing:border-box;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">
+        <div style="min-width:0; flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span style="font-size:1.3rem;">🚀</span>
             <h2 style="font-size:1.25rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio VIP Pass</h2>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">One-Time Pass</span>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; white-space:nowrap;">Lifetime Access</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); margin:4px 0 0 0;">
-            Freemium Metered Access • Pay Once, No Recurring Subscriptions • Unlock All 7 Modules &amp; Cloud Sync
+            Pay Once • No Recurring Subscriptions • Lifetime Access to All 7 Modules &amp; Cloud Sync
           </p>
         </div>
-        <button class="btn-outlined" style="padding:4px 10px; font-size:0.8rem;" onclick="closeVipPassModal()">✕ Close</button>
+        <button class="btn-outlined modal-close-btn" style="padding:6px 12px; font-size:0.82rem; font-weight:700; flex-shrink:0; white-space:nowrap; min-width:68px;" onclick="closeVipPassModal()">✕ Close</button>
       </div>
 
-      <!-- Pricing Options Grid -->
-      <div class="vip-pricing-grid">
-        <!-- 7-Day Sprint Pass -->
-        <div class="vip-pricing-card">
-          <div>
-            <div class="vip-price-title">7-Day Sprint</div>
-            <div class="vip-price-amount">25,000 MMK</div>
-            <div class="vip-price-mmk">1-Week Full Studio Access</div>
-            <ul class="vip-feature-list">
-              <li>✓ <strong>All 8 Reading CBTs</strong> (Passages 1–8)</li>
-              <li>✓ <strong>All 13 Band 8.5 Models</strong> (Burmese notes)</li>
-              <li>✓ <strong>All 5 Speaking Frameworks</strong></li>
-              <li>✓ <strong>Unlimited CEFR Checks</strong> &amp; Drills</li>
-              <li>✓ <strong>Firebase Cloud Sync</strong> across devices</li>
-            </ul>
+      <!-- Single Exclusive Lifetime Pass Card -->
+      <div class="vip-pricing-card popular" style="margin:14px 0; border:2px solid var(--accent); padding:18px; background:linear-gradient(180deg, rgba(224, 108, 53, 0.08) 0%, var(--bg) 100%);">
+        <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;">🔥 ALL-IN-ONE LIFETIME PASS</div>
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+            <div>
+              <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Lifetime Studio VIP Pass</div>
+              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">Full Unrestricted Access to All 7 Modules • Pay Once, Keep Forever</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="vip-price-amount" style="font-size:1.8rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME PAYMENT • ZERO SUBSCRIPTION</div>
+            </div>
           </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('sprint')">Get 7-Day Pass (25,000 MMK)</button>
-        </div>
 
-        <!-- 30-Day Intensive Pass -->
-        <div class="vip-pricing-card popular">
-          <div class="popular-badge">Most Popular</div>
-          <div>
-            <div class="vip-price-title">30-Day Intensive</div>
-            <div class="vip-price-amount">55,000 MMK</div>
-            <div class="vip-price-mmk">Complete 1-Month Exam Prep</div>
-            <ul class="vip-feature-list">
-              <li>✓ <strong>Full 650 Band 8.5 Lexicon</strong></li>
-              <li>✓ <strong>1-3-7 Day SRS Queue</strong> &amp; Cloze Gates</li>
-              <li>✓ <strong>Unlimited AI Mic Evaluations</strong></li>
-              <li>✓ <strong>Burmese Answer Explanations</strong></li>
-              <li>✓ <strong>Printable PDF Cheat Sheets</strong></li>
-              <li>✓ <strong>Priority Cloud Sync</strong></li>
-            </ul>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Full 650 Band 8.5 Lexicon</strong> with 1-3-7 SRS</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 8 Cambridge Reading CBTs</strong> (Passages 1–8)</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 13 Band 8.5 Models</strong> &amp; Burmese Notes</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Gemini 3.8 Flash Essay Grader</strong> (Official Rubric)</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 5 Speaking Frameworks</strong> &amp; AI Whisper Audits</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Unlimited Paraphrase Drills</strong> &amp; Mistake Log</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>High-Fidelity Audio</strong> &amp; Burmese Evidence</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Cross-Device Cloud Sync</strong> with Google Login</span>
+            </div>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="openVipCheckout('intensive')">Get 30-Day Pass (55,000 MMK)</button>
         </div>
-
-        <!-- Lifetime Pass -->
-        <div class="vip-pricing-card">
-          <div>
-            <div class="vip-price-title">Lifetime Studio</div>
-            <div class="vip-price-amount">99,000 MMK</div>
-            <div class="vip-price-mmk">Pay Once, Lifetime Studio Access</div>
-            <ul class="vip-feature-list">
-              <li>✓ <strong>Forever VIP Access</strong> (Zero Expiry)</li>
-              <li>✓ <strong>All Future Cambridge Mocks</strong></li>
-              <li>✓ <strong>Full Mistake Bank &amp; Diagnostics</strong></li>
-              <li>✓ <strong>Private Essay Storage</strong> in Cloud</li>
-              <li>✓ <strong>Unlimited Everything</strong></li>
-            </ul>
-          </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('lifetime')">Get Lifetime Pass (99,000 MMK)</button>
-        </div>
+        <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">🚀 Get Lifetime Studio Pass (55,000 MMK)</button>
       </div>
 
       <!-- Interactive Checkout Step (Revealed on selecting a pass) -->
-      <div id="vipCheckoutStep" style="display:none; background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px;">
+      <div id="vipCheckoutStep" style="display:none; background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
             <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">Step 2: Complete Payment</span>
-            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Selected Plan</strong>
+            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime Studio Pass - 55,000 MMK</strong>
           </div>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="closeVipCheckout()">← Change Plan</button>
+          <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="closeVipCheckout()">✕ Hide</button>
         </div>
 
-        <div style="margin-bottom:14px;">
+        <div style="margin-bottom:10px;">
           <!-- Payment Option: Myanmar KBZPay / WavePay -->
-          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px;">
+          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px; box-sizing:border-box;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
               <span style="font-size:1.2rem;">🇲🇲</span>
               <strong style="font-size:0.92rem; color:var(--text);">Myanmar Local Mobile Wallets (KBZPay / WavePay)</strong>
             </div>
-            <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.55;">
+            <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.6;">
               Account Name: <strong>Lyan Htet</strong><br>
-              KBZPay / WavePay Phone: <code style="font-size:0.92rem; color:var(--accent); font-weight:700;">09-768691939</code><br>
-              Amount to transfer: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.92rem;">25,000 MMK</strong>
+              KBZPay / WavePay Phone: <code style="font-size:0.95rem; color:var(--accent); font-weight:700;">09-768691939</code><br>
+              Amount to transfer: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong>
             </div>
-            <div class="burmese" style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
-              ငွေလွှဲပြီးပါက transaction screenshot ကို Telegram သို့ ပို့ပေးပြီး ချက်ချင်း VIP Voucher Code ရယူနိုင်ပါသည်။
+            <div class="burmese" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px; line-height:1.55;">
+              ငွေလွှဲပြီးပါက transaction screenshot ကို Telegram သို့ ပို့ပေးပြီး ချက်ချင်း Lifetime VIP Voucher Code ရယူနိုင်ပါသည်။
             </div>
-            <a href="https://t.me/hyuguo" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; text-decoration:none; padding:8px 16px;">
+            <a href="https://t.me/hyuguo" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.82rem; text-decoration:none; padding:9px 16px;">
               💬 Send Receipt on Telegram (@hyuguo) ↗
             </a>
           </div>
@@ -6515,14 +6796,14 @@ window.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <!-- Voucher Code Redemption -->
-      <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px;">
+      <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
           <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Access Code or Voucher?</span>
-          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem scholarship code or payment voucher below</span>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem lifetime pass or scholarship code below</span>
         </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher or access code..." style="flex:1; font-size:0.85rem; text-transform:uppercase;">
-          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap;">Activate Voucher</button>
+        <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code (e.g. IPS-LIFE-901)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
+          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Voucher</button>
         </div>
         <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
       </div>
@@ -6530,8 +6811,8 @@ window.addEventListener("DOMContentLoaded", () => {
       <!-- Free vs VIP Matrix Comparison Summary -->
       <div style="margin-bottom:14px;">
         <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. VIP Studio Pass Matrix</div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
+        <div class="table-responsive-box" style="overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; box-sizing:border-box; margin-bottom:12px;">
+          <table style="min-width:440px; width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
             <thead>
               <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
                 <th style="padding:6px;">Module</th>
