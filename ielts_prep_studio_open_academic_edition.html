@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <title>IELTS Prep Studio — Open Academic Edition</title>
+
+<!-- Firebase App (Compat), Auth, and Firestore SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
 <style>
 
   :root {
@@ -1633,11 +1640,271 @@
       display: block !important;
       margin-bottom: 32px;
     }
-    .occ-card, .cbt-pane, .constellation-box {
-      border: 1px solid #ccc !important;
-      box-shadow: none !important;
-      break-inside: avoid;
-    }
+  /* =========================================================
+     VIP STUDIO PASS & FIREBASE AUTH MONETIZATION UI
+     ========================================================= */
+  .vip-upgrade-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: Inter, sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #e06c35 0%, #c2410c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(224, 108, 53, 0.35);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .vip-upgrade-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(224, 108, 53, 0.5);
+    background: linear-gradient(135deg, #f27b41 0%, #ea580c 100%);
+  }
+  .vip-upgrade-btn.vip-active {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+    border-color: rgba(52, 211, 153, 0.4);
+  }
+  .vip-upgrade-btn.vip-active:hover {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  }
+
+  .auth-widget-box {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .auth-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .auth-btn:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+  }
+  .auth-avatar {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--accent);
+  }
+
+  .account-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 290px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    padding: 14px;
+    z-index: 1000;
+    font-family: Inter, sans-serif;
+  }
+  .account-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .account-dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+  }
+  .account-dropdown-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+  .account-dropdown-email {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+  .account-tier-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-family: monospace;
+    text-transform: uppercase;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+  .account-tier-badge.free {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .account-tier-badge.vip {
+    background: rgba(224, 108, 53, 0.16);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .usage-meter-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 0.78rem;
+  }
+  .usage-meter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .usage-meter-row:last-child {
+    margin-bottom: 0;
+  }
+  .usage-meter-val {
+    font-weight: 700;
+    font-family: monospace;
+  }
+
+  .vip-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .vip-pricing-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .vip-pricing-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+  .vip-pricing-card.popular {
+    border: 2px solid var(--accent);
+    background: linear-gradient(180deg, rgba(224, 108, 53, 0.05) 0%, var(--bg) 100%);
+  }
+  .vip-pricing-card .popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 10px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 999px;
+  }
+  .vip-price-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .vip-price-amount {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+  .vip-price-mmk {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+    margin-bottom: 12px;
+  }
+  .vip-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  .vip-feature-list li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.4;
+  }
+  .vip-feature-list li strong {
+    color: var(--text);
+  }
+
+  .vip-lock-banner {
+    background: linear-gradient(135deg, rgba(224, 108, 53, 0.1) 0%, rgba(224, 108, 53, 0.03) 100%);
+    border: 1px solid var(--border-accent);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .vip-lock-banner-text {
+    flex: 1 1 260px;
+  }
+  .vip-lock-banner-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .vip-lock-banner-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+  .vip-gated-blur {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.55;
+    transition: filter 0.3s ease;
   }
 
 </style>
@@ -1701,6 +1968,16 @@
       <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
         <span id="themeLabel">Light ↗</span>
       </button>
+      <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
+        ⭐ <span id="vipBtnText">VIP Pass ($7)</span>
+      </button>
+      <div class="auth-widget-box" id="authWidgetBox">
+        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Sign in with Google">
+          <svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
+          <span id="authBtnLabel">Sign In</span>
+        </button>
+        <div id="accountDropdownMenu" class="account-dropdown" style="display:none;" onclick="event.stopPropagation()"></div>
+      </div>
     </div>
   </div>
 </header>
@@ -3067,6 +3344,14 @@
         <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">Format the current view cleanly for printing or saving as PDF.</p>
         <button class="btn-outlined" onclick="closeBackupModal(); window.print();">🖨️ Print / Save as PDF</button>
       </div>
+      <div style="padding:14px; background:var(--bg); border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="font-weight:700; font-size:0.9rem;">4. Printable Band 8.5 VIP Cheat Sheet &amp; Offline Pack</div>
+          <span class="occ-ver-pill" style="font-size:0.65rem; color:var(--accent); border-color:var(--accent);">🔒 VIP ONLY</span>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">Download complete high-density printable cheat sheets of all 6 traps, 90/10 rules, and speaking frameworks.</p>
+        <button class="btn-accent-solid" onclick="closeBackupModal(); if(!isVipActive()){openVipPassModal();}else{window.print();}">📄 Download VIP Cheat Sheet Pack</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3105,6 +3390,30 @@ const UPGRADE_RULES = [
   { rx: /\b(many|a lot of|lots of)\b/gi, basic: "many / a lot of", rep: "numerous, a multitude of, substantial", mm: "မြောက်မြားစွာသော" }
 ];
 
+// ==========================================
+// FREEMIUM USAGE METER & VIP PASS ENGINE (ENGNOVATE MODEL)
+// ==========================================
+const VIP_PASS_PLANS = {
+  sprint: { name: "7-Day Sprint Pass", price: "$7", mmk: "25,000 MMK", days: 7 },
+  intensive: { name: "30-Day Intensive Pass", price: "$15", mmk: "55,000 MMK", days: 30 },
+  lifetime: { name: "Lifetime Studio Pass", price: "$29", mmk: "99,000 MMK", days: "lifetime" }
+};
+
+const VALID_VOUCHER_CODES = {
+  "VIPPASS2026": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "BAND9VIP": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "SCHOLAR9": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "BURMA2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "ENGNOVATE": { plan: "intensive", name: "30-Day Intensive Pass" }
+};
+
+const SPEAKING_FREE_MONTHLY_LIMIT = 2;
+const WRITING_FREE_MONTHLY_LIMIT = 2;
+const PARAPHRASE_FREE_DAILY_LIMIT = 1;
+const LEXICON_FREE_LIMIT = 100;
+const READING_FREE_LIMIT = 2;
+const WRITING_MODELS_FREE_LIMIT = 1;
+
 let appState = {
   theme: "dark",
   showBurmese: true,
@@ -3117,8 +3426,311 @@ let appState = {
   writingDrafts: {},
   activeGraphWordId: "v88",
   fcOpen: false,
-  fcIdx: 0
+  fcIdx: 0,
+  userProfile: {
+    tier: "free",
+    vipExpiresAt: null,
+    monthlyUsage: {
+      month: "2026-10",
+      speakingEvaluations: 0,
+      writingChecks: 0
+    },
+    dailyUsage: {
+      date: "2026-10-15",
+      paraphraseDrills: 0
+    }
+  }
 };
+
+function getActiveMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function getActiveDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function ensureUserProfileInitialized() {
+  if (!appState.userProfile) {
+    appState.userProfile = {
+      tier: "free",
+      vipExpiresAt: null,
+      monthlyUsage: {
+        month: getActiveMonthKey(),
+        speakingEvaluations: 0,
+        writingChecks: 0
+      },
+      dailyUsage: {
+        date: getActiveDateKey(),
+        paraphraseDrills: 0
+      }
+    };
+  }
+  const curMonth = getActiveMonthKey();
+  if (!appState.userProfile.monthlyUsage || appState.userProfile.monthlyUsage.month !== curMonth) {
+    appState.userProfile.monthlyUsage = {
+      month: curMonth,
+      speakingEvaluations: 0,
+      writingChecks: 0
+    };
+  }
+  const curDate = getActiveDateKey();
+  if (!appState.userProfile.dailyUsage || appState.userProfile.dailyUsage.date !== curDate) {
+    appState.userProfile.dailyUsage = {
+      date: curDate,
+      paraphraseDrills: 0
+    };
+  }
+}
+
+function isVipActive() {
+  ensureUserProfileInitialized();
+  if (appState.userProfile.tier === "vip") {
+    if (appState.userProfile.vipExpiresAt === "lifetime") return true;
+    if (appState.userProfile.vipExpiresAt && Date.now() < appState.userProfile.vipExpiresAt) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function canUseSpeakingEvaluation() {
+  if (isVipActive()) return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  const used = appState.userProfile.monthlyUsage.speakingEvaluations || 0;
+  const remaining = Math.max(0, SPEAKING_FREE_MONTHLY_LIMIT - used);
+  return { allowed: remaining > 0, remaining: remaining, used: used };
+}
+
+function recordSpeakingEvaluationUsage() {
+  if (isVipActive()) return;
+  ensureUserProfileInitialized();
+  appState.userProfile.monthlyUsage.speakingEvaluations = (appState.userProfile.monthlyUsage.speakingEvaluations || 0) + 1;
+  saveAppState();
+  updateAuthUI();
+}
+
+function canUseWritingCheck() {
+  if (isVipActive()) return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  const used = appState.userProfile.monthlyUsage.writingChecks || 0;
+  const remaining = Math.max(0, WRITING_FREE_MONTHLY_LIMIT - used);
+  return { allowed: remaining > 0, remaining: remaining, used: used };
+}
+
+function recordWritingCheckUsage() {
+  if (isVipActive()) return;
+  ensureUserProfileInitialized();
+  appState.userProfile.monthlyUsage.writingChecks = (appState.userProfile.monthlyUsage.writingChecks || 0) + 1;
+  saveAppState();
+  updateAuthUI();
+}
+
+function canUseParaphraseDrill() {
+  if (isVipActive()) return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  const used = appState.userProfile.dailyUsage.paraphraseDrills || 0;
+  const remaining = Math.max(0, PARAPHRASE_FREE_DAILY_LIMIT - used);
+  return { allowed: remaining > 0, remaining: remaining, used: used };
+}
+
+function recordParaphraseDrillUsage() {
+  if (isVipActive()) return;
+  ensureUserProfileInitialized();
+  appState.userProfile.dailyUsage.paraphraseDrills = (appState.userProfile.dailyUsage.paraphraseDrills || 0) + 1;
+  saveAppState();
+  updateAuthUI();
+}
+
+function openVipPassModal() {
+  const m = document.getElementById("vipPassModal");
+  if (m) m.style.display = "flex";
+}
+
+function closeVipPassModal() {
+  const m = document.getElementById("vipPassModal");
+  if (m) m.style.display = "none";
+}
+
+function activateVipPass(planType) {
+  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive;
+  ensureUserProfileInitialized();
+  appState.userProfile.tier = "vip";
+  if (plan.days === "lifetime") {
+    appState.userProfile.vipExpiresAt = "lifetime";
+  } else {
+    appState.userProfile.vipExpiresAt = Date.now() + (plan.days * 24 * 60 * 60 * 1000);
+  }
+  saveAppState();
+  updateAuthUI();
+  closeVipPassModal();
+  if (window.currentUser && window.syncUserDataToCloud) {
+    window.syncUserDataToCloud();
+  }
+  showStudioNotification(`🎉 ${plan.name} Activated! All 7 VIP Modules Unlocked.`);
+  refreshAllVipViews();
+}
+
+function toggleVipTestingStatus() {
+  ensureUserProfileInitialized();
+  if (isVipActive()) {
+    appState.userProfile.tier = "free";
+    appState.userProfile.vipExpiresAt = null;
+    showStudioNotification("Switched to Free Tier (Usage-Metered Mode).");
+  } else {
+    appState.userProfile.tier = "vip";
+    appState.userProfile.vipExpiresAt = "lifetime";
+    showStudioNotification("⚡ Instant VIP Testing Pass Activated (All modules & unlimited quotas unlocked)!");
+  }
+  saveAppState();
+  updateAuthUI();
+  closeVipPassModal();
+  refreshAllVipViews();
+}
+
+function redeemVoucherCode() {
+  const inp = document.getElementById("vipVoucherInput");
+  if (!inp) return;
+  const code = inp.value.trim().toUpperCase();
+  const found = VALID_VOUCHER_CODES[code];
+  const fb = document.getElementById("vipVoucherFeedback");
+  if (found) {
+    activateVipPass(found.plan);
+    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name} applied.</span>`;
+  } else {
+    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid code. Valid test codes: VIPPASS2026, BAND9VIP, SCHOLAR9.</span>`;
+  }
+}
+
+function refreshAllVipViews() {
+  renderLexiconGrid(true);
+  if (typeof activeFwIndex !== "undefined") renderSpeakingFramework(activeFwIndex);
+  loadReadingMock();
+  runLiveWritingDiagnostics();
+  refreshAnalytics();
+}
+
+function handleAuthAction() {
+  if (window.currentUser) {
+    const dd = document.getElementById("accountDropdownMenu");
+    if (dd) dd.style.display = dd.style.display === "none" ? "block" : "none";
+  } else {
+    if (window.signInWithGoogle) {
+      window.signInWithGoogle();
+    }
+  }
+}
+
+function triggerCloudSync() {
+  if (!isVipActive()) {
+    if (confirm("Firebase Cloud Sync is a VIP Pass feature. Would you like to view VIP Pass options to sync your progress across devices?")) {
+      openVipPassModal();
+    }
+    return;
+  }
+  if (!window.currentUser) {
+    alert("Please sign in with Google first to sync your study progress to the cloud!");
+    return;
+  }
+  if (window.syncUserDataToCloud) {
+    window.syncUserDataToCloud();
+  }
+}
+
+function updateAuthUI() {
+  ensureUserProfileInitialized();
+  const isVip = isVipActive();
+  const vipBtn = document.getElementById("vipNavBtn");
+  const vipText = document.getElementById("vipBtnText");
+
+  if (vipBtn && vipText) {
+    if (isVip) {
+      vipBtn.classList.add("vip-active");
+      if (appState.userProfile.vipExpiresAt === "lifetime") {
+        vipText.textContent = "👑 Lifetime VIP";
+      } else {
+        const daysLeft = Math.max(1, Math.ceil((appState.userProfile.vipExpiresAt - Date.now()) / (24 * 60 * 60 * 1000)));
+        vipText.textContent = `👑 VIP (${daysLeft}d)`;
+      }
+    } else {
+      vipBtn.classList.remove("vip-active");
+      vipText.textContent = "⭐ VIP Pass ($7)";
+    }
+  }
+
+  const authLabel = document.getElementById("authBtnLabel");
+  const authIcon = document.getElementById("authBtnIcon");
+  const dd = document.getElementById("accountDropdownMenu");
+
+  if (window.currentUser) {
+    if (authLabel) authLabel.textContent = window.currentUser.displayName || "Account";
+    if (authIcon) {
+      authIcon.innerHTML = `<img src="${window.currentUser.photoURL}" class="auth-avatar" alt="Avatar">`;
+    }
+    if (dd) {
+      const spkQuota = canUseSpeakingEvaluation();
+      const wrtQuota = canUseWritingCheck();
+      const drlQuota = canUseParaphraseDrill();
+      dd.innerHTML = `
+        <div class="account-dropdown-header">
+          <img src="${window.currentUser.photoURL}" class="account-dropdown-avatar" alt="Avatar">
+          <div style="min-width:0;">
+            <div class="account-dropdown-name">${window.currentUser.displayName}</div>
+            <div class="account-dropdown-email">${window.currentUser.email || "Google Account"}</div>
+            <span class="account-tier-badge ${isVip ? 'vip' : 'free'}">${isVip ? '👑 VIP STUDIO PASS' : 'FREE TIER (METERED)'}</span>
+          </div>
+        </div>
+
+        <div class="usage-meter-box">
+          <div style="font-weight:700; color:var(--text); margin-bottom:6px; font-size:0.75rem;">USAGE QUOTA STATUS</div>
+          <div class="usage-meter-row">
+            <span style="color:var(--text-secondary);">Speaking Evaluations:</span>
+            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? 'Unlimited' : `${spkQuota.used} / ${SPEAKING_FREE_MONTHLY_LIMIT} mo`}</span>
+          </div>
+          <div class="usage-meter-row">
+            <span style="color:var(--text-secondary);">Writing CEFR Checks:</span>
+            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? 'Unlimited' : `${wrtQuota.used} / ${WRITING_FREE_MONTHLY_LIMIT} mo`}</span>
+          </div>
+          <div class="usage-meter-row">
+            <span style="color:var(--text-secondary);">Daily Paraphrase Drill:</span>
+            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? 'Unlimited' : `${drlQuota.used} / ${PARAPHRASE_FREE_DAILY_LIMIT} day`}</span>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="triggerCloudSync()">
+            ☁️ Sync Progress to Cloud ${!isVip ? '(🔒 VIP)' : '✓'}
+          </button>
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
+            ⭐ ${isVip ? 'Manage / Extend VIP Pass' : 'Upgrade to VIP Pass ($7+)'}
+          </button>
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border);" onclick="if(window.signOutUser) window.signOutUser();">
+            🚪 Sign Out
+          </button>
+        </div>
+      `;
+    }
+  } else {
+    if (authLabel) authLabel.textContent = "Sign In";
+    if (authIcon) authIcon.innerHTML = "👤";
+    if (dd) dd.style.display = "none";
+  }
+}
+
+function showStudioNotification(msg) {
+  let toast = document.getElementById("studio-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "studio-toast";
+    toast.style.cssText = "position:fixed; bottom:80px; right:20px; z-index:9999; background:var(--bg-card); border:1px solid var(--accent); color:var(--text); padding:10px 16px; border-radius:4px; font-size:0.82rem; font-weight:700; box-shadow:0 8px 24px rgba(0,0,0,0.5); transition:opacity 0.3s ease; pointer-events:none;";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = "1";
+  setTimeout(() => { toast.style.opacity = "0"; }, 3500);
+}
 
 function loadAppState() {
   try {
@@ -3133,14 +3745,17 @@ function loadAppState() {
   if (!appState.srsSchedule) appState.srsSchedule = {};
   if (!appState.errorLog) appState.errorLog = [];
   if (!appState.fontScale) appState.fontScale = 1;
+  ensureUserProfileInitialized();
   applyThemeUI();
   applyLanguageUI();
   applyFontScaleUI();
   refreshAnalytics();
+  updateAuthUI();
 }
 
 function saveAppState() {
   try {
+    ensureUserProfileInitialized();
     localStorage.setItem("occ_ielts_studio_v5", JSON.stringify(appState));
   } catch (e) {}
   refreshAnalytics();
@@ -3620,14 +4235,22 @@ function renderSkillRadar(mCount, drillScore, rCount, wCount) {
     return `<text x="${lx}" y="${ly}" font-size="9.5" font-family="ui-monospace, monospace" fill="var(--text-secondary)" text-anchor="middle" dominant-baseline="middle">${ax.label}</text>`;
   }).join("");
 
+  const isVip = isVipActive();
   radEl.innerHTML = `
-    <svg viewBox="0 0 280 205" style="width:100%; max-width:280px; height:auto; overflow:visible;">
-      <polygon points="${ringPoints(1)}" fill="none" stroke="var(--border-mid)" stroke-width="1"/>
-      <polygon points="${ringPoints(0.66)}" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
-      <polygon points="${ringPoints(0.33)}" fill="none" stroke="var(--border)" stroke-width="1"/>
-      <polygon points="${dataPts}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-      ${labelsSvg}
-    </svg>
+    <div style="position:relative; display:inline-block; width:100%; max-width:280px;">
+      <svg viewBox="0 0 280 205" style="width:100%; max-width:280px; height:auto; overflow:visible; ${!isVip ? 'opacity:0.8;' : ''}">
+        <polygon points="${ringPoints(1)}" fill="none" stroke="var(--border-mid)" stroke-width="1"/>
+        <polygon points="${ringPoints(0.66)}" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+        <polygon points="${ringPoints(0.33)}" fill="none" stroke="var(--border)" stroke-width="1"/>
+        <polygon points="${dataPts}" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+        ${labelsSvg}
+      </svg>
+      ${!isVip ? `
+        <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(11,11,11,0.92); border:1px solid var(--accent); padding:3px 8px; border-radius:4px; font-size:0.68rem; font-weight:700; color:var(--accent); white-space:nowrap; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.5);" onclick="openVipPassModal()" title="Unlock full 5-pillar diagnostics">
+          🔒 VIP 5-Pillar Diagnostics ↗
+        </div>
+      ` : ''}
+    </div>
   `;
 }
 
@@ -3760,12 +4383,19 @@ function getFilteredLexicon() {
 let lexDisplayLimit = 72;
 
 function setLexLimit(newLimit) {
+  if (!isVipActive() && newLimit > LEXICON_FREE_LIMIT) {
+    if (confirm("Browsing beyond 100 vocabulary words requires a VIP Pass.\n\nWould you like to upgrade to VIP Studio Pass to unlock all 650 Band 8.5 Collocations?")) {
+      openVipPassModal();
+    }
+    return;
+  }
   lexDisplayLimit = newLimit;
   renderLexiconGrid(true);
 }
 
 function renderLexiconGrid(keepLimit) {
-  if (!keepLimit) lexDisplayLimit = 72;
+  const isVip = isVipActive();
+  if (!keepLimit) lexDisplayLimit = isVip ? 72 : Math.min(72, LEXICON_FREE_LIMIT);
   const fullList = getFilteredLexicon();
   const grid = document.getElementById("lexGrid");
   const pagBar = document.getElementById("lexPaginationBar");
@@ -3777,14 +4407,21 @@ function renderLexiconGrid(keepLimit) {
     return;
   }
 
-  const list = fullList.slice(0, lexDisplayLimit);
+  const effectiveLimit = isVip ? lexDisplayLimit : Math.min(lexDisplayLimit, LEXICON_FREE_LIMIT);
+  const list = fullList.slice(0, effectiveLimit);
   if (pagBar) {
     pagBar.innerHTML = `
       <div style="font-family:monospace; font-size:0.8rem; color:var(--text-secondary);">
-        SHOWING <strong style="color:var(--accent);">${list.length}</strong> OF <strong>${fullList.length}</strong> MATCHING ENTRIES (TOTAL LEXICON: ${VOCAB_DATA.length})
+        SHOWING <strong style="color:var(--accent);">${list.length}</strong> OF <strong>${isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT)}</strong> ${!isVip ? '(Free Preview: 100 Words)' : 'MATCHING ENTRIES'} (TOTAL LEXICON: ${VOCAB_DATA.length})
       </div>
-      <div style="display:flex; gap:8px;">
-        ${list.length < fullList.length ? `<button class="btn-accent-solid" onclick="setLexLimit(lexDisplayLimit + 120)">Load 120 More</button><button class="btn-outlined" onclick="setLexLimit(${fullList.length})">Show All ${fullList.length}</button>` : `<span class="occ-ver-pill">All ${fullList.length} Matching Entries Displayed ✓</span>`}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${list.length < (isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT))
+          ? `<button class="btn-accent-solid" onclick="setLexLimit(lexDisplayLimit + 120)">Load More</button>`
+          : (!isVip
+              ? `<button class="btn-accent-solid" onclick="openVipPassModal()">🔒 Unlock All ${fullList.length} Entries ($7+)</button>`
+              : `<span class="occ-ver-pill">All ${fullList.length} Matching Entries Displayed ✓</span>`
+            )
+        }
       </div>
     `;
   }
@@ -3850,6 +4487,19 @@ function renderLexiconGrid(keepLimit) {
       </article>
     `;
   }).join("");
+
+  const vipUnlockCard = !isVip ? `
+    <article class="occ-card" style="border:2px dashed var(--accent); background:rgba(224,108,53,0.06); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:24px;">
+      <div style="font-size:2rem; margin-bottom:8px;">🔒</div>
+      <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:4px;">100 Free Words Displayed</div>
+      <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:280px; line-height:1.45;">
+        Unlock all <strong>650 Band 8.5 Academic Collocations</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with a VIP Pass.
+      </p>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full 650 Lexicon ($7+)</button>
+    </article>
+  ` : "";
+
+  grid.innerHTML = cardsHtml + vipUnlockCard;
 
   if (appState.fcOpen) renderActiveFlashcard();
 }
@@ -3956,6 +4606,12 @@ async function toggleMicRecording() {
     if (statusEl) statusEl.textContent = "Microphone recording is not supported in this browser environment.";
     return;
   }
+  const quota = canUseSpeakingEvaluation();
+  if (!quota.allowed) {
+    alert(`You have reached your Free Tier quota of ${SPEAKING_FREE_MONTHLY_LIMIT} Speaking AI Evaluations this month.\n\nUpgrade to VIP Studio Pass for unlimited evaluations, filler-word detection & Whisper transcription!`);
+    openVipPassModal();
+    return;
+  }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
@@ -3977,7 +4633,10 @@ async function toggleMicRecording() {
         dlLink.href = recordedAudioUrl;
         dlLink.style.display = "inline-flex";
       }
-      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Recording saved! Press play below to self-evaluate your fluency &amp; pronunciation.</span>`;
+      recordSpeakingEvaluationUsage();
+      const updatedQuota = canUseSpeakingEvaluation();
+      const quotaNotice = isVipActive() ? "Unlimited VIP Evaluations" : `Free Quota: ${updatedQuota.remaining} left this month`;
+      if (statusEl) statusEl.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Recording saved (${quotaNotice})! Press play below to self-evaluate.</span>`;
       stream.getTracks().forEach(t => t.stop());
     };
     mediaRecorder.start();
@@ -4001,11 +4660,12 @@ function stopMicRecording() {
 
 function selectSpeakingFramework(idx) {
   activeFwIndex = idx;
+  const isVip = isVipActive();
   const btnBar = document.getElementById("fwTabButtons");
   if (btnBar) {
     btnBar.innerHTML = SPEAKING_FRAMEWORKS.map((fw, i) => `
       <button class="${i === activeFwIndex ? 'btn-accent-solid' : 'btn-outlined'}" onclick="selectSpeakingFramework(${i})">
-        ${fw.name}
+        ${!isVip && i > 0 ? '🔒 ' : ''}${fw.name}
       </button>
     `).join("");
   }
@@ -4016,12 +4676,25 @@ function renderSpeakingFramework(idx) {
   const fw = SPEAKING_FRAMEWORKS[idx];
   const pane = document.getElementById("fwDetailPane");
   if (!pane) return;
-  const fullExampleText = fw.exampleBreakdown.map(b => b.text).join(" ");
 
-  pane.innerHTML = `
-    <div class="sec-eyebrow">${fw.code}</div>
-    <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:4px;">${fw.name}: ${fw.subtitle}</h3>
-    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;"><strong>When to use:</strong> ${fw.whenToUse}</p>
+  if (!isVipActive() && idx > 0) {
+    pane.innerHTML = `
+      <div class="vip-lock-banner">
+        <div class="vip-lock-banner-text">
+          <div class="vip-lock-banner-title">🔒 VIP Framework: ${fw.name}</div>
+          <div class="vip-lock-banner-desc">PELL Framework is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (AREA, PREP, CAUSE-EFFECT, STORY) + Full Band 9 Candidate Scripts with a VIP Pass!</div>
+        </div>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks ($7+)</button>
+      </div>
+      <div class="vip-gated-blur">
+        <div class="sec-eyebrow">${fw.code}</div>
+        <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:4px;">${fw.name}: ${fw.subtitle}</h3>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;"><strong>When to use:</strong> ${fw.whenToUse}</p>
+        <div class="occ-body-mm burmese" style="margin-bottom:14px;"><div class="occ-mm-note">${fw.mmOverview}</div></div>
+      </div>
+    `;
+    return;
+  }
 
     <div class="occ-body-mm burmese" style="margin-bottom:14px;">
       <div class="occ-mm-note">${fw.mmOverview}</div>
@@ -4508,6 +5181,13 @@ function gradeListeningSet(sIdx) {
 let currentDrill = [];
 
 function generateDrill() {
+  const quota = canUseParaphraseDrill();
+  if (!quota.allowed) {
+    if (confirm("You have completed your 1 free daily Paraphrase Drill for today.\n\nUpgrade to VIP Studio Pass for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?")) {
+      openVipPassModal();
+    }
+    return;
+  }
   const sample = [...VOCAB_DATA].sort(() => Math.random() - 0.5).slice(0, 10);
   currentDrill = sample.map((item, idx) => {
     const distractors = VOCAB_DATA.filter(v => v.id !== item.id).sort(() => Math.random() - 0.5).slice(0, 3).map(v => v.word);
@@ -4555,8 +5235,10 @@ function gradeDrill() {
       logMistakeItem("Paraphrase Drill", `Replace "${d.item.basic}" in: "${d.blanked}"`, d.item.word, `${d.item.mmMeaning} — ${d.item.mmNote}`);
     }
   });
+  recordParaphraseDrillUsage();
   const pct = Math.round((hits / currentDrill.length) * 100);
-  document.getElementById("drillScoreLabel").textContent = `Accuracy: ${hits} / ${currentDrill.length} (${pct}%)`;
+  const quotaInfo = isVipActive() ? "Unlimited VIP Drills" : "1/1 Free Daily Drill Used";
+  document.getElementById("drillScoreLabel").textContent = `Accuracy: ${hits} / ${currentDrill.length} (${pct}%) • ${quotaInfo}`;
   if (pct > appState.drillBest) {
     appState.drillBest = pct;
   }
@@ -4572,7 +5254,8 @@ let rTimerRef = null;
 function initReadingMocks() {
   const sel = document.getElementById("rSelect");
   if (!sel) return;
-  sel.innerHTML = READING_MOCKS.map((m, i) => `<option value="${i}">[${m.code}] ${m.title} (${m.questionTypes})</option>`).join("");
+  const isVip = isVipActive();
+  sel.innerHTML = READING_MOCKS.map((m, i) => `<option value="${i}">${!isVip && i >= READING_FREE_LIMIT ? '🔒 [VIP] ' : ''}[${m.code}] ${m.title} (${m.questionTypes})</option>`).join("");
   loadReadingMock();
 }
 
@@ -4581,6 +5264,37 @@ function loadReadingMock() {
   const m = READING_MOCKS[idx];
   if (!m) return;
   document.getElementById("rMetaBadge").textContent = `${m.category} · ${m.difficulty}`;
+
+  const isVip = isVipActive();
+  if (!isVip && idx >= READING_FREE_LIMIT) {
+    document.getElementById("rPassageBox").innerHTML = `
+      <div class="vip-lock-banner">
+        <div class="vip-lock-banner-text">
+          <div class="vip-lock-banner-title">🔒 VIP Cambridge Reading Mock [${m.code}]</div>
+          <div class="vip-lock-banner-desc">Passages 1 &amp; 2 are free. Unlock all 8 Cambridge Academic Reading CBT Mocks + High-Fidelity Audio + Burmese Answer Evidence with VIP Pass!</div>
+        </div>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 8 Passages ($7+)</button>
+      </div>
+      <div class="vip-gated-blur">
+        <h3 style="font-size:1.18rem; font-weight:700; margin-bottom:16px;">${m.title}</h3>
+        ${m.paragraphs.slice(0, 2).map(p => `
+          <div class="para-block">
+            <p style="font-size:0.92rem; line-height:1.78;"><span class="para-idx">${p.label}</span>${p.text}</p>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    document.getElementById("rQuestionsBox").innerHTML = `
+      <div class="vip-lock-banner" style="margin-top:0;">
+        <div class="vip-lock-banner-text">
+          <div class="vip-lock-banner-title">🔒 Questions Locked for VIP Pass</div>
+          <div class="vip-lock-banner-desc">Full ${m.questions.length}-item IELTS question sets, real-time band grading, and Burmese answer evidence are reserved for VIP members.</div>
+        </div>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get VIP Pass ($7+)</button>
+      </div>
+    `;
+    return;
+  }
 
   document.getElementById("rPassageBox").innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border);">
@@ -4629,6 +5343,7 @@ function loadReadingMock() {
 function gradeReading(idx) {
   const m = READING_MOCKS[idx];
   let c = 0;
+  const isVip = isVipActive();
   m.questions.forEach((q, qi) => {
     const exp = document.getElementById(`rmq_exp_${qi}`);
     const isGap = q.type === "GAP" || !Array.isArray(q.options) || q.options.length === 0;
@@ -4644,13 +5359,17 @@ function gradeReading(idx) {
       isCorrect = val === q.ans;
     }
 
+    const mmExpDisplay = isVip
+      ? `<span class="burmese">${q.expMm}</span>`
+      : `<span class="burmese" style="filter:blur(3.5px); user-select:none; opacity:0.6;">${q.expMm}</span><br><span style="display:inline-block; font-size:0.75rem; color:var(--accent); font-weight:700; margin-top:4px; cursor:pointer;" onclick="openVipPassModal()">🔒 Unlock Burmese Answer Evidence with VIP Pass</span>`;
+
     if (isCorrect) {
       c++;
       exp.className = "q-exp pass";
-      exp.innerHTML = `<strong style="color:var(--green);">✓ Correct (${q.ans})</strong><br>${q.expEn}<br><span class="burmese">${q.expMm}</span>`;
+      exp.innerHTML = `<strong style="color:var(--green);">✓ Correct (${q.ans})</strong><br>${q.expEn}<br>${mmExpDisplay}`;
     } else {
       exp.className = "q-exp fail";
-      exp.innerHTML = `<strong style="color:var(--crimson);">Answer: ${q.ans}</strong><br>${q.expEn}<br><span class="burmese">${q.expMm}</span>`;
+      exp.innerHTML = `<strong style="color:var(--crimson);">Answer: ${q.ans}</strong><br>${q.expEn}<br>${mmExpDisplay}`;
       logMistakeItem(`Reading: ${m.title}`, q.q, q.ans, `${q.expEn} (${q.expMm})`);
     }
   });
@@ -4778,7 +5497,24 @@ function saveCurrentEssay() {
 
 function toggleModelDrawer() {
   const d = document.getElementById("wModelDrawer");
-  if (d) d.style.display = d.style.display === "none" ? "block" : "none";
+  if (!d) return;
+  const idx = parseInt(document.getElementById("wSelect")?.value || "0", 10) || 0;
+  if (!isVipActive() && idx > 0) {
+    d.style.display = "block";
+    document.getElementById("wModelContent").innerHTML = `
+      <div class="vip-lock-banner" style="margin:0;">
+        <div class="vip-lock-banner-text">
+          <div class="vip-lock-banner-title">🔒 VIP Band 8.5 Model Essay #${idx + 1}</div>
+          <div class="vip-lock-banner-desc">Model Essay #1 is free. Unlock all 13 Band 8.5 Cambridge Academic Model Essays with Examiner Commentary &amp; Burmese Analysis with VIP Pass!</div>
+        </div>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock All 13 Models ($7+)</button>
+      </div>
+    `;
+    const notes = document.getElementById("wModelMmNotes");
+    if (notes) notes.innerHTML = `<span style="filter:blur(3.5px); user-select:none; opacity:0.6;">အဘယ်ကြောင့် Band 8.5 ရသနည်း အသေးစိတ်သုံးသပ်ချက်များကို VIP Pass ဖြင့် ဖတ်ရှုနိုင်ပါသည်။</span>`;
+    return;
+  }
+  d.style.display = d.style.display === "none" ? "block" : "none";
 }
 
 function updateRubricScore() {
@@ -4834,16 +5570,30 @@ function runLiveWritingDiagnostics() {
   const cefrBadge = document.getElementById("liveCefrBadge");
   const cefrFill = document.getElementById("cefrMeterFill");
   const cefrLbl = document.getElementById("cefrStatusText");
-  if (cefrBadge) cefrBadge.textContent = `${c1Pct}% C1/C2`;
-  if (cefrFill) {
-    cefrFill.style.width = `${Math.min(100, c1Pct * 4)}%`;
-    cefrFill.style.background = c1Pct > 15 ? "var(--crimson)" : "var(--accent)";
-  }
-  if (cefrLbl) {
-    const statusTxt = words < 20
-      ? "Write at least 20 words to measure"
-      : (c1Pct >= 4 && c1Pct <= 14 ? "✓ Ideal Band 8–9 Zone (5%–12%)" : (c1Pct > 14 ? "⚠ Over-stuffed C1/C2 (>14%)" : "Add 2–3 precise topic collocations"));
-    cefrLbl.textContent = `${c1Pct}% C1/C2 (${100 - c1Pct}% A1–B2) · ${statusTxt}`;
+
+  const quota = canUseWritingCheck();
+  if (!isVipActive() && !quota.allowed) {
+    if (cefrBadge) cefrBadge.textContent = "🔒 2/2 Used";
+    if (cefrFill) {
+      cefrFill.style.width = "100%";
+      cefrFill.style.background = "var(--border-mid)";
+    }
+    if (cefrLbl) {
+      cefrLbl.innerHTML = `🔒 <strong>Free Quota Used (${WRITING_FREE_MONTHLY_LIMIT}/${WRITING_FREE_MONTHLY_LIMIT} checks this month)</strong> · <span style="color:var(--accent); cursor:pointer; font-weight:700;" onclick="openVipPassModal()">Upgrade to VIP Pass for unlimited live CEFR analysis &amp; synonym upgrader ↗</span>`;
+    }
+  } else {
+    if (cefrBadge) cefrBadge.textContent = `${c1Pct}% C1/C2`;
+    if (cefrFill) {
+      cefrFill.style.width = `${Math.min(100, c1Pct * 4)}%`;
+      cefrFill.style.background = c1Pct > 15 ? "var(--crimson)" : "var(--accent)";
+    }
+    if (cefrLbl) {
+      const statusTxt = words < 20
+        ? "Write at least 20 words to measure"
+        : (c1Pct >= 4 && c1Pct <= 14 ? "✓ Ideal Band 8–9 Zone (5%–12%)" : (c1Pct > 14 ? "⚠ Over-stuffed C1/C2 (>14%)" : "Add 2–3 precise topic collocations"));
+      const quotaTag = isVipActive() ? "" : ` • Free quota: ${quota.remaining} check(s) left`;
+      cefrLbl.textContent = `${c1Pct}% C1/C2 (${100 - c1Pct}% A1–B2) · ${statusTxt}${quotaTag}`;
+    }
   }
 
   const sentences = trimmed ? trimmed.split(/[.!?]+/).map(s => s.trim()).filter(Boolean) : [];
@@ -5453,6 +6203,18 @@ window.addEventListener("DOMContentLoaded", () => {
   initReadingMocks();
   initWritingMocks();
   initSpeakingStudio();
+
+  if (window.initFirebaseServices) {
+    window.initFirebaseServices();
+  }
+
+  window.addEventListener("click", (e) => {
+    const dd = document.getElementById("accountDropdownMenu");
+    const authBox = document.getElementById("authWidgetBox");
+    if (dd && authBox && !authBox.contains(e.target)) {
+      dd.style.display = "none";
+    }
+  });
 });
 
 </script>
@@ -5478,6 +6240,156 @@ window.addEventListener("DOMContentLoaded", () => {
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-outlined" onclick="bypassClozeGate()" style="font-size:0.78rem;">Skip Gate (Rate 3d)</button>
         <button class="btn-accent-solid" onclick="verifyClozeGate()" style="font-size:0.78rem;">Verify &amp; Master 7d ✓</button>
+  <!-- Engnovate-style VIP Pass Modal -->
+  <div id="vipPassModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeVipPassModal()">
+    <div class="modal-card" style="max-width:780px; width:95%; max-height:90vh; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:24px; box-sizing:border-box;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.3rem;">🚀</span>
+            <h2 style="font-size:1.25rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio VIP Pass</h2>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">One-Time Pass</span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-secondary); margin:4px 0 0 0;">
+            Freemium Metered Access • Pay Once, No Recurring Subscriptions • Unlock All 7 Modules &amp; Cloud Sync
+          </p>
+        </div>
+        <button class="btn-outlined" style="padding:4px 10px; font-size:0.8rem;" onclick="closeVipPassModal()">✕ Close</button>
+      </div>
+
+      <!-- Pricing Options Grid -->
+      <div class="vip-pricing-grid">
+        <!-- 7-Day Sprint Pass -->
+        <div class="vip-pricing-card">
+          <div>
+            <div class="vip-price-title">7-Day Sprint</div>
+            <div class="vip-price-amount">$7</div>
+            <div class="vip-price-mmk">~25,000 MMK • 1-Week Access</div>
+            <ul class="vip-feature-list">
+              <li>✓ <strong>All 8 Reading CBTs</strong> (Passages 1–8)</li>
+              <li>✓ <strong>All 13 Band 8.5 Models</strong> (Burmese notes)</li>
+              <li>✓ <strong>All 5 Speaking Frameworks</strong></li>
+              <li>✓ <strong>Unlimited CEFR Checks</strong> &amp; Drills</li>
+              <li>✓ <strong>Firebase Cloud Sync</strong> across devices</li>
+            </ul>
+          </div>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="activateVipPass('sprint')">Get 7-Day Pass ($7)</button>
+        </div>
+
+        <!-- 30-Day Intensive Pass -->
+        <div class="vip-pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <div>
+            <div class="vip-price-title">30-Day Intensive</div>
+            <div class="vip-price-amount">$15</div>
+            <div class="vip-price-mmk">~55,000 MMK • Complete 1 Month</div>
+            <ul class="vip-feature-list">
+              <li>✓ <strong>Full 650 Band 8.5 Lexicon</strong></li>
+              <li>✓ <strong>1-3-7 Day SRS Queue</strong> &amp; Cloze Gates</li>
+              <li>✓ <strong>Unlimited AI Mic Evaluations</strong></li>
+              <li>✓ <strong>Burmese Answer Explanations</strong></li>
+              <li>✓ <strong>Printable PDF Cheat Sheets</strong></li>
+              <li>✓ <strong>Priority Cloud Sync</strong></li>
+            </ul>
+          </div>
+          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="activateVipPass('intensive')">Get 30-Day Pass ($15)</button>
+        </div>
+
+        <!-- Lifetime Pass -->
+        <div class="vip-pricing-card">
+          <div>
+            <div class="vip-price-title">Lifetime Studio</div>
+            <div class="vip-price-amount">$29</div>
+            <div class="vip-price-mmk">~99,000 MMK • Pay Once, Forever</div>
+            <ul class="vip-feature-list">
+              <li>✓ <strong>Forever VIP Access</strong> (Zero Expiry)</li>
+              <li>✓ <strong>All Future Cambridge Mocks</strong></li>
+              <li>✓ <strong>Full Mistake Bank &amp; Diagnostics</strong></li>
+              <li>✓ <strong>Private Essay Storage</strong> in Cloud</li>
+              <li>✓ <strong>Unlimited Everything</strong></li>
+            </ul>
+          </div>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="activateVipPass('lifetime')">Get Lifetime Pass ($29)</button>
+        </div>
+      </div>
+
+      <!-- Voucher Code & Instant Testing Sandbox -->
+      <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Access Code or Voucher?</span>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">Codes: <code style="color:var(--accent);">VIPPASS2026</code>, <code style="color:var(--accent);">BAND9VIP</code>, <code style="color:var(--accent);">SCHOLAR9</code></span>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code..." style="flex:1; font-size:0.85rem; text-transform:uppercase;">
+          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap;">Activate Voucher</button>
+        </div>
+        <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
+      </div>
+
+      <!-- Free vs VIP Matrix Comparison Summary -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. VIP Studio Pass Matrix</div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
+                <th style="padding:6px;">Module</th>
+                <th style="padding:6px;">Free Tier (Traffic Hook)</th>
+                <th style="padding:6px; color:var(--accent);">VIP Pass (Conversion)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">1. Overview &amp; Plans</td>
+                <td style="padding:6px;">Study Plans + View Constellation</td>
+                <td style="padding:6px; color:var(--accent);">Full 5-Pillar Diagnostics + Interactive Graph</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">2. VIP Playbook</td>
+                <td style="padding:6px;">Full English &amp; Burmese Rules (Free!)</td>
+                <td style="padding:6px; color:var(--accent);">Printable PDF Cheat Sheets &amp; Revision Pack</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">3. Speaking Studio</td>
+                <td style="padding:6px;">PELL Framework + 2 Mic Reviews/mo</td>
+                <td style="padding:6px; color:var(--accent);">All 5 Frameworks + Unlimited AI Whisper &amp; Scripts</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">4. Lexicon (650)</td>
+                <td style="padding:6px;">100 Words + Basic Flashcards</td>
+                <td style="padding:6px; color:var(--accent);">All 650 Band 8.5 Words + 1-3-7 SRS + Burmese Notes</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">5. Grammar &amp; Drills</td>
+                <td style="padding:6px;">1 Daily Paraphrase Drill + Rules</td>
+                <td style="padding:6px; color:var(--accent);">Unlimited Drills + Part 17 + Mistake Log</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">6. Read &amp; Listen</td>
+                <td style="padding:6px;">2 Passages + Web Speech Audio</td>
+                <td style="padding:6px; color:var(--accent);">All 8 Passages + Neural Audio + Burmese Evidence</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:6px; font-weight:600;">7. Writing Lab</td>
+                <td style="padding:6px;">Word Counter + 2 CEFR checks/mo + Model 1</td>
+                <td style="padding:6px; color:var(--accent);">Unlimited CEFR Meter + AI Grader + All 13 Models</td>
+              </tr>
+              <tr>
+                <td style="padding:6px; font-weight:600;">Cloud &amp; Sync</td>
+                <td style="padding:6px;">Local session &amp; JSON file backup</td>
+                <td style="padding:6px; color:var(--accent);">Cross-Device Firebase Firestore Cloud Sync</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Developer & Evaluator Instant Toggle Switch -->
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:12px; margin-top:10px;">
+        <span style="font-size:0.75rem; color:var(--text-muted);">Developer Sandbox Switch:</span>
+        <button class="btn-outlined" onclick="toggleVipTestingStatus()" style="font-size:0.75rem; padding:3px 8px; border-color:var(--accent); color:var(--accent);">
+          ⚡ Toggle VIP Status Instantly (Testing Mode)
+        </button>
       </div>
     </div>
   </div>

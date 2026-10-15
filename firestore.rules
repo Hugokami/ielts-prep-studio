@@ -1,0 +1,318 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users/{userId}
+    // Document ID: userId (matches Firebase Auth UID)
+    // Fields:
+    //   - uid: string (required on create/set, immutable) - The user's Firebase Auth UID
+    //   - displayName: string (optional, 1..100 chars) - User display name
+    //   - email: string (optional, valid email format, <= 100 chars) - User contact email
+    //   - photoURL: string (optional, valid URL format, <= 500 chars) - Avatar URL
+    //   - theme: string (optional, 'light' | 'dark') - UI color theme
+    //   - showBurmese: bool (optional) - Toggle for Burmese bilingual support
+    //   - fontScale: number (optional, 0.5 <= scale <= 3.0) - User UI font scale
+    //   - createdAt: timestamp (optional, immutable) - Account creation timestamp
+    //   - updatedAt: timestamp (optional) - Profile modification timestamp
+    //
+    // Collection: users/{userId}/studioState/{stateId}
+    // Document ID: stateId (e.g. 'progress')
+    // Fields:
+    //   - updatedAt: timestamp (optional) - Last cloud sync timestamp
+    //   - createdAt: timestamp (optional, immutable) - State initialization timestamp
+    //   - mastered: list (optional, max 1000 items) - IDs of mastered vocabulary items
+    //   - srsSchedule: map (optional, max 1000 keys) - Spaced repetition schedule map
+    //   - drillScore: number (optional, 0 <= score <= 100000) - Cumulative drill performance
+    //   - savedEssays: list (optional, max 200 items) - User essay drafts and records
+    //   - errorLog: list (optional, max 1000 items) - SRS error logs and mistake bank
+    //   - userProfile: map (optional) - Nested user status and tier
+    //       * tier: string (optional, max 20 chars; 'vip' requires existing vip or admin)
+    //       * vipExpiresAt: timestamp | string | number (optional)
+    //       * displayName: string (optional, <= 100 chars)
+    //       * targetBand: number (optional, 0 <= band <= 9.0)
+    //       * examDate: string (optional, <= 30 chars)
+    //   - theme: string (optional, 'light' | 'dark')
+    //   - showBurmese: bool (optional)
+    //   - fontScale: number (optional, 0.5 <= scale <= 3.0)
+    //
+    // Collection: users/{userId}/{subcollection}/{docId}
+    // Document ID: docId
+    // Scope: Any user-scoped subcollections (e.g. essays, drafts, history, notes)
+    // Fields:
+    //   - User-isolated documents strictly owned by userId, bounded payload size
+    //
+    // Collection: publicEssays/{essayId}
+    // Document ID: essayId (alphanumeric document ID)
+    // Fields:
+    //   - authorId: string (required, immutable) - Must match request.auth.uid
+    //   - authorName: string (optional, 1..100 chars) - Display name of essay author
+    //   - title: string (required, 1..250 chars) - Essay title or prompt summary
+    //   - content: string (required, 1..25000 chars) - Full essay submission text
+    //   - prompt: string (optional, 0..3000 chars) - IELTS test prompt
+    //   - taskType: string (optional, 'task1' | 'task2' | 'general' | 'academic') - IELTS Task type
+    //   - bandScore: number (optional, 0 <= score <= 9.0) - Estimated band score
+    //   - wordCount: number (optional, 0 <= count <= 5000) - Essay word count
+    //   - rubricScores: map (optional, keys: ta, cc, lr, gra, overall with values 0..9)
+    //   - tags: list (optional, max 10 items) - Essay topic keywords
+    //   - status: string (optional, 'draft' | 'published' | 'archived') - Visibility state
+    //   - isPublic: bool (optional) - Public library visibility flag
+    //   - createdAt: timestamp (optional, immutable) - Submission timestamp
+    //   - updatedAt: timestamp (optional) - Revision timestamp
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the authenticated user is the designated owner
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Validate that request data contains all required keys
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Validate that request data does not contain extraneous or undefined keys
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Ensure specified immutable fields are not changed during an update
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate string length bounds
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate optional string length if present
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is string &&
+         request.resource.data[field].size() >= minLen &&
+         request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // Validate URL format (http/https)
+    function isValidUrl(url) {
+      return url is string &&
+        (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // Check if user has admin claim in their auth token
+    function isAdmin() {
+      return isAuthenticated() &&
+        'admin' in request.auth.token &&
+        request.auth.token.admin == true;
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    // 1. User Root Document Validator
+    function isValidUserDoc() {
+      return hasOnlyAllowedFields([
+        'uid', 'displayName', 'email', 'photoURL',
+        'theme', 'showBurmese', 'fontScale', 'createdAt', 'updatedAt'
+      ]) &&
+      (!('uid' in request.resource.data) || (request.resource.data.uid is string && request.resource.data.uid == request.auth.uid)) &&
+      isValidOptionalString('displayName', 1, 100) &&
+      (!('email' in request.resource.data) || (request.resource.data.email is string && isValidEmail(request.resource.data.email) && request.resource.data.email.size() <= 100)) &&
+      (!('photoURL' in request.resource.data) || (request.resource.data.photoURL is string && isValidUrl(request.resource.data.photoURL) && request.resource.data.photoURL.size() <= 500)) &&
+      (!('theme' in request.resource.data) || request.resource.data.theme in ['light', 'dark']) &&
+      (!('showBurmese' in request.resource.data) || request.resource.data.showBurmese is bool) &&
+      (!('fontScale' in request.resource.data) || (request.resource.data.fontScale is number && request.resource.data.fontScale >= 0.5 && request.resource.data.fontScale <= 3.0)) &&
+      (!('createdAt' in request.resource.data) || request.resource.data.createdAt is timestamp) &&
+      (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt is timestamp);
+    }
+
+    // 2. Studio State Document Validator (Progress & SRS state)
+    function isValidUserProfileMap(profile) {
+      return profile is map &&
+        profile.keys().hasOnly(['tier', 'vipExpiresAt', 'displayName', 'targetBand', 'examDate']) &&
+        (!('tier' in profile) || (profile.tier is string && profile.tier.size() <= 20)) &&
+        (!('vipExpiresAt' in profile) || (profile.vipExpiresAt is timestamp || profile.vipExpiresAt is string || profile.vipExpiresAt is number)) &&
+        (!('displayName' in profile) || (profile.displayName is string && profile.displayName.size() <= 100)) &&
+        (!('targetBand' in profile) || (profile.targetBand is number && profile.targetBand >= 0 && profile.targetBand <= 9.0)) &&
+        (!('examDate' in profile) || (profile.examDate is string && profile.examDate.size() <= 30));
+    }
+
+    // Prevent privilege escalation on create (cannot self-assign VIP tier)
+    function isNotEscalatingVipTierOnCreate() {
+      let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
+      let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
+      return !hasTier ||
+        request.resource.data.userProfile.tier != 'vip' ||
+        isAdmin();
+    }
+
+    // Prevent privilege escalation on update (cannot self-assign VIP tier unless already VIP or admin)
+    function isNotEscalatingVipTierOnUpdate() {
+      let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
+      let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
+      let wasVip = resource.data != null &&
+                   'userProfile' in resource.data &&
+                   resource.data.userProfile is map &&
+                   'tier' in resource.data.userProfile &&
+                   resource.data.userProfile.tier == 'vip';
+      return !hasTier ||
+        request.resource.data.userProfile.tier != 'vip' ||
+        wasVip ||
+        isAdmin();
+    }
+
+    function isValidStudioState(data) {
+      return hasOnlyAllowedFields([
+        'updatedAt', 'createdAt', 'mastered', 'srsSchedule',
+        'drillScore', 'savedEssays', 'errorLog', 'userProfile',
+        'theme', 'showBurmese', 'fontScale'
+      ]) &&
+      (!('updatedAt' in data) || data.updatedAt is timestamp) &&
+      (!('createdAt' in data) || data.createdAt is timestamp) &&
+      (!('mastered' in data) || (data.mastered is list && data.mastered.size() <= 1000)) &&
+      (!('srsSchedule' in data) || (data.srsSchedule is map && data.srsSchedule.size() <= 1000)) &&
+      (!('drillScore' in data) || (data.drillScore is number && data.drillScore >= 0 && data.drillScore <= 100000)) &&
+      (!('savedEssays' in data) || (data.savedEssays is list && data.savedEssays.size() <= 200)) &&
+      (!('errorLog' in data) || (data.errorLog is list && data.errorLog.size() <= 1000)) &&
+      (!('userProfile' in data) || isValidUserProfileMap(data.userProfile)) &&
+      (!('theme' in data) || data.theme in ['light', 'dark']) &&
+      (!('showBurmese' in data) || data.showBurmese is bool) &&
+      (!('fontScale' in data) || (data.fontScale is number && data.fontScale >= 0.5 && data.fontScale <= 3.0));
+    }
+
+    // 3. Generic User Subcollection Validator
+    function isValidUserSubcollectionDoc(data) {
+      return data is map &&
+        data.keys().size() <= 50 &&
+        (!('createdAt' in data) || data.createdAt is timestamp) &&
+        (!('updatedAt' in data) || data.updatedAt is timestamp) &&
+        (!('userId' in data) || (data.userId is string && data.userId == request.auth.uid));
+    }
+
+    // 4. Public Essay Validator
+    function isValidRubricMap(rubric) {
+      return rubric is map &&
+        rubric.keys().hasOnly(['ta', 'cc', 'lr', 'gra', 'overall']) &&
+        (!('ta' in rubric) || (rubric.ta is number && rubric.ta >= 0 && rubric.ta <= 9.0)) &&
+        (!('cc' in rubric) || (rubric.cc is number && rubric.cc >= 0 && rubric.cc <= 9.0)) &&
+        (!('lr' in rubric) || (rubric.lr is number && rubric.lr >= 0 && rubric.lr <= 9.0)) &&
+        (!('gra' in rubric) || (rubric.gra is number && rubric.gra >= 0 && rubric.gra <= 9.0)) &&
+        (!('overall' in rubric) || (rubric.overall is number && rubric.overall >= 0 && rubric.overall <= 9.0));
+    }
+
+    function isValidPublicEssay(data) {
+      return hasOnlyAllowedFields([
+        'authorId', 'authorName', 'title', 'content', 'prompt',
+        'taskType', 'bandScore', 'wordCount', 'rubricScores',
+        'tags', 'status', 'isPublic', 'createdAt', 'updatedAt'
+      ]) &&
+      hasRequiredFields(['authorId', 'title', 'content']) &&
+      data.authorId is string && data.authorId == request.auth.uid &&
+      data.title is string && data.title.size() >= 1 && data.title.size() <= 250 &&
+      data.content is string && data.content.size() >= 1 && data.content.size() <= 25000 &&
+      isValidOptionalString('authorName', 1, 100) &&
+      isValidOptionalString('prompt', 0, 3000) &&
+      (!('taskType' in data) || data.taskType in ['task1', 'task2', 'general', 'academic']) &&
+      (!('bandScore' in data) || (data.bandScore is number && data.bandScore >= 0 && data.bandScore <= 9.0)) &&
+      (!('wordCount' in data) || (data.wordCount is int && data.wordCount >= 0 && data.wordCount <= 5000)) &&
+      (!('rubricScores' in data) || isValidRubricMap(data.rubricScores)) &&
+      (!('tags' in data) || (data.tags is list && data.tags.size() <= 10)) &&
+      (!('status' in data) || data.status in ['draft', 'published', 'archived']) &&
+      (!('isPublic' in data) || data.isPublic is bool) &&
+      (!('createdAt' in data) || data.createdAt is timestamp) &&
+      (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // ===============================================================
+    // Rules Definitions
+    // ===============================================================
+
+    // Root Default Deny for all unmatched collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------
+    // User Documents & Private Subcollections
+    // -------------------------------------------------------------
+    match /users/{userId} {
+      // User profile root document: strictly owner access only
+      allow read, delete: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserDoc();
+      allow update: if isOwner(userId) &&
+                       isValidUserDoc() &&
+                       areImmutableFieldsUnchanged(['uid', 'createdAt']);
+
+      // Studio state (e.g. users/{userId}/studioState/progress)
+      match /studioState/{stateId} {
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidStudioState(request.resource.data) &&
+                         isNotEscalatingVipTierOnCreate();
+        allow update: if isOwner(userId) &&
+                         isValidStudioState(request.resource.data) &&
+                         isNotEscalatingVipTierOnUpdate() &&
+                         areImmutableFieldsUnchanged(['createdAt']);
+      }
+
+      // User-scoped generic subcollections (e.g. essays, drafts, history, notes)
+      match /{subcollection}/{docId} {
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         subcollection != 'studioState' &&
+                         isValidUserSubcollectionDoc(request.resource.data);
+        allow update: if isOwner(userId) &&
+                         subcollection != 'studioState' &&
+                         isValidUserSubcollectionDoc(request.resource.data) &&
+                         areImmutableFieldsUnchanged(['createdAt', 'userId']);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Public Essays Collection
+    // -------------------------------------------------------------
+    match /publicEssays/{essayId} {
+      // Public read access permitted for community essays
+      allow read: if true;
+
+      // Authenticated users may publish essays; authorId must match auth.uid
+      allow create: if isAuthenticated() &&
+                       request.auth.uid == request.resource.data.authorId &&
+                       isValidPublicEssay(request.resource.data);
+
+      // Only the author can update their public essay; authorId & createdAt are immutable
+      allow update: if isAuthenticated() &&
+                       request.auth.uid == resource.data.authorId &&
+                       isValidPublicEssay(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['authorId', 'createdAt']);
+
+      // Only the author can delete their essay
+      allow delete: if isAuthenticated() &&
+                       request.auth.uid == resource.data.authorId;
+    }
+  }
+}
