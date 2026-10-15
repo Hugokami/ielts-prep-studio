@@ -2704,6 +2704,42 @@
         <button class="btn-outlined" onclick="resetRClock()">Reset</button>
       </div>
 
+      <!-- Tab 6 Upgrade: Interactive "Where-Before-What" Active Protocol Enforcer (Reading Simulator 2.0) -->
+      <div id="reading-protocol-trainer" style="padding:14px; border:1px solid var(--border); border-radius:6px; margin-bottom:16px; background:var(--bg-card);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:1.1rem;">🧭</span>
+            <strong style="color:var(--text); font-size:0.88rem;">"Where-Before-What" Active Protocol Enforcer</strong>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" id="btn-heading-lock" class="btn-outlined" style="padding:6px 10px; border-radius:4px; font-size:0.75rem; border-color:rgba(99,102,241,0.5); color:#818cf8; cursor:pointer;">
+              🔒 1. Lock Official Headings (Write Own Summary First)
+            </button>
+            <button type="button" id="btn-scan-names" class="btn-outlined" style="padding:6px 10px; border-radius:4px; font-size:0.75rem; border-color:rgba(16,185,129,0.5); color:#34d399; cursor:pointer;">
+              🔍 2. Auto-Count Researcher Mentions (1-Mention Rule)
+            </button>
+          </div>
+        </div>
+
+        <!-- Paragraph Summary Inputs for Matching Headings -->
+        <div id="para-summary-workpad" style="display:none; margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);">
+          <p style="font-size:0.8rem; margin:0 0 8px 0; color:var(--text-secondary); line-height:1.45;">
+            <strong>Step 1:</strong> Write a 4–6 word summary for at least 3 paragraphs below to unlock the official Headings list! <span class="burmese" style="font-size:0.76rem;">(ပေးထားသော Heading များကို မကြည့်မီ ကိုယ်ပိုင်ခေါင်းစဉ် အရင်ချရေးပါ)</span>
+          </p>
+          <div id="para-inputs-list" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
+            <input type="text" class="para-sum-input occ-input" placeholder="Para A: 4–6 word summary..." style="font-size:0.78rem; padding:6px 8px;">
+            <input type="text" class="para-sum-input occ-input" placeholder="Para B: 4–6 word summary..." style="font-size:0.78rem; padding:6px 8px;">
+            <input type="text" class="para-sum-input occ-input" placeholder="Para C: 4–6 word summary..." style="font-size:0.78rem; padding:6px 8px;">
+          </div>
+          <div id="heading-unlock-status" style="margin-top:8px; font-size:0.78rem; font-weight:600; color:#ef4444;">
+            🔒 Official Headings Blurred (0 / 3 paragraphs summarized with 3+ words)
+          </div>
+        </div>
+
+        <!-- 1-Mention Rule Researcher Frequency Output -->
+        <div id="researcher-count-badges" style="display:none; margin-top:12px; font-size:0.8rem; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:4px;"></div>
+      </div>
+
       <div class="cbt-split">
         <div class="cbt-pane" id="rPassageBox"></div>
         <div class="cbt-pane" id="rQuestionsBox"></div>
@@ -2851,6 +2887,14 @@
             </div>
           </div>
 
+                    <!-- Tab 7 Upgrade: Active Recall Bounty Bar (Lexicon 2.0) -->
+          <div id="active-srs-bounty-bar" style="padding:10px 12px; background:rgba(56, 189, 248, 0.08); border:1px solid rgba(56, 189, 248, 0.35); border-radius:4px; margin-bottom:10px; font-size:0.82rem;">
+            <div style="font-weight:700; color:var(--text); margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <span>🎯 Today's SRS Active Recall Bounty (Use these due words naturally in your essay to auto-master them!)</span>
+              <span class="occ-ver-pill" style="font-size:0.65rem; color:#38bdf8;">100% Collocation Rule</span>
+            </div>
+            <div id="bounty-pills" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+          </div>
           <textarea id="essayArea" class="essay-pad" placeholder="Compose your IELTS response here..." oninput="runLiveWritingDiagnostics()" aria-label="Essay writing editor"></textarea>
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
@@ -2869,6 +2913,21 @@
             </div>
             <div id="liveSentenceStats" style="font-size:0.79rem; color:var(--text-secondary); margin-top:8px;"></div>
           </div>
+          <!-- Tab 7 Upgrade: Live "Deadly Trap" & Zero-Data Overview Linter (Writing Lab 2.0) -->
+          <div id="vip-trap-linter" style="margin-top:14px; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:4px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:1.05rem;">🛡️</span>
+                <strong style="color:var(--text); font-size:0.88rem;">Live IELTS Advantage Trap Scanner <span class="occ-ver-pill" style="font-size:0.65rem; color:var(--accent);">Zero-API</span></strong>
+              </div>
+              <label style="font-size:0.78rem; display:inline-flex; align-items:center; gap:6px; cursor:pointer; color:var(--text-secondary);">
+                <input type="checkbox" id="is-task1-toggle" checked style="accent-color:var(--accent);">
+                <span>Task 1 Mode (Enforce Zero-Data Overview in Para 2)</span>
+              </label>
+            </div>
+            <div id="trap-alerts-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+          </div>
+
 
           <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border);">
             <div class="sec-eyebrow">LIVE BAND 5 → BAND 8.5 SYNONYM UPGRADER</div>
@@ -3631,7 +3690,13 @@ function populateDynamicLexiconFilters() {
     categories.map(c => `<option value="${c}">${c} (${cCounts[c]})</option>`).join("");
 }
 
-function rateWordSRS(wordId, days) {
+function rateWordSRS(wordId, days, bypassGate) {
+  // Active Collocation Cloze Gate: require verification before unlocking Easy 7d
+  if (days >= 7 && !bypassGate && !appState.mastered.includes(wordId)) {
+    openClozeGateModal(wordId);
+    return;
+  }
+
   const dueTime = Date.now() + days * 86400 * 1000;
   appState.srsSchedule[wordId] = {
     days,
@@ -5060,7 +5125,324 @@ window.addEventListener("keydown", e => {
   }
 });
 
+
+// ======================================================================
+// ZERO-API UPGRADES: TRAP LINTER, READING PROTOCOL LOCKS, SRS BOUNTY & CLOZE GATE
+// ======================================================================
+
+// 1. Writing Lab 2.0: Live "Deadly Trap" & Zero-Data Overview Linter
+const TRAP_RULES = [
+  {
+    id: 'popular-trap',
+    regex: /\bpopular\b[^.?!]{0,30}\b(problem|issue|crime|traffic|pollution|jam|unemployment|disease|poverty|stress)\b|\b(problem|issue|crime|traffic|pollution|jam)\b[^.?!]{0,30}\bpopular\b/gi,
+    title: 'TRAP 01: "Popular" used for a negative problem',
+    en: '"Popular" means loved/enjoyed. Use "prevalent", "widespread", or "common" for problems.',
+    mm: 'Popular သည် လူကြိုက်များသောဟု အဓိပ္ပာယ်ရသည်။ ပြဿနာများအတွက် prevalent သို့မဟုတ် widespread ကိုသာ သုံးပါ။',
+    severity: '#dc2626'
+  },
+  {
+    id: 'miners-trap',
+    regex: /\bminers\b/gi,
+    title: 'TRAP 02: Spelling Trap ("miners" vs "minors")',
+    en: '"Miners" are coal/gold workers! For young people under 18, spell it "minors".',
+    mm: 'Miners သည် သတ္တုတွင်းလုပ်သားဖြစ်သည်။ အသက်မပြည့်သေးသူများအတွက် minors ဟု စာလုံးပေါင်းပါ။',
+    severity: '#dc2626'
+  },
+  {
+    id: 'pupils-trap',
+    regex: /\b(university|college|tertiary)\s+pupils\b|\bpupils\b[^.?!]{0,25}\b(university|degree|campus|tertiary)\b/gi,
+    title: 'TRAP 03: "Pupils" used for University Students',
+    en: '"Pupils" only refers to primary/secondary schoolchildren. Use "learners", "undergraduates", or "scholars".',
+    mm: 'တက္ကသိုလ်ကျောင်းသားများကို Pupils ဟု လုံးဝမသုံးရပါ။ Learners သို့မဟုတ် Scholars ဟု ပြောင်းသုံးပါ။',
+    severity: '#dc2626'
+  },
+  {
+    id: 'expenditure-trap',
+    regex: /\b(my|his|her|their|person's|individual)\s+expenditure\b/gi,
+    title: 'TRAP 05: "Expenditure" used for personal spending',
+    en: 'Use "expenditure" only for governments or large corporations. Use "personal spending" for individuals.',
+    mm: 'Expenditure ကို အစိုးရနှင့် အဖွဲ့အစည်းကြီးများ၏ အသုံးစရိတ်အတွက်သာ သုံးပါ။',
+    severity: '#d97706'
+  },
+  {
+    id: 'zero-article-trap',
+    regex: /\bThe\s+(education|society|nature|pollution|globalization|healthcare|technology)\s+(is|has|plays|can)\b/g,
+    title: 'GRAMMAR TRAP: Unnecessary "The" before general uncountable noun',
+    en: 'Use ZERO article for general concepts (e.g., "Education is vital", NOT "The education is vital").',
+    mm: 'အထွေထွေ သဘောတရားများရှေ့တွင် "The" မထည့်ရပါ (ဥပမာ - "Education is vital")။',
+    severity: '#d97706'
+  },
+  {
+    id: 'mechanical-linkers',
+    regex: /(?:^|[.?!]\s+)(Furthermore|Moreover|Additionally|Contrastingly|In addition to this),/gm,
+    title: 'COHESION WARNING: Mechanical Sentence-Initial Linker',
+    en: 'Band 6 candidates overuse "Furthermore / Moreover / Contrastingly". Use natural linkers ("However", "For example", "Therefore") sparingly.',
+    mm: 'ဝါကျအစတွင် Furthermore, Moreover များ စက်ရုပ်သဖွယ် သုံးလျှင် Band 6 သာ ရတတ်သည်။ သဘာဝကျကျ သုံးပါ။',
+    severity: '#38bdf8'
+  }
+];
+
+function analyzeEssayTraps() {
+  const editor = document.getElementById('essayArea');
+  const container = document.getElementById('trap-alerts-container');
+  const task1Toggle = document.getElementById('is-task1-toggle');
+  if (!editor || !container) return;
+  const text = editor.value;
+  container.innerHTML = '';
+  const alerts = [];
+
+  // 1. Check Task 1 Zero-Data Overview Rule (Paragraph 2)
+  if (task1Toggle && task1Toggle.checked) {
+    const paragraphs = text.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    if (paragraphs.length >= 2) {
+      const overviewPara = paragraphs[1];
+      const hasNumbers = /\b\d+(?:\.\d+)?%?\b|\b(percent|percentage|million|billion|thousand|half|third|quarter)\b/i.test(overviewPara);
+      if (hasNumbers) {
+        alerts.push({
+          title: '🚨 TASK 1 GOLDEN RULE VIOLATION: Numbers detected in Overview (Paragraph 2)',
+          en: 'Never put specific numbers, percentages, or dates in your Overview! Report only 2–3 overarching trends.',
+          mm: 'Task 1 Overview (ဒုတိယစာပိုဒ်) တွင် ကိန်းဂဏန်းနှင့် ရာခိုင်နှုန်းများ လုံးဝမထည့်ရပါ။ အဓိက အတက်အကျကိုသာ ခြုံငုံရေးပါ။',
+          severity: '#dc2626'
+        });
+      }
+    }
+  }
+
+  // 2. Check Synonym & Grammar Traps
+  TRAP_RULES.forEach(rule => {
+    rule.regex.lastIndex = 0;
+    if (rule.regex.test(text)) {
+      alerts.push(rule);
+    }
+  });
+
+  if (alerts.length === 0 && text.trim().length > 25) {
+    container.innerHTML = `<div style="padding:10px 14px; background:rgba(16, 185, 129, 0.12); border-left:4px solid #10b981; border:1px solid rgba(16, 185, 129, 0.35); color:#10b981; font-size:0.82rem; border-radius:4px;">
+      ✅ <strong>No Synonym or Cohesion Traps Detected!</strong> Keep maintaining your 90/10 CEFR balance.
+    </div>`;
+    return;
+  }
+
+  alerts.forEach(a => {
+    const card = document.createElement('div');
+    card.style.cssText = `padding:10px 12px; background:var(--bg-card); border:1px solid var(--border-mid); border-left:4px solid ${a.severity}; border-radius:4px; font-size:0.82rem;`;
+    card.innerHTML = `
+      <div style="font-weight:700; color:${a.severity}; margin-bottom:3px;">${a.title}</div>
+      <div style="color:var(--text); line-height:1.4;">${a.en}</div>
+      <div class="burmese" style="color:var(--text-secondary); margin-top:4px; font-size:0.78rem;">🇲🇲 ${a.mm}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function initIeltsTrapLinter() {
+  const editor = document.getElementById('essayArea');
+  const task1Toggle = document.getElementById('is-task1-toggle');
+  if (editor) {
+    editor.addEventListener('input', analyzeEssayTraps);
+  }
+  if (task1Toggle) {
+    task1Toggle.addEventListener('change', analyzeEssayTraps);
+  }
+}
+
+// 2. Reading Simulator 2.0: Interactive "Where-Before-What" Protocol Locks
+function initReadingProtocols() {
+  const btnLock = document.getElementById('btn-heading-lock');
+  const workpad = document.getElementById('para-summary-workpad');
+  const statusEl = document.getElementById('heading-unlock-status');
+  const inputs = document.querySelectorAll('.para-sum-input');
+  const btnNames = document.getElementById('btn-scan-names');
+  const nameBadges = document.getElementById('researcher-count-badges');
+
+  const getHeadingsBox = () => document.getElementById('rQuestionsBox');
+
+  if (btnLock && workpad) {
+    btnLock.addEventListener('click', () => {
+      const isHidden = workpad.style.display === 'none' || !workpad.style.display;
+      workpad.style.display = isHidden ? 'block' : 'none';
+      btnLock.classList.toggle('active', isHidden);
+      const box = getHeadingsBox();
+      if (box && isHidden) {
+        box.style.filter = 'blur(6px)';
+        box.style.pointerEvents = 'none';
+        box.style.transition = 'filter 0.3s ease';
+        box.title = 'Summarize paragraphs A, B, C first to unlock!';
+      } else if (box && !isHidden) {
+        box.style.filter = 'none';
+        box.style.pointerEvents = 'auto';
+      }
+    });
+  }
+
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      const completed = Array.from(inputs).filter(i => i.value.trim().split(/\s+/).length >= 3).length;
+      if (statusEl) {
+        if (completed >= 3) {
+          statusEl.style.color = '#10b981';
+          statusEl.textContent = '🔓 Official Headings Unlocked! Now match your summaries to the official list.';
+          const box = getHeadingsBox();
+          if (box) {
+            box.style.filter = 'none';
+            box.style.pointerEvents = 'auto';
+          }
+        } else {
+          statusEl.style.color = '#ef4444';
+          statusEl.textContent = `🔒 Official Headings Blurred (${completed} / 3 paragraphs summarized with 3+ words)`;
+        }
+      }
+    });
+  });
+
+  if (btnNames && nameBadges) {
+    btnNames.addEventListener('click', () => {
+      const passageEl = document.getElementById('rPassageBox') || document.body;
+      const text = passageEl.innerText || "";
+      const nameRegex = /\b(?:Dr\.?|Prof(?:essor)?\.?|researcher|scientist|biologist|architect|director|engineer|ecologist|author|psychologist)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b/gi;
+      const counts = {};
+      let match;
+      while ((match = nameRegex.exec(text)) !== null) {
+        const name = match[1];
+        counts[name] = (counts[name] || 0) + 1;
+      }
+
+      nameBadges.style.display = 'block';
+      const entries = Object.entries(counts).sort((a, b) => a[1] - b[1]);
+      if (entries.length === 0) {
+        nameBadges.innerHTML = '<span style="color:var(--text-secondary);"><em>No titled researchers (Dr./Prof./Scientist) detected in current passage view.</em></span>';
+        return;
+      }
+
+      nameBadges.innerHTML = '<strong style="color:var(--text);">1-Mention Rule Priority Order (Tackle green 1x names FIRST):</strong><div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">' +
+        entries.map(([name, count]) => {
+          const bg = count === 1 ? 'rgba(16, 185, 129, 0.18)' : 'rgba(245, 158, 11, 0.18)';
+          const border = count === 1 ? '#10b981' : '#f59e0b';
+          const color = count === 1 ? '#34d399' : '#fbbf24';
+          return `<span style="padding:4px 10px; border-radius:99px; background:${bg}; border:1px solid ${border}; color:${color}; font-size:0.78rem; font-weight:700;">
+            ${name}: ${count}x ${count === 1 ? '⚡ (DO FIRST)' : '(Do Later)'}
+          </span>`;
+        }).join('') + '</div>';
+    });
+  }
+}
+
+// 3. Lexicon 2.0: Active Collocation Cloze Gate + Cross-Tab SRS Bounty
+const COLLOCATION_CHALLENGES = [
+  { word: 'substantiate', prep: 'with', sentence: 'Governments must s___________e their environmental claims ____ empirical data.', mm: 'သက်သေအထောက်အထားဖြင့် အတည်ပြုသည်' },
+  { word: 'prevalent', prep: 'among', sentence: 'Smartphone addiction has become increasingly p________t _____ adolescents.', mm: 'အဖြစ်များသော / ပျံ့နှံ့နေသော' },
+  { word: 'inadvertently', prep: 'to', sentence: 'Strict zoning laws can i____________y lead __ higher housing costs.', mm: 'မရည်ရွယ်ဘဲ၊ အမှတ်တမဲ့' },
+  { word: 'detrimental', prep: 'to', sentence: 'Excessive screen time is highly d__________l __ early cognitive development.', mm: 'ထိခိုက်နစ်နာစေသော' },
+  { word: 'allocate', prep: 'to', sentence: 'Authorities should a_______e a larger proportion of public expenditure __ preventative healthcare.', mm: 'ခွဲဝေချထားပေးသည်' }
+];
+
+function initActiveLexiconBounty() {
+  const editor = document.getElementById('essayArea');
+  const pillsContainer = document.getElementById('bounty-pills');
+  if (!editor || !pillsContainer) return;
+
+  function renderBountyPills(text) {
+    const lowerText = text.toLowerCase();
+    pillsContainer.innerHTML = COLLOCATION_CHALLENGES.map(item => {
+      const usedWord = new RegExp(`\\b${item.word}\\b`, 'i').test(lowerText);
+      const usedPrep = new RegExp(`\\b${item.word}\\b[^.?!]{0,25}\\b${item.prep}\\b`, 'i').test(lowerText);
+      const bg = usedPrep ? '#10b981' : (usedWord ? '#f59e0b' : 'var(--bg-card)');
+      const fg = (usedPrep || usedWord) ? '#ffffff' : 'var(--text)';
+      const border = usedPrep ? '#10b981' : (usedWord ? '#f59e0b' : 'var(--border-mid)');
+      return `<span title="${item.mm}" style="padding:4px 10px; border-radius:99px; border:1px solid ${border}; background:${bg}; color:${fg}; font-size:0.75rem; font-weight:600; transition:all 0.2s ease;">
+        ${usedPrep ? '✅ Mastered (100% Collocation!): ' : (usedWord ? '⚡ Used (Add "' + item.prep + '"): ' : '⏳ Due: ')}
+        ${item.word} + <em>${item.prep}</em>
+      </span>`;
+    }).join('');
+  }
+
+  renderBountyPills(editor.value || '');
+  editor.addEventListener('input', (e) => renderBountyPills(e.target.value));
+}
+
+// Active Collocation Cloze Gate State & Functions
+let pendingClozeWordId = null;
+
+function openClozeGateModal(wordId) {
+  const item = VOCAB_DATA.find(v => v.id === wordId);
+  if (!item) {
+    rateWordSRS(wordId, 7, true);
+    return;
+  }
+  pendingClozeWordId = wordId;
+  const modal = document.getElementById('clozeGateModal');
+  const promptEl = document.getElementById('clozeGatePrompt');
+  const inputEl = document.getElementById('clozeGateInput');
+  const feedbackEl = document.getElementById('clozeGateFeedback');
+  if (!modal || !promptEl || !inputEl) return;
+
+  // Find challenge or generate from item.collocation
+  const custom = COLLOCATION_CHALLENGES.find(c => c.word.toLowerCase() === item.word.toLowerCase());
+  if (custom) {
+    promptEl.innerHTML = `<strong>Challenge:</strong> "${custom.sentence}"<br><span class="burmese" style="font-size:0.78rem; opacity:0.8;">အဓိပ္ပာယ်: ${custom.mm}</span>`;
+  } else {
+    promptEl.innerHTML = `<strong>Word:</strong> ${item.word} (${item.pos})<br><strong>Collocation Context:</strong> <em>${item.collocation}</em><br><span class="burmese" style="font-size:0.78rem; opacity:0.8;">${item.mmMeaning}</span>`;
+  }
+
+  inputEl.value = '';
+  if (feedbackEl) feedbackEl.innerHTML = '';
+  modal.style.display = 'flex';
+  setTimeout(() => inputEl.focus(), 100);
+}
+
+function closeClozeGateModal() {
+  const modal = document.getElementById('clozeGateModal');
+  if (modal) modal.style.display = 'none';
+  pendingClozeWordId = null;
+}
+
+function verifyClozeGate() {
+  if (!pendingClozeWordId) return;
+  const item = VOCAB_DATA.find(v => v.id === pendingClozeWordId);
+  const inputEl = document.getElementById('clozeGateInput');
+  const feedbackEl = document.getElementById('clozeGateFeedback');
+  if (!item || !inputEl) return;
+
+  const userVal = inputEl.value.trim().toLowerCase();
+  const wordClean = item.word.trim().toLowerCase();
+  const custom = COLLOCATION_CHALLENGES.find(c => c.word.toLowerCase() === wordClean);
+  
+  let isCorrect = false;
+  if (custom) {
+    const required = `${custom.word} ${custom.prep}`.toLowerCase();
+    isCorrect = userVal === required || (userVal.includes(custom.word) && userVal.includes(custom.prep));
+  } else {
+    isCorrect = userVal.includes(wordClean) || userVal === wordClean;
+  }
+
+  if (isCorrect) {
+    if (feedbackEl) {
+      feedbackEl.innerHTML = '<span style="color:#10b981; font-weight:700;">✓ 100% Rule Verified! Unlocking 7-Day Mastery...</span>';
+    }
+    setTimeout(() => {
+      rateWordSRS(pendingClozeWordId, 7, true);
+      closeClozeGateModal();
+    }, 700);
+  } else {
+    if (feedbackEl) {
+      const hint = custom ? `Expected: "${custom.word} ${custom.prep}"` : `Type the word "${item.word}"`;
+      feedbackEl.innerHTML = `<span style="color:#ef4444; font-weight:600;">Incorrect. ${hint}. Try again or skip.</span>`;
+    }
+  }
+}
+
+function bypassClozeGate() {
+  if (pendingClozeWordId) {
+    rateWordSRS(pendingClozeWordId, 3, true);
+  }
+  closeClozeGateModal();
+}
+
 window.addEventListener("DOMContentLoaded", () => {
+  initIeltsTrapLinter();
+  initReadingProtocols();
+  initActiveLexiconBounty();
+
   initBgCanvas();
   animateBgCanvas();
   loadAppState();
@@ -5074,5 +5456,31 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+
+  <!-- Tab 4 Upgrade: Active Collocation Cloze Gate Modal (Lexicon 2.0) -->
+  <div id="clozeGateModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeClozeGateModal()">
+    <div class="modal-card" style="max-width:480px; width:92%; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:18px; box-sizing:border-box;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div style="font-weight:700; font-size:0.95rem; color:var(--text); display:flex; align-items:center; gap:6px;">
+          <span>🔒</span> Active Collocation Cloze Gate <span class="occ-ver-pill" style="font-size:0.65rem;">100% Rule</span>
+        </div>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="closeClozeGateModal()">✕</button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.45;">
+        To unlock <strong>7-Day Mastery</strong>, prove your active recall by typing the target word and its required collocation / preposition:
+      </p>
+      <div id="clozeGatePrompt" style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:4px; font-family:monospace; font-size:0.85rem; margin-bottom:12px; color:var(--text);"></div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); display:block; margin-bottom:4px;">TYPE TARGET WORD &amp; PREPOSITION:</label>
+        <input type="text" id="clozeGateInput" class="occ-input" style="width:100%; font-size:0.9rem;" placeholder="e.g. substantiate with" onkeydown="if(event.key==='Enter') verifyClozeGate()">
+      </div>
+      <div id="clozeGateFeedback" style="font-size:0.8rem; margin-bottom:12px; min-height:18px;"></div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn-outlined" onclick="bypassClozeGate()" style="font-size:0.78rem;">Skip Gate (Rate 3d)</button>
+        <button class="btn-accent-solid" onclick="verifyClozeGate()" style="font-size:0.78rem;">Verify &amp; Master 7d ✓</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
