@@ -103,12 +103,6 @@ service cloud.firestore {
       return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
     }
 
-    // Validate string length bounds
-    function validStringLength(field, minLen, maxLen) {
-      return request.resource.data[field] is string &&
-        request.resource.data[field].size() >= minLen &&
-        request.resource.data[field].size() <= maxLen;
-    }
 
     // Validate optional string length if present
     function isValidOptionalString(field, minLen, maxLen) {
@@ -184,7 +178,14 @@ service cloud.firestore {
         data.userProfile is map &&
         'voucherCode' in data.userProfile &&
         data.userProfile.voucherCode in [
-          'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE'
+          // Campaign & Partners
+          'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE',
+          // Batch 1: Lifetime Studio Pass
+          'IPS-LIFE-901', 'IPS-LIFE-902', 'IPS-LIFE-903', 'IPS-LIFE-904', 'IPS-LIFE-905', 'IPS-LIFE-906', 'IPS-LIFE-907', 'IPS-LIFE-908', 'IPS-LIFE-909', 'IPS-LIFE-910',
+          // Batch 1: 30-Day Intensive Pass
+          'IPS-INT-301', 'IPS-INT-302', 'IPS-INT-303', 'IPS-INT-304', 'IPS-INT-305', 'IPS-INT-306', 'IPS-INT-307', 'IPS-INT-308', 'IPS-INT-309', 'IPS-INT-310',
+          // Batch 1: 7-Day Sprint Pass
+          'IPS-SPRINT-101', 'IPS-SPRINT-102', 'IPS-SPRINT-103', 'IPS-SPRINT-104', 'IPS-SPRINT-105', 'IPS-SPRINT-106', 'IPS-SPRINT-107', 'IPS-SPRINT-108', 'IPS-SPRINT-109', 'IPS-SPRINT-110'
         ];
     }
 

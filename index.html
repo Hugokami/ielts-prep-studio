@@ -1971,7 +1971,7 @@
         <span id="themeLabel">Light ↗</span>
       </button>
       <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
-        ⭐ <span id="vipBtnText">VIP Pass ($7)</span>
+        ⭐ <span id="vipBtnText">VIP Pass (25,000 MMK)</span>
       </button>
       <div class="auth-widget-box" id="authWidgetBox">
         <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Sign in with Google">
@@ -3397,17 +3397,54 @@ const UPGRADE_RULES = [
 // FREEMIUM USAGE METER & VIP PASS ENGINE (ENGNOVATE MODEL)
 // ==========================================
 const VIP_PASS_PLANS = {
-  sprint: { name: "7-Day Sprint Pass", price: "$7", mmk: "25,000 MMK", days: 7 },
-  intensive: { name: "30-Day Intensive Pass", price: "$15", mmk: "55,000 MMK", days: 30 },
-  lifetime: { name: "Lifetime Studio Pass", price: "$29", mmk: "99,000 MMK", days: "lifetime" }
+  sprint: { name: "7-Day Sprint Pass", priceMmk: "25,000 MMK", days: 7 },
+  intensive: { name: "30-Day Intensive Pass", priceMmk: "55,000 MMK", days: 30 },
+  lifetime: { name: "Lifetime Studio Pass", priceMmk: "99,000 MMK", days: "lifetime" }
 };
 
 const VALID_VOUCHER_CODES = {
+  // Campaign & Partner Codes
   "VIPPASS2026": { plan: "intensive", name: "30-Day Intensive Pass" },
   "BAND9VIP": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "SCHOLAR9": { plan: "sprint", name: "7-Day Sprint Pass" },
   "BURMA2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "ENGNOVATE": { plan: "intensive", name: "30-Day Intensive Pass" }
+  "ENGNOVATE": { plan: "intensive", name: "30-Day Intensive Pass" },
+
+  // Batch 1: Lifetime Studio Pass (99,000 MMK)
+  "IPS-LIFE-901": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-902": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-903": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-904": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-905": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-906": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-907": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-908": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-909": { plan: "lifetime", name: "Lifetime Studio Pass" },
+  "IPS-LIFE-910": { plan: "lifetime", name: "Lifetime Studio Pass" },
+
+  // Batch 1: 30-Day Intensive Pass (55,000 MMK)
+  "IPS-INT-301": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-302": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-303": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-304": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-305": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-306": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-307": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-308": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-309": { plan: "intensive", name: "30-Day Intensive Pass" },
+  "IPS-INT-310": { plan: "intensive", name: "30-Day Intensive Pass" },
+
+  // Batch 1: 7-Day Sprint Pass (25,000 MMK)
+  "IPS-SPRINT-101": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-102": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-103": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-104": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-105": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-106": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-107": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-108": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-109": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-110": { plan: "sprint", name: "7-Day Sprint Pass" }
 };
 
 const SPEAKING_FREE_MONTHLY_LIMIT = 2;
@@ -3564,7 +3601,7 @@ function openVipCheckout(planType) {
   const mmk = document.getElementById("checkoutMmkAmount");
   if (step) {
     step.style.display = "block";
-    if (title) title.textContent = `${plan.name} — $${plan.priceUsd} (${plan.priceMmk})`;
+    if (title) title.textContent = `${plan.name} — ${plan.priceMmk}`;
     if (mmk) mmk.textContent = plan.priceMmk;
     step.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
@@ -3679,7 +3716,7 @@ function updateAuthUI() {
       }
     } else {
       vipBtn.classList.remove("vip-active");
-      vipText.textContent = "⭐ VIP Pass ($7)";
+      vipText.textContent = "⭐ VIP Pass (25,000 MMK)";
     }
   }
 
@@ -6342,8 +6379,8 @@ window.addEventListener("DOMContentLoaded", () => {
         <div class="vip-pricing-card">
           <div>
             <div class="vip-price-title">7-Day Sprint</div>
-            <div class="vip-price-amount">$7</div>
-            <div class="vip-price-mmk">~25,000 MMK • 1-Week Access</div>
+            <div class="vip-price-amount">25,000 MMK</div>
+            <div class="vip-price-mmk">1-Week Full Studio Access</div>
             <ul class="vip-feature-list">
               <li>✓ <strong>All 8 Reading CBTs</strong> (Passages 1–8)</li>
               <li>✓ <strong>All 13 Band 8.5 Models</strong> (Burmese notes)</li>
@@ -6352,7 +6389,7 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Firebase Cloud Sync</strong> across devices</li>
             </ul>
           </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('sprint')">Get 7-Day Pass ($7)</button>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('sprint')">Get 7-Day Pass (25,000 MMK)</button>
         </div>
 
         <!-- 30-Day Intensive Pass -->
@@ -6360,8 +6397,8 @@ window.addEventListener("DOMContentLoaded", () => {
           <div class="popular-badge">Most Popular</div>
           <div>
             <div class="vip-price-title">30-Day Intensive</div>
-            <div class="vip-price-amount">$15</div>
-            <div class="vip-price-mmk">~55,000 MMK • Complete 1 Month</div>
+            <div class="vip-price-amount">55,000 MMK</div>
+            <div class="vip-price-mmk">Complete 1-Month Exam Prep</div>
             <ul class="vip-feature-list">
               <li>✓ <strong>Full 650 Band 8.5 Lexicon</strong></li>
               <li>✓ <strong>1-3-7 Day SRS Queue</strong> &amp; Cloze Gates</li>
@@ -6371,15 +6408,15 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Priority Cloud Sync</strong></li>
             </ul>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="openVipCheckout('intensive')">Get 30-Day Pass ($15)</button>
+          <button class="btn-accent-solid" style="width:100%; font-weight:700;" onclick="openVipCheckout('intensive')">Get 30-Day Pass (55,000 MMK)</button>
         </div>
 
         <!-- Lifetime Pass -->
         <div class="vip-pricing-card">
           <div>
             <div class="vip-price-title">Lifetime Studio</div>
-            <div class="vip-price-amount">$29</div>
-            <div class="vip-price-mmk">~99,000 MMK • Pay Once, Forever</div>
+            <div class="vip-price-amount">99,000 MMK</div>
+            <div class="vip-price-mmk">Pay Once, Lifetime Studio Access</div>
             <ul class="vip-feature-list">
               <li>✓ <strong>Forever VIP Access</strong> (Zero Expiry)</li>
               <li>✓ <strong>All Future Cambridge Mocks</strong></li>
@@ -6388,7 +6425,7 @@ window.addEventListener("DOMContentLoaded", () => {
               <li>✓ <strong>Unlimited Everything</strong></li>
             </ul>
           </div>
-          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('lifetime')">Get Lifetime Pass ($29)</button>
+          <button class="btn-outlined" style="width:100%; font-weight:700;" onclick="openVipCheckout('lifetime')">Get Lifetime Pass (99,000 MMK)</button>
         </div>
       </div>
 
@@ -6402,39 +6439,23 @@ window.addEventListener("DOMContentLoaded", () => {
           <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="closeVipCheckout()">← Change Plan</button>
         </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin-bottom:14px;">
-          <!-- Payment Option A: Myanmar KBZPay / WavePay -->
-          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:14px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-              <span style="font-size:1.1rem;">🇲🇲</span>
-              <strong style="font-size:0.86rem; color:var(--text);">Myanmar Local Pay (KBZPay / WavePay)</strong>
+        <div style="margin-bottom:14px;">
+          <!-- Payment Option: Myanmar KBZPay / WavePay -->
+          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+              <span style="font-size:1.2rem;">🇲🇲</span>
+              <strong style="font-size:0.92rem; color:var(--text);">Myanmar Local Mobile Wallets (KBZPay / WavePay)</strong>
             </div>
-            <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.45;">
-              Account: <strong>IELTS Studio Academy</strong><br>
-              KBZPay / WavePay Phone: <code style="font-size:0.85rem; color:var(--accent); font-weight:700;">09-770 123 456</code><br>
-              Amount to transfer: <strong id="checkoutMmkAmount" style="color:var(--accent);">25,000 MMK</strong>
+            <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.55;">
+              Account Name: <strong>Lyan Htet</strong><br>
+              KBZPay / WavePay Phone: <code style="font-size:0.92rem; color:var(--accent); font-weight:700;">09-768691939</code><br>
+              Amount to transfer: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.92rem;">25,000 MMK</strong>
             </div>
-            <div class="burmese" style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">
-              ငွေလွှဲပြီးပါက transaction screenshot ကို Telegram သို့ ပို့ပေးပြီး ချက်ချင်း Voucher Code ရယူနိုင်ပါသည်။
+            <div class="burmese" style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
+              ငွေလွှဲပြီးပါက transaction screenshot ကို Telegram သို့ ပို့ပေးပြီး ချက်ချင်း VIP Voucher Code ရယူနိုင်ပါသည်။
             </div>
-            <a href="https://t.me/IELTSStudioVIP" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; gap:6px; font-size:0.78rem; text-decoration:none; padding:6px 12px;">
-              💬 Send Receipt on Telegram (@IELTSStudioVIP) ↗
-            </a>
-          </div>
-
-          <!-- Payment Option B: International Card -->
-          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <span style="font-size:1.1rem;">💳</span>
-                <strong style="font-size:0.86rem; color:var(--text);">Credit / Debit Card (International)</strong>
-              </div>
-              <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.45;">
-                Instant international card checkout via Stripe / LemonSqueezy. Receive your digital license voucher automatically.
-              </p>
-            </div>
-            <a href="https://buy.stripe.com/test_ieltsstudio" target="_blank" rel="noopener" class="btn-outlined" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.78rem; text-decoration:none; padding:6px 12px; color:var(--accent); border-color:var(--accent);">
-              💳 Pay by Card Online (Instant Voucher) ↗
+            <a href="https://t.me/hyuguo" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; text-decoration:none; padding:8px 16px;">
+              💬 Send Receipt on Telegram (@hyuguo) ↗
             </a>
           </div>
         </div>
@@ -6509,14 +6530,6 @@ window.addEventListener("DOMContentLoaded", () => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <!-- Developer & Evaluator Instant Toggle Switch -->
-      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:12px; margin-top:10px;">
-        <span style="font-size:0.75rem; color:var(--text-muted);">Developer Sandbox Switch:</span>
-        <button class="btn-outlined" onclick="toggleVipTestingStatus()" style="font-size:0.75rem; padding:3px 8px; border-color:var(--accent); color:var(--accent);">
-          ⚡ Toggle VIP Status Instantly (Testing Mode)
-        </button>
       </div>
     </div>
   </div>
