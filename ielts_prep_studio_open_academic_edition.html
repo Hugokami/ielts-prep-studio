@@ -3427,13 +3427,13 @@
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
-            <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;">✨ AI Examiner Grade (Gemini 3.8 Flash)</button>
-            <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()">🔍 Full CEFR &amp; Trap Audit (2 Free/Mo)</button>
+            <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;">✨ AI Examiner Grade (Gemini 3.5 Flash)</button>
+            <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()">🔍 Full CEFR &amp; Trap Audit (5 Free/Mo)</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
 
-          <!-- Google Gemini 3.8 Flash Examiner Evaluation Container -->
+          <!-- Google Gemini 3.5 Flash Examiner Evaluation Container -->
           <div id="geminiAuditResult" style="display:none; margin-top:14px; padding:16px; background:var(--bg); border:1px solid var(--accent); border-radius:6px; box-sizing:border-box;"></div>
 
           <div style="margin-top:14px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:3px;">
@@ -3715,6 +3715,10 @@ const VALID_VOUCHER_CODES = {
 
 const SPEAKING_FREE_MONTHLY_LIMIT = 10;
 const WRITING_FREE_MONTHLY_LIMIT = 5;
+const WRITING_VIP_MONTHLY_LIMIT = 60; // Fair-Use Cap: 2 full essays every single day
+const GEMINI_COOLDOWN_MS = 30000; // 30-second client-side rate-limit & spam shield
+let lastGeminiCallTimestamp = 0;
+let geminiCooldownTimer = null;
 const PARAPHRASE_FREE_DAILY_LIMIT = 3;
 const LEXICON_FREE_LIMIT = 250;
 const READING_FREE_LIMIT = 3;
@@ -3829,19 +3833,19 @@ function recordSpeakingEvaluationUsage() {
 
 function canUseWritingCheck() {
   ensureUserProfileInitialized();
-  if (isVipActive()) {
-    return { allowed: true, remaining: "Unlimited", used: (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.writingChecks) || 0 };
-  }
+  const isVip = isVipActive();
+  const limit = isVip ? WRITING_VIP_MONTHLY_LIMIT : WRITING_FREE_MONTHLY_LIMIT;
   const used = (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.writingChecks) || 0;
   return {
-    allowed: used < WRITING_FREE_MONTHLY_LIMIT,
-    remaining: Math.max(0, WRITING_FREE_MONTHLY_LIMIT - used),
-    used
+    allowed: used < limit,
+    remaining: Math.max(0, limit - used),
+    used,
+    limit,
+    isVip
   };
 }
 
 function recordWritingCheckUsage() {
-  if (isVipActive()) return;
   ensureUserProfileInitialized();
   appState.userProfile.monthlyUsage.writingChecks = (appState.userProfile.monthlyUsage.writingChecks || 0) + 1;
   saveAppState();
@@ -4088,8 +4092,8 @@ function updateAuthUI() {
             <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? 'Unlimited' : `${spkQuota.used} / ${SPEAKING_FREE_MONTHLY_LIMIT} mo`}</span>
           </div>
           <div class="usage-meter-row">
-            <span style="color:var(--text-secondary);">Writing CEFR Checks:</span>
-            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? 'Unlimited' : `${wrtQuota.used} / ${WRITING_FREE_MONTHLY_LIMIT} mo`}</span>
+            <span style="color:var(--text-secondary);">Writing AI &amp; CEFR Checks:</span>
+            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? `${wrtQuota.used} / ${WRITING_VIP_MONTHLY_LIMIT} mo (Fair-Use)` : `${wrtQuota.used} / ${WRITING_FREE_MONTHLY_LIMIT} mo`}</span>
           </div>
           <div class="usage-meter-row">
             <span style="color:var(--text-secondary);">Daily Paraphrase Drill:</span>
@@ -6149,15 +6153,19 @@ function runManualWritingAudit() {
     return;
   }
   const quota = canUseWritingCheck();
-  if (!isVipActive() && !quota.allowed) {
-    if (confirm(`You have used your ${WRITING_FREE_MONTHLY_LIMIT} free monthly CEFR & Trap Audits.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited live audits, AI grading, and all 13 Band 8.5 models! Would you like to view VIP options?`)) {
-      openVipPassModal();
+  if (!quota.allowed) {
+    if (isVipActive()) {
+      alert(`You have reached your Fair-Use allocation of ${WRITING_VIP_MONTHLY_LIMIT} writing checks this month (2 full essays every day).\n\nYour allocation automatically resets on the 1st of next month.`);
+    } else {
+      if (confirm(`You have used your ${WRITING_FREE_MONTHLY_LIMIT} free monthly CEFR & Trap Audits.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
+        openVipPassModal();
+      }
     }
     return;
   }
   recordWritingCheckUsage();
   runLiveWritingDiagnostics();
-  const remaining = isVipActive() ? "Unlimited" : (canUseWritingCheck().remaining + " remaining this month");
+  const remaining = isVipActive() ? `${canUseWritingCheck().remaining} left this month (Fair-Use)` : `${canUseWritingCheck().remaining} remaining this month`;
   showStudioNotification(`🔍 Full CEFR & Trap Audit Complete! (${remaining})`);
 }
 
@@ -6285,6 +6293,29 @@ function syncSlidersFromGeminiText(text) {
   } catch (e) {}
 }
 
+function startGeminiButtonCooldown() {
+  const btn = document.getElementById("geminiEssayGradeBtn");
+  if (!btn) return;
+  if (geminiCooldownTimer) clearInterval(geminiCooldownTimer);
+  btn.disabled = true;
+
+  const updateCooldownText = () => {
+    const elapsed = Date.now() - lastGeminiCallTimestamp;
+    const remaining = Math.ceil((GEMINI_COOLDOWN_MS - elapsed) / 1000);
+    if (remaining <= 0) {
+      clearInterval(geminiCooldownTimer);
+      geminiCooldownTimer = null;
+      btn.disabled = false;
+      btn.innerHTML = `✨ AI Examiner Grade (Gemini 3.5 Flash)`;
+    } else {
+      btn.innerHTML = `⏳ Rate Shield (${remaining}s)`;
+    }
+  };
+
+  updateCooldownText();
+  geminiCooldownTimer = setInterval(updateCooldownText, 1000);
+}
+
 async function gradeEssayWithGemini() {
   const text = document.getElementById("essayArea")?.value || "";
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -6293,10 +6324,22 @@ async function gradeEssayWithGemini() {
     return;
   }
 
+  // Rate Shield Check (30s cooldown between AI calls)
+  const timeSinceLast = Date.now() - lastGeminiCallTimestamp;
+  if (timeSinceLast < GEMINI_COOLDOWN_MS) {
+    const secLeft = Math.ceil((GEMINI_COOLDOWN_MS - timeSinceLast) / 1000);
+    showStudioNotification(`⏳ Rate-Limit Shield: Please wait ${secLeft}s before requesting another AI evaluation.`);
+    return;
+  }
+
   const quota = canUseWritingCheck();
-  if (!isVipActive() && !quota.allowed) {
-    if (confirm(`You have completed your ${WRITING_FREE_MONTHLY_LIMIT} free monthly writing evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited AI Examiner grading with Google Gemini! Would you like to view VIP options?`)) {
-      openVipPassModal();
+  if (!quota.allowed) {
+    if (isVipActive()) {
+      alert(`You have reached your Fair-Use allocation of ${WRITING_VIP_MONTHLY_LIMIT} writing evaluations this month (2 full essays every single day).\n\nYour allocation automatically resets on the 1st of next month.`);
+    } else {
+      if (confirm(`You have completed your ${WRITING_FREE_MONTHLY_LIMIT} free monthly writing evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
+        openVipPassModal();
+      }
     }
     return;
   }
@@ -6308,7 +6351,6 @@ async function gradeEssayWithGemini() {
   const resultBox = document.getElementById("geminiAuditResult");
   if (!resultBox) return;
 
-  const originalBtnText = btn ? btn.innerHTML : "";
   if (btn) {
     btn.disabled = true;
     btn.innerHTML = `⏳ Analyzing with Gemini 3.5 Flash...`;
@@ -6399,10 +6441,8 @@ Please provide your evaluation in this exact structured format:
       </div>
     `;
   } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = originalBtnText;
-    }
+    lastGeminiCallTimestamp = Date.now();
+    startGeminiButtonCooldown();
   }
 }
 
@@ -7206,7 +7246,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">55,000 MMK (Once)</span>
           </div>
           <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
-            <li><strong>Unlimited Gemini AI Examiner</strong> checks (3-second turnaround)</li>
+            <li><strong>60 Gemini AI Examiner Evaluations / Mo</strong> (2 full essays every day • 3-second turnaround)</li>
             <li>Full 4 Cambridge criteria (TA, CC, LR, GRA) + Band 9.0 rewrites</li>
             <li>All 8 Cambridge Reading CBTs + Burmese proof citations</li>
             <li>All 13 Band 8.5 Writing models + structural essay skeletons</li>
@@ -7222,7 +7262,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
             <div>
               <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Everything Unlocked Forever</div>
-              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time payment for unlimited lifetime access across all 7 study modules, official Cambridge CBT mocks &amp; Google Gemini AI examiner evaluations.</div>
+              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time payment for lifetime access across all 7 study modules, official Cambridge CBT mocks &amp; 60 monthly Google Gemini AI examiner evaluations (Fair-Use).</div>
             </div>
             <div style="text-align:right;">
               <div class="vip-price-amount" style="font-size:1.85rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
@@ -7242,7 +7282,7 @@ window.addEventListener("DOMContentLoaded", async () => {
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 13 Band 8.5 Writing Models</strong> &amp; Structural Skeletons</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Unlimited Gemini AI Evaluations</strong> (TA, CC, LR, GRA)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>60 Gemini AI Examiner Evaluations / Month</strong> (2 Full Essays Daily • Fair-Use)</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 5 Speaking Frameworks</strong> &amp; Band 9 Candidate Audio</span>
@@ -7331,7 +7371,7 @@ window.addEventListener("DOMContentLoaded", async () => {
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
                 <td style="padding:6px;">Models 1, 2 &amp; 3 + 5 AI Audits/mo</td>
-                <td style="padding:6px; color:var(--accent);">All 13 Models + Unlimited Gemini AI Audits</td>
+                <td style="padding:6px; color:var(--accent);">All 13 Models + 60 Gemini AI Audits/mo (2 Essays/Day Fair-Use)</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
