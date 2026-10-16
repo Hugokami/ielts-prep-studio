@@ -231,6 +231,16 @@ window.loadUserDataFromCloud = async function() {
         renderLexiconGrid();
       }
       showToast("☁️ Cloud progress restored!");
+    } else {
+      // New cloud profile: enforce clean free tier defaults and purge any unverified local tampering
+      if (!appState.userProfile) appState.userProfile = {};
+      appState.userProfile.tier = "free";
+      appState.userProfile.vipExpiresAt = null;
+      appState.userProfile.voucherCode = null;
+      saveAppState();
+      if (typeof refreshAllVipViews === "function") {
+        refreshAllVipViews();
+      }
     }
   } catch (err) {
     console.error("[Firestore Load Error]:", err);

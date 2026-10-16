@@ -3638,6 +3638,28 @@ async function loadStudioData() {
     if (typeof window !== "undefined" && window.location.protocol === "file:") {
       showLocalFileProtocolWarning();
     }
+    // Emergency offline / network fallback seed so components initialize safely
+    if (!VOCAB_DATA || VOCAB_DATA.length === 0) {
+      VOCAB_DATA = [
+        { id: "v1", word: "ubiquitous", band: "Band 8.5", variety: "C2 Academic Adjective", category: "Technology", basic: "common", collocation: "ubiquitous computing", synonyms: ["omnipresent", "pervasive"], pos: "adj", mmMeaning: "နေရာအနှံ့ တွေ့ရသော", mmNote: "နည်းပညာနှင့် ခေတ်ရေစီးကြောင်းများအတွက် သုံးသည်", exEn: "Smartphones have become ubiquitous in modern society.", exMm: "ခေတ်သစ်လူ့ဘောင်တွင် စမတ်ဖုန်းများသည် နေရာအနှံ့ ရှိနေပြီဖြစ်သည်။" },
+        { id: "v2", word: "exacerbate", band: "Band 8.5", variety: "Band 8+ Academic Verb", category: "Society", basic: "worsen", collocation: "exacerbate the problem", synonyms: ["aggravate", "compound"], pos: "verb", mmMeaning: "ပိုမိုဆိုးရွားစေသည်", mmNote: "ပြဿနာများနှင့် ရောဂါများ ပိုဆိုးလာရာတွင် သုံးသည်", exEn: "Pollution exacerbates respiratory illnesses.", exMm: "လေထုညစ်ညမ်းမှုသည် အသက်ရှူလမ်းကြောင်းဆိုင်ရာ ရောဂါများကို ပိုမိုဆိုးရွားစေသည်။" }
+      ];
+    }
+    if (!READING_MOCKS || READING_MOCKS.length === 0) {
+      READING_MOCKS = [
+        { id: "rm1", code: "RM-01", title: "Urban Reforestation & Microclimate Control", category: "Environment", difficulty: "Medium", questionTypes: "TRUE/FALSE/NOT GIVEN", paragraphs: [{ label: "A", text: "Urban forests mitigate heat islands...", mmSummary: "သစ်တောစိုက်ပျိုးခြင်းသည် မြို့ပြအပူချိန်ကို လျှော့ချပေးသည်။" }], questions: [{ q: "Urban trees reduce street temperatures.", type: "TFNG", options: ["TRUE", "FALSE", "NOT GIVEN"], ans: "TRUE", expEn: "Paragraph A states trees mitigate heat.", expMm: "စာပိုဒ် A အရ အပူချိန်ကို လျှော့ချပေးသည်။" }] }
+      ];
+    }
+    if (!WRITING_MOCKS || WRITING_MOCKS.length === 0) {
+      WRITING_MOCKS = [
+        { id: "wm1", code: "T2-OP-01", title: "Artificial Intelligence in Higher Education", type: "Task 2 Opinion", promptEn: "Some believe AI will replace university lecturers. To what extent do you agree or disagree?", promptMm: "အချို့က AI သည် တက္ကသိုလ်ဆရာများကို အစားထိုးလိမ့်မည်ဟု ယုံကြည်ကြသည်။ သင်မည်မျှ သဘောတူသနည်း။", outline: "Intro: Paraphrase & Disagree. Body 1: Emotional guidance. Body 2: Critical thinking. Conclusion: AI is an assistant.", template: "It is often argued that artificial intelligence will supplant educators...", modelEssay: "<p>It is often argued that artificial intelligence will supplant educators...</p>", modelMm: "နိဒါန်းတွင် မိမိရပ်တည်ချက်ကို ရှင်းလင်းစွာ ဖော်ပြပါ။", vocab: ["supplant", "pedagogical", "empathy"] }
+      ];
+    }
+    if (!SPEAKING_FRAMEWORKS || SPEAKING_FRAMEWORKS.length === 0) {
+      SPEAKING_FRAMEWORKS = [
+        { code: "FW-01", name: "AREA Framework", subtitle: "Opinion & General Questions", whenToUse: "Part 1 & Part 3 Questions", mmOverview: "အမြင်နှင့် အထွေထွေ မေးခွန်းများအတွက် အခြေခံအကျဆုံး framework ဖြစ်သည်။", exampleQ: "Do you enjoy cooking?", exampleBreakdown: [{ step: "A", text: "Yes, I really enjoy cooking.", mm: "ဟုတ်ကဲ့၊ ကျွန်တော် ချက်ပြုတ်ရတာ အရမ်းကြိုက်ပါတယ်။" }], steps: [{ letter: "A", title: "Answer", desc: "Direct answer", mm: "တိုက်ရိုက်ဖြေပါ" }], practicePrompts: ["Do you prefer reading books or watching movies?"] }
+      ];
+    }
     return false;
   }
 }
@@ -3717,7 +3739,19 @@ const SPEAKING_FREE_MONTHLY_LIMIT = 10;
 const WRITING_FREE_MONTHLY_LIMIT = 5;
 const WRITING_VIP_MONTHLY_LIMIT = 60; // Fair-Use Cap: 2 full essays every single day
 const GEMINI_COOLDOWN_MS = 30000; // 30-second client-side rate-limit & spam shield
-let lastGeminiCallTimestamp = 0;
+function getLastGeminiTimestamp() {
+  try {
+    const val = sessionStorage.getItem("ielts_last_gemini_call");
+    return val ? parseInt(val, 10) || 0 : 0;
+  } catch (e) {
+    return 0;
+  }
+}
+function setLastGeminiTimestamp(ts) {
+  try {
+    sessionStorage.setItem("ielts_last_gemini_call", String(ts));
+  } catch (e) {}
+}
 let geminiCooldownTimer = null;
 const PARAPHRASE_FREE_DAILY_LIMIT = 3;
 const LEXICON_FREE_LIMIT = 250;
@@ -4361,13 +4395,27 @@ function animateBgCanvas() {
 function initGraphSelector() {
   const sel = document.getElementById("graphWordSelect");
   if (!sel) return;
-  sel.innerHTML = VOCAB_DATA.map(v => `<option value="${v.id}">${v.word} — ${v.category}</option>`).join("");
+  const pool = getAccessibleLexicon();
+  if (!pool || !pool.length) {
+    sel.innerHTML = `<option value="">Loading vocabulary...</option>`;
+    return;
+  }
+  sel.innerHTML = pool.map(v => `<option value="${v.id}">${v.word} — ${v.category}</option>`).join("");
+  if (!pool.some(v => v.id === appState.activeGraphWordId)) {
+    appState.activeGraphWordId = pool[0].id;
+  }
   sel.value = appState.activeGraphWordId;
   renderConstellation(appState.activeGraphWordId);
 }
 
 function selectGraphWord(id) {
-  
+  const pool = getAccessibleLexicon();
+  if (!pool || !pool.length) return;
+  const existsInPool = pool.some(v => v.id === id);
+  if (!existsInPool && !isVipActive()) {
+    openVipPassModal();
+    return;
+  }
   appState.activeGraphWordId = id;
   const sel = document.getElementById("graphWordSelect");
   if (sel) sel.value = id;
@@ -4375,8 +4423,9 @@ function selectGraphWord(id) {
 }
 
 function randomizeGraphWord() {
-  
-  const item = VOCAB_DATA[Math.floor(Math.random() * VOCAB_DATA.length)];
+  const pool = getAccessibleLexicon();
+  if (!pool || !pool.length) return;
+  const item = pool[Math.floor(Math.random() * pool.length)];
   selectGraphWord(item.id);
 }
 
@@ -4400,7 +4449,21 @@ function switchConstellationView(mode) {
 }
 
 function renderConstellation(wordId) {
-  const center = VOCAB_DATA.find(v => v.id === wordId) || VOCAB_DATA[0];
+  if (!VOCAB_DATA || !VOCAB_DATA.length) {
+    const domEl = document.getElementById("graph-dom-nodes");
+    if (domEl) domEl.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-secondary);">Vocabulary data loading...</div>`;
+    return;
+  }
+  const pool = getAccessibleLexicon();
+  let center = pool.find(v => v.id === wordId);
+  if (!center) {
+    if (isVipActive()) {
+      center = VOCAB_DATA.find(v => v.id === wordId) || VOCAB_DATA[0];
+    } else {
+      center = pool[0];
+    }
+  }
+  if (!center) return;
   appState.currentGraphWordId = center.id;
   const svgEl = document.getElementById("graph-svg-lines");
   const domEl = document.getElementById("graph-dom-nodes");
@@ -5182,6 +5245,20 @@ function renderSpeakingFramework(idx) {
         <div class="occ-body-mm burmese" style="margin-bottom:14px;"><div class="occ-mm-note">${fw.mmOverview}</div></div>
       </div>
     `;
+    const pSelect = document.getElementById("fwPracticePromptSelect");
+    if (pSelect) {
+      pSelect.innerHTML = `<option value="">🔒 Practice Prompts for ${fw.name} locked (VIP)</option>`;
+    }
+    const inputsBox = document.getElementById("fwStepInputs");
+    if (inputsBox) {
+      inputsBox.innerHTML = `
+        <div style="padding:16px; background:var(--bg); border:1px dashed var(--accent); border-radius:6px; text-align:center;">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px;">🔒 Step Scaffolding Builder Locked for ${fw.name}</div>
+          <p style="font-size:0.79rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.45;">Interactive step-by-step oral response synthesis for ${fw.name} is exclusive to Lifetime VIP Pass.</p>
+          <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; padding:6px 14px;">👑 Unlock Full Speaking Suite (55,000 MMK)</button>
+        </div>
+      `;
+    }
     return;
   }
 
@@ -5246,6 +5323,11 @@ function renderSpeakingFramework(idx) {
 }
 
 function speakBuiltFrameworkAnswer() {
+  if (!isVipActive() && activeFwIndex >= SPEAKING_FRAMEWORKS_FREE_LIMIT) {
+    alert("Speech audio generation for this framework is exclusive to Lifetime VIP Pass.");
+    openVipPassModal();
+    return;
+  }
   const fw = SPEAKING_FRAMEWORKS[activeFwIndex];
   const parts = fw.steps.map((_, sIdx) => {
     const el = document.getElementById(`fw_input_${sIdx}`);
@@ -5473,6 +5555,11 @@ function renderAllEssentialsModules() {
   }
 
   function speakSpeakingTopic(idx, part) {
+    if (!isVipActive() && idx >= SPEAKING_TOPICS_FREE_LIMIT) {
+      alert("Authentic Band 9 candidate audio models for Topics 4–50 are exclusive to Lifetime VIP Pass.");
+      openVipPassModal();
+      return;
+    }
     const tb = SPEAKING_TOPIC_BANK_DATA[idx];
     if (!tb) return;
     if (part === 'part2' && tb.part2 && tb.part2.modelScript) {
@@ -5782,10 +5869,17 @@ function logMistakeItem(moduleName, questionPrompt, expectedAnswer, explanationT
 }
 
 function gradeListeningSet(sIdx) {
-  const ls = LISTENING_PRACTICE_DATA.sets[sIdx];
+  if (!isVipActive() && sIdx >= LISTENING_FREE_LIMIT) {
+    alert("Interactive scoring and transcripts for Listening Sets 2–4 are exclusive to Lifetime VIP Pass.");
+    openVipPassModal();
+    return;
+  }
+  const ls = LISTENING_PRACTICE_DATA.sets && LISTENING_PRACTICE_DATA.sets[sIdx];
+  if (!ls || !ls.questions) return;
   ls.questions.forEach((q, qIdx) => {
     const inp = document.getElementById(`ls_in_${sIdx}_${qIdx}`);
     const res = document.getElementById(`ls_res_${sIdx}_${qIdx}`);
+    if (!res) return;
     const val = (inp ? inp.value.trim().toLowerCase() : "");
     const target = q.ans.toLowerCase();
     if (val && (val === target || target.includes(val))) {
@@ -5812,9 +5906,11 @@ function generateDrill(isUserClick = false) {
     }
     return;
   }
-  const sample = [...VOCAB_DATA].sort(() => Math.random() - 0.5).slice(0, 10);
+  const pool = getAccessibleLexicon();
+  if (!pool || !pool.length) return;
+  const sample = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
   currentDrill = sample.map((item, idx) => {
-    const distractors = VOCAB_DATA.filter(v => v.id !== item.id).sort(() => Math.random() - 0.5).slice(0, 3).map(v => v.word);
+    const distractors = pool.filter(v => v.id !== item.id).sort(() => Math.random() - 0.5).slice(0, 3).map(v => v.word);
     const opts = [...distractors, item.word].sort(() => Math.random() - 0.5);
     const blanked = item.exEn.replace(new RegExp(item.word.split(" ")[0], "i"), "________");
     return { idx, item, opts, blanked };
@@ -6171,10 +6267,17 @@ function calculateReadingBand(correctCount, totalQuestions) {
 }
 
 function gradeReading(idx) {
+  if (!isVipActive() && idx >= READING_FREE_LIMIT) {
+    alert("Reading CBT autograding and Burmese evidence for Passages 4–30 are exclusive to Lifetime VIP Pass.");
+    openVipPassModal();
+    return;
+  }
   const m = READING_MOCKS[idx];
+  if (!m || !m.questions) return;
   let c = 0;
   m.questions.forEach((q, qi) => {
     const exp = document.getElementById(`rmq_exp_${qi}`);
+    if (!exp) return;
     const isGap = q.type === "GAP" || !Array.isArray(q.options) || q.options.length === 0;
     let isCorrect = false;
 
@@ -6204,13 +6307,16 @@ function gradeReading(idx) {
 
   const band = calculateReadingBand(c, m.questions.length);
   const scaled40 = Math.round((c / m.questions.length) * 40);
-  document.getElementById("rScoreLabel").innerHTML = `
-    <strong>Score: ${c} / ${m.questions.length}</strong>
-    <span class="occ-ver-pill" style="color:var(--accent); font-weight:800; margin-left:8px;">Projected Band: ${band}</span>
-    <span style="font-size:0.75rem; color:var(--text-muted); display:inline-block; margin-left:6px;">
-      (Scaled ${scaled40}/40 via Cambridge IELTS Academic Reading Scale)
-    </span>
-  `;
+  const scoreLbl = document.getElementById("rScoreLabel");
+  if (scoreLbl) {
+    scoreLbl.innerHTML = `
+      <strong>Score: ${c} / ${m.questions.length}</strong>
+      <span class="occ-ver-pill" style="color:var(--accent); font-weight:800; margin-left:8px;">Projected Band: ${band}</span>
+      <span style="font-size:0.75rem; color:var(--text-muted); display:inline-block; margin-left:6px;">
+        (Scaled ${scaled40}/40 via Cambridge IELTS Academic Reading Scale)
+      </span>
+    `;
+  }
   if (!appState.readingDone.includes(m.id)) {
     appState.readingDone.push(m.id);
   }
@@ -6564,7 +6670,7 @@ function startGeminiButtonCooldown() {
   btn.disabled = true;
 
   const updateCooldownText = () => {
-    const elapsed = Date.now() - lastGeminiCallTimestamp;
+    const elapsed = Date.now() - getLastGeminiTimestamp();
     const remaining = Math.ceil((GEMINI_COOLDOWN_MS - elapsed) / 1000);
     if (remaining <= 0) {
       clearInterval(geminiCooldownTimer);
@@ -6581,6 +6687,13 @@ function startGeminiButtonCooldown() {
 }
 
 async function gradeEssayWithGemini() {
+  // 1. Mandatory Google Authentication Check to prevent anonymous API quota burning
+  if (!window.currentUser || !window.currentUser.uid) {
+    alert("Please sign in with Google (top right) to access the Official Cambridge AI Examiner.\n\nFree accounts receive 5 evaluations per month; VIP Pass holders receive 60 evaluations per month.");
+    if (window.signInWithGoogle) window.signInWithGoogle();
+    return;
+  }
+
   const text = document.getElementById("essayArea")?.value || "";
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
   if (wordCount < 40) {
@@ -6588,8 +6701,8 @@ async function gradeEssayWithGemini() {
     return;
   }
 
-  // Rate Shield Check (30s cooldown between AI calls)
-  const timeSinceLast = Date.now() - lastGeminiCallTimestamp;
+  // Rate Shield Check (30s cooldown between AI calls, persisted across reloads)
+  const timeSinceLast = Date.now() - getLastGeminiTimestamp();
   if (timeSinceLast < GEMINI_COOLDOWN_MS) {
     const secLeft = Math.ceil((GEMINI_COOLDOWN_MS - timeSinceLast) / 1000);
     showStudioNotification(`⏳ Rate-Limit Shield: Please wait ${secLeft}s before requesting another AI evaluation.`);
@@ -6609,7 +6722,8 @@ async function gradeEssayWithGemini() {
   }
 
   const idx = parseInt(document.getElementById("wSelect")?.value || "0", 10) || 0;
-  const w = WRITING_MOCKS[idx] || { code: "Task 2", title: "IELTS Essay", prompt: "IELTS Writing Prompt" };
+  const w = WRITING_MOCKS[idx] || { code: "Task 2", title: "IELTS Essay", promptEn: "IELTS Writing Prompt" };
+  const effectivePrompt = w.promptEn || w.prompt || "Analyze the prompt and provide standard IELTS Academic evaluation.";
 
   const btn = document.getElementById("geminiEssayGradeBtn");
   const resultBox = document.getElementById("geminiAuditResult");
@@ -6636,7 +6750,7 @@ Always format your response in clean markdown with the exact sections requested 
   const userPrompt = `Please evaluate this student response for IELTS Academic Writing:
 TOPIC CODE: ${w.code}
 TOPIC TITLE: ${w.title}
-PROMPT: ${w.prompt}
+PROMPT: ${effectivePrompt}
 
 STUDENT ESSAY (${wordCount} words):
 """
@@ -6705,7 +6819,7 @@ Please provide your evaluation in this exact structured format:
       </div>
     `;
   } finally {
-    lastGeminiCallTimestamp = Date.now();
+    setLastGeminiTimestamp(Date.now());
     startGeminiButtonCooldown();
   }
 }
@@ -6961,61 +7075,95 @@ function renderGlobalSearchResults() {
   }
 
   const hits = [];
+  const isVip = isVipActive();
 
-  VOCAB_DATA.forEach(v => {
+  VOCAB_DATA.forEach((v, vIdx) => {
     if (v.word.toLowerCase().includes(q) || v.mmMeaning.includes(q) || v.synonyms.some(s => s.toLowerCase().includes(q))) {
+      const isLocked = (!isVip && vIdx >= LEXICON_FREE_LIMIT);
       hits.push({
-        type: "LEXICON",
-        title: `${v.word} (${v.band})`,
-        sub: `${v.mmMeaning} · Synonyms: ${v.synonyms.join(", ")}`,
-        action: `closeQuickSearchModal(); jumpToWordInLexicon('${v.word.replace(/'/g, "\\'")}');`
+        type: isLocked ? "LEXICON 🔒 [VIP]" : "LEXICON",
+        title: `${isLocked ? '🔒 ' : ''}${v.word} (${v.band})`,
+        sub: isLocked 
+          ? `${v.mmMeaning} · ${v.variety} · Lifetime VIP Pass required to unlock card & SRS`
+          : `${v.mmMeaning} · Synonyms: ${v.synonyms.join(", ")}`,
+        action: isLocked
+          ? `closeQuickSearchModal(); openVipPassModal();`
+          : `closeQuickSearchModal(); jumpToWordInLexicon('${v.word.replace(/'/g, "\\'")}');`
       });
     }
   });
 
   READING_MOCKS.forEach((rm, idx) => {
     if (rm.title.toLowerCase().includes(q) || rm.category.toLowerCase().includes(q)) {
+      const isLocked = (!isVip && idx >= READING_FREE_LIMIT);
       hits.push({
-        type: "READING MOCK",
-        title: `[${rm.code}] ${rm.title}`,
+        type: isLocked ? "READING MOCK 🔒 [VIP]" : "READING MOCK",
+        title: `${isLocked ? '🔒 ' : ''}[${rm.code}] ${rm.title}`,
         sub: `${rm.category} · ${rm.questionTypes}`,
-        action: `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock();`
+        action: isLocked
+          ? `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock(); openVipPassModal();`
+          : `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock();`
       });
     }
   });
 
   WRITING_MOCKS.forEach((wm, idx) => {
-    if (wm.title.toLowerCase().includes(q) || wm.promptEn.toLowerCase().includes(q)) {
+    if (wm.title.toLowerCase().includes(q) || (wm.promptEn && wm.promptEn.toLowerCase().includes(q))) {
+      const isLocked = (!isVip && idx >= WRITING_MODELS_FREE_LIMIT);
       hits.push({
-        type: "WRITING MOCK",
-        title: `[${wm.code}] ${wm.title}`,
+        type: isLocked ? "WRITING MODEL 🔒 [VIP]" : "WRITING MODEL",
+        title: `${isLocked ? '🔒 ' : ''}[${wm.code}] ${wm.title}`,
         sub: wm.type,
-        action: `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock();`
+        action: isLocked
+          ? `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock(); openVipPassModal();`
+          : `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock();`
       });
     }
   });
 
   SPEAKING_FRAMEWORKS.forEach((fw, idx) => {
     if (fw.name.toLowerCase().includes(q) || fw.subtitle.toLowerCase().includes(q)) {
+      const isLocked = (!isVip && idx >= SPEAKING_FRAMEWORKS_FREE_LIMIT);
       hits.push({
-        type: "SPEAKING FRAMEWORK",
-        title: `${fw.name} — ${fw.subtitle}`,
+        type: isLocked ? "SPEAKING FRAMEWORK 🔒 [VIP]" : "SPEAKING FRAMEWORK",
+        title: `${isLocked ? '🔒 ' : ''}${fw.name} — ${fw.subtitle}`,
         sub: fw.whenToUse,
-        action: `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx});`
+        action: isLocked
+          ? `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx}); openVipPassModal();`
+          : `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx});`
       });
     }
   });
 
   SPEAKING_TOPIC_BANK_DATA.forEach((tb, idx) => {
     if ((tb.topic && tb.topic.toLowerCase().includes(q)) || (tb.category && tb.category.toLowerCase().includes(q)) || (tb.vocab && tb.vocab.some(v => v.toLowerCase().includes(q)))) {
+      const isLocked = (!isVip && idx >= SPEAKING_TOPICS_FREE_LIMIT);
       hits.push({
-        type: "SPEAKING TOPIC",
-        title: tb.topic,
+        type: isLocked ? "SPEAKING TOPIC 🔒 [VIP]" : "SPEAKING TOPIC",
+        title: `${isLocked ? '🔒 ' : ''}${tb.topic}`,
         sub: `${tb.category || "2026 Forecast"} · ${(tb.vocab || []).slice(0, 3).join(", ")}`,
-        action: `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }`
+        action: isLocked
+          ? `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } openVipPassModal();`
+          : `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }`
       });
     }
   });
+
+  if (LISTENING_PRACTICE_DATA && Array.isArray(LISTENING_PRACTICE_DATA.sets)) {
+    LISTENING_PRACTICE_DATA.sets.forEach((ls, idx) => {
+      if (ls.title.toLowerCase().includes(q) || (ls.instruction && ls.instruction.toLowerCase().includes(q))) {
+        const isLocked = (!isVip && idx >= LISTENING_FREE_LIMIT);
+        hits.push({
+          type: isLocked ? "LISTENING DRILL 🔒 [VIP]" : "LISTENING DRILL",
+          title: `${isLocked ? '🔒 ' : ''}${ls.title}`,
+          sub: ls.instruction,
+          action: isLocked
+            ? `closeQuickSearchModal(); switchView('paraphrase'); openVipPassModal();`
+            : `closeQuickSearchModal(); switchView('paraphrase');`
+        });
+      }
+    });
+  }
 
   if (!hits.length) {
     box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">No matches found for "${q}".</div>`;
@@ -7107,6 +7255,8 @@ window.addEventListener("keydown", e => {
     document.getElementById("word-inspector").style.display = "none";
     closeQuickSearchModal();
     closeErrorLogModal();
+    if (typeof closeVipPassModal === "function") closeVipPassModal();
+    if (typeof closeClozeGateModal === "function") closeClozeGateModal();
   } else if (e.altKey && e.key >= "1" && e.key <= "7") {
     const views = ["overview", "playbook", "speaking", "lexicon", "paraphrase", "reading", "writing"];
     switchView(views[parseInt(e.key, 10) - 1]);
@@ -7442,6 +7592,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   initReadingMocks();
   initWritingMocks();
   initSpeakingStudio();
+
+  // Re-hydrate persistent rate-limit shield on reload if within 30s
+  if (Date.now() - getLastGeminiTimestamp() < GEMINI_COOLDOWN_MS) {
+    startGeminiButtonCooldown();
+  }
 
   if (window.initFirebaseServices) {
     window.initFirebaseServices();
