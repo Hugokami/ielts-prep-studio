@@ -35,12 +35,14 @@ window.currentUser = null;
 window.authInitialized = false;
 
 /**
- * Initialize Firebase SDKs if credentials are valid, or fallback to graceful Demo Auth
+ * Initialize Firebase SDKs for Google Authentication and Firestore Cloud Sync
  */
 window.initFirebaseServices = function() {
+  // Purge any legacy demo user from storage
+  try { localStorage.removeItem("ielts_demo_user"); } catch (e) {}
+
   if (typeof firebase === "undefined") {
-    console.log("[Firebase] SDK not loaded from CDN. Running in local sandbox mode.");
-    restoreLocalAuthSession();
+    console.log("[Firebase] SDK not loaded from CDN.");
     return;
   }
 
@@ -56,26 +58,13 @@ window.initFirebaseServices = function() {
         handleAuthState(user);
       });
       console.log("[Firebase] Live Firebase initialized successfully.");
-      return;
     } catch (err) {
-      console.warn("[Firebase] Initialization error, falling back to sandbox mode:", err);
+      console.warn("[Firebase] Initialization error:", err);
     }
   } else {
-    console.log("[Firebase] Placeholder credentials detected. Running in Sandbox / Demo Auth Mode.");
+    console.log("[Firebase] Credentials not configured.");
   }
-
-  restoreLocalAuthSession();
 };
-
-function restoreLocalAuthSession() {
-  try {
-    const saved = localStorage.getItem("ielts_demo_user");
-    if (saved) {
-      window.currentUser = JSON.parse(saved);
-    }
-  } catch (e) {}
-  updateAuthUI();
-}
 
 /**
  * Handle Auth State Change from Firebase
@@ -89,16 +78,25 @@ function handleAuthState(user) {
       photoURL: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "S")}&background=e06c35&color=fff`,
       isAnonymous: user.isAnonymous
     };
-    // Attempt cloud sync on sign in
+    // Load cloud progress and verified VIP status
     loadUserDataFromCloud();
   } else {
     window.currentUser = null;
+    if (typeof appState !== "undefined" && appState.userProfile) {
+      appState.userProfile.tier = "free";
+      appState.userProfile.vipExpiresAt = null;
+      appState.userProfile.voucherCode = null;
+      if (typeof saveAppState === "function") saveAppState();
+    }
+    if (typeof refreshAllVipViews === "function") {
+      refreshAllVipViews();
+    }
   }
   updateAuthUI();
 }
 
 /**
- * Sign in with Google (Popup with Demo Fallback)
+ * Sign in with Google (Popup)
  */
 window.signInWithGoogle = async function() {
   if (typeof firebase !== "undefined" && window.isFirebaseConfigured() && window.firebaseAuthInstance) {
@@ -112,34 +110,16 @@ window.signInWithGoogle = async function() {
       console.error("[Firebase Auth Error]:", error);
       if (error.code === "auth/unauthorized-domain") {
         alert(`Google Sign-In Domain Warning:\n${window.location.hostname} is not in your Firebase Authorized Domains.\nAdd it in Firebase Console > Authentication > Settings > Authorized domains.`);
+      } else if (error.code !== "auth/popup-closed-by-user") {
+        alert(`Google Sign-In error: ${error.message}`);
       }
-      // Offer demo sign-in if real auth fails
-      return promptDemoSignIn(error.message);
+      return null;
     }
   } else {
-    // Sandbox / Demo Google Sign-In
-    return promptDemoSignIn("Running in Sandbox Mode (Add Firebase keys in window.FIREBASE_CONFIG for live auth).");
+    alert("Firebase Auth service is currently connecting. Please ensure internet access and try again.");
+    return null;
   }
 };
-
-function promptDemoSignIn(notice) {
-  const defaultName = "IELTS Scholar";
-  const defaultEmail = "scholar@ieltsstudio.com";
-  const name = prompt(`${notice}\n\nEnter your name to simulate Google Sign-In:`, defaultName) || defaultName;
-  const user = {
-    uid: "demo_" + Date.now(),
-    displayName: name,
-    email: defaultEmail,
-    photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=e06c35&color=fff`,
-    isDemo: true
-  };
-  window.currentUser = user;
-  try {
-    localStorage.setItem("ielts_demo_user", JSON.stringify(user));
-  } catch (e) {}
-  updateAuthUI();
-  return user;
-}
 
 /**
  * Sign out
@@ -151,10 +131,17 @@ window.signOutUser = async function() {
     } catch (e) {}
   }
   window.currentUser = null;
-  try {
-    localStorage.removeItem("ielts_demo_user");
-  } catch (e) {}
+  if (typeof appState !== "undefined" && appState.userProfile) {
+    appState.userProfile.tier = "free";
+    appState.userProfile.vipExpiresAt = null;
+    appState.userProfile.voucherCode = null;
+    if (typeof saveAppState === "function") saveAppState();
+  }
   updateAuthUI();
+  if (typeof refreshAllVipViews === "function") {
+    refreshAllVipViews();
+  }
+  showToast("Signed out. Switched to Free Tier.");
 };
 
 /**
@@ -225,6 +212,10 @@ window.loadUserDataFromCloud = async function() {
           appState.userProfile.tier = "vip";
           appState.userProfile.vipExpiresAt = data.userProfile.vipExpiresAt;
           if (data.userProfile.voucherCode) appState.userProfile.voucherCode = data.userProfile.voucherCode;
+        } else {
+          appState.userProfile.tier = "free";
+          appState.userProfile.vipExpiresAt = null;
+          appState.userProfile.voucherCode = null;
         }
         if (data.userProfile.monthlyUsage) {
           appState.userProfile.monthlyUsage = Object.assign({}, appState.userProfile.monthlyUsage || {}, data.userProfile.monthlyUsage);
