@@ -1440,12 +1440,184 @@
     max-width: 100%;
   }
 
+  /* Mobile CBT Navigation & Anti-Fatigue Ergonomics */
+  .mobile-cbt-toggle-bar {
+    display: none;
+    position: sticky;
+    top: 52px;
+    z-index: 70;
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    border-radius: 6px;
+    padding: 6px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    gap: 8px;
+  }
+
+  .mobile-cbt-tab-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+
+  .mobile-cbt-tab-btn:hover {
+    color: var(--text);
+    border-color: var(--border-accent);
+  }
+
+  .mobile-cbt-tab-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(224, 108, 53, 0.35);
+  }
+
+  .cbt-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    color: inherit;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-family: monospace;
+  }
+
+  .cbt-palette-wrapper {
+    background: var(--bg);
+    border: 1px solid var(--border-accent);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 18px;
+  }
+
+  .cbt-palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .cbt-palette-progress {
+    color: var(--accent);
+    font-family: monospace;
+    font-weight: 800;
+  }
+
+  .cbt-palette-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .cbt-palette-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 34px;
+    padding: 0 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .cbt-palette-chip:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .cbt-palette-chip.answered {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .floating-cbt-switch-btn {
+    display: none;
+    position: fixed;
+    bottom: 74px;
+    right: 18px;
+    z-index: 95;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(224, 108, 53, 0.4);
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .floating-cbt-switch-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  }
+
+  .floating-cbt-switch-btn:active {
+    transform: translateY(0);
+  }
+
+  .q-card-focused {
+    animation: qGlowHighlight 1.5s ease-out;
+  }
+
+  @keyframes qGlowHighlight {
+    0% {
+      box-shadow: 0 0 0 3px var(--accent);
+      border-color: var(--accent);
+    }
+    100% {
+      box-shadow: none;
+    }
+  }
+
   @media (max-width: 1024px) {
     .viz-layout, .cbt-split {
       grid-template-columns: 1fr;
     }
     .cbt-pane {
       max-height: none;
+    }
+    .mobile-cbt-toggle-bar {
+      display: flex;
+    }
+    .floating-cbt-switch-btn {
+      display: inline-flex;
+    }
+    .cbt-split.mobile-view-passage #rQuestionsBox {
+      display: none !important;
+    }
+    .cbt-split.mobile-view-questions #rPassageBox {
+      display: none !important;
     }
   }
 
@@ -3080,10 +3252,29 @@
         <div id="researcher-count-badges" style="display:none; margin-top:12px; font-size:0.8rem; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:4px;"></div>
       </div>
 
-      <div class="cbt-split">
+      <!-- Mobile Dual-Tab Switcher (Reading CBT Anti-Fatigue) -->
+      <div class="mobile-cbt-toggle-bar" id="mobileCbtToggleBar" role="tablist" aria-label="Reading CBT View Mode">
+        <button type="button" class="mobile-cbt-tab-btn active" id="cbtTabPassageBtn" role="tab" aria-selected="true" onclick="setMobileCbtView('passage')">
+          <span class="cbt-tab-icon">📄</span>
+          <span>Reading Passage</span>
+        </button>
+        <button type="button" class="mobile-cbt-tab-btn" id="cbtTabQuestionsBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('questions')">
+          <span class="cbt-tab-icon">📝</span>
+          <span>Questions &amp; Answers</span>
+          <span class="cbt-tab-badge" id="cbtAnsweredBadge">0 / 13</span>
+        </button>
+      </div>
+
+      <div class="cbt-split mobile-view-passage" id="rCbtSplit">
         <div class="cbt-pane" id="rPassageBox"></div>
         <div class="cbt-pane" id="rQuestionsBox"></div>
       </div>
+
+      <!-- Floating Mobile Quick-Switcher (Passage <-> Questions) -->
+      <button type="button" class="floating-cbt-switch-btn" id="floatingCbtSwitchBtn" onclick="toggleFloatingCbtTab()" aria-label="Quick Switch Between Passage and Questions">
+        <span id="floatingCbtSwitchIcon">📝</span>
+        <span id="floatingCbtSwitchText">Questions (0/13)</span>
+      </button>
     </div>
 
     <div class="sec-block" style="margin-top:32px;" id="rd-tactics-sec">
@@ -3439,7 +3630,25 @@ let SYNONYM_SETS_30 = [];
 let SPEAKING_TOPIC_BANK_DATA = [];
 let LISTENING_PRACTICE_DATA = {};
 
+function showLocalFileProtocolWarning() {
+  if (typeof document === "undefined" || document.getElementById("localFileNotice")) return;
+  const banner = document.createElement("div");
+  banner.id = "localFileNotice";
+  banner.style.cssText = "background:rgba(224,108,53,0.15); border-bottom:1px solid var(--accent); color:var(--text); padding:10px 16px; font-size:0.82rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:9999;";
+  banner.innerHTML = `
+    <div>
+      <strong>⚠️ Running from Local Disk (file://):</strong> Modern browsers restrict loading local JSON files over <code>file://</code> for security.
+      To access all 650 vocabulary collocations and mock tests locally, start a local server (e.g. <code>python -m http.server</code> or <code>npx serve</code>), or visit the online studio at <a href="https://hugokami.github.io/ielts-prep-studio/" target="_blank" rel="noopener" style="color:var(--accent); font-weight:700;">hugokami.github.io/ielts-prep-studio</a>.
+    </div>
+    <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-weight:700; font-size:1rem; padding:0 8px;">✕</button>
+  `;
+  document.body.prepend(banner);
+}
+
 async function loadStudioData() {
+  if (typeof window !== "undefined" && window.location.protocol === "file:") {
+    showLocalFileProtocolWarning();
+  }
   try {
     const [lexRes, readRes, writeRes, spkRes] = await Promise.all([
       fetch("data/lexicon.json"),
@@ -3466,6 +3675,9 @@ async function loadStudioData() {
     return true;
   } catch (err) {
     console.warn("[Studio Data Loader Notice]", err);
+    if (typeof window !== "undefined" && window.location.protocol === "file:") {
+      showLocalFileProtocolWarning();
+    }
     return false;
   }
 }
@@ -3541,12 +3753,14 @@ const VALID_VOUCHER_CODES = {
   "IPS-SPRINT-110": { plan: "lifetime", name: "Lifetime Studio Pass" }
 };
 
-const SPEAKING_FREE_MONTHLY_LIMIT = 2;
-const WRITING_FREE_MONTHLY_LIMIT = 2;
-const PARAPHRASE_FREE_DAILY_LIMIT = 1;
-const LEXICON_FREE_LIMIT = 100;
-const READING_FREE_LIMIT = 2;
-const WRITING_MODELS_FREE_LIMIT = 1;
+const SPEAKING_FREE_MONTHLY_LIMIT = 10;
+const WRITING_FREE_MONTHLY_LIMIT = 5;
+const PARAPHRASE_FREE_DAILY_LIMIT = 3;
+const LEXICON_FREE_LIMIT = 250;
+const READING_FREE_LIMIT = 3;
+const WRITING_MODELS_FREE_LIMIT = 3;
+const SPEAKING_FRAMEWORKS_FREE_LIMIT = 2;
+const MISTAKE_LOG_FREE_LIMIT = 5;
 
 let appState = {
   theme: "dark",
@@ -3631,7 +3845,16 @@ function isVipActive() {
 }
 
 function canUseSpeakingEvaluation() {
-  return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  if (isVipActive()) {
+    return { allowed: true, remaining: "Unlimited", used: (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.speakingEvaluations) || 0 };
+  }
+  const used = (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.speakingEvaluations) || 0;
+  return {
+    allowed: used < SPEAKING_FREE_MONTHLY_LIMIT,
+    remaining: Math.max(0, SPEAKING_FREE_MONTHLY_LIMIT - used),
+    used
+  };
 }
 
 function recordSpeakingEvaluationUsage() {
@@ -3643,7 +3866,16 @@ function recordSpeakingEvaluationUsage() {
 }
 
 function canUseWritingCheck() {
-  return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  if (isVipActive()) {
+    return { allowed: true, remaining: "Unlimited", used: (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.writingChecks) || 0 };
+  }
+  const used = (appState.userProfile.monthlyUsage && appState.userProfile.monthlyUsage.writingChecks) || 0;
+  return {
+    allowed: used < WRITING_FREE_MONTHLY_LIMIT,
+    remaining: Math.max(0, WRITING_FREE_MONTHLY_LIMIT - used),
+    used
+  };
 }
 
 function recordWritingCheckUsage() {
@@ -3655,7 +3887,16 @@ function recordWritingCheckUsage() {
 }
 
 function canUseParaphraseDrill() {
-  return { allowed: true, remaining: "Unlimited", used: 0 };
+  ensureUserProfileInitialized();
+  if (isVipActive()) {
+    return { allowed: true, remaining: "Unlimited", used: (appState.userProfile.dailyUsage && appState.userProfile.dailyUsage.paraphraseDrills) || 0 };
+  }
+  const used = (appState.userProfile.dailyUsage && appState.userProfile.dailyUsage.paraphraseDrills) || 0;
+  return {
+    allowed: used < PARAPHRASE_FREE_DAILY_LIMIT,
+    remaining: Math.max(0, PARAPHRASE_FREE_DAILY_LIMIT - used),
+    used
+  };
 }
 
 function recordParaphraseDrillUsage() {
@@ -4004,6 +4245,11 @@ function switchView(viewId) {
   const mobBtn = document.getElementById("mob-" + viewId);
   if (mobBtn) mobBtn.classList.add("active");
 
+  const floatBtn = document.getElementById("floatingCbtSwitchBtn");
+  if (floatBtn) {
+    floatBtn.style.display = (viewId === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -4047,6 +4293,11 @@ window.addEventListener("resize", () => {
   initBgCanvas();
   if (typeof renderConstellation === "function" && appState.currentGraphWordId) {
     renderConstellation(appState.currentGraphWordId);
+  }
+  const activeReading = document.getElementById("view-reading")?.classList.contains("active");
+  const floatBtn = document.getElementById("floatingCbtSwitchBtn");
+  if (floatBtn) {
+    floatBtn.style.display = (activeReading && window.innerWidth <= 1024) ? "inline-flex" : "none";
   }
 });
 
@@ -4592,7 +4843,7 @@ function renderLexiconGrid(keepLimit) {
   if (pagBar) {
     pagBar.innerHTML = `
       <div style="font-family:monospace; font-size:0.8rem; color:var(--text-secondary);">
-        SHOWING <strong style="color:var(--accent);">${list.length}</strong> OF <strong>${isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT)}</strong> ${!isVip ? '(Free Preview: 100 Words)' : 'MATCHING ENTRIES'} (TOTAL LEXICON: ${VOCAB_DATA.length})
+        SHOWING <strong style="color:var(--accent);">${list.length}</strong> OF <strong>${isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT)}</strong> ${!isVip ? `(Free Tier: ${Math.min(fullList.length, LEXICON_FREE_LIMIT)} Words)` : 'MATCHING ENTRIES'} (TOTAL LEXICON: ${VOCAB_DATA.length})
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         ${list.length < (isVip ? fullList.length : Math.min(fullList.length, LEXICON_FREE_LIMIT))
@@ -4671,9 +4922,9 @@ function renderLexiconGrid(keepLimit) {
   const vipUnlockCard = !isVip ? `
     <article class="occ-card" style="border:2px dashed var(--accent); background:rgba(224,108,53,0.06); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:24px;">
       <div style="font-size:2rem; margin-bottom:8px;">🔒</div>
-      <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:4px;">100 Free Words Displayed</div>
+      <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:4px;">${LEXICON_FREE_LIMIT} Free Words Displayed</div>
       <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:280px; line-height:1.45;">
-        Unlock all <strong>650 Band 8.5 Academic Collocations</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with a VIP Pass.
+        Unlock all <strong>650 Band 8.5 Academic Collocations</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with Lifetime VIP Pass.
       </p>
       <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full 650 Lexicon (55,000 MMK)</button>
     </article>
@@ -4788,19 +5039,29 @@ async function toggleMicRecording() {
   }
   const quota = canUseSpeakingEvaluation();
   if (!quota.allowed) {
-    alert(`You have reached your Free Tier quota of ${SPEAKING_FREE_MONTHLY_LIMIT} Speaking AI Evaluations this month.\n\nUpgrade to VIP Studio Pass for unlimited evaluations, filler-word detection & Whisper transcription!`);
+    alert(`You have reached your Free Tier quota of ${SPEAKING_FREE_MONTHLY_LIMIT} Speaking voice recordings this month.\n\nUpgrade to Lifetime VIP Pass (55,000 MMK) for unlimited voice recordings, all 5 speaking frameworks & all Band 9 candidate model recordings!`);
     openVipPassModal();
     return;
   }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
-    mediaRecorder = new MediaRecorder(stream);
+    let mimeType = "audio/webm";
+    if (typeof MediaRecorder !== "undefined") {
+      if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
+        mimeType = "audio/webm;codecs=opus";
+      } else if (MediaRecorder.isTypeSupported("audio/mp4")) {
+        mimeType = "audio/mp4";
+      } else if (MediaRecorder.isTypeSupported("audio/aac")) {
+        mimeType = "audio/aac";
+      }
+    }
+    mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
     mediaRecorder.ondataavailable = e => {
       if (e.data.size > 0) audioChunks.push(e.data);
     };
     mediaRecorder.onstop = () => {
-      const blob = new Blob(audioChunks, { type: "audio/webm" });
+      const blob = new Blob(audioChunks, { type: mimeType || "audio/webm" });
       if (recordedAudioUrl) URL.revokeObjectURL(recordedAudioUrl);
       recordedAudioUrl = URL.createObjectURL(blob);
       const player = document.getElementById("micAudioPlayer");
@@ -4815,7 +5076,7 @@ async function toggleMicRecording() {
       }
       recordSpeakingEvaluationUsage();
       const updatedQuota = canUseSpeakingEvaluation();
-      const quotaNotice = isVipActive() ? "Unlimited VIP Evaluations" : `Free Quota: ${updatedQuota.remaining} left this month`;
+      const quotaNotice = isVipActive() ? "Unlimited VIP Recording" : `Free Quota: ${updatedQuota.remaining} left this month`;
       if (statusEl) statusEl.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Recording saved (${quotaNotice})! Press play below to self-evaluate.</span>`;
       stream.getTracks().forEach(t => t.stop());
     };
@@ -4845,7 +5106,7 @@ function selectSpeakingFramework(idx) {
   if (btnBar) {
     btnBar.innerHTML = SPEAKING_FRAMEWORKS.map((fw, i) => `
       <button class="${i === activeFwIndex ? 'btn-accent-solid' : 'btn-outlined'}" onclick="selectSpeakingFramework(${i})">
-        ${!isVip && i > 0 ? '🔒 ' : ''}${fw.name}
+        ${!isVip && i >= SPEAKING_FRAMEWORKS_FREE_LIMIT ? '🔒 ' : ''}${fw.name}
       </button>
     `).join("");
   }
@@ -4857,12 +5118,12 @@ function renderSpeakingFramework(idx) {
   const pane = document.getElementById("fwDetailPane");
   if (!pane) return;
 
-  if (!isVipActive() && idx > 0) {
+  if (!isVipActive() && idx >= SPEAKING_FRAMEWORKS_FREE_LIMIT) {
     pane.innerHTML = `
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
           <div class="vip-lock-banner-title">🔒 VIP Framework: ${fw.name}</div>
-          <div class="vip-lock-banner-desc">PELL Framework is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (AREA, PREP, CAUSE-EFFECT, STORY) + Full Band 9 Candidate Scripts with a VIP Pass!</div>
+          <div class="vip-lock-banner-desc">Frameworks 1 &amp; 2 are free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (AREA, PREP, CAUSE-EFFECT, STORY) + Full Band 9 Candidate Model Scripts with Lifetime VIP Pass!</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (55,000 MMK)</button>
       </div>
@@ -5376,7 +5637,7 @@ let currentDrill = [];
 function generateDrill(isUserClick = false) {
   const quota = canUseParaphraseDrill();
   if (isUserClick && !quota.allowed) {
-    if (confirm("You have completed your 1 free daily Paraphrase Drill for today.\n\nUpgrade to VIP Studio Pass for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?")) {
+    if (confirm(`You have completed your ${PARAPHRASE_FREE_DAILY_LIMIT} free daily Paraphrase Drills for today.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?`)) {
       openVipPassModal();
     }
     return;
@@ -5430,7 +5691,8 @@ function gradeDrill() {
   });
   recordParaphraseDrillUsage();
   const pct = Math.round((hits / currentDrill.length) * 100);
-  const quotaInfo = isVipActive() ? "Unlimited VIP Drills" : "1/1 Free Daily Drill Used";
+  const drlQuota = canUseParaphraseDrill();
+  const quotaInfo = isVipActive() ? "Unlimited VIP Drills" : `${drlQuota.used}/${PARAPHRASE_FREE_DAILY_LIMIT} Free Daily Drills Used`;
   document.getElementById("drillScoreLabel").textContent = `Accuracy: ${hits} / ${currentDrill.length} (${pct}%) • ${quotaInfo}`;
   if (pct > appState.drillBest) {
     appState.drillBest = pct;
@@ -5452,6 +5714,145 @@ function initReadingMocks() {
   loadReadingMock();
 }
 
+let currentMobileCbtView = "passage";
+
+function setMobileCbtView(mode) {
+  currentMobileCbtView = mode;
+  const split = document.getElementById("rCbtSplit");
+  const tabPassage = document.getElementById("cbtTabPassageBtn");
+  const tabQuestions = document.getElementById("cbtTabQuestionsBtn");
+  const floatIcon = document.getElementById("floatingCbtSwitchIcon");
+  const floatText = document.getElementById("floatingCbtSwitchText");
+
+  if (!split) return;
+
+  if (mode === "questions") {
+    split.classList.remove("mobile-view-passage");
+    split.classList.add("mobile-view-questions");
+    if (tabPassage) { tabPassage.classList.remove("active"); tabPassage.setAttribute("aria-selected", "false"); }
+    if (tabQuestions) { tabQuestions.classList.add("active"); tabQuestions.setAttribute("aria-selected", "true"); }
+    if (floatIcon) floatIcon.textContent = "📄";
+    if (floatText) floatText.textContent = "View Passage";
+    const qBox = document.getElementById("rQuestionsBox");
+    if (qBox && window.innerWidth <= 1024) {
+      qBox.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  } else {
+    split.classList.remove("mobile-view-questions");
+    split.classList.add("mobile-view-passage");
+    if (tabPassage) { tabPassage.classList.add("active"); tabPassage.setAttribute("aria-selected", "true"); }
+    if (tabQuestions) { tabQuestions.classList.remove("active"); tabQuestions.setAttribute("aria-selected", "false"); }
+    if (floatIcon) floatIcon.textContent = "📝";
+    const answered = getReadingAnsweredCount();
+    const total = getReadingTotalCount();
+    if (floatText) floatText.textContent = `Questions (${answered}/${total})`;
+    const pBox = document.getElementById("rPassageBox");
+    if (pBox && window.innerWidth <= 1024) {
+      pBox.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+}
+
+function toggleFloatingCbtTab() {
+  if (currentMobileCbtView === "passage") {
+    setMobileCbtView("questions");
+  } else {
+    setMobileCbtView("passage");
+  }
+}
+
+function jumpToQuestionInCbt(idx) {
+  setMobileCbtView("questions");
+  setTimeout(() => {
+    const card = document.getElementById(`rmq_card_${idx}`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("q-card-focused");
+      setTimeout(() => card.classList.remove("q-card-focused"), 1600);
+    }
+  }, 60);
+}
+
+function jumpToPassageParagraph(paraLabel) {
+  setMobileCbtView("passage");
+  setTimeout(() => {
+    if (paraLabel) {
+      const cleanLabel = paraLabel.trim().toUpperCase();
+      const targetPara = document.getElementById(`rm_para_${cleanLabel.toLowerCase()}`);
+      if (targetPara) {
+        targetPara.scrollIntoView({ behavior: "smooth", block: "start" });
+        targetPara.classList.add("q-card-focused");
+        setTimeout(() => targetPara.classList.remove("q-card-focused"), 1600);
+        return;
+      }
+    }
+    const pBox = document.getElementById("rPassageBox");
+    if (pBox) pBox.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 60);
+}
+
+function onReadingAnswerChanged(qi) {
+  const isGap = document.getElementById(`rmq_gap_${qi}`) !== null;
+  let isAnswered = false;
+  if (isGap) {
+    const val = document.getElementById(`rmq_gap_${qi}`).value.trim();
+    isAnswered = val.length > 0;
+  } else {
+    const checked = document.querySelector(`input[name="rmq_${qi}"]:checked`);
+    isAnswered = checked !== null;
+  }
+
+  const chip = document.getElementById(`cbt_chip_${qi}`);
+  if (chip) {
+    if (isAnswered) {
+      chip.classList.add("answered");
+      chip.textContent = `✓ Q${qi + 1}`;
+    } else {
+      chip.classList.remove("answered");
+      chip.textContent = `Q${qi + 1}`;
+    }
+  }
+
+  updateReadingAnswerCounts();
+}
+
+function updateReadingAnswerCounts() {
+  const answered = getReadingAnsweredCount();
+  const total = getReadingTotalCount();
+  const badge = document.getElementById("cbtAnsweredBadge");
+  const progText = document.getElementById("cbtPaletteProgressText");
+  const floatText = document.getElementById("floatingCbtSwitchText");
+
+  if (badge) badge.textContent = `${answered} / ${total}`;
+  if (progText) progText.textContent = `${answered} of ${total} answered`;
+  if (floatText && currentMobileCbtView === "passage") {
+    floatText.textContent = `Questions (${answered}/${total})`;
+  }
+}
+
+function getReadingAnsweredCount() {
+  const idx = parseInt(document.getElementById("rSelect")?.value || "0", 10) || 0;
+  const m = READING_MOCKS[idx];
+  if (!m || !m.questions) return 0;
+  let count = 0;
+  m.questions.forEach((q, qi) => {
+    const gap = document.getElementById(`rmq_gap_${qi}`);
+    if (gap) {
+      if (gap.value.trim().length > 0) count++;
+    } else {
+      const checked = document.querySelector(`input[name="rmq_${qi}"]:checked`);
+      if (checked) count++;
+    }
+  });
+  return count;
+}
+
+function getReadingTotalCount() {
+  const idx = parseInt(document.getElementById("rSelect")?.value || "0", 10) || 0;
+  const m = READING_MOCKS[idx];
+  return (m && m.questions) ? m.questions.length : 13;
+}
+
 function loadReadingMock() {
   const idx = parseInt(document.getElementById("rSelect")?.value || "0", 10) || 0;
   const m = READING_MOCKS[idx];
@@ -5464,7 +5865,7 @@ function loadReadingMock() {
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
           <div class="vip-lock-banner-title">🔒 VIP Cambridge Reading Mock [${m.code}]</div>
-          <div class="vip-lock-banner-desc">Passages 1 &amp; 2 are free. Unlock all 8 Cambridge Academic Reading CBT Mocks + High-Fidelity Audio + Burmese Answer Evidence with VIP Pass!</div>
+          <div class="vip-lock-banner-desc">Passages 1, 2 &amp; 3 are free. Unlock all 8 Cambridge Academic Reading CBT Mocks + High-Fidelity Audio + Burmese Answer Evidence with Lifetime VIP Pass!</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 8 Passages (55,000 MMK)</button>
       </div>
@@ -5496,7 +5897,7 @@ function loadReadingMock() {
     </div>
     <h3 style="font-size:1.18rem; font-weight:700; margin-bottom:16px;">${m.title}</h3>
     ${m.paragraphs.map(p => `
-      <div class="para-block">
+      <div class="para-block" id="rm_para_${p.label.toLowerCase()}">
         <p style="font-size:0.92rem; line-height:1.78;"><span class="para-idx">${p.label}</span>${p.text}</p>
         <div class="occ-body-mm burmese" style="font-size:0.83rem; margin-top:10px; margin-bottom:0;">${p.mmSummary}</div>
       </div>
@@ -5504,21 +5905,42 @@ function loadReadingMock() {
   `;
 
   document.getElementById("rQuestionsBox").innerHTML = `
+    <div class="cbt-palette-wrapper">
+      <div class="cbt-palette-header">
+        <span>QUESTION PALETTE (${m.questions.length} ITEMS)</span>
+        <span class="cbt-palette-progress" id="cbtPaletteProgressText">0 of ${m.questions.length} answered</span>
+      </div>
+      <div class="cbt-palette-strip" id="cbtPaletteStrip">
+        ${m.questions.map((q, qi) => `
+          <button type="button" class="cbt-palette-chip" id="cbt_chip_${qi}" onclick="jumpToQuestionInCbt(${qi})" title="Jump to Question ${qi + 1}">
+            Q${qi + 1}
+          </button>
+        `).join("")}
+      </div>
+    </div>
+
     <div style="margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border);">
       <div class="sec-eyebrow">QUESTION SET (${m.questions.length} ITEMS)</div>
       <h3 style="font-size:1.05rem; font-weight:700;">${m.questionTypes}</h3>
     </div>
     ${m.questions.map((q, qi) => {
       const isGap = q.type === "GAP" || !Array.isArray(q.options) || q.options.length === 0;
+      const paraMatch = (q.expEn && q.expEn.match(/paragraph\s+([A-H])/i)) || (q.q && q.q.match(/paragraph\s+([A-H])/i));
+      const targetPara = paraMatch ? paraMatch[1].toUpperCase() : "";
       return `
-        <div class="q-card">
-          <div style="font-size:0.88rem; font-weight:700; margin-bottom:8px;">${q.q}</div>
+        <div class="q-card" id="rmq_card_${qi}">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
+            <div style="font-size:0.88rem; font-weight:700;">${q.q}</div>
+            <button type="button" class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; white-space:nowrap; border-color:var(--border-accent); color:var(--accent); min-height:28px;" onclick="jumpToPassageParagraph('${targetPara}')" title="Locate evidence in passage">
+              🔍 Passage ${targetPara ? `(${targetPara})` : ''}
+            </button>
+          </div>
           <div>
             ${isGap ? `
-              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="Type exact word from the passage (ONE WORD ONLY)...">
+              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="Type exact word from the passage (ONE WORD ONLY)..." oninput="onReadingAnswerChanged(${qi})">
             ` : q.options.map(opt => `
               <label class="q-opt">
-                <input type="radio" name="rmq_${qi}" value="${opt}"> <span>${opt}</span>
+                <input type="radio" name="rmq_${qi}" value="${opt}" onchange="onReadingAnswerChanged(${qi})"> <span>${opt}</span>
               </label>
             `).join("")}
           </div>
@@ -5531,6 +5953,9 @@ function loadReadingMock() {
       <span id="rScoreLabel" style="font-weight:700; color:var(--accent);"></span>
     </div>
   `;
+
+  updateReadingAnswerCounts();
+  setMobileCbtView("passage");
 }
 
 
@@ -5660,7 +6085,8 @@ VOCAB_DATA.forEach(item => {
 function initWritingMocks() {
   const sel = document.getElementById("wSelect");
   if (!sel) return;
-  sel.innerHTML = WRITING_MOCKS.map((m, i) => `<option value="${i}">[${m.code}] ${m.title}</option>`).join("");
+  const isVip = isVipActive();
+  sel.innerHTML = WRITING_MOCKS.map((m, i) => `<option value="${i}">${!isVip && i >= WRITING_MODELS_FREE_LIMIT ? '🔒 [VIP] ' : ''}[${m.code}] ${m.title}</option>`).join("");
   loadWritingMock();
   updateRubricScore();
 }
@@ -5730,7 +6156,7 @@ function runManualWritingAudit() {
   }
   const quota = canUseWritingCheck();
   if (!isVipActive() && !quota.allowed) {
-    if (confirm("You have used your 2 free monthly CEFR & Trap Audits.\n\nUpgrade to VIP Studio Pass for unlimited live audits, AI grading, and all 13 Band 8.5 Burmese models! Would you like to view VIP options?")) {
+    if (confirm(`You have used your ${WRITING_FREE_MONTHLY_LIMIT} free monthly CEFR & Trap Audits.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited live audits, AI grading, and all 13 Band 8.5 models! Would you like to view VIP options?`)) {
       openVipPassModal();
     }
     return;
@@ -5875,7 +6301,7 @@ async function gradeEssayWithGemini() {
 
   const quota = canUseWritingCheck();
   if (!isVipActive() && !quota.allowed) {
-    if (confirm("You have completed your 2 free monthly writing audits.\n\nUpgrade to Lifetime Studio Pass (55,000 MMK) for unlimited AI Examiner grading with Gemini 3.8 Flash! Would you like to view VIP options?")) {
+    if (confirm(`You have completed your ${WRITING_FREE_MONTHLY_LIMIT} free monthly writing evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited AI Examiner grading with Google Gemini! Would you like to view VIP options?`)) {
       openVipPassModal();
     }
     return;
@@ -5996,11 +6422,36 @@ function toggleModelDrawer() {
   const isHidden = (d.style.display === "none" || !d.style.display);
   d.style.display = isHidden ? "block" : "none";
   if (isHidden) {
+    const isVip = isVipActive();
     const contentEl = document.getElementById("wModelContent");
+    const notes = document.getElementById("wModelMmNotes");
+
+    if (!isVip && idx >= WRITING_MODELS_FREE_LIMIT) {
+      if (contentEl) {
+        const previewText = (w.modelEssay || "").split("\n\n")[0] || (w.modelEssay || "").slice(0, 220);
+        contentEl.innerHTML = `
+          <div class="vip-lock-banner" style="margin-bottom:12px;">
+            <div class="vip-lock-banner-text">
+              <div class="vip-lock-banner-title">🔒 VIP Examiner Model: [${w.code}] ${w.title}</div>
+              <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock all 13 Band 8.5 Examiner-Grade Model Essays, Sentence Structures &amp; Burmese Linguistic Breakdowns with Lifetime VIP Pass!</div>
+            </div>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 13 Models (55,000 MMK)</button>
+          </div>
+          <div style="white-space:pre-line; font-size:0.91rem; line-height:1.8; color:var(--text); padding:10px 0; opacity:0.85;">
+            <strong>Sample Introduction (Free Preview):</strong><br>
+            ${previewText}...
+          </div>
+        `;
+      }
+      if (notes) {
+        notes.innerHTML = `<div class="burmese" style="font-size:0.86rem; line-height:1.8; color:var(--text-muted); font-style:italic;">🔒 Full Burmese linguistic analysis, cohesive device map &amp; band descriptor notes are reserved for Lifetime VIP members.</div>`;
+      }
+      return;
+    }
+
     if (contentEl) {
       contentEl.innerHTML = `<div style="white-space:pre-line; font-size:0.91rem; line-height:1.8; color:var(--text); padding:10px 0;">${w.modelEssay || ""}</div>`;
     }
-    const notes = document.getElementById("wModelMmNotes");
     if (notes) {
       notes.innerHTML = `<div class="burmese" style="font-size:0.86rem; line-height:1.8; color:var(--text-secondary);">${w.modelMmNotes || ""}</div>`;
     }
@@ -6037,7 +6488,15 @@ function runLiveWritingDiagnostics() {
   const wb = document.getElementById("liveWordBadge");
   if (wb) {
     wb.textContent = `${words} / ${w.minWords} words`;
-    wb.style.borderColor = words >= w.minWords ? "var(--green)" : "var(--border-accent)";
+    if (words >= w.minWords) {
+      wb.style.borderColor = "var(--green)";
+      wb.style.color = "var(--green)";
+      wb.title = "Target word count met!";
+    } else {
+      wb.style.borderColor = words > 0 ? "var(--accent)" : "var(--border-accent)";
+      wb.style.color = words > 0 ? "var(--accent)" : "var(--text-muted)";
+      wb.title = `Under minimum length: ${w.minWords - words} words needed`;
+    }
   }
 
   const pb = document.getElementById("liveParaBadge");
@@ -6063,13 +6522,13 @@ function runLiveWritingDiagnostics() {
 
   const quota = canUseWritingCheck();
   if (!isVipActive() && !quota.allowed) {
-    if (cefrBadge) cefrBadge.textContent = "🔒 2/2 Used";
+    if (cefrBadge) cefrBadge.textContent = "🔒 Quota Used";
     if (cefrFill) {
       cefrFill.style.width = "100%";
       cefrFill.style.background = "var(--border-mid)";
     }
     if (cefrLbl) {
-      cefrLbl.innerHTML = `🔒 <strong>Free Quota Used (${WRITING_FREE_MONTHLY_LIMIT}/${WRITING_FREE_MONTHLY_LIMIT} checks this month)</strong> · <span style="color:var(--accent); cursor:pointer; font-weight:700;" onclick="openVipPassModal()">Upgrade to VIP Pass for unlimited live CEFR analysis &amp; synonym upgrader ↗</span>`;
+      cefrLbl.innerHTML = `🔒 <strong>Free Quota Used (${quota.used}/${WRITING_FREE_MONTHLY_LIMIT} checks this month)</strong> · <span style="color:var(--accent); cursor:pointer; font-weight:700;" onclick="openVipPassModal()">Upgrade to Lifetime VIP Pass for unlimited live CEFR analysis &amp; synonym upgrader ↗</span>`;
     }
   } else {
     if (cefrBadge) cefrBadge.textContent = `${c1Pct}% C1/C2`;
@@ -6267,11 +6726,6 @@ function renderGlobalSearchResults() {
 }
 
 function openErrorLogModal() {
-  if (!isVipActive()) {
-    openVipPassModal();
-    showStudioNotification("🔒 Personal Error Log & Mistake Bank is a VIP Pass feature.");
-    return;
-  }
   document.getElementById("errorLogModal")?.classList.add("open");
   renderErrorLogModalList();
 }
@@ -6283,13 +6737,25 @@ function closeErrorLogModal() {
 function renderErrorLogModalList() {
   const listEl = document.getElementById("errorLogList");
   if (!listEl) return;
+  const isVip = isVipActive();
   const logs = appState.errorLog || [];
   if (!logs.length) {
     listEl.innerHTML = `<div style="padding:16px; background:var(--bg); border:1px solid var(--border); color:var(--green); font-weight:600;">✓ Zero unresolved mistakes! Any wrong answers in Reading, Listening, or Paraphrase Drills will appear here automatically.</div>`;
     return;
   }
-  listEl.innerHTML = logs.map(item => `
-    <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent);">
+
+  const effectiveLogs = isVip ? logs : logs.slice(0, MISTAKE_LOG_FREE_LIMIT);
+  const quotaBanner = !isVip ? `
+    <div style="padding:10px 14px; background:rgba(224,108,53,0.08); border:1px solid var(--accent); border-radius:4px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <div style="font-size:0.8rem; color:var(--text);">
+        <strong>Free Tier Mistake Bank:</strong> Storing up to <strong>${MISTAKE_LOG_FREE_LIMIT}</strong> errors (${logs.length} total logged).
+      </div>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem; padding:4px 10px;">Upgrade for Unlimited Bank &amp; Cloud Sync (55,000 MMK)</button>
+    </div>
+  ` : "";
+
+  const itemsHtml = effectiveLogs.map(item => `
+    <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent); margin-bottom:8px; border-radius:4px;">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
         <span class="occ-ver-pill" style="color:var(--crimson);">${item.module} · ${item.date}</span>
         <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="resolveErrorItem('${item.id}')">Mark Resolved ✓</button>
@@ -6299,6 +6765,16 @@ function renderErrorLogModalList() {
       <div class="burmese" style="font-size:0.8rem; color:var(--text-secondary);">${item.exp}</div>
     </div>
   `).join("");
+
+  const excessCard = (!isVip && logs.length > MISTAKE_LOG_FREE_LIMIT) ? `
+    <div style="padding:14px; text-align:center; background:var(--bg); border:1px dashed var(--accent); border-radius:4px; margin-top:8px;">
+      <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:4px;">+ ${logs.length - MISTAKE_LOG_FREE_LIMIT} More Mistakes Stored</div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">Upgrade to Lifetime VIP Pass to review all archived mistakes and sync across devices.</div>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem;">Unlock All Mistakes (55,000 MMK)</button>
+    </div>
+  ` : "";
+
+  listEl.innerHTML = quotaBanner + itemsHtml + excessCard;
 }
 
 function resolveErrorItem(errId) {
@@ -6760,74 +7236,74 @@ window.addEventListener("DOMContentLoaded", async () => {
     </div>
   </div>
 
-  <!-- Engnovate-style VIP Pass Modal -->
+  <!-- VIP Studio Pass Modal -->
   <div id="vipPassModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeVipPassModal()">
     <div class="modal-card" style="max-width:760px; width:100%; max-height:92vh; overflow-y:auto; overflow-x:hidden; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:20px; box-sizing:border-box;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;">
         <div style="min-width:0; flex:1;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <span style="font-size:1.3rem;">🎓</span>
-            <h2 style="font-size:1.25rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio • Open Academic Edition</h2>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; white-space:nowrap;">100% Free Open Access</span>
+            <span style="font-size:1.3rem;">👑</span>
+            <h2 style="font-size:1.25rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio • Lifetime VIP Pass</h2>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; white-space:nowrap;">Official Academic Edition</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); margin:4px 0 0 0;">
-            All 7 Modules, 650 Band 8.5 Collocations, 8 Reading CBTs, 13 Writing Models &amp; Speaking Frameworks are 100% Free for Myanmar Students.
+            Free tier includes 250 collocations, 3 reading mocks, 3 writing models, 2 speaking frameworks &amp; 5 AI audits/mo. Upgrade to Lifetime VIP Pass to unlock all advanced mocks, full lexicon &amp; unlimited AI evaluation forever.
           </p>
         </div>
         <button class="btn-outlined modal-close-btn" style="padding:6px 14px; font-size:0.82rem; font-weight:700; flex-shrink:0; white-space:nowrap; min-width:max-content;" onclick="closeVipPassModal()">✕ Close</button>
       </div>
 
-      <!-- Community Patron & Voluntary Support Card -->
+      <!-- Lifetime VIP Pass Pricing Card -->
       <div class="vip-pricing-card popular" style="margin:14px 0; border:2px solid var(--accent); padding:18px; background:linear-gradient(180deg, rgba(224, 108, 53, 0.08) 0%, var(--bg) 100%);">
-        <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;">☕ VOLUNTARY COMMUNITY PATRON</div>
+        <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;">👑 ALL-ACCESS LIFETIME PASS</div>
         <div>
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
             <div>
-              <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Lifetime Scholar Patron Pass</div>
-              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">Voluntary one-time contribution to sustain free access, server hosting &amp; AI API credits for Myanmar scholars.</div>
+              <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Lifetime Studio VIP Pass</div>
+              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for unlimited lifetime access across all 7 modules, full Cambridge reading mocks &amp; Google Gemini AI evaluations.</div>
             </div>
             <div style="text-align:right;">
               <div class="vip-price-amount" style="font-size:1.8rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
-              <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME VOLUNTARY PATRON • NO RECURRING FEES</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME LIFETIME PASS • NO SUBSCRIPTIONS</div>
             </div>
           </div>
 
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Full 650 Band 8.5 Lexicon</strong> with 1-3-7 Spaced Repetition</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Full 650 Band 8.5 Collocations</strong> &amp; 1-3-7 Spaced Repetition</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 8 Timed Reading CBTs</strong> with Burmese Evidence</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 13 Band 8.5 Writing Models</strong> &amp; Examiner Notes</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 13 Band 8.5 Writing Models</strong> &amp; Structural Skeletons</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Gemini 2.5 Flash-Lite AI Grader</strong> (Official Rubric)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Unlimited Gemini AI Evaluations</strong> (TA, CC, LR, GRA)</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 5 Speaking Frameworks</strong> &amp; Model Candidate Scripts</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Live Microphone Voice Recorder</strong> (Self-Evaluation WebM)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Live Microphone Voice Recorder</strong> (Unlimited Self-Evaluation)</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Active Paraphrase Drills</strong> &amp; Automated Mistake Log</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Unlimited Daily Paraphrase Drills</strong> &amp; Mistake Bank</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Verified Scholar Patron Badge</strong> &amp; Telegram Support</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Cross-Device Firebase Cloud Sync</strong> &amp; Telegram Support</span>
             </div>
           </div>
         </div>
-        <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">☕ Support the Studio / Lifetime Patron Pass (55,000 MMK)</button>
+        <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">👑 Upgrade to Lifetime VIP Pass (55,000 MMK)</button>
       </div>
 
       <!-- Interactive Checkout Step (Revealed on selecting a pass) -->
       <div id="vipCheckoutStep" style="display:none; background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">Step 2: Complete Voluntary Patron Contribution</span>
-            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime Scholar Patron Pass - 55,000 MMK</strong>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none;">Step 2: Complete VIP Pass Payment</span>
+            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime Studio VIP Pass - 55,000 MMK</strong>
           </div>
           <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="closeVipCheckout()">✕ Hide</button>
         </div>
@@ -6842,10 +7318,10 @@ window.addEventListener("DOMContentLoaded", async () => {
             <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.6;">
               Account Name: <strong>Lyan Htet</strong><br>
               KBZPay / WavePay Phone: <code style="font-size:0.95rem; color:var(--accent); font-weight:700;">09-768691939</code><br>
-              Suggested Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong>
+              Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (Lifetime Pass)
             </div>
             <div class="burmese" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px; line-height:1.55;">
-              ကျောင်းသားများ ပညာဒါန အခမဲ့လေ့လာနိုင်စေရန် ဆာဗာနှင့် AI စရိတ်များကို ကူညီပံ့ပိုးပေးနိုင်ပါသည်။ ငွေလွှဲ screenshot ကို Telegram သို့ ပို့ပေးပြီး Lifetime Scholar Badge ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
+              KBZPay သို့မဟုတ် WavePay ဖြင့် ငွေလွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
             </div>
             <a href="https://t.me/hyuguo" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.82rem; text-decoration:none; padding:9px 16px;">
               💬 Message on Telegram (@hyuguo) ↗
@@ -6857,8 +7333,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       <!-- Voucher Code Redemption -->
       <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Issued Access Code or Voucher?</span>
-          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem scholarship code or partner patron pass</span>
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Issued VIP Access Code or Voucher?</span>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem scholarship code or partner pass</span>
         </div>
         <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
           <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code (e.g. IPS-LIFE-901)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
@@ -6867,58 +7343,48 @@ window.addEventListener("DOMContentLoaded", async () => {
         <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
       </div>
 
-      <!-- Open Academic Matrix Summary -->
+      <!-- Feature Comparison Matrix -->
       <div style="margin-bottom:14px;">
-        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Academic Access &amp; Community Patron Matrix</div>
+        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. Lifetime Studio VIP Pass</div>
         <div class="table-responsive-box" style="overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; box-sizing:border-box; margin-bottom:12px;">
           <table style="min-width:440px; width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
             <thead>
               <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
                 <th style="padding:6px;">Module / Feature</th>
-                <th style="padding:6px; color:var(--green);">Open Academic Access (All Students)</th>
-                <th style="padding:6px; color:var(--accent);">Lifetime Scholar Patron (55,000 MMK)</th>
+                <th style="padding:6px; color:var(--text);">Free Tier</th>
+                <th style="padding:6px; color:var(--accent);">Lifetime VIP Pass (55,000 MMK)</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">1. Overview &amp; Plans</td>
-                <td style="padding:6px;">Full Study Plans &amp; Interactive Graph</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Patron Badge</td>
+                <td style="padding:6px; font-weight:600;">1. Lexicon (650)</td>
+                <td style="padding:6px;">First 250 Collocations + Audio</td>
+                <td style="padding:6px; color:var(--accent);">All 650 Collocations + 1-3-7 SRS Queue</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">2. Academic Playbook</td>
-                <td style="padding:6px;">All English &amp; Burmese Rules (100% Free)</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Printable Pack</td>
+                <td style="padding:6px; font-weight:600;">2. Reading CBT Simulator</td>
+                <td style="padding:6px;">Mocks 1, 2 &amp; 3 (Full Timed CBTs)</td>
+                <td style="padding:6px; color:var(--accent);">All 8 CBT Passages + Burmese Evidence</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">3. Speaking Studio</td>
-                <td style="padding:6px;">All 5 Frameworks, Scripts &amp; Voice Recorder</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Community Support</td>
+                <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
+                <td style="padding:6px;">Models 1, 2 &amp; 3 + 5 AI Audits/mo</td>
+                <td style="padding:6px; color:var(--accent);">All 13 Models + Unlimited Gemini AI Audits</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">4. Lexicon (650)</td>
-                <td style="padding:6px;">All 650 Band 8.5 Words + 1-3-7 SRS</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Patron Badge</td>
+                <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
+                <td style="padding:6px;">Frameworks 1 &amp; 2 + 10 Recordings/mo</td>
+                <td style="padding:6px; color:var(--accent);">All 5 Frameworks + All Band 9 Scripts &amp; Audio</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">5. Grammar &amp; Drills</td>
-                <td style="padding:6px;">Unlimited Drills, Part 17 &amp; Mistake Log</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Patron Badge</td>
+                <td style="padding:6px;">3 Drills/day + 5 Mistake Bank items</td>
+                <td style="padding:6px; color:var(--accent);">Unlimited Daily Drills &amp; Mistake Bank</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">6. Read &amp; Listen</td>
-                <td style="padding:6px;">All 8 Timed CBTs with Burmese Evidence</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Patron Badge</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">7. Writing Lab</td>
-                <td style="padding:6px;">All 13 Models + Gemini AI Grader</td>
-                <td style="padding:6px; color:var(--accent);">Same Full Access + Patron Badge</td>
-              </tr>
-              <tr>
-                <td style="padding:6px; font-weight:600;">Cloud &amp; Community</td>
-                <td style="padding:6px;">Firebase Cloud Sync &amp; Local Backup</td>
-                <td style="padding:6px; color:var(--accent);">Verified Scholar Badge &amp; Telegram Group</td>
+                <td style="padding:6px; font-weight:600;">6. Cloud Sync</td>
+                <td style="padding:6px;">Local Browser Storage</td>
+                <td style="padding:6px; color:var(--accent);">Multi-Device Cloud Sync via Firebase</td>
               </tr>
             </tbody>
           </table>
