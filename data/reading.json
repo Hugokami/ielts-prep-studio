@@ -618,5 +618,2978 @@
     "category": "Urban Climate & Community Forestry",
     "difficulty": "Band 7.0 - 8.5",
     "questionTypes": "Matching Headings • Summary Completion (ONE WORD ONLY)"
+  },
+  {
+    "id": "rm9",
+    "code": "MOCK 9",
+    "title": "Passage 9: The Enigma of the Antikythera Mechanism",
+    "category": "Ancient Science & Technology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "In the spring of 1900, a group of Greek sponge divers sheltering from a violent storm near the diminutive island of Antikythera stumbled upon a Roman shipwreck. Among the exquisite marble statues, amphorae, and glassware retrieved from the seabed was a heavily encrusted, calcified lump of bronze that initially garnered little attention. It was not until 1902 that archaeologist Valerios Stais noticed a gear wheel protruding from the fractured rock. This serendipitous observation would eventually unmask the Antikythera Mechanism, a device so technologically precocious that it would permanently rewrite the annals of ancient engineering.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "For decades, the true nature of the mechanism remained shrouded in conjecture. The corroded state of the bronze fragments defied physical dismantling, and early scholars were deeply skeptical that classical antiquity possessed the metallurgical prowess required to fashion such intricate gearing. The predominant consensus posited that it was an astrolabe, though its internal complexity seemed disproportionately sophisticated. It wasn't until the 1950s that British science historian Derek J. de Solla Price initiated a systematic examination using gamma-ray radiography. Price's pioneering analysis revealed an interlocking network of gear trains, leading him to characterize the artifact as an ancient analogue computer capable of calculating astronomical positions.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The technological paradigm shift arrived in 2006, when the Antikythera Mechanism Research Project (AMRP) utilized specialized microfocus X-ray computed tomography (CT) and polynomial texture mapping. This non-destructive 3D imaging penetrated the dense calcification, exposing internal gear teeth as small as a millimeter and revealing microscopic instructional inscriptions on the casing. The data confirmed that the mechanism was a highly sophisticated astronomical calculator, utilizing an epicyclic differential gear system—a mechanical arrangement previously thought to have been invented in the 16th century—to model the erratic orbital motion of the Moon.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The mechanism's front dial tracked the solar year and the zodiac, utilizing a complex system of pointers to indicate the positions of the Sun, the Moon, and likely the five planets known to antiquity. More remarkably, a dual-dial system on the rear calculated the 235-month Metonic cycle, which aligns lunar months with solar years, alongside the 223-month Saros cycle, a remarkably precise period utilized for predicting both solar and lunar eclipses. The inclusion of a smaller dial specifically tracking the four-year cycle of the Panhellenic Games, including the Olympics, underscores the profound intersection of astronomy, civic life, and religion in ancient Hellenistic society.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Despite these revelations, tantalizing questions endure. The origin of the mechanism remains heavily contested. While the shipwreck dates to circa 70-60 BCE, typographic analysis of the inscriptions suggests the device may have been constructed decades earlier, potentially placing its creation in the intellectual milieu of Rhodes, home to the eminent astronomer Hipparchus, or Syracuse, the domain of Archimedes. Furthermore, the absence of antecedent or immediate descendant devices in the archaeological record poses a profound anomaly. Was this a unique masterpiece, or simply the sole survivor of a widespread, robust mechanical tradition that perished in the ensuing centuries?",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm9_q1",
+        "type": "TFNG",
+        "q": "1. The sponge divers deliberately travelled to the island of Antikythera to search for ancient artifacts.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q2",
+        "type": "TFNG",
+        "q": "2. Valerios Stais was the first person to realize the bronze lump contained mechanical parts.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q3",
+        "type": "TFNG",
+        "q": "3. Early scholars believed the mechanism was originally encased in a wooden box.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q4",
+        "type": "TFNG",
+        "q": "4. Derek J. de Solla Price utilized microfocus X-ray computed tomography for his investigations.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q5",
+        "type": "TFNG",
+        "q": "5. The artifact was capable of forecasting the dates of the Olympic Games.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q6",
+        "type": "GAP",
+        "q": "6. Row 1",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q7",
+        "type": "GAP",
+        "q": "7. Row 2",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q8",
+        "type": "GAP",
+        "q": "8. Row 3",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q9",
+        "type": "GAP",
+        "q": "9. Row 4",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q10",
+        "type": "GAP",
+        "q": "10. Row 5",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q11",
+        "type": "GAP",
+        "q": "11. What phenomenon did the epicyclic gear system help to model?",
+        "options": [],
+        "ans": "erratic orbital motion",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'erratic orbital motion'.",
+        "expMm": "အဖြေမှန်: 'erratic orbital motion' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q12",
+        "type": "GAP",
+        "q": "12. Which astronomical cycle was monitored to predict eclipses?",
+        "options": [],
+        "ans": "Saros cycle",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Saros cycle'.",
+        "expMm": "အဖြေမှန်: 'Saros cycle' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm9_q13",
+        "type": "GAP",
+        "q": "13. What field of study is suggested as the basis for the mechanism's typographic analysis?",
+        "options": [],
+        "ans": "typographic analysis",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'typographic analysis'.",
+        "expMm": "အဖြေမှန်: 'typographic analysis' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm10",
+    "code": "MOCK 10",
+    "title": "Passage 10: Epigenetics: Beyond the DNA Sequence",
+    "category": "Ancient Science & Technology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For decades following the discovery of the double-helix structure of DNA, the scientific community operated under the central dogma of molecular biology: genetic information flows strictly from DNA to RNA to proteins, establishing our biology in a rigid, immutable script. According to this paradigm, our physical traits, susceptibility to diseases, and even behavioral predispositions were tightly bound by the genetic lottery of our inheritance. However, the burgeoning field of epigenetics has unequivocally dismantled this deterministic view, revealing a dynamic, highly responsive supplementary layer of biological instruction.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The term \"epigenetics\"—literally translating to \"above\" or \"on top of\" genetics—refers to heritable phenotypic changes that do not involve alterations to the underlying DNA sequence itself. Instead of mutating the genetic code, epigenetic mechanisms function essentially as a complex array of biological switches. They dictate how tightly the DNA is coiled around structural proteins called histones, and deploy chemical tags, such as methyl groups, that physically attach to the DNA strand. By modifying the accessibility of specific genes, these mechanisms dictate whether a gene is actively transcribed (turned \"on\") or silenced (turned \"off\"), allowing a single genome to produce a vast diversity of specialized cell types.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "What makes epigenetics particularly revolutionary is its extreme sensitivity to exogenous factors. Unlike our fixed genome, the epigenome is extraordinarily malleable, constantly adapting in real-time to an individual's environment and lifestyle. Empirical studies have correlated epigenetic alterations with an array of stimuli: dietary composition, physical exertion, exposure to environmental toxins, and even psychological stress. Consequently, epigenetics serves as the vital molecular bridge linking environmental exposure to biological outcomes, illuminating how lifestyle choices can fundamentally alter gene expression across a lifespan.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The profound implications of environmental impact were starkly illustrated by the Dutch Hunger Winter study. During the brutal winter of 1944–1945, the German occupation of the Netherlands led to severe famine. Epidemiological follow-ups of individuals who were in utero during this devastating period revealed shocking data. Even decades later, these individuals exhibited significantly higher rates of obesity, diabetes, and cardiovascular diseases compared to their siblings conceived before or after the famine. Molecular analysis confirmed that the severe caloric restriction had altered the methylation patterns of specific metabolic genes, essentially programming the developing fetuses to store maximum calories in anticipation of a nutrient-scarce environment.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Perhaps the most provocative aspect of epigenetics is the concept of transgenerational epigenetic inheritance. Historically, it was believed that epigenetic marks were completely erased during the formation of reproductive cells, ensuring a \"clean slate\" for the next generation. However, recent mammalian studies suggest that certain epigenetic configurations can bypass this resetting process, passing directly to offspring. While heavily debated in human contexts due to the extended intervals between generations, compelling animal models demonstrate that chemically induced metabolic disorders or trauma-induced fear conditioning can be transmitted for multiple subsequent generations, entirely independent of DNA sequence alterations.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "In the realm of clinical medicine, the malleability of the epigenome presents an unprecedented therapeutic frontier. Many forms of cancer, autoimmune diseases, and neurodegenerative disorders are now understood to be driven significantly by epigenetic dysregulation—aberrant silencing of tumor-suppressor genes or hyper-activation of oncogenes. Because epigenetic changes are inherently reversible, unlike genetic mutations, pharmacology is aggressively pursuing \"epi-drugs.\" Medications such as DNA methyltransferase inhibitors are already being utilized clinically to chemically strip away rogue epigenetic tags, effectively reactivating dormant protective genes and restoring normal cellular function.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "G",
+        "text": "The paradigm shift initiated by epigenetics forces a philosophical recalibration of our biological destiny. We are no longer viewed as helpless hostages to our genetic blueprints. Instead, the epigenome introduces an empowering narrative of biological agency, suggesting that our daily interactions with our environment orchestrate a continuous, dynamic symphony of gene expression.",
+        "mmSummary": "အပိုဒ် (G) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm10_q1",
+        "type": "GAP",
+        "q": "1. Paragraph B",
+        "options": [],
+        "ans": "v",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
+        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q2",
+        "type": "GAP",
+        "q": "2. Paragraph C",
+        "options": [],
+        "ans": "vii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
+        "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q3",
+        "type": "GAP",
+        "q": "3. Paragraph D",
+        "options": [],
+        "ans": "iv",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
+        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q4",
+        "type": "GAP",
+        "q": "4. Paragraph E",
+        "options": [],
+        "ans": "iii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
+        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q5",
+        "type": "GAP",
+        "q": "5. Paragraph F",
+        "options": [],
+        "ans": "i",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
+        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q6",
+        "type": "GAP",
+        "q": "6. Paragraph G",
+        "options": [],
+        "ans": "vi",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
+        "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q7",
+        "type": "GAP",
+        "q": "7. Reference to an outdated scientific belief regarding the erasure of cellular memory.",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q8",
+        "type": "GAP",
+        "q": "8. An explanation of how distinct cell types emerge from identical DNA.",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q9",
+        "type": "GAP",
+        "q": "9. Examples of specific modern pharmaceuticals targeting epigenetic errors.",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q10",
+        "type": "GAP",
+        "q": "10. The original scientific assumption regarding the inflexibility of human traits.",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q11",
+        "type": "MCQ",
+        "q": "11. According to Paragraph B, how do epigenetic mechanisms primarily function?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. By permanently mutating the underlying DNA sequence.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. By creating entirely new genes to adapt to the environment.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. By utilizing chemical tags to control gene transcription.",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "D. By replacing structural histones with methyl groups.",
+            "is_correct": false
+          }
+        ],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q12",
+        "type": "MCQ",
+        "q": "12. The Dutch Hunger Winter study demonstrated that:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Famine only impacts the generation directly exposed to starvation.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Environmental stress in utero can cause long-term metabolic reprogramming.",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "C. Siblings born before the famine suffered similar obesity rates.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. Malnutrition strictly alters the genetic DNA sequences of fetuses.",
+            "is_correct": false
+          }
+        ],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q13",
+        "type": "MCQ",
+        "q": "13. Why is transgenerational epigenetic inheritance controversial in human studies?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. The scientific equipment is not sophisticated enough to detect it.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Animal models have consistently disproved the theory.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Epigenetic marks are scientifically proven to be permanently erased.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. The lengthy lifespan between human generations complicates data collection.",
+            "is_correct": true
+          }
+        ],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm10_q14",
+        "type": "MCQ",
+        "q": "14. What distinguishes epigenetic treatments (\"epi-drugs\") from treatments for genetic mutations?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. They capitalize on the reversible nature of epigenetic modifications.",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "B. They are capable of rewriting defective DNA sequences.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. They exclusively target neurodegenerative disorders.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. They intentionally silence protective tumor-suppressor genes.",
+            "is_correct": false
+          }
+        ],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm11",
+    "code": "MOCK 11",
+    "title": "Passage 11: The Architecture of Temporal Perception",
+    "category": "Ancient Science & Technology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Time, from the strict perspective of physics, progresses steadily and uniformly—a relentless forward arrow codified by the laws of thermodynamics. Yet, human psychological perception of time exhibits profound elasticity. A terrifying accident can stretch mere seconds into perceived hours, while an engaging conversation can cause an evening to seemingly vanish. Understanding how the human brain constructs, distorts, and navigates the dimension of time—a phenomenon known as subjective temporality—has become a paramount focus at the intersection of neuroscience and psychology.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The neurological underpinning of time perception is not centralized in a single biological clock, but rather dispersed across complex neural networks. The basal ganglia and the supplementary motor area are primarily responsible for micro-timing (measuring milliseconds to seconds), which is essential for speech processing and motor coordination. Conversely, the hippocampus and the prefrontal cortex manage macro-timing, orchestrating episodic memories to provide a chronological framework for hours, days, and years. Crucially, the neurotransmitter dopamine acts as the primary pacemaker. Increased dopaminergic activity—often triggered by excitement or novel stimuli—accelerates the internal biological clock, leading to the sensation that external time is passing precipitously fast.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "Emotional valence drastically obfuscates temporal accuracy. The concept of \"chronostasis\" is frequently documented during high-stress encounters; when an individual is confronted with imminent danger, the brain's amygdala initiates a state of hyper-arousal. During this phase, memory encoding occurs with extreme density. Because the brain retrospectively judges the duration of an event by the volume of memories recorded during that interval, the densely packed data creates the illusion that the threatening event lasted significantly longer than reality dictates.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The acceleration of perceived time as humans age is an almost universally reported phenomenon. In 1897, the philosopher Paul Janet proposed the proportional theory, suggesting that a year feels shorter to a fifty-year-old than to a five-year-old because it represents a vastly smaller fraction of their accumulated lifespan. However, contemporary cognitive scientists favor the \"neural degradation and routine\" hypothesis. Children possess brains highly receptive to novel experiences, requiring substantial cognitive processing that thickens temporal memory. Adults, entrenched in routine, encode significantly fewer distinct new memories. Consequently, when an adult reviews a mundane year retrospectively, the scarcity of dense memory markers causes the time to appear compressed.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Furthermore, temporal perception is intricately tethered to cultural paradigms. Sociologist Edward T. Hall delineated between \"monochronic\" and \"polychronic\" cultures. Monochronic societies, predominant in Western, industrialized nations, view time as a scarce, linear commodity that must be rigidly managed, segmented, and spent efficiently. In contrast, polychronic cultures, frequently found in Southern Europe, Latin America, and parts of the Middle East, conceptualize time as fluid and cyclical. In these societies, interpersonal relationships take precedence over strict adherence to schedules, leading to a fundamentally divergent phenomenological experience of waiting, urgency, and duration.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "In the contemporary era, the omnipresence of digital technology is orchestrating a subtle but profound reconfiguration of human temporality. The constant barrage of notifications and the expectation of immediate responsiveness have birthed a state of \"continuous partial attention.\" This fragmented cognitive state severs the deep concentration required for entering a flow state — the psychological condition wherein time perception elegantly suspends itself. Some psychologists argue that digital hyper-connectivity is actively eroding our capacity for deep, sustained temporal immersion, replacing it with a fractured, perpetually accelerating present that breeds chronic temporal anxiety.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm11_q1",
+        "type": "TFNG",
+        "q": "1. Human perception of time aligns perfectly with the laws of physics and thermodynamics.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q2",
+        "type": "TFNG",
+        "q": "2. The hippocampus is solely responsible for processing short intervals of time, such as milliseconds.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q3",
+        "type": "TFNG",
+        "q": "3. Dopamine levels directly influence the perceived speed at which time passes.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q4",
+        "type": "TFNG",
+        "q": "4. Modern cognitive scientists completely reject Paul Janet's proportional theory of time.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q5",
+        "type": "TFNG",
+        "q": "5. Monochronic cultures tend to prioritize human relationships over strict punctuality.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q6",
+        "type": "GAP",
+        "q": "6. During moments of extreme fear, the brain encodes memories so densely that",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q7",
+        "type": "GAP",
+        "q": "7. Because older adults generally live highly routine lives,",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q8",
+        "type": "GAP",
+        "q": "8. In societies characterized by polychronic cultural traits,",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q9",
+        "type": "GAP",
+        "q": "9. The continuous partial attention demanded by modern technology hinders the ability of",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q10",
+        "type": "GAP",
+        "q": "10. Human time perception demonstrates remarkable {{gap_c1100000-0000-0000-0000-000000000022_0}}, differing greatly from the strict laws of physics. At a neurological level, the neurotransmitter {{gap_c1100000-0000-0000-0000-000000000022_1}} is heavily involved in regulating our internal clock. In frightening situations, the brain experiences {{gap_c1100000-0000-0000-0000-000000000022_2}}, a distortion where dense memory encoding makes time seem to stretch. Conversely, as people age, the prevalence of {{gap_c1100000-0000-0000-0000-000000000022_3}} results in fewer unique memories, creating the illusion that years are passing much faster.",
+        "options": [],
+        "ans": "elasticity",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'elasticity'.",
+        "expMm": "အဖြေမှန်: 'elasticity' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q11",
+        "type": "GAP",
+        "q": "11. ",
+        "options": [],
+        "ans": "dopamine",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'dopamine'.",
+        "expMm": "အဖြေမှန်: 'dopamine' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q12",
+        "type": "GAP",
+        "q": "12. ",
+        "options": [],
+        "ans": "chronostasis",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'chronostasis'.",
+        "expMm": "အဖြေမှန်: 'chronostasis' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm11_q13",
+        "type": "GAP",
+        "q": "13. ",
+        "options": [],
+        "ans": "routine",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'routine'.",
+        "expMm": "အဖြေမှန်: 'routine' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm12",
+    "code": "MOCK 12",
+    "title": "Passage 12: The Development of the London Underground",
+    "category": "Engineering & Natural Science",
+    "difficulty": "Band 7.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "By the mid-19th century, London was experiencing unprecedented demographic growth, making it the largest city in the world. This rapid expansion brought immense wealth, but it also resulted in severe traffic congestion. The streets were choked with horse-drawn omnibuses, carts, and pedestrians, leading to near-paralysis of the city’s transport network. Charles Pearson, a visionary City of London solicitor, recognized that a radical solution was necessary. In 1845, he proposed the construction of an underground railway to link the mainline railway termini and clear the slums. Though initially met with skepticism and mocked by the press, Pearson’s relentless campaigning eventually secured parliamentary approval and the necessary funding from private investors.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The first underground line, the Metropolitan Railway, opened in January 1863. It was a marvel of Victorian engineering, built using a technique known as \"cut-and-cover.\" This involved digging a massive trench along the route of existing streets, constructing brick walls and a vaulted roof, and then restoring the road surface above. While effective, the cut-and-cover method caused immense disruption. Hundreds of buildings were demolished, and local businesses suffered heavily during the construction phase. Despite these challenges, the railway was an instant success, carrying 38,000 passengers on its opening day in wooden carriages pulled by steam locomotives.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The use of steam engines underground, however, created significant environmental problems. Despite the installation of ventilation shafts, the tunnels were constantly filled with dense, sulfurous smoke, which blackened the stations and occasionally caused passengers to choke. It was clear that a new approach was needed. The solution arrived in the 1890s with the invention of the Greathead tunneling shield by engineer James Henry Greathead. This cylindrical steel shield allowed workers to excavate deep underground without disturbing the surface, paving the way for the \"deep-level tube\" lines.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "These new tube lines were smaller in diameter and naturally suited to electric traction, which eliminated the smoke problem entirely. The City and South London Railway, opening in 1890, was the first deep-level, electrically operated railway in the world. However, the early tube network was chaotic, operated by several competing private companies. It wasn’t until the early 1900s that American financier Charles Yerkes managed to unify most of the separate lines under a single corporate umbrella, the Underground Electric Railways Company of London (UERL). Yerkes orchestrated the electrification of the older steam lines and funded the rapid expansion of the tube network into the growing suburbs.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "During the Second World War, the London Underground took on an entirely new and unexpected role. As the Blitz devastated the capital, hundreds of thousands of Londoners sought refuge from aerial bombardment by sleeping on the platforms and tracks of the deep-level stations. The government, initially opposed to the idea due to fears of disease and panic, eventually formalized the arrangement, providing bunk beds, chemical toilets, and even library services underground.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Today, the London Underground remains a vital artery of the city, handling over a billion passenger journeys annually. While modern infrastructure projects like the Elizabeth line have transformed travel times across the capital, the foundational engineering of Pearson, Greathead, and Yerkes continues to underpin one of the most famous transit systems in the world.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm12_q1",
+        "type": "TFNG",
+        "q": "1. Charles Pearson personally provided all the funding for the Metropolitan Railway.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q2",
+        "type": "TFNG",
+        "q": "2. The cut-and-cover construction method severely disrupted street-level businesses.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q3",
+        "type": "TFNG",
+        "q": "3. The first deep-level tube line was financially successful in its opening year.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q4",
+        "type": "TFNG",
+        "q": "4. The British government immediately encouraged citizens to use the Underground as air-raid shelters.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q5",
+        "type": "GAP",
+        "q": "5. Row 1",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q6",
+        "type": "GAP",
+        "q": "6. Row 2",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q7",
+        "type": "GAP",
+        "q": "7. Row 3",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q8",
+        "type": "GAP",
+        "q": "8. Row 4",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q9",
+        "type": "GAP",
+        "q": "9. Row 5",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q10",
+        "type": "GAP",
+        "q": "10. What source of power was used for the locomotives on the opening day in 1863?",
+        "options": [],
+        "ans": "steam",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'steam'.",
+        "expMm": "အဖြေမှန်: 'steam' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q11",
+        "type": "GAP",
+        "q": "11. What was installed in the early tunnels in an attempt to alleviate the smoke problem?",
+        "options": [],
+        "ans": "ventilation shafts",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ventilation shafts'.",
+        "expMm": "အဖြေမှန်: 'ventilation shafts' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q12",
+        "type": "GAP",
+        "q": "12. What primary alternative function did underground stations serve during the Blitz?",
+        "options": [],
+        "ans": "air-raid shelters",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'air-raid shelters'.",
+        "expMm": "အဖြေမှန်: 'air-raid shelters' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm12_q13",
+        "type": "GAP",
+        "q": "13. Which contemporary infrastructure project has notably transformed travel times in London?",
+        "options": [],
+        "ans": "Elizabeth line",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Elizabeth line'.",
+        "expMm": "အဖြေမှန်: 'Elizabeth line' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm13",
+    "code": "MOCK 13",
+    "title": "Passage 13: The Architecture of Sound: Acoustics in Concert Halls",
+    "category": "Engineering & Natural Science",
+    "difficulty": "Band 7.0 CBT",
+    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Until the late 19th century, the acoustic success of a concert hall was largely a matter of architectural luck. Builders relied on intuition and imitation of existing successful venues. The scientific study of room acoustics only began in earnest in 1895 when Wallace Clement Sabine, a physics professor at Harvard University, was asked to fix the terrible acoustics of the Fogg Art Museum's lecture hall. Through rigorous experimentation using organ pipes and stopwatches, Sabine discovered that the duration a sound lingers in a room—which he termed \"reverberation time\"—is mathematically related to the room's volume and the sound-absorbing properties of its surfaces.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "Reverberation time (RT) quickly became the foundational metric of acoustic design. The optimal RT depends entirely on the purpose of the space. For spoken word or rapid, intricate chamber music, a short RT (around 1 to 1.5 seconds) is preferred to maintain clarity, ensuring that rapid notes do not bleed into one another. Conversely, large symphonic works, such as those by Wagner or Mahler, benefit from a longer RT (around 2 to 2.2 seconds). This extended decay allows the sounds of dozens of instruments to blend into a rich, immersive sonic wash, giving the music a sense of warmth and grandeur.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "Historically, the most consistently praised concert halls—such as the Musikverein in Vienna and the Concertgebouw in Amsterdam—share a common architectural shape: the \"shoebox.\" Characterized by a rectangular floor plan, high ceilings, and narrow width, the shoebox design naturally creates excellent acoustic conditions. Its secret lies in \"lateral reflections.\" Because the side walls are relatively close together, sound waves reflecting off them reach the listener’s ears from the sides just milliseconds after the direct sound from the stage. These lateral reflections are interpreted by the human brain as a sense of spaciousness and envelopment, making the listener feel surrounded by the music.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "Despite the proven reliability of the shoebox, the mid-20th century saw a shift toward \"vineyard\" style halls, pioneered by Hans Scharoun’s Berlin Philharmonie in 1963. In a vineyard hall, the seating is divided into steep terraces surrounding the stage on all sides. This design was driven primarily by a desire for visual intimacy and democratic seating, bringing the audience closer to the performers. However, the lack of parallel side walls removes the natural lateral reflections found in shoebox halls. To compensate, acousticians must intricately design the terraced walls and suspend reflective panels from the ceiling to artificially direct sound outward to the audience.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Modern acousticians no longer rely on guesswork. Before a single brick is laid, contemporary concert halls undergo rigorous virtual and physical testing. Engineers use advanced computer software to trace the path of thousands of simulated sound rays, calculating how they bounce, scatter, and decay. Furthermore, highly detailed physical scale models are built (often at a 1:10 scale) and filled with nitrogen gas to correct for sound wave scaling. By recording miniature sound sources inside these models, acousticians can use a process called \"auralization\" to listen to what the finished hall will sound like, allowing them to adjust the angle of a balcony or the material of a wall to optimize the acoustics.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Yet, despite the sophistication of modern acoustic science, the perception of sound remains inherently subjective. Psychologists have noted that an audience’s visual environment significantly alters their acoustic evaluation. A hall decorated in warm woods and rich reds is often perceived as having a \"warmer\" sound than a visually stark, concrete hall, even if their objective acoustic measurements are identical. Ultimately, the architecture of sound is not just about physics; it is deeply intertwined with human psychology and expectation.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm13_q1",
+        "type": "GAP",
+        "q": "1. Paragraph A",
+        "options": [],
+        "ans": "v",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
+        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q2",
+        "type": "GAP",
+        "q": "2. Paragraph B",
+        "options": [],
+        "ans": "ii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
+        "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q3",
+        "type": "GAP",
+        "q": "3. Paragraph C",
+        "options": [],
+        "ans": "iii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
+        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q4",
+        "type": "GAP",
+        "q": "4. Paragraph D",
+        "options": [],
+        "ans": "i",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
+        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q5",
+        "type": "GAP",
+        "q": "5. Paragraph E",
+        "options": [],
+        "ans": "vii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
+        "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q6",
+        "type": "GAP",
+        "q": "6. Paragraph F",
+        "options": [],
+        "ans": "iv",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
+        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q7",
+        "type": "GAP",
+        "q": "7. A reference to the earliest scientific measurements of room acoustics.",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q8",
+        "type": "GAP",
+        "q": "8. An explanation of why narrow concert halls produce superior sound envelopment.",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q9",
+        "type": "GAP",
+        "q": "9. Examples of techniques used by acousticians to predict sound before construction.",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q10",
+        "type": "GAP",
+        "q": "10. The idea that what an audience sees visually can alter their evaluation of sound.",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q11",
+        "type": "MCQ",
+        "q": "11. According to the passage, the \"shoebox\" design is acoustically successful primarily because:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. The high ceilings reduce the need for reverberation time.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. It provides strong lateral sound reflections to the audience.",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "C. It allows for more democratic and visually intimate seating.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. It limits the blending of large symphonic instruments.",
+            "is_correct": false
+          }
+        ],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q12",
+        "type": "MCQ",
+        "q": "12. The \"vineyard\" style of concert hall was originally developed to:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Maximize the natural lateral reflections of sound.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Lower the cost of construction by removing parallel walls.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Improve the audience’s visual connection to the performers.",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "D. Create a warmer sound using steep wooden terraces.",
+            "is_correct": false
+          }
+        ],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q13",
+        "type": "MCQ",
+        "q": "13. What does the passage say about reverberation time (RT)?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Different genres of music require different optimal RTs.",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "B. A long RT is always preferable to a short RT.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. RT was primarily used to fix the Fogg Art Museum.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. A short RT helps blend the sound of large symphonic works.",
+            "is_correct": false
+          }
+        ],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm13_q14",
+        "type": "MCQ",
+        "q": "14. The writer’s overall conclusion about concert hall acoustics is that:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Computer modeling will eventually make physical testing obsolete.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. The shoebox design is no longer relevant for modern orchestras.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Visual aesthetics are more important than physical acoustics.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. It remains a complex blend of objective science and subjective perception.",
+            "is_correct": true
+          }
+        ],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm14",
+    "code": "MOCK 14",
+    "title": "Passage 14: The Evolutionary Puzzle of Animal Play",
+    "category": "Engineering & Natural Science",
+    "difficulty": "Band 7.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Watch a litter of wolf pups wrestling, or a group of juvenile dolphins riding the bow wave of a boat, and the concept of \"play\" seems intuitively obvious. Yet, for decades, evolutionary biologists found animal play deeply perplexing. In the harsh reality of natural selection, behavior is typically highly efficient, optimized for finding food, avoiding predators, and reproducing. Play, by contrast, appears to be a colossal waste of energy. Furthermore, animals engaged in play are often distracted and noisy, making them significantly more vulnerable to predation. Given these high costs, play must confer a substantial evolutionary advantage, or natural selection would have eliminated it long ago.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "Defining play scientifically is notoriously difficult. The widely accepted framework proposed by Gordon Burghardt establishes several criteria: the behavior must not be fully functional in the context in which it is expressed; it must be voluntary and rewarding; it differs from \"serious\" behavior in form or timing; and it must be performed repeatedly when the animal is healthy and free from immediate stress. Having defined play, scientists have spent years formulating and testing hypotheses regarding its evolutionary function.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The most traditional explanation is the \"Motor Training\" hypothesis. This suggests that play, particularly locomotor play like running and leaping, helps young animals develop the physical strength, coordination, and neurological wiring necessary for adult survival. While logical, empirical support for this theory is surprisingly mixed. A long-term study of wild meerkats revealed that individuals who engaged in high levels of play-fighting as juveniles were not any more successful at winning real fights or hunting prey as adults. The motor benefits of play, it seems, may be overstated or easily acquired through standard, non-playful movement.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "Another prominent theory is the \"Social Cohesion\" hypothesis. Many highly social mammals, such as rats, chimpanzees, and wolves, engage in extensive social play. This behavior is thought to establish social hierarchies, teach social rules, and forge bonds that hold the group together. During play fighting, animals learn to communicate their intentions and differentiate between a playful nip and an aggressive bite. They learn the boundaries of acceptable behavior, which reduces the likelihood of lethal aggression within the group later in life.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Recently, a compelling new framework has emerged: the \"Cognitive Flexibility\" hypothesis, championed by Marek Spinka and his colleagues. This theory proposes that play serves to train animals for the unexpected. Wild animals exist in unpredictable environments where a sudden loss of balance or an unexpected attack can be fatal. During play, animals deliberately handicap themselves. They put themselves in disadvantageous positions—rolling on their backs, purposefully losing their balance, or allowing a smaller peer to \"win\" a mock fight. Spinka argues that by actively seeking out and experiencing these minor physical and emotional shocks in a safe environment, animals learn to recover quickly. Play, therefore, is essentially a biological rehearsal for emergencies, building resilience and neurological flexibility.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Ultimately, the motivation for an animal to risk energy and safety for play boils down to neurochemistry. When mammals play, their brains release high levels of dopamine and endogenous opioids—the brain’s natural reward chemicals. Play feels intrinsically good. If the evolutionary benefits of play (whether cognitive flexibility, social bonding, or physical conditioning) were not reinforced by immediate, powerful feelings of pleasure, young animals simply would not take the risk. As research deepens, it becomes clear that play is not a frivolous byproduct of youth, but a deeply embedded, neurologically driven strategy for survival in an unpredictable world.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm14_q1",
+        "type": "TFNG",
+        "q": "1. Engaging in play behavior reduces an animal’s risk of being attacked by predators.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q2",
+        "type": "TFNG",
+        "q": "2. Gordon Burghardt established a widely accepted framework for defining animal play.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q3",
+        "type": "TFNG",
+        "q": "3. Meerkat pups that play more frequently become more successful hunters as adults.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q4",
+        "type": "TFNG",
+        "q": "4. Male animals generally spend a greater proportion of their time playing than female animals.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q5",
+        "type": "GAP",
+        "q": "5. The 'Motor Training' hypothesis assumes that play helps young animals",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q6",
+        "type": "GAP",
+        "q": "6. Play fighting in highly social species like wolves helps to",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q7",
+        "type": "GAP",
+        "q": "7. According to the 'Cognitive Flexibility' hypothesis, animals play in order to",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q8",
+        "type": "GAP",
+        "q": "8. The release of neurochemicals like dopamine during play ensures that animals",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q9",
+        "type": "GAP",
+        "q": "9. The 'Cognitive Flexibility' hypothesis, proposed by Spinka and his colleagues, offers a compelling explanation for animal play. It suggests that play serves as a form of {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_0}} for unexpected real-world events. During play, animals deliberately place themselves in {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_1}} situations, such as falling over or losing a mock fight. This intentional self-handicapping helps them learn how to rapidly {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_2}} both physically and emotionally. Consequently, when faced with genuine {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_3}} in the future, they are better equipped to cope. The underlying mechanism for this behavior relies on the brain’s reward system, particularly the release of {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_4}}, which makes the activity inherently pleasurable.",
+        "options": [],
+        "ans": "preparation",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'preparation'.",
+        "expMm": "အဖြေမှန်: 'preparation' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q10",
+        "type": "GAP",
+        "q": "10. ",
+        "options": [],
+        "ans": "vulnerable",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vulnerable'.",
+        "expMm": "အဖြေမှန်: 'vulnerable' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q11",
+        "type": "GAP",
+        "q": "11. ",
+        "options": [],
+        "ans": "recover",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'recover'.",
+        "expMm": "အဖြေမှန်: 'recover' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q12",
+        "type": "GAP",
+        "q": "12. ",
+        "options": [],
+        "ans": "emergencies",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'emergencies'.",
+        "expMm": "အဖြေမှန်: 'emergencies' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm14_q13",
+        "type": "GAP",
+        "q": "13. ",
+        "options": [],
+        "ans": "dopamine",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'dopamine'.",
+        "expMm": "အဖြေမှန်: 'dopamine' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm15",
+    "code": "MOCK 15",
+    "title": "Passage 15: The Mechanics of Ancient Astronomy: The Antikythera Mechanism",
+    "category": "Advanced Biosciences & Ecology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "In 1901, a group of Greek sponge divers sheltering from a severe storm off the coast of the island of Antikythera inadvertently discovered a sprawling Roman shipwreck. Resting at a depth of 45 metres, the wreck yielded a treasure trove of magnificent bronze and marble statues, exquisite glassware, and ancient silver coins. Among these spectacular artistic treasures was a heavily corroded, unassuming lump of bronze and wood. Initially ignored by marine archaeologists in favour of the more aesthetically pleasing artefacts, the calcified block sat undisturbed in the National Archaeological Museum in Athens. It was not until 1902 that archaeologist Valerios Stais, while examining the crumbling artefact, noticed a small, precisely cut gear wheel embedded in the rock, revealing it to be a highly sophisticated mechanical device rather than a mere statue fragment.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "For decades, the artefact completely baffled historians and classicists alike. Its sheer mechanical complexity seemed entirely anachronistic for its estimated construction date of the 2nd century BC. At the time, conventional historical narratives dictated that while the ancient Greeks were exceptionally adept at theoretical mathematics and geometry, they lacked the practical metallurgical and engineering skills required to create such a precise machine. The intricate gear trains within the Antikythera Mechanism rivalled the complexity of 18th-century European clocks. This staggering disparity led some early researchers to mistakenly assume it was a modern astrolabe that had been accidentally dropped into the ancient wreck centuries later.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The true function and origin of the mechanism were slowly unveiled through successive technological advancements in the late 20th and early 21st centuries. In the 1970s, British science historian Derek de Solla Price used early 2D X-ray imaging to count the gear teeth, proposing it was an astronomical computer designed to calculate celestial positions. Later, in 2005, the Antikythera Mechanism Research Project (AMRP) employed cutting-edge microfocus X-ray computed tomography to peer inside the remaining fragments without causing physical damage. They revealed a sophisticated, hand-powered orrery capable of tracking the Metonic cycle (the 19-year lunar calendar), charting the movements of the five classical planets, and accurately predicting lunar and solar eclipses using the 223-month Saros cycle.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The specific creator of the device remains entirely unknown, though many prominent scholars theorise it may have been constructed by, or under the guidance of, the eminent ancient Greek astronomer Hipparchus. This hypothesis is supported by the machine's mechanical incorporation of Hipparchus's theory regarding the moon's elliptical orbit, which explained its variable speed across the sky. Tragically, the trajectory of this mechanical genius was abruptly cut short. The expanding Roman conquest of the Mediterranean, which culminated in the systematic looting of Greek city-states, fundamentally shifted the regional cultural focus from scientific inquiry and philosophy to imperial administration, military engineering, and warfare. The ship carrying the mechanism was, in all likelihood, a Roman vessel transporting looted Greek treasures back to Rome when it sank.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "The Antikythera Mechanism fundamentally rewrites the history of technology. It proves unequivocally that ancient engineers possessed a profound, applied understanding of kinematics, capable of translating highly complex astronomical cycles into miniature bronze gears. Following the eventual collapse of the Greco-Roman world, this astonishing level of mechanical sophistication disappeared entirely from the historical record, only re-emerging during the European Renaissance over a millennium later. It stands as a profound testament to a lost technological revolution, leaving modern historians to wonder what other mechanical marvels the ancient world might have produced had its intellectual trajectory not been severed.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm15_q1",
+        "type": "TFNG",
+        "q": "1. The sponge divers immediately recognised the scientific significance of the bronze mechanism in 1901.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q2",
+        "type": "TFNG",
+        "q": "2. Early historians believed the ancient Greeks were incapable of producing such precise metallurgical engineering.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q3",
+        "type": "TFNG",
+        "q": "3. Derek de Solla Price built a fully functioning physical replica of the device to prove his theories.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q4",
+        "type": "TFNG",
+        "q": "4. The device incorporated mathematical theories regarding the variable speed of the moon.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q5",
+        "type": "GAP",
+        "q": "5. Row 1",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q6",
+        "type": "GAP",
+        "q": "6. Row 2",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q7",
+        "type": "GAP",
+        "q": "7. Row 3",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q8",
+        "type": "GAP",
+        "q": "8. Row 4",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q9",
+        "type": "GAP",
+        "q": "9. What specific celestial cycle did the mechanism utilise to predict eclipses?",
+        "options": [],
+        "ans": "Saros cycle",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Saros cycle'.",
+        "expMm": "အဖြေမှန်: 'Saros cycle' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q10",
+        "type": "GAP",
+        "q": "10. Which eminent Greek astronomer is most commonly theorised to be the device's creator?",
+        "options": [],
+        "ans": "Hipparchus",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Hipparchus'.",
+        "expMm": "အဖြေမှန်: 'Hipparchus' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q11",
+        "type": "GAP",
+        "q": "11. What was the primary material the device was originally manufactured from?",
+        "options": [],
+        "ans": "bronze",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'bronze'.",
+        "expMm": "အဖြေမှန်: 'bronze' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q12",
+        "type": "GAP",
+        "q": "12. During which later historical period did comparable mechanical complexity finally reappear in Europe?",
+        "options": [],
+        "ans": "European Renaissance",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'European Renaissance'.",
+        "expMm": "အဖြေမှန်: 'European Renaissance' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm15_q13",
+        "type": "GAP",
+        "q": "13. What type of ancient vessel was likely transporting the mechanism when it sank?",
+        "options": [],
+        "ans": "Roman vessel",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Roman vessel'.",
+        "expMm": "အဖြေမှန်: 'Roman vessel' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm16",
+    "code": "MOCK 16",
+    "title": "Passage 16: The Ecology of Soil Microbiomes and Agricultural Resilience",
+    "category": "Advanced Biosciences & Ecology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For much of modern agricultural history, soil has been treated fundamentally as an inert physical medium—a mere structural anchor designed to hold roots and absorb synthetic chemical inputs. However, contemporary ecological science has completely overturned this reductive paradigm, revealing the soil, particularly the rhizosphere (the narrow biological region immediately surrounding plant roots), as one of the most biodiverse, competitive, and biologically active ecosystems on Earth. To provide scale, a single teaspoon of healthy, undisturbed agricultural soil can contain over a billion bacteria, several miles of microscopic fungal filaments, and tens of thousands of species of protozoa and nematodes, all locked in a ceaseless biochemical dialogue.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "Central to this subterranean ecosystem are mycorrhizal fungi, ancient organisms which form deeply symbiotic relationships with over 80 percent of all terrestrial plant species. These microscopic fungi effectively act as secondary root systems. They extend their hyphae—thread-like structures—far beyond the plant's own roots to access remote moisture and extract essential, chemically bound minerals, particularly phosphorus, from the soil matrix. In return for these vital services, the host plant deliberately secretes a substantial portion of its photosynthesised carbon directly into the soil as root exudates—a highly targeted, sugary chemical cocktail designed to feed and cultivate its specific microbial community. Furthermore, these fungal networks produce a sticky, recalcitrant glycoprotein called glomalin, which binds loose soil particles into highly stable aggregates, thereby preventing catastrophic erosion and vastly improving the soil's water infiltration and retention capacities.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The global advent of conventional, industrialised farming has, unfortunately, severely compromised this delicate microbial matrix. Deep mechanical tillage, a standard practice for weed control and seedbed preparation, routinely slices through delicate fungal networks, physically destroying the structural and biological integrity of the soil. Simultaneously, the heavy, continual application of synthetic nitrogen and phosphorus fertilisers creates a state of artificial nutrient abundance. Consequently, plants register this abundance and actively cease releasing root exudates, effectively starving their symbiotic microbial partners. Over time, the soil microbiome collapses entirely, leaving the crops exclusively dependent on continuous artificial inputs—a dangerous ecological spiral that leading agronomists refer to as chemical dependency.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "As the global climate inevitably becomes increasingly volatile, the severe consequences of operating with degraded soil microbiomes are becoming painfully apparent. Conversely, robust microbial communities confer extraordinary, multifaceted resilience to environmental stressors. Certain strains of soil bacteria naturally produce specific enzymatic compounds that actively prime the host plant's innate immune system, enabling it to fend off viral pathogens and voracious pests much more effectively than isolated plants. During periods of severe drought, intact, vast fungal networks can physically transport retained water from deep subterranean reserves directly to the plant roots, significantly enhancing drought tolerance and ensuring crop survival even when adjacent, conventionally managed fields succumb to the heat.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Acknowledging these complex dynamics, a rapidly growing vanguard of commercial farmers and academic researchers are pioneering regenerative agricultural practices aimed strictly at microbial recovery. Techniques such as continuous no-till farming, the strategic integration of multi-species cover crops to ensure living roots are present year-round, and the precise application of biologically rich bio-inoculants are purposefully designed to re-establish and nurture soil life. However, transitioning to these regenerative methods requires considerable patience and financial fortitude; as the soil biology painstakingly regenerates, farmers almost universally experience a temporary, albeit sharp, decline in crop yields before the new ecological balance stabilises and natural fertility is fully restored.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Looking forward, the seamless integration of microbiology with cutting-edge digital technology promises to revolutionise global farming operations. Precision agriculture is increasingly incorporating advanced microbial mapping, allowing farmers to understand and target the specific biological deficits of their land at a granular level. Furthermore, rapid advancements in genomic sequencing are actively enabling scientists to isolate, identify, and cultivate highly specific microbial strains that can drastically enhance soil carbon sequestration and natural nitrogen fixation, paving the way for a truly sustainable, resilient, and highly productive agricultural future.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm16_q1",
+        "type": "GAP",
+        "q": "1. Paragraph A",
+        "options": [],
+        "ans": "ii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
+        "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q2",
+        "type": "GAP",
+        "q": "2. Paragraph B",
+        "options": [],
+        "ans": "i",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
+        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q3",
+        "type": "GAP",
+        "q": "3. Paragraph C",
+        "options": [],
+        "ans": "v",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
+        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q4",
+        "type": "GAP",
+        "q": "4. Paragraph D",
+        "options": [],
+        "ans": "vi",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
+        "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q5",
+        "type": "GAP",
+        "q": "5. Paragraph E",
+        "options": [],
+        "ans": "iii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
+        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q6",
+        "type": "GAP",
+        "q": "6. Paragraph F",
+        "options": [],
+        "ans": "iv",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
+        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q7",
+        "type": "GAP",
+        "q": "7. A description of a specific protein that maintains the structural integrity of the earth.",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q8",
+        "type": "GAP",
+        "q": "8. An explanation of why transitioning to sustainable farming methods initially reduces harvest output.",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q9",
+        "type": "GAP",
+        "q": "9. The estimated quantity of microscopic organisms found in a tiny, undisturbed soil sample.",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q10",
+        "type": "GAP",
+        "q": "10. How an intact microbiome can help crops survive severe, prolonged water shortages.",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q11",
+        "type": "GAP",
+        "q": "11. The practice of evaluating a specific farm's biological deficits using modern genomic technology.",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q12",
+        "type": "MCQ",
+        "q": "12. According to Paragraph C, the heavy application of synthetic fertilisers ultimately results in",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. an uncontrollable overgrowth of fungal hyphae.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. plants actively ceasing to feed their microbial partners.",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "C. an immediate and permanent collapse of all crop yields.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. the physical destruction of the soil's geometric structure.",
+            "is_correct": false
+          }
+        ],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q13",
+        "type": "MCQ",
+        "q": "13. What is a key benefit of the enzymatic compounds produced by certain soil bacteria, as mentioned in Paragraph D?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. They directly attack and kill agricultural pests.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. They act as a total substitute for water during droughts.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. They proactively stimulate the plant's natural immune defences.",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "D. They prevent the need for any future chemical interventions.",
+            "is_correct": false
+          }
+        ],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm16_q14",
+        "type": "MCQ",
+        "q": "14. What is the primary purpose of the writer in this passage?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. To argue strictly against all forms of modern technological agriculture.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. To calculate the economic benefits of reducing synthetic fertiliser usage.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. To detail the exhaustive history of farming practices since the industrial revolution.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. To highlight the profound ecological importance of the soil microbiome and its restoration.",
+            "is_correct": true
+          }
+        ],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm17",
+    "code": "MOCK 17",
+    "title": "Passage 17: The Illusion of Conscious Will: Neurobiological Perspectives",
+    "category": "Advanced Biosciences & Ecology",
+    "difficulty": "Band 8.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "The subjective, internal experience of conscious will—the profound feeling that \"I\" am the independent author of my own actions—is so fundamentally woven into human existence that it forms the undisputed bedrock of our personal identities, our complex social interactions, and our entire legal and judicial systems. However, a rapidly growing body of sophisticated neurobiological research suggests that this deeply intuitive sense of agency may, in fact, be an elaborate cognitive illusion generated by the brain after the fact. The origins of this fiercely controversial scientific perspective can be directly traced back to the groundbreaking experiments conducted by neurophysiologist Benjamin Libet in the early 1980s.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "Libet asked volunteer participants to perform a highly simple, spontaneous motor task, such as flicking their wrist or pressing a button, whenever they arbitrarily felt the urge to do so. Crucially, they were also asked to note the exact, precise moment they became consciously aware of their intention to move by watching a rapidly rotating dot on a specially designed clock face. Simultaneously, Libet meticulously monitored their cortical brain activity using continuous electroencephalography (EEG). The empirical results were startling and deeply unsettling to traditional philosophers. The EEG revealed a distinct buildup of neurological activity in the motor cortex—a measurable electrical phenomenon known as the readiness potential (Bereitschaftspotential)—which demonstrably began approximately 350 milliseconds before the participants reported any conscious awareness of their intention to act.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The philosophical implication of Libet’s findings was profound: the physical brain had already subconsciously initiated the action before the conscious mind was even tangentially aware of it. Eminent Harvard psychologist Daniel Wegner later expanded significantly upon these findings in his seminal book, \"The Illusion of Conscious Will\". Wegner argued aggressively for an epiphenomenalist view of human consciousness, suggesting that conscious will is merely a secondary, passive byproduct of underlying brain activity rather than an active driving force. According to Wegner’s framework, the brain simultaneously generates both the physical action and the subsequent conscious thought about the action, creating a compelling but entirely false perception of causality. Interestingly, Libet himself was deeply uncomfortable with absolute determinism and subsequently proposed the concept of \"free won’t\"—the hypothesis that while the brain unconsciously initiates an impulse, the conscious mind retains a brief 100-millisecond window to actively veto or suppress the action before it physically occurs.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "More recent technological advancements have pushed this deterministic view even further into the mainstream. Renowned neuroscientist John-Dylan Haynes utilised advanced functional magnetic resonance imaging (fMRI) to study the hidden mechanics of decision-making. In his highly publicised experiments, participants were asked to freely choose between pressing a button with their left or right hand. By aggressively analysing the real-time fMRI data using advanced machine learning pattern-recognition algorithms, Haynes’s research team discovered they could accurately predict which hand the participant would ultimately choose up to ten full seconds before the participant was consciously aware of having made their own decision. This research provides exceptionally compelling empirical evidence that our choices are determined by completely unconscious neural processes long before they ever enter our conscious awareness.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "If the traditional, libertarian concept of free will is indeed a comforting neurobiological fiction, the societal implications are practically staggering. The philosophical stance of incompatibilism actively asserts that a strictly deterministic universe is fundamentally incompatible with the concept of moral responsibility. Our entire legal and justice system is firmly predicated on the core assumption that individuals possess the conscious, independent agency to rationally choose between right and wrong. If a violent criminal act is merely the inevitable, inescapable result of unconscious neural events strictly preceding the conscious intention, the philosophical justification for retributive justice—punishing individuals simply because they \"deserve\" it—begins to crumble, shifting the institutional focus entirely toward rehabilitative justice and proactive societal protection.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Despite the immense weight of this neurobiological evidence, many prominent philosophers and cognitive scientists urge extreme caution regarding these conclusions. Critics frequently point out that the sterile laboratory tasks used in these deterministic experiments—spontaneously flicking a wrist or pressing a plastic button for absolutely no particular reason—are completely divorced from the complex, deliberate, and deeply meaningful decision-making processes that actually define human life. Deciding to marry a partner, pursue a specific, gruelling career path, or commit a premeditated crime involves prolonged conscious deliberation, the careful weighing of long-term consequences, and the active integration of abstract personal values—a macroscopic cognitive process vastly different from simply generating a random motor impulse in a scanner. Until neuroscience can accurately predict these complex, real-world, highly deliberative choices, the fierce debate over conscious will remains far from settled.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm17_q1",
+        "type": "TFNG",
+        "q": "1. Benjamin Libet's experiments proved unequivocally that humans have absolutely no control over their actions.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q2",
+        "type": "TFNG",
+        "q": "2. Daniel Wegner argued that the conscious will is merely an afterthought rather than a driving force of action.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q3",
+        "type": "TFNG",
+        "q": "3. John-Dylan Haynes's research contradicted the core findings of Libet's original EEG experiments.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q4",
+        "type": "TFNG",
+        "q": "4. Modern legal systems generally operate on the assumption that individuals possess free will.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q5",
+        "type": "TFNG",
+        "q": "5. Recent studies on complex life decisions have yielded the exact same neurological results as simple button-pressing tasks.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q6",
+        "type": "GAP",
+        "q": "6. The presence of the \"readiness potential\" in Libet's experiments indicates that",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q7",
+        "type": "GAP",
+        "q": "7. Daniel Wegner’s epiphenomenalist perspective proposes that",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q8",
+        "type": "GAP",
+        "q": "8. The philosophical stance of incompatibilism argues that if neurobiology is strictly deterministic, then",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q9",
+        "type": "GAP",
+        "q": "9. Critics urge caution regarding the findings of Libet and Haynes, pointing out that",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q10",
+        "type": "GAP",
+        "q": "10. Neurobiological research has significantly challenged the traditional concept of free will. Libet's studies revealed that brain activity, known as a {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_0}}, begins milliseconds prior to a person's conscious decision to move. Wegner built upon this to describe consciousness as an {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_1}}, suggesting it does not cause actions but merely observes them. More recently, Haynes used sophisticated {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_2}} technology to predict decisions seconds in advance. These findings raise profound questions about moral responsibility and the foundations of our {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_3}} system.",
+        "options": [],
+        "ans": "readiness potential",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'readiness potential'.",
+        "expMm": "အဖြေမှန်: 'readiness potential' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q11",
+        "type": "GAP",
+        "q": "11. ",
+        "options": [],
+        "ans": "epiphenomenon",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'epiphenomenon'.",
+        "expMm": "အဖြေမှန်: 'epiphenomenon' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q12",
+        "type": "GAP",
+        "q": "12. ",
+        "options": [],
+        "ans": "fMRI",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'fMRI'.",
+        "expMm": "အဖြေမှန်: 'fMRI' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm17_q13",
+        "type": "GAP",
+        "q": "13. ",
+        "options": [],
+        "ans": "justice",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'justice'.",
+        "expMm": "အဖြေမှန်: 'justice' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm18",
+    "code": "MOCK 18",
+    "title": "Passage 18: The Linguistic Decipherment of Linear Elamite",
+    "category": "Linguistics & Quantum Sciences",
+    "difficulty": "Band 9.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For over a century, the ancient script known as Linear Elamite stood as one of the great unresolved enigmas of early epigraphy. Originating in the contemporary region of southwestern Iran during the late 3rd millennium BCE, the script was coeval with the famed Mesopotamian Cuneiform but remained stubbornly undeciphered. This was largely due to a severe paucity of bilingual texts. Unlike the Rosetta Stone, which provided a direct isomorphic bridge between Egyptian Hieroglyphs and ancient Greek, the extant corpus of Linear Elamite comprised a mere 40 fragmentary inscriptions. These fragmented remnants, discovered primarily in the ancient metropolis of Susa, offered linguists an exceptionally narrow statistical dataset from which to extract grammatical or phonetic patterns.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The breakthrough in decipherment did not occur through a singular, monolithic discovery, but rather through the meticulous, cumulative efforts of a team led by French archaeologist François Desset in the late 2010s. The turning point hinged upon the analysis of a specific group of artifacts known as the \"gunagi\" vessels—intricately engraved silver beakers recovered from the Kamtiri region. Crucially, these beakers bore inscriptions in both Mesopotamian Cuneiform and Linear Elamite, detailing the names and titularies of local rulers. By cross-referencing the known cuneiform phonetic values of these royal names with the unknown Elamite symbols, Desset's team established a reliable phonetic anchor.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "What emerged from this linguistic excavation profoundly challenged established historiographical orthodoxies. Previously, prevailing scholarly consensus held that the development of writing was a strictly unilateral phenomenon, radiating outward from a single origin point in southern Mesopotamia. However, the structure of Linear Elamite suggested an independent, indigenous evolution of writing in the Iranian plateau. Furthermore, while early Mesopotamian scripts were heavily logophonetic—utilizing hundreds of symbols to represent entire words alongside syllables—Linear Elamite was revealed to be a highly streamlined, almost purely phonetic system utilizing merely 80 to 100 signs.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The decipherment of Linear Elamite fundamentally restructures our understanding of Bronze Age communication networks. It indicates a sophisticated intellectual milieu in Elam, characterized by a deliberate departure from the cumbersome logographic systems of their western neighbors. The phonetic elegance of Linear Elamite arguably democratized record-keeping, allowing scribes to draft administrative, royal, and perhaps even literary texts with unprecedented efficiency.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Despite this monumental triumph, the translation of the entire Elamite corpus remains an ongoing endeavor. The script has been unlocked, but the underlying Elamite language itself—a language isolate with no known living relatives—continues to present formidable semantic challenges. Epigraphers now face the arduous task of reconstructing the lexicon and syntax of a civilization that has been silent for over four millennia, relying on the structural framework that Desset's phonetic key has finally provided.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm18_q1",
+        "type": "TFNG",
+        "q": "1. The Rosetta Stone was utilized by François Desset to translate Linear Elamite.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q2",
+        "type": "TFNG",
+        "q": "2. The surviving examples of Linear Elamite inscriptions were statistically limited.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q3",
+        "type": "TFNG",
+        "q": "3. The decipherment proved that writing originated exclusively in southern Mesopotamia.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q4",
+        "type": "TFNG",
+        "q": "4. Linear Elamite was predominantly used for agricultural accounting.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q5",
+        "type": "GAP",
+        "q": "5. Row 1",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q6",
+        "type": "GAP",
+        "q": "6. Row 2",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q7",
+        "type": "GAP",
+        "q": "7. Row 3",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q8",
+        "type": "GAP",
+        "q": "8. Row 4",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q9",
+        "type": "GAP",
+        "q": "9. Row 5",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q10",
+        "type": "GAP",
+        "q": "10. What type of texts were notoriously lacking, hindering early decipherment efforts?",
+        "options": [],
+        "ans": "bilingual texts",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'bilingual texts'.",
+        "expMm": "အဖြေမှန်: 'bilingual texts' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q11",
+        "type": "GAP",
+        "q": "11. What specific term refers to the artifacts that ultimately provided the phonetic anchor?",
+        "options": [],
+        "ans": "gunagi vessels",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'gunagi vessels'.",
+        "expMm": "အဖြေမှန်: 'gunagi vessels' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q12",
+        "type": "GAP",
+        "q": "12. How many signs approximately did the Linear Elamite writing system utilize?",
+        "options": [],
+        "ans": "80 to 100",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for '80 to 100'.",
+        "expMm": "အဖြေမှန်: '80 to 100' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm18_q13",
+        "type": "GAP",
+        "q": "13. How is the Elamite language classified linguistically by modern epigraphers?",
+        "options": [],
+        "ans": "language isolate",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'language isolate'.",
+        "expMm": "အဖြေမှန်: 'language isolate' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm19",
+    "code": "MOCK 19",
+    "title": "Passage 19: The Economics of Attention in the Digital Anthropocene",
+    "category": "Linguistics & Quantum Sciences",
+    "difficulty": "Band 9.0 CBT",
+    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "In the contemporary epoch, frequently colloquially termed the 'Digital Anthropocene', human attention has been systematically transmuted from a cognitive faculty into a highly fungible macroeconomic commodity. The genesis of the \"attention economy\"—a paradigm initially postulated by polymath Herbert A. Simon in 1971—posits that an overabundance of information inexorably engenders a scarcity of attention. Today, this theoretical framework has been operationalised by ubiquitous algorithmic architectures designed to extract, quantify, and monetise human cognitive engagement with unprecedented granular precision.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The fundamental friction in this economy arises from a profound biological bottleneck. While global data generation expands at an exponential velocity, the neurobiological capacity of the human brain to process sensory input remains strictly bounded by evolutionary constraints. We possess roughly 86 billion neurons, capable of processing only a finite bandwidth of stimuli before cognitive overload triggers profound executive dysfunction. Silicon Valley conglomerates actively exploit this asymmetry, deploying sophisticated interface designs that bypass higher-order rational deliberation, appealing directly to the primitive dopaminergic pathways of the basal ganglia.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "Chief among these exploitative mechanisms is the 'variable ratio schedule' of reinforcement, a psychological principle imported directly from B.F. Skinner's mid-20th-century operant conditioning paradigms. Features such as the 'infinite scroll' or the unpredictable delivery of social validation notifications transform digital platforms into veritable psychological slot machines. Because the reward (a compelling piece of news, a humorous image, a social \"like\") is delivered at entirely randomized intervals, the user is locked into a compulsive loop of continuous checking, effectively surrendering their volitional autonomy to the architectural dictates of the application.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The macroeconomic implications of this shift have been delineated by Harvard sociologist Shoshana Zuboff under the nomenclature of \"surveillance capitalism.\" In this paradigm, digital conglomerates do not merely sell targeted advertising; they aggregate vast oceans of behavioral data to construct predictive models of future human action. These \"behavioral futures\" are traded in opaque secondary markets, rendering the human experience itself the raw material for algorithmic capital accumulation. The user is no longer the customer, nor even the product; rather, the user is the uncompensated terra nullius from which cognitive resources are ruthlessly strip-mined.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "The psychological externalities of this system are becoming increasingly quantifiable. Sociologists note a rising epidemic of \"continuous partial attention, an unnatural cognitive state wherein an individual maintains a superficial, high-alert scan of multiple digital streams simultaneously, never achieving the deep, unfragmented focus required for complex analytical reasoning or meaningful empathetic connection. Longitudinal studies suggest this chronic attentional fragmentation correlates strongly with elevated cortisol levels, pervasive societal anxiety, and a measurable degradation in democratic discourse, as emotionally incendiary micro-content reliably outcompetes nuanced argumentation in algorithmic visibility.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "In response to this cognitive crisis, a nascent movement advocating for \"cognitive ergonomics\" and \"time well spent\" is gaining legislative traction. European regulatory bodies have begun floating the concept of a \"Right to Disconnect, alongside proposals to strictly regulate persuasive design patterns. However, transitioning away from an attention-extractive economy necessitates a fundamental realignment of digital incentive structures—shifting the core metrics of technological success from raw \"time-on-site\" to the qualitative enhancement of human agency and well-being.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm19_q1",
+        "type": "GAP",
+        "q": "1. Paragraph A",
+        "options": [],
+        "ans": "vii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
+        "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q2",
+        "type": "GAP",
+        "q": "2. Paragraph B",
+        "options": [],
+        "ans": "i",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
+        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q3",
+        "type": "GAP",
+        "q": "3. Paragraph C",
+        "options": [],
+        "ans": "ii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
+        "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q4",
+        "type": "GAP",
+        "q": "4. Paragraph D",
+        "options": [],
+        "ans": "v",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
+        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q5",
+        "type": "GAP",
+        "q": "5. Paragraph E",
+        "options": [],
+        "ans": "iii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
+        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q6",
+        "type": "GAP",
+        "q": "6. Paragraph F",
+        "options": [],
+        "ans": "iv",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
+        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q7",
+        "type": "GAP",
+        "q": "7. A description of how unstructured, volatile digital streams degrade democratic interactions.",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q8",
+        "type": "GAP",
+        "q": "8. An explanation of why the unpredictability of digital rewards forces compulsive user behavior.",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q9",
+        "type": "GAP",
+        "q": "9. The assertion that users are treated merely as territories to be mined for data.",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q10",
+        "type": "GAP",
+        "q": "10. Mention of a proposal to legally safeguard an individual's right to detach from digital networks.",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q11",
+        "type": "MCQ",
+        "q": "11. According to Paragraph B, tech companies successfully manipulate users by:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Expanding the neurobiological capacity of the human brain.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Overwhelming users with rational, highly complex arguments.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Circumventing rational thought to stimulate foundational reward pathways.",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "D. Decreasing the exponential velocity of global data generation.",
+            "is_correct": false
+          }
+        ],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q12",
+        "type": "MCQ",
+        "q": "12. Shoshana Zuboff's concept of \"surveillance capitalism\" implies that:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Users directly purchase predictive models from technology conglomerates.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Human experiences are commodified into speculative assets traded by algorithms.",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "C. Targeted advertising is the sole mechanism of revenue generation.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. Consumers maintain ownership over their granular behavioral data.",
+            "is_correct": false
+          }
+        ],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q13",
+        "type": "MCQ",
+        "q": "13. What is the primary consequence of \"continuous partial attention\" as identified in the text?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. A heightened ability to process emotionally incendiary content.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. An improvement in multi-tasking and operational efficiency.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. A decrease in cortisol levels during prolonged digital exposure.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. An inability to engage in profound focus or meaningful empathy.",
+            "is_correct": true
+          }
+        ],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm19_q14",
+        "type": "MCQ",
+        "q": "14. The author's stance on resolving the cognitive crisis involves:",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Shifting corporate metrics from engagement duration to user well-being.",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "B. Enhancing the variable ratio schedules used in platform interfaces.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Rejecting all forms of European technological regulation.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. Acknowledging that information abundance is fundamentally irreversible.",
+            "is_correct": false
+          }
+        ],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm20",
+    "code": "MOCK 20",
+    "title": "Passage 20: Quantum Biology: Navigating the Subatomic Frontier of Life",
+    "category": "Linguistics & Quantum Sciences",
+    "difficulty": "Band 9.0 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "The intersection of quantum mechanics and molecular biology—two disciplines traditionally isolated by vastly disparate spatial and temporal scales—has birthed the profoundly disruptive paradigm of quantum biology. For decades, classical biochemistry presupposed that the warm, chaotic, and macroscopic environment of living organisms would instantaneously collapse any delicate quantum superpositions, rendering phenomena like entanglement and quantum tunneling biologically inert. However, recent empirical breakthroughs have unequivocally demonstrated that life not only tolerates quantum anomalies but actively exploits them to achieve physiological efficiencies entirely unattainable by classical thermodynamics.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "Perhaps the most extensively corroborated instance of macroscopic quantum biology is avian magnetoreception. The European Robin (Erithacus rubecula) undertakes transcontinental migrations by navigating along the Earth's extraordinarily weak magnetic field. Classical chemical reactions lack the sensitivity required to detect such minute magnetic variations. However, researchers have identified a light-sensitive protein in the avian retina called cryptochrome. When a photon strikes this protein, it creates a \"radical pair\" of electrons that exist in a state of quantum entanglement. The microscopic spin states of these entangled electrons oscillate in a manner exquisitely sensitive to the Earth's magnetic inclination, effectively providing the bird with a subatomic quantum compass.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "Equally astonishing is the application of quantum coherence in photosynthesis. The Fenna-Matthews-Olson (FMO) complex, a pigment-protein structure found in green sulfur bacteria, operates as an energy funnel, transporting solar photons to a reaction center with an astoundingly near-perfect efficiency of 99 percent. Classical models, representing energy transfer as a random, localized 'drunkard's walk', fail entirely to account for this speed and efficiency. Advanced femtosecond spectroscopy has revealed that the excitation energy propagates through the FMO complex in a state of quantum coherence—simultaneously exploring every possible route to the reaction center and instantaneously collapsing into the most efficient pathway.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The phenomenon of quantum tunneling—where a particle passes through an insurmountable energy barrier by virtue of its probabilistic wave function—has also been identified as a cornerstone of cellular enzymology. Enzymes are biological catalysts that accelerate chemical reactions by lowering activation energy barriers. However, experimental data shows that protons and electrons frequently bypass these barriers altogether via quantum tunneling. Without this subatomic shortcut, essential biological processes, including cellular respiration and DNA mutation, would proceed at rates far too sluggish to sustain complex biological life.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "A more speculative, yet highly compelling, frontier involves the physiology of olfaction. The traditional 'lock-and-key' model of smell posits that odorant molecules fit perfectly into matching receptor proteins. Yet, molecules with entirely different shapes can smell identical, while molecular isotopes—which share the same shape but differ slightly in mass—smell distinct. The controversial 'vibration theory' of olfaction suggests that olfactory receptors operate as nanoscale quantum spectrometers. When an odorant binds to a receptor, an electron quantum tunnels across the receptor, a process governed precisely by the molecular vibrational frequency of the odorant.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "The implications of these discoveries stretch deeply into evolutionary theory. If biological systems have evolved to maintain quantum coherence within the supposedly prohibitive 'hot and wet' environment of a cell, it suggests that natural selection operates effectively at the deepest, most fundamental layers of physical reality. The biological exploitation of the quantum realm is not a bizarre anomaly; rather, it appears to be an inexorable, highly optimized strategy of life itself. As instrumentation continues to attain unprecedented precision, the artificial boundary demarcating classical biology from quantum physics will likely dissolve entirely.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm20_q1",
+        "type": "TFNG",
+        "q": "1. Classical biochemists initially believed that a living organism's internal environment would destroy quantum states.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q2",
+        "type": "TFNG",
+        "q": "2. The cryptochrome protein relies on sound vibrations to maintain its quantum entanglement.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q3",
+        "type": "TFNG",
+        "q": "3. Energy transfer in the FMO complex can be adequately explained by the classical \"drunkard's walk\" model.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q4",
+        "type": "TFNG",
+        "q": "4. Quantum tunneling is primarily responsible for preventing detrimental DNA mutations in humans.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q5",
+        "type": "TFNG",
+        "q": "5. The vibration theory of olfaction proposes that receptors measure an odorant's molecular vibrational frequency.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q6",
+        "type": "GAP",
+        "q": "6. The discovery of avian magnetoreception suggests that European Robins can",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q7",
+        "type": "GAP",
+        "q": "7. Because excitation energy exists in a state of quantum coherence, it can",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q8",
+        "type": "GAP",
+        "q": "8. By utilizing the probabilistic subatomic wave function, cellular enzymes help particles",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q9",
+        "type": "GAP",
+        "q": "9. The failure of the traditional lock-and-key model of olfaction led to the hypothesis that receptors might",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q10",
+        "type": "GAP",
+        "q": "10. Quantum biology explains how living organisms exploit quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_0}} to perform highly efficient processes. For example, avian magnetoreception relies on the quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_1}} of radical electron pairs. Similarly, the near-perfect efficiency of photosynthesis is driven by quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_2}}, allowing energy to find optimal pathways. Furthermore, enzymes rapidly catalyze reactions via quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_3}}, enabling particles to bypass massive energy barriers.",
+        "options": [],
+        "ans": "anomalies",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'anomalies'.",
+        "expMm": "အဖြေမှန်: 'anomalies' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q11",
+        "type": "GAP",
+        "q": "11. ",
+        "options": [],
+        "ans": "entanglement",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'entanglement'.",
+        "expMm": "အဖြေမှန်: 'entanglement' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q12",
+        "type": "GAP",
+        "q": "12. ",
+        "options": [],
+        "ans": "coherence",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'coherence'.",
+        "expMm": "အဖြေမှန်: 'coherence' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm20_q13",
+        "type": "GAP",
+        "q": "13. ",
+        "options": [],
+        "ans": "tunneling",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'tunneling'.",
+        "expMm": "အဖြေမှန်: 'tunneling' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm21",
+    "code": "MOCK 21",
+    "title": "Passage 21: The Rise of Vertical Farming",
+    "category": "Urban Design & Cryptography",
+    "difficulty": "Band 8.5 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "As the global population continues to expand, projecting to reach nearly 10 billion by 2050, traditional agriculture faces unprecedented challenges. Conventional farming requires vast expanses of arable land, significant fresh water resources, and relies heavily on complex supply chains that are increasingly vulnerable to climate change. In response to these pressing limitations, a revolutionary agricultural paradigm has emerged: vertical farming. This highly innovative method involves growing crops in stacked layers within controlled indoor environments, typically located in dense urban areas. By bringing the farm directly into the city, vertical farming drastically reduces transportation emissions and food miles, offering a highly localized solution to a global crisis.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The mechanics of vertical farming rely entirely on advanced indoor agricultural technologies rather than natural sunlight or soil. Most facilities utilize hydroponics, where roots are submerged in a nutrient-rich water solution instead of traditional earth. Another increasingly common method is aeroponics, a system originally developed by NASA, where roots hang directly in the air and receive a continuous, highly calibrated nutrient mist. Because these environments are completely enclosed, vertical farms do not rely on natural solar cycles; instead, they use sophisticated LED lighting systems programmed to emit specific light spectrums optimized for maximum photosynthesis.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "The environmental benefits of this controlled-environment agriculture are substantial. Because the systems are closed-loop, vertical farming saves up to 95% water compared to conventional field farming, capturing and recycling moisture transpired by the plants. Furthermore, the sterile indoor environment fundamentally changes pest management. By keeping insects out through strict biosecurity protocols, vertical farming completely eliminates the need for chemical pesticides, resulting in cleaner, safer produce. Additionally, independent of external weather conditions, these facilities can guarantee a consistent, year-round yield, harvesting crops multiple times a year regardless of the season.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "Despite its remarkable potential, vertical farming is not without significant drawbacks. The capital required to construct a state-of-the-art facility is enormous, with sensors, climate control systems, and specialized infrastructure driving up initial setup costs. However, the major ongoing expense remains energy consumption. Powering thousands of high-intensity LED lights and maintaining precise environmental controls 24 hours a day demands a massive amount of electricity. This high energy requirement currently makes vertical farming economically viable primarily for fast-growing, high-margin crops like leafy greens and herbs, rather than staple calorie crops like wheat or rice.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "The future outlook for vertical farming hinges on overcoming these economic and energetic hurdles. Engineers and agronomists are actively working on increasing the efficiency of lighting systems and exploring ways of integrating renewable energy sources, such as solar and wind power, directly into facility designs to offset these costs. If the industry can successfully reduce its energy footprint, vertical farming stands to become a crucial pillar of global food security, resilient to a changing climate and capable of sustainably feeding the megacities of tomorrow.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm21_q1",
+        "type": "TFNG",
+        "q": "1. Vertical farming relies heavily on natural sunlight to grow crops efficiently.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q2",
+        "type": "TFNG",
+        "q": "2. Aeroponics generally uses less water than hydroponic systems.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q3",
+        "type": "TFNG",
+        "q": "3. Vertical farms are capable of producing harvests regardless of the external season.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
+        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q4",
+        "type": "TFNG",
+        "q": "4. The initial setup cost of a vertical farm is cheaper than purchasing traditional farmland.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
+        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q5",
+        "type": "GAP",
+        "q": "5. Row 1",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q6",
+        "type": "GAP",
+        "q": "6. Row 2",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q7",
+        "type": "GAP",
+        "q": "7. Row 3",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q8",
+        "type": "GAP",
+        "q": "8. Row 4",
+        "options": [],
+        "ans": "",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
+        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q9",
+        "type": "GAP",
+        "q": "9. What type of locations are vertical farms typically built in?",
+        "options": [],
+        "ans": "urban areas",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'urban areas'.",
+        "expMm": "အဖြေမှန်: 'urban areas' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q10",
+        "type": "GAP",
+        "q": "10. What specific agricultural method relies on a highly calibrated nutrient mist?",
+        "options": [],
+        "ans": "aeroponics",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'aeroponics'.",
+        "expMm": "အဖြေမှန်: 'aeroponics' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q11",
+        "type": "GAP",
+        "q": "11. What is the primary ongoing expense involved in operating a vertical farm?",
+        "options": [],
+        "ans": "energy consumption",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'energy consumption'.",
+        "expMm": "အဖြေမှန်: 'energy consumption' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q12",
+        "type": "GAP",
+        "q": "12. What type of produce is currently the most economically viable for indoor farming?",
+        "options": [],
+        "ans": "leafy greens",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'leafy greens'.",
+        "expMm": "အဖြေမှန်: 'leafy greens' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm21_q13",
+        "type": "GAP",
+        "q": "13. What type of power sources are being integrated into designs to offset high electricity costs?",
+        "options": [],
+        "ans": "renewable energy sources",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'renewable energy sources'.",
+        "expMm": "အဖြေမှန်: 'renewable energy sources' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm22",
+    "code": "MOCK 22",
+    "title": "Passage 22: The Psychology of Urban Design",
+    "category": "Urban Design & Cryptography",
+    "difficulty": "Band 8.5 CBT",
+    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "For centuries, urban planners focused primarily on the functional efficiency of cities: traffic flow, sanitation, and industrial zoning. However, contemporary research in environmental psychology has sparked a paradigm shift, demonstrating that cities have a profound impact on human emotional well-being. The built environment is no longer viewed merely as a passive backdrop to human activity, but as an active agent that significantly shapes our cognitive states, stress levels, and social behaviors.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "A foundational concept in this field is biophilia, the psychological principle that explains human attraction to nature and natural systems. Studies consistently show that urban populations with regular access to green spaces exhibit significantly lower baseline levels of cortisol, the primary stress hormone. Parks, tree-lined avenues, and even small community gardens provide crucial cognitive restoration, allowing the brain to recover from the sensory overload typical of dense urban environments. Integrating natural elements into cityscapes is not merely a cosmetic luxury; it is a fundamental public health necessity.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "Navigability, or how easily individuals can orient themselves and move through a city, is another critical psychological factor. Clear, highly legible street layouts with prominent architectural landmarks allow residents to form accurate mental maps. Conversely, confusing street layouts and winding paths without distinct landmarks severely increase anxiety and disorientation. When people feel perpetually lost in their own environment, it fosters an underlying sense of vulnerability and drastically reduces their willingness to explore their surroundings.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "The physical aesthetics of architecture also matter deeply. The materials, scale, and facade of buildings communicate specific emotional cues. Imposing concrete buildings, typical of mid-century Brutalism, often provoke feelings of alienation, intimidation, and unease, emphasizing institutional power over individual comfort. In contrast, architecture that incorporates organic curves, varied textures, and human-scaled proportions tends to foster feelings of safety and warmth. The visual monotony of endless glass skyscrapers can be as psychologically exhausting as an aggressively harsh concrete block.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Furthermore, the design of social spaces dictates the quality of community interaction. Public squares, wide pedestrian sidewalks, and accessible plazas are essential for fostering community relationships and combating urban loneliness. When cities prioritize automotive traffic over pedestrian infrastructure, they inadvertently design out the casual, serendipitous social encounters that build neighborhood cohesion and trust. A well-designed public square acts as an outdoor living room, a democratic space where diverse demographics can co-exist and interact.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "Looking forward, the future lies in human-centric urban design. City planners are increasingly using data analytics and biometric feedback to monitor urban well-being and design better, more responsive cities. By understanding the intricate psychological mechanisms triggered by urban environments, the next generation of architects and planners can intentionally construct cities that not only house millions of people but actively nurture their mental health and social connectivity.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm22_q1",
+        "type": "GAP",
+        "q": "1. Paragraph A",
+        "options": [],
+        "ans": "ii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
+        "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q2",
+        "type": "GAP",
+        "q": "2. Paragraph B",
+        "options": [],
+        "ans": "v",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
+        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q3",
+        "type": "GAP",
+        "q": "3. Paragraph C",
+        "options": [],
+        "ans": "i",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
+        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q4",
+        "type": "GAP",
+        "q": "4. Paragraph D",
+        "options": [],
+        "ans": "iv",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
+        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q5",
+        "type": "GAP",
+        "q": "5. Paragraph E",
+        "options": [],
+        "ans": "iii",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
+        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q6",
+        "type": "GAP",
+        "q": "6. Paragraph F",
+        "options": [],
+        "ans": "vi",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
+        "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q7",
+        "type": "GAP",
+        "q": "7. An explanation of how confusing street layouts can increase anxiety.",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q8",
+        "type": "GAP",
+        "q": "8. The psychological term describing human attraction to nature.",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q9",
+        "type": "GAP",
+        "q": "9. The role of public squares in combating urban loneliness.",
+        "options": [],
+        "ans": "E",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
+        "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q10",
+        "type": "GAP",
+        "q": "10. The emotional reaction often caused by imposing concrete structures.",
+        "options": [],
+        "ans": "D",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
+        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q11",
+        "type": "GAP",
+        "q": "11. The implementation of biometric feedback to design better cities.",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q12",
+        "type": "MCQ",
+        "q": "12. According to Paragraph B, what is a physiological benefit of access to green spaces?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. A significant reduction in the primary stress hormone.",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "B. An increase in physical fitness due to more walking.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. Complete immunity to sensory overload.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. A faster recovery from physical illnesses.",
+            "is_correct": false
+          }
+        ],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q13",
+        "type": "MCQ",
+        "q": "13. Brutalist architecture is mentioned in Paragraph D primarily to illustrate",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. the cost-effectiveness of using concrete in modern cities.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. how certain building materials can provoke feelings of alienation.",
+            "is_correct": true
+          },
+          {
+            "id": "C",
+            "text": "C. the historical progression of urban design trends.",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "D. why skyscrapers are more psychologically exhausting than smaller buildings.",
+            "is_correct": false
+          }
+        ],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm22_q14",
+        "type": "MCQ",
+        "q": "14. What is the overall message of the passage regarding urban design?",
+        "options": [
+          {
+            "id": "A",
+            "text": "A. Cities should prioritize traffic flow to reduce economic losses.",
+            "is_correct": false
+          },
+          {
+            "id": "B",
+            "text": "B. Historical architecture should be entirely replaced by modern structures.",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "C. The physical environment fundamentally influences human emotional health.",
+            "is_correct": true
+          },
+          {
+            "id": "D",
+            "text": "D. People naturally prefer living in rural areas over urban ones.",
+            "is_correct": false
+          }
+        ],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
+  },
+  {
+    "id": "rm23",
+    "code": "MOCK 23",
+    "title": "Passage 23: Quantum Computing and the Future of Cryptography",
+    "category": "Urban Design & Cryptography",
+    "difficulty": "Band 8.5 CBT",
+    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "The digital security infrastructure that currently underpins the modern world—from secure online banking and encrypted messaging to classified government communications—relies almost entirely on classical computing paradigms. Classical computers process information using binary bits, representing data as either a 0 or a 1. However, the rapidly advancing field of quantum computing threatens to entirely upend this established digital order. Quantum computers operate on the mind-bending principles of quantum mechanics, utilizing quantum bits, or \"qubits,\" which possess capabilities that make traditional microprocessors look little more than advanced abacuses.",
+        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "B",
+        "text": "The extraordinary power of quantum computers stems from two primary quantum phenomena: superposition and entanglement. While a classical bit must be strictly a 0 or a 1, a qubit in a state of superposition can exist as both a 0 and a 1 simultaneously. This allows quantum systems to evaluate an immense number of potential outcomes concurrently, rather than sequentially. Furthermore, through quantum entanglement, qubits become intricately linked; the state of one instantly influences the state of another, regardless of the physical distance separating them. Together, these properties grant quantum computers exponential processing power for specific types of complex calculations.",
+        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "C",
+        "text": "To understand the existential threat this poses, one must examine how current encryption works. The most widely used cryptographic standard today is the RSA algorithm. RSA security relies completely on the immense mathematical difficulty of factoring incredibly large prime numbers. For a classical supercomputer, calculating the prime factors of a 2048-bit number would theoretically take millions of years. Therefore, classical cryptography assumes that brute-force decryption is practically impossible within a human timeframe. Our data is considered \"secure\" merely because the math takes too long for current machines to solve.",
+        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "D",
+        "text": "Enter Peter Shor. In 1994, the American mathematician developed Shor’s algorithm, a theoretical quantum algorithm designed specifically for integer factorization. Shor proved that a sufficiently powerful quantum computer could execute this algorithm to find the prime factors of large numbers not in millions of years, but in mere hours or minutes. The moment a fully functional, fault-tolerant quantum computer is built, RSA and similar encryption models instantly become obsolete. Every piece of encrypted data—past, present, and future—could be theoretically exposed and decrypted almost instantly.",
+        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "E",
+        "text": "Recognizing this looming \"quantum apocalypse,\" global cybersecurity agencies and cryptographers are aggressively racing to develop \"post-quantum cryptography\" (PQC). The goal is to design entirely new cryptographic algorithms that run on classical computers but rely on mathematical problems so profoundly complex that even a quantum computer cannot easily solve them. The most promising candidates are lattice-based models. These algorithms hide data within multidimensional geometric grids; finding the shortest path between points in a lattice with hundreds of dimensions appears to be a problem that inherently resists even quantum processing speed.",
+        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      },
+      {
+        "label": "F",
+        "text": "The transition to post-quantum cryptography is an urgent race against time. The phenomenon known as \"Harvest Now, Decrypt Later\" reveals that malicious actors are already actively stealing and stockpiling massive amounts of encrypted data today. They intend to hold onto this data until quantum technology matures enough to decrypt it. Therefore, achieving quantum supremacy—the point where a quantum computer definitively outperforms the best classical supercomputer on a specific task—is not just an academic milestone; it is a global national security imperative driving rapid, unprecedented innovation.",
+        "mmSummary": "အပိုဒ် (F) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm23_q1",
+        "type": "TFNG",
+        "q": "1. Qubits are capable of existing in multiple states simultaneously.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q2",
+        "type": "TFNG",
+        "q": "2. The RSA algorithm is easily broken by modern classical supercomputers.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q3",
+        "type": "TFNG",
+        "q": "3. Shor's algorithm has already been successfully used to hack major banking systems.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
+        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q4",
+        "type": "TFNG",
+        "q": "4. Lattice-based cryptography is proven to be completely immune to all future technological advancements.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NO'.",
+        "expMm": "အဖြေမှန်: 'NO' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q5",
+        "type": "TFNG",
+        "q": "5. Researchers are actively working on developing algorithms resistant to quantum computers.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "YES",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'YES'.",
+        "expMm": "အဖြေမှန်: 'YES' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q6",
+        "type": "GAP",
+        "q": "6. Classical computers process information",
+        "options": [],
+        "ans": "C",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
+        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q7",
+        "type": "GAP",
+        "q": "7. The security of the RSA algorithm relies heavily on",
+        "options": [],
+        "ans": "A",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
+        "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q8",
+        "type": "GAP",
+        "q": "8. Shor's algorithm poses a massive security threat because it can",
+        "options": [],
+        "ans": "F",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
+        "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q9",
+        "type": "GAP",
+        "q": "9. The primary goal of post-quantum cryptography is to",
+        "options": [],
+        "ans": "B",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
+        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q10",
+        "type": "GAP",
+        "q": "10. The advent of quantum computers severely threatens traditional {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_0}}. Unlike classical bits, {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_1}} utilise phenomena such as superposition to process vast amounts of data concurrently. To counter the decryption threat posed by mathematical formulas like Shor's algorithm, scientists are creating entirely new, complex structures, such as {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_2}} models. The global race to achieve quantum {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_3}} is driving rapid innovation, spurred on by the urgent need to protect encrypted data from future attacks.",
+        "options": [],
+        "ans": "cryptography",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'cryptography'.",
+        "expMm": "အဖြေမှန်: 'cryptography' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q11",
+        "type": "GAP",
+        "q": "11. ",
+        "options": [],
+        "ans": "qubits",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'qubits'.",
+        "expMm": "အဖြေမှန်: 'qubits' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q12",
+        "type": "GAP",
+        "q": "12. ",
+        "options": [],
+        "ans": "lattice-based",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'lattice-based'.",
+        "expMm": "အဖြေမှန်: 'lattice-based' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm23_q13",
+        "type": "GAP",
+        "q": "13. ",
+        "options": [],
+        "ans": "supremacy",
+        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'supremacy'.",
+        "expMm": "အဖြေမှန်: 'supremacy' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      }
+    ]
   }
 ]

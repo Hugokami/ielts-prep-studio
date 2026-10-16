@@ -1258,6 +1258,930 @@
       ],
       "sample": "Part 2 (Helping a Neighbour): I'd like to talk about a time when I helped a neighbour who had just moved into our building. She was an older lady who had come from another city, and she seemed quite overwhelmed by the move. One afternoon I noticed she was struggling to carry several heavy boxes up the stairs, so I offered to help. We carried them together, and she was really grateful. What I remember most is how happy she was afterward. We ended up talking for quite a while, and since then we've become good friends. It made me realize how a small gesture can make a real difference to someone's day. | Part 3 (Do people help each other less today?): That's a tricky question. In some ways, I think people help each other less, because everyone is so busy... However, online communities have made it much easier to ask for help or offer support to people who are far away. So I'd say the way we help each other has changed rather than simply declined.",
       "mm": "Part 2 (အိမ်ပြောင်းလာသော သက်ကြီးအိမ်နီးချင်းကို သေတ္တာများ ကူသယ်ပေးခဲ့ပုံ) နှင့် Part 3 (ယနေ့ခေတ် လူအချင်းချင်း ကူညီမှုပုံစံ ပြောင်းလဲလာပုံ) နမူနာအဖြေ အပြည့်အစုံ။"
+    },
+    {
+      "topic": "1. Smartphones, Apps & Digital Connectivity (2026 Forecast)",
+      "category": "Technology & Daily Life",
+      "vocab": [
+        "digital tether",
+        "algorithmic curation",
+        "streamline daily logistics",
+        "doom-scrolling",
+        "indispensable utility",
+        "screen saturation"
+      ],
+      "sample": "I must confess that my smartphone has become an indispensable utility; without it, navigating modern urban logistics would be extraordinarily cumbersome.",
+      "mm": "စမတ်ဖုန်းနှင့် မိုဘိုင်းအက်ပလီကေးရှင်းများအကြောင်း Part 1 မှ Part 3 အထိ မေးလေ့ရှိသော ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။ 'very useful' အစား 'indispensable utility / streamlines daily logistics' ကဲ့သို့သော C1 အသုံးအနှုန်းများ သုံးပါ။",
+      "part1": [
+        {
+          "q": "What types of mobile apps do you use most frequently?",
+          "a": "Predominantly navigation and cloud productivity suites. Platforms like Google Maps streamline my daily commute, whereas messaging tools keep me synchronously connected with colleagues.",
+          "mm": "အသုံးများဆုံး အက်ပ်များမှာ လမ်းညွှန်နှင့် လုပ်ငန်းခွင်သုံး အက်ပ်များ ဖြစ်သည်။"
+        },
+        {
+          "q": "Do you think people spend too much time on their phones nowadays?",
+          "a": "Undeniably so. The algorithmic design of short-form video platforms actively encourages compulsive doom-scrolling, resulting in widespread attention fragmentation across all demographics.",
+          "mm": "လူအများ စမတ်ဖုန်း အလွန်အကျွံ သုံးစွဲနေကြသည်မှာ ငြင်းမရသော အမှန်တရား ဖြစ်သည်။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an application on your phone that you find exceptionally useful.\nYou should say:\n- What application it is\n- How frequently you use it\n- What features it offers\n- And explain why you consider it so indispensable",
+        "prepNotes": "Notion / Daily task management & project tracker / Used every morning / Cross-platform cloud sync / Prevents cognitive overload",
+        "modelScript": "An application that has fundamentally revolutionized my daily productivity is Notion. I rely on it virtually every single morning to organize my academic study blocks, professional milestones, and personal reading goals. What sets it apart is its modular architecture—it consolidates databases, calendars, and markdown documents into a frictionless workspace. Without it, keeping track of deadlines amidst a hectic urban routine would induce substantial cognitive fatigue.",
+        "mm": "Part 2 Cue Card: မိမိအတွက် အလွန်အသုံးဝင်သော မိုဘိုင်းအက်ပ်တစ်ခုအကြောင်း ၂ မိနစ်ကြာ သွက်လက်စွာ တင်ပြပုံ။"
+      },
+      "part3": [
+        {
+          "q": "How might smartphone dependence affect children's social development?",
+          "a": "Excessive screen immersion during formative developmental windows can severely attenuate empathetic capacity and real-time social intuition. When interpersonal interactions are mediated exclusively through touchscreens, youth miss critical non-verbal cues like micro-expressions and body language.",
+          "mm": "စမတ်ဖုန်းစွဲလမ်းမှုသည် ကလေးများ၏ လူမှုဆက်ဆံရေး ဖွံ့ဖြိုးမှုကို မည်သို့ ထိခိုက်စေသနည်း။"
+        },
+        {
+          "q": "Will artificial intelligence eventually render traditional apps obsolete?",
+          "a": "Quite possibly. We are transitioning toward multimodal conversational agents that execute complex multi-step workflows via natural speech prompts, potentially eliminating the need to toggle between dozens of discrete standalone applications.",
+          "mm": "AI ကြောင့် သမားရိုးကျ အက်ပ်များ ခေတ်ကုန်သွားနိုင်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "2. Hometown, Urban Infrastructure & Modernization (2026 Forecast)",
+      "category": "Society & Urban Living",
+      "vocab": [
+        "bustling metropolis",
+        "close-knit community",
+        "rapid gentrification",
+        "pedestrian-friendly",
+        "civic amenities",
+        "urban sprawl"
+      ],
+      "sample": "I hail from a vibrant, culturally rich city that has recently experienced rapid commercial modernization, balancing ancient heritage with contemporary high-rises.",
+      "mm": "ဇာတိမြို့နှင့် မြို့ပြအခြေခံအဆောက်အအုံများအကြောင်း ဖြစ်သည်။ ဖွံ့ဖြိုးတိုးတက်မှု (modernization/gentrification) နှင့် ရိုးရာအမွေအနှစ် (ancient heritage) နှိုင်းယှဉ်ချက်များကို ထည့်သွင်းပြောဆိုပါ။",
+      "part1": [
+        {
+          "q": "Where is your hometown located?",
+          "a": "I was born and raised in Yangon, the commercial epicenter of Myanmar, situated along the southern river delta. It is renowned for its golden pagodas and eclectic colonial architecture.",
+          "mm": "ဇာတိမြို့ တည်နေရာနှင့် ထင်ရှားသော လက္ခဏာကို ဖော်ပြပုံ။"
+        },
+        {
+          "q": "Has your hometown changed much since you were a child?",
+          "a": "Dramatically so. A decade ago, the skyline was dominated by low-rise colonial buildings, but relentless urban expansion has brought modern flyovers, shopping plazas, and widespread fiber-optic connectivity.",
+          "mm": "ငယ်စဉ်ကနှင့် နှိုင်းယှဉ်လျှင် မြို့တော် အလွန်ပြောင်းလဲသွားပုံ။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a public development in your hometown that has improved residents' lives.\nYou should say:\n- What the development was\n- Where it is situated\n- How local citizens make use of it\n- And explain why it has had such a positive community impact",
+        "prepNotes": "Public riverfront park & promenade / Central riverfront / Jogging, open-air tai chi, family picnics / Replaced industrial blight with green space",
+        "modelScript": "A transformative development that has vastly enhanced civic quality of life in my city is the revitalized riverfront promenade. Previously, this area was an eyesore of abandoned industrial docks and restricted warehouse fencing. The municipal council cleared the debris, planting native shade trees and constructing lighted pedestrian promenades alongside dedicated running tracks. Today, thousands of citizens congregate there every evening to decompress, exercise, and socialize in a clean public space.",
+        "mm": "Part 2 Cue Card: မိမိမြို့ရှိ ဒေသခံများဘဝကို တိုးတက်စေခဲ့သော အများပြည်သူဆိုင်ရာ ဖွံ့ဖြိုးတိုးတက်မှု စီမံကိန်းအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why do many young professionals migrate from rural hamlets to major metropolises?",
+          "a": "The driving catalyst is the concentration of tertiary employment opportunities, specialized medical infrastructure, and dynamic cultural ecosystems. Rural economies frequently lack vocational diversification, forcing ambitious youth into urban centers.",
+          "mm": "လူငယ်များ အဘယ်ကြောင့် မြို့ကြီးများသို့ ပြောင်းရွှေ့နေထိုင်ကြသနည်း။"
+        },
+        {
+          "q": "What challenges accompany unchecked urban expansion?",
+          "a": "Rapid urban sprawl places severe stress on municipal drainage systems, exacerbates traffic gridlock, and causes prohibitive escalations in housing costs, pricing working-class residents out of inner-city districts.",
+          "mm": "ထိန်းချုပ်မှုမဲ့ မြို့ပြချဲ့ထွင်ခြင်း၏ နောက်ဆက်တွဲ စိန်ခေါ်မှုများ။"
+        }
+      ]
+    },
+    {
+      "topic": "3. Work, Academic Ambitions & Vocational Resilience (2026 Forecast)",
+      "category": "Career & Education",
+      "vocab": [
+        "career trajectory",
+        "vocational fulfillment",
+        "continuous upskilling",
+        "high-pressure environment",
+        "work-life equilibrium",
+        "intrinsic motivation"
+      ],
+      "sample": "My overarching professional aspiration is to cultivate deep technical expertise in data science while maintaining a healthy work-life equilibrium.",
+      "mm": "အလုပ်အကိုင်နှင့် ပညာရေး ရည်မှန်းချက်များအကြောင်း ဖြစ်သည်။ 'good job' အစား 'vocational fulfillment / career trajectory' ကဲ့သို့သော အသုံးအနှုန်းများ သုံးပါ။",
+      "part1": [
+        {
+          "q": "Do you currently work or are you an enrolled student?",
+          "a": "Presently, I am balancing full-time academic studies with practical research internships, focusing on international business management and statistical modeling.",
+          "mm": "လက်ရှိ ပညာသင်ကြားနေမှု သို့မဟုတ် အလုပ်လုပ်ကိုင်နေမှု အခြေအနေ။"
+        },
+        {
+          "q": "What do you enjoy most about your current studies or career path?",
+          "a": "The intellectual challenge of tackling ambiguous problems. There is immense intrinsic satisfaction in synthesizing complex datasets into clear, actionable business strategies.",
+          "mm": "မိမိ၏ လေ့လာမှု သို့မဟုတ် အလုပ်အကိုင်တွင် အကြိုက်ဆုံးအချက်။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an ambitious goal you have set for your professional or academic future.\nYou should say:\n- What the specific goal is\n- When you hope to accomplish it\n- What concrete actions you must undertake\n- And explain why achieving this milestone is so pivotal to you",
+        "prepNotes": "Attain Band 8.5+ IELTS & secure Chevening/Fulbright scholarship / Within 12 months / Daily writing drills, research proposal drafting / Gateway to global leadership",
+        "modelScript": "A monumental objective I have established for the upcoming year is securing a prestigious postgraduate scholarship at a world-class British or Australian university. Accomplishing this requires a multi-staged approach: first, achieving a Band 8.0 or higher on the Academic IELTS to prove linguistic mastery; second, publishing a peer-reviewed research paper on regional economic resilience. Achieving this milestone is paramount because it will provide the advanced methodological training needed to advise national policymakers on sustainable industrialization.",
+        "mm": "Part 2 Cue Card: မိမိ၏ အနာဂတ် ပညာရေး သို့မဟုတ် အသက်မွေးဝမ်းကျောင်းဆိုင်ရာ ရည်မှန်းချက်ကြီးတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Is job security more critical than passion in modern vocational choices?",
+          "a": "In times of macroeconomic volatility, financial stability naturally takes precedence for individuals with familial obligations. However, over a multi-decade career, work devoid of intrinsic purpose inevitably precipitates burnout and disengagement.",
+          "mm": "ခေတ်သစ် အလုပ်အကိုင် ရွေးချယ်မှုတွင် လုံခြုံစိတ်ချရမှုသည် ဝါသနာထက် ပိုအရေးကြီးပါသလား။"
+        },
+        {
+          "q": "How can employees safeguard their careers against algorithmic automation?",
+          "a": "Through agile, continuous upskilling centered on uniquely human capabilities—such as emotional intelligence, ethical discernment, high-stakes negotiation, and cross-disciplinary lateral synthesis.",
+          "mm": "စက်ရုပ်နှင့် AI အစားထိုးခံရမှုမှ အလုပ်သမားများ မိမိတို့ကိုယ်ကို မည်သို့ ကာကွယ်နိုင်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "4. Daily Routines, Mornings & Time Perception (2026 Forecast)",
+      "category": "Lifestyle & Wellbeing",
+      "vocab": [
+        "circadian alignment",
+        "morning ritual",
+        "procrastination loop",
+        "intentionality",
+        "temporal perception",
+        "mindful pacing"
+      ],
+      "sample": "I adhere to a disciplined morning ritual that primes my mental focus before the barrage of digital notifications commences.",
+      "mm": "နေ့စဉ်ဘဝ လုပ်ရိုးလုပ်စဉ်များနှင့် အချိန်စီမံခန့်ခွဲမှုအကြောင်း ဖြစ်သည်။ 'routine' နှင့် ပတ်သက်၍ 'circadian alignment / mindful pacing' စကားလုံးများ သုံးပါ။",
+      "part1": [
+        {
+          "q": "What is your typical morning routine?",
+          "a": "I generally rise at 6:00 AM, hydrate immediately, and engage in twenty minutes of light cardiovascular stretching, followed by a quiet pour-over coffee before reviewing my daily agenda.",
+          "mm": "မိမိ၏ နံနက်ခင်း ပုံမှန် လုပ်ရိုးလုပ်စဉ်ကို ရှင်းပြပုံ။"
+        },
+        {
+          "q": "Do you prefer mornings or late evenings?",
+          "a": "Decidedly mornings. I find that cognitive clarity is at its absolute peak during the dawn hours, completely unencumbered by the sensory fatigue that accumulates throughout the workday.",
+          "mm": "နံနက်ခင်း သို့မဟုတ် ညဉ့်နက်ပိုင်းကို အဘယ်ကြောင့် ပိုကြိုက်နှစ်သက်သနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a routine or daily habit that you recently adopted to improve your life.\nYou should say:\n- What the routine is\n- When and how you started it\n- What equipment or preparation it entails\n- And explain how it has impacted your mental or physical health",
+        "prepNotes": "Digital sunset (No screens after 10 PM) / Started 3 months ago / Analog alarm clock & physical paperback book / Deeper REM sleep, zero morning brain fog",
+        "modelScript": "A life-altering habit I instituted approximately three months ago is an uncompromised 'digital sunset'. Essentially, this entails powering down all smartphones, tablets, and laptop screens at precisely 10:00 PM. I replaced screen scrolling with thirty minutes of reading physical paperback literature under dim, warm lamp light. This simple boundary has drastically enhanced my sleep architecture, completely eliminating the morning cognitive grogginess I previously endured.",
+        "mm": "Part 2 Cue Card: ဘဝအရည်အသွေး တိုးတက်စေရန် မကြာသေးမီက စတင်ကျင့်သုံးခဲ့သော နေ့စဉ် အလေ့အထကောင်းတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why do many modern individuals feel perpetually rushed?",
+          "a": "Modern hyper-connectivity creates an artificial illusion of urgency. Because emails, text messages, and algorithmic notifications arrive incessantly, individuals feel compelled to react in real time, obliterating deep contemplative focus.",
+          "mm": "ခေတ်သစ်လူများသည် အဘယ်ကြောင့် အချိန်မလောက်ဘဲ အမြဲ အလျင်စလို ဖြစ်နေကြသနည်း။"
+        },
+        {
+          "q": "Is strict adherence to routines beneficial or restrictive for creative minds?",
+          "a": "It is paradoxical: far from stifling creativity, rigorous daily routines automate mundane logistical decisions, thereby conserving valuable mental energy for artistic breakthroughs and complex problem-solving.",
+          "mm": "လုပ်ရိုးလုပ်စဉ်များကို တိကျစွာ လိုက်နာခြင်းသည် တီထွင်ဖန်တီးနိုင်စွမ်းကို ကန့်သတ်စေပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "5. Artificial Intelligence Tools & Everyday Automation (2026 Forecast)",
+      "category": "Technology & Future",
+      "vocab": [
+        "computational power",
+        "generative AI",
+        "cognitive augmentation",
+        "ethical guardrails",
+        "ubiquitous automation",
+        "human-machine synergy"
+      ],
+      "sample": "Rather than fearing artificial intelligence, I view it as an intellectual amplifier that handles laborious formatting, liberating human focus for creative synthesis.",
+      "mm": "AI နှင့် အလိုအလျောက်နည်းပညာများ လူ့ဘဝအပေါ် သက်ရောက်မှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။ 'smart computers' အစား 'cognitive augmentation / generative algorithms' သုံးပါ။",
+      "part1": [
+        {
+          "q": "Do you use artificial intelligence applications in your everyday life?",
+          "a": "Frequently. Whether utilizing predictive typing engines, algorithmic photo editing, or large language models to brainstorm research outlines, AI has become an invisible backdrop to my daily workflow.",
+          "mm": "နေ့စဉ်ဘဝတွင် ဉာဏ်ရည်တု အက်ပ်များကို မည်သို့ အသုံးပြုသနည်း။"
+        },
+        {
+          "q": "Did you find it easy to adapt to these new technologies?",
+          "a": "Remarkably seamless, because modern conversational interfaces require zero programming syntax; one simply interacts with them using intuitive natural language prompts.",
+          "mm": "ဤနည်းပညာသစ်များနှင့် လိုက်လျောညီထွေဖြစ်အောင် နေထိုင်ရသည်မှာ လွယ်ကူပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an exciting technological tool or gadget you recently learned about.\nYou should say:\n- What the technology is\n- How you discovered it\n- What capabilities it possesses\n- And explain why you find it so revolutionary",
+        "prepNotes": "Real-time AI voice translation earbuds / Discovered via tech documentary / Instant bi-directional speech interpretation / Dissolves global language barriers",
+        "modelScript": "A cutting-edge technological breakthrough that thoroughly captivated my imagination is real-time AI neural voice translation earbuds. I encountered a demonstration of this device during an academic symposium. The hardware captures live conversational speech in one language, processes the grammar and idiomatic nuances through localized neural models, and whispers an instantaneous, natural-sounding interpretation into the wearer's ear. This technology holds transformative potential to dismantle ancient language barriers across international diplomacy and humanitarian missions.",
+        "mm": "Part 2 Cue Card: မကြာသေးမီက သင်တွေ့ရှိခဲ့သော စိတ်လှုပ်ရှားဖွယ်ရာ နည်းပညာ သို့မဟုတ် ပစ္စည်းအသစ်တစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Could excessive reliance on automated algorithms degrade fundamental human skills?",
+          "a": "Undoubtedly. Over-dependence on automated spellcheckers, GPS navigators, and mathematical software has already measurably diminished spatial awareness and basic mental arithmetic among younger generations.",
+          "mm": "အလိုအလျောက် စနစ်များကို အလွန်အကျွံ မှီခိုခြင်းသည် လူတို့၏ အခြေခံစွမ်းရည်များကို ကျဆင်းစေနိုင်ပါသလား။"
+        },
+        {
+          "q": "What ethical responsibilities do technology conglomerates have toward society?",
+          "a": "They bear a paramount obligation to institute algorithmic transparency, eliminate socioeconomic bias in training datasets, and implement robust safeguards against the weaponization of synthetic deepfakes.",
+          "mm": "နည်းပညာကုမ္ပဏီကြီးများသည် လူ့ဘောင်အဖွဲ့အစည်းအပေါ် မည်သည့် ကျင့်ဝတ်ဆိုင်ရာ တာဝန်ယူမှုများ ရှိသနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "6. Environmental Protection, Waste & Eco-Habits (2026 Forecast)",
+      "category": "Environment & Ecology",
+      "vocab": [
+        "biodiversity preservation",
+        "carbon footprint",
+        "circular economy",
+        "biodegradable substitutes",
+        "environmental stewardship",
+        "microplastic ingestion"
+      ],
+      "sample": "Individual eco-habits like reusable tote bags are commendable, but meaningful planetary preservation necessitates systemic industrial regulation.",
+      "mm": "သဘာဝပတ်ဝန်းကျင် ထိန်းသိမ်းရေး၊ စွန့်ပစ်ပစ္စည်းနှင့် လူနေမှုအလေ့အထများအကြောင်း ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Do you try to recycle household waste regularly?",
+          "a": "Conscientiously, yes. I meticulously segregate organic food scraps from paper, glass, and recyclable plastics to minimize municipal landfill contamination.",
+          "mm": "အိမ်တွင်း စွန့်ပစ်ပစ္စည်းများကို ပြန်လည်အသုံးပြုနိုင်ရန် စနစ်တကျ ခွဲခြားစွန့်ပစ်ပုံ။"
+        },
+        {
+          "q": "Are people in your community conscious about environmental conservation?",
+          "a": "Awareness is rising steadily, particularly among younger cohorts who actively patronize reusable containers and express concern over urban air quality indices.",
+          "mm": "မိမိပတ်ဝန်းကျင်ရှိ လူများသည် သဘာဝပတ်ဝန်းကျင် ထိန်းသိမ်းရေးနှင့် ပတ်သက်၍ အသိတရား ရှိကြပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an environmental initiative or project in your area that impressed you.\nYou should say:\n- What the initiative was\n- Who spearheaded it\n- What specific activities were carried out\n- And explain why it was so successful in inspiring the community",
+        "prepNotes": "Community urban mangrove reforestation / Local university youth group / Planted 5,000 mangrove saplings along shoreline / Restored fish breeding grounds & coastal storm defense",
+        "modelScript": "An inspiring environmental initiative I actively participated in was a community-led coastal mangrove restoration project. Organized by youth volunteers from local universities, the campaign aimed to regenerate degraded tidal mudflats. Over three consecutive weekends, hundreds of citizens waded through coastal wetlands to transplant over five thousand native mangrove saplings. The project not only fortified the shoreline against tropical storm surges, but it also restored vital nurseries for local marine life, demonstrating the immense power of localized civic stewardship.",
+        "mm": "Part 2 Cue Card: မိမိဒေသရှိ အထင်ကြီးဖွယ်ရာ သဘာဝပတ်ဝန်းကျင် ထိန်းသိမ်းရေး စီမံကိန်းတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Should governments enact financial penalties on households that fail to recycle?",
+          "a": "While punitive fines can act as immediate deterrents, empirical evidence suggests that pairing fiscal penalties with convenient, accessible recycling infrastructure and public education yields far higher long-term compliance.",
+          "mm": "စွန့်ပစ်ပစ္စည်း မခွဲခြားသော အိမ်ထောင်စုများကို အစိုးရက ငွေဒဏ်ချမှတ်သင့်ပါသလား။"
+        },
+        {
+          "q": "Who carries greater responsibility for climate change: corporations or individual consumers?",
+          "a": "Corporations bear the overwhelmingly primary responsibility. The vast majority of global greenhouse emissions originate from a concentrated cluster of fossil fuel and industrial conglomerates; individual consumer choices cannot rectify planetary degradation without systemic corporate reform.",
+          "mm": "ရာသီဥတုပြောင်းလဲမှုအတွက် ကော်ပိုရေးရှင်းကြီးများနှင့် စားသုံးသူများ မည်သူက ပိုမိုတာဝန်ရှိသနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "7. Art, Public Murals & Aesthetic Expression (2026 Forecast)",
+      "category": "Culture & Aesthetics",
+      "vocab": [
+        "creative expression",
+        "visual landscape",
+        "evocative imagery",
+        "aesthetic sensibility",
+        "cultural mirror",
+        "public installations"
+      ],
+      "sample": "Public art installations serve as an emotional mirror for society, transforming sterile concrete walls into vibrant storyboards of cultural resilience.",
+      "mm": "အနုပညာ၊ အများပြည်သူ ပန်းချီနံရံဆေးရေးနှင့် အလှအပဆိုင်ရာ ဖော်ပြချက်များအကြောင်း ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Do you enjoy visiting art galleries or museums?",
+          "a": "Immense, particularly contemporary exhibitions featuring large-scale sculptural installations that invite viewers to reflect on existential and environmental themes.",
+          "mm": "အနုပညာပြခန်း သို့မဟုတ် ပြတိုက်များသို့ သွားရောက်လည်ပတ်ရခြင်းကို နှစ်သက်ပါသလား။"
+        },
+        {
+          "q": "Did you take drawing or painting classes during childhood?",
+          "a": "I did throughout primary school. While I never developed masterful technical technique, those lessons cultivated an enduring appreciation for color theory and architectural composition.",
+          "mm": "ငယ်စဉ်က ပန်းချီဆွဲ သင်တန်းများ တက်ရောက်ခဲ့ဖူးပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a piece of artwork (painting, sculpture, or mural) that left a lasting impression on you.\nYou should say:\n- What the artwork looked like\n- Where and when you saw it\n- Who created it (if known)\n- And explain why it resonated with you so deeply",
+        "prepNotes": "Colossal street mural of ancient weaver / Painted on side of 5-story downtown building / Vibrant earth tones, weathered expressive eyes / Celebrated unsung working-class women",
+        "modelScript": "An artwork that etched itself indelibly into my visual memory is a monumental street mural adorning the side of a five-story downtown building in my city. Painted by a collaborative team of local muralists, it depicts a close-up portrait of an elderly traditional textile weaver. What made it profoundly arresting was the artist's use of rich ochre and deep indigo tones, highlighting the intricate wrinkles around the woman's eyes as her weathered hands manipulate a loom. It elevated an unsung working-class artisan into a majestic civic monument.",
+        "mm": "Part 2 Cue Card: မိမိစိတ်ထဲတွင် စွဲထင်ကျန်ရစ်စေခဲ့သော ပန်းချီ သို့မဟုတ် အနုပညာလက်ရာတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Should governments allocate significant public funds to artistic projects during economic recessions?",
+          "a": "Yes, because public art is not a frivolous indulgence; it fosters social solidarity, attracts cultural tourism, and preserves the psychological morale of a nation during times of acute distress.",
+          "mm": "စီးပွားရေးကျဆင်းနေချိန်များတွင် အစိုးရများအနေဖြင့် အနုပညာလုပ်ငန်းများအတွက် ပြည်သူ့ဘဏ္ဍာ ခွဲဝေသုံးစွဲသင့်ပါသလား။"
+        },
+        {
+          "q": "Can artificial intelligence ever produce authentic, meaningful art?",
+          "a": "AI can generate technically dazzling visual mimicry, but it lacks genuine human lived experience, existential suffering, and emotional intentionality, which remain the irreducible core of authentic art.",
+          "mm": "ဉာဏ်ရည်တု (AI) သည် စစ်မှန်ပြီး အဓိပ္ပာယ်ရှိသော အနုပညာကို အမှန်တကယ် ဖန်တီးနိုင်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "8. Books, Reading Habits & Intellectual Curiosity (2026 Forecast)",
+      "category": "Culture & Learning",
+      "vocab": [
+        "literary immersion",
+        "cognitive patience",
+        "paperback tactile feel",
+        "deep reading",
+        "intellectual expansion",
+        "epistemic curiosity"
+      ],
+      "sample": "Immersing myself in dense philosophical literature trains cognitive patience, acting as an antidote to the shallow skimming induced by internet feeds.",
+      "mm": "စာအုပ်ဖတ်ရှုခြင်း အလေ့အထ၊ စာပေနှင့် အတွေးအခေါ်ဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "How often do you read books for leisure?",
+          "a": "I dedicate at least forty-five minutes every evening before bed to unhurried reading, predominantly exploring non-fiction history and behavioral psychology.",
+          "mm": "အပန်းဖြေရန်အတွက် စာအုပ်များကို မည်မျှ မကြာခဏ ဖတ်လေ့ရှိသနည်း။"
+        },
+        {
+          "q": "Do you prefer physical printed books or digital e-readers?",
+          "a": "I have a distinct affinity for physical paperbacks. The tactile sensation of turning paper pages and the absence of digital notification glare provides an irreplaceable sensory experience.",
+          "mm": "စက္ကူစာအုပ် သို့မဟုတ် အီလက်ထရွန်းနစ် E-reader မည်သည်ကို ပိုကြိုက်နှစ်သက်သနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a book you recently read that profoundly changed your perspective on life.\nYou should say:\n- What book it was and who authored it\n- What the central theme or storyline was\n- How you came across it\n- And explain why it influenced your worldview so deeply",
+        "prepNotes": "'Atomic Habits' by James Clear / Focuses on compounding micro-improvements / Recommended by university mentor / Taught me that systems trump willpower",
+        "modelScript": "A transformative book that fundamentally reshaped my behavioral philosophy is 'Atomic Habits' by James Clear. Recommended to me by an academic mentor, the text deconstructs how minuscule, one-percent daily improvements compound into monumental achievements over time. The core thesis that captivated me is that we do not rise to the level of our goals, but rather fall to the level of our systems. Applying its principles of cue-routine-reward enabled me to overcome persistent academic procrastination.",
+        "mm": "Part 2 Cue Card: မိမိ၏ ဘဝအမြင်ကို သိသာစွာ ပြောင်းလဲစေခဲ့သော မကြာသေးမီက ဖတ်ရှုခဲ့သည့် စာအုပ်တစ်အုပ်အကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Are modern digital devices killing the traditional culture of deep reading?",
+          "a": "There is substantial neurological evidence that infinite hyperlinks and algorithmic notifications retrain human brains toward rapid skimming, eroding the sustained cognitive endurance required to absorb lengthy literary works.",
+          "mm": "ခေတ်သစ် ဒစ်ဂျစ်တယ်ပစ္စည်းများသည် ရှည်လျားနက်နဲသော စာဖတ်ခြင်းအလေ့အထကို ပျက်စီးစေနေပါသလား။"
+        },
+        {
+          "q": "Should classic literature remain compulsory in secondary school curricula?",
+          "a": "Absolutely. Classic literary masterpieces grapple with timeless moral dilemmas, human frailties, and existential themes that transcend eras, providing youth with essential empathetic and critical reasoning frameworks.",
+          "mm": "ဂန္ထဝင်စာပေများကို အထက်တန်းကျောင်း သင်ရိုးညွှန်းတမ်းတွင် မဖြစ်မနေ သင်ကြားသင့်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "9. Historic Buildings, Heritage & Architectural Conservation (2026 Forecast)",
+      "category": "Architecture & History",
+      "vocab": [
+        "architectural integrity",
+        "tangible history",
+        "restoration vs demolition",
+        "cultural identity",
+        "historical provenance",
+        "urban redevelopment"
+      ],
+      "sample": "Demolishing centuries-old architecture to erect generic steel towers strips a city of its tangible soul and ancestral memory.",
+      "mm": "ရှေးဟောင်းအဆောက်အအုံများ၊ သမိုင်းဝင် အမွေအနှစ်များနှင့် ဗိသုကာ ထိန်းသိမ်းရေးဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Are there many historic buildings in your city?",
+          "a": "Abundantly so. My hometown retains magnificent nineteenth-century colonial edifices and ancient wooden monasteries, many featuring intricate hand-carved teak eaves.",
+          "mm": "မိမိမြို့တွင် ရှေးဟောင်း သမိုင်းဝင် အဆောက်အအုံများ ပေါများပါသလား။"
+        },
+        {
+          "q": "Do you think tourists prefer visiting old buildings or modern landmarks?",
+          "a": "Predominantly historic buildings, because they possess authentic character, craftsmanship, and historical narratives that modern glass-and-steel skyscrapers simply cannot replicate.",
+          "mm": "ခရီးသွားများသည် ရှေးဟောင်းအဆောက်အအုံများနှင့် ခေတ်မီအထင်ကရနေရာများ မည်သည်ကို ပိုစိတ်ဝင်စားကြသနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a historic building or landmark in your country that you admire.\nYou should say:\n- What and where the building is\n- What architectural features distinguish it\n- What historical significance it holds\n- And explain why it is essential to preserve it for future generations",
+        "prepNotes": "The Secretariat (Yangon) / Massive Victorian red-brick complex / Wrought-iron staircases, terracotta tiles / Site of national independence struggles / Preserves tangible political history",
+        "modelScript": "An iconic historical structure that commands immense architectural and emotional reverence in my country is the Secretariat in Yangon. Spanning an entire city block, this colossal Victorian-era red-brick complex was built in the late nineteenth century. It is distinguished by soaring Romanesque turrets, wide verandahs, and ornate wrought-iron spiral staircases imported from Scotland. Historically, it was the administrative epicenter of British colonial rule and, tragically, the site where national independence hero General Aung San was assassinated. Preserving this structure is imperative because it stands as a physical testament to our nation's political sacrifices.",
+        "mm": "Part 2 Cue Card: မိမိနိုင်ငံရှိ သမိုင်းဝင် အဆောက်အအုံ သို့မဟုတ် အထင်ကရနေရာတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Is it justifiable to demolish historic buildings to build affordable high-density housing?",
+          "a": "While housing shortages are urgent, demolishing historic landmarks is a false dichotomy. Progressive urban planners frequently employ adaptive reuse, preserving historic facades while retrofitting interior spaces with modern residences.",
+          "mm": "လူနေအိမ် လိုအပ်ချက်အတွက် ရှေးဟောင်းအဆောက်အအုံများကို ဖြိုချခြင်းသည် တရားမျှတမှု ရှိပါသလား။"
+        },
+        {
+          "q": "How should private property owners be incentivized to maintain heritage architecture?",
+          "a": "Through state property tax exemptions, subsidized heritage restoration loans, and municipal architectural grants that offset the exorbitant maintenance costs of historic stone and timber.",
+          "mm": "ရှေးဟောင်းအဆောက်အအုံ ပိုင်ရှင်များအား ထိန်းသိမ်းရန် မည်သို့ မက်လုံးပေးသင့်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "10. Overcoming Challenges, Resilience & Personal Growth (2026 Forecast)",
+      "category": "Personal Growth & Psychology",
+      "vocab": [
+        "emotional resilience",
+        "fortitude",
+        "perseverance",
+        "formative adversity",
+        "stoic acceptance",
+        "adaptability"
+      ],
+      "sample": "Adversity is an uncompromising teacher; true psychological maturity is forged not through frictionless success, but through navigating setbacks with composure.",
+      "mm": "စိန်ခေါ်မှုများကို ကျော်လွှားခြင်း၊ စိတ်ဓာတ်ကြံ့ခိုင်မှုနှင့် ကိုယ်ရည်ကိုယ်သွေး ဖွံ့ဖြိုးမှုဆိုင်ရာ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "How do you typically react when confronted with an unexpected obstacle?",
+          "a": "I endeavor to practice stoic pause. Rather than reacting impulsively with frustration, I step back to diagnose controllable variables and formulate a structured contingency plan.",
+          "mm": "မျှော်လင့်မထားသော အခက်အခဲနှင့် ရင်ဆိုင်ရပါက မည်သို့ တုံ့ပြန်လေ့ရှိသနည်း။"
+        },
+        {
+          "q": "Do you believe experiencing setbacks is necessary for personal development?",
+          "a": "Categorically yes. Flawless success often breeds complacency, whereas failure illuminates character blind spots and cultivates emotional grit.",
+          "mm": "အခက်အခဲများနှင့် ကြုံတွေ့ရခြင်းသည် လူတစ်ဦး ဖွံ့ဖြိုးတိုးတက်ရန် မရှိမဖြစ် လိုအပ်ပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a difficult challenge you faced that you successfully overcame.\nYou should say:\n- What the challenge was\n- When and where it took place\n- What obstacles made it so daunting\n- And explain what vital lesson you derived from the experience",
+        "prepNotes": "Delivering a keynote speech in English to 300 delegates / Intense public speaking anxiety / Practiced daily with audio recordings / Realized fear dissolves in preparation",
+        "modelScript": "A daunting challenge that pushed me far beyond my comfort zone occurred during my sophomore university year, when I was selected to deliver a 20-minute research keynote in English to an audience of three hundred international academics. I suffered from debilitating public speaking anxiety, fearing I would freeze or mispronounce critical technical terms. To conquer this terror, I recorded myself delivering the presentation dozens of times, systematically refining my vocal cadence and slide transitions. Standing before that packed lecture hall and receiving warm applause taught me that courage is not the absence of fear, but the mastery of preparation.",
+        "mm": "Part 2 Cue Card: မိမိအောင်မြင်စွာ ကျော်လွှားနိုင်ခဲ့သော ခက်ခဲသည့် စိန်ခေါ်မှုတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why do some individuals possess greater psychological resilience than others?",
+          "a": "Resilience is cultivated through early childhood socialization, supportive family networks, and cognitive framing. Those who view failures as temporary, solvable setbacks demonstrate far greater tenacity than those who personalize defeat.",
+          "mm": "အချို့လူများသည် အခြားသူများထက် စိတ်ဓာတ်ကြံ့ခိုင်မှု အဘယ်ကြောင့် ပိုမိုမြင့်မားကြသနည်း။"
+        },
+        {
+          "q": "How can modern academic institutions teach students mental fortitude?",
+          "a": "By moving away from risk-averse grading paradigms and embracing productive struggle. Encouraging open-ended problem solving and transparent discussion of failures equips students to navigate real-world ambiguity.",
+          "mm": "ခေတ်သစ် ပညာရေးစနစ်များက ကျောင်းသားများအား စိတ်ဓာတ်ကြံ့ခိုင်မှု မည်သို့ သင်ကြားပေးနိုင်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "11. Clothes, Fashion Trends & First Impressions (2026 Forecast)",
+      "category": "Culture & Identity",
+      "vocab": [
+        " sartorial choices",
+        "fast fashion",
+        "subconscious appraisal",
+        "tailored garments",
+        "aesthetic identity",
+        "dress codes"
+      ],
+      "sample": "Our sartorial choices operate as an unspoken visual language, silently broadcasting cultural identity and professional competence long before words are exchanged.",
+      "mm": "အဝတ်အစား၊ ဖက်ရှင်ရေစီးကြောင်းနှင့် ပထမဆုံး အမြင်စွဲထင်မှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Do you enjoy shopping for clothes?",
+          "a": "I approach clothing acquisition with utilitarian restraint. Rather than chasing transient seasonal fads, I invest in high-quality, durable essentials that offer timeless versatility.",
+          "mm": "အဝတ်အစား ဝယ်ယူရခြင်းကို နှစ်သက်ပါသလား။"
+        },
+        {
+          "q": "Do you wear different styles of clothing on weekdays compared to weekends?",
+          "a": "Substantially so. Weekdays demand structured smart-casual business attire to convey professionalism, whereas weekends welcome relaxed, breathable cotton loungewear.",
+          "mm": "ရုံးဖွင့်ရက်နှင့် ပိတ်ရက်များတွင် ကွဲပြားသော စတိုင်များ ဝတ်ဆင်လေ့ရှိပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an occasion when you wore formal or traditional attire.\nYou should say:\n- What the event was\n- What specific garments you wore\n- Why that attire was required\n- And explain how you felt wearing it",
+        "prepNotes": "Sister's wedding ceremony / Traditional silk Longyi and formal tailored jacket / Cultural respect & auspicious occasion / Felt dignified, connected to ancestral heritage",
+        "modelScript": "An auspicious occasion that mandated formal traditional attire was my elder sister's wedding ceremony last December. For this sacred milestone, I donned a handwoven raw-silk Longyi in rich royal burgundy paired with a crisp, tailored Mandarin-collared ceremonial jacket. Wearing garments crafted by local master weavers evoked profound pride; it was not merely about aesthetic elegance, but about honoring sacred ancestral wedding customs in the presence of extended elders.",
+        "mm": "Part 2 Cue Card: ရိုးရာ သို့မဟုတ် တရားဝင် ဝတ်စုံ ဝတ်ဆင်ခဲ့ရသော အခမ်းအနားတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "To what extent do first impressions hinge upon a person's clothing?",
+          "a": "Human evolutionary psychology naturally relies on visual heuristics; studies consistently prove that observers form snap judgments regarding socio-economic competence and trustworthiness within seven seconds of meeting.",
+          "mm": "ပထမဆုံး အထင်အမြင်သည် ဝတ်စားဆင်ယင်မှုအပေါ် မည်မျှ အခြေခံပါသနည်း။"
+        },
+        {
+          "q": "Has fast fashion had a detrimental impact on ecological sustainability?",
+          "a": "Catastrophically so. The proliferation of low-cost synthetic textiles encourages disposable consumption patterns, generating millions of tons of non-biodegradable landfill waste and consuming vast quantities of fresh water.",
+          "mm": "စျေးပေါဖက်ရှင် (fast fashion) သည် သဘာဝပတ်ဝန်းကျင်အပေါ် မည်မျှ ဆိုးကျိုးသက်ရောက်စေသနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "12. Food, Culinary Heritage & Social Dining (2026 Forecast)",
+      "category": "Lifestyle & Culture",
+      "vocab": [
+        "culinary repertoire",
+        "gastronomic heritage",
+        "commensality",
+        "organic whole foods",
+        "artisanal cuisine",
+        "comfort food"
+      ],
+      "sample": "Sharing a home-cooked meal is an act of deep commensality, transforming basic sustenance into a communal celebration of heritage and friendship.",
+      "mm": "အစားအစာ၊ အစားအသောက် ယဉ်ကျေးမှုနှင့် အတူတကွ စားသောက်ခြင်းဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "What is your favorite traditional dish from your country?",
+          "a": "Without hesitation, Mohinga—a rich, fragrant fish broth simmered with lemongrass, ginger, and roasted chickpea flour, poured over tender rice vermicelli and garnished with crispy fritters.",
+          "mm": "မိမိနိုင်ငံ၏ အနှစ်သက်ဆုံး ရိုးရာ အစားအစာအကြောင်း။"
+        },
+        {
+          "q": "Do you prefer cooking at home or eating at restaurants?",
+          "a": "I derive immense satisfaction from home cooking. Preparing fresh meals grants total control over sodium and nutrition, while offering a therapeutic mental decompression after demanding intellectual work.",
+          "mm": "အိမ်တွင် ချက်ပြုတ်စားသောက်ခြင်း သို့မဟုတ် စားသောက်ဆိုင်တွင် စားခြင်း မည်သည်ကို ပိုနှစ်သက်သနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an exceptional meal you enjoyed with friends or family.\nYou should say:\n- Where and when you had this meal\n- Who accompanied you\n- What dishes were served\n- And explain why this dining experience was so memorable",
+        "prepNotes": "Graduation celebration at open-air hillside restaurant / Immediate family / Steamed whole sea bass with lime & chili, clay-pot prawns / Celebrated years of shared academic sacrifice",
+        "modelScript": "An unforgettable culinary gathering occurred on the evening of my university graduation, when my family convened at a rustic open-air hillside restaurant overlooking the lake. We savored an array of regional seafood delicacies, prominently featuring steamed whole sea bass infused with fresh kaffir lime and fiery birds-eye chilies. What rendered the evening truly indelible was not simply the exquisite gastronomic harmony, but the emotional warmth of celebrating five arduous years of academic perseverance with those who supported me unconditionally.",
+        "mm": "Part 2 Cue Card: မိသားစု သို့မဟုတ် မိတ်ဆွေများနှင့်အတူ အမှတ်တရ စားသောက်ခဲ့ရသော ထူးခြားသည့် ထမင်းဝိုင်းတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Is traditional home cooking disappearing among younger generations?",
+          "a": "Unfortunately yes. The ubiquity of on-demand food delivery platforms and exhausting 12-hour corporate schedules have relegated home culinary preparation to a weekend novelty for many urban youth.",
+          "mm": "ရိုးရာ အိမ်ချက်ဟင်း ချက်ပြုတ်သည့် အလေ့အထသည် လူငယ်များကြားတွင် ပျောက်ကွယ်လုနီးပါး ဖြစ်နေပါသလား။"
+        },
+        {
+          "q": "How does globalization influence dietary patterns worldwide?",
+          "a": "Globalization acts as a double-edged sword: it introduces wonderful gastronomic diversity through fusion cuisine, but concurrently spreads standardized, hyper-processed American fast food, elevating chronic cardiovascular disease rates globally.",
+          "mm": "ကမ္ဘာ့ရွာဖြစ်တည်မှုသည် ကမ္ဘာတစ်ဝှမ်းရှိ အစားအသောက်ပုံစံများအပေါ် မည်သို့ သက်ရောက်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "13. Music, Sonic Landscapes & Emotional Resonance (2026 Forecast)",
+      "category": "Art & Leisure",
+      "vocab": [
+        "emotional catharsis",
+        "auditory sanctuary",
+        "acoustic resonance",
+        "transcend verbal boundaries",
+        "genre synthesis",
+        "rhythmic cadence"
+      ],
+      "sample": "Music serves as an auditory sanctuary; instrumental classical compositions lower cortisol levels and induce profound cognitive flow states.",
+      "mm": "ဂီတ၊ သံစဉ်များနှင့် စိတ်ခံစားမှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "What genres of music do you listen to most frequently?",
+          "a": "My listening preferences are eclectic, spanning ambient instrumental soundscapes during focused research sessions and acoustic folk-indie during evening relaxation.",
+          "mm": "မည်သည့် ဂီတအမျိုးအစားများကို အများဆုံး နားဆင်လေ့ရှိသနည်း။"
+        },
+        {
+          "q": "Can you play any musical instruments?",
+          "a": "I studied classical acoustic guitar for several years during adolescence. While I am by no means a virtuoso, strumming fingerstyle melodies remains my go-to stress relief mechanism.",
+          "mm": "တူရိယာတစ်ခုခု တီးခတ်နိုင်ပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a live concert or musical performance you attended that moved you.\nYou should say:\n- What the performance was and who performed\n- Where and when it occurred\n- What the atmosphere was like\n- And explain why it left such a profound emotional resonance with you",
+        "prepNotes": "Open-air charity orchestra concert / Downtown civic amphitheater at sunset / Classical Beethoven's Symphony No. 9 / Electric communal synergy, pure acoustic beauty",
+        "modelScript": "A musical performance that deeply stirred my soul was an open-air philharmonic orchestra concert held at the municipal amphitheater during an autumn sunset. Over eighty classical musicians performed Beethoven’s Ninth Symphony. As the choral ensemble joined in the crescendo of 'Ode to Joy', the acoustic power resonating through the open evening air elicited literal shivers across the audience. The collective emotional harmony in that amphitheater felt almost transcendent.",
+        "mm": "Part 2 Cue Card: မိမိစိတ်ကို အလွန်ထိရှလှုပ်ရှားစေခဲ့သော တိုက်ရိုက် ဂီတဖျော်ဖြေပွဲတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why does music possess such an extraordinary ability to evoke memories?",
+          "a": "Neurobiologically, auditory stimuli are directly linked to the amygdala and hippocampus, meaning melodies bypass analytical filters and trigger vivid associative recollections with immediate emotional intensity.",
+          "mm": "ဂီတသည် အတိတ်အမှတ်တရများကို နိုးထစေရန် အဘယ်ကြောင့် ဤမျှ စွမ်းအားကြီးမားသနည်း။"
+        },
+        {
+          "q": "Should governments fund music education in primary schools when school budgets are strained?",
+          "a": "Unequivocally. Music education enhances spatial-temporal reasoning, mathematical fluency, and emotional regulation in developing children; eliminating it produces linguistically stunted curricula.",
+          "mm": "ကျောင်းဘတ်ဂျက် မလုံလောက်ချိန်များတွင် အစိုးရများက မူလတန်း ဂီတပညာရေးကို ထောက်ပံ့သင့်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "14. Public Transit, Urban Commuting & Active Mobility (2026 Forecast)",
+      "category": "Urban Life & Infrastructure",
+      "vocab": [
+        "mass transit artery",
+        "intermodal transit",
+        "commuter gridlock",
+        "active mobility",
+        "carbon-neutral commuting",
+        "last-mile connectivity"
+      ],
+      "sample": "An efficient, electrified subway network is the lifeblood of an equitable city, democratizing mobility regardless of socioeconomic status.",
+      "mm": "အများပြည်သူသယ်ယူပို့ဆောင်ရေး၊ မြို့ပြခရီးသွားလာမှုနှင့် ရထား/ဘတ်စ်ကားစနစ်ဆိုင်ရာ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "How do you usually commute to work or university?",
+          "a": "I rely primarily on the rapid transit rail network combined with a brisk fifteen-minute walk. It avoids surface traffic gridlock and offers a predictable, punctually reliable schedule.",
+          "mm": "အလုပ် သို့မဟုတ် တက္ကသိုလ်သို့ မည်သို့ သွားလာလေ့ရှိသနည်း။"
+        },
+        {
+          "q": "Is public transportation efficient in your home city?",
+          "a": "It is currently undergoing significant modernization. While central commuter routes are well-served by clean electric buses, peripheral suburban zones still suffer from infrequent scheduling.",
+          "mm": "မိမိမြို့ရှိ အများပြည်သူသယ်ယူပို့ဆောင်ရေးစနစ်သည် ထိရောက်ကောင်းမွန်ပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a memorable journey by public transport that you took.\nYou should say:\n- What public transport mode you used\n- Where you were traveling to and from\n- What happened during the transit\n- And explain why this journey was so memorable to you",
+        "prepNotes": "High-speed scenic train journey across mountain pass / From capital to northern highlands / Gliding smoothly past misty pine valleys / Conversed with friendly local farmers",
+        "modelScript": "A memorable transit experience occurred when I boarded an overnight mountain railway journey from the lowlands into the northern pine highlands. Unlike bumpy bus rides, the electric locomotive glided smoothly along narrow viaducts carved into limestone cliffs. As the morning fog lifted, panoramic vistas of emerald terraced tea farms unfurled outside the panoramic carriage windows. Sharing hot tea and local snacks with hospitable regional commuters made the journey infinitely richer than air travel.",
+        "mm": "Part 2 Cue Card: အများပြည်သူသုံး ယာဉ်ဖြင့် သွားရောက်ခဲ့သော အမှတ်တရ ခရီးတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "How can municipalities convince motorists to abandon private cars for public transit?",
+          "a": "By perfecting the 'carrot and stick' balance: heavily investing in high-frequency, pristine electric rail while imposing congestion pricing and elevated parking tariffs in dense downtown cores.",
+          "mm": "မြို့တော်အာဏာပိုင်များသည် ကားပိုင်ရှင်များအား အများပြည်သူသုံးယာဉ်သို့ ပြောင်းလဲစီးနင်းရန် မည်သို့ စည်းရုံးနိုင်သနည်း။"
+        },
+        {
+          "q": "Is free universal public transit financially realistic for major metropolises?",
+          "a": "Nations like Luxembourg prove it is viable when funded through municipal commercial levies. The economic savings from reduced road maintenance, improved air quality, and lower traffic accident hospitalizations easily offset transit fares.",
+          "mm": "အများပြည်သူ သယ်ယူပို့ဆောင်ရေးကို လုံးဝအခမဲ့ ပေးအပ်ခြင်းသည် လက်တွေ့ကျပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "15. Travel, Cultural Immersion & Transformative Journeys (2026 Forecast)",
+      "category": "Travel & Discovery",
+      "vocab": [
+        "cultural immersion",
+        "transcend provincialism",
+        "wanderlust",
+        "sustainable ecotourism",
+        "off-the-beaten-track",
+        "broaden horizons"
+      ],
+      "sample": "Authentic travel is an exercise in intellectual humility; venturing off the beaten path dismantles stereotyping and reveals universal human kinship.",
+      "mm": "ခရီးသွားလာခြင်း၊ အခြားသော ယဉ်ကျေးမှုများနှင့် ထိတွေ့ခြင်းဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Do you prefer traveling solo or in a tour group?",
+          "a": "I have an overwhelming preference for solo expeditions. Independent travel affords absolute autonomy to alter itineraries on a whim and forces genuine conversational immersion with local inhabitants.",
+          "mm": "တစ်ဦးတည်း ခရီးသွားခြင်း သို့မဟုတ် အဖွဲ့ဖြင့် သွားခြင်း မည်သည်ကို ပိုနှစ်သက်သနည်း။"
+        },
+        {
+          "q": "What is your dream travel destination?",
+          "a": "The remote volcanic archipelagos of Iceland. Experiencing geothermal geysers, active basalt volcanoes, and the ethereal Northern Lights would fulfill a lifelong geographical fascination.",
+          "mm": "မိမိ အလွန်သွားရောက်လိုသော အိပ်မက် ခရီးစဉ်ဒေသ။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an unforgettable trip you made that broadened your horizons.\nYou should say:\n- Where you traveled to\n- Who you went with\n- What unusual experiences you encountered\n- And explain what you learned from this journey",
+        "prepNotes": "Backpacking through ancient historical kingdom of Bagan / Solo journey / Explored 11th-century brick temples at dawn by bicycle / Discovered beauty of simplicity and historical impermanence",
+        "modelScript": "A journey that profoundly expanded my intellectual consciousness was a solo backpacking expedition through the ancient temple plains of Bagan. Renting a humble electric bicycle, I navigated sandy unpaved tracks at dawn, exploring solitary eleventh-century terracotta temples surrounded by acacia trees. Gazing across thousands of ancient spires bathed in golden morning mist imparted a visceral sense of historical impermanence and humbled my perception of modern technological self-importance.",
+        "mm": "Part 2 Cue Card: မိမိ၏ အမြင်နှင့် ဗဟုသုတကို ကျယ်ပြန့်စေခဲ့သော မမေ့နိုင်ဖွယ် ခရီးစဉ်တစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Has mass tourism commercialized and ruined authentic cultural destinations?",
+          "a": "In many flagship heritage centers, yes. Unrestricted visitor footfall frequently transforms living traditional neighborhoods into artificial tourist theme parks filled with souvenir stalls, displacing indigenous residents.",
+          "mm": "အစုလိုက်အပြုံလိုက် ခရီးသွားလုပ်ငန်းကြောင့် ဒေသဆိုင်ရာ ယဉ်ကျေးမှုများ ပျက်စီးသွားပါသလား။"
+        },
+        {
+          "q": "How can individuals practice responsible, culturally respectful travel?",
+          "a": "By patronizing locally owned guesthouses and family restaurants, researching sacred local customs beforehand, and respecting strict ecological Leave-No-Trace principles.",
+          "mm": "တာဝန်သိပြီး ယဉ်ကျေးမှုကို လေးစားသော ခရီးသွားတစ်ဦး ဖြစ်အောင် မည်သို့ နေထိုင်သင့်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "16. Public Holidays, Festivals & Communal Celebrations (2026 Forecast)",
+      "category": "Culture & Celebrations",
+      "vocab": [
+        "festive euphoria",
+        "communal solidarity",
+        "sacred rituals",
+        "cultural heritage",
+        "national unity",
+        "festive culinary feasts"
+      ],
+      "sample": "Traditional water festivals wash away the spiritual accumulated burdens of the previous year, revitalizing social camaraderie across the entire community.",
+      "mm": "ရုံးပိတ်ရက်များ၊ ရိုးရာပွဲတော်များနှင့် စုပေါင်းကျင်းပမှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "What is the most significant public festival in your country?",
+          "a": "The Thingyan Water Festival, marking the traditional New Year in mid-April. Citizens celebrate by splashing water to symbolically cleanse away misfortune while engaging in Buddhist merit-making.",
+          "mm": "မိမိနိုင်ငံတွင် အထင်ရှားဆုံး ရိုးရာပွဲတော်အကြောင်း။"
+        },
+        {
+          "q": "Do you prefer quiet holidays at home or festive outdoor gatherings?",
+          "a": "I enjoy a deliberate balance: participating in festive communal celebrations during the peak days, followed by peaceful reflection at home.",
+          "mm": "အိမ်တွင် တိတ်ဆိတ်စွာ အနားယူခြင်း သို့မဟုတ် ပျော်ပွဲရွှင်ပွဲများ မည်သည်ကို ပိုနှစ်သက်သနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an extraordinary festival or celebration you participated in.\nYou should say:\n- What festival it was\n- When and where it occurred\n- What activities and customs were performed\n- And explain why this celebration left such an unforgettable impression on you",
+        "prepNotes": "Thadingyut Festival of Lights / Nationwide / Illuminated thousands of oil lamps and candles / Paid respects to parents and teachers / Deep spiritual warmth",
+        "modelScript": "An extraordinary celebration that occupies a luminous place in my memory is the Thadingyut Festival of Lights, commemorating Buddha's descent from celestial realms. Streets, balconies, and temples across my neighborhood were illuminated by thousands of multi-colored paper lanterns and flickering clay oil lamps. We observed the cherished tradition of 'Gadaw', prostrating to pay profound homage to parents and elder teachers, receiving their heartfelt blessings. The ethereal beauty of millions of glowing lights combined with family gratitude created an indelible emotional glow.",
+        "mm": "Part 2 Cue Card: မိမိပါဝင်ဆင်နွှဲခဲ့ဖူးသော အမှတ်တရ အလွန်ကောင်းသည့် ပွဲတော် သို့မဟုတ် အခမ်းအနားတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Are traditional cultural festivals becoming overly commercialized in modern times?",
+          "a": "Regrettably, modern retail corporations aggressively commercialize ancestral holidays, transforming spiritual milestones into consumerist sales events that overshadow cultural authenticity.",
+          "mm": "ရိုးရာပွဲတော်များသည် ခေတ်သစ်တွင် အလွန်အမင်း စီးပွားဖြစ်ဖြစ်သွားပါသလား။"
+        },
+        {
+          "q": "How do public festivals contribute to social cohesion in multicultural societies?",
+          "a": "By providing communal platforms where individuals of disparate backgrounds congregate, share traditional feasts, and appreciate reciprocal cultural heritages, actively dispelling xenophobia.",
+          "mm": "အများပြည်သူ ပွဲတော်များသည် လူမှုစည်းလုံးညီညွတ်ရေးကို မည်သို့ အထောက်အကူပြုသနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "17. Shopping Habits, E-Commerce & Retail Therapy (2026 Forecast)",
+      "category": "Consumerism & Commerce",
+      "vocab": [
+        "impulse purchasing",
+        "frictionless digital checkout",
+        "brick-and-mortar retail",
+        "consumer satiety",
+        "mindful acquisition",
+        "e-commerce dominance"
+      ],
+      "sample": "Frictionless one-click digital checkouts frequently induce impulsive consumerism, encouraging people to acquire commodities they neither require nor value.",
+      "mm": "စျေးဝယ်ခြင်း အလေ့အထ၊ အွန်လိုင်းစျေးဝယ်မှုနှင့် စားသုံးသူယဉ်ကျေးမှုဆိုင်ရာ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Do you prefer shopping online or visiting physical brick-and-mortar stores?",
+          "a": "I lean toward online e-commerce for standardized electronics and books due to price comparison transparency, but prefer physical stores for tailored apparel to inspect textile quality.",
+          "mm": "အွန်လိုင်းမှ စျေးဝယ်ခြင်း သို့မဟုတ် လက်လီဆိုင်များသို့ သွားဝယ်ခြင်း မည်သည်ကို ပိုနှစ်သက်သနည်း။"
+        },
+        {
+          "q": "Have your shopping habits changed over the past few years?",
+          "a": "Noticeably. I have transitioned from indiscriminate impulsive purchasing toward conscious minimalism, intentionally pausing forty-eight hours before any non-essential purchase.",
+          "mm": "လွန်ခဲ့သော နှစ်အနည်းငယ်အတွင်း မိမိ၏ စျေးဝယ်အလေ့အထ မည်သို့ ပြောင်းလဲသွားသနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an item you bought recently that you are exceptionally satisfied with.\nYou should say:\n- What product it was\n- Where and why you purchased it\n- How frequently you use it\n- And explain why this purchase provided such high utility and satisfaction",
+        "prepNotes": "Ergonomic kneeling desk chair / Ordered online after back pain / Used daily for 8+ hours / Corrected posture, eliminated chronic lumbar strain",
+        "modelScript": "A purchase that has proven to be an exceptional investment in my physical wellbeing is an ergonomic kneeling office chair. Working long hours on academic research had precipitated severe chronic lumbar strain. After extensive biomechanical reviews, I ordered this specialized wooden rocker chair. It redistributes body weight between the pelvis and shins, naturally enforcing an upright spinal posture. Using it daily has completely alleviated my lower-back discomfort, transforming my daily research stamina.",
+        "mm": "Part 2 Cue Card: မကြာသေးမီက ဝယ်ယူခဲ့ပြီး အလွန်စိတ်ကျေနပ်မှု ရရှိခဲ့သော ပစ္စည်းတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Will physical retail high-streets completely disappear due to online shopping?",
+          "a": "Physical retail will not perish, but it must evolve from utilitarian distribution into experiential showrooms offering interactive demonstrations, dining, and social events that screens cannot replicate.",
+          "mm": "အွန်လိုင်းစျေးဝယ်မှုကြောင့် သမားရိုးကျ အရောင်းဆိုင်ကြီးများ လုံးဝပျောက်ကွယ်သွားနိုင်ပါသလား။"
+        },
+        {
+          "q": "What psychological mechanisms fuel compulsive shopping behavior?",
+          "a": "Online platforms leverage variable dopamine feedback loops through algorithmic discounts, flash sales, and artificial countdown timers that exploit human fear of missing out (FOMO).",
+          "mm": "မလိုအပ်ဘဲ မထိန်းနိုင်အောင် စျေးဝယ်ခြင်းကို မည်သည့် စိတ်ပိုင်းဆိုင်ရာ အချက်များက တွန်းအားပေးသနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "18. Cinema, Documentaries & Cinematic Storytelling (2026 Forecast)",
+      "category": "Entertainment & Media",
+      "vocab": [
+        "cinematic immersion",
+        "narrative complexity",
+        "cathartic escapism",
+        "documentary realism",
+        "streaming saturation",
+        "audiovisual masterpiece"
+      ],
+      "sample": "Watching an audiovisual masterpiece in a darkened cinema provides an immersive communal experience that streaming at home on a laptop cannot match.",
+      "mm": "ရုပ်ရှင်၊ မှတ်တမ်းရုပ်ရှင်များနှင့် ဇာတ်လမ်းပြောပြမှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "How often do you go to the movie theater?",
+          "a": "Roughly once a month, reserved primarily for visually grandiose cinematic releases like science-fiction epics that demand a colossal screen and Dolby Atmos acoustics.",
+          "mm": "ရုပ်ရှင်ရုံသို့ မည်မျှ မကြာခဏ သွားလေ့ရှိသနည်း။"
+        },
+        {
+          "q": "What film genre do you appreciate most?",
+          "a": "Thought-provoking historical and scientific documentaries. I find real-world geopolitical conflicts and natural history far more captivating than formulaic Hollywood superhero blockbusters.",
+          "mm": "မည်သည့် ရုပ်ရှင်အမျိုးအစားကို အနှစ်သက်ဆုံး ဖြစ်သနည်း။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a documentary or film that left an indelible impression on you.\nYou should say:\n- What film it was\n- What real-world topic or history it explored\n- When and where you viewed it\n- And explain why it resonated with your ethical conscience so powerfully",
+        "prepNotes": "'Our Planet' narrated by David Attenborough / Watched on streaming / Showcased biodiversity collapse and melting polar ice / Motivated me to adopt zero-waste living",
+        "modelScript": "A documentary series that stirred my ethical conscience profoundly was 'Our Planet', narrated by Sir David Attenborough. Filmed across seven continents over four years, the series showcased breathtaking 4K footage of Earth's rarest ecosystems while unflinchingly documenting their accelerated destruction due to human consumption. The visceral sequence of walruses plunging off Arctic cliffs due to retreating sea ice brought tears to my eyes and permanently solidified my commitment to environmental activism.",
+        "mm": "Part 2 Cue Card: မိမိစိတ်ထဲတွင် စွဲထင်ကျန်ရစ်စေခဲ့သော မှတ်တမ်းရုပ်ရှင် သို့မဟုတ် ဇာတ်ကားတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why are serialized streaming television shows outpacing traditional feature films?",
+          "a": "Ten-hour episodic seasons provide writers with expansive space for intricate character arcs, moral nuance, and world-building that a compressed two-hour theatrical film cannot possibly achieve.",
+          "mm": "ဇာတ်လမ်းတွဲများသည် သမားရိုးကျ ရုပ်ရှင်ကားများထက် အဘယ်ကြောင့် ပိုမိုလူကြိုက်များလာသနည်း။"
+        },
+        {
+          "q": "Do films influence societal moral values or merely reflect them?",
+          "a": "It is a dynamic cultural feedback loop: cinema reflects contemporary public anxieties, but visionary directors actively challenge prejudices and reshape social mores regarding justice, equality, and human rights.",
+          "mm": "ရုပ်ရှင်များသည် လူ့ဘောင်၏ ကိုယ်ကျင့်တရားစံနှုန်းများကို လွှမ်းမိုးပါသလား သို့မဟုတ် ရောင်ပြန်ဟပ်ရုံသာ ဖြစ်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "19. Weather Extremes, Climate & Seasonal Productivity (2026 Forecast)",
+      "category": "Nature & Meteorology",
+      "vocab": [
+        "meteorological volatility",
+        "monsoon deluge",
+        "seasonal affective disorder",
+        "scorching heatwave",
+        "bioclimatic comfort",
+        "atmospheric resilience"
+      ],
+      "sample": "Meteorological volatility directly dictates regional agricultural yields and profoundly modulates day-to-day human productivity.",
+      "mm": "ရာသီဥတု၊ မိုးလေဝသ အစွန်းရောက်မှုများနှင့် ရာသီအလိုက် ကုန်ထုတ်စွမ်းအားဆိုင်ရာ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "What is the climate like in your geographic region?",
+          "a": "My country experiences a tropical monsoon climate characterized by three distinct seasons: a scorching hot dry season, a torrential monsoon season, and a pleasantly temperate cool season.",
+          "mm": "မိမိဒေသရှိ ရာသီဥတု အခြေအနေကို ဖော်ပြပုံ။"
+        },
+        {
+          "q": "Does the weather affect your psychological mood or productivity?",
+          "a": "Significantly. Overcast, humid rainy days induce contemplative, reflective energy ideal for writing, whereas crisp, clear sunny mornings invigorate physical dynamism and outdoor focus.",
+          "mm": "ရာသီဥတုသည် မိမိ၏ စိတ်ခံစားမှုနှင့် အလုပ်လုပ်နိုင်စွမ်းအပေါ် သက်ရောက်ပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an occasion when severe or unusual weather disrupted your plans.\nYou should say:\n- What the weather phenomenon was\n- When and where it happened\n- What travel or event was canceled or affected\n- And explain how you adapted to the disruption",
+        "prepNotes": "Sudden monsoon flash flood during final university exam / Monsoon deluge submerged city bus routes / Took off shoes, walked through knee-deep water / Demonstrated resilience",
+        "modelScript": "An occasion when extreme weather disrupted my schedule occurred during my final semester examinations, when an unexpected tropical monsoon depression unleashed unprecedented rainfall on the city. Within ninety minutes, central thoroughfares were submerged under knee-deep water, paralyzing all public bus transit. Desperate not to miss my three-hour statistical economics paper, I wrapped my laptop in waterproof bags, rolled up my trousers, and waded three miles on foot through flooded streets. Arriving drenched but on time remains a personal badge of resilience.",
+        "mm": "Part 2 Cue Card: ပြင်းထန်သော ရာသီဥတုကြောင့် မိမိ၏ အစီအစဉ်များ ပျက်ပြားခဲ့ရသော အခိုက်အတန့်တစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Are extreme meteorological phenomena becoming more frequent due to anthropogenic warming?",
+          "a": "The scientific consensus is unequivocal: elevated atmospheric greenhouse concentrations are supercharging hydrological cycles, resulting in intensifying heatwaves, unprecedented droughts, and erratic cyclone trajectories.",
+          "mm": "လူတို့၏ လုပ်ရပ်ကြောင့် ရာသီဥတု အစွန်းရောက်မှုများ ပိုမိုများပြားလာနေပါသလား။"
+        },
+        {
+          "q": "How can modern metropolises adapt their infrastructure to withstand severe climate events?",
+          "a": "By retrofitting urban drainage with permeable asphalt sponge-city designs, planting extensive vegetative canopy cover to mitigate urban heat islands, and reinforcing coastal flood seawalls.",
+          "mm": "ခေတ်သစ်မြို့ကြီးများသည် ရာသီဥတုဘေးအန္တရာယ်များကို ခံနိုင်ရည်ရှိစေရန် အခြေခံအဆောက်အအုံများကို မည်သို့ ပြင်ဆင်သင့်သနည်း။"
+        }
+      ]
+    },
+    {
+      "topic": "20. Sports, Physical Fitness & Cardiovascular Health (2026 Forecast)",
+      "category": "Health & Athletics",
+      "vocab": [
+        "cardiovascular stamina",
+        "sedentary countermeasure",
+        "neurochemical endorphins",
+        "discipline & grit",
+        "athletic camaraderie",
+        "preventative medicine"
+      ],
+      "sample": "Consistent cardiovascular exercise is the ultimate preventative medicine, releasing neurochemical endorphins that dissolve mental anxiety and sharpen focus.",
+      "mm": "အားကစား၊ ကိုယ်ကာယကျန်းမာရေးနှင့် ကြံ့ခိုင်မှုဆိုင်ရာ ၂၀၂၆ မေးခွန်းတွဲ ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "What physical sports or exercises do you engage in regularly?",
+          "a": "I maintain a disciplined regimen of distance running and calisthenic bodyweight training four mornings per week, alongside weekly amateur badminton matches with friends.",
+          "mm": "မည်သည့် အားကစား သို့မဟုတ် လေ့ကျင့်ခန်းများကို ပုံမှန် ပြုလုပ်လေ့ရှိသနည်း။"
+        },
+        {
+          "q": "Did you participate in school sports competitions during childhood?",
+          "a": "Yes, I was a competitive track sprinter for my middle school athletics team. Competing taught me intense mental composure and the value of rigorous cardiovascular conditioning.",
+          "mm": "ငယ်စဉ်က ကျောင်း အားကစားပြိုင်ပွဲများတွင် ပါဝင်ဖူးပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe an exciting athletic competition or sports match you witnessed.\nYou should say:\n- What sport it was and who was competing\n- Where and when you watched it\n- What dramatic turns occurred during the game\n- And explain why it was so electrifying to watch",
+        "prepNotes": "National championship football final / Crowded national stadium / Down 1-0 until 89th minute, scored two dramatic goals / Unbridled communal ecstasy",
+        "modelScript": "An athletic spectacle that generated electrifying adrenaline was the national football championship final I attended at the capital's stadium. Our local team was trailing 1-0 against the defending champions, facing imminent defeat as the clock ticked past the eighty-eighth minute. Suddenly, our substitute striker scored an astonishing equalizer, followed four minutes later by a breathtaking header in extra time. When the referee blew the final whistle, forty thousand spectators erupted into unbridled communal euphoria.",
+        "mm": "Part 2 Cue Card: မိမိကိုယ်တိုင် ကြည့်ရှုခဲ့ဖူးသော စိတ်လှုပ်ရှားဖွယ်ရာ အားကစားပြိုင်ပွဲတစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Why are professional sporting tournaments such powerful tools for national unity?",
+          "a": "Sports provide a shared, non-partisan cultural canvas where citizens of diverse ethnic, religious, and political persuasions rally behind a common national emblem, momentarily transcending societal divisions.",
+          "mm": "အားကစားပြိုင်ပွဲများသည် နိုင်ငံတော် စည်းလုံးညီညွတ်ရေးအတွက် အဘယ်ကြောင့် ဤမျှ စွမ်းအားကြီးမားသနည်း။"
+        },
+        {
+          "q": "Should governments invest more funds in Olympic elite training or grassroots community pitches?",
+          "a": "Grassroots community pitches unequivocally deserve priority. While Olympic gold medals generate transient national pride, accessible local sports grounds directly combat obesity and lower long-term national healthcare burdens.",
+          "mm": "အစိုးရများသည် အိုလံပစ် အထူးလေ့ကျင့်ရေးထက် အများပြည်သူသုံး အားကစားကွင်းများတွင် ပိုမိုရင်းနှီးမြှုပ်နှံသင့်ပါသလား။"
+        }
+      ]
+    },
+    {
+      "topic": "21. Science, Astronomy & Natural Curiosity (2026 Forecast)",
+      "category": "Science & Discovery",
+      "vocab": [
+        "astronomical exploration",
+        "scientific inquiry",
+        "empirical evidence",
+        "epistemic humility",
+        "quantum cosmology",
+        "technological frontier"
+      ],
+      "sample": "Gazing into the cosmic tapestry instills profound epistemic humility, reminding humanity of our minuscule yet precious place in the cosmos.",
+      "mm": "သိပ္ပံပညာ၊ နက္ခတ္တဗေဒနှင့် သဘာဝဆိုင်ရာ စူးစမ်းရှာဖွေမှုများအကြောင်း ဖြစ်သည်။",
+      "part1": [
+        {
+          "q": "Were you fascinated by science subjects during your school years?",
+          "a": "Thoroughly captivated, particularly by astrophysics and evolutionary biology. Understanding the fundamental laws governing subatomic particles and galactic clusters felt endlessly enchanting.",
+          "mm": "ကျောင်းသားဘဝက သိပ္ပံဘာသာရပ်များကို စိတ်ဝင်စားခဲ့ပါသလား။"
+        },
+        {
+          "q": "Have you ever observed the night sky through an astronomical telescope?",
+          "a": "Yes, during a university stargazing field trip. Witnessing the golden rings of Saturn and Jupiter’s Galilean moons through high-magnification lenses was a genuinely mesmerizing revelation.",
+          "mm": "တယ်လီစကုပ် မှန်ပြောင်းဖြင့် ညကောင်းကင်ယံကို ကြည့်ရှုဖူးပါသလား။"
+        }
+      ],
+      "part2": {
+        "card": "Describe a scientific area or discovery that you find particularly fascinating.\nYou should say:\n- What field of science it belongs to\n- How and when you first learned about it\n- What revolutionary implications it holds\n- And explain why it captures your imagination so completely",
+        "prepNotes": "CRISPR-Cas9 gene editing / Molecular genetics / Learned via scientific journal / Capacity to eradicate congenital hereditary diseases / Revolutionary medical milestone",
+        "modelScript": "A scientific breakthrough that holds boundless fascination for me is CRISPR-Cas9 genetic editing technology. Originating from natural bacterial defense mechanisms, this biochemical molecular tool allows geneticists to rewrite DNA sequences with surgical precision. Learning about its mechanics during a biology seminar astonished me: it possesses the potential to eradicate debilitating congenital diseases like sickle cell anemia and cystic fibrosis before birth, marking a transformative epoch in human preventative medicine.",
+        "mm": "Part 2 Cue Card: မိမိအလွန်စိတ်ဝင်စားသော သိပ္ပံဆိုင်ရာ နယ်ပယ် သို့မဟုတ် တွေ့ရှိချက်အသစ်တစ်ခုအကြောင်း။"
+      },
+      "part3": [
+        {
+          "q": "Is investing billions in deep space exploration justifiable when poverty persists on Earth?",
+          "a": "Yes, because space exploration is not an idle luxury; orbital satellite telemetry enables global climate monitoring, agricultural weather forecasting, and disaster relief, directly saving millions of terrestrial lives.",
+          "mm": "ကမ္ဘာမြေပေါ်တွင် ဆင်းရဲမွဲတေမှုများ ရှိနေစဉ် အာကာသစူးစမ်းရေးအတွက် ဘီလီယံနှင့်ချီ သုံးစွဲခြင်းသည် တရားမျှတပါသလား။"
+        },
+        {
+          "q": "How can educators inspire young children to pursue scientific vocations?",
+          "a": "By substituting dry rote memorization with experiential hands-on laboratory experiments, interactive planetary visits, and celebrating visionary scientific role models who solve tangible ecological and medical challenges.",
+          "mm": "ဆရာ/ဆရာမများသည် ကလေးငယ်များအား သိပ္ပံပညာရှင်များဖြစ်လာစေရန် မည်သို့ စိတ်ဓာတ်ခွန်အားပေးနိုင်သနည်း။"
+        }
+      ]
     }
   ],
   "listening_practice": {
