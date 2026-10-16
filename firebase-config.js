@@ -20,8 +20,8 @@ window.FIREBASE_CONFIG = window.FIREBASE_CONFIG || {
 const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
 window.GEMINI_CONFIG = window.GEMINI_CONFIG || {
   apiKey: (typeof localStorage !== "undefined" && localStorage.getItem("ielts_gemini_api_key")) || _DEFAULT_GEMINI_KEY,
-  model: "gemini-3.8-flash",
-  fallbackModels: ["gemini-3.5-flash", "gemini-flash-lite-latest"]
+  model: "gemini-3.5-flash-lite",
+  fallbackModels: ["gemini-3.5-flash", "gemini-3.8-flash"]
 };
 
 window.isFirebaseConfigured = function() {

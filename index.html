@@ -6162,17 +6162,17 @@ function runManualWritingAudit() {
 }
 
 // ==========================================
-// GOOGLE GEMINI 3.8 FLASH EVALUATION ENGINE
+// GOOGLE GEMINI 3.5 FLASH EVALUATION ENGINE
 // ==========================================
 async function callGeminiApi(promptText, systemInstruction) {
   const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
   const config = window.GEMINI_CONFIG || {
     apiKey: (typeof localStorage !== "undefined" && localStorage.getItem("ielts_gemini_api_key")) || _DEFAULT_GEMINI_KEY,
-    model: "gemini-2.5-flash-lite",
-    fallbackModels: ["gemini-2.5-flash", "gemini-1.5-flash"]
+    model: "gemini-3.5-flash-lite",
+    fallbackModels: ["gemini-3.5-flash", "gemini-3.8-flash"]
   };
 
-  const modelsToTry = [config.model, ...(config.fallbackModels || ["gemini-2.5-flash", "gemini-1.5-flash"])];
+  const modelsToTry = [config.model, ...(config.fallbackModels || ["gemini-3.5-flash", "gemini-3.8-flash"])];
 
   let lastError = null;
   for (const model of modelsToTry) {
@@ -6311,14 +6311,14 @@ async function gradeEssayWithGemini() {
   const originalBtnText = btn ? btn.innerHTML : "";
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = `⏳ Analyzing with Gemini 3.8 Flash...`;
+    btn.innerHTML = `⏳ Analyzing with Gemini 3.5 Flash...`;
   }
 
   resultBox.style.display = "block";
   resultBox.innerHTML = `
     <div style="display:flex; align-items:center; gap:10px; padding:12px; color:var(--text-secondary);">
       <div class="spinning-loader" style="width:18px; height:18px; border:2px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
-      <span>Sending prompt to Cambridge Examiner AI (Google Gemini 3.8 Flash)... Evaluating TA, CC, LR &amp; GRA rubrics.</span>
+      <span>Sending prompt to Cambridge Examiner AI (Google Gemini 3.5 Flash)... Evaluating TA, CC, LR &amp; GRA rubrics.</span>
     </div>
   `;
   resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
