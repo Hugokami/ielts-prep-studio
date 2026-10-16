@@ -1,0 +1,622 @@
+[
+  {
+    "id": "rm1",
+    "code": "MOCK 1",
+    "title": "Passage 1: Urban Heat Islands & Biophilic Architecture",
+    "category": "Environmental Engineering",
+    "difficulty": "Band 7.0 - 8.0",
+    "questionTypes": "True/False/Not Given • Multiple Choice",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "As global urbanization accelerates, metropolitan regions increasingly suffer from the Urban Heat Island (UHI) phenomenon, wherein densely constructed city centers experience significantly higher temperatures than surrounding rural perimeters. This thermal <span class='vocab-hl' onclick=\"showPopup('Disparity','ကွာဟချက်၊ မညီမျှမှု','inequality, discrepancy, gap')\">disparity</span> is <span class='vocab-hl' onclick=\"showPopup('Predominantly','အဓိကအားဖြင့်','primarily, chiefly, largely')\">predominantly</span> driven by the replacement of natural vegetation with dark, impermeable surfaces such as asphalt and concrete, which absorb rather than reflect solar radiation.",
+        "mmSummary": "အပိုဒ် (A) - မြို့ပြချဲ့ထွင်မှု မြန်ဆန်လာသည်နှင့်အမျှ မြို့လယ်ခေါင်များသည် ပတ်ဝန်းကျင် ကျေးလက်ဒေသများထက် အပူချိန် ပိုမိုမြင့်မားသော Urban Heat Island (UHI) ဖြစ်စဉ်ကို ကြုံတွေ့နေရသည်။ အဓိကအကြောင်းရင်းမှာ သဘာဝသစ်ပင်များနေရာတွင် နေရောင်ခြည်အပူကို စုပ်ယူသည့် ကတ္တရာနှင့် ကွန်ကရစ်များ အစားထိုးလာခြင်းကြောင့် ဖြစ်သည်။"
+      },
+      {
+        "label": "B",
+        "text": "Furthermore, <span class='vocab-hl' onclick=\"showPopup('Anthropogenic','လူသားတို့ကြောင့် ဖြစ်ပေါ်သော','human-induced, man-made')\">anthropogenic</span> heat emissions from vehicular traffic, industrial processes, and air-conditioning units <span class='vocab-hl' onclick=\"showPopup('Exacerbate','ပိုမိုဆိုးရွားစေသည်','aggravate, compound, intensify')\">exacerbate</span> ambient warming. Ironically, as outdoor temperatures <span class='vocab-hl' onclick=\"showPopup('Surge','တဟုန်ထိုး မြင့်တက်သည်','soar, escalate, spike')\">surge</span>, residents rely more heavily on mechanical cooling systems, which expel waste heat directly into the streets and create a self-reinforcing feedback loop of energy consumption.",
+        "mmSummary": "အပိုဒ် (B) - မော်တော်ယာဉ်များ၊ စက်ရုံများနှင့် လေအေးပေးစက် (Air-con) များမှ ထွက်ရှိသော လူလုပ်အပူများက အပူချိန်ကို ပိုမိုဆိုးရွားစေသည်။ အပြင်ဘက်အပူချိန် တက်လာလေ လေအေးပေးစက် ပိုသုံးလေဖြစ်ပြီး ၎င်းမှထွက်သော အပူက လမ်းမများကို ပိုပူစေကာ စွမ်းအင်သုံးစွဲမှု သံသရာလည်နေစေသည်။"
+      },
+      {
+        "label": "C",
+        "text": "To <span class='vocab-hl' onclick=\"showPopup('Mitigate','လျော့ပါးသက်သာစေသည်','alleviate, curb, attenuate')\">mitigate</span> these <span class='vocab-hl' onclick=\"showPopup('Detrimental','ထိခိုက်နစ်နာစေသော','deleterious, adverse, harmful')\">detrimental</span> microclimatic effects, urban planners are integrating vegetated rooftops and vertical gardens into municipal building codes. <span class='vocab-hl' onclick=\"showPopup('Empirical','လက်တွေ့သုတေသနပေါ် အခြေခံသော','observational, experimental')\">Empirical</span> studies conducted in Singapore and Rotterdam demonstrate that green roofs not only insulate buildings against solar gain but also retain up to 70% of rainwater runoff during heavy storms.",
+        "mmSummary": "အပိုဒ် (C) - ဤဆိုးကျိုးများကို လျော့ပါးစေရန် မြို့ပြစီမံကိန်းပညာရှင်များသည် အဆောက်အအုံခေါင်မိုးနှင့် နံရံများတွင် သစ်ပင်စိုက်ပျိုးခြင်းကို စည်းမျဉ်းများထဲ ထည့်သွင်းလာကြသည်။ စင်ကာပူနှင့် ရော့တာဒမ်မြို့တို့မှ လက်တွေ့သုတေသနများအရ အစိမ်းရောင်ခေါင်မိုးများသည် အပူဒဏ်ကာကွယ်ပေးရုံသာမက မိုးရေ ၇၀% အထိ ထိန်းသိမ်းပေးနိုင်သည်။"
+      },
+      {
+        "label": "D",
+        "text": "<span class='vocab-hl' onclick=\"showPopup('Nevertheless','သို့သော်လည်း','nonetheless, however')\">Nevertheless</span>, retrofitting older historical buildings with heavy soil-based rooftop gardens remains financially and structurally challenging. Consequently, material scientists <span class='vocab-hl' onclick=\"showPopup('Advocate','ထောက်ခံအကြံပြုသည်','champion, endorse, recommend')\">advocate</span> the deployment of high-albedo 'cool pavements' and reflective roof coatings as a cost-effective alternative for older districts, <span class='vocab-hl' onclick=\"showPopup('Albeit','ဖြစ်သော်လည်းပဲ','even though, although')\">albeit</span> with fewer ecological benefits for local biodiversity.",
+        "mmSummary": "အပိုဒ် (D) - သို့သော်လည်း ရှေးဟောင်းအဆောက်အအုံဟောင်းများပေါ်တွင် မြေကြီးထုပါဝင်သော ခေါင်မိုးဥယျာဉ်များ တပ်ဆင်ရန်မှာ ကုန်ကျစရိတ်နှင့် အဆောက်အအုံခံနိုင်ရည်အရ ခက်ခဲနေဆဲဖြစ်သည်။ ထို့ကြောင့် သိပ္ပံပညာရှင်များက ကုန်ကျစရိတ်သက်သာသည့် အလင်းပြန်အပူခံသုတ်ဆေးနှင့် လမ်းခင်းပစ္စည်းများကို သုံးရန် အကြံပြုကြသည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm1_q1",
+        "type": "TFNG",
+        "q": "1. Rural areas warm up more rapidly than city centers because natural plants trap solar heat.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph A states the opposite: densely constructed city centers experience higher temperatures because dark surfaces (asphalt/concrete) replace vegetation and absorb solar radiation.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (A) တွင် မြို့လယ်ခေါင်များကသာ ကျေးလက်ထက် အပူချိန်ပိုမြင့်ပြီး ကတ္တရာနှင့် ကွန်ကရစ်များက နေရောင်ခြည်ကို စုပ်ယူသည်ဟု ဆိုထားသောကြောင့် ဆန့်ကျင်ဘက် ဖြစ်နေသည်။"
+      },
+      {
+        "id": "rm1_q2",
+        "type": "TFNG",
+        "q": "2. Operating air-conditioning units indoors unintentionally raises outdoor street temperatures.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "TRUE",
+        "expEn": "Paragraph B confirms that mechanical cooling systems (= air-conditioning) expel waste heat directly into the streets, exacerbating ambient warming.",
+        "expMm": "TRUE (မှန်သည်) - အပိုဒ် (B) တွင် 'mechanical cooling systems expel waste heat directly into the streets' ဟု ဖော်ပြထားရာ မေးခွန်းပါ အဓိပ္ပာယ်နှင့် ထပ်တူညီသည်။"
+      },
+      {
+        "id": "rm1_q3",
+        "type": "TFNG",
+        "q": "3. Rotterdam has invested more municipal funds in rooftop gardens than Singapore.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "NOT GIVEN",
+        "expEn": "Paragraph C mentions empirical studies in both Singapore and Rotterdam, but no comparison of their financial spending is provided.",
+        "expMm": "NOT GIVEN (မပါဝင်ပါ) - အပိုဒ် (C) တွင် မြို့နှစ်မြို့လုံး၌ သုတေသနပြုလုပ်ခဲ့ကြောင်းသာ ပါရှိပြီး မည်သည့်မြို့က ရန်ပုံငွေ ပိုသုံးစွဲကြောင်း နှိုင်းယှဉ်ထားခြင်း လုံးဝမရှိပါ။"
+      },
+      {
+        "id": "rm1_q4",
+        "type": "MCQ",
+        "q": "4. Why do material scientists recommend reflective coatings for historical districts?",
+        "options": [
+          "A. They attract more native bird species than vegetated roofs.",
+          "B. Older structures often cannot bear the structural load and cost of soil-based gardens.",
+          "C. They retain 70% of stormwater runoff during monsoons.",
+          "D. Municipal laws prohibit green roofs on modern skyscrapers."
+        ],
+        "ans": "B. Older structures often cannot bear the structural load and cost of soil-based gardens.",
+        "expEn": "Paragraph D states that retrofitting older historical buildings with heavy soil-based gardens is 'financially and structurally challenging'.",
+        "expMm": "အပိုဒ် (D) တွင် အဆောက်အအုံဟောင်းများ၌ မြေကြီးပါသော ဥယျာဉ်များ တပ်ဆင်ရန်မှာ ငွေကြေးနှင့် အဆောက်အအုံခံနိုင်ဝန်အရ ခက်ခဲသောကြောင့် ('financially and structurally challenging') ဟု ရှင်းပြထားသည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm2",
+    "code": "MOCK 2",
+    "title": "Passage 2: The Story of Silk & Ancient Trade Networks",
+    "category": "History & Archaeology",
+    "difficulty": "Band 6.5 - 7.5",
+    "questionTypes": "Matching Headings • True/False/Not Given",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Silk production, known as sericulture, originated in Neolithic China more than five millennia ago. According to imperial legend, Empress Leizu <span class='vocab-hl' onclick=\"showPopup('Inadvertently','မရည်ရွယ်ဘဲ၊ အမှတ်တမဲ့','accidentally, unintentionally')\">inadvertently</span> discovered the delicate filament when a silkworm cocoon fell from a mulberry tree into her cup of hot tea, softening the protein matrix and allowing a continuous thread to be unwound.",
+        "mmSummary": "အပိုဒ် (A) - ပိုးချည်ထုတ်လုပ်မှု (Sericulture) သည် လွန်ခဲ့သော နှစ်ပေါင်း ၅၀၀၀ ကျော်က တရုတ်နိုင်ငံတွင် စတင်ခဲ့သည်။ ဒဏ္ဍာရီအရ ဧကရီ Leizu သည် ပိုးအိမ်တစ်ခု ရေနွေးကြမ်းခွက်ထဲ မတော်တဆ ပြုတ်ကျရာမှ ပိုးချည်မျှင် ဆွဲထုတ်နိုင်ပုံကို အမှတ်တမဲ့ ရှာဖွေတွေ့ရှိခဲ့သည်။"
+      },
+      {
+        "label": "B",
+        "text": "For nearly three thousand years, the Chinese court guarded the mechanics of sericulture as a state secret under <span class='vocab-hl' onclick=\"showPopup('Stringent','အလွန်တင်းကျပ်သော','rigorous, strict, draconian')\">stringent</span> imperial decrees. Attempting to smuggle silkworm eggs or mulberry seeds beyond the frontier was punishable by death. Initially, silk garments were reserved exclusively for the emperor and highest nobility, serving as an <span class='vocab-hl' onclick=\"showPopup('Ostentatious','ကြွားဝါသော၊ ပကာသနဖက်သော','extravagant, showy, prestigious')\">ostentatious</span> emblem of aristocratic rank.",
+        "mmSummary": "အပိုဒ် (B) - နှစ်ပေါင်း ၃၀၀၀ နီးပါးကြာအောင် တရုတ်နန်းတော်သည် ပိုးချည်ထုတ်လုပ်နည်းကို တင်းကျပ်သော ဥပဒေများဖြင့် နိုင်ငံတော်လျှို့ဝှက်ချက်အဖြစ် ထိန်းသိမ်းခဲ့သည်။ ပိုးဥ သို့မဟုတ် ပိုးစာပင်မျိုးစေ့ကို နယ်စပ်ဖြတ်ကျော် ခိုးထုတ်သူကို သေဒဏ်ချမှတ်ခဲ့ပြီး ကနဦးတွင် ဧကရာဇ်နှင့် မင်းမျိုးမင်းနွယ်များသာ ဝတ်ဆင်ခွင့်ရှိခဲ့သည်။"
+      },
+      {
+        "label": "C",
+        "text": "Gradually, restrictions relaxed and silk became integrated into the wider economy as a medium of exchange. Farmers paid annual taxes in bolts of raw silk, and civil servants received salaries denominated in silk fabric. By the Han Dynasty, diplomatic missions westward acted as a <span class='vocab-hl' onclick=\"showPopup('Catalyst','အဓိကတွန်းအား','stimulus, impetus, spark')\">catalyst</span> for the transcontinental Silk Road, linking Chang'an with Mediterranean markets in Rome.",
+        "mmSummary": "အပိုဒ် (C) - နောက်ပိုင်းတွင် ကန့်သတ်ချက်များ လျော့ပေါ့သွားပြီး ပိုးထည်ကို ငွေကြေးသဖွယ် အခွန်ပေးဆောင်ရာနှင့် အရာရှိလစာပေးရာတို့တွင် အသုံးပြုလာခဲ့သည်။ ဟန်မင်းဆက်လက်ထက်တွင် အနောက်ဘက်သို့ သံတမန်စေလွှတ်မှုများသည် တရုတ်နှင့် ရောမကို ဆက်သွယ်ပေးသော ပိုးလမ်းမကြီး ပေါ်ပေါက်လာရန် အဓိကတွန်းအား ဖြစ်ခဲ့သည်။"
+      },
+      {
+        "label": "D",
+        "text": "The Chinese monopoly finally ended in 552 CE via an <span class='vocab-hl' onclick=\"showPopup('Ingenious','ဉာဏ်ပညာကြီးမားသော','clever, inventive, resourceful')\">ingenious</span> act of industrial espionage. Two Nestorian monks, sponsored by the Byzantine Emperor Justinian, concealed live silkworm eggs inside hollow bamboo walking sticks and transported them to Constantinople, laying the foundation for Europe's domestic silk industry.",
+        "mmSummary": "အပိုဒ် (D) - အေဒီ ၅၅၂ တွင် ဘိုင်ဇန်တိုင်းဧကရာဇ် Justinian စေလွှတ်သော ဘုန်းတော်ကြီးနှစ်ပါးက အခေါင်းပေါက်ပါသည့် ဝါးတောင်ဝှေးများထဲတွင် ပိုးဥများကို ဝှက်၍ ကွန်စတန်တီနိုပယ်မြို့သို့ သယ်ဆောင်သွားခဲ့ရာမှ တရုတ်တို့၏ လက်ဝါးကြီးအုပ်ထားမှု အဆုံးသတ်ပြီး ဥရောပပိုးထည်လုပ်ငန်း စတင်ခဲ့သည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm2_q1",
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. Silk as a domestic currency and tax medium",
+          "ii. Imperial secrecy and social exclusivity of early silk",
+          "iii. Smuggling silkworms to the Byzantine Empire",
+          "iv. Accidental discovery in an imperial garden"
+        ],
+        "ans": "ii. Imperial secrecy and social exclusivity of early silk",
+        "expEn": "Paragraph B focuses on guarding sericulture as a 'state secret under stringent imperial decrees' and reserving silk 'exclusively for the emperor and highest nobility'.",
+        "expMm": "အပိုဒ် (B) တစ်ခုလုံး၏ အဓိကဆိုလိုရင်းမှာ ပိုးချည်ထုတ်လုပ်နည်းကို လျှို့ဝှက်ထိန်းသိမ်းထားခြင်း (Imperial secrecy) နှင့် ဘုရင်နှင့် မင်းညီမင်းသားများသာ ဝတ်ဆင်ခွင့်ရှိခြင်း (social exclusivity) ဖြစ်သည်။"
+      },
+      {
+        "id": "rm2_q2",
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. Silk as a domestic currency and catalyst for international trade",
+          "ii. Penalties for smuggling mulberry seeds",
+          "iii. Modern synthetic alternatives to silk",
+          "iv. The collapse of the Roman textile market"
+        ],
+        "ans": "i. Silk as a domestic currency and catalyst for international trade",
+        "expEn": "Paragraph C explains how silk functioned as a 'medium of exchange' (taxes/salaries) and acted as a 'catalyst for the transcontinental Silk Road'.",
+        "expMm": "အပိုဒ် (C) တွင် ပိုးထည်ကို ပြည်တွင်း၌ ငွေကြေးနှင့် အခွန်အဖြစ် သုံးစွဲပုံနှင့် နိုင်ငံတကာ ပိုးလမ်းမကြီး ကုန်သွယ်ရေး စတင်ပုံတို့ကို ရှင်းပြထားသည်။"
+      },
+      {
+        "id": "rm2_q3",
+        "type": "TFNG",
+        "q": "3. During the Han Dynasty, government officials were prohibited from receiving silk as payment.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph C explicitly states that 'civil servants received salaries denominated in silk fabric'.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (C) တွင် အစိုးရဝန်ထမ်းများ (civil servants) သည် လစာကို ပိုးထည်ဖြင့် လက်ခံရရှိခဲ့သည်ဟု တိုက်ရိုက်ဖော်ပြထားသည်။"
+      },
+      {
+        "id": "rm2_q4",
+        "type": "TFNG",
+        "q": "4. The Byzantine monks hid silkworm eggs inside wooden tea chests.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph D states they concealed the eggs 'inside hollow bamboo walking sticks', not wooden tea chests.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (D) တွင် သစ်သားသေတ္တာထဲ၌ မဟုတ်ဘဲ အခေါင်းပေါက်ပါသော ဝါးတောင်ဝှေး ('hollow bamboo walking sticks') ထဲတွင် ဝှက်၍ သယ်ဆောင်ခဲ့သည်ဟု ဆိုထားသည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm3",
+    "code": "MOCK 3",
+    "title": "Passage 3: Chronobiology and the Circadian Rhythm",
+    "category": "Biological Sciences & Medicine",
+    "difficulty": "Band 7.5 - 8.5",
+    "questionTypes": "Summary Completion • Yes/No/Not Given",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Nearly all living organisms, from cyanobacteria to human beings, possess an internal biochemical timer known as the <span class='vocab-hl' onclick=\"showPopup('Circadian','၂၄ နာရီ ဇီဝနာရီစက်ဝန်း','24-hour biological cycle, diurnal')\">circadian</span> rhythm. Governed by a cluster of 20,000 neurons in the hypothalamus called the suprachiasmatic nucleus (SCN), this endogenous clock regulates hormone secretion, core body temperature, and sleep-wake cycles over a roughly 24-hour period.",
+        "mmSummary": "အပိုဒ် (A) - ဘက်တီးရီးယားမှစ၍ လူသားများအထိ သက်ရှိအားလုံးနီးပါးတွင် Circadian rhythm ခေါ် ၂၄ နာရီ ဇီဝနာရီစနစ် ရှိကြသည်။ ဦးနှောက်အတွင်းရှိ SCN အာရုံကြောအစုအဝေးက ထိန်းချုပ်ထားပြီး ဟော်မုန်းထုတ်လွှတ်မှု၊ ခန္ဓာကိုယ်အပူချိန်နှင့် အိပ်စက်ချိန်တို့ကို ထိန်းညှိပေးသည်။"
+      },
+      {
+        "label": "B",
+        "text": "While the SCN functions autonomously, it relies on external environmental cues, primarily daylight, to stay synchronized with the solar day. Before the industrial era, human activity was tightly aligned with sunrise and sunset. However, the <span class='vocab-hl' onclick=\"showPopup('Ubiquitous','နေရာတိုင်းတွင် ရှိနေသော','omnipresent, pervasive')\">ubiquitous</span> adoption of artificial illumination and nocturnal screen exposure suppresses melatonin production, tricking the brain into perceiving perpetual daytime.",
+        "mmSummary": "အပိုဒ် (B) - ဇီဝနာရီသည် သဘာဝနေ့အလင်းရောင်ကို အားပြု၍ အချိန်ကိုက်လည်ပတ်သည်။ သို့သော် ယနေ့ခေတ် လျှပ်စစ်မီးများနှင့် ညဘက် ဖုန်းမျက်နှာပြင်ကြည့်ရှုမှုများသည် အိပ်စက်စေသော Melatonin ဟော်မုန်းထွက်ရှိမှုကို ဟန့်တားပြီး ဦးနှောက်ကို နေ့ခင်းဘက်ဟု ထင်မှတ်မှားစေသည်။"
+      },
+      {
+        "label": "C",
+        "text": "Epidemiological research <span class='vocab-hl' onclick=\"showPopup('Substantiate','သက်သေအထောက်အထားဖြင့် အတည်ပြုသည်','corroborate, validate, prove')\">substantiates</span> that chronic circadian disruption among night-shift workers renders them highly <span class='vocab-hl' onclick=\"showPopup('Susceptible','ခံစားရလွယ်သော၊ ထိခိုက်လွယ်သော','vulnerable, prone, predisposed')\">susceptible</span> to metabolic disorders, cardiovascular disease, and cognitive impairment. Chronobiologists therefore <span class='vocab-hl' onclick=\"showPopup('Advocate','ထောက်ခံအကြံပြုသည်','recommend, champion, endorse')\">advocate</span> 'chronotherapy'—timing medical treatments and school start hours to align with natural biological phases.",
+        "mmSummary": "အပိုဒ် (C) - ညဆိုင်းအလုပ်သမားများကဲ့သို့ ဇီဝနာရီ ကာလရှည် ပျက်ယွင်းသူများသည် ဇီဝကမ္မချို့ယွင်းမှု၊ နှလုံးရောဂါနှင့် မှတ်ဉာဏ်ထိခိုက်မှုတို့ကို ခံစားရလွယ်ကြောင်း သုတေသနများက အတည်ပြုသည်။ ထို့ကြောင့် ပညာရှင်များက ဆေးကုသချိန်နှင့် ကျောင်းတက်ချိန်များကို သဘာဝဇီဝနာရီနှင့် ကိုက်ညီအောင် ညှိနှိုင်းရန် အကြံပြုကြသည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm3_q1",
+        "type": "SUMMARY",
+        "q": "1. Summary Completion: 'Artificial light at night inhibits the release of ________, causing the brain to misinterpret nighttime as day.'",
+        "options": [
+          "A. cyanobacteria",
+          "B. melatonin",
+          "C. chronotherapy",
+          "D. cortisol"
+        ],
+        "ans": "B. melatonin",
+        "expEn": "Paragraph B states: 'nocturnal screen exposure suppresses melatonin production, tricking the brain into perceiving perpetual daytime.' ('inhibits the release of' = 'suppresses production').",
+        "expMm": "အပိုဒ် (B) ရှိ 'suppresses melatonin production' ကို မေးခွန်းတွင် 'inhibits the release of melatonin' ဟု Synonym ပြောင်းသုံးထားသည်။"
+      },
+      {
+        "id": "rm3_q2",
+        "type": "SUMMARY",
+        "q": "2. Summary Completion: 'Long-term circadian misalignment makes shift workers particularly ________ to heart and metabolic illnesses.'",
+        "options": [
+          "A. immune",
+          "B. skeptical",
+          "C. vulnerable (susceptible)",
+          "D. obsolete"
+        ],
+        "ans": "C. vulnerable (susceptible)",
+        "expEn": "Paragraph C states that disruption 'renders them highly susceptible to metabolic disorders, cardiovascular disease'. ('vulnerable' is the exact IELTS synonym for 'susceptible').",
+        "expMm": "အပိုဒ် (C) ပါ 'susceptible' (ရောဂါခံစားရလွယ်သော) ၏ တိုက်ရိုက် Synonym မှာ 'vulnerable' ဖြစ်သည်။"
+      },
+      {
+        "id": "rm3_q3",
+        "type": "YNNG",
+        "q": "3. (Writer's Claims - YES/NO/NOT GIVEN) Only human beings possess an internal circadian clock.",
+        "options": [
+          "YES",
+          "NO",
+          "NOT GIVEN"
+        ],
+        "ans": "NO",
+        "expEn": "Paragraph A states: 'Nearly all living organisms, from cyanobacteria to human beings, possess an internal biochemical timer...'",
+        "expMm": "NO (ဆန့်ကျင်သည်) - အပိုဒ် (A) တွင် ဘက်တီးရီးယားမှစ၍ သက်ရှိအားလုံးနီးပါး၌ ဇီဝနာရီရှိသည်ဟု ဆိုထားသဖြင့် လူသားတစ်မျိုးတည်းသာ ရှိသည်ဆိုခြင်းမှာ မှားယွင်းသည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm4",
+    "code": "MOCK 4",
+    "title": "Passage 4: The Psychology of Workplace Innovation",
+    "category": "Organizational Psychology",
+    "difficulty": "Band 8.0 - 9.0",
+    "questionTypes": "Matching Researchers • Multiple Choice",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Corporations routinely invest millions in brainstorming retreats and opulent office perks in hopes of sparking breakthrough inventions. Yet organizational psychologists argue that <span class='vocab-hl' onclick=\"showPopup('Extrinsic','ပြင်ပမှလာသော (ငွေကြေး/ဆုလာဘ်)','external, financial, outward')\">extrinsic</span> financial bonuses often fail to generate sustained creativity. Professor Teresa Amabile of Harvard Business School <span class='vocab-hl' onclick=\"showPopup('Postulate','အဆိုတင်ပြသည်','hypothesize, posit, propose')\">postulates</span> that genuine innovation flourishes only when employees possess deep intrinsic motivation and <span class='vocab-hl' onclick=\"showPopup('Autonomy','ကိုယ်ပိုင်ဆုံးဖြတ်လုပ်ပိုင်ခွင့်','independence, self-determination')\">autonomy</span> over how they approach problems.",
+        "mmSummary": "အပိုဒ် (A) - ကုမ္ပဏီကြီးများသည် ဆန်းသစ်တီထွင်မှုရရန် ဆုကြေးငွေများ သုံးစွဲကြသော်လည်း ပြင်ပငွေကြေးဆုလာဘ် (extrinsic bonuses) များသည် ရေရှည်ဖန်တီးနိုင်စွမ်းကို မပေးနိုင်ပါ။ ပါမောက္ခ Teresa Amabile က ဝန်ထမ်းများတွင် ပင်ကိုစိတ်ဝင်စားမှုနှင့် ကိုယ်ပိုင်ဆုံးဖြတ်လုပ်ပိုင်ခွင့် (autonomy) ရှိမှသာ စစ်မှန်သော တီထွင်မှု ပေါ်ထွက်လာသည်ဟု အဆိုတင်ပြသည်။"
+      },
+      {
+        "label": "B",
+        "text": "Meanwhile, Dr. Amy Edmondson's research highlights 'psychological safety' as an <span class='vocab-hl' onclick=\"showPopup('Indispensable','မရှိမဖြစ် လိုအပ်သော','vital, imperative, paramount')\">indispensable</span> prerequisite for experimentation. In rigid hierarchies where mistakes are penalized, staff conceal errors and avoid ambitious risks. Conversely, Dr. Charlan Nemeth demonstrated that polite consensus actually stifles originality; teams exposed to constructive dissent and minority viewpoints produce significantly more <span class='vocab-hl' onclick=\"showPopup('Ingenious','ဉာဏ်ပညာကြီးမားပြီး ဆန်းသစ်သော','inventive, original, creative')\">ingenious</span> solutions.",
+        "mmSummary": "အပိုဒ် (B) - ဒေါက်တာ Amy Edmondson က အမှားလုပ်မိလျှင် အပြစ်ပေးခံရမည်ကို မကြောက်ရသည့် 'Psychological safety' သည် မရှိမဖြစ်လိုအပ်ကြောင်း ထောက်ပြသည်။ ထို့ပြင် ဒေါက်တာ Charlan Nemeth က လူတိုင်း အားနာပြီး သဘောတူနေခြင်းထက် အပြုသဘောဆောင်သော အမြင်ကွဲလွဲမှုများ ရှိခြင်းက ပိုမိုဆန်းသစ်သော အဖြေများကို ထွက်ပေါ်စေကြောင်း သက်သေပြခဲ့သည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm4_q1",
+        "type": "MATCH",
+        "q": "1. Match the statement with the correct researcher: 'Allowing constructive disagreement within a team leads to more original ideas than polite agreement.'",
+        "options": [
+          "A. Professor Teresa Amabile",
+          "B. Dr. Amy Edmondson",
+          "C. Dr. Charlan Nemeth"
+        ],
+        "ans": "C. Dr. Charlan Nemeth",
+        "expEn": "Paragraph B states: 'Dr. Charlan Nemeth demonstrated that polite consensus actually stifles originality; teams exposed to constructive dissent... produce significantly more ingenious solutions.'",
+        "expMm": "အပိုဒ် (B) တွင် ဒေါက်တာ Charlan Nemeth က 'constructive dissent' (အပြုသဘောဆောင်သော သဘောထားကွဲလွဲမှု) သည် ပိုမိုဆန်းသစ်သော အဖြေများကို ထွက်ပေါ်စေကြောင်း သက်သေပြခဲ့သည်။"
+      },
+      {
+        "id": "rm4_q2",
+        "type": "MATCH",
+        "q": "2. Match the statement with the correct researcher: 'Workers hide their mistakes when management punishes failure.'",
+        "options": [
+          "A. Professor Teresa Amabile",
+          "B. Dr. Amy Edmondson",
+          "C. Dr. Charlan Nemeth"
+        ],
+        "ans": "B. Dr. Amy Edmondson",
+        "expEn": "Paragraph B links Dr. Amy Edmondson's concept of psychological safety to the observation that 'where mistakes are penalized, staff conceal errors'.",
+        "expMm": "အပိုဒ် (B) တွင် ဒေါက်တာ Amy Edmondson ၏ သုတေသနအရ အမှားကို အပြစ်ပေးသော လုပ်ငန်းခွင်တွင် ဝန်ထမ်းများက အမှားကို ဖုံးကွယ်ကြသည် ('conceal errors') ဟု ဖော်ပြထားသည်။"
+      },
+      {
+        "id": "rm4_q3",
+        "type": "MATCH",
+        "q": "3. Match the statement with the correct researcher: 'Cash bonuses alone cannot replace personal interest and freedom in how tasks are done.'",
+        "options": [
+          "A. Professor Teresa Amabile",
+          "B. Dr. Amy Edmondson",
+          "C. Dr. Charlan Nemeth"
+        ],
+        "ans": "A. Professor Teresa Amabile",
+        "expEn": "Paragraph A states that Amabile postulates innovation requires 'intrinsic motivation and autonomy' rather than extrinsic financial bonuses.",
+        "expMm": "အပိုဒ် (A) တွင် ပါမောက္ခ Teresa Amabile က ငွေကြေးဆုလာဘ်ထက် ပင်ကိုစိတ်ဝင်စားမှုနှင့် ကိုယ်ပိုင်လုပ်ပိုင်ခွင့် (autonomy) ကသာ အဓိကကျကြောင်း တင်ပြထားသည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm5",
+    "code": "MOCK 5",
+    "title": "Passage 5: Desalination & Global Freshwater Scarcity",
+    "category": "Environmental Technology",
+    "difficulty": "Band 7.0 - 8.5",
+    "questionTypes": "True/False/Not Given • Summary Completion",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Although water covers seventy percent of the Earth's surface, less than three percent is freshwater, and the vast majority of that is locked inside polar glaciers. As aquifers are <span class='vocab-hl' onclick=\"showPopup('Deplete','ကုန်ခန်းသွားစေသည်','exhaust, drain, diminish')\">depleted</span> by intensive agriculture and <span class='vocab-hl' onclick=\"showPopup('Demographic','လူဦးရေဆိုင်ရာ','population, cohort')\">demographic</span> expansion, arid coastal nations increasingly turn to seawater desalination to secure municipal water supplies.",
+        "mmSummary": "အပိုဒ် (A) - ကမ္ဘာ့မျက်နှာပြင်၏ ၇၀% သည် ရေဖြစ်သော်လည်း ၃% အောက်သာ ရေချိုဖြစ်ပြီး အများစုမှာ ရေခဲပြင်များထဲတွင် တည်ရှိသည်။ မြေအောက်ရေများ ကုန်ခန်းလာသဖြင့် မိုးနည်းသော ကမ်းရိုးတန်းနိုင်ငံများသည် ပင်လယ်ရေမှ ရေချိုချက်လုပ်ခြင်း (Desalination) ကို ပိုမိုအားကိုးလာကြသည်။"
+      },
+      {
+        "label": "B",
+        "text": "Early thermal desalination plants boiled seawater and <span class='vocab-hl' onclick=\"showPopup('Condense','ငွေ့ရည်ဖွဲ့သည်','liquefy, distill')\">condensed</span> the rising steam, a process requiring immense fossil-fuel energy. Modern facilities <span class='vocab-hl' onclick=\"showPopup('Predominantly','အဓိကအားဖြင့်','primarily, chiefly')\">predominantly</span> utilize reverse osmosis (RO), forcing seawater through semi-permeable membranes at high pressure. <span class='vocab-hl' onclick=\"showPopup('Notwithstanding','ရှိနေသော်လည်းပဲ','despite, in spite of')\">Notwithstanding</span> remarkable gains in energy efficiency, RO plants discharge concentrated hypersaline brine back into the ocean, posing a <span class='vocab-hl' onclick=\"showPopup('Precarious','အန္တရာယ်ကျရောက်လွယ်သော','perilous, unstable')\">precarious</span> threat to benthic marine ecosystems.",
+        "mmSummary": "အပိုဒ် (B) - ရှေးဦးစက်ရုံများသည် ပင်လယ်ရေကို ကျိုချက်ပြီး ငွေ့ရည်ဖွဲ့သည့်နည်းကို သုံးခဲ့ရာ စွမ်းအင်အလွန်ကုန်ကျခဲ့သည်။ ယနေ့ခေတ်တွင် အမြှေးပါးဖြင့် စစ်ထုတ်သော Reverse Osmosis (RO) နည်းပညာကို အဓိကသုံးကြသည်။ စွမ်းအင်ပိုသက်သာလာသော်လည်း စွန့်ပစ်လိုက်သော ဆားရည်ပျစ် (brine) များက ပင်လယ်ကြမ်းပြင် ဂေဟစနစ်ကို အန္တရာယ်ဖြစ်စေသည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm5_q1",
+        "type": "TFNG",
+        "q": "1. Most of the world's freshwater is readily accessible in liquid rivers and lakes.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph A states that 'the vast majority of that [freshwater] is locked inside polar glaciers'.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (A) တွင် ရေချိုအများစုမှာ ဝင်ရိုးစွန်း ရေခဲပြင်များထဲတွင် ပိတ်မိနေသည် ('locked inside polar glaciers') ဟု ဆိုထားသည်။"
+      },
+      {
+        "id": "rm5_q2",
+        "type": "TFNG",
+        "q": "2. Reverse osmosis plants have completely eliminated all environmental risks to marine life.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph B states that RO plants 'discharge concentrated hypersaline brine back into the ocean, posing a precarious threat to benthic marine ecosystems'.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (B) တွင် RO စက်ရုံများမှ စွန့်ပစ်သော ဆားရည်ပျစ်များသည် ပင်လယ်ကြမ်းပြင် သက်ရှိများကို အန္တရာယ်ဖြစ်စေဆဲဖြစ်ကြောင်း ဖော်ပြထားသည်။"
+      },
+      {
+        "id": "rm5_q3",
+        "type": "MCQ",
+        "q": "3. In Paragraph B, the word 'Notwithstanding' is closest in meaning to:",
+        "options": [
+          "A. Because of",
+          "B. Despite / In spite of",
+          "C. In addition to",
+          "D. As a result of"
+        ],
+        "ans": "B. Despite / In spite of",
+        "expEn": "'Notwithstanding' is a formal academic preposition meaning 'despite' or 'in spite of'.",
+        "expMm": "'Notwithstanding' သည် 'Despite / In spite of' (...ရှိနေသော်လည်းပဲ) နှင့် အဓိပ္ပာယ်တူသော Band 9 အဆင့် စကားလုံးဖြစ်သည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm6",
+    "code": "MOCK 6",
+    "title": "Passage 6: Algorithmic Automation & Labor Polarization",
+    "category": "Economics & Labor Markets",
+    "difficulty": "Band 7.5 - 8.5",
+    "questionTypes": "True/False/Not Given • Multiple Choice",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Unlike previous industrial revolutions that primarily mechanized manual factory labor, contemporary algorithmic automation targets routine white-collar occupations. As machine learning models become <span class='vocab-hl' onclick=\"showPopup('Ubiquitous','နေရာတိုင်းတွင် ရှိနေသော','omnipresent, pervasive')\">ubiquitous</span> across financial auditing, legal discovery, and logistics, mid-tier administrative roles face the risk of becoming <span class='vocab-hl' onclick=\"showPopup('Obsolete','ခေတ်ကုန်အသုံးမဝင်တော့သော','outdated, superseded')\">obsolete</span>.",
+        "mmSummary": "အပိုဒ် (A) - ယခင် စက်မှုတော်လှန်ရေးများသည် ကာယလုပ်သားများ၏ အလုပ်ကိုသာ စက်ဖြင့်အစားထိုးခဲ့သော်လည်း ယနေ့ခေတ် AI စနစ်များသည် ရုံးတွင်းလုပ်ငန်းများကိုပါ ပစ်မှတ်ထားလာသဖြင့် အလယ်အလတ်အဆင့် ရုံးအလုပ်များ ခေတ်ကုန်သွားမည့် အန္တရာယ်ရှိနေသည်။"
+      },
+      {
+        "label": "B",
+        "text": "Economists refer to this structural shift as 'job polarization.' While demand for highly remunerated analytical specialists and low-wage manual service workers continues to grow, middle-income clerical positions are hollowing out. If left unaddressed, this trajectory could widen income <span class='vocab-hl' onclick=\"showPopup('Disparity','ကွာဟချက်၊ မညီမျှမှု','inequality, gap')\">disparity</span> and <span class='vocab-hl' onclick=\"showPopup('Marginalize','ဘေးဖယ်ထားသကဲ့သို့ ဖြစ်စေသည်','exclude, alienate')\">marginalize</span> workers who lack access to lifelong vocational retraining.",
+        "mmSummary": "အပိုဒ် (B) - စီးပွားရေးပညာရှင်များက ဤအပြောင်းအလဲကို 'Job Polarization' ဟု ခေါ်ကြသည်။ လစာမြင့် ပညာရှင်အလုပ်များနှင့် လစာနည်း ဝန်ဆောင်မှုအလုပ်များသာ တိုးပွားလာပြီး အလယ်အလတ်ဝင်ငွေရှိသော ရုံးအလုပ်များ ပျောက်ကွယ်လာနေသည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm6_q1",
+        "type": "TFNG",
+        "q": "1. Contemporary algorithmic automation only affects physical factory workers.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph A states that contemporary automation 'targets routine white-collar occupations' unlike previous industrial revolutions.",
+        "expMm": "FALSE (မှားသည်) - အပိုဒ် (A) တွင် ယနေ့ခေတ် Automation သည် ရုံးတွင်းအလုပ်များ ('white-collar occupations') ကို ပစ်မှတ်ထားသည်ဟု ဆိုထားသည်။"
+      },
+      {
+        "id": "rm6_q2",
+        "type": "MCQ",
+        "q": "2. According to Paragraph B, what characterizes 'job polarization'?",
+        "options": [
+          "A. Equal salary distribution across all professions.",
+          "B. Expansion of high-wage and low-wage jobs alongside a contraction of middle-income roles.",
+          "C. The complete disappearance of manual service jobs.",
+          "D. A shift of all corporate offices to rural areas."
+        ],
+        "ans": "B. Expansion of high-wage and low-wage jobs alongside a contraction of middle-income roles.",
+        "expEn": "Paragraph B explains that demand for 'highly remunerated' and 'low-wage' workers grows, while 'middle-income clerical positions are hollowing out'.",
+        "expMm": "အပိုဒ် (B) တွင် လစာမြင့်နှင့် လစာနည်းအလုပ်များ တိုးလာပြီး အလယ်အလတ်ဝင်ငွေ ရုံးအလုပ်များ လျော့နည်းပျောက်ကွယ်လာခြင်း ('hollowing out') ဟု ရှင်းပြထားသည်။"
+      }
+    ]
+  },
+  {
+    "id": "rm7",
+    "code": "MOCK 7",
+    "title": "Urban Beekeeping (Mini Reading Practice — TFNG)",
+    "topic": "Environment & Urban Ecology · 20-Minute Timed Drill",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Urban beekeeping has grown quickly over the past decade. Many residents now keep hives on rooftops, balconies, and in community gardens. Supporters argue that city hives help pollinate fruit trees and flowering plants, which may be less abundant in heavily built-up areas. Cities can also offer bees a wider variety of flowers than intensive farmland does, since parks and private gardens often bloom at different times of year.",
+        "mmSummary": "အပိုဒ် (A) - မြို့ပြ ပျားမွေးမြူရေးသည် ပြီးခဲ့သည့် ဆယ်စုနှစ်အတွင်း အလျင်အမြန် တိုးတက်လာခဲ့သည်။ မြို့နေပြည်သူ အများအပြားသည် ခေါင်မိုးများ၊ ဝရန်တာများနှင့် ရပ်ကွက်ဥယျာဉ်များတွင် ပျားအုံများ ထားရှိလာကြသည်။ မြို့ပြပျားအုံများသည် သစ်သီးပင်များနှင့် ပန်းပင်များ ဝတ်မှုန်ကူးရန် ကူညီပေးပြီး မြို့ပြပန်းခြံများက စိုက်ပျိုးရေးခြံကြီးများထက် ပန်းမျိုးစုံကို တစ်နှစ်ပတ်လုံး ပိုမိုပေးစွမ်းနိုင်သည်ဟု ထောက်ခံသူများက ဆိုကြသည်။"
+      },
+      {
+        "label": "B",
+        "text": "Not everyone is convinced of these benefits. Some researchers worry that large numbers of hives in a small area could compete with native pollinators for limited food. Others point out that poorly managed hives may spread disease to wild bee colonies.",
+        "mmSummary": "အပိုဒ် (B) - ဤအကျိုးကျေးဇူးများကို လူတိုင်းက လက်ခံယုံကြည်ကြသည် မဟုတ်ပါ။ ဧရိယာကျဉ်းကျဉ်းတွင် ပျားအုံအများအပြား ထားရှိခြင်းက ဒေသရင်း ဝတ်မှုန်ကူးအင်းဆက်များနှင့် အစာလုဘက် ဖြစ်လာမည်ကို သုတေသီအချို့ စိုးရိမ်ကြသလို စနစ်တကျ မထိန်းသိမ်းသော ပျားအုံများမှ သဘာဝပျားအုံများသို့ ရောဂါကူးစက်နိုင်ကြောင်း ထောက်ပြကြသည်။"
+      },
+      {
+        "label": "C",
+        "text": "To reduce these risks, many cities now require beekeepers to register their hives and follow guidelines on placement and hive density. Although these rules are generally welcomed, enforcement varies widely, and some local authorities have no formal regulations at all.",
+        "mmSummary": "အပိုဒ် (C) - ထိုအန္တရာယ်များကို လျှော့ချရန် မြို့အများအပြားတွင် ပျားမွေးမြူသူများအား ပျားအုံမှတ်ပုံတင်စေခြင်းနှင့် လမ်းညွှန်ချက်များ လိုက်နာစေခြင်းတို့ ပြုလုပ်လာကြသည်။ သို့သော် စည်းကမ်းကြပ်မတ်မှုမှာ တစ်မြို့နှင့်တစ်မြို့ ကွာခြားပြီး အချို့ဒေသဆိုင်ရာ အာဏာပိုင်များတွင်မူ တရားဝင် စည်းမျဉ်းစည်းကမ်း လုံးဝမရှိသေးပါ။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm7_q1",
+        "type": "TFNG",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "q": "1. Urban beekeeping has increased significantly over the last ten years.",
+        "ans": "TRUE",
+        "expEn": "Paragraph A states: 'Urban beekeeping has grown quickly over the past decade'",
+        "expMm": "decade = ten years). (စာပိုဒ် A တွင် ပြီးခဲ့သည့် ဆယ်စုနှစ်အတွင်း အလျင်အမြန် တိုးတက်လာသည်ဟု ပါရှိသဖြင့် TRUE ဖြစ်သည်။"
+      },
+      {
+        "id": "rm7_q2",
+        "type": "TFNG",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "q": "2. Honey from city hives is always healthier than honey from rural hives.",
+        "ans": "NOT GIVEN",
+        "expEn": "The passage never discusses the health qualities of honey.",
+        "expMm": "ပျားရည်၏ ကျန်းမာရေး အရည်အသွေးအကြောင်း စာပိုဒ်တွင် လုံးဝ မပါဝင်သဖြင့် NOT GIVEN ဖြစ်သည်။"
+      },
+      {
+        "id": "rm7_q3",
+        "type": "TFNG",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "q": "3. Rooftop hives can help pollinate plants in the city.",
+        "ans": "TRUE",
+        "expEn": "Paragraph A states that residents keep hives on rooftops and 'city hives help pollinate fruit trees and flowering plants.'",
+        "expMm": "ခေါင်မိုးပေါ်ရှိ မြို့ပြပျားအုံများက အပင်များ ဝတ်မှုန်ကူးရန် ကူညီပေးကြောင်း စာပိုဒ် A တွင် ပါရှိသည်။"
+      },
+      {
+        "id": "rm7_q4",
+        "type": "TFNG",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "q": "4. Every city requires beekeepers to register their hives.",
+        "ans": "FALSE",
+        "expEn": "Watch for the absolute word 'Every'. Paragraph C says 'many cities' require registration and 'some local authorities have no formal regulations at all.'",
+        "expMm": "'Every' ဟူသော တရားသေစကားလုံးကြောင့် FALSE ဖြစ်သည်၊ စာပိုဒ် C တွင် မြို့အချို့၌ စည်းမျဉ်းလုံးဝမရှိဟု ဆိုထားသည်။"
+      },
+      {
+        "id": "rm7_q5",
+        "type": "TFNG",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "q": "5. Bees in urban areas have access to a narrower range of flowers than bees on farmland.",
+        "ans": "FALSE",
+        "expEn": "Paragraph A states the opposite: 'Cities can also offer bees a wider variety of flowers than intensive farmland does.'",
+        "expMm": "မြို့ပြက စိုက်ခင်းများထက် ပန်းမျိုးစုံ ပိုမိုပေးစွမ်းနိုင်သည်ဟု ဆန့်ကျင်ဘက် ရေးထားသဖြင့် FALSE ဖြစ်သည်။"
+      }
+    ],
+    "category": "Environment & Urban Ecology",
+    "difficulty": "Band 7.0 - 8.5",
+    "questionTypes": "True / False / Not Given (5 Questions)"
+  },
+  {
+    "id": "rm8",
+    "code": "MOCK 8",
+    "title": "Cooling Cities with Trees (Matching Headings & Summary Completion)",
+    "topic": "Urban Climate & Community Forestry · 20-Minute Timed Drill",
+    "paragraphs": [
+      {
+        "label": "A",
+        "text": "Urban heat islands form when concrete and asphalt absorb sunlight during the day and release it slowly at night. In some large cities, the centre can be several degrees warmer than the surrounding suburbs, which increases energy use and the risk of heat-related illness.",
+        "mmSummary": "အပိုဒ် (A) - ကွန်ကရစ်နှင့် ကတ္တရာလမ်းများက နေ့ဘက်တွင် နေရောင်ခြည်ကို စုပ်ယူထားပြီး ညဘက်၌ တဖြည်းဖြည်း ပြန်ထုတ်လွှတ်သောအခါ မြို့ပြအပူချိန် မြင့်တက်မှု (Urban heat islands) ဖြစ်ပေါ်လာသည်။ မြို့လယ်ခေါင်သည် ဆင်ခြေဖုံးထက် ဒီဂရီအတော်များများ ပိုပူနိုင်ပြီး စွမ်းအင်သုံးစွဲမှုနှင့် အပူကြောင့်ဖြစ်သော ရောဂါအန္တရာယ်ကို တိုးပွားစေသည်။"
+      },
+      {
+        "label": "B",
+        "text": "Trees offer a practical response. Their shade lowers the surface temperature of pavements and buildings, while evaporation from leaves cools the surrounding air. Researchers in several cities have measured temperature drops of several degrees on tree-lined streets compared with bare roads.",
+        "mmSummary": "အပိုဒ် (B) - သစ်ပင်များသည် လက်တွေ့ကျသော ဖြေရှင်းနည်းတစ်ခု ဖြစ်သည်။ သစ်ပင်အရိပ်က လူသွားလမ်းနှင့် အဆောက်အအုံ မျက်နှာပြင် အပူချိန်ကို လျှော့ချပေးပြီး သစ်ရွက်များမှ ရေငွေ့ပျံခြင်းက ပတ်ဝန်းကျင်လေထုကို အေးမြစေသည်။"
+      },
+      {
+        "label": "C",
+        "text": "Planting trees is only part of the challenge. Young trees need regular watering and protection during their first few years, and many municipal budgets do not cover this maintenance. As a result, a significant proportion of newly planted trees die before reaching maturity, which undermines the original investment.",
+        "mmSummary": "အပိုဒ် (C) - သစ်ပင်စိုက်ပျိုးခြင်းသည် စိန်ခေါ်မှု၏ တစ်စိတ်တစ်ပိုင်းသာ ဖြစ်သည်။ အပင်ပေါက်များသည် ပထမနှစ်အနည်းငယ်အတွင်း ပုံမှန်ရေလောင်းပေးခြင်းနှင့် ကာကွယ်စောင့်ရှောက်ခြင်း လိုအပ်သော်လည်း မြို့တော်ဘတ်ဂျက် အများစုတွင် ထိုထိန်းသိမ်းစရိတ် မပါဝင်သဖြင့် အပင်သစ်အများအပြား သေဆုံးကုန်ကြသည်။"
+      },
+      {
+        "label": "D",
+        "text": "Some cities are addressing this by involving residents. Volunteer schemes, in which neighbours adopt a tree and water it during dry spells, have improved survival rates in some districts. Such programmes also build a sense of ownership, making residents more likely to protect trees from damage.",
+        "mmSummary": "အပိုဒ် (D) - အချို့မြို့များသည် ဒေသခံပြည်သူများ ပါဝင်လာစေခြင်းဖြင့် ဤပြဿနာကို ဖြေရှင်းနေကြသည်။ အိမ်နီးချင်းများက သစ်ပင်တစ်ပင်စီ မွေးစားပြီး ပူပြင်းခြောက်သွေ့ချိန်တွင် ရေလောင်းပေးသည့် စေတနာ့ဝန်ထမ်း အစီအစဉ်များကြောင့် အပင်ရှင်သန်နှုန်း မြင့်တက်လာခဲ့သည်။"
+      }
+    ],
+    "questions": [
+      {
+        "id": "rm8_q1",
+        "type": "MCQ",
+        "options": [
+          "i. Community involvement helps trees survive",
+          "ii. The causes of urban heat",
+          "iii. Trees reduce temperatures through shade and evaporation",
+          "v. Tree planting is cheaper than building cooling systems"
+        ],
+        "q": "1. Choose the correct heading for Paragraph A:",
+        "ans": "ii. The causes of urban heat",
+        "expEn": "Paragraph A explains how concrete and asphalt cause urban heat islands. Heading v is a distractor because costs are never compared.",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm8_q2",
+        "type": "MCQ",
+        "options": [
+          "ii. The causes of urban heat",
+          "iii. Trees reduce temperatures through shade and evaporation",
+          "iv. Why planting alone is not enough",
+          "vi. The benefits of tree-lined roads for wildlife"
+        ],
+        "q": "2. Choose the correct heading for Paragraph B:",
+        "ans": "iii. Trees reduce temperatures through shade and evaporation",
+        "expEn": "Paragraph B directly describes how shade and leaf evaporation cool pavements and air.",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm8_q3",
+        "type": "MCQ",
+        "options": [
+          "i. Community involvement helps trees survive",
+          "iii. Trees reduce temperatures through shade and evaporation",
+          "iv. Why planting alone is not enough",
+          "v. Tree planting is cheaper than building cooling systems"
+        ],
+        "q": "3. Choose the correct heading for Paragraph C:",
+        "ans": "iv. Why planting alone is not enough",
+        "expEn": "Paragraph C opens with 'Planting trees is only part of the challenge' and explains why lack of watering/maintenance causes young trees to die.",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm8_q4",
+        "type": "MCQ",
+        "options": [
+          "i. Community involvement helps trees survive",
+          "ii. The causes of urban heat",
+          "iv. Why planting alone is not enough",
+          "vi. The benefits of tree-lined roads for wildlife"
+        ],
+        "q": "4. Choose the correct heading for Paragraph D:",
+        "ans": "i. Community involvement helps trees survive",
+        "expEn": "Paragraph D describes volunteer schemes where residents adopt and water trees, improving survival rates.",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+      },
+      {
+        "id": "rm8_q5",
+        "type": "GAP",
+        "q": "5. Summary Completion (ONE WORD ONLY): Newly planted trees often die because they require regular ______ and protection in their early years.",
+        "ans": "watering",
+        "expEn": "Paragraph C states: 'Young trees need regular watering and protection during their first few years.'",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။",
+        "options": []
+      },
+      {
+        "id": "rm8_q6",
+        "type": "GAP",
+        "q": "6. Summary Completion (ONE WORD ONLY): Many city budgets fail to cover the cost of this ______.",
+        "ans": "maintenance",
+        "expEn": "Paragraph C states: 'many municipal budgets do not cover this maintenance.'",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။",
+        "options": []
+      },
+      {
+        "id": "rm8_q7",
+        "type": "GAP",
+        "q": "7. Summary Completion (ONE WORD ONLY): Volunteer schemes help by allowing residents to ______ a tree and care for it.",
+        "ans": "adopt",
+        "expEn": "Paragraph D states: 'Volunteer schemes, in which neighbours adopt a tree and water it during dry spells...'",
+        "expMm": "စာပိုဒ်ပါ သက်သေအထောက်အထားနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။",
+        "options": []
+      }
+    ],
+    "category": "Urban Climate & Community Forestry",
+    "difficulty": "Band 7.0 - 8.5",
+    "questionTypes": "Matching Headings • Summary Completion (ONE WORD ONLY)"
+  }
+]

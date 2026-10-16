@@ -1,0 +1,1389 @@
+{
+  "frameworks": [
+    {
+      "id": "fw_core",
+      "code": "FRAMEWORK #1 // CORE 4-STEP ARGUMENT",
+      "name": "Core 4-Step Framework",
+      "subtitle": "The Foundation Framework for Clear Spoken Opinions (Point · Explain · Level-Up · Link)",
+      "whenToUse": "When you need to give a clear opinion and explain your reasoning (Part 1 personal preferences & Part 3 opinion questions). Default Rule: If you are ever unsure which framework to use, default to the 4-Step Core Framework.",
+      "mmOverview": "ဤ 4-Step Framework သည် IELTS Speaking မေးခွန်းအားလုံး၏ ၈၀% တွင် သုံးနိုင်သော အခြေခံအကျဆုံးနှင့် အထိရောက်ဆုံး မူဘောင်ဖြစ်သည်။ စာမေးပွဲခန်းထဲတွင် မည်သည့် Framework သုံးရမည်ကို စဉ်းစားမရပါက ဤ 4-Step Framework ကို အမြဲသုံးပါ။",
+      "steps": [
+        {
+          "letter": "P",
+          "title": "Point",
+          "desc": "State your main opinion directly in the first sentence.",
+          "mm": "မိမိ၏ အဓိကအမြင်ကို ပထမဆုံးဝါကျတွင် တိုက်ရိုက်ဖြေပါ။"
+        },
+        {
+          "letter": "E",
+          "title": "Elaborate",
+          "desc": "Explain your reasoning from personal experience or logic.",
+          "mm": "အဘယ်ကြောင့် ထိုသို့ယူဆရကြောင်း အကြောင်းပြချက်နှင့် အတွေ့အကြုံဖြင့် ရှင်းပြပါ။"
+        },
+        {
+          "letter": "L",
+          "title": "Level Up",
+          "desc": "Add more depth, long-term impact, or a contrast with the opposite choice.",
+          "mm": "ရေရှည်အကျိုးဆက် သို့မဟုတ် ဆန့်ကျင်ဘက်အမြင်နှင့် နှိုင်းယှဉ်ချက် ထပ်ပေါင်းထည့်ပါ။"
+        },
+        {
+          "letter": "L",
+          "title": "Link",
+          "desc": "Connect cleanly back to the examiner's original question.",
+          "mm": "မူလမေးခွန်းကို ပြန်လည်ချိတ်ဆက်ပြီး အဖြေကို အဆုံးသတ်ပါ။"
+        }
+      ],
+      "exampleQ": "Do you think it's better to buy a property or rent a property?",
+      "exampleBreakdown": [
+        {
+          "step": "P — Point",
+          "text": "I personally think it's better to buy a property.",
+          "mm": "ကျွန်တော့်အနေနဲ့တော့ အိမ်ငှားနေတာထက် အိမ်ဝယ်တာက ပိုကောင်းတယ်လို့ ထင်ပါတယ်။"
+        },
+        {
+          "step": "E — Elaborate",
+          "text": "From my experience, when you buy a property, you're investing your money rather than just giving it to landlords every month. Every payment goes toward building equity in something you'll own.",
+          "mm": "ကျွန်တော့်အတွေ့အကြုံအရ အိမ်ဝယ်တဲ့အခါ လစဉ်အိမ်ရှင်ကို ပိုက်ဆံပေးနေရတာမျိုး မဟုတ်ဘဲ ကိုယ့်ပိုက်ဆံကို ရင်းနှီးမြှုပ်နှံနေတာ ဖြစ်ပါတယ်။ ပေးလိုက်တဲ့ လစဉ်ကြေးတိုင်းက ကိုယ်ပိုင်ဆိုင်မယ့် အိမ်ရဲ့ တန်ဖိုးထဲကို ရောက်သွားပါတယ်။"
+        },
+        {
+          "step": "L — Level Up",
+          "text": "Over 5 or 10 years, you'll have built substantial wealth through property ownership, whereas with renting, you have nothing to show for all those monthly payments.",
+          "mm": "၅ နှစ်၊ ၁၀ နှစ်ကြာတဲ့အခါ အိမ်ပိုင်ဆိုင်မှုကနေ ကြွယ်ဝမှုတစ်ခု တည်ဆောက်နိုင်မှာဖြစ်ပြီး အိမ်ငှားနေရင်တော့ လစဉ်ပေးခဲ့သမျှ ပိုက်ဆံတွေအတွက် ဘာမှကျန်မှာ မဟုတ်ပါဘူး။"
+        },
+        {
+          "step": "L — Link",
+          "text": "So while renting might seem easier in the short term, buying is definitely the smarter long-term financial decision.",
+          "mm": "ဒါကြောင့် ရေတိုမှာ အိမ်ငှားတာက ပိုလွယ်သလို ထင်ရပေမယ့် ရေရှည်စီးပွားရေးအရတော့ အိမ်ဝယ်တာက သေချာပေါက် ပိုပြီးဉာဏ်ပညာရှိတဲ့ ဆုံးဖြတ်ချက် ဖြစ်ပါတယ်။"
+        }
+      ],
+      "practicePrompts": [
+        "Is it better to live in a city or the countryside?",
+        "Should students choose their own subjects in school?",
+        "Do you prefer to travel alone or with others?"
+      ],
+      "title": "Core 4-Step Argument Framework (Point · Explain · Example · Link)"
+    },
+    {
+      "id": "fw_123",
+      "code": "FRAMEWORK #2 // PART 3 DIPLOMATIC BALANCE",
+      "name": "123 Framework",
+      "subtitle": "The Diplomatic Framework for Complex Issues",
+      "whenToUse": "When there is no clear 'right' answer or when you see merit in both sides (Part 3 analytical questions & controversial topics).",
+      "mmOverview": "Part 3 တွင် အဖြေမှန်တစ်ခုတည်း မရှိဘဲ နှစ်ဖက်စလုံးတွင် အားသာချက်ကိုယ်စီရှိသော မေးခွန်းများအတွက် သုံးရန်ဖြစ်သည်။ ('Both go hand in hand' သို့မဟုတ် 'It depends on the context' ဟု ချိန်ညှိဖြေဆိုနည်း ဖြစ်သည်။)",
+      "steps": [
+        {
+          "letter": "1",
+          "title": "Acknowledge Multiple Sides",
+          "desc": "Acknowledge that it's a nuanced question and both sides have merit.",
+          "mm": "မေးခွန်းမှာ ရှုထောင့်နှစ်ဖက်လုံးတွင် အားသာချက်ရှိကြောင်း အသိအမှတ်ပြုပါ။"
+        },
+        {
+          "letter": "2",
+          "title": "Discuss Both Sides with Examples",
+          "desc": "Explain when Side A works best, then contrast with when Side B is needed.",
+          "mm": "ပထမနည်းလမ်းက မည်သည့်အချိန်တွင် ကောင်းကြောင်းနှင့် ဒုတိယနည်းလမ်းက မည်သည့်အချိန်တွင် လိုအပ်ကြောင်း နှစ်ဖက်လုံးကို ဥပမာဖြင့် ရှင်းပြပါ။"
+        },
+        {
+          "letter": "3",
+          "title": "Show the 'Third Way'",
+          "desc": "Conclude that the best choice depends on the specific context and moment.",
+          "mm": "အခြေအနေ (Context) အပေါ် မူတည်၍ နှစ်ခုလုံးကို အချိန်ကိုက် ပေါင်းစပ်သုံးသင့်ကြောင်း နိဂုံးချုပ်ပါ။"
+        }
+      ],
+      "exampleQ": "Some people think empathy is the best way to help others, while others believe brutal honesty works better. Which approach do you prefer?",
+      "exampleBreakdown": [
+        {
+          "step": "1 — Acknowledge Multiple Sides",
+          "text": "That's a tough question, but I think both approaches have their place. They both go hand in hand.",
+          "mm": "ဒါက ဖြေရခက်တဲ့ မေးခွန်းတစ်ခုပါပဲ၊ ဒါပေမဲ့ နည်းလမ်းနှစ်ခုလုံးမှာ သူ့နေရာနဲ့သူ အသုံးဝင်မှုရှိပြီး ဒွန်တွဲနေတယ်လို့ ထင်ပါတယ်။"
+        },
+        {
+          "step": "2 — Discuss Both Sides",
+          "text": "Empathy is really valuable when someone's going through a major crisis or personal struggle. You can't be brutally honest with someone who's already vulnerable because you might push them away when they need support most. But on the other hand, if someone is being genuinely harmful or disrespectful to others, sometimes you need to be direct and tell them their behavior is unacceptable. Empathy alone won't change toxic behavior.",
+          "mm": "တစ်စုံတစ်ယောက်က ကြီးမားတဲ့ အကျပ်အတည်းကြုံနေရချိန်မှာ စာနာနားလည်ပေးမှု (Empathy) က အရမ်းတန်ဖိုးရှိပါတယ်။ စိတ်ဓာတ်ကျနေသူကို အားမနာတမ်း အမှန်အတိုင်း ပြောချလိုက်ရင် ပိုပြီးဝေးကွာသွားစေနိုင်ပါတယ်။ ဒါပေမဲ့ အခြားတစ်ဖက်မှာ လူတစ်ယောက်က သူတစ်ပါးကို ထိခိုက်အောင်၊ မလေးမစား လုပ်နေရင်တော့ သူ့အပြုအမူကို လက်မခံနိုင်ကြောင်း တိုက်ရိုက်ပွင့်ပွင့်လင်းလင်း ပြောဖို့ လိုပါတယ်။"
+        },
+        {
+          "step": "3 — The Third Way",
+          "text": "So really, it depends on the context and what the person actually needs in that moment. Good relationships require both approaches used at the right times.",
+          "mm": "ဒါကြောင့် တကယ်တမ်းတော့ အခြေအနေနဲ့ တစ်ဖက်လူရဲ့ လိုအပ်ချက်အပေါ်မှာပဲ မူတည်ပါတယ်။ ကောင်းမွန်တဲ့ ဆက်ဆံရေးတွေမှာ နည်းလမ်းနှစ်ခုလုံးကို အချိန်အခါသင့် သုံးတတ်ဖို့ လိုပါတယ်။"
+        }
+      ],
+      "practicePrompts": [
+        "Is it better for children to compete or cooperate in school?",
+        "Should companies prioritize profits or social responsibility?",
+        "Should theater be run as a business or as a public service?"
+      ]
+    },
+    {
+      "id": "fw_aaa",
+      "code": "FRAMEWORK #3 // PART 2 STORYTELLING CUE CARDS",
+      "name": "Triple AAA Framework",
+      "subtitle": "The Storytelling Framework That Captivates",
+      "whenToUse": "Part 2 cue card topics and personal experience questions where you need to speak fluently for a full 2 minutes until the examiner stops you.",
+      "mmOverview": "Part 2 Cue Card (၂ မိနစ်ဆက်တိုက် ပြောရသောအပိုင်း) တွင် စကားပြောစရာ မကုန်သွားစေရန် အကောင်းဆုံး Storytelling မူဘောင်ဖြစ်သည်။ တိုက်ရိုက်ဖြေပြီးနောက် နောက်ခံအချက်အလက်ပေးကာ ကိုယ်တွေ့ဇာတ်လမ်း (Anecdote) ကို ပြောပြရမည်။",
+      "steps": [
+        {
+          "letter": "A",
+          "title": "Answer Directly",
+          "desc": "State who, what, or where you are going to talk about in 1 clear sentence.",
+          "mm": "မည်သည့်အကြောင်းအရာ/ပုဂ္ဂိုလ်ကို ရွေးချယ်ပြောပြမည်ဖြစ်ကြောင်း ပထမဆုံးဝါကျတွင် တိုက်ရိုက်ဖြေပါ။"
+        },
+        {
+          "letter": "A",
+          "title": "Add Relevant Details",
+          "desc": "Provide context, time, setting, and background facts.",
+          "mm": "အချိန်ကာလ၊ နေရာနှင့် နောက်ခံအချက်အလက်များကို ထည့်သွင်းရှင်းပြပါ။"
+        },
+        {
+          "letter": "A",
+          "title": "Anecdote (Vivid Story)",
+          "desc": "Tell the actual chronological story with vivid sensory and emotional details.",
+          "mm": "အမှန်တကယ် ကြုံတွေ့ခဲ့ရသော အဖြစ်အပျက်ကို စိတ်ခံစားချက်နှင့် အသေးစိတ်မြင်ကွင်းများပါဝင်အောင် ဇာတ်လမ်းခင်း၍ ပြောပြပါ။"
+        }
+      ],
+      "exampleQ": "Describe a time when you met someone who became a good friend.",
+      "exampleBreakdown": [
+        {
+          "step": "A — Answer",
+          "text": "I'd like to talk about the first time I met my childhood best friend.",
+          "mm": "ကျွန်တော့်ရဲ့ ငယ်သူငယ်ချင်း အရင်းနှီးဆုံးမိတ်ဆွေနဲ့ ပထမဆုံး စတင်ဆုံတွေ့ခဲ့တဲ့ အချိန်အကြောင်း ပြောပြချင်ပါတယ်။"
+        },
+        {
+          "step": "A — Add Details",
+          "text": "This happened on my very first day of kindergarten when I was just four years old. The teacher had assigned seats, and I found myself sitting next to this girl with beautiful long braided hair.",
+          "mm": "ဒါက ကျွန်တော် လေးနှစ်သားအရွယ် မူကြိုစတက်တဲ့ ပထမဆုံးနေ့မှာ ဖြစ်ခဲ့တာပါ။ ဆရာမက ထိုင်ခုံနေရာချပေးတဲ့အခါ ကျစ်ဆံမြီးရှည်လေးနဲ့ ကောင်မလေးတစ်ယောက်ဘေးမှာ ထိုင်ခဲ့ရပါတယ်။"
+        },
+        {
+          "step": "A — Anecdote",
+          "text": "What struck me immediately was her adorable round face—she looked like a little marshmallow, which sounds silly but that's honestly what I thought as a four-year-old. There was this cute thing kids do where they stick out their thumb to ask 'Do you want to be friends?' So I nervously stuck out my thumb toward her, hoping she'd want to be my friend. But she just looked at me and turned away. I was absolutely heartbroken! But I didn't give up. I tried again the next day, and the day after that. Eventually, after about a week of persistence, she finally stuck her thumb back out to me. From that moment on, we became inseparable best friends throughout our entire childhood.",
+          "mm": "ချက်ချင်းသတိထားမိတာက သူ့ရဲ့ ချစ်စရာကောင်းတဲ့ မျက်နှာဝိုင်းဝိုင်းလေးပါပဲ။ ကလေးတွေကြားမှာ သူငယ်ချင်းလုပ်မလားလို့ မေးရင် လက်မလေးထောင်ပြတဲ့ အလေ့အထလေး ရှိပါတယ်။ ကျွန်တော်လည်း စိတ်လှုပ်ရှားစွာနဲ့ လက်မလေးထောင်ပြပေမယ့် သူက လှည့်ထွက်သွားခဲ့လို့ အရမ်းဝမ်းနည်းသွားခဲ့ပါတယ်။ ဒါပေမဲ့ လက်မလျှော့ဘဲ နောက်နေ့တွေမှာလည်း ဆက်ကြိုးစားခဲ့ရာ တစ်ပတ်လောက်အကြာမှာတော့ သူကလည်း လက်မလေး ပြန်ထောင်ပြခဲ့ပြီး ငယ်ဘဝတစ်လျှောက်လုံး ခွဲမရတဲ့ အချစ်ဆုံးသူငယ်ချင်းတွေ ဖြစ်သွားခဲ့ပါတယ်။"
+        }
+      ],
+      "practicePrompts": [
+        "Describe a skill you learned as a child",
+        "Talk about a place you visited that surprised you",
+        "Describe someone who influenced your life"
+      ]
+    },
+    {
+      "id": "fw_star",
+      "code": "FRAMEWORK #4 // ACHIEVEMENTS & PROBLEM-SOLVING",
+      "name": "STAR Framework",
+      "subtitle": "The Professional Achievement Framework",
+      "whenToUse": "Questions about accomplishments, challenges overcome, university projects, or workplace experiences.",
+      "mmOverview": "အခက်အခဲတစ်ခုကို ဖြေရှင်းခဲ့ပုံ၊ အောင်မြင်မှုရယူခဲ့ပုံ သို့မဟုတ် တက္ကသိုလ်/လုပ်ငန်းခွင် အတွေ့အကြုံများကို စနစ်တကျ ပြောပြရာတွင် အသုံးပြုရန်ဖြစ်သည်။",
+      "steps": [
+        {
+          "letter": "S",
+          "title": "Situation",
+          "desc": "Set the context and when/where the challenge occurred.",
+          "mm": "ဖြစ်ပွားခဲ့သည့် အခြေအနေနှင့် အချိန်အခါကို ဦးစွာ မိတ်ဆက်ပါ။"
+        },
+        {
+          "letter": "T",
+          "title": "Task",
+          "desc": "Explain what needed to be accomplished and what was at stake.",
+          "mm": "မိမိတို့ မဖြစ်မနေ လုပ်ဆောင်ရမည့် တာဝန်နှင့် စိန်ခေါ်မှုကို ရှင်းပြပါ။"
+        },
+        {
+          "letter": "A",
+          "title": "Action",
+          "desc": "Describe the specific steps and initiative YOU took to solve it.",
+          "mm": "ပြဿနာဖြေရှင်းရန် မိမိကိုယ်တိုင် ဦးဆောင်လုပ်ကိုင်ခဲ့သော အဆင့်များကို ပြောပြပါ။"
+        },
+        {
+          "letter": "R",
+          "title": "Result",
+          "desc": "Share the positive outcome and what you learned.",
+          "mm": "ထွက်ပေါ်လာသော အောင်မြင်မှုရလဒ်နှင့် သင်ခန်းစာကို နိဂုံးချုပ်ပြောပြပါ။"
+        }
+      ],
+      "exampleQ": "Describe a time when you had to solve a difficult problem.",
+      "exampleBreakdown": [
+        {
+          "step": "S — Situation",
+          "text": "Last year, I was working on a team project at university, and we discovered just two weeks before the deadline that our research data was completely unreliable.",
+          "mm": "မနှစ်က တက္ကသိုလ်မှာ အဖွဲ့လိုက်ပရောဂျက်တစ်ခု လုပ်နေတုန်း စာတမ်းတင်ရမယ့်ရက် မတိုင်ခင် နှစ်ပတ်အလိုမှာ ကျွန်တော်တို့ရဲ့ သုတေသနဒေတာတွေ လုံးဝစိတ်ချလို့မရတော့မှန်း သိလိုက်ရပါတယ်။"
+        },
+        {
+          "step": "T — Task",
+          "text": "We needed to find a way to gather new data and complete our analysis before the presentation, or our entire semester's work would be worthless.",
+          "mm": "Presentation မတိုင်ခင် ဒေတာအသစ်တွေ အမြန်ရှာပြီး သုံးသပ်ချက်အပြီးသတ်ဖို့ လိုအပ်လာပါတယ်၊ မဟုတ်ရင် တစ်နှစ်ဝက်လုံး ကြိုးစားထားသမျှ အလကားဖြစ်သွားမှာပါ။"
+        },
+        {
+          "step": "A — Action",
+          "text": "I took the initiative to contact professors in related departments to see if they had existing datasets we could use. I also organized the team into smaller groups—some focused on finding new data sources, others on adapting our analysis methods, and I coordinated between all the groups.",
+          "mm": "ကျွန်တော်က ဦးဆောင်ပြီး ဆက်စပ်ဌာနက ပါမောက္ခတွေဆီမှာ သုံးလို့ရမယ့် ဒေတာအဟောင်းတွေ ရှိမရှိ ဆက်သွယ်မေးမြန်းခဲ့ပါတယ်။ အဖွဲ့ဝင်တွေကိုလည်း အဖွဲ့ငယ်တွေခွဲပြီး ဒေတာရှာသူနဲ့ သုံးသပ်နည်းပြင်ဆင်သူတွေအဖြစ် တာဝန်ခွဲဝေ ချိတ်ဆက်ပေးခဲ့ပါတယ်။"
+        },
+        {
+          "step": "R — Result",
+          "text": "We managed to find three reliable datasets, completed our analysis, and actually delivered one of the strongest presentations in the class. The professor said our ability to adapt under pressure demonstrated real professional skills.",
+          "mm": "နောက်ဆုံးမှာ စိတ်ချရတဲ့ ဒေတာ ၃ ခု ရရှိခဲ့ပြီး အတန်းထဲမှာ အကောင်းဆုံး Presentation တစ်ခုကို တင်ပြနိုင်ခဲ့ပါတယ်။ ဖိအားအောက်မှာ အလိုက်သင့် ပြောင်းလဲဖြေရှင်းနိုင်စွမ်းကို ပါမောက္ခကပါ ချီးကျူးခဲ့ပါတယ်။"
+        }
+      ],
+      "practicePrompts": [
+        "Describe a time you showed leadership",
+        "Tell me about overcoming a difficult academic challenge",
+        "Describe when you had to improvise to solve an unexpected problem"
+      ]
+    },
+    {
+      "id": "fw_para",
+      "code": "FRAMEWORK #5 // BAND 8.5+ DEEP PART 3 ANALYSIS",
+      "name": "PARA Framework",
+      "subtitle": "The Advanced Analytical Framework",
+      "whenToUse": "Complex Part 3 questions requiring deep sociological, technological, or policy analysis.",
+      "mmOverview": "Part 3 ရှိ နည်းပညာ၊ လူမှုရေး၊ အစိုးရမူဝါဒနှင့် ဂလိုဘယ်လိုက်ဇေးရှင်းကဲ့သို့ နက်နဲသော မေးခွန်းများတွင် Band 8.5–9.0 ရရှိစေရန် အကြောင်းအကျိုး ဆက်စပ်သုံးသပ်ပြသည့် မူဘောင်ဖြစ်သည်။",
+      "steps": [
+        {
+          "letter": "P",
+          "title": "Point",
+          "desc": "State your main analytical position clearly.",
+          "mm": "မိမိ၏ အဓိက သုံးသပ်ချက်အမြင်ကို တိကျစွာ စတင်ပြောဆိုပါ။"
+        },
+        {
+          "letter": "A",
+          "title": "Analysis",
+          "desc": "Explain why this point matters and the underlying mechanism.",
+          "mm": "အဘယ်ကြောင့် ဤအချက်ဖြစ်ပေါ်လာရကြောင်း အတွင်းကျကျ သုံးသပ်ပြပါ။"
+        },
+        {
+          "letter": "R",
+          "title": "Result",
+          "desc": "Describe the real-world consequences or societal implications.",
+          "mm": "၎င်းကြောင့် လက်တွေ့လူ့အဖွဲ့အစည်းတွင် ဖြစ်ပေါ်နေသော အကျိုးဆက်ကို ပြောပြပါ။"
+        },
+        {
+          "letter": "A",
+          "title": "Action",
+          "desc": "Recommend what individuals, schools, or governments should do about it.",
+          "mm": "ရှေ့ဆက်၍ မည်သို့ပြုပြင်ထိန်းညှိသင့်ကြောင်း အကြံပြုချက်ဖြင့် အဆုံးသတ်ပါ။"
+        }
+      ],
+      "exampleQ": "How do you think technology is changing the way people communicate?",
+      "exampleBreakdown": [
+        {
+          "step": "P — Point",
+          "text": "I believe technology is making communication more efficient but less emotionally meaningful.",
+          "mm": "နည်းပညာက ဆက်သွယ်ရေးကို ပိုမြန်ဆန်ထိရောက်စေပေမယ့် စိတ်ခံစားချက်အရတော့ အနှစ်သာရ လျော့နည်းသွားစေတယ်လို့ ယူဆပါတယ်။"
+        },
+        {
+          "step": "A — Analysis",
+          "text": "We can now instantly connect with anyone worldwide through messaging apps and social media, which has obvious practical benefits. However, digital communication lacks the subtle emotional cues we get from face-to-face interaction—things like tone of voice, body language, and genuine presence.",
+          "mm": "အခုချိန်မှာ ကမ္ဘာတစ်ဝန်းက လူတွေနဲ့ စာပို့App တွေကတစ်ဆင့် ချက်ချင်းဆက်သွယ်နိုင်လို့ လက်တွေ့အကျိုးရှိပါတယ်။ ဒါပေမဲ့ ဒီဂျစ်တယ်ဆက်သွယ်ရေးမှာ အပြင်မှာ မျက်နှာချင်းဆိုင်တွေ့ဆုံမှ ရနိုင်တဲ့ အသံနေအထား၊ ကိုယ်ဟန်အမူအရာနဲ့ နွေးထွေးမှုတွေ ပျောက်ဆုံးနေပါတယ်။"
+        },
+        {
+          "step": "R — Result",
+          "text": "As a result, we're seeing increased misunderstandings in digital communications and many people, especially younger generations, struggling with deeper emotional connections and empathy skills.",
+          "mm": "အကျိုးဆက်အနေနဲ့ အွန်လိုင်းပေါ်မှာ အထင်လွဲမှုတွေ ပိုများလာပြီး အထူးသဖြင့် လူငယ်မျိုးဆက်တွေမှာ နက်ရှိုင်းတဲ့ စိတ်ချင်းဆက်သွယ်မှုနဲ့ စာနာမှုစွမ်းရည်တွေ အားနည်းလာတာကို တွေ့နေရပါတယ်။"
+        },
+        {
+          "step": "A — Action",
+          "text": "I think we need to consciously balance digital convenience with intentional in-person interactions. Technology should enhance our relationships, not replace human connection entirely.",
+          "mm": "ဒါကြောင့် ဒီဂျစ်တယ်အဆင်ပြေမှုနဲ့ အပြင်မှာ လူချင်းတွေ့ဆုံမှုကို သတိထားပြီး ဟန်ချက်ညီအောင် ထိန်းညှိသင့်ပါတယ်။ နည်းပညာက လူသားချင်းဆက်သွယ်မှုကို အစားထိုးပစ်တာမျိုး မဟုတ်ဘဲ ပံ့ပိုးပေးတာမျိုးပဲ ဖြစ်သင့်ပါတယ်။"
+        }
+      ],
+      "practicePrompts": [
+        "How is globalization affecting local cultures?",
+        "What impact does social media have on young people?",
+        "How will university education change in the age of AI and ChatGPT?"
+      ]
+    }
+  ],
+  "video_scripts": [
+    {
+      "id": "sv1",
+      "code": "BAND 9.0 BENCHMARK 1",
+      "title": "Benchmark Interview 1: Music, Media, Favorite Actors & Theater",
+      "url": "",
+      "candidate": "Cambridge Band 9.0 Benchmark Candidate",
+      "examinerSummaryEn": "Scored Band 9.0 overall. Strengths: Effortless connected speech ('want to go' → 'wanna go'), natural expressive intonation, sentence stress, and topic-specific idioms ('on the backseat', 'goes hand in hand', 'on point'). Examiner Warning: Answer 'How often' explicitly first ('Every day, mostly when driving') and in Part 2 stick strictly to 'actor OR actress' if singular.",
+      "examinerSummaryMm": "Band 9.0 ရရှိခဲ့သော စံနမူနာဗီဒီယို ဖြစ်သည်။ အားသာချက်များ - သဘာဝကျသော အသံအနိမ့်အမြင့် (Intonation)၊ စကားလုံးဆက်ပြောဆိုမှု (Connected speech) နှင့် Idioms ('on point', 'on the backseat', 'goes hand in hand') တို့ကို သဘာဝကျကျ သုံးသွားသည်။ Cambridge စာစစ်သူ၏ သတိပေးချက် - 'How often' မေးလျှင် 'Every day' ဟု အကြိမ်ရေကို အရင်တိုက်ရိုက်ဖြေပြီးမှ အသေးစိတ်ရှင်းပြပါ။",
+      "qaList": [
+        {
+          "part": "Part 1",
+          "topic": "Music",
+          "framework": "PELL",
+          "q": "How often do you listen to music?",
+          "a": "I listen to music almost every single day, mostly when I'm driving. I think it puts me in such a good mood when I'm out there on a drive and I play my favorite tracks. I'm usually into Afro music, hip-hop, and R&B, so I prefer listening to music when I'm commuting or sometimes when I'm working out at the gym.",
+          "idioms": [
+            "puts me in such a good mood",
+            "into Afro music",
+            "working out at the gym"
+          ],
+          "mm": "နေ့တိုင်းနီးပါး၊ အထူးသဖြင့် ကားမောင်းနေချိန်မှာ သီချင်းနားထောင်ဖြစ်ပါတယ်။ ကားမောင်းရင်း ကိုယ်ကြိုက်တဲ့သီချင်းဖွင့်ရတာ စိတ်ခံစားချက်ကို အရမ်းကောင်းစေပါတယ်။ Afro၊ Hip-hop နဲ့ R&B သီချင်းတွေကို ကြိုက်လို့ ကားမောင်းချိန်နဲ့ Gym မှာ လေ့ကျင့်ခန်းလုပ်ချိန်တွေမှာ နားထောင်လေ့ရှိပါတယ်။ (PELL ပုံစံဖြင့် တိုက်ရိုက်ဖြေပြီး အသေးစိတ်ချဲ့ထွင်ထားသည်။)"
+        },
+        {
+          "part": "Part 1",
+          "topic": "Magazines & Books",
+          "framework": "PELL",
+          "q": "Do you think that you will continue to read paper-based magazines and books in the future?",
+          "a": "I think I'm very old-fashioned like that—I need to have a physical book in my hand, and that's how I feel it produces serotonin in my brain. Digital screens feel very different and impersonal to me, so I'll definitely continue physically reading printed magazines and books.",
+          "idioms": [
+            "old-fashioned like that",
+            "physical book in my hand",
+            "produces serotonin in my brain"
+          ],
+          "mm": "ကျွန်မက အဲဒီအပိုင်းမှာ ရှေးရိုးစွဲဆန်တယ်လို့ ပြောလို့ရပါတယ်၊ လက်ထဲမှာ စာအုပ်အစစ်ကို ကိုင်ဖတ်ရမှ ဦးနှောက်ထဲမှာ ပျော်ရွှင်မှုဟော်မုန်း (Serotonin) ထွက်လာတယ်လို့ ခံစားရလို့ပါ။ ဒီဂျစ်တယ်ဖန်သားပြင်နဲ့ စာဖတ်ရတာ ခံစားချက်ချင်း မတူတဲ့အတွက် စာအုပ်အစစ်တွေကိုပဲ ဆက်ဖတ်ဖြစ်မှာပါ။"
+        },
+        {
+          "part": "Part 2 (Cue Card)",
+          "topic": "Favorite Actor / Actress",
+          "framework": "Triple AAA",
+          "q": "Describe your favorite actor or actress (Who the person is, what kind of movies they star in, and explain why you admire them).",
+          "a": "[A - Answer] I'd like to describe my favorite actor, Benedict Cumberbatch, as well as Angelina Jolie, whose films I admire tremendously.\n\n[A - Add Details] They usually star in action or mystery films, which aligns closely with my personal taste because in my everyday life I'm fascinated by detective theories and mystery novels. Their acting is always on point.\n\n[A - Anecdote & Reasons] I watched Benedict Cumberbatch in the TV series Sherlock, and as a huge fan of detective stories, his performance showed me what an incredible actor he is—I felt like I was watching Sherlock Holmes step straight out of the books rather than an actor on screen. He also starred as Doctor Strange in The Avengers, where he did an amazing job. Similarly, I admire Angelina Jolie not only for her fierce screen presence, which makes women feel empowered, but also for her lifelong humanitarian and charity work feeding children in underprivileged countries.",
+          "idioms": [
+            "acting is on point",
+            "fascinated by",
+            "humanitarian work",
+            "fierce screen presence"
+          ],
+          "mm": "[Triple AAA Framework] ပထမဆုံး မိမိအကြိုက်ဆုံး သရုပ်ဆောင်ကို တိုက်ရိုက်ပြောသည် (Answer)။ ထို့နောက် သူတို့ရိုက်ကူးလေ့ရှိသော Mystery/Action ဇာတ်ကားများနှင့် မိမိ၏ ဝါသနာကို ချိတ်ဆက်ရှင်းပြသည် (Add Details)။ နောက်ဆုံးတွင် Sherlock ဇာတ်လမ်းတွဲ ကြည့်ရှုခဲ့သည့် အတွေ့အကြုံနှင့် လူသားချင်းစာနာမှု ပရဟိတလုပ်ငန်းများအကြောင်း အသေးစိတ် ချဲ့ထွင်ပြောပြထားသည် (Anecdote)။"
+        },
+        {
+          "part": "Part 3",
+          "topic": "Theater: Business vs. Public Service",
+          "framework": "123",
+          "q": "Do you think that theater should be run as a business or as a public service?",
+          "a": "[1 - Acknowledge Both] Oh, I think both—I think they go hand in hand.\n\n[2 - Discuss Both Sides] Running theater as a commercial business generates revenue so actors and stage crew can be sustainably employed. At the same time, it functions as a vital cultural public service because there are many talented performers who love acting on stage even if they don't break into mainstream cinema, and audiences gain access to live culture.\n\n[3 - The Third Way] So both models complement each other, provided that when governments subsidize theaters with public money, tickets remain accessible or free to the public.",
+          "idioms": [
+            "go hand in hand",
+            "break into mainstream cinema",
+            "subsidize with public money"
+          ],
+          "mm": "[123 Framework ကို အတိအကျ သုံးထားပုံ] (၁) 'Both go hand in hand' ဟု နှစ်ဖက်လုံး အရေးပါကြောင်း အသိအမှတ်ပြုသည်၊ (၂) စီးပွားရေးအဖြစ် လည်ပတ်မှသာ အနုပညာရှင်များ အလုပ်အကိုင်ရရှိပုံနှင့် ပြည်သူ့ဝန်ဆောင်မှုအဖြစ် ယဉ်ကျေးမှုထိန်းသိမ်းပုံ နှစ်ဖက်လုံးကို ရှင်းပြသည်၊ (၃) အစိုးရထောက်ပံ့ကြေးပါလျှင် ပြည်သူလူထု လက်လှမ်းမီသော စနစ်ဖြစ်ရမည်ဟု ချိန်ညှိနိဂုံးချုပ်ထားသည်။"
+        }
+      ]
+    },
+    {
+      "id": "sv2",
+      "code": "BAND 9.0 BENCHMARK 2",
+      "title": "Benchmark Interview 2: EdTech Innovation, University Challenges & AI in Education",
+      "url": "",
+      "candidate": "Cambridge Band 9.0 Benchmark Candidate",
+      "examinerSummaryEn": "Scored a flawless Band 9.0. Strengths: Uses STAR for Part 2 university story and PARA/123 for Part 3 policy questions on tuition fees, university endowments, and how ChatGPT/Google will replace rote memorization in higher education.",
+      "examinerSummaryMm": "စာစစ်သူများက 'Band 9 စံပြစကားပြောအဆင့်' ဟု ချီးကျူးခဲ့သော အဖြေဖြစ်သည်။ Part 2 တွင် STAR Framework နှင့် Part 3 တွင် PARA Framework တို့ကို သုံး၍ အလွတ်ကျက်ပညာရေး (rote memorization) မှ ဝေဖန်ပိုင်းခြားတွေးခေါ်မှုသို့ ပြောင်းလဲပုံကို ပညာရှင်ဆန်စွာ ဆွေးနွေးထားသည်။",
+      "qaList": [
+        {
+          "part": "Part 1",
+          "topic": "Work & Impact",
+          "framework": "PELL",
+          "q": "Do you work or do you study? What do you love about your job?",
+          "a": "I work full-time—longer than full-time, you might say! I co-founded an EdTech startup called SecureMyScholarship that connects students with university scholarships worldwide. What I love most is the tangible impact we create: we give students from hardworking middle-class and working-class families a genuine shot at attending the university of their dreams.",
+          "idioms": [
+            "co-founded an EdTech startup",
+            "tangible impact",
+            "hardworking middle-class families"
+          ],
+          "mm": "ကျွန်တော် အချိန်ပြည့် အလုပ်လုပ်နေပါတယ်၊ ကမ္ဘာတစ်ဝန်းက တက္ကသိုလ်ပညာသင်ဆုတွေနဲ့ ကျောင်းသားတွေကို ချိတ်ဆက်ပေးတဲ့ EdTech startup တစ်ခုကို ပူးတွဲတည်ထောင်ထားပါတယ်။ ဒီအလုပ်မှာ အကြိုက်ဆုံးအချက်ကတော့ ကြိုးစားတဲ့ လူလတ်တန်းစားနဲ့ အခြေခံလူတန်းစား မိသားစုက ကျောင်းသားတွေကို သူတို့အိပ်မက်မက်တဲ့ တက္ကသိုလ်တွေ တက်ခွင့်ရအောင် လက်တွေ့အကျိုးပြုနိုင်တာပဲ ဖြစ်ပါတယ်။"
+        },
+        {
+          "part": "Part 2 (Cue Card)",
+          "topic": "Difficult Period in Your Studies",
+          "framework": "STAR",
+          "q": "Describe a period of time from your studies that was difficult.",
+          "a": "[S - Situation] The hardest period during my studies was my second and third year of university around 2015. My parents had saved tremendously to send me there, and I wanted to make the absolute most of the opportunity.\n\n[T - Task] In high school, everything was handed to you on a platter, whereas at university I was majoring in Economics while simultaneously trying to complete four separate minors in Political Science, International Relations, Mass Communication, and Business Administration within a strictly limited timeframe.\n\n[A - Action] To make all of those credits fit, I had to master rigorous time management. I broke down my academic goals week by week and scheduled every single hour of my day from morning lectures to late-night study blocks.\n\n[R - Result] Although juggling that workload was super demanding, I came out of the experience with a major and four minors—and the discipline I built during those two years became the foundation for running my company today.",
+          "idioms": [
+            "make the most of it",
+            "handed to you on a platter",
+            "juggling that workload"
+          ],
+          "mm": "[STAR Framework အသုံးပြုပုံ] (S) တက္ကသိုလ် ဒုတိယနှစ်နှင့် တတိယနှစ် အခြေအနေကို မိတ်ဆက်သည်၊ (T) Economics အဓိကဘာသာရပ်အပြင် Minor ဘာသာရပ် ၄ ခုကို အချိန်အကန့်အသတ်အတွင်း ပြီးမြောက်အောင် လုပ်ရမည့် တာဝန်ကို ပြောသည်၊ (A) နေ့စဉ်နှင့် အပတ်စဉ် အချိန်ဇယားကို အသေးစိတ် စီမံခန့်ခွဲခဲ့ပုံကို ရှင်းပြသည်၊ (R) အောင်မြင်စွာ ဘွဲ့ရခဲ့ပြီး ထိုစည်းကမ်းရှိမှုက လက်ရှိကုမ္ပဏီဦးဆောင်ရာတွင် အုတ်မြစ်ဖြစ်လာပုံဖြင့် အဆုံးသတ်ထားသည်။"
+        },
+        {
+          "part": "Part 3",
+          "topic": "Future of University Education & AI",
+          "framework": "PARA",
+          "q": "How will third-level university education change in the future?",
+          "a": "[P - Point] I think the fundamental shift in tertiary education won't be online replacing on-campus classes, but rather a transformation in the mode of pedagogy itself.\n\n[A - Analysis] Gone are the days when students could simply sit in a lecture hall, take notes, memorize facts, and regurgitate them on an exam next week. Today, with Google and ChatGPT, all factual information is instantly available at your fingertips.\n\n[R - Result] Consequently, rote memorization is becoming obsolete, and universities that fail to adapt are no longer preparing graduates for real-world careers.\n\n[A - Action] Moving forward, universities must train students in how to analyze data critically, break down complex problems in a sea of information, and devise creative solutions that AI cannot easily replicate.",
+          "idioms": [
+            "gone are the days",
+            "regurgitate on an exam",
+            "available at your fingertips",
+            "sea of information"
+          ],
+          "mm": "[PARA Framework အသုံးပြုပုံ] (P) တက္ကသိုလ်ပညာရေး၏ အဓိကအပြောင်းအလဲမှာ သင်ကြားနည်းစနစ် (mode of education) ပြောင်းလဲခြင်းဖြစ်ကြောင်း ဆိုသည်၊ (A) Google နှင့် ChatGPT ခေတ်တွင် အလွတ်ကျက်မှတ်ပြီး စာမေးပွဲ၌ ပြန်အန်ထုတ်သည့်စနစ် ('regurgitate on an exam') ခေတ်ကုန်သွားပြီဖြစ်ကြောင်း သုံးသပ်သည်၊ (R) အလွတ်ကျက်မှု အသုံးမဝင်တော့သည့် အကျိုးဆက်ကို ပြသည်၊ (A) သတင်းအချက်အလက် ပင်လယ်ကြီးထဲမှ ဒေတာများကို ဝေဖန်ပိုင်းခြားသုံးသပ်ပြီး ပြဿနာဖြေရှင်းတတ်အောင် လေ့ကျင့်ပေးရမည်ဟု အကြံပြုထားသည်။"
+        }
+      ]
+    },
+    {
+      "id": "sv3",
+      "code": "BAND 9.0 BENCHMARK 3",
+      "title": "Benchmark Interview 3: Daily Routine, Community Connections & Family Life",
+      "url": "",
+      "candidate": "Cambridge Band 9.0 Benchmark Candidate",
+      "examinerSummaryEn": "Scored Band 9.0 across all four criteria. Strengths: Natural idiomatic expressions ('like clockwork', 'on the fence', 'break a sweat', 'get on our nerves'), zero grammar mistakes, and effortless conversational flow. Examiner Tip: In Part 1, always 'go deep rather than wide' (pick 1 activity and explain why instead of listing 5).",
+      "examinerSummaryMm": "Criteria လေးခုလုံးတွင် Band 9.0 အပြည့် ရရှိခဲ့သော စာမေးပွဲဖြစ်သည်။ 'like clockwork', 'on the fence', 'break a sweat', 'get on our nerves' စသည့် Native Idioms များကို သဘာဝကျကျ သုံးထားသည်။ စာစစ်သူများ၏ အကြံပြုချက် - Part 1 တွင် အရာဝတ္ထုများစွာ စာရင်းရွတ်ပြခြင်း (Going wide) ထက် တစ်ခု၊ နှစ်ခုကို ရွေးပြီး အဘယ်ကြောင့်ကြိုက်ကြောင်း နက်နက်နဲနဲ ရှင်းပြခြင်း (Going deep) က ပိုကောင်းသည်။",
+      "qaList": [
+        {
+          "part": "Part 1",
+          "topic": "Dreams & Emails",
+          "framework": "PELL",
+          "q": "Do you normally reply to work emails as soon as you receive them?",
+          "a": "Oh no, I don't reply immediately because I feel there's no point in sending an empty response if the actual task hasn't been completed yet. For instance, if a manager emails me requesting a file or a report, I'd much rather finish the work first and reply with the completed attachment ready to go, instead of sending a generic 'well received, thank you' message.",
+          "idioms": [
+            "no point in",
+            "much rather",
+            "ready to go"
+          ],
+          "mm": "[PELL Framework] အီးမေးလ်ရရချင်း ချက်ချင်းပြန်မပို့ဖြစ်ပါဘူး (Point)၊ အလုပ်မပြီးသေးဘဲ အီးမေးလ်သက်သက် ပြန်ပို့တာ အဓိပ္ပာယ်မရှိဘူးလို့ ယူဆလို့ပါ (Elaborate)။ ဥပမာ မန်နေဂျာက ဖိုင်တစ်ခုတောင်းရင် 'လက်ခံရရှိပါသည်' လို့ ရိုးရိုးပြန်ပို့တာထက် အဲဒီအလုပ်ကို အပြီးသတ်ပြီးမှ ဖိုင်နဲ့တကွ တစ်ခါတည်း ပြန်ပို့ရတာကို ပိုသဘောကျပါတယ် (Level Up & Link)။"
+        },
+        {
+          "part": "Part 2 (Cue Card)",
+          "topic": "Visiting Friends or Family",
+          "framework": "Triple AAA",
+          "q": "Describe a time when you enjoyed visiting a family member or friends.",
+          "a": "[A - Answer] I'd like to talk about a three-week trip I took back to Taiwan last month to visit my mom and my closest lifelong friends.\n\n[A - Add Details] Since I only have my mom in Taiwan, I've realized that when you have a small family, the universe brings you friends—and although it sounds cliché, friends really are the family you choose. I've known my friend Shirley since I was 15 and Tiffany since I was 18.\n\n[A - Anecdote] During the visit, we caught up on life over wine and tea, visited our friend Cyril's thriving new restaurant, and even attended our friend Jackie's wedding. Seeing Tiffany and Eva with their new babies after two years apart made the entire reunion unforgettable.",
+          "idioms": [
+            "lifelong friends",
+            "friends are the family you choose",
+            "caught up on life"
+          ],
+          "mm": "[Triple AAA Framework] ပြီးခဲ့သည့်လက ထိုင်ဝမ်သို့ ၃ ပတ်ကြာ ပြန်ပြီး မိခင်နှင့် ငယ်သူငယ်ချင်းများထံ သွားရောက်လည်ပတ်ခဲ့ပုံကို Answer → Add Details → Anecdote အဆင့် ၃ ဆင့်ဖြင့် သဘာဝကျကျ ပြောပြထားသည်။"
+        },
+        {
+          "part": "Part 3",
+          "topic": "Why Some People Dislike Family Gatherings",
+          "framework": "123",
+          "q": "Why is it that some people might not enjoy attending family gatherings?",
+          "a": "I think the main reason is that extended relatives often feel entitled to ask intrusive personal questions during holiday reunions—such as 'When are you getting married?' or 'When are you having a baby?' When people travel home on vacation, their goal is to unwind and de-stress, not to be interrogated. However, I also recognize that for people with supportive, boundaries-respecting relatives, family gatherings remain a deeply cherished tradition.",
+          "idioms": [
+            "intrusive personal questions",
+            "unwind and de-stress",
+            "deeply cherished tradition"
+          ],
+          "mm": "အဓိကအကြောင်းရင်းကတော့ ဆွေမျိုးတွေက မိသားစုတွေ့ဆုံပွဲတွေမှာ 'ဘယ်တော့အိမ်ထောင်ပြုမလဲ'၊ 'ဘယ်တော့ကလေးယူမလဲ' စတဲ့ ပုဂ္ဂိုလ်ရေးမေးခွန်းတွေ စပ်စုတတ်ကြလို့ ဖြစ်ပါတယ်။ အားလပ်ရက်မှာ အနားယူဖို့ ပြန်လာချိန်မှာ အဲဒီလိုမေးခွန်းတွေက စိတ်ဖိစီးမှု ဖြစ်စေပါတယ်။ ဒါပေမဲ့ တစ်ဖက်မှာလည်း နားလည်မှုရှိတဲ့ မိသားစုတွေအတွက်တော့ ဒီလိုဆုံတွေ့ပွဲတွေက တန်ဖိုးထားစရာ အစဉ်အလာကောင်းတစ်ခု ဖြစ်နေဆဲပါ။"
+        }
+      ]
+    },
+    {
+      "id": "sv4",
+      "code": "BAND 9.0 BENCHMARK 4",
+      "title": "Benchmark Interview 4: Interpersonal Dynamics, Heritage Architecture & Mass Tourism",
+      "url": "",
+      "candidate": "Cambridge Band 9.0 Benchmark Candidate",
+      "examinerSummaryEn": "Scored Band 9.0. Demonstrates diplomatic 123 and PELL frameworks on whether museums should be free (citing France's first-Sunday policy) and weighing the chaos of mass tourism in Paris against national GDP benefits.",
+      "examinerSummaryMm": "ပြတိုက်များ အခမဲ့ဖြစ်သင့်မဖြစ်သင့် မေးခွန်းနှင့် ကမ္ဘာလှည့်ခရီးသွားလုပ်ငန်း၏ ကောင်းကျိုး/ဆိုးကျိုး မေးခွန်းများတွင် 123 နှင့် PELL မူဘောင်များကို သုံးပြီး ပြင်သစ်နိုင်ငံ (Paris) အတွေ့အကြုံနှင့် ချိတ်ဆက်ဖြေဆိုသွားပုံမှာ Band 9 စံနမူနာဖြစ်သည်။",
+      "qaList": [
+        {
+          "part": "Part 1",
+          "topic": "Making Friends & Comforting Noises",
+          "framework": "PELL",
+          "q": "Are you the type of person that makes friends easily?",
+          "a": "It's interesting because in an unfamiliar environment I can appear rather reserved at first. It's not that I'm unwilling to socialize, but as an introvert I prefer to suss out my surroundings and observe the room before jumping in. Once people get to know me, though, I build very close, lasting friendships.",
+          "idioms": [
+            "appear rather reserved",
+            "suss out my surroundings",
+            "lasting friendships"
+          ],
+          "mm": "'suss out my surroundings' (ပတ်ဝန်းကျင်အခြေအနေကို အရင်အကဲခတ်သည်) ဟူသော Native Phrasal Verb ကို သဘာဝကျကျ သုံးနှုန်းထားသည်။"
+        },
+        {
+          "part": "Part 2 (Cue Card)",
+          "topic": "Recommended Tourist Attraction (Siem Reap)",
+          "framework": "Triple AAA",
+          "q": "Describe a tourist attraction that you would recommend to visitors.",
+          "a": "[A - Answer] I would wholeheartedly recommend Siem Reap in Cambodia, which is home to the ancient Angkor Wat temple complex.\n\n[A - Add Details] It's a UNESCO World Heritage site consisting of centuries-old stone temples preserved right in the middle of the Cambodian jungle. One of the temples, Ta Prohm, is famous for appearing in the Tomb Raider film with Angelina Jolie, where a stone Buddha head is intertwined within the roots of a giant banyan tree.\n\n[A - Anecdote] Prior to visiting Cambodia, I had traveled extensively across Europe—Paris, Luxembourg, and Spain—while on university exchange. While Europe is undeniably grand, Siem Reap was the first place where I felt a profound spiritual connection; walking through those quiet, moss-covered ruins at sunrise had an eerily beautiful, peaceful energy that I've never experienced anywhere else.",
+          "idioms": [
+            "wholeheartedly recommend",
+            "UNESCO World Heritage site",
+            "intertwined within the roots",
+            "eerily beautiful energy"
+          ],
+          "mm": "[Triple AAA Framework] ကမ္ဘောဒီးယားနိုင်ငံ Siem Reap ရှိ အန်ကောဝပ်ဘုရားကျောင်းများကို ရွေးချယ်ပြောပြပြီး (Answer)၊ UNESCO အမွေအနှစ်ဖြစ်ပုံနှင့် Tomb Raider ရုပ်ရှင်ထဲမှ သစ်မြစ်များကြားရှိ ဗုဒ္ဓဆင်းတုတော်အကြောင်း အချက်အလက်ပေးကာ (Add Details)၊ ဥရောပခရီးစဉ်နှင့် နှိုင်းယှဉ်၍ မိမိခံစားခဲ့ရသော ငြိမ်းချမ်းသည့် ခံစားချက်ကို ပြောပြထားသည် (Anecdote)။"
+        },
+        {
+          "part": "Part 3",
+          "topic": "Should All Museums & Art Galleries Be Free?",
+          "framework": "123",
+          "q": "Do you believe that all museums and art galleries should be free?",
+          "a": "[1 - First Instinct] My initial instinct is to say yes—because historical artifacts, paintings, and cultural heritage ultimately belong to humanity as a whole.\n\n[2 - Practical Reality] However, I also recognize that curating, securing, and maintaining historic buildings is extremely costly, so charging a modest admission fee is pragmatic.\n\n[3 - Optimal Balance] I really admire the compromise they use in France, where major museums charge standard admission most days to cover upkeep, but open their doors completely free of charge on the first Sunday of every month so no citizen is excluded.",
+          "idioms": [
+            "initial instinct",
+            "belong to humanity",
+            "cover upkeep",
+            "free of charge"
+          ],
+          "mm": "[123 Framework] (၁) သမိုင်းအမွေအနှစ်များသည် လူသားအားလုံးနှင့် သက်ဆိုင်သဖြင့် အခမဲ့ဖြစ်သင့်သည်ဟု စတင်ဖြေဆိုသည်၊ (၂) သို့သော် ပြုပြင်ထိန်းသိမ်းစရိတ် (upkeep/maintenance) ကြီးမြင့်မှုကိုလည်း ထောက်ပြသည်၊ (၃) ပြင်သစ်နိုင်ငံတွင် လစဉ် ပထမဆုံး တနင်္ဂနွေနေ့တိုင်း အခမဲ့ဝင်ခွင့်ပေးသည့် အလယ်အလတ်နည်းလမ်း (Third way) ကို အကောင်းဆုံးနမူနာအဖြစ် တင်ပြထားသည်။"
+        }
+      ]
+    },
+    {
+      "id": "sv5",
+      "code": "BAND 9.0 BENCHMARK 5",
+      "title": "Benchmark Interview 5: Creative Media Production & Spontaneous Discourse",
+      "url": "",
+      "candidate": "Cambridge Band 9.0 Benchmark Candidate",
+      "examinerSummaryEn": "Demonstrates how fixing Coherence transforms a score from Band 6.5 to Band 9.0 in 20 minutes! In her first attempt, she stopped talking at 1 minute in Part 2 and gave 1-sentence answers in Part 3. After applying Chris's coaching (keep talking until the examiner stops you in Part 2, and explain WHY + give examples in Part 3), she achieved a full Band 9.0.",
+      "examinerSummaryMm": "မိနစ် ၂၀ အတွင်း Band 6.5 မှ Band 9.0 သို့ ပြောင်းလဲသွားပုံကို ပြသသော အလွန်အရေးကြီးသည့် ဗီဒီယိုဖြစ်သည်။ ပထမအကြိမ်တွင် Part 2 ၌ ၁ မိနစ်သာပြောပြီး ရပ်လိုက်ခြင်းနှင့် Part 3 တွင် ဝါကျတိုလေးများသာ ဖြေခြင်းကြောင့် အမှတ်လျော့ခဲ့သည်။ ဒုတိယအကြိမ်တွင် Examiner က မရပ်မချင်း ဆက်ပြောခြင်းနှင့် Why + Example ထည့်ပြောခြင်းဖြင့် Band 9.0 ရရှိခဲ့သည်။",
+      "qaList": [
+        {
+          "part": "Part 1",
+          "topic": "Cooking as Art",
+          "framework": "PELL",
+          "q": "Do you enjoy cooking, and do you like sharing the kitchen while cooking?",
+          "a": "Honestly, I have a love-hate relationship with cooking! I don't cook every day, but when I do, I treat it like art—I take my time layering flavors so the dish comes out just right, though I'm exhausted afterward. Because cooking feels like creating a painting in the moment, I prefer everyone to stay out of my kitchen until I'm done; having someone hover over the stove feels like someone peeking at an unfinished canvas!",
+          "idioms": [
+            "love-hate relationship",
+            "treat it like art",
+            "peeking at an unfinished canvas"
+          ],
+          "mm": "'peeking at an unfinished canvas' (မပြီးသေးတဲ့ ပန်းချီကားကို လာချောင်းကြည့်သလိုပဲ) ဟူသော တင်စားချက်ဖြင့် Part 1 အဖြေကို စိတ်ဝင်စားဖွယ် ချဲ့ထွင်ဖြေဆိုထားသည်။"
+        },
+        {
+          "part": "Part 2 (Cue Card)",
+          "topic": "Creative Problem Solving (Birthday Shoot)",
+          "framework": "STAR",
+          "q": "Describe a time you helped someone solve a problem creatively.",
+          "a": "[S - Situation] Last year, I helped organize my sister's vintage-themed birthday photoshoot. We had booked a photographer, a makeup artist, a hairstylist, and a creative director—everyone showed up on time except the director, who cancelled at the last minute along with all the props she was supposed to bring.\n\n[T - Task] With the entire crew waiting and no time for setbacks, we needed someone to direct the poses, improvise vintage props, and set up a shooting location immediately.\n\n[A - Action] Since I had already styled the outfits and hair, I stepped up to direct the shoot myself. Instead of the long-stemmed wine glasses and tall candles the director was supposed to bring, I improvised by using a half-bitten apple and tiny tea-light candles. We also cleared all the furniture out of the apartment living room to create an open studio floor.\n\n[R - Result] The improvised setup worked like magic—the photos came out looking effortlessly artistic, and we didn't stop talking until the examiner cut us off at the two-minute mark!",
+          "idioms": [
+            "cancelled at the last minute",
+            "no time for setbacks",
+            "stepped up to direct",
+            "improvised by using"
+          ],
+          "mm": "[STAR Framework] ညီမဖြစ်သူ၏ မွေးနေ့ဓာတ်ပုံရိုက်ပွဲတွင် ဒါရိုက်တာ ရောက်မလာသည့် ပြဿနာ (Situation & Task) ကို မိမိကိုယ်တိုင် ဒါရိုက်တာအဖြစ် ဝင်ရောက်တာဝန်ယူပြီး ပန်းသီးတစ်ခြမ်းနှင့် ဖယောင်းတိုင်အသေးလေးများသုံးကာ တိုက်ခန်းဧည့်ခန်းကို စတူဒီယိုအဖြစ် ပြောင်းလဲရိုက်ကူးခဲ့ပုံ (Action & Result) ကို ၂ မိနစ်ပြည့်အောင် ပြောပြထားသည်။"
+        },
+        {
+          "part": "Part 3",
+          "topic": "How Technology Affects Problem-Solving",
+          "framework": "PARA",
+          "q": "How has technology influenced the way people approach problems?",
+          "a": "I'd say technology has made finding quick answers effortless, but it has actually weakened deep problem-solving skills. Nowadays, whenever people encounter an obstacle, their knee-jerk reaction is to look up an instant answer on their phone rather than learning through trial and error or consulting experienced mentors. While that's convenient in the short term, over-reliance on instant search results negates critical thinking and makes people less resilient when facing novel challenges.",
+          "idioms": [
+            "knee-jerk reaction",
+            "trial and error",
+            "over-reliance on",
+            "negates critical thinking"
+          ],
+          "mm": "နည်းပညာကြောင့် အဖြေအမြန်ရှာရန် လွယ်ကူသွားသော်လည်း လူများသည် ကိုယ်တိုင်စမ်းသပ်စဉ်းစားခြင်း (trial and error) မပြုလုပ်တော့ဘဲ ဖုန်းထဲတွင်သာ အသင့်ရှာဖွေလာကြသဖြင့် ဝေဖန်ပိုင်းခြားတွေးခေါ်မှုစွမ်းရည် (critical thinking) ကို လျော့နည်းသွားစေကြောင်း သုံးသပ်ထားသည်။"
+        }
+      ]
+    }
+  ],
+  "sentence_patterns": [
+    {
+      "qType": "1. Preference Questions (Part 1 & Part 3)",
+      "stat": "37% of Band 7–9 candidates open with a direct modal preference statement",
+      "prompt": "Do you prefer to study in the morning or at night?",
+      "band9Pattern": "I'd say I generally prefer mornings simply because my mind is much clearer and there are fewer distractions.",
+      "band6Trap": "My preference changes all the time / In my humble estimation, nocturnal study sessions are advantageous.",
+      "grammarFocus": "Modal contraction ('I'd say' / 'I'd rather') + Adverb of frequency ('generally') + Direct causal linker ('simply because')",
+      "mm": "Preference မေးခွန်းများတွင် Band 7–9 ကျောင်းသား ၃၇% သည် 'I'd say I generally prefer...' သို့မဟုတ် 'I'd rather...' ဖြင့် တိုက်ရိုက် ဖြေဆိုပြီး 'simply because' ဖြင့် အကြောင်းပြချက် ဆက်ပေးကြသည်။"
+    },
+    {
+      "qType": "2. Opinion Questions (Part 1 & Part 3)",
+      "stat": "Top scorers avoid extreme absolutes and open with a conversational filler + nuanced stance",
+      "prompt": "Do you think children should learn to cook at school?",
+      "band9Pattern": "Actually, in my opinion, it depends on the age group. Basic nutrition and safety are great for younger kids, whereas cooking full meals suits secondary school students.",
+      "band6Trap": "Yes, I completely agree 100% that children must learn culinary skills in educational institutions.",
+      "grammarFocus": "Conversational discourse marker ('Actually, / Well,') + Nuanced dependency ('in my opinion, it depends on...')",
+      "mm": "'Yes, I completely agree' ဟု စက်ရုပ်ဆန်ဆန် ဖြေမည့်အစား 'Actually, in my opinion, it depends on...' ဖြင့် စတင်ပါက အသက်အရွယ် သို့မဟုတ် အခြေအနေအလိုက် နှစ်ဖက်ချိန်ထိုး ရှင်းပြနိုင်သည်။"
+    },
+    {
+      "qType": "3. Past Experience / Narrative Questions (Part 2 Cue Cards)",
+      "stat": "Over 60% of Band 7–9 answers begin with an immediate past-recall marker",
+      "prompt": "Describe a time when you traveled somewhere new.",
+      "band9Pattern": "Well, I remember back in 2023 when I visited Siem Reap with a close friend. We had been planning the trip for months, and the sunrise over Angkor Wat completely blew us away.",
+      "band6Trap": "Traveling is amazing and I really love visiting new places around the world.",
+      "grammarFocus": "Recall opener ('Well, I remember back in [Year]...') + Past Simple ('visited') + Past Perfect Continuous ('had been planning')",
+      "mm": "Describe a time... မေးခွန်းများတွင် 'I remember back in...' ဖြင့် စတင်ခြင်းက မိမိသည် Story mode (Narrative past tenses) သို့ ကူးပြောင်းပြီဖြစ်ကြောင်း Examiner ကို ချက်ချင်း သိသာစေသည်။"
+    },
+    {
+      "qType": "4. Hypothetical / Imaginary Questions (Part 1, 2 & 3)",
+      "stat": "55% of Band 7–9 speakers immediately mirror the conditional 'would + verb'",
+      "prompt": "If you could live in any city in the world, where would you choose?",
+      "band9Pattern": "If I had the choice, I would probably choose Tokyo because its public transport is effortless and the food culture is extraordinary.",
+      "band6Trap": "I will definitely live in London because it is vibrant and has many jobs.",
+      "grammarFocus": "Second Conditional ('If I had..., I would probably choose...') — Never use 'will' for unreal/hypothetical questions",
+      "mm": "Examiner က 'would' ဖြင့် စိတ်ကူးယဉ်မေးခွန်း မေးသည့်အခါ 'will' မသုံးမိစေဘဲ 'I would probably choose...' ဖြင့် တုံ့ပြန်မှသာ Grammatical Accuracy အမှတ်ပြည့် ရရှိမည်။"
+    },
+    {
+      "qType": "5. Comparative / Two-Sided Questions (Part 3 123 Framework)",
+      "stat": "31% of high-scoring comparative answers use 'It depends on the person/context'",
+      "prompt": "Is it better to work for a large corporation or a small startup?",
+      "band9Pattern": "Well, it depends on what an individual values most. Large corporations offer structured career ladders, whereas smaller startups give you hands-on responsibility right away. At the end of the day, it comes down to personal ambition.",
+      "band6Trap": "Large companies are always better than small companies because they pay more money.",
+      "grammarFocus": "'It depends on...' + Contrast clause ('whereas') + Idiomatic wrap-up ('At the end of the day, it comes down to...')",
+      "mm": "ရွေးချယ်စရာ နှစ်ခုကို နှိုင်းယှဉ်မေးသည့်အခါ 123 Framework အတိုင်း 'Well, it depends on...' ဖြင့် စတင်ပြီး နှစ်ဖက်လုံး၏ အားသာချက်ကို 'whereas' ဖြင့် ချိတ်ဆက်ပြောဆိုပါ။"
+    },
+    {
+      "qType": "6. Complex Analytical Questions (Part 3 Bridging)",
+      "stat": "46% of top scorers acknowledge complexity with a short natural bridge before analyzing",
+      "prompt": "Why do some people prefer living in dense cities rather than rural areas?",
+      "band9Pattern": "That's an interesting question. I think many young professionals are drawn to cities for career mobility and cultural amenities, while older residents often value the slower pace and close-knit community of rural towns.",
+      "band6Trap": "Hmm, that is a very tough and hotly debated question in modern society today.",
+      "grammarFocus": "Natural complexity bridge ('That's an interesting question.') + Parallel contrast ('many... are drawn to..., while others value...')",
+      "mm": "Part 3 မေးခွန်းခက်များကို စဉ်းစားချိန် ၂ စက္ကန့် ရယူရန် 'That's an interesting question.' ဟု သဘာဝကျကျ ခံပြီးမှ ရှုထောင့်နှစ်ဖက်ကို နှိုင်းယှဉ်ပြပါ။"
+    },
+    {
+      "qType": "7. Giving Personal Examples (Part 1 & Part 3 PELL Level-Up)",
+      "stat": "39% of Band 7–9 speakers pair a conversational bridge ('Certainly / Sure / Actually') with 'for example'",
+      "prompt": "Can you give an example of a skill you learned outside school?",
+      "band9Pattern": "Certainly — for example, last year I taught myself how to cook traditional Shan noodles by watching my grandmother and practicing every Sunday morning.",
+      "band6Trap": "For example: I learned cooking last year. To sum up, cooking is a good skill.",
+      "grammarFocus": "Conversational affirmative ('Certainly / Sure,') + 'for example,' + Specific past anecdote",
+      "mm": "ကော်ဖီဆိုင်တွင် မိတ်ဆွေတစ်ဦးနှင့် စကားပြောသကဲ့သို့ 'Certainly, for example...' သို့မဟုတ် 'Sure, for instance...' ဟု ချိတ်ဆက်ပြောဆိုပါ။"
+    },
+    {
+      "qType": "8. Unfamiliar or Difficult Topics (Part 3 Speculation)",
+      "stat": "90% of Band 7–9 candidates speculate using conditional hedging rather than giving up",
+      "prompt": "How has automation affected maritime shipping logistics in your country?",
+      "band9Pattern": "I'm not entirely sure about maritime logistics specifically, but if I had to guess, I'd say automated port cranes have sped up container turnaround times while reducing manual dock labor.",
+      "band6Trap": "I don't know anything about shipping. Next question please.",
+      "grammarFocus": "Honest admission ('I'm not entirely sure about X,') + Conditional speculation ('but if I had to guess, I'd say...')",
+      "mm": "IELTS သည် ဗဟုသုတ စာမေးပွဲ မဟုတ်ဘဲ အင်္ဂလိပ်စာ ဆက်သွယ်ပြောဆိုမှု စာမေးပွဲသာ ဖြစ်သဖြင့် မသိသော အကြောင်းအရာ မေးခံရလျှင် 'I'm not entirely sure, but if I had to guess, I'd say...' ဖြင့် ခန့်မှန်းဖြေဆိုပါ။"
+    },
+    {
+      "qType": "9. Writing Task 2 Thesis & Body Paragraph Skeletons",
+      "stat": "Cohesion at Band 9 'rarely attracts attention' — max 1 to 2 natural linkers per paragraph",
+      "prompt": "Some people believe governments should fund public transport rather than new highways. Discuss both views and give your opinion.",
+      "band9Pattern": "While expanding highways offers temporary relief for commuters, this essay agrees that governments should prioritize public transit because it curries long-term emissions reductions and lowers urban congestion. For instance, cities that invest in metro lines consistently move more passengers per hour than multi-lane expressways.",
+      "band6Trap": "Nowadays, public transport is a hotly debated topic with a plethora of reasons. First and foremost, last but not least, in a nutshell...",
+      "grammarFocus": "Subordinate concession ('While...') + Direct thesis + Explicit reasons ('because A and B') + Single natural example marker ('For instance,')",
+      "mm": "Academic သုတေသနအရ Band 5/6 အက်ဆေးများသည် Linking words အလွန်အကျွံ သုံးကြပြီး Band 9 အက်ဆေးများသည် တစ်ပိုဒ်လျှင် 'For instance' သို့မဟုတ် 'However' တစ်လုံးနှစ်လုံးသာ သိမ်မွေ့စွာ သုံးကြသည်။"
+    }
+  ],
+  "idioms": [
+    {
+      "idiom": "1. To Bite the Bullet",
+      "meaning": "To force yourself to do something difficult or unpleasant with courage.",
+      "origin": "Historically, wounded soldiers bit on a lead bullet to cope with surgical pain before anesthesia existed.",
+      "trap": "Always keep the article 'the' ('to bite the bullet') and stress the verb 'BITE'.",
+      "q": "Why did you choose your first career?",
+      "a": "I didn't really want to study law, but I was the only one in my family ever to get high grades in my A-levels. My mother sat me down one day and said it was either medicine or law. I went to a hospital on work experience and fainted when I saw the sight of blood. I'm too squeamish for medicine, so I decided just to bite the bullet and study law.",
+      "mm": "မလုပ်ချင်သော်လည်း မဖြစ်မနေ လုပ်ရမည့် ခက်ခဲသောအရာကို စိတ်တင်းပြီး ရင်ဆိုင်လုပ်ဆောင်ခြင်း။ (သွေးမြင်လျှင် မူးတတ်သဖြင့် ဆေးပညာမသင်ဘဲ စိတ်တင်း၍ ဥပဒေပညာ သင်ယူခဲ့ပုံ ဥပမာ)"
+    },
+    {
+      "idiom": "2. A Piece of Cake",
+      "meaning": "Something that is very easy and pleasant to accomplish.",
+      "origin": "Comes from the pleasant, effortless experience of eating sweet cake (similar to 'a cakewalk').",
+      "trap": "Never drop the article 'a' — saying 'It is piece of cake' is a grammatical error that lowers your score.",
+      "q": "Why did you change careers from law to teaching?",
+      "a": "To be honest, compared to practicing law, teaching English is a piece of cake. To give you a concrete example, to qualify as a lawyer takes around six years of study and work experience. To qualify as an English teacher only takes six weeks. The pay obviously isn't as good, but the students are much nicer and friendlier.",
+      "mm": "အလွန်လွယ်ကူသော အရာ။ ('a piece of cake' တွင် 'a' မကျန်ခဲ့စေရန် အထူးသတိပြုပါ)"
+    },
+    {
+      "idiom": "3. Kill Two Birds with One Stone",
+      "meaning": "To achieve two separate goals with a single action.",
+      "origin": "Originates from Greek mythology (the story of Daedalus and Icarus).",
+      "trap": "Adjust the verb tense to fit your sentence ('I killed two birds...' or 'I decided to kill two birds...').",
+      "q": "Have you ever given jewelry to someone as a gift?",
+      "a": "Yes, I actually bought my mother a silver necklace last December. Her birthday is right around the holidays, so I decided to kill two birds with one stone and get her one meaningful gift for both occasions. She was delighted because she preferred a single high-quality keepsake over multiple smaller items.",
+      "mm": "အလုပ်တစ်ခုတည်းဖြင့် ရည်ရွယ်ချက်နှစ်ခု ပြီးမြောက်စေခြင်း။ (မွေးနေ့နှင့် ခရစ္စမတ်အတွက် စိန်လက်စွပ်ကောင်းကောင်း တစ်ကွင်းတည်း ပေါင်းဝယ်ပေးခဲ့ပုံ)"
+    },
+    {
+      "idiom": "4. Let the Cat Out of the Bag",
+      "meaning": "To reveal a secret, usually by mistake or accident.",
+      "origin": "Once a cat escapes from a closed bag, it is impossible to put it back inside — just like a revealed secret.",
+      "trap": "Do not omit the two 'the' articles ('let the cat out of the bag').",
+      "q": "Have you ever received a watch or jewelry as a gift?",
+      "a": "If you count watches as jewelry, then yes. For my graduation, my parents bought me a classic wristwatch that I had been admiring for years. My sister actually let the cat out of the bag a week before because she accidentally left the boutique receipt on the dining table, though it was still a wonderful surprise.",
+      "mm": "လျှို့ဝှက်ချက် မတော်တဆ ပေါက်ကြားသွားခြင်း။ (ဇနီးက မွေးနေ့လက်ဆောင် နာရီဝယ်ပေးချိန် ဖုန်းထဲသို့ ဘဏ်မက်ဆေ့ချ် ဝင်လာသဖြင့် ကြိုသိသွားခဲ့ပုံ)"
+    },
+    {
+      "idiom": "5. Don't Put All Your Eggs in One Basket",
+      "meaning": "Avoid concentrating all your resources or future plans in one single area so you minimize risk.",
+      "origin": "If you carry all your hen eggs in one basket and drop it, every single egg breaks.",
+      "trap": "Change the pronoun naturally ('put all my eggs in one basket' when talking about yourself).",
+      "q": "Do you think you will have the same career in the future?",
+      "a": "Probably not, because with the rapid developments in AI recently, I don't think there will be traditional test-prep teachers forever. I think it would be very foolish for me to put all my eggs in one basket and just hope that teaching lasts forever without diversifying.",
+      "mm": "အရင်းအနှီး သို့မဟုတ် အနာဂတ်မျှော်လင့်ချက်အားလုံးကို တစ်နေရာတည်း၌ ပုံအောမထားခြင်း။"
+    },
+    {
+      "idiom": "6. Once in a Blue Moon",
+      "meaning": "Happens very rarely (less than once a year).",
+      "origin": "Refers to the rare astronomical occurrence of a second full moon within a single calendar month.",
+      "trap": "Only use this when the examiner asks a genuine frequency question ('How often do you...?') about something you rarely do.",
+      "q": "How often do you go out at night with friends?",
+      "a": "I used to go out with friends nearly every weekend during university, but since starting full-time work, it is really once in a blue moon. Most of my peers have demanding careers or live across town, so we might only get together for major holidays or reunions.",
+      "mm": "အလွန်ရှားရှားပါးပါး၊ တစ်ခါတစ်ရံမှသာ။ ('How often...?' မေးခွန်းများတွင်သာ သုံးပါ)"
+    },
+    {
+      "idiom": "7. Burn the Midnight Oil & 8. Burn the Candle at Both Ends",
+      "meaning": "'Burn the midnight oil' = work hard late at night (positive/neutral). 'Burn the candle at both ends' = overwork and stay up late to the point of exhaustion (negative).",
+      "origin": "Oil lamps used before electricity vs. lighting a horizontal candle at both ends simultaneously.",
+      "trap": "Distinguish between working diligently ('burn the midnight oil') and unsustainable burnout ('burn the candle at both ends').",
+      "q": "Do you think your lifestyle has changed as you got older?",
+      "a": "Yes, I used to burn the candle at both ends. I had a 'work hard, play hard' attitude when I was a lawyer working 80 hours a week and going out to bars after work to blow off steam, which wasn't sustainable. Now I still burn the midnight oil working hard on my career, but you're much more likely to find me tucked up in bed by 9 PM.",
+      "mm": "'Burn the candle at both ends' (နေ့ရောညပါ အလုပ်နှင့် အပျော်အပါးကြောင့် လူပန်းစိတ်ပန်းဖြစ်ခြင်း) နှင့် 'Burn the midnight oil' (အလုပ်ကို ကြိုးကြိုးစားစား လုပ်ကိုင်ခြင်း) တို့ကို အတူတကွ နှိုင်းယှဉ်သုံးပြထားပုံ။"
+    },
+    {
+      "idiom": "9. At the Drop of a Hat",
+      "meaning": "To do something immediately and without hesitation.",
+      "origin": "In the 19th century, dropping a hat was the signal to start a race or duel immediately.",
+      "trap": "Use it for actions requiring instant readiness or flexibility.",
+      "q": "Do you own or rent your home?",
+      "a": "We actually rent our home. We could afford to buy a house, but we really value our independence and freedom. If you own a home, you're stuck in that location because selling takes months, whereas if you rent, you can relocate anywhere at the drop of a hat.",
+      "mm": "တုံ့ဆိုင်းမနေဘဲ ချက်ချင်းလက်ငင်း လုပ်ဆောင်နိုင်ခြင်း။"
+    },
+    {
+      "idiom": "10. Cry Over Spilt Milk",
+      "meaning": "To waste time feeling upset over a past mistake or event that cannot be changed.",
+      "origin": "Once milk is spilled on the ground, crying cannot put it back into the bottle.",
+      "trap": "Usually used in the negative pattern: 'There is no point crying over spilt milk.'",
+      "q": "What do you dislike most about your job?",
+      "a": "The thing I dislike most is dealing with people who only focus on the negative when given constructive feedback. Some students see mistakes on their essay and immediately use that feedback to improve, while others sulk for weeks. There's no point crying over spilt milk — you made the mistake, so learn from it and move forward.",
+      "mm": "ပြန်ပြင်၍မရတော့သော အတိတ်က အမှားအတွက် အချိန်ကုန်ခံ ပူဆွေးနေခြင်း။"
+    },
+    {
+      "idiom": "11. Can't Judge a Book by Its Cover",
+      "meaning": "You should not evaluate people or places purely by their outward appearance.",
+      "origin": "A book's cover design does not tell you the quality of the writing inside.",
+      "trap": "Use 'its' (possessive), not 'his/her' cover.",
+      "q": "How often do you buy new clothes?",
+      "a": "Very rarely, actually, because I'm a firm believer that you can't judge a book by its cover. We should evaluate people by their actions and character rather than the brands they wear, so I tend to prioritize comfort and durability over seasonal trends.",
+      "mm": "အပေါ်ယံ အသွင်အပြင်ကို ကြည့်ပြီး အကဲမဖြတ်သင့်ကြောင်း ပြောရာတွင် သုံးသည်။"
+    },
+    {
+      "idiom": "12. Don't Count Your Chickens (Before They Hatch)",
+      "meaning": "Do not assume future success or profit before it actually materializes.",
+      "origin": "From Aesop's fable of the milkmaid who daydreamed about future chickens and spilled her milk pail.",
+      "trap": "Native speakers frequently shorten this to 'I don't want to count my chickens, but...'",
+      "q": "What type of watches or jewelry do you prefer?",
+      "a": "I prefer mechanical watches over jewelry because necklaces and rings lose value the moment you walk out of the shop, whereas several watches I've purchased have appreciated in value. I don't want to count my chickens, but if I ever sold them, I'd likely get back more than I paid.",
+      "mm": "လက်တွေ့ မဖြစ်လာသေးမီ ကြိုတင်၍ စိတ်ချတွက်ချက်မထားခြင်း။"
+    },
+    {
+      "idiom": "13. Go the Extra Mile",
+      "meaning": "To put in more care and effort than what is strictly required.",
+      "origin": "From the Sermon on the Mount ('if anyone forces you to go one mile, go with them two miles').",
+      "trap": "Great for Part 2 descriptions of helpful people, teachers, family members, or businesses.",
+      "q": "Who does most of the cooking in your household?",
+      "a": "My mother does much of the traditional cooking in our household, and what I admire most is that she always goes the extra mile. Whenever our family hosts a dinner, she prepares elaborate side dishes, traditional soups, and homemade desserts from scratch.",
+      "mm": "လိုအပ်သည်ထက် ပိုမို၍ စေတနာထား ကြိုးပမ်းအားထုတ်ခြင်း။"
+    },
+    {
+      "idiom": "14. Raining Cats and Dogs",
+      "meaning": "Raining extremely heavily.",
+      "origin": "Old English expression for torrential downpours.",
+      "trap": "Never reverse the word order to 'dogs and cats', and always match the verb tense ('it was raining cats and dogs').",
+      "q": "Do you like the weather in your hometown?",
+      "a": "Yes and no. Where I live, we enjoy scenic coastlines and green parks right on our doorstep, but during the monsoon season it is frequently raining cats and dogs, so outdoor activities have to be postponed.",
+      "mm": "မိုးသည်းထန်စွာ ရွာသွန်းခြင်း။ ('spoiled for choice' နှင့် 'on our doorstep' တို့ကိုပါ တစ်ပါတည်း လေ့လာနိုင်သည်)"
+    },
+    {
+      "idiom": "15. Throw in the Towel",
+      "meaning": "To stop trying or admit defeat when a task becomes too difficult.",
+      "origin": "In boxing, a trainer throws a towel into the ring to stop the match and protect the fighter.",
+      "trap": "Use it when describing habits, diets, or tough challenges.",
+      "q": "Do you maintain a healthy diet?",
+      "a": "I try to start each day with a nutritious breakfast and lunch, but it's so easy to throw in the towel when you get home exhausted after a long day's work and see a warm family dinner and your kids' chocolate on the kitchen table.",
+      "mm": "လက်လျှော့အရှုံးပေးလိုက်ခြင်း။"
+    },
+    {
+      "idiom": "16. Cross That Bridge When You Come to It",
+      "meaning": "Deal with a potential problem when it actually happens in the future rather than worrying now.",
+      "origin": "Travelers in the past did not worry about crossing a distant river bridge until they reached it.",
+      "trap": "Use 'we'll cross that bridge when we come to it' for uncertain future scenarios in Part 3.",
+      "q": "How will artificial intelligence affect your profession in ten years?",
+      "a": "AI tutors will undoubtedly transform education and could replace many traditional roles. We'll cross that bridge when we come to it, and in the meantime I focus on helping students with personal feedback that machines still struggle to replicate.",
+      "mm": "ပြဿနာနှင့် လက်တွေ့ကြုံလာမှသာ ရင်ဆိုင်ဖြေရှင်းမည် (ကြိုတင် မပူပန်သေးပါ)။"
+    },
+    {
+      "idiom": "17. Rome Wasn't Built in a Day & 18. When in Rome",
+      "meaning": "'Rome wasn't built in a day' = major work takes time. 'When in Rome' = adapt to local customs when visiting another place.",
+      "origin": "Refers to the centuries needed to build ancient Rome and Saint Ambrose's advice on local traditions.",
+      "trap": "Native speakers almost always shorten the second idiom to just 'When in Rome' rather than the full proverb.",
+      "q": "How do you react to unfamiliar customs when traveling abroad?",
+      "a": "In my country, personal space and punctuality are strictly observed, whereas when traveling abroad in bustling tourist destinations, daily life is much more fluid and spontaneous. Getting frustrated does not help, so I simply adapt—when in Rome, do as the Romans do—and respect local customs.",
+      "mm": "'Rome wasn't built in a day' (ကြီးမားသောအရာများသည် အချိန်ယူရသည်) နှင့် 'When in Rome' (ရောက်ရာအရပ်၏ ဓလေ့အတိုင်း လိုက်လျောညီထွေ နေထိုင်သည်)။"
+    }
+  ],
+  "word_families": [
+    {
+      "noun": "Growth",
+      "verb": "grow",
+      "adj": "growing",
+      "adv": "—",
+      "mm": "တိုးတက်ကြီးထွားမှု (Thegrowing economy / economic growth)"
+    },
+    {
+      "noun": "Development",
+      "verb": "develop",
+      "adj": "developed / developing",
+      "adv": "—",
+      "mm": "ဖွံ့ဖြိုးတိုးတက်မှု (developing nations / sustainable development)"
+    },
+    {
+      "noun": "Efficiency",
+      "verb": "—",
+      "adj": "efficient",
+      "adv": "efficiently",
+      "mm": "စွမ်းဆောင်ရည် ပြည့်ဝမှု (work efficiently / fuel efficiency)"
+    },
+    {
+      "noun": "Influence",
+      "verb": "influence",
+      "adj": "influential",
+      "adv": "—",
+      "mm": "လွှမ်းမိုးမှု (an influential figure / influence public opinion)"
+    },
+    {
+      "noun": "Pollution",
+      "verb": "pollute",
+      "adj": "polluted",
+      "adv": "—",
+      "mm": "ညစ်ညမ်းမှု (polluted waterways / air pollution)"
+    },
+    {
+      "noun": "Competition",
+      "verb": "compete",
+      "adj": "competitive",
+      "adv": "competitively",
+      "mm": "ယှဉ်ပြိုင်မှု (a competitive job market / compete globally)"
+    },
+    {
+      "noun": "Investment",
+      "verb": "invest",
+      "adj": "—",
+      "adv": "—",
+      "mm": "ရင်းနှီးမြှုပ်နှံမှု (invest in infrastructure / foreign investment)"
+    },
+    {
+      "noun": "Advantage",
+      "verb": "—",
+      "adj": "advantageous",
+      "adv": "advantageously",
+      "mm": "အားသာချက်၊ အကျိုးကျေးဇူး (mutually advantageous)"
+    },
+    {
+      "noun": "Dependence",
+      "verb": "depend",
+      "adj": "dependent",
+      "adv": "—",
+      "mm": "မှီခိုအားထားမှု (reduce dependence on fossil fuels)"
+    },
+    {
+      "noun": "Prosperity",
+      "verb": "prosper",
+      "adj": "prosperous",
+      "adv": "—",
+      "mm": "ကြွယ်ဝချမ်းသာမှု (economic prosperity / a prosperous region)"
+    },
+    {
+      "noun": "Difference",
+      "verb": "differ",
+      "adj": "different",
+      "adv": "differently",
+      "mm": "ကွာခြားချက် (opinions differ considerably)"
+    },
+    {
+      "noun": "Significance",
+      "verb": "signify",
+      "adj": "significant",
+      "adv": "significantly",
+      "mm": "အရေးပါမှု၊ သိသာထင်ရှားမှု (rose significantly / of great significance)"
+    },
+    {
+      "noun": "Achievement",
+      "verb": "achieve",
+      "adj": "achievable",
+      "adv": "—",
+      "mm": "အောင်မြင်မှု (an achievable target / academic achievement)"
+    },
+    {
+      "noun": "Consumption",
+      "verb": "consume",
+      "adj": "—",
+      "adv": "—",
+      "mm": "သုံးစွဲမှု၊ စားသုံးမှု (energy consumption / consume resources)"
+    },
+    {
+      "noun": "Accessibility",
+      "verb": "access",
+      "adj": "accessible",
+      "adv": "—",
+      "mm": "လက်လှမ်းမီ ရယူသုံးစွဲနိုင်မှု (accessible healthcare)"
+    },
+    {
+      "noun": "Sustainability",
+      "verb": "sustain",
+      "adj": "sustainable",
+      "adv": "sustainably",
+      "mm": "ရေရှည်တည်တံ့နိုင်မှု (environmental sustainability / harvest sustainably)"
+    }
+  ],
+  "vocab_upgrades": [
+    {
+      "basic": "big",
+      "upgraded": "considerable, substantial",
+      "ex": "There was a considerable rise in costs.",
+      "mm": "ကုန်ကျစရိတ်များ အတော်အတန် မြင့်တက်သွားခဲ့သည်။"
+    },
+    {
+      "basic": "good",
+      "upgraded": "beneficial, advantageous",
+      "ex": "The reform was beneficial for small businesses.",
+      "mm": "ထိုပြုပြင်ပြောင်းလဲမှုသည် အသေးစား လုပ်ငန်းများအတွက် အကျိုးရှိစေခဲ့သည်။"
+    },
+    {
+      "basic": "bad",
+      "upgraded": "detrimental, harmful",
+      "ex": "Pollution is detrimental to public health.",
+      "mm": "ညစ်ညမ်းမှုသည် ပြည်သူ့ကျန်းမာရေးကို ထိခိုက်နစ်နာစေသည်။"
+    },
+    {
+      "basic": "important",
+      "upgraded": "crucial, vital",
+      "ex": "Early education is crucial for development.",
+      "mm": "အစောပိုင်း ပညာရေးသည် ဖွံ့ဖြိုးတိုးတက်မှုအတွက် အလွန်အရေးကြီးသည်။"
+    },
+    {
+      "basic": "show",
+      "upgraded": "illustrate, demonstrate",
+      "ex": "The data illustrates a clear pattern.",
+      "mm": "ဒေတာအချက်အလက်များက ရှင်းလင်းသော ပုံစံတစ်ခုကို ဖော်ပြနေသည်။"
+    },
+    {
+      "basic": "get",
+      "upgraded": "obtain, acquire",
+      "ex": "Many students obtain loans to study abroad.",
+      "mm": "ကျောင်းသားအများအပြားသည် နိုင်ငံခြားပညာသင်ရန် ချေးငွေ ရယူကြသည်။"
+    },
+    {
+      "basic": "think",
+      "upgraded": "argue, contend, believe",
+      "ex": "Critics contend that the plan is too costly.",
+      "mm": "ဝေဖန်သူများက ထိုအစီအစဉ်သည် ကုန်ကျစရိတ် များလွန်းသည်ဟု အဆိုပြုကြသည်။"
+    },
+    {
+      "basic": "a lot of",
+      "upgraded": "numerous, a significant number of",
+      "ex": "Numerous studies support this view.",
+      "mm": "သုတေသန လေ့လာမှု အမြောက်အမြားက ဤအမြင်ကို ထောက်ခံကြသည်။"
+    },
+    {
+      "basic": "use",
+      "upgraded": "utilize, employ",
+      "ex": "Researchers employed a new method.",
+      "mm": "သုတေသီများသည် နည်းလမ်းအသစ်တစ်ခုကို အသုံးပြုခဲ့ကြသည်။"
+    },
+    {
+      "basic": "help",
+      "upgraded": "assist, facilitate, support",
+      "ex": "Technology can facilitate communication.",
+      "mm": "နည်းပညာသည် ဆက်သွယ်ရေးကို ပိုမိုလွယ်ကူချောမွေ့စေသည်။"
+    },
+    {
+      "basic": "end",
+      "upgraded": "conclude, terminate",
+      "ex": "The meeting concluded at noon.",
+      "mm": "အစည်းအဝေးသည် မွန်းတည့်ချိန်တွင် ပြီးဆုံးခဲ့သည်။"
+    },
+    {
+      "basic": "try",
+      "upgraded": "attempt, endeavour",
+      "ex": "The government attempted to reduce inflation.",
+      "mm": "အစိုးရသည် ငွေကြေးဖောင်းပွမှုကို လျှော့ချရန် ကြိုးပမ်းခဲ့သည်။"
+    },
+    {
+      "basic": "needed",
+      "upgraded": "essential, necessary, required",
+      "ex": "Clean water is essential for survival.",
+      "mm": "သန့်ရှင်းသောရေသည် အသက်ရှင်သန်ရေးအတွက် မရှိမဖြစ် လိုအပ်သည်။"
+    },
+    {
+      "basic": "problem",
+      "upgraded": "challenge, obstacle, concern",
+      "ex": "Traffic congestion is a pressing concern.",
+      "mm": "ယာဉ်ကြောပိတ်ဆို့မှုသည် အရေးတကြီး ဖြေရှင်းရမည့် စိုးရိမ်စရာကိစ္စ ဖြစ်သည်။"
+    }
+  ],
+  "synonym_sets": [
+    {
+      "head": "1. Important",
+      "syns": "essential, fundamental, pivotal, paramount, integral",
+      "mm": "အရေးကြီးသော၊ မရှိမဖြစ်လိုအပ်သော"
+    },
+    {
+      "head": "2. Ask for",
+      "syns": "request, demand, solicit, seek, inquire about",
+      "mm": "တောင်းဆိုသည်၊ မေးမြန်းသည်"
+    },
+    {
+      "head": "3. Begin",
+      "syns": "commence, initiate, launch, embark on, kick off",
+      "mm": "စတင်သည်"
+    },
+    {
+      "head": "4. Show interest",
+      "syns": "be keen on, be drawn to, take an interest in, be fascinated by",
+      "mm": "စိတ်ဝင်စားမှု ပြသသည်"
+    },
+    {
+      "head": "5. Change",
+      "syns": "transform, modify, adapt, alter, revise",
+      "mm": "ပြောင်းလဲသည်၊ ပြုပြင်သည်"
+    },
+    {
+      "head": "6. Agree",
+      "syns": "concur, endorse, support, back, accept",
+      "mm": "သဘောတူသည်၊ ထောက်ခံသည်"
+    },
+    {
+      "head": "7. Disagree",
+      "syns": "dispute, challenge, object to, oppose, contest",
+      "mm": "သဘောမတူပါ၊ ကန့်ကွက်ငြင်းခုံသည်"
+    },
+    {
+      "head": "8. Clear",
+      "syns": "evident, apparent, obvious, transparent, unambiguous",
+      "mm": "ရှင်းလင်းထင်ရှားသော"
+    },
+    {
+      "head": "9. Unclear",
+      "syns": "ambiguous, vague, uncertain, obscure, dubious",
+      "mm": "မရှင်းလင်းသော၊ ဒွိဟဖြစ်ဖွယ်ရှိသော"
+    },
+    {
+      "head": "10. Tiny",
+      "syns": "minimal, negligible, marginal, minute, slight",
+      "mm": "အလွန်သေးငယ်သော၊ မပြောပလောက်သော"
+    },
+    {
+      "head": "11. Huge",
+      "syns": "enormous, vast, massive, immense, tremendous",
+      "mm": "အလွန်ကြီးမားသော"
+    },
+    {
+      "head": "12. Strange",
+      "syns": "unusual, peculiar, bizarre, curious, odd",
+      "mm": "ထူးဆန်းသော၊ သာမန်မဟုတ်သော"
+    },
+    {
+      "head": "13. Easy",
+      "syns": "straightforward, simple, effortless, manageable",
+      "mm": "လွယ်ကူရိုးရှင်းသော"
+    },
+    {
+      "head": "14. Hard",
+      "syns": "demanding, arduous, strenuous, gruelling, tough",
+      "mm": "ခက်ခဲပင်ပန်းသော"
+    },
+    {
+      "head": "15. Happy",
+      "syns": "delighted, pleased, content, elated, thrilled",
+      "mm": "ပျော်ရွှင်ကျေနပ်သော"
+    },
+    {
+      "head": "16. Sad",
+      "syns": "disheartened, distressed, melancholy, gloomy, miserable",
+      "mm": "ဝမ်းနည်းစိတ်ပျက်သော"
+    },
+    {
+      "head": "17. Angry",
+      "syns": "furious, irate, indignant, resentful, outraged",
+      "mm": "ဒေါသထွက်သော၊ မခံမရပ်နိုင်ဖြစ်သော"
+    },
+    {
+      "head": "18. Fast",
+      "syns": "rapid, swift, prompt, speedy, brisk",
+      "mm": "လျင်မြန်သွက်လက်သော"
+    },
+    {
+      "head": "19. Slow",
+      "syns": "gradual, leisurely, sluggish, delayed, unhurried",
+      "mm": "နှေးကွေးသော၊ တဖြည်းဖြည်းဖြစ်သော"
+    },
+    {
+      "head": "20. Careful",
+      "syns": "cautious, meticulous, thorough, prudent, diligent",
+      "mm": "စေ့စပ်သေချာသော၊ သတိကြီးသော"
+    },
+    {
+      "head": "21. Lazy",
+      "syns": "idle, inactive, lethargic, sluggish, indolent",
+      "mm": "ပျင်းရိသော၊ လေးလံထိုင်းမှိုင်းသော"
+    },
+    {
+      "head": "22. Brave",
+      "syns": "courageous, fearless, bold, daring, heroic",
+      "mm": "ရဲရင့်သော"
+    },
+    {
+      "head": "23. Honest",
+      "syns": "sincere, candid, frank, genuine, truthful",
+      "mm": "ရိုးသားပွင့်လင်းသော"
+    },
+    {
+      "head": "24. Create",
+      "syns": "generate, produce, establish, devise, construct",
+      "mm": "ဖန်တီးသည်၊ တည်ဆောက်သည်"
+    },
+    {
+      "head": "25. Destroy",
+      "syns": "demolish, ruin, wreck, eliminate, eradicate",
+      "mm": "ဖျက်ဆီးသည်၊ အမြစ်ပြတ်ချေမှုန်းသည်"
+    },
+    {
+      "head": "26. Gather",
+      "syns": "collect, assemble, accumulate, compile, amass",
+      "mm": "စုဆောင်းသည်၊ စုစည်းသည်"
+    },
+    {
+      "head": "27. Choose",
+      "syns": "select, opt for, decide on, pick, elect",
+      "mm": "ရွေးချယ်သည်"
+    },
+    {
+      "head": "28. Hide",
+      "syns": "conceal, obscure, disguise, mask, veil",
+      "mm": "ဖုံးကွယ်သည်"
+    },
+    {
+      "head": "29. Enough",
+      "syns": "sufficient, adequate, ample, satisfactory",
+      "mm": "လုံလောက်သော"
+    },
+    {
+      "head": "30. Rare",
+      "syns": "scarce, uncommon, infrequent, sporadic, exceptional",
+      "mm": "ရှားပါးသော၊ တစ်ခါတစ်ရံသာဖြစ်သော"
+    }
+  ],
+  "topic_bank": [
+    {
+      "topic": "1. Hometown and Home (Part 15)",
+      "vocab": [
+        "residential area",
+        "bustling",
+        "peaceful",
+        "close-knit community",
+        "amenities",
+        "landmark"
+      ],
+      "sample": "I come from a fairly bustling city in the south. What I love most is the close-knit community, where neighbours actually know one another.",
+      "mm": "ကျွန်တော်က တောင်ပိုင်းက အတော်လေး စည်ကားတဲ့ မြို့တစ်မြို့က လာတာပါ။ အကြိုက်ဆုံးအချက်ကတော့ အိမ်နီးချင်းအချင်းချင်း တကယ်သိကျွမ်းရင်းနှီးကြတဲ့ စည်းလုံးတဲ့ ရပ်ကွက်အသိုက်အဝန်းလေး ဖြစ်ပါတယ်။"
+    },
+    {
+      "topic": "2. Work and Studies (Part 15)",
+      "vocab": [
+        "full-time",
+        "part-time",
+        "workload",
+        "deadline",
+        "qualification",
+        "specialize in",
+        "career prospects"
+      ],
+      "sample": "I'm currently studying accounting, which I chose because it offers good career prospects. The workload can be demanding, but I find it rewarding.",
+      "mm": "ကျွန်တော် လက်ရှိမှာ အလုပ်အကိုင် အခွင့်အလမ်း ကောင်းမွန်တဲ့ စာရင်းကိုင်ပညာကို သင်ယူနေပါတယ်။ သင်ခန်းစာဝန်ထုပ်ဝန်ပိုး များတတ်ပေမယ့် အကျိုးရှိပြီး စိတ်ကျေနပ်ဖို့ ကောင်းပါတယ်။"
+    },
+    {
+      "topic": "3. Hobbies and Free Time (Part 15)",
+      "vocab": [
+        "unwind",
+        "pastime",
+        "take up",
+        "keep fit",
+        "be into",
+        "leisure activities"
+      ],
+      "sample": "In my free time, I like to unwind by reading. I got into it a few years ago, and it has become a regular pastime.",
+      "mm": "အားလပ်ချိန်မှာ စာဖတ်ခြင်းဖြင့် စိတ်အပန်းဖြေရတာကို နှစ်သက်ပါတယ်။ လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်က စတင်စိတ်ဝင်စားခဲ့ပြီး အခုတော့ ပုံမှန်အပန်းဖြေ ဝါသနာတစ်ခု ဖြစ်နေပါပြီ။"
+    },
+    {
+      "topic": "4. Technology (Part 15)",
+      "vocab": [
+        "rely on",
+        "convenient",
+        "distract",
+        "screen time",
+        "digital device",
+        "be glued to"
+      ],
+      "sample": "Technology has made life incredibly convenient, but I think we rely on our phones a little too much.",
+      "mm": "နည်းပညာက နေ့စဉ်ဘဝကို မယုံနိုင်လောက်အောင် အဆင်ပြေလွယ်ကူစေခဲ့ပေမယ့် ကျွန်တော်တို့ ဖုန်းတွေအပေါ် လိုအပ်တာထက် ပိုမှီခိုနေမိတယ်လို့ ထင်ပါတယ်။"
+    },
+    {
+      "topic": "5. Environment (Part 15)",
+      "vocab": [
+        "pollution",
+        "recycling",
+        "carbon footprint",
+        "eco-friendly",
+        "reduce waste",
+        "climate change"
+      ],
+      "sample": "I try to reduce my carbon footprint by walking or cycling wherever possible. Governments should do more, though.",
+      "mm": "တတ်နိုင်သမျှ လမ်းလျှောက်ခြင်း သို့မဟုတ် စက်ဘီးစီးခြင်းဖြင့် မိမိကြောင့်ထွက်ရှိမည့် ကာဗွန်ပမာဏကို လျှော့ချဖို့ ကြိုးစားပါတယ်။ ဒါပေမဲ့ အစိုးရတွေဘက်ကလည်း ဒီထက်ပိုလုပ်ပေးသင့်ပါတယ်။"
+    },
+    {
+      "topic": "6. Travel (Part 15)",
+      "vocab": [
+        "explore",
+        "sightseeing",
+        "off the beaten track",
+        "immerse yourself",
+        "culture shock",
+        "itinerary"
+      ],
+      "sample": "The most memorable trip I took was to a small village where I could immerse myself in the local culture.",
+      "mm": "အမှတ်ရဆုံး ခရီးစဉ်ကတော့ ဒေသခံယဉ်ကျေးမှုထဲ ကိုယ်တိုင်ကိုယ်ကျ စီးမျောလေ့လာခွင့် ရခဲ့တဲ့ ရွာငယ်လေးတစ်ရွာကို သွားခဲ့တဲ့ ခရီးဖြစ်ပါတယ်။"
+    },
+    {
+      "topic": "7. Food (Part 15)",
+      "vocab": [
+        "cuisine",
+        "traditional dish",
+        "home-cooked",
+        "fast food",
+        "healthy eating",
+        "flavour"
+      ],
+      "sample": "I'm a big fan of traditional home-cooked meals. There's something special about food that's been made with care.",
+      "mm": "ကျွန်တော်က အိမ်ချက် ရိုးရာဟင်းလျာတွေကို အရမ်းသဘောကျပါတယ်။ စေတနာထားပြီး ချက်ပြုတ်ထားတဲ့ အစားအစာမှာ ထူးခြားတဲ့ အရသာရှိပါတယ်။"
+    },
+    {
+      "topic": "8. Music, Weekends & Making Friends (Part 27 Band 7+ Samples)",
+      "vocab": [
+        "wide range of genres",
+        "tend to",
+        "catch up on reading",
+        "community events",
+        "build a real friendship"
+      ],
+      "sample": "Music: Yes, I do. I'm quite into a wide range of genres, although I tend to listen to jazz most often. I find it relaxing, especially after a long day. | Weekends: It really depends on the weather. If it's sunny, I usually go for a walk in the park or meet friends for lunch. When it's raining, I tend to stay in and catch up on reading. | Friends: I'd say it's fairly easy, mainly because there are lots of clubs and community events. That said, it takes time to build a real friendship, so it's not always quick.",
+      "mm": "Part 27 မှ Music, Weekends နှင့် Making Friends မေးခွန်း ၃ ခုအတွက် အကြောင်းပြချက်နှင့် အခြေအနေခွဲခြားပြထားသော နမူနာအဖြေများ။"
+    },
+    {
+      "topic": "9. Cue Card & Part 3: Helping Someone (Part 27 Full Sample)",
+      "vocab": [
+        "overwhelmed by the move",
+        "small gesture",
+        "rely on technology",
+        "burden on others",
+        "self-reliance"
+      ],
+      "sample": "Part 2 (Helping a Neighbour): I'd like to talk about a time when I helped a neighbour who had just moved into our building. She was an older lady who had come from another city, and she seemed quite overwhelmed by the move. One afternoon I noticed she was struggling to carry several heavy boxes up the stairs, so I offered to help. We carried them together, and she was really grateful. What I remember most is how happy she was afterward. We ended up talking for quite a while, and since then we've become good friends. It made me realize how a small gesture can make a real difference to someone's day. | Part 3 (Do people help each other less today?): That's a tricky question. In some ways, I think people help each other less, because everyone is so busy... However, online communities have made it much easier to ask for help or offer support to people who are far away. So I'd say the way we help each other has changed rather than simply declined.",
+      "mm": "Part 2 (အိမ်ပြောင်းလာသော သက်ကြီးအိမ်နီးချင်းကို သေတ္တာများ ကူသယ်ပေးခဲ့ပုံ) နှင့် Part 3 (ယနေ့ခေတ် လူအချင်းချင်း ကူညီမှုပုံစံ ပြောင်းလဲလာပုံ) နမူနာအဖြေ အပြည့်အစုံ။"
+    }
+  ],
+  "listening_practice": {
+    "signposting": [
+      {
+        "func": "Introducing a new point",
+        "phrases": "The next thing I'd like to mention is...",
+        "mm": "အချက်အသစ်တစ်ခု စတင်ပြောဆိုခြင်း"
+      },
+      {
+        "func": "Giving important information",
+        "phrases": "What's important to remember is...",
+        "mm": "အရေးကြီးအချက်ကို အလေးပေးပြောခြင်း (အဖြေပါလေ့ရှိသည်)"
+      },
+      {
+        "func": "Correcting yourself (Common Trap!)",
+        "phrases": "Sorry, I mean... / Actually, let me correct that...",
+        "mm": "စကားမှားပြင်ဆိုခြင်း (ဥပမာ Tuesday, sorry, Wednesday ဆိုလျှင် Wednesday ကသာ အဖြေမှန်ဖြစ်သည်)"
+      },
+      {
+        "func": "Summarizing",
+        "phrases": "So, to sum up... / In short...",
+        "mm": "အနှစ်ချုပ်ပြောဆိုခြင်း"
+      },
+      {
+        "func": "Offering an alternative",
+        "phrases": "Alternatively, you could... / Another option would be...",
+        "mm": "အခြားရွေးချယ်စရာ တင်ပြခြင်း"
+      },
+      {
+        "func": "Expressing a final decision",
+        "phrases": "So, we'll go with...",
+        "mm": "နောက်ဆုံး ဆုံးဖြတ်ချက်ချခြင်း (Form/Multiple Choice အဖြေဖြစ်လေ့ရှိသည်)"
+      }
+    ],
+    "spellingTraps": [
+      {
+        "cat": "Letters that sound alike",
+        "examples": "b / p, d / t, f / v, m / n",
+        "mm": "အသံထွက် ဆင်တူသော အက္ခရာများ"
+      },
+      {
+        "cat": "Silent letters",
+        "examples": "knife, lamb, island, Wednesday",
+        "mm": "အသံမထွက်သော်လည်း စာလုံးပေါင်းတွင် ထည့်ရေးရသော အက္ခရာများ"
+      },
+      {
+        "cat": "Double letters (High Frequency)",
+        "examples": "accommodation, necessary, committee, address",
+        "mm": "စာလုံးနှစ်ထပ် ပါဝင်သော အမှားများသည့် စာလုံးများ"
+      },
+      {
+        "cat": "Map Direction Vocabulary",
+        "examples": "north, south, east, west, opposite, next to, between, adjacent to, at the far end of, in the corner, near the entrance, behind, beside",
+        "mm": "Map Labeling တွင် မသိမဖြစ် တည်နေရာပြ စကားလုံးများ"
+      }
+    ],
+    "sets": [
+      {
+        "id": "ls1",
+        "title": "Set 1: City Fitness Gym Membership Call (Part 30 — Form Completion)",
+        "instruction": "NO MORE THAN TWO WORDS OR A NUMBER for each answer. Click '🔊 Play Audio Transcript' to listen or read the transcript below.",
+        "audioText": "Good morning, City Fitness. How can I help you? Hi, I'd like to join. My name is Daniel Ortega. That's O R T E G A. Thank you, Daniel. Could I take your phone number? Sure. It's oh seven nine two, five five one, eight four six. Got it. We have two membership options: a monthly plan at thirty-five pounds, or an annual plan. Which would you prefer? The monthly one, please. I'd like to start on Monday the fourteenth. That's fine. Would you like access to the swimming pool as well? Yes, definitely. The pool is one of the main reasons I'm joining.",
+        "transcript": "Receptionist: Good morning, City Fitness. How can I help you?\nCustomer: Hi, I'd like to join. My name is Daniel Ortega. That's O-R-T-E-G-A.\nReceptionist: Thank you, Daniel. Could I take your phone number?\nCustomer: Sure. It's oh-seven-nine-two, five-five-one, eight-four-six.\nReceptionist: Got it. We have two membership options: a monthly plan at thirty-five pounds, or an annual plan. Which would you prefer?\nCustomer: The monthly one, please. I'd like to start on Monday the fourteenth.\nReceptionist: That's fine. Would you like access to the swimming pool as well?\nCustomer: Yes, definitely. The pool is one of the main reasons I'm joining.",
+        "questions": [
+          {
+            "q": "1. Surname:",
+            "ans": "ORTEGA",
+            "note": "Spelled out letter by letter: O-R-T-E-G-A."
+          },
+          {
+            "q": "2. Phone number:",
+            "ans": "0792 551 846",
+            "note": "'oh-seven-nine-two, five-five-one, eight-four-six'."
+          },
+          {
+            "q": "3. Membership type:",
+            "ans": "Monthly",
+            "note": "Customer says: 'The monthly one, please.'"
+          },
+          {
+            "q": "4. Start date:",
+            "ans": "14th",
+            "note": "Customer says: 'Monday the fourteenth.'"
+          },
+          {
+            "q": "5. Additional facility:",
+            "ans": "Swimming pool",
+            "note": "Receptionist asks about the 'swimming pool' and customer confirms."
+          }
+        ]
+      },
+      {
+        "id": "ls2",
+        "title": "Set 2: University Library Tour (Part 33 — Map Labeling)",
+        "instruction": "Match each location (1–5) to the correct letter (A–G) from the map options: A = Lecture theatre, B = Café, C = Study area, D = Computer lab, E = Stairs, F = Reading room, G = Photocopy room (Distractor).",
+        "audioText": "Welcome to the university library tour. We'll start at the main entrance, which faces the car park. To your left is the café, which is directly opposite the lecture theatre. Beyond the café is the study area, where you'll find quiet rooms on the first floor. Next to the study area, between the café and the stairs, is the computer lab. Finally, the reading room is at the far end of the building, behind the photocopy room.",
+        "transcript": "Tour Guide: Welcome to the university library tour. We'll start at the main entrance, which faces the car park. To your left is the café [B], which is directly opposite the lecture theatre [A]. Beyond the café is the study area [C], where you'll find quiet rooms on the first floor. Next to the study area, between the café and the stairs [E], is the computer lab [D]. Finally, the reading room [F] is at the far end of the building, behind the photocopy room [G].",
+        "questions": [
+          {
+            "q": "1. Café:",
+            "ans": "B",
+            "note": "'To your left is the café.'"
+          },
+          {
+            "q": "2. Study area:",
+            "ans": "C",
+            "note": "'Beyond the café is the study area.'"
+          },
+          {
+            "q": "3. Computer lab:",
+            "ans": "D",
+            "note": "'Next to the study area, between the café and the stairs, is the computer lab.'"
+          },
+          {
+            "q": "4. Reading room:",
+            "ans": "F",
+            "note": "'The reading room is at the far end of the building.'"
+          },
+          {
+            "q": "5. Lecture theatre:",
+            "ans": "A",
+            "note": "'The café is directly opposite the lecture theatre.'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -7,3 +7,4 @@ service-account*.json
 test_*.js
 verify.py
 find_unclosed.py
+graphify-out/
