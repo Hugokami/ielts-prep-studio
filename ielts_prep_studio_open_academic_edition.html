@@ -2142,6 +2142,85 @@
     }
   }
 
+
+  /* =========================================================
+     PROGRESSIVE DISCLOSURE: SINGLE-ACTIVE-TAB ARCHITECTURE
+     ========================================================= */
+  .studio-tab-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.18s ease-in-out;
+  }
+
+  .studio-tab-section.active-tab,
+  .studio-tab-section.active {
+    display: block !important;
+    opacity: 1;
+    animation: fadeInTab 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Active State Styling for Top Navigation Pills */
+  .nav-tab-btn.is-active,
+  .nav-link.active,
+  .nav-link.is-active {
+    background: var(--accent, #e06c35) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 10px rgba(224, 108, 53, 0.35) !important;
+  }
+
+  .mob-nav-btn.active,
+  .mob-nav-btn.is-active {
+    color: var(--accent, #e06c35) !important;
+    border-top: 2px solid var(--accent, #e06c35);
+    background: rgba(224, 108, 53, 0.08);
+  }
+
+  /* Collapsible Reference Accordions inside Active Tabs */
+  .reference-accordion {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 1.25rem 0;
+    background: var(--bg-card);
+    overflow: hidden;
+  }
+  .reference-accordion summary {
+    cursor: pointer;
+    padding: 0.85rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid transparent;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .reference-accordion summary:hover {
+    background: var(--bg-card-hover, #18181b);
+  }
+  .reference-accordion[open] summary {
+    border-bottom-color: var(--border);
+  }
+  .reference-accordion summary::after {
+    content: "▼";
+    font-size: 0.72rem;
+    transition: transform 0.2s ease;
+    opacity: 0.75;
+  }
+  .reference-accordion[open] summary::after {
+    transform: rotate(180deg);
+  }
+  .reference-accordion-body {
+    padding: 1.25rem;
+  }
+
 </style>
 </head>
 <body>
@@ -2158,25 +2237,25 @@
     </button>
 
     <nav class="nav-links" role="tablist" aria-label="Main Study Sections">
-      <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" onclick="switchView('overview')">
+      <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="1" onclick="switchView('overview')">
         <span class="nav-step-num">1</span> Overview
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-playbook" onclick="switchView('playbook')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-playbook" data-target-tab="2" onclick="switchView('playbook')">
         <span class="nav-step-num">2</span> Playbook
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" onclick="switchView('speaking')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="3" onclick="switchView('speaking')">
         <span class="nav-step-num">3</span> Speaking
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" onclick="switchView('lexicon')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="4" onclick="switchView('lexicon')">
         <span class="nav-step-num">4</span> Lexicon (1,162)
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-paraphrase" onclick="switchView('paraphrase')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-paraphrase" data-target-tab="5" onclick="switchView('paraphrase')">
         <span class="nav-step-num">5</span> Grammar &amp; Drills
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" onclick="switchView('reading')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="6" onclick="switchView('reading')">
         <span class="nav-step-num">6</span> Reading &amp; Listening
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" onclick="switchView('writing')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="7" onclick="switchView('writing')">
         <span class="nav-step-num">7</span> Writing Lab
       </button>
     </nav>
@@ -2216,25 +2295,25 @@
 
 <!-- MOBILE BOTTOM NAVIGATION BAR (VISIBLE ON < 860PX) -->
 <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Section Navigation">
-  <button class="mob-nav-btn active" id="mob-overview" onclick="switchView('overview')">
+  <button class="mob-nav-btn active" id="mob-overview" data-target-tab="1" onclick="switchView('overview')">
     <span class="mob-nav-icon">🏠</span><span>1.Plan</span>
   </button>
-  <button class="mob-nav-btn" id="mob-playbook" onclick="switchView('playbook')">
+  <button class="mob-nav-btn" id="mob-playbook" data-target-tab="2" onclick="switchView('playbook')">
     <span class="mob-nav-icon">📘</span><span>2.Rules</span>
   </button>
-  <button class="mob-nav-btn" id="mob-speaking" onclick="switchView('speaking')">
+  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="3" onclick="switchView('speaking')">
     <span class="mob-nav-icon">🎙️</span><span>3.Speak</span>
   </button>
-  <button class="mob-nav-btn" id="mob-lexicon" onclick="switchView('lexicon')">
+  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="4" onclick="switchView('lexicon')">
     <span class="mob-nav-icon">🔤</span><span>4.Vocab</span>
   </button>
-  <button class="mob-nav-btn" id="mob-paraphrase" onclick="switchView('paraphrase')">
+  <button class="mob-nav-btn" id="mob-paraphrase" data-target-tab="5" onclick="switchView('paraphrase')">
     <span class="mob-nav-icon">⚡</span><span>5.Drills</span>
   </button>
-  <button class="mob-nav-btn" id="mob-reading" onclick="switchView('reading')">
+  <button class="mob-nav-btn" id="mob-reading" data-target-tab="6" onclick="switchView('reading')">
     <span class="mob-nav-icon">📖</span><span>6.Read/Lis</span>
   </button>
-  <button class="mob-nav-btn" id="mob-writing" onclick="switchView('writing')">
+  <button class="mob-nav-btn" id="mob-writing" data-target-tab="7" onclick="switchView('writing')">
     <span class="mob-nav-icon">✍️</span><span>7.Write</span>
   </button>
 </nav>
@@ -2244,7 +2323,7 @@
   <!-- =========================================================
        VIEW 1: OVERVIEW, QUICK-START ROUTINE & STUDY PLAN
        ========================================================= -->
-  <section id="view-overview" class="view-section active" aria-labelledby="tab-overview">
+  <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="1" aria-labelledby="tab-overview">
 
     <!-- Beginner-Friendly How-To Banner -->
     <div class="section-guide-banner">
@@ -2280,7 +2359,7 @@
       <div class="hero-left">
         <h1 class="hero-title">Master Academic IELTS.</h1>
         <p class="hero-desc">
-          Practice 23 Reading CBT passages (231 questions), 2 Audio Listening sets, 30 Task 1 &amp; Task 2 Writing models, 30 Speaking Forecast Topics &amp; 5 Frameworks with real microphone recording, and 1,162 Band 8.0–9.0 vocabulary items &amp; exam traps with 1-3-7 day Spaced Repetition.
+          Practice 23 Reading CBT passages (231 questions), 2 Audio Listening sets, 40 Task 1 &amp; Task 2 Writing models, 30 Speaking Forecast Topics &amp; 5 Frameworks with real microphone recording, and 1,162 Band 8.0–9.0 vocabulary items &amp; exam traps with 1-3-7 day Spaced Repetition.
         </p>
         <button class="accent-link" onclick="switchView('lexicon')">
           Explore 1,162 Band 8.0–9.0 lexicon entries &amp; exam traps across 26 varieties + all 34 Exam Essentials modules ↗
@@ -2417,11 +2496,11 @@
               </div>
               <div class="occ-meta-right">
                 <span class="occ-ver-pill">40 Models</span>
-                <div class="occ-size-sub" id="card-kpi-write">0 / 30 Saved</div>
+                <div class="occ-size-sub" id="card-kpi-write">0 / 40 Saved</div>
               </div>
             </div>
             <div class="occ-body-mm burmese">
-              <div class="occ-mm-note">Task 1 နှင့် Task 2 မေးခွန်း ၃၀ ပုဒ်ကို C1/C2 ဝေါဟာရ အချိုးအစား တိုင်းတာစက်နှင့် Band Score အကဲဖြတ်စနစ်ဖြင့် လေ့ကျင့်ရန်။</div>
+              <div class="occ-mm-note">Task 1 နှင့် Task 2 မေးခွန်း ၄၀ ပုဒ်ကို C1/C2 ဝေါဟာရ အချိုးအစား တိုင်းတာစက်နှင့် Band Score အကဲဖြတ်စနစ်ဖြင့် လေ့ကျင့်ရန်။</div>
             </div>
           </div>
           <div style="margin-top:12px;">
@@ -2522,7 +2601,7 @@
   <!-- =========================================================
        VIEW 2: ACADEMIC EXAM PLAYBOOK
        ========================================================= -->
-  <section id="view-playbook" class="view-section" aria-labelledby="tab-playbook">
+  <section id="view-playbook" class="view-section studio-tab-section" data-tab-index="2" aria-labelledby="tab-playbook">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 2 GUIDE // ACADEMIC EXAM RULES</div>
@@ -2799,7 +2878,7 @@
   <!-- =========================================================
        VIEW 3: BAND 9 SPEAKING STUDIO (WITH VOICE RECORDER)
        ========================================================= -->
-  <section id="view-speaking" class="view-section" aria-labelledby="tab-speaking">
+  <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="3" aria-labelledby="tab-speaking">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 3 GUIDE // SPEAKING STUDIO &amp; MICROPHONE RECORDER</div>
@@ -2859,6 +2938,20 @@
               <button class="btn-accent-solid" id="micRecBtn" onclick="toggleMicRecording()">🎙️ Record My Voice</button>
               <button class="btn-outlined" id="micStopBtn" onclick="stopMicRecording()" disabled>⏹ Stop</button>
               <a id="micDownloadLink" class="btn-outlined" style="display:none; text-decoration:none;" download="ielts_speaking_practice.webm">⬇ Save Audio</a>
+            </div>
+            <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector) -->
+            <div id="speaking-analytics-panel" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);">
+              <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
+                <div style="display: flex; gap: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; align-items: center;">
+                  <span>⏱ Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
+                  <span>💬 Words: <strong id="sr-word-count">0</strong></span>
+                  <span>⚠️ Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
+                </div>
+              </div>
+              <div id="sr-transcript-output" style="min-height: 64px; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg-elevated); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border);">
+                <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and speak your response. Your live speech transcript, speaking pace (WPM), and highlighted filler words will appear here automatically.</em>
+              </div>
             </div>
             <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
             <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
@@ -2944,7 +3037,7 @@
   <!-- =========================================================
        VIEW 4: LEXICON & EXAM TRAPS (1,162 ENTRIES + 1-3-7 DAY SRS)
        ========================================================= -->
-  <section id="view-lexicon" class="view-section" aria-labelledby="tab-lexicon">
+  <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="4" aria-labelledby="tab-lexicon">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 4 GUIDE // 1,162 LEXICON &amp; EXAM TRAPS (1-3-7 DAY SRS)</div>
@@ -3056,7 +3149,7 @@
   <!-- =========================================================
        VIEW 5: GRAMMAR & PARAPHRASE DRILLS
        ========================================================= -->
-  <section id="view-paraphrase" class="view-section" aria-labelledby="tab-paraphrase">
+  <section id="view-paraphrase" class="view-section studio-tab-section" data-tab-index="5" aria-labelledby="tab-paraphrase">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 5 GUIDE // CONTEXTUAL PARAPHRASE &amp; GRAMMAR DRILLS</div>
@@ -3177,12 +3270,12 @@
   </section>
 
   <!-- =========================================================
-       VIEW 6: READING CBT SIMULATOR (30 PASSAGES) &amp; LISTENING LAB (4 SETS)
+       VIEW 6: READING CBT SIMULATOR (23 PASSAGES · 231 QUESTIONS) &amp; LISTENING LAB (2 AUDIO TESTS + 2 SKILL GUIDES)
        ========================================================= -->
-  <section id="view-reading" class="view-section" aria-labelledby="tab-reading">
+  <section id="view-reading" class="view-section studio-tab-section" data-tab-index="6" aria-labelledby="tab-reading">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">SECTION 6 GUIDE // READING CBT SIMULATOR (30 PASSAGES · 300+ QUESTIONS) &amp; LISTENING LAB (4 SETS) (2 AUDIO SETS)</div>
+        <div class="section-guide-title">SECTION 6 GUIDE // READING CBT SIMULATOR (23 PASSAGES · 231 QUESTIONS) &amp; LISTENING LAB (2 AUDIO TESTS + 2 SKILL GUIDES)</div>
         <div class="section-guide-text">
           Select any of the <strong>23 Academic Reading CBT Passages</strong> (231 authentic IELTS questions with Burmese evidence citations), or jump down to the <strong>Interactive Listening Lab</strong> to play audio recordings and check spelling.
         </div>
@@ -3194,7 +3287,7 @@
 
     <div class="subnav-strip" role="navigation" aria-label="Reading and Listening Sub-sections">
       <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#rd-cbt-sec">↓ 30 Reading CBT Mock Passages</a>
+      <a class="subnav-pill" href="#rd-cbt-sec">↓ 23 Reading CBT Mock Passages</a>
       <a class="subnav-pill" href="#rd-tactics-sec">↓ Reading Signal Words &amp; Tactics</a>
       <a class="subnav-pill" href="#rd-listening-sec">↓ Interactive Listening Lab (2 Audio Sets)</a>
     </div>
@@ -3202,7 +3295,7 @@
     <div id="rd-cbt-sec">
       <div class="sec-eyebrow">COMPUTER-BASED READING SIMULATION</div>
       <div class="sec-header-row">
-        <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">30 Passages · 300+ Questions</span></h2>
+        <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">23 Passages · 231 Questions</span></h2>
         <div class="sec-timestamp" id="rMetaBadge"></div>
       </div>
 
@@ -3332,7 +3425,7 @@
   <!-- =========================================================
        VIEW 7: WRITING LAB (40 MODELS + CEFR 90/10 &amp; RUBRIC SCORER)
        ========================================================= -->
-  <section id="view-writing" class="view-section" aria-labelledby="tab-writing">
+  <section id="view-writing" class="view-section studio-tab-section" data-tab-index="7" aria-labelledby="tab-writing">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 7 GUIDE // 40 WRITING MODELS, LIVE CEFR 90/10 METER &amp; 4-CRITERION RUBRIC SCORER</div>
@@ -3427,13 +3520,13 @@
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
-            <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;">✨ AI Examiner Grade (Gemini 3.5 Flash)</button>
+            <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;">✨ AI Examiner Grade (Gemini 2.5 Flash)</button>
             <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()">🔍 Full CEFR &amp; Trap Audit (5 Free/Mo)</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
 
-          <!-- Google Gemini 3.5 Flash Examiner Evaluation Container -->
+          <!-- Google Gemini 2.5 Flash Examiner Evaluation Container -->
           <div id="geminiAuditResult" style="display:none; margin-top:14px; padding:16px; background:var(--bg); border:1px solid var(--accent); border-radius:6px; box-sizing:border-box;"></div>
 
           <div style="margin-top:14px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:3px;">
@@ -3548,7 +3641,7 @@
 <div id="quickSearchModal" class="modal-backdrop" onclick="if(event.target===this) closeQuickSearchModal()">
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Global Quick Search">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <div class="sec-eyebrow" style="margin-bottom:0;">GLOBAL QUICK SEARCH // 1,162 WORDS · 30 READING · 40 WRITING · 50 SPEAKING · 4 LISTENING</div>
+      <div class="sec-eyebrow" style="margin-bottom:0;">GLOBAL QUICK SEARCH // 1,162 WORDS · 23 READING · 40 WRITING · 30 SPEAKING · 2 LISTENING</div>
       <button class="btn-outlined" style="padding:3px 9px; font-size:0.75rem;" onclick="closeQuickSearchModal()">ESC</button>
     </div>
     <input type="text" id="globalSearchInput" class="occ-input" style="width:100%; font-size:0.95rem; margin-bottom:12px;" placeholder="Type any English word, Burmese meaning, topic, or mock test title..." oninput="renderGlobalSearchResults()">
@@ -4260,32 +4353,54 @@ function applyFontScaleUI() {
   if (btn) btn.textContent = `A+ ${Math.round(appState.fontScale * 100)}%`;
 }
 
-function switchView(viewId) {
-  document.querySelectorAll(".view-section").forEach(s => s.classList.remove("active"));
+function switchView(viewId, scrollTargetEl = null) {
+  if (typeof window.activateStudioTab === "function") {
+    window.activateStudioTab(viewId, scrollTargetEl);
+    return;
+  }
+  document.querySelectorAll(".view-section, .studio-tab-section").forEach(s => {
+    s.classList.remove("active");
+    s.classList.remove("active-tab");
+  });
   document.querySelectorAll(".nav-link").forEach(b => {
     b.classList.remove("active");
+    b.classList.remove("is-active");
     b.setAttribute("aria-selected", "false");
   });
-  document.querySelectorAll(".mob-nav-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".mob-nav-btn").forEach(b => {
+    b.classList.remove("active");
+    b.classList.remove("is-active");
+  });
 
   const targetSec = document.getElementById("view-" + viewId);
-  if (targetSec) targetSec.classList.add("active");
+  if (targetSec) {
+    targetSec.classList.add("active");
+    targetSec.classList.add("active-tab");
+  }
 
   const tabBtn = document.getElementById("tab-" + viewId);
   if (tabBtn) {
     tabBtn.classList.add("active");
+    tabBtn.classList.add("is-active");
     tabBtn.setAttribute("aria-selected", "true");
   }
 
   const mobBtn = document.getElementById("mob-" + viewId);
-  if (mobBtn) mobBtn.classList.add("active");
+  if (mobBtn) {
+    mobBtn.classList.add("active");
+    mobBtn.classList.add("is-active");
+  }
 
   const floatBtn = document.getElementById("floatingCbtSwitchBtn");
   if (floatBtn) {
     floatBtn.style.display = (viewId === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
   }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (scrollTargetEl) {
+    scrollTargetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
 // ==========================================
@@ -5192,6 +5307,9 @@ async function toggleMicRecording() {
       stream.getTracks().forEach(t => t.stop());
     };
     mediaRecorder.start();
+    if (typeof window.startSpeakingDiagnostics === "function") {
+      window.startSpeakingDiagnostics();
+    }
     if (startBtn) startBtn.disabled = true;
     if (stopBtn) stopBtn.disabled = false;
     if (statusEl) statusEl.innerHTML = `<span style="color:var(--crimson); font-weight:700;">● Recording in progress... Speak naturally using the framework steps!</span>`;
@@ -5203,6 +5321,10 @@ async function toggleMicRecording() {
 function stopMicRecording() {
   const startBtn = document.getElementById("micRecBtn");
   const stopBtn = document.getElementById("micStopBtn");
+  
+  if (typeof window.stopSpeakingDiagnostics === "function") {
+    window.stopSpeakingDiagnostics();
+  }
   if (mediaRecorder && mediaRecorder.state !== "inactive") {
     mediaRecorder.stop();
   }
@@ -5234,7 +5356,7 @@ function renderSpeakingFramework(idx) {
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
           <div class="vip-lock-banner-title">🔒 VIP Framework: ${fw.name}</div>
-          <div class="vip-lock-banner-desc">Framework 1 (AREA) is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (AREA, PREP, PAST-PRESENT-FUTURE, CAUSE-EFFECT, STORY) + Full Band 9 Candidate Model Scripts with Lifetime VIP Pass!</div>
+          <div class="vip-lock-banner-desc">Framework 1 (PELL) is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (PELL, 123, AAA, STAR, PARA) + Full Band 9 Candidate Model Scripts with Lifetime VIP Pass!</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (55,000 MMK)</button>
       </div>
@@ -5786,7 +5908,7 @@ function renderAllEssentialsModules() {
               <div class="sec-eyebrow">INTERACTIVE LISTENING DRILL</div>
               <div class="occ-word-title" style="font-size:1.05rem;">${ls.title}</div>
             </div>
-            <button class="btn-accent-solid" style="padding:5px 10px; font-size:0.76rem;" onclick="speakText(${JSON.stringify(ls.audioText).replace(/"/g, '&quot;')})">🔊 Play Audio Recording</button>
+            <button class="btn-accent-solid" style="padding:5px 10px; font-size:0.76rem;" onclick="playListeningSetAudio(ls.id || (sIdx + 1), ${JSON.stringify(ls.audioText).replace(/"/g, '&quot;')})">🔊 Play Audio Recording</button>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">${ls.instruction}</p>
           <div style="display:grid; gap:8px; margin-bottom:12px;">
@@ -5980,7 +6102,7 @@ function initReadingMocks() {
   const groups = [
     { label: "🌱 Foundation & Diagnostic CBT Mocks (Passages 1–8)", start: 0, end: 8 },
     { label: "⭐ Authentic Cambridge CBT Mocks (Passages 9–18)", start: 8, end: 18 },
-    { label: "🏆 Advanced Cambridge Mastery Mocks (Passages 19–30)", start: 18, end: READING_MOCKS.length }
+    { label: "🏆 Advanced Cambridge Mastery Mocks (Passages 19–23)", start: 18, end: READING_MOCKS.length }
   ];
 
   sel.innerHTML = groups.map(g => {
@@ -6147,9 +6269,9 @@ function loadReadingMock() {
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
           <div class="vip-lock-banner-title">🔒 VIP Cambridge Reading Mock [${m.code}]</div>
-          <div class="vip-lock-banner-desc">Passages 1, 2 &amp; 3 are free. Unlock all 30 Cambridge Academic Reading CBT Mocks (300+ Questions) + Burmese Answer Evidence with Lifetime VIP Pass!</div>
+          <div class="vip-lock-banner-desc">Passages 1, 2 &amp; 3 are free. Unlock all 23 Cambridge Academic Reading CBT Mocks (231 Questions) + Burmese Answer Evidence with Lifetime VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 30 CBT Passages (55,000 MMK)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 23 CBT Passages (55,000 MMK)</button>
       </div>
       <div class="vip-gated-blur">
         <h3 style="font-size:1.18rem; font-weight:700; margin-bottom:16px;">${m.title}</h3>
@@ -6164,7 +6286,7 @@ function loadReadingMock() {
       <div class="vip-lock-banner" style="margin-top:0;">
         <div class="vip-lock-banner-text">
           <div class="vip-lock-banner-title">🔒 Questions Locked for VIP Pass</div>
-          <div class="vip-lock-banner-desc">Full ${m.questions ? m.questions.length : 13}-item authentic IELTS question sets, real-time band grading, and Burmese answer evidence across 30 CBT mocks are reserved for VIP members.</div>
+          <div class="vip-lock-banner-desc">Full ${m.questions ? m.questions.length : 13}-item authentic IELTS question sets, real-time band grading, and Burmese answer evidence across 23 CBT mocks are reserved for VIP members.</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get Lifetime VIP Pass (55,000 MMK)</button>
       </div>
@@ -6268,7 +6390,7 @@ function calculateReadingBand(correctCount, totalQuestions) {
 
 function gradeReading(idx) {
   if (!isVipActive() && idx >= READING_FREE_LIMIT) {
-    alert("Reading CBT autograding and Burmese evidence for Passages 4–30 are exclusive to Lifetime VIP Pass.");
+    alert("Reading CBT autograding and Burmese evidence for Passages 4–23 are exclusive to Lifetime VIP Pass.");
     openVipPassModal();
     return;
   }
@@ -6540,7 +6662,7 @@ function runManualWritingAudit() {
 }
 
 // ==========================================
-// GOOGLE GEMINI 3.5 FLASH EVALUATION ENGINE
+// GOOGLE GEMINI 2.5 FLASH EVALUATION ENGINE
 // ==========================================
 async function callGeminiApi(promptText, systemInstruction) {
   const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
@@ -6676,7 +6798,7 @@ function startGeminiButtonCooldown() {
       clearInterval(geminiCooldownTimer);
       geminiCooldownTimer = null;
       btn.disabled = false;
-      btn.innerHTML = `✨ AI Examiner Grade (Gemini 3.5 Flash)`;
+      btn.innerHTML = `✨ AI Examiner Grade (Gemini 2.5 Flash)`;
     } else {
       btn.innerHTML = `⏳ Rate Shield (${remaining}s)`;
     }
@@ -6731,14 +6853,14 @@ async function gradeEssayWithGemini() {
 
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = `⏳ Analyzing with Gemini 3.5 Flash...`;
+    btn.innerHTML = `⏳ Analyzing with Gemini 2.5 Flash...`;
   }
 
   resultBox.style.display = "block";
   resultBox.innerHTML = `
     <div style="display:flex; align-items:center; gap:10px; padding:12px; color:var(--text-secondary);">
       <div class="spinning-loader" style="width:18px; height:18px; border:2px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
-      <span>Sending prompt to Cambridge Examiner AI (Google Gemini 3.5 Flash)... Evaluating TA, CC, LR &amp; GRA rubrics.</span>
+      <span>Sending prompt to Cambridge Examiner AI (Google Gemini 2.5 Flash)... Evaluating TA, CC, LR &amp; GRA rubrics.</span>
     </div>
   `;
   resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -7070,7 +7192,7 @@ function renderGlobalSearchResults() {
   if (!box) return;
 
   if (!q) {
-    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">Type a keyword above to search across <strong>1,162 vocabulary entries &amp; exam traps</strong>, <strong>30 Reading CBT passages</strong>, <strong>40 Writing models</strong>, <strong>50 Speaking forecast topics</strong>, and <strong>4 Listening audio sets</strong>.</div>`;
+    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">Type a keyword above to search across <strong>1,162 vocabulary entries &amp; exam traps</strong>, <strong>23 Reading CBT passages</strong>, <strong>40 Writing models</strong>, <strong>30 Speaking forecast topics</strong>, and <strong>2 Listening audio tests</strong>.</div>`;
     return;
   }
 
@@ -7611,6 +7733,299 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+
+
+// =========================================================
+// PROGRESSIVE DISCLOSURE TAB MANAGER & DEEP-LINK INTERCEPTOR
+// =========================================================
+(function initStudioTabController() {
+  const TAB_MAP = {
+    '1': 'overview',
+    '2': 'playbook',
+    '3': 'speaking',
+    '4': 'lexicon',
+    '5': 'paraphrase',
+    '6': 'reading',
+    '7': 'writing',
+    'overview': '1',
+    'playbook': '2',
+    'speaking': '3',
+    'lexicon': '4',
+    'paraphrase': '5',
+    'reading': '6',
+    'writing': '7'
+  };
+
+  function activateStudioTab(tabIndex, scrollTargetEl = null) {
+    let targetIdx = String(tabIndex);
+    let viewId = TAB_MAP[targetIdx] || targetIdx;
+    if (isNaN(Number(targetIdx))) {
+      targetIdx = TAB_MAP[viewId] || '1';
+    }
+
+    const sections = document.querySelectorAll('.studio-tab-section, .view-section');
+    sections.forEach(sec => {
+      const matchByIdx = sec.getAttribute('data-tab-index') === targetIdx;
+      const matchById = sec.id === ('view-' + viewId);
+      const isMatch = matchByIdx || matchById;
+      sec.classList.toggle('active', isMatch);
+      sec.classList.toggle('active-tab', isMatch);
+    });
+
+    const navButtons = document.querySelectorAll('[data-target-tab], .nav-link, .mob-nav-btn');
+    navButtons.forEach(btn => {
+      const btnTarget = btn.getAttribute('data-target-tab');
+      const btnId = btn.id || '';
+      const isMatch = (btnTarget === targetIdx) || btnId.includes(viewId);
+      btn.classList.toggle('active', isMatch);
+      btn.classList.toggle('is-active', isMatch);
+      if (btn.hasAttribute('aria-selected')) {
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      }
+    });
+
+    const floatBtn = document.getElementById("floatingCbtSwitchBtn");
+    if (floatBtn) {
+      floatBtn.style.display = (viewId === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
+    }
+
+    try {
+      localStorage.setItem('ips_active_tab', targetIdx);
+    } catch (e) {}
+
+    if (scrollTargetEl) {
+      requestAnimationFrame(() => {
+        scrollTargetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // Expose globally
+  window.activateStudioTab = activateStudioTab;
+  window.switchView = function(viewId, scrollTargetEl = null) {
+    const tabIdx = TAB_MAP[viewId] || '1';
+    activateStudioTab(tabIdx, scrollTargetEl);
+  };
+
+  // Bind top & mobile navigation buttons with data-target-tab
+  document.querySelectorAll('[data-target-tab]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activateStudioTab(btn.getAttribute('data-target-tab'));
+    });
+  });
+
+  // Intercept all in-page anchor links (<a href="#...">)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute('href');
+    if (!hash || hash === '#') return;
+    try {
+      const targetEl = document.querySelector(hash);
+      if (!targetEl) return;
+
+      const parentDetails = targetEl.closest('details');
+      if (parentDetails) {
+        parentDetails.open = true;
+      }
+
+      const parentTab = targetEl.closest('.studio-tab-section, .view-section');
+      if (parentTab) {
+        e.preventDefault();
+        const tabIdx = parentTab.getAttribute('data-tab-index') || TAB_MAP[parentTab.id.replace('view-', '')] || '1';
+        activateStudioTab(tabIdx, targetEl);
+        history.replaceState(null, '', hash);
+      }
+    } catch (err) {}
+  });
+
+  // Restore last active tab or hash target on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const initialHash = window.location.hash;
+    if (initialHash) {
+      try {
+        const hashEl = document.querySelector(initialHash);
+        const parentTab = hashEl ? hashEl.closest('.studio-tab-section, .view-section') : null;
+        if (parentTab) {
+          const tabIdx = parentTab.getAttribute('data-tab-index') || TAB_MAP[parentTab.id.replace('view-', '')] || '1';
+          activateStudioTab(tabIdx, hashEl);
+          return;
+        }
+      } catch (err) {}
+    }
+    const savedTab = localStorage.getItem('ips_active_tab') || '1';
+    activateStudioTab(savedTab);
+  });
+})();
+
+// =========================================================
+// AUTOMATED SPEAKING TRANSCRIPTION & LIVE WPM/FILLER ENGINE
+// =========================================================
+(function initSpeakingTranscriber() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  let isRecordingSpeech = false;
+  let startTimeMs = 0;
+  let finalTranscriptText = '';
+
+  const FILLER_REGEX = /\b(um+|uh+|er+|ah+|hmm+|like|you know|basically|actually|sort of|kind of)\b/gi;
+
+  function renderAnalyzedTranscript(rawText, interimText = '') {
+    const combined = (rawText + ' ' + interimText).trim();
+    const statusBadge = document.getElementById('sr-status-badge');
+    const wpmEl = document.getElementById('sr-wpm-val');
+    const wordCountEl = document.getElementById('sr-word-count');
+    const fillerCountEl = document.getElementById('sr-filler-count');
+    const transcriptBox = document.getElementById('sr-transcript-output');
+
+    if (!combined) {
+      if (wpmEl) wpmEl.textContent = '0';
+      if (wordCountEl) wordCountEl.textContent = '0';
+      if (fillerCountEl) fillerCountEl.textContent = '0';
+      return;
+    }
+
+    const words = combined.split(/\s+/).filter(Boolean);
+    const elapsedMinutes = Math.max((Date.now() - startTimeMs) / 60000, 0.08);
+    const wpm = Math.round(words.length / elapsedMinutes);
+
+    const fillerMatches = combined.match(FILLER_REGEX) || [];
+
+    if (wpmEl) wpmEl.textContent = String(wpm);
+    if (wordCountEl) wordCountEl.textContent = String(words.length);
+    if (fillerCountEl) fillerCountEl.textContent = String(fillerMatches.length);
+
+    // Escape HTML and highlight filler words in red badges
+    const escapedHtml = combined
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(FILLER_REGEX, (match) => `<mark style="background:rgba(248,113,113,0.2);color:#f87171;padding:1px 5px;border-radius:4px;font-weight:700;border:1px solid rgba(248,113,113,0.4);">${match}</mark>`);
+
+    if (transcriptBox) {
+      transcriptBox.innerHTML = escapedHtml;
+    }
+  }
+
+  window.startSpeakingDiagnostics = function () {
+    finalTranscriptText = '';
+    startTimeMs = Date.now();
+    const statusBadge = document.getElementById('sr-status-badge');
+    const wpmEl = document.getElementById('sr-wpm-val');
+    const wordCountEl = document.getElementById('sr-word-count');
+    const fillerCountEl = document.getElementById('sr-filler-count');
+    const transcriptBox = document.getElementById('sr-transcript-output');
+
+    if (wpmEl) wpmEl.textContent = '0';
+    if (wordCountEl) wordCountEl.textContent = '0';
+    if (fillerCountEl) fillerCountEl.textContent = '0';
+
+    if (!SpeechRecognition) {
+      if (statusBadge) statusBadge.textContent = '(Browser Speech-to-Text unavailable — Recording audio only)';
+      if (transcriptBox) transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Speech-to-text is not supported by your current browser engine (Safari/Brave without Web Speech flags). Your voice audio is still recording in high-fidelity!</em>';
+      return;
+    }
+
+    try {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-GB';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => {
+        isRecordingSpeech = true;
+        if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--crimson); font-weight:700;">🔴 Live Transcribing...</span>';
+        if (transcriptBox) transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Listening... speak your response clearly now.</em>';
+      };
+
+      recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const chunk = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscriptText += chunk + ' ';
+          } else {
+            interim += chunk;
+          }
+        }
+        renderAnalyzedTranscript(finalTranscriptText, interim);
+      };
+
+      recognition.onerror = () => {
+        if (statusBadge) statusBadge.textContent = '(Audio recording active)';
+      };
+
+      recognition.onend = () => {
+        if (isRecordingSpeech) {
+          try { recognition.start(); } catch (e) {}
+        }
+      };
+
+      recognition.start();
+    } catch (e) {
+      if (statusBadge) statusBadge.textContent = '(Audio recording active)';
+    }
+  };
+
+  window.stopSpeakingDiagnostics = function () {
+    isRecordingSpeech = false;
+    if (recognition) {
+      try { recognition.stop(); } catch (e) {}
+    }
+    const statusBadge = document.getElementById('sr-status-badge');
+    if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--green); font-weight:700;">✅ Analysis Complete</span>';
+  };
+})();
+
+// =========================================================
+// HYBRID LISTENING LAB AUDIO PLAYER (NEURAL MP3 + TTS FALLBACK)
+// =========================================================
+(function initHybridListeningPlayer() {
+  let activeAudioEl = null;
+
+  window.playListeningSetAudio = function (setId, transcriptText, onStatusUpdate) {
+    if (activeAudioEl) {
+      activeAudioEl.pause();
+      activeAudioEl = null;
+    }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+
+    const audioPath = `data/audio/listening_set_${setId}.mp3`;
+    const audio = new Audio(audioPath);
+    activeAudioEl = audio;
+
+    let hasLoaded = false;
+    audio.addEventListener('canplaythrough', () => {
+      hasLoaded = true;
+      if (onStatusUpdate) onStatusUpdate('🔊 Playing Cambridge Neural Audio...');
+      audio.play().catch(() => fallbackToWebSpeech(transcriptText, onStatusUpdate));
+    }, { once: true });
+
+    audio.addEventListener('error', () => {
+      fallbackToWebSpeech(transcriptText, onStatusUpdate);
+    }, { once: true });
+
+    audio.load();
+  };
+
+  function fallbackToWebSpeech(transcriptText, onStatusUpdate) {
+    if (!('speechSynthesis' in window)) {
+      if (onStatusUpdate) onStatusUpdate('⚠️ Audio unavailable on this browser.');
+      return;
+    }
+    if (onStatusUpdate) onStatusUpdate('🔊 Playing via Browser TTS (en-GB)...');
+    const utterance = new SpeechSynthesisUtterance(transcriptText);
+    utterance.lang = 'en-GB';
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+  }
+})();
+
 </script>
 
   <!-- Tab 4 Upgrade: Active Collocation Cloze Gate Modal (Lexicon 2.0) -->
@@ -7649,7 +8064,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; white-space:nowrap;">55,000 MMK ONE-TIME</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.5;">
-            Pass your target IELTS band on your first attempt. Save over <strong>500,000 MMK</strong> in private tutoring fees with instant Cambridge 4-criterion AI grading, all 30 CBT simulations (300+ questions) &amp; the complete Band 8.5 preparation system forever.
+            Pass your target IELTS band on your first attempt. Save over <strong>500,000 MMK</strong> in private tutoring fees with instant Cambridge 4-criterion AI grading, all 23 CBT simulations (231 questions) &amp; the complete Band 8.5 preparation system forever.
           </p>
         </div>
         <button class="btn-outlined modal-close-btn" style="padding:6px 14px; font-size:0.82rem; font-weight:700; flex-shrink:0; white-space:nowrap; min-width:max-content;" onclick="closeVipPassModal()">✕ Close</button>
@@ -7678,7 +8093,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
             <li><strong>60 Gemini AI Examiner Evaluations / Mo</strong> (2 full essays every day • 3-second turnaround)</li>
             <li>Full 4 Cambridge criteria (TA, CC, LR, GRA) + Band 9.0 rewrites</li>
-            <li>All 30 Cambridge Reading CBTs (300+ Questions) + Burmese proof citations</li>
+            <li>All 23 Cambridge Reading CBTs (231 Questions) + Burmese proof citations</li>
             <li>All 40 Band 8.5/9.0 Writing models + structural essay skeletons</li>
             <li>All 1,162 high-yield entries (Collocations, 538 Reading Traps &amp; 179 Listening Traps)</li>
           </ul>
@@ -7709,7 +8124,7 @@ window.addEventListener("DOMContentLoaded", async () => {
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Timed Reading CBTs (231 Questions)</strong> with Burmese Evidence</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Band 8.5/9.0 Writing Models</strong> across Task 1 &amp; Task 2 Archetypes</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Band 8.5/9.0 Writing Models</strong> across Task 1 &amp; Task 2 Archetypes</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
               <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>60 Gemini AI Examiner Evaluations / Month</strong> (2 Full Essays Daily • Fair-Use)</span>
@@ -7796,7 +8211,7 @@ window.addEventListener("DOMContentLoaded", async () => {
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">2. Reading CBT Simulator</td>
                 <td style="padding:6px;">Mocks 1, 2 &amp; 3 (Full Timed CBTs)</td>
-                <td style="padding:6px; color:var(--accent);">All 30 CBT Passages (300+ Questions) + Burmese Evidence</td>
+                <td style="padding:6px; color:var(--accent);">All 23 CBT Passages (231 Questions) + Burmese Evidence</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
@@ -7805,8 +8220,8 @@ window.addEventListener("DOMContentLoaded", async () => {
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
-                <td style="padding:6px;">Topics 1, 2, 3 + Framework 1 (AREA)</td>
-                <td style="padding:6px; color:var(--accent);">All 50 Forecast Topics + 5 Frameworks &amp; Spoken Audio</td>
+                <td style="padding:6px;">Topics 1, 2, 3 + Framework 1 (PELL)</td>
+                <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Frameworks &amp; Spoken Audio</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">5. Grammar &amp; Drills</td>
