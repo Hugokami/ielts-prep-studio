@@ -1,3 +1,22 @@
+
+      <!-- Authentic Cambridge CBT Bottom Question Palette Bar -->
+      <div class="cbt-palette-bar" id="cbtPaletteBar">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Questions:</span>
+          <div class="cbt-palette-grid" id="cbtPaletteGrid"></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem;">
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:var(--accent); border-radius:2px; display:inline-block;"></span> Answered</span>
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; border:1px solid #eab308; background:rgba(234,179,8,0.2); border-radius:2px; display:inline-block;"></span> Flagged</span>
+          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> Next · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd> Flag</span>
+        </div>
+      </div>
+
+      <!-- Passage Selection Highlight Floating Toolbar -->
+      <div id="passageHighlightToolbar" style="display:none;">
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="applyPassageHighlight()">🟡 Highlight</button>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="clearPassageHighlight()">🧹 Clear</button>
+      </div>
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -2221,7 +2240,268 @@
     padding: 1.25rem;
   }
 
+
+  /* =========================================================
+     CBT QUESTION PALETTE & TEST-DAY SIMULATION
+     ========================================================= */
+  .cbt-palette-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 80;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
+  }
+  .cbt-palette-grid {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .cbt-q-pill {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--border-mid);
+    background: var(--bg);
+    color: var(--text-secondary);
+    position: relative;
+    transition: all 0.15s ease;
+  }
+  .cbt-q-pill:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .cbt-q-pill.answered {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+  }
+  .cbt-q-pill.current {
+    box-shadow: 0 0 0 2px var(--teal, #38bdf8);
+  }
+  .cbt-q-pill.flagged::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    border-color: transparent #eab308 transparent transparent;
+  }
+  .flag-q-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+  }
+  .flag-q-btn:hover {
+    border-color: #eab308;
+    color: #eab308;
+  }
+  .flag-q-btn.is-flagged {
+    background: rgba(234, 179, 8, 0.15);
+    border-color: #eab308;
+    color: #eab308;
+    font-weight: 700;
+  }
+
+  /* CBT Split Ratios */
+  .cbt-split-65-35 {
+    grid-template-columns: 1.65fr 1fr !important;
+  }
+  .cbt-split-35-65 {
+    grid-template-columns: 1fr 1.65fr !important;
+  }
+
+  /* Passage Text Highlighting */
+  .cbt-user-highlight {
+    background: rgba(254, 240, 138, 0.35);
+    color: inherit;
+    border-bottom: 2px solid #eab308;
+    padding: 1px 2px;
+    border-radius: 2px;
+  }
+  #passageHighlightToolbar {
+    position: absolute;
+    z-index: 1000;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    display: flex;
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  /* Speaking Pacing Speedometer & Hesitation Badges */
+  .sr-pace-gauge {
+    margin-top: 6px;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .sr-pace-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+  .filler-badge-item {
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+    font-weight: 700;
+    border: 1px solid rgba(248, 113, 113, 0.3);
+  }
+
+  /* Writing Paragraph Structure Radar & Weak Word Tooltip */
+  .writing-paragraph-radar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 0.78rem;
+  }
+  .para-pill {
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-mid);
+    font-weight: 600;
+  }
+  .weak-word-underline {
+    border-bottom: 1px dashed var(--accent);
+    cursor: pointer;
+  }
+  #weakWordTooltip {
+    position: absolute;
+    z-index: 200;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    font-size: 0.8rem;
+    max-width: 260px;
+  }
+
+  /* Listening Speed & Sentence Sync */
+  .ls-speed-btn.is-active {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+    border-color: var(--accent) !important;
+  }
+  .ls-sentence-clickable {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 1px 3px;
+    transition: background 0.15s ease;
+  }
+  .ls-sentence-clickable:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* Mobile Floating Action Button */
+  #mobileFabContainer {
+    position: fixed;
+    bottom: 74px;
+    right: 18px;
+    z-index: 150;
+    display: none;
+  }
+  @media (max-width: 768px) {
+    #mobileFabContainer {
+      display: block;
+    }
+  }
+  .mobile-fab-main {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 14px rgba(224, 108, 53, 0.45);
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease;
+  }
+  .mobile-fab-main:active {
+    transform: scale(0.92);
+  }
+  .mobile-fab-menu {
+    position: absolute;
+    bottom: 52px;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    min-width: 140px;
+  }
+  .mobile-fab-menu.show {
+    display: flex;
+    animation: fadeInTab 0.15s ease;
+  }
+  .mobile-fab-item {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
 </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#e06c35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
@@ -2942,15 +3222,33 @@
             <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector) -->
             <div id="speaking-analytics-panel" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);">
               <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                  <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
+                  <canvas id="micVuCanvas" width="120" height="18" style="border-radius:3px; background:rgba(0,0,0,0.3); vertical-align:middle;" title="Real-time Microphone Audio Input"></canvas>
+                </div>
                 <div style="display: flex; gap: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; align-items: center;">
                   <span>⏱ Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
                   <span>💬 Words: <strong id="sr-word-count">0</strong></span>
                   <span>⚠️ Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
                 </div>
               </div>
+              <div class="sr-pace-gauge">
+                <div id="sr-wpm-bar" class="sr-pace-fill"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-secondary); margin:3px 0 8px 0;">
+                <span>Slow (&lt;110 WPM)</span>
+                <span id="sr-pace-status" style="color:var(--green); font-weight:700;">Target: 120–150 WPM</span>
+                <span>Fast (&gt;165 WPM)</span>
+              </div>
               <div id="sr-transcript-output" style="min-height: 64px; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg-elevated); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border);">
                 <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and speak your response. Your live speech transcript, speaking pace (WPM), and highlighted filler words will appear here automatically.</em>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
+                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="sendSpeakingTranscriptToWriting()">✍️ Send to Writing Editor</button>
+                </div>
               </div>
             </div>
             <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
@@ -3064,6 +3362,13 @@
         <div class="sec-timestamp">Click 🔊 to hear British pronunciation • Click any synonym to pronounce</div>
       </div>
 
+      <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; align-items:center;">
+        <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">Quick Filters:</span>
+        <button class="btn-outlined is-active" id="btn-trap-all" onclick="filterLexiconByTrap('ALL')" style="padding:2px 8px; font-size:0.72rem;">All (1,162)</button>
+        <button class="btn-outlined" id="btn-trap-traps" onclick="filterLexiconByTrap('TRAP')" style="padding:2px 8px; font-size:0.72rem;">⚠️ False Friends &amp; Traps</button>
+        <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;">💬 Band 9 Collocations</button>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; margin-left:auto; border-color:var(--accent); color:var(--accent);" onclick="exportLexiconToAnki()">📥 Export to Anki (TSV)</button>
+      </div>
       <div class="occ-toolbar">
         <input type="text" id="lexSearch" class="occ-input" style="flex:1; min-width:200px;" placeholder="Search English word, synonym, collocation, or Burmese meaning..." oninput="renderLexiconGrid()" aria-label="Search Lexicon">
         <select id="lexVariety" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Variety"></select>
@@ -3297,10 +3602,31 @@
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">23 Passages · 231 Questions</span></h2>
         <div class="sec-timestamp" id="rMetaBadge"></div>
+      <!-- Interactive Listening Lab Speed & Fuzzy Tolerance Controls -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0; padding:8px 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px;">
+        <div class="listening-speed-bar" style="display:flex; align-items:center; gap:6px;">
+          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Audio Speed:</span>
+          <button class="btn-outlined is-active ls-speed-btn" id="btn-ls-spd-10" onclick="setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem;">1.0x</button>
+          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-08" onclick="setListeningSpeed(0.85)" style="padding:2px 8px; font-size:0.72rem;">0.85x</button>
+          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-12" onclick="setListeningSpeed(1.15)" style="padding:2px 8px; font-size:0.72rem;">1.15x</button>
+        </div>
+        <div>
+          <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; cursor:pointer;">
+            <input type="checkbox" id="lsFuzzyToleranceToggle" onchange="toggleListeningFuzzyMode(this.checked)">
+            <span>Learning Mode (Typo-Tolerant, ±1 letter)</span>
+          </label>
+        </div>
+      </div>
       </div>
 
       <div class="occ-toolbar">
         <select id="rSelect" class="occ-select" style="flex:1; min-width:220px;" onchange="loadReadingMock()" aria-label="Select Reading Passage"></select>
+        <div class="cbt-ratio-selector" style="display:inline-flex; gap:4px; align-items:center;">
+          <span style="font-size:0.72rem; color:var(--text-secondary); font-weight:700;">Split:</span>
+          <button class="btn-outlined is-active" id="btn-split-50" onclick="setCbtSplitRatio('50-50')" style="padding:3px 7px; font-size:0.72rem;">50/50</button>
+          <button class="btn-outlined" id="btn-split-65p" onclick="setCbtSplitRatio('65-35')" style="padding:3px 7px; font-size:0.72rem;">65% Text</button>
+          <button class="btn-outlined" id="btn-split-65q" onclick="setCbtSplitRatio('35-65')" style="padding:3px 7px; font-size:0.72rem;">65% Qs</button>
+        </div>
         <span class="occ-ver-pill" id="rClock" style="font-size:0.9rem; padding:6px 12px;" aria-live="polite">20:00</span>
         <button class="btn-accent-solid" id="rClockBtn" onclick="toggleRClock()">Start Timer</button>
         <button class="btn-outlined" onclick="resetRClock()">Reset</button>
@@ -3503,6 +3829,7 @@
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
               <span class="occ-ver-pill" id="liveWordBadge">0 words</span>
+              <span class="occ-ver-pill" id="writingAutosaveStatus" style="color:var(--green); font-size:0.7rem; font-weight:700;">✓ Autosaved</span>
               <span class="occ-ver-pill" id="liveParaBadge">0 paras</span>
               <span class="occ-ver-pill" id="liveCefrBadge" title="Target 5% to 10% C1/C2 vocabulary (90/10 Rule)">0% C1/C2</span>
             </div>
@@ -3516,7 +3843,16 @@
             </div>
             <div id="bounty-pills" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
           </div>
-          <textarea id="essayArea" class="essay-pad" placeholder="Compose your IELTS response here..." oninput="runLiveWritingDiagnostics()" aria-label="Essay writing editor"></textarea>
+          <textarea <!-- Paragraph Structure Radar & Autosave Indicator -->
+          <div class="writing-paragraph-radar" id="writingParagraphRadar">
+            <span>📊 Paragraph Radar:</span>
+            <span class="para-pill" id="radarIntro">Intro: 0w</span>
+            <span class="para-pill" id="radarBody1">Body 1: 0w</span>
+            <span class="para-pill" id="radarBody2">Body 2: 0w</span>
+            <span class="para-pill" id="radarConcl">Conclusion: 0w</span>
+            <span id="radarBalanceAlert" style="display:none; color:#f87171; font-weight:700;">⚠️ Body paragraphs asymmetrical (&gt;50w difference)</span>
+          </div>
+          id="essayArea" class="essay-pad" placeholder="Compose your IELTS response here..." oninput="runLiveWritingDiagnostics()" aria-label="Essay writing editor"></textarea>
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
@@ -5271,6 +5607,9 @@ async function toggleMicRecording() {
   }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (typeof startMicVuVisualizer === "function") {
+      startMicVuVisualizer(stream);
+    }
     audioChunks = [];
     let mimeType = "audio/webm";
     if (typeof MediaRecorder !== "undefined") {
@@ -5319,6 +5658,9 @@ async function toggleMicRecording() {
 }
 
 function stopMicRecording() {
+  if (typeof stopMicVuVisualizer === "function") {
+    stopMicVuVisualizer();
+  }
   const startBtn = document.getElementById("micRecBtn");
   const stopBtn = document.getElementById("micStopBtn");
   
@@ -6258,6 +6600,7 @@ function getReadingTotalCount() {
 }
 
 function loadReadingMock() {
+  setTimeout(() => { if (typeof updateCbtPalette === "function") updateCbtPalette(); }, 50);
   const idx = parseInt(document.getElementById("rSelect")?.value || "0", 10) || 0;
   const m = READING_MOCKS[idx];
   if (!m) return;
@@ -7010,6 +7353,9 @@ function updateRubricScore() {
 }
 
 function runLiveWritingDiagnostics() {
+  if (typeof updateParagraphRadarAndAutosave === "function") {
+    updateParagraphRadarAndAutosave();
+  }
   const idx = parseInt(document.getElementById("wSelect")?.value || "0", 10) || 0;
   const w = WRITING_MOCKS[idx];
   if (!w) return;
@@ -8026,6 +8372,431 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 })();
 
+
+
+// =========================================================
+// IELTS PREP STUDIO ENHANCED SUITE ENGINE (FEATURES & HAPTICS)
+// =========================================================
+
+// 1. PWA Service Worker Registration
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.warn('[PWA SW Registration Notice]', err);
+    });
+  });
+}
+
+// 2. Safe Haptic Feedback Helper
+window.studioHaptic = function(ms = 15) {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(ms);
+    }
+  } catch (e) {}
+};
+
+// 3. Speaking Diagnostics Enhancements (VU Meter, Speedometer & Actions)
+let micAudioCtx = null;
+let micAnalyser = null;
+let micAnimId = null;
+
+function startMicVuVisualizer(stream) {
+  try {
+    const canvas = document.getElementById('micVuCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    micAudioCtx = new AudioContext();
+    const source = micAudioCtx.createMediaStreamSource(stream);
+    micAnalyser = micAudioCtx.createAnalyser();
+    micAnalyser.fftSize = 32;
+    source.connect(micAnalyser);
+    const bufferLength = micAnalyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function drawVu() {
+      micAnimId = requestAnimationFrame(drawVu);
+      micAnalyser.getByteFrequencyData(dataArray);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const barWidth = (canvas.width / bufferLength) * 1.6;
+      let x = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        const val = dataArray[i];
+        const barHeight = (val / 255) * canvas.height;
+        ctx.fillStyle = val > 180 ? '#f87171' : (val > 80 ? '#e06c35' : '#34d399');
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+        x += barWidth;
+      }
+    }
+    drawVu();
+  } catch (e) {}
+}
+
+function stopMicVuVisualizer() {
+  if (micAnimId) {
+    cancelAnimationFrame(micAnimId);
+    micAnimId = null;
+  }
+  if (micAudioCtx) {
+    try { micAudioCtx.close(); } catch (e) {}
+    micAudioCtx = null;
+  }
+  const canvas = document.getElementById('micVuCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+window.copySpeakingTranscript = function() {
+  const box = document.getElementById('sr-transcript-output');
+  if (!box) return;
+  const text = box.innerText.trim();
+  if (!text || text.startsWith('Click')) {
+    showToast('Record your voice first to generate a transcript.');
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    studioHaptic(15);
+    showToast('📋 Speaking transcript copied to clipboard!');
+  }).catch(() => {
+    showToast('Unable to copy transcript.');
+  });
+};
+
+window.sendSpeakingTranscriptToWriting = function() {
+  const box = document.getElementById('sr-transcript-output');
+  if (!box) return;
+  const text = box.innerText.trim();
+  if (!text || text.startsWith('Click')) {
+    showToast('Record your voice first to generate a transcript.');
+    return;
+  }
+  switchView('writing');
+  const area = document.getElementById('essayArea');
+  if (area) {
+    area.value = text;
+    if (typeof runLiveWritingDiagnostics === 'function') {
+      runLiveWritingDiagnostics();
+    }
+    studioHaptic(25);
+    showToast('✍️ Speaking transcript imported into Writing Editor!');
+  }
+};
+
+// 4. Reading CBT Bottom Question Palette, Flagging & Split Ratios
+let cbtQuestionFlags = {};
+let currentCbtQuestionIndex = 0;
+
+window.setCbtSplitRatio = function(ratio) {
+  const split = document.getElementById('rCbtSplit');
+  if (!split) return;
+  split.classList.remove('cbt-split-65-35', 'cbt-split-35-65');
+  ['50', '65p', '65q'].forEach(id => {
+    const b = document.getElementById('btn-split-' + id);
+    if (b) b.classList.remove('is-active');
+  });
+  if (ratio === '65-35') {
+    split.classList.add('cbt-split-65-35');
+    const b = document.getElementById('btn-split-65p');
+    if (b) b.classList.add('is-active');
+  } else if (ratio === '35-65') {
+    split.classList.add('cbt-split-35-65');
+    const b = document.getElementById('btn-split-65q');
+    if (b) b.classList.add('is-active');
+  } else {
+    const b = document.getElementById('btn-split-50');
+    if (b) b.classList.add('is-active');
+  }
+  studioHaptic(10);
+};
+
+window.toggleQuestionFlag = function(qIdx) {
+  cbtQuestionFlags[qIdx] = !cbtQuestionFlags[qIdx];
+  studioHaptic(15);
+  updateCbtPalette();
+  const flagBtn = document.getElementById('flag-btn-' + qIdx);
+  if (flagBtn) {
+    flagBtn.classList.toggle('is-flagged', !!cbtQuestionFlags[qIdx]);
+  }
+};
+
+window.updateCbtPalette = function() {
+  const grid = document.getElementById('cbtPaletteGrid');
+  if (!grid || !Array.isArray(READING_MOCKS)) return;
+  const sel = document.getElementById('rSelect');
+  const mIdx = sel ? parseInt(sel.value, 10) : 0;
+  const mock = READING_MOCKS[mIdx];
+  if (!mock || !Array.isArray(mock.questions)) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = mock.questions.map((q, qIdx) => {
+    const inp = document.querySelector(`[name="rq_${qIdx}"]:checked, #rq_in_${qIdx}`);
+    const isAnswered = inp ? Boolean(inp.value && inp.value.trim().length > 0) : false;
+    const isFlagged = Boolean(cbtQuestionFlags[qIdx]);
+    const isCurrent = qIdx === currentCbtQuestionIndex;
+    return `<button type="button" class="cbt-q-pill ${isAnswered ? 'answered' : ''} ${isFlagged ? 'flagged' : ''} ${isCurrent ? 'current' : ''}" onclick="jumpToQuestionInCbt(${qIdx})" title="Question ${qIdx + 1}${isFlagged ? ' (Flagged)' : ''}">${qIdx + 1}</button>`;
+  }).join('');
+};
+
+window.jumpToQuestionInCbt = function(qIdx) {
+  currentCbtQuestionIndex = qIdx;
+  updateCbtPalette();
+  const qEl = document.getElementById('rq_card_' + qIdx) || document.querySelector(`[data-q-idx="${qIdx}"]`);
+  if (qEl) {
+    qEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+};
+
+window.navigateCbtQuestion = function(direction) {
+  const sel = document.getElementById('rSelect');
+  const mIdx = sel ? parseInt(sel.value, 10) : 0;
+  const mock = READING_MOCKS[mIdx];
+  if (!mock || !Array.isArray(mock.questions)) return;
+  const nextIdx = Math.max(0, Math.min(mock.questions.length - 1, currentCbtQuestionIndex + direction));
+  jumpToQuestionInCbt(nextIdx);
+};
+
+window.toggleCurrentQuestionFlag = function() {
+  toggleQuestionFlag(currentCbtQuestionIndex);
+};
+
+// Passage Selection Highlight Engine
+if (typeof document !== 'undefined') {
+  document.addEventListener('selectionchange', () => {
+    const sel = window.getSelection();
+    const toolbar = document.getElementById('passageHighlightToolbar');
+    const passage = document.getElementById('rPassageText');
+    if (!toolbar || !passage) return;
+    if (!sel || sel.isCollapsed || !passage.contains(sel.anchorNode)) {
+      toolbar.style.display = 'none';
+      return;
+    }
+    try {
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        toolbar.style.top = (window.scrollY + rect.top - 36) + 'px';
+        toolbar.style.left = (window.scrollX + rect.left) + 'px';
+        toolbar.style.display = 'flex';
+      }
+    } catch (e) {}
+  });
+}
+
+window.applyPassageHighlight = function() {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) return;
+  try {
+    const range = sel.getRangeAt(0);
+    const mark = document.createElement('mark');
+    mark.className = 'cbt-user-highlight';
+    mark.appendChild(range.extractContents());
+    range.insertNode(mark);
+    sel.removeAllRanges();
+    studioHaptic(10);
+  } catch (e) {}
+  const toolbar = document.getElementById('passageHighlightToolbar');
+  if (toolbar) toolbar.style.display = 'none';
+};
+
+window.clearPassageHighlight = function() {
+  const passage = document.getElementById('rPassageText');
+  if (!passage) return;
+  passage.querySelectorAll('mark.cbt-user-highlight').forEach(m => {
+    m.replaceWith(...m.childNodes);
+  });
+  const toolbar = document.getElementById('passageHighlightToolbar');
+  if (toolbar) toolbar.style.display = 'none';
+  studioHaptic(10);
+};
+
+// 5. Writing Paragraph Structure Radar & Autosave
+let writingAutosaveTimer = null;
+
+function updateParagraphRadarAndAutosave() {
+  const area = document.getElementById('essayArea');
+  if (!area) return;
+  const text = area.value.trim();
+  const paras = text.split(/\n\s*\n+/).filter(p => p.trim().length > 0);
+  const getWords = str => str.trim().split(/\s+/).filter(Boolean).length;
+
+  const p1 = paras[0] ? getWords(paras[0]) : 0;
+  const p2 = paras[1] ? getWords(paras[1]) : 0;
+  const p3 = paras[2] ? getWords(paras[2]) : 0;
+  const p4 = paras[3] ? getWords(paras[3]) : 0;
+
+  const rIntro = document.getElementById('radarIntro');
+  const rB1 = document.getElementById('radarBody1');
+  const rB2 = document.getElementById('radarBody2');
+  const rConcl = document.getElementById('radarConcl');
+  const rAlert = document.getElementById('radarBalanceAlert');
+
+  if (rIntro) rIntro.textContent = `Intro: ${p1}w`;
+  if (rB1) rB1.textContent = `Body 1: ${p2}w`;
+  if (rB2) rB2.textContent = `Body 2: ${p3}w`;
+  if (rConcl) rConcl.textContent = `Conclusion: ${p4}w`;
+
+  if (rAlert) {
+    const isAsymm = p2 > 25 && p3 > 25 && Math.abs(p2 - p3) > 50;
+    rAlert.style.display = isAsymm ? 'inline-block' : 'none';
+  }
+
+  // Debounced Autosave
+  if (writingAutosaveTimer) clearTimeout(writingAutosaveTimer);
+  writingAutosaveTimer = setTimeout(() => {
+    const wSel = document.getElementById('wSelect');
+    const idx = wSel ? wSel.value : '0';
+    if (text.length > 20) {
+      try {
+        localStorage.setItem('ips_essay_autosave_' + idx, text);
+        const statusEl = document.getElementById('writingAutosaveStatus');
+        if (statusEl) {
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          statusEl.textContent = `✓ Autosaved at ${timeStr}`;
+        }
+      } catch (e) {}
+    }
+  }, 2500);
+}
+
+// 6. Listening Speed & Fuzzy Mode
+let currentListeningSpeed = 1.0;
+let isListeningFuzzyMode = false;
+
+window.setListeningSpeed = function(speed) {
+  currentListeningSpeed = speed;
+  [1.0, 0.85, 1.15].forEach(s => {
+    const id = s === 1.0 ? '10' : (s === 0.85 ? '08' : '12');
+    const btn = document.getElementById('btn-ls-spd-' + id);
+    if (btn) btn.classList.toggle('is-active', s === speed);
+  });
+  if (window.activeAudioEl) {
+    window.activeAudioEl.playbackRate = speed;
+  }
+  studioHaptic(10);
+  showToast(`Listening playback speed set to ${speed}x`);
+};
+
+window.toggleListeningFuzzyMode = function(checked) {
+  isListeningFuzzyMode = checked;
+  studioHaptic(10);
+  showToast(checked ? 'Learning Mode: Typo tolerance active (±1 letter)' : 'Strict Exam Mode: Exact spelling required');
+};
+
+function levenshteinDistance(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[m][n];
+}
+
+// 7. Lexicon Quick Filters & Anki TSV Exporter
+window.filterLexiconByTrap = function(category) {
+  ['all', 'traps', 'colloc'].forEach(id => {
+    const btn = document.getElementById('btn-trap-' + id);
+    if (btn) btn.classList.remove('is-active');
+  });
+  const activeBtn = document.getElementById('btn-trap-' + (category === 'ALL' ? 'all' : (category === 'TRAP' ? 'traps' : 'colloc')));
+  if (activeBtn) activeBtn.classList.add('is-active');
+
+  const sInp = document.getElementById('lexSearch');
+  if (!sInp) return;
+  if (category === 'TRAP') {
+    sInp.value = 'trap';
+  } else if (category === 'COLLOC') {
+    sInp.value = 'collocation';
+  } else {
+    sInp.value = '';
+  }
+  renderLexiconGrid();
+  studioHaptic(10);
+};
+
+window.exportLexiconToAnki = function() {
+  if (!Array.isArray(VOCAB_DATA) || VOCAB_DATA.length === 0) {
+    alert('Lexicon data is loading. Please try again in a few moments.');
+    return;
+  }
+  const headers = ['Word', 'Phonetic', 'Part of Speech', 'Band', 'Definition', 'Burmese Meaning', 'Collocations', 'Band 9 Example'];
+  const rows = [headers.join('\t')];
+  VOCAB_DATA.forEach(v => {
+    const collocations = Array.isArray(v.collocations) ? v.collocations.join(', ') : (v.collocations || '');
+    rows.push([
+      v.word || '',
+      v.phonetic || '',
+      v.pos || '',
+      v.band || '',
+      v.defEn || '',
+      v.mmMeaning || '',
+      collocations,
+      v.exampleEn || ''
+    ].map(s => String(s).replace(/\t/g, ' ').replace(/\n/g, '<br>')).join('\t'));
+  });
+
+  const blob = new Blob([rows.join('\n')], { type: 'text/tab-separated-values;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ielts_academic_lexicon_anki.tsv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  studioHaptic(20);
+  showToast('📥 Exported 1,162 vocabulary items to Anki TSV file!');
+};
+
+// 8. Mobile Floating Action Button (FAB)
+window.toggleMobileFab = function() {
+  const menu = document.getElementById('mobileFabMenu');
+  if (menu) menu.classList.toggle('show');
+  studioHaptic(10);
+};
+
+// 9. Keyboard Shortcuts for CBT & Flashcards
+if (typeof window !== 'undefined') {
+  window.addEventListener('keydown', (e) => {
+    // Check if Alt+N, Alt+P, Alt+F in Reading
+    if (e.altKey && (e.key === 'n' || e.key === 'N')) {
+      e.preventDefault();
+      navigateCbtQuestion(1);
+    } else if (e.altKey && (e.key === 'p' || e.key === 'P')) {
+      e.preventDefault();
+      navigateCbtQuestion(-1);
+    } else if (e.altKey && (e.key === 'f' || e.key === 'F')) {
+      e.preventDefault();
+      toggleCurrentQuestionFlag();
+    }
+
+    // Flashcard Modal SRS shortcuts
+    const fcModal = document.getElementById('lexFlashcardModal');
+    if (fcModal && fcModal.style.display !== 'none') {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (typeof flipFlashcard === 'function') flipFlashcard();
+      } else if (e.key === '1') {
+        if (typeof rateFlashcard === 'function') rateFlashcard(1);
+      } else if (e.key === '2') {
+        if (typeof rateFlashcard === 'function') rateFlashcard(3);
+      } else if (e.key === '3') {
+        if (typeof rateFlashcard === 'function') rateFlashcard(7);
+      }
+    }
+  });
+}
+
 </script>
 
   <!-- Tab 4 Upgrade: Active Collocation Cloze Gate Modal (Lexicon 2.0) -->
@@ -8239,6 +9010,19 @@ window.addEventListener("DOMContentLoaded", async () => {
       </div>
     </div>
   </div>
+
+
+<!-- Mobile Floating Action Button (FAB) -->
+<div id="mobileFabContainer">
+  <div class="mobile-fab-menu" id="mobileFabMenu">
+    <button class="mobile-fab-item" onclick="switchView('speaking'); toggleMobileFab();">🎙️ Speaking Studio</button>
+    <button class="mobile-fab-item" onclick="switchView('lexicon'); toggleMobileFab();">🔤 Vocab Flashcards</button>
+    <button class="mobile-fab-item" onclick="switchView('reading'); toggleMobileFab();">📖 Reading CBT</button>
+    <button class="mobile-fab-item" onclick="switchView('writing'); toggleMobileFab();">✍️ Writing Lab</button>
+    <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();">🔝 Back to Top</button>
+  </div>
+  <button class="mobile-fab-main" id="mobileFabBtn" onclick="toggleMobileFab()" aria-label="Quick Actions">⚡</button>
+</div>
 
 </body>
 </html>
