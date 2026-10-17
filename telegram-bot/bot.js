@@ -5,6 +5,7 @@
  */
 
 import 'dotenv/config';
+import http from 'http';
 import { Bot, InlineKeyboard } from 'grammy';
 import { voucherPool } from './voucherPool.js';
 
@@ -311,4 +312,25 @@ bot.start({
       console.warn(`⚠️ Warning: ADMIN_CHAT_ID is not set in .env! Slips will not be forwarded.`);
     }
   }
+});
+
+// ==========================================
+// RENDER & CLOUD HEALTH-CHECK HTTP SERVER
+// ==========================================
+// Render Web Services require binding to an open HTTP port (process.env.PORT)
+const PORT = process.env.PORT || 10000;
+const server = http.createServer((req, res) => {
+  const stats = voucherPool.getStats();
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({
+    status: 'online',
+    service: 'IELTS Prep Studio Telegram Approval Bot',
+    bot: '@IELTSPrepStudioBot',
+    inventory: stats,
+    timestamp: new Date().toISOString()
+  }, null, 2));
+});
+
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`🌐 HTTP Health-Check Server listening on port ${PORT} (Satisfies Render/Railway port scanner)`);
 });
