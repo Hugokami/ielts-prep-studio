@@ -277,19 +277,27 @@ bot.command('stats', (ctx) => {
   );
 });
 
-bot.command('mint', (ctx) => {
+bot.command('mint', async (ctx) => {
   if (!isAdmin(ctx)) return;
   const args = ctx.message?.text?.split(' ') || [];
   const count = parseInt(args[1], 10) || 10;
-  const newOnes = voucherPool.mintBatch(count, 'IPS-VIP');
+  const newOnes = voucherPool.mintRandomBatch(count);
 
-  ctx.reply(
-    `✅ **Minted ${newOnes.length} New Lifetime VIP Passes!**\n\n` +
-    `• Range: \`${newOnes[0].code}\` to \`${newOnes[newOnes.length - 1].code}\`\n` +
-    `• Available Pool: \`${voucherPool.getStats().available}\`\n` +
+  const preview = newOnes.slice(0, 5).map(v => `• \`${v.code}\``).join('\n');
+  const moreText = newOnes.length > 5 ? `\n_...and ${newOnes.length - 5} more passes_` : '';
+
+  await ctx.reply(
+    `✅ **Minted ${newOnes.length} New Cryptographic Lifetime Passes!**\n\n` +
+    `🎲 **Sample Generated Passes:**\n${preview}${moreText}\n\n` +
+    `• Available in Pool: \`${voucherPool.getStats().available}\`\n` +
     `• Synced to \`IELTS_Studio_Voucher_Codes.csv\``,
     { parse_mode: 'Markdown' }
   );
+});
+
+// Global Error Handler to prevent process crashes
+bot.catch((err) => {
+  console.error('[Telegram Bot Error Caught]:', err.error || err);
 });
 
 // Start Long-Polling Bot Engine

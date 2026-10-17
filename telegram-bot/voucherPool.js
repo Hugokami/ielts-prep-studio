@@ -219,6 +219,10 @@ class VoucherPool {
     return newVouchers;
   }
 
+  mintBatch(count = 50) {
+    return this.mintRandomBatch(count);
+  }
+
   /**
    * Claim next available voucher (Prioritizes new randomized codes, auto-refills when low)
    */
