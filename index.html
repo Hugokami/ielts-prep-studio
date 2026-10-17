@@ -1,22 +1,3 @@
-
-      <!-- Authentic Cambridge CBT Bottom Question Palette Bar -->
-      <div class="cbt-palette-bar" id="cbtPaletteBar">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Questions:</span>
-          <div class="cbt-palette-grid" id="cbtPaletteGrid"></div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem;">
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:var(--accent); border-radius:2px; display:inline-block;"></span> Answered</span>
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; border:1px solid #eab308; background:rgba(234,179,8,0.2); border-radius:2px; display:inline-block;"></span> Flagged</span>
-          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> Next · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd> Flag</span>
-        </div>
-      </div>
-
-      <!-- Passage Selection Highlight Floating Toolbar -->
-      <div id="passageHighlightToolbar" style="display:none;">
-        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="applyPassageHighlight()">🟡 Highlight</button>
-        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="clearPassageHighlight()">🧹 Clear</button>
-      </div>
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -3245,12 +3226,15 @@
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
                 <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
-                <div style="display:flex; gap:8px;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
                   <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
                   <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="sendSpeakingTranscriptToWriting()">✍️ Send to Writing Editor</button>
+                  <button class="btn-accent-solid" id="aiSpeakingGradeBtn" style="padding:4px 12px; font-size:0.76rem;" onclick="gradeSpeakingWithGemini()">✨ AI Examiner Feedback &amp; Part 3 Challenge</button>
                 </div>
               </div>
             </div>
+            <!-- Speaking AI Evaluation Result Container -->
+            <div id="geminiSpeakingAuditResult" style="display:none; margin-top:1rem; padding:1.2rem; border-radius:10px; border:1px solid var(--border-accent); background:var(--bg-card);"></div>
             <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
             <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
               မိမိပြောဆိုသည့် အသံကို ဖမ်းယူပြီး ပြန်နားထောင်ခြင်းဖြင့် 'um / uh' အသံများ၊ Grammar အမှားများနှင့် အသံအနိမ့်အမြင့်ကို ချက်ချင်း စစ်ဆေးပြုပြင်နိုင်ပါသည်။
@@ -3267,6 +3251,7 @@
           <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="speakBuiltFrameworkAnswer()">🔊 Listen to Assembled Text (TTS)</button>
             <button class="btn-outlined" onclick="clearFrameworkInputs()">Clear Steps</button>
+            <button class="btn-accent-solid" style="padding:6px 12px; font-size:0.8rem; background:var(--accent-hover);" onclick="gradeSpeakingFrameworkWithGemini()">✨ AI Grade Framework Answer</button>
           </div>
 
           <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">
@@ -3684,6 +3669,25 @@
       <div class="cbt-split mobile-view-passage" id="rCbtSplit">
         <div class="cbt-pane" id="rPassageBox"></div>
         <div class="cbt-pane" id="rQuestionsBox"></div>
+      </div>
+
+      <!-- Authentic Cambridge CBT Bottom Question Palette Bar -->
+      <div class="cbt-palette-bar" id="cbtPaletteBar">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Questions:</span>
+          <div class="cbt-palette-grid" id="cbtPaletteGrid"></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem;">
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:var(--accent); border-radius:2px; display:inline-block;"></span> Answered</span>
+          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; border:1px solid #eab308; background:rgba(234,179,8,0.2); border-radius:2px; display:inline-block;"></span> Flagged</span>
+          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> Next · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd> Flag</span>
+        </div>
+      </div>
+
+      <!-- Passage Selection Highlight Floating Toolbar -->
+      <div id="passageHighlightToolbar" style="display:none;">
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="applyPassageHighlight()">🟡 Highlight</button>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="clearPassageHighlight()">🧹 Clear</button>
       </div>
 
       <!-- Floating Mobile Quick-Switcher (Passage <-> Questions) -->
@@ -7238,10 +7242,11 @@ function syncSlidersFromGeminiText(text) {
 }
 
 function startGeminiButtonCooldown() {
-  const btn = document.getElementById("geminiEssayGradeBtn");
-  if (!btn) return;
+  const btnEssay = document.getElementById("geminiEssayGradeBtn");
+  const btnSpk = document.getElementById("aiSpeakingGradeBtn");
   if (geminiCooldownTimer) clearInterval(geminiCooldownTimer);
-  btn.disabled = true;
+  if (btnEssay) btnEssay.disabled = true;
+  if (btnSpk) btnSpk.disabled = true;
 
   const updateCooldownText = () => {
     const elapsed = Date.now() - getLastGeminiTimestamp();
@@ -7249,10 +7254,17 @@ function startGeminiButtonCooldown() {
     if (remaining <= 0) {
       clearInterval(geminiCooldownTimer);
       geminiCooldownTimer = null;
-      btn.disabled = false;
-      btn.innerHTML = `✨ AI Examiner Grade`;
+      if (btnEssay) {
+        btnEssay.disabled = false;
+        btnEssay.innerHTML = `✨ AI Examiner Grade`;
+      }
+      if (btnSpk) {
+        btnSpk.disabled = false;
+        btnSpk.innerHTML = `✨ AI Examiner Feedback &amp; Part 3 Challenge`;
+      }
     } else {
-      btn.innerHTML = `⏳ Rate Shield (${remaining}s)`;
+      if (btnEssay) btnEssay.innerHTML = `⏳ Rate Shield (${remaining}s)`;
+      if (btnSpk) btnSpk.innerHTML = `⏳ Rate Shield (${remaining}s)`;
     }
   };
 
@@ -7318,8 +7330,23 @@ async function gradeEssayWithGemini() {
   resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   const systemPrompt = `You are a Senior Official Cambridge IELTS Academic Writing Examiner with 15+ years of examining experience.
-Your grading must be rigorous, precise, constructive, and strictly aligned with the public IELTS band descriptors.
-Always format your response in clean markdown with the exact sections requested below.`;
+Your grading must be rigorous, precise, constructive, and strictly calibrated against the official Cambridge IELTS Band 9 Descriptors.
+
+CRITICAL EXAMINER CALIBRATION & INVARIANTS:
+1. Coherence & Cohesion (CC) & Mechanical Linker Stuffing:
+   - Band 9: Uses cohesion in such a way that it attracts NO notice; paragraphing is skilful and seamless. Cohesion is achieved primarily through lexical chaining, Theme-Rheme discourse flow, reference, substitution, and ellipsis.
+   - Band 6/7 Trap: Heavy reliance on mechanical overt transition signals (e.g., 'Furthermore', 'Moreover', 'In conclusion', 'On the other hand', 'To begin with', 'In addition') at the head of every sentence.
+   - PENALTY RULE: If overt transition word density exceeds 2.5% of total words, or if transitions feel memorized/mechanical, CAP Coherence & Cohesion (CC) at Band 6.5 - 7.0 maximum.
+2. Lexical Resource (LR) & Collocation Authenticity:
+   - Band 9: Uses a wide, natural range of vocabulary with very natural and sophisticated control of lexical features; rare minor slips only as 'slips'. C1/C2 academic collocations must feel native and context-appropriate.
+   - Band 6/7 Trap: Crammed/unnatural high-brow thesaurus words ('plethora', 'myriad', 'ubiquitous', 'in this day and age', 'a double-edged sword') forced into simple sentences without precise idiomatic collocation.
+   - PENALTY RULE: Penalize unnatural thesaurus stuffing. Reward precise collocational units (e.g. 'mitigate acute socio-economic disparities', 'exert disproportionate pressure', 'engender fierce debate').
+3. Grammatical Range & Accuracy (GRA) & Modal Hedging:
+   - Band 9: Uses a full range of structures naturally and appropriately; produces consistently accurate structures with full flexibility. Employs sophisticated modal hedging ('could conceivably indicate', 'it is plausible to contend that', 'might be partially ascribed to') rather than crude absolute generalizations ('this always causes', 'it will definitely solve').
+4. Task Response (TR):
+   - Band 9: Fully addresses all parts of the prompt with a fully developed, nuanced position sustained throughout; well-supported main ideas with rigorous critical analysis.
+
+Always format your response in clean markdown with the exact structured sections requested.`;
 
   const userPrompt = `Please evaluate this student response for IELTS Academic Writing:
 TOPIC CODE: ${w.code}
@@ -7335,12 +7362,17 @@ Please provide your evaluation in this exact structured format:
 ### 1. Overall Estimated Band: [e.g. Band 6.5, Band 7.0, Band 7.5, Band 8.0]
 
 ### 2. Official 4-Criteria Score Breakdown:
-- **Task Achievement / Task Response (TA/TR)**: Band [Score] — [1-2 sentences on whether all parts of prompt were answered with well-developed ideas and clear position]
-- **Coherence & Cohesion (CC)**: Band [Score] — [1-2 sentences on paragraph progression, logical sequencing, and linking devices]
-- **Lexical Resource (LR)**: Band [Score] — [1-2 sentences on C1/C2 collocations, precision, and repetitive or inappropriate words]
-- **Grammatical Range & Accuracy (GRA)**: Band [Score] — [1-2 sentences on complex structures, punctuation, and error density]
+- **Task Achievement / Task Response (TA/TR)**: Band [Score] — [1-2 sentences on whether all parts of prompt were answered with well-developed ideas, critical analysis, and nuanced position]
+- **Coherence & Cohesion (CC)**: Band [Score] — [1-2 sentences assessing paragraph progression, Theme-Rheme information flow, and whether cohesive devices are seamless or mechanical]
+- **Lexical Resource (LR)**: Band [Score] — [1-2 sentences evaluating authentic C1/C2 collocations, precision, and absence of forced thesaurus stuffing]
+- **Grammatical Range & Accuracy (GRA)**: Band [Score] — [1-2 sentences on complex structural variety, punctuation precision, and effective modal hedging]
 
-### 3. Top 2 Band 9 Paraphrased Sentence Rewrites:
+### 3. Cohesion & Collocation Diagnostic:
+- **Mechanical Linker Density**: [Audit overt transitional markers. State count, approximate % density, and whether it attracts notice as mechanical stuffing]
+- **Modal Hedging & Nuance**: [Evaluate whether claims are appropriately hedged or overgeneralized]
+- **Collocation Authenticity**: [Highlight strong natural collocations vs. awkward thesaurus substitutions]
+
+### 4. Top 2 Band 9 Paraphrased Sentence Rewrites:
 1. **Original**: "[Quote a weak or error-prone sentence from student draft]"
    **Band 9 Upgrade**: "[Rewrite into sophisticated C2 academic prose]"
    **Key Lesson**: [Explain the grammatical or lexical improvement]
@@ -7349,8 +7381,8 @@ Please provide your evaluation in this exact structured format:
    **Band 9 Upgrade**: "[Rewrite into sophisticated C2 academic prose]"
    **Key Lesson**: [Explain the grammatical or lexical improvement]
 
-### 4. Examiner Advice in Burmese (မြန်မာဘာသာ အကြံပြုချက်):
-[Provide 2-3 concise, actionable bullet points in clear, natural Burmese explaining how the student can push their score to the next band level.]`;
+### 5. Examiner Advice in Burmese (မြန်မာဘာသာ အကြံပြုချက်):
+[Provide 2-3 concise, actionable bullet points in clear, natural Burmese explaining how the student can eliminate mechanical habits and push their score to the next band level.]`;
 
   try {
     const res = await callGeminiApi(userPrompt, systemPrompt);
@@ -7389,6 +7421,197 @@ Please provide your evaluation in this exact structured format:
         <div style="display:flex; gap:8px;">
           <button class="btn-accent-solid" style="font-size:0.78rem;" onclick="gradeEssayWithGemini()">Retry Evaluation</button>
           <button class="btn-outlined" style="font-size:0.78rem;" onclick="document.getElementById('geminiAuditResult').style.display='none'">Close</button>
+        </div>
+      </div>
+    `;
+  } finally {
+    setLastGeminiTimestamp(Date.now());
+    startGeminiButtonCooldown();
+  }
+}
+
+function gradeSpeakingFrameworkWithGemini() {
+  gradeSpeakingWithGemini(true);
+}
+
+async function gradeSpeakingWithGemini(fromFramework = false) {
+  if (!window.currentUser || !window.currentUser.uid) {
+    alert("Please sign in with Google (top right) to access the Official Cambridge AI Speaking Examiner.\n\nFree accounts receive 10 evaluations per month; VIP Pass holders receive Unlimited evaluations.");
+    if (window.signInWithGoogle) window.signInWithGoogle();
+    return;
+  }
+
+  // 1. Extract candidate response
+  let spokenText = "";
+  let sourceLabel = "Speech Recording";
+
+  if (fromFramework) {
+    const fw = typeof SPEAKING_FRAMEWORKS !== "undefined" && SPEAKING_FRAMEWORKS[activeFwIndex];
+    if (fw) {
+      const parts = fw.steps.map((_, sIdx) => {
+        const el = document.getElementById(`fw_input_${sIdx}`);
+        return el ? el.value.trim() : "";
+      }).filter(Boolean);
+      spokenText = parts.join(" ");
+      sourceLabel = `Framework Builder (${fw.name})`;
+    }
+  } else {
+    const transcriptEl = document.getElementById("sr-transcript-output");
+    const rawText = transcriptEl ? transcriptEl.innerText.trim() : "";
+    if (rawText && !rawText.includes("Click 🎙️ Record My Voice") && !rawText.includes("Listening...")) {
+      spokenText = rawText;
+      sourceLabel = "Live Voice Transcript";
+    } else {
+      const fw = typeof SPEAKING_FRAMEWORKS !== "undefined" && SPEAKING_FRAMEWORKS[activeFwIndex];
+      if (fw) {
+        const parts = fw.steps.map((_, sIdx) => {
+          const el = document.getElementById(`fw_input_${sIdx}`);
+          return el ? el.value.trim() : "";
+        }).filter(Boolean);
+        spokenText = parts.join(" ");
+        sourceLabel = `Framework Builder (${fw.name})`;
+      }
+    }
+  }
+
+  const wordCount = spokenText ? spokenText.split(/\s+/).filter(Boolean).length : 0;
+  if (wordCount < 12) {
+    alert("Please speak or write at least 12 words before requesting an AI Speaking Examiner Assessment.\n\nTip: Click '🎙️ Record My Voice' and answer the practice prompt, or draft your answer steps in the framework builder below.");
+    return;
+  }
+
+  // Rate Shield Check (30s cooldown between AI calls)
+  const timeSinceLast = Date.now() - getLastGeminiTimestamp();
+  if (timeSinceLast < GEMINI_COOLDOWN_MS) {
+    const secLeft = Math.ceil((GEMINI_COOLDOWN_MS - timeSinceLast) / 1000);
+    showStudioNotification(`⏳ Rate-Limit Shield: Please wait ${secLeft}s before requesting another AI evaluation.`);
+    return;
+  }
+
+  const quota = canUseSpeakingEvaluation();
+  if (!quota.allowed) {
+    if (isVipActive()) {
+      alert("You have reached your Fair-Use allocation for Speaking evaluations this month.");
+    } else {
+      if (confirm(`You have used your ${SPEAKING_FREE_MONTHLY_LIMIT} free monthly speaking evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for Unlimited AI Speaking evaluations and Part 3 Examiner Challenges! Would you like to view VIP options?`)) {
+        openVipPassModal();
+      }
+    }
+    return;
+  }
+
+  const promptSelect = document.getElementById("fwPracticePromptSelect");
+  const currentPrompt = promptSelect ? promptSelect.value : "General IELTS Speaking Discussion";
+  const fwName = (typeof SPEAKING_FRAMEWORKS !== "undefined" && SPEAKING_FRAMEWORKS[activeFwIndex]?.name) || "General";
+
+  const btn = document.getElementById("aiSpeakingGradeBtn");
+  const resultBox = document.getElementById("geminiSpeakingAuditResult");
+  if (!resultBox) return;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `⏳ Assessing with AI Examiner...`;
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = `
+    <div style="display:flex; align-items:center; gap:10px; padding:12px; color:var(--text-secondary);">
+      <div class="spinning-loader" style="width:18px; height:18px; border:2px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+      <span>Sending speech response to Cambridge AI Speaking Examiner... Evaluating Fluency, Collocations, Grammar &amp; generating Part 3 Counter-Challenge...</span>
+    </div>
+  `;
+  resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+  const systemPrompt = `You are a Senior Official Cambridge IELTS Speaking Examiner conducting an analytical Band 9 assessment.
+Evaluate the candidate's spoken response rigorously across the 4 IELTS Speaking criteria: Fluency & Coherence (FC), Lexical Resource (LR), Grammatical Range & Accuracy (GRA), and Pronunciation/Delivery notes.
+
+CRITICAL INVARIANTS:
+1. Part 3 Counter-Challenge: In IELTS Speaking Part 3, the examiner MUST challenge candidate assumptions to test their ability to handle abstract ideas, concede points gracefully, and counter-argue with nuance. You must construct a sharp, provocative counter-argument to the candidate's response and provide a model Band 9 Concession-Rebuttal response.
+2. Authentic Conversational Rhythm: Penalize unnatural memorized idioms ('rain cats and dogs'). Reward authentic pragmatic markers ('Well, looking at it objectively...', 'To be perfectly candid...', 'I suppose the crux of the matter is...').
+3. Format in clean markdown with the exact requested sections.`;
+
+  const userPrompt = `Please evaluate this student response for IELTS Speaking:
+PRACTICE TOPIC / PROMPT: "${currentPrompt}"
+SCAFFOLDING FRAMEWORK: ${fwName}
+INPUT SOURCE: ${sourceLabel}
+
+CANDIDATE SPOKEN RESPONSE (${wordCount} words):
+"""
+${spokenText}
+"""
+
+Please provide your evaluation in this exact structured format:
+### 1. Overall Estimated Speaking Band: [e.g. Band 6.5, Band 7.0, Band 7.5, Band 8.0]
+
+### 2. Official 4-Criteria Score Breakdown:
+- **Fluency & Coherence (FC)**: Band [Score] — [1-2 sentences on speech continuity, hesitation, filler words, and discourse markers]
+- **Lexical Resource (LR)**: Band [Score] — [1-2 sentences on colloquial and academic vocabulary, collocations, and idiomatic precision]
+- **Grammatical Range & Accuracy (GRA)**: Band [Score] — [1-2 sentences on complex sentence variety, tenses, and grammatical slips]
+- **Pronunciation & Delivery (PR)**: Band [Score] — [1-2 sentences on intonation, stress patterns, and clarity notes]
+
+### 3. Cambridge Part 3 Examiner Counter-Challenge (စိန်ခေါ်မေးခွန်း):
+- **Examiner's Pushback**: "[Present a thought-provoking counter-argument challenging candidate's viewpoint. e.g. 'That is a common perspective, but wouldn't you agree that...?']"
+- **Band 9 Concession-Rebuttal Model**: "[Provide a 2-3 sentence Band 9 model response using concession language like 'While I concede that..., the overarching reality remains that...']"
+- **Audio Practice Text**: [Clean 1-sentence prompt for candidate to practice speaking aloud]
+
+### 4. Top 2 Band 9 Spoken Phrasing Upgrades:
+1. **Candidate Said**: "[Quote weak or hesitant phrasing]"
+   **Band 9 Native Expression**: "[Upgrade with high-level conversational flow]"
+   **Why it works**: [Brief explanation]
+
+2. **Candidate Said**: "[Quote another phrasing]"
+   **Band 9 Native Expression**: "[Upgrade]"
+   **Why it works**: [Brief explanation]
+
+### 5. Examiner Advice in Burmese (မြန်မာဘာသာ အကြံပြုချက်):
+[Provide 2-3 concise, actionable bullet points in clear, natural Burmese explaining how to speak more fluently, eliminate hesitation, and handle Part 3 follow-up challenges.]`;
+
+  try {
+    const res = await callGeminiApi(userPrompt, systemPrompt);
+    recordSpeakingEvaluationUsage();
+
+    const formattedHtml = renderMarkdownToHtml(res.text);
+
+    // Extract audio practice text if present to provide 1-click TTS
+    const practiceMatch = res.text.match(/Audio Practice Text:\s*([^\n\r]+)/i);
+    const audioText = practiceMatch ? practiceMatch[1].replace(/["*]/g, "").trim() : "";
+
+    resultBox.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-mid); flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.3rem;">🎙️</span>
+          <strong style="font-size:1.05rem; color:var(--text);">Cambridge AI Speaking Examiner &amp; Part 3 Challenge</strong>
+          <span class="occ-ver-pill" style="color:var(--accent); font-weight:700;">${res.modelUsed}</span>
+        </div>
+        <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="document.getElementById('geminiSpeakingAuditResult').style.display='none'">✕ Dismiss</button>
+      </div>
+      <div class="gemini-content-body" style="font-size:0.88rem; line-height:1.75; color:var(--text);">
+        ${formattedHtml}
+      </div>
+      ${audioText ? `
+        <div style="margin-top:12px; padding:10px 12px; background:var(--bg); border:1px solid var(--border-accent); border-radius:4px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:0.82rem; color:var(--text-secondary);">🔊 <strong>Practice Band 9 Model Challenge Aloud:</strong></span>
+          <button class="btn-accent-solid" style="padding:3px 10px; font-size:0.75rem;" onclick="speakText(${JSON.stringify(audioText).replace(/"/g, '&quot;')})">🔊 Play Model Audio (TTS)</button>
+        </div>
+      ` : ''}
+      <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); flex-wrap:wrap; gap:6px;">
+        <span>Evaluated against Cambridge IELTS Speaking Band Descriptors (Version 2026)</span>
+        <button class="btn-outlined" style="font-size:0.75rem; padding:3px 8px;" onclick="gradeSpeakingWithGemini()">🔄 Re-Evaluate</button>
+      </div>
+    `;
+
+    showStudioNotification("✨ AI Speaking Evaluation & Part 3 Challenge Ready!");
+  } catch (err) {
+    console.error("Gemini Speaking Evaluation Failed:", err);
+    resultBox.innerHTML = `
+      <div style="padding:12px; background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.4); border-radius:4px; color:var(--text);">
+        <div style="font-weight:700; color:var(--crimson); margin-bottom:4px;">⚠️ AI Examiner Evaluation Error</div>
+        <p style="font-size:0.83rem; margin:0 0 10px 0; color:var(--text-secondary); line-height:1.5;">
+          ${escapeHtml(err.message || "Failed to communicate with Google Generative AI API.")}
+        </p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-accent-solid" style="font-size:0.78rem;" onclick="gradeSpeakingWithGemini()">Retry Evaluation</button>
+          <button class="btn-outlined" style="font-size:0.78rem;" onclick="document.getElementById('geminiSpeakingAuditResult').style.display='none'">Close</button>
         </div>
       </div>
     `;

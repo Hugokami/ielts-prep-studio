@@ -171,7 +171,11 @@ service cloud.firestore {
           'monthlyUsage', 'dailyUsage', 'voucherCode', 'plan', 'checkoutStatus'
         ]) &&
         (!('tier' in profile) || (profile.tier is string && profile.tier.size() <= 20)) &&
-        (!('vipExpiresAt' in profile) || profile.vipExpiresAt == null || profile.vipExpiresAt is timestamp || profile.vipExpiresAt is string || profile.vipExpiresAt is number) &&
+        (!('vipExpiresAt' in profile) ||
+         profile.vipExpiresAt == null ||
+         (profile.vipExpiresAt is timestamp && profile.vipExpiresAt > request.time) ||
+         (profile.vipExpiresAt is string && profile.vipExpiresAt.size() <= 30) ||
+         profile.vipExpiresAt is number) &&
         (!('displayName' in profile) || (profile.displayName is string && profile.displayName.size() <= 100)) &&
         (!('targetBand' in profile) || (profile.targetBand is number && profile.targetBand >= 0 && profile.targetBand <= 9.0)) &&
         (!('examDate' in profile) || (profile.examDate is string && profile.examDate.size() <= 30)) &&
@@ -182,30 +186,27 @@ service cloud.firestore {
         (!('checkoutStatus' in profile) || (profile.checkoutStatus is string && profile.checkoutStatus.size() <= 50));
     }
 
-    // Check if the user document includes an approved promotional / VIP voucher code (Unified Lifetime Passes or Randomized Cryptographic Codes)
+    // Check if the user document includes an approved promotional / partner voucher code or initial batch series
     function hasValidVoucherCode(data) {
       return data != null &&
         'userProfile' in data &&
         data.userProfile is map &&
         'voucherCode' in data.userProfile &&
         data.userProfile.voucherCode is string &&
-        (
-          data.userProfile.voucherCode in [
-            // Campaign & Partners
-            'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE',
-            // Existing customer passes (unified Lifetime access)
-            'IPS-LIFE-901', 'IPS-LIFE-902', 'IPS-LIFE-903', 'IPS-LIFE-904', 'IPS-LIFE-905', 'IPS-LIFE-906', 'IPS-LIFE-907', 'IPS-LIFE-908', 'IPS-LIFE-909', 'IPS-LIFE-910',
-            'IPS-INT-301', 'IPS-INT-302', 'IPS-INT-303', 'IPS-INT-304', 'IPS-INT-305', 'IPS-INT-306', 'IPS-INT-307', 'IPS-INT-308', 'IPS-INT-309', 'IPS-INT-310',
-            'IPS-SPRINT-101', 'IPS-SPRINT-102', 'IPS-SPRINT-103', 'IPS-SPRINT-104', 'IPS-SPRINT-105', 'IPS-SPRINT-106', 'IPS-SPRINT-107', 'IPS-SPRINT-108', 'IPS-SPRINT-109', 'IPS-SPRINT-110',
-            // Standardized Lifetime series (IPS-VIP-101 to IPS-VIP-150)
-            'IPS-VIP-101', 'IPS-VIP-102', 'IPS-VIP-103', 'IPS-VIP-104', 'IPS-VIP-105', 'IPS-VIP-106', 'IPS-VIP-107', 'IPS-VIP-108', 'IPS-VIP-109', 'IPS-VIP-110',
-            'IPS-VIP-111', 'IPS-VIP-112', 'IPS-VIP-113', 'IPS-VIP-114', 'IPS-VIP-115', 'IPS-VIP-116', 'IPS-VIP-117', 'IPS-VIP-118', 'IPS-VIP-119', 'IPS-VIP-120',
-            'IPS-VIP-121', 'IPS-VIP-122', 'IPS-VIP-123', 'IPS-VIP-124', 'IPS-VIP-125', 'IPS-VIP-126', 'IPS-VIP-127', 'IPS-VIP-128', 'IPS-VIP-129', 'IPS-VIP-130',
-            'IPS-VIP-131', 'IPS-VIP-132', 'IPS-VIP-133', 'IPS-VIP-134', 'IPS-VIP-135', 'IPS-VIP-136', 'IPS-VIP-137', 'IPS-VIP-138', 'IPS-VIP-139', 'IPS-VIP-140',
-            'IPS-VIP-141', 'IPS-VIP-142', 'IPS-VIP-143', 'IPS-VIP-144', 'IPS-VIP-145', 'IPS-VIP-146', 'IPS-VIP-147', 'IPS-VIP-148', 'IPS-VIP-149', 'IPS-VIP-150'
-          ] ||
-          data.userProfile.voucherCode.matches('^IPS-VIP-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}$')
-        );
+        data.userProfile.voucherCode in [
+          // Campaign & Partners
+          'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE',
+          // Existing customer passes (unified Lifetime access)
+          'IPS-LIFE-901', 'IPS-LIFE-902', 'IPS-LIFE-903', 'IPS-LIFE-904', 'IPS-LIFE-905', 'IPS-LIFE-906', 'IPS-LIFE-907', 'IPS-LIFE-908', 'IPS-LIFE-909', 'IPS-LIFE-910',
+          'IPS-INT-301', 'IPS-INT-302', 'IPS-INT-303', 'IPS-INT-304', 'IPS-INT-305', 'IPS-INT-306', 'IPS-INT-307', 'IPS-INT-308', 'IPS-INT-309', 'IPS-INT-310',
+          'IPS-SPRINT-101', 'IPS-SPRINT-102', 'IPS-SPRINT-103', 'IPS-SPRINT-104', 'IPS-SPRINT-105', 'IPS-SPRINT-106', 'IPS-SPRINT-107', 'IPS-SPRINT-108', 'IPS-SPRINT-109', 'IPS-SPRINT-110',
+          // Standardized Lifetime series (IPS-VIP-101 to IPS-VIP-150)
+          'IPS-VIP-101', 'IPS-VIP-102', 'IPS-VIP-103', 'IPS-VIP-104', 'IPS-VIP-105', 'IPS-VIP-106', 'IPS-VIP-107', 'IPS-VIP-108', 'IPS-VIP-109', 'IPS-VIP-110',
+          'IPS-VIP-111', 'IPS-VIP-112', 'IPS-VIP-113', 'IPS-VIP-114', 'IPS-VIP-115', 'IPS-VIP-116', 'IPS-VIP-117', 'IPS-VIP-118', 'IPS-VIP-119', 'IPS-VIP-120',
+          'IPS-VIP-121', 'IPS-VIP-122', 'IPS-VIP-123', 'IPS-VIP-124', 'IPS-VIP-125', 'IPS-VIP-126', 'IPS-VIP-127', 'IPS-VIP-128', 'IPS-VIP-129', 'IPS-VIP-130',
+          'IPS-VIP-131', 'IPS-VIP-132', 'IPS-VIP-133', 'IPS-VIP-134', 'IPS-VIP-135', 'IPS-VIP-136', 'IPS-VIP-137', 'IPS-VIP-138', 'IPS-VIP-139', 'IPS-VIP-140',
+          'IPS-VIP-141', 'IPS-VIP-142', 'IPS-VIP-143', 'IPS-VIP-144', 'IPS-VIP-145', 'IPS-VIP-146', 'IPS-VIP-147', 'IPS-VIP-148', 'IPS-VIP-149', 'IPS-VIP-150'
+        ];
     }
 
     // Check if the user document references a valid voucher redeemed by this user in vouchers/{code}
@@ -393,8 +394,8 @@ service cloud.firestore {
     // Vouchers Collection (One-Time and Promotional Vouchers)
     // -------------------------------------------------------------
     match /vouchers/{voucherCode} {
-      // Allow authenticated users to look up a specific voucher document to check plan and redemption status
-      allow get: if request.auth != null;
+      // Allow authenticated users to look up an unredeemed voucher (to inspect before redemption), their own redeemed voucher, or if admin
+      allow get: if request.auth != null && (resource == null || resource.data.redeemed == false || resource.data.redeemedBy == request.auth.uid || isAdmin());
 
       // Prevent any user from querying/listing all vouchers in the database
       allow list: if false;

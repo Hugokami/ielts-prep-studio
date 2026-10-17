@@ -85,6 +85,9 @@ bot.command('start', async (ctx) => {
   });
 });
 
+// In-memory mutex to prevent admin double-tap race conditions
+const activeApprovalLocks = new Set();
+
 // ==========================================
 // 2. PAYMENT SLIP INTAKE (PHOTOS)
 // ==========================================
@@ -99,13 +102,29 @@ bot.on('message:photo', async (ctx) => {
     return ctx.reply('ℹ️ Admin upload detected. To test approval flow, send photo from a student account.');
   }
 
-  // 1. Send immediate reassuring acknowledgement to student
-  await ctx.reply(
-    `✅ **ငွေလွှဲစလစ်အား လက်ခံရရှိပါပြီခင်ဗျာ!**\n\n` +
-    `⏳ Admin ဘက်မှ Transaction ID အား စစ်ဆေးနေပါသည်။ အတည်ပြုပြီးပါက သင်၏ **Lifetime Studio VIP Pass (1-Click Magic Link)** အား ဤ Chat သို့ အလိုအလျောက် ချက်ချင်း ပေးပို့ပေးပါမည်။\n\n` +
-    `ခေတ္တစောင့်ဆိုင်းပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။`,
-    { parse_mode: 'Markdown' }
-  );
+  // Anti-Fraud Check: Slip Replay Detection
+  const fileUniqueId = photo.file_unique_id;
+  const isDuplicateSlip = voucherPool.hasSlip(fileUniqueId);
+
+  if (isDuplicateSlip) {
+    await ctx.reply(
+      `⚠️ **သတိပေးချက်:** ဤငွေလွှဲစလစ် (Screenshot) အား ယခင်က လက်ခံရရှိပြီးဖြစ်ပါသဖြင့် ထပ်မံပေးပို့ခြင်း မပြုရန် မေတ္တာရပ်ခံအပ်ပါသည်။ အကယ်၍ အမှားအယွင်းရှိပါက Support (@hyuguo) သို့ တိုက်ရိုက် ဆက်သွယ်နိုင်ပါသည်။`,
+      { parse_mode: 'Markdown' }
+    );
+  } else {
+    // 1. Send immediate reassuring acknowledgement to student
+    await ctx.reply(
+      `✅ **ငွေလွှဲစလစ်အား လက်ခံရရှိပါပြီခင်ဗျာ!**\n\n` +
+      `⏳ Admin ဘက်မှ Transaction ID အား စစ်ဆေးနေပါသည်။ အတည်ပြုပြီးပါက သင်၏ **Lifetime Studio VIP Pass (1-Click Magic Link)** အား ဤ Chat သို့ အလိုအလျောက် ချက်ချင်း ပေးပို့ပေးပါမည်။\n\n` +
+      `ခေတ္တစောင့်ဆိုင်းပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။`,
+      { parse_mode: 'Markdown' }
+    );
+    // Record slip fingerprint to prevent future replays
+    voucherPool.recordSlip(fileUniqueId, user.id, {
+      name: (user.first_name || '') + (user.last_name ? ` ${user.last_name}` : ''),
+      username: user.username || ''
+    });
+  }
 
   // 2. Forward slip to Admin with 1-Tap Action Buttons
   if (!ADMIN_CHAT_ID) {
@@ -117,7 +136,12 @@ bot.on('message:photo', async (ctx) => {
   const username = user.username ? `@${user.username}` : 'No Username';
   const timeStr = new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' });
 
+  const duplicateWarning = isDuplicateSlip
+    ? `🚨⚠️ **WARNING: DUPLICATE SLIP REPLAY DETECTED!**\nThis screenshot file has already been submitted previously!\n\n`
+    : '';
+
   const adminCaption =
+    `${duplicateWarning}` +
     `🚨 **NEW PAYMENT SLIP SUBMISSION**\n\n` +
     `👤 **Student:** ${studentName} (${username})\n` +
     `🆔 **User ID:** \`${user.id}\`\n` +
@@ -164,6 +188,23 @@ bot.on('callback_query:data', async (ctx) => {
     const studentId = parts[1];
     const studentName = decodeURIComponent(parts[2] || 'Scholar');
 
+    const msgId = ctx.callbackQuery.message?.message_id;
+    const lockKey = `${msgId}:${studentId}`;
+
+    // Race condition prevention: block duplicate clicks immediately
+    if (activeApprovalLocks.has(lockKey)) {
+      return ctx.answerCallbackQuery({
+        text: '⏳ Processing approval, please wait...',
+        show_alert: false
+      });
+    }
+    activeApprovalLocks.add(lockKey);
+
+    // Immediately clear keyboard on message to prevent client double-taps
+    try {
+      await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
+    } catch (_) {}
+
     // Claim next voucher from pool
     const voucher = voucherPool.claimNextVoucher({
       id: studentId,
@@ -172,6 +213,7 @@ bot.on('callback_query:data', async (ctx) => {
     });
 
     if (!voucher) {
+      activeApprovalLocks.delete(lockKey);
       await ctx.answerCallbackQuery({
         text: '⚠️ Voucher pool is empty! Use /mint to add more codes.',
         show_alert: true
@@ -230,6 +272,21 @@ bot.on('callback_query:data', async (ctx) => {
   // Handle Rejection: rej:<studentId>
   if (data.startsWith('rej:')) {
     const studentId = data.split(':')[1];
+    const msgId = ctx.callbackQuery.message?.message_id;
+    const lockKey = `${msgId}:${studentId}`;
+
+    if (activeApprovalLocks.has(lockKey)) {
+      return ctx.answerCallbackQuery({
+        text: '⏳ Action already in progress...',
+        show_alert: false
+      });
+    }
+    activeApprovalLocks.add(lockKey);
+
+    // Immediately clear keyboard on message to prevent client double-taps
+    try {
+      await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
+    } catch (_) {}
 
     const currentCaption = ctx.callbackQuery.message?.caption || '';
     const updatedCaption =

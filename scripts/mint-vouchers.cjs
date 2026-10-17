@@ -37,10 +37,13 @@ function generateVoucherChecksum(payload) {
   return CHARSET[idx0] + CHARSET[idx1] + CHARSET[idx2] + CHARSET[idx3];
 }
 
+const crypto = require('crypto');
+
 function generateRandomVoucher() {
+  const bytes = crypto.randomBytes(4);
   let payload = '';
   for (let i = 0; i < 4; i++) {
-    payload += CHARSET[Math.floor(Math.random() * 32)];
+    payload += CHARSET[bytes[i] & 0x1F];
   }
   const checksum = generateVoucherChecksum(payload);
   return `IPS-VIP-${payload}-${checksum}`;

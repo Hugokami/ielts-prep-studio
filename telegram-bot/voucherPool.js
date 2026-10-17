@@ -10,6 +10,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -47,9 +48,10 @@ export function generateVoucherChecksum(payload) {
  * Format: IPS-VIP-XXXX-YYYY (over 1.1 Trillion combinations)
  */
 export function generateRandomVoucher() {
+  const bytes = crypto.randomBytes(4);
   let payload = '';
   for (let i = 0; i < 4; i++) {
-    payload += CHARSET[Math.floor(Math.random() * 32)];
+    payload += CHARSET[bytes[i] & 0x1F]; // 0 to 31
   }
   const checksum = generateVoucherChecksum(payload);
   return `IPS-VIP-${payload}-${checksum}`;
@@ -68,9 +70,12 @@ export function verifyVoucherChecksum(code) {
   return generateVoucherChecksum(payload) === checksum;
 }
 
+const SLIPS_DB_FILE = path.resolve(__dirname, 'slips_state.json');
+
 class VoucherPool {
   constructor() {
     this.vouchers = [];
+    this.slips = new Map();
     this.init();
   }
 
@@ -88,8 +93,45 @@ class VoucherPool {
       this.loadFromCsv();
     }
 
+    // Load slip deduplication registry
+    if (fs.existsSync(SLIPS_DB_FILE)) {
+      try {
+        const rawSlips = JSON.parse(fs.readFileSync(SLIPS_DB_FILE, 'utf8'));
+        this.slips = new Map(Object.entries(rawSlips));
+        console.log(`[VoucherPool] Loaded ${this.slips.size} verified slip fingerprints.`);
+      } catch (e) {
+        console.warn('[VoucherPool] Slips state parse error:', e.message);
+      }
+    }
+
     // Check pool health on boot and auto-refill if low
     this.checkAndAutoRefill();
+  }
+
+  hasSlip(fileUniqueId) {
+    if (!fileUniqueId) return false;
+    return this.slips.has(String(fileUniqueId));
+  }
+
+  recordSlip(fileUniqueId, userId, meta = {}) {
+    if (!fileUniqueId) return;
+    this.slips.set(String(fileUniqueId), {
+      userId: String(userId),
+      timestamp: new Date().toISOString(),
+      ...meta
+    });
+    this.saveSlips();
+  }
+
+  saveSlips() {
+    try {
+      const obj = Object.fromEntries(this.slips.entries());
+      const tempFile = `${SLIPS_DB_FILE}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
+      fs.writeFileSync(tempFile, JSON.stringify(obj, null, 2), 'utf8');
+      fs.renameSync(tempFile, SLIPS_DB_FILE);
+    } catch (e) {
+      console.error('[VoucherPool] Slip save error:', e.message);
+    }
   }
 
   loadFromCsv() {
@@ -131,7 +173,10 @@ class VoucherPool {
 
   saveState() {
     try {
-      fs.writeFileSync(LOCAL_DB_FILE, JSON.stringify(this.vouchers, null, 2), 'utf8');
+      const payload = JSON.stringify(this.vouchers, null, 2);
+      const tempFile = `${LOCAL_DB_FILE}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
+      fs.writeFileSync(tempFile, payload, 'utf8');
+      fs.renameSync(tempFile, LOCAL_DB_FILE);
       this.syncBackToCsv();
     } catch (e) {
       console.error('[VoucherPool] Save error:', e.message);
@@ -150,7 +195,9 @@ class VoucherPool {
         }
         csv += `${v.code},lifetime,Lifetime Studio Pass,"55,000 MMK",Lifetime (Never Expires),${cat},${v.status},${v.magicLink},${v.issuedTo || ''},${v.issuedAt || ''},,${v.telegramHandle || ''}\n`;
       });
-      fs.writeFileSync(CSV_FILE, csv, 'utf8');
+      const tempCsv = `${CSV_FILE}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
+      fs.writeFileSync(tempCsv, csv, 'utf8');
+      fs.renameSync(tempCsv, CSV_FILE);
     } catch (e) {
       console.error('[VoucherPool] CSV Sync error:', e.message);
     }

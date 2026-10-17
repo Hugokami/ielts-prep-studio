@@ -1,3 +1,6 @@
 node_modules/
 .env
 vouchers_state.json
+slips_state.json
+*.tmp
+

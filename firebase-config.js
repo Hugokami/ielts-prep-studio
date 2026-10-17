@@ -156,14 +156,16 @@ window.syncUserDataToCloud = async function() {
   if (window.firebaseDbInstance && window.isFirebaseConfigured()) {
     try {
       const docRef = window.firebaseDbInstance.collection("users").doc(window.currentUser.uid).collection("studioState").doc("progress");
+      
+      // Bounded Payload to prevent Firestore 1 MiB document limit exhaustion
       const payload = {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        mastered: appState.mastered || [],
-        srsSchedule: appState.srsSchedule || {},
-        drillBest: appState.drillBest || 0,
-        writingDrafts: appState.writingDrafts || {},
-        readingDone: appState.readingDone || [],
-        errorLog: appState.errorLog || [],
+        mastered: (appState.mastered || []).slice(0, 1000),
+        srsSchedule: appState.srsSchedule ? Object.fromEntries(Object.entries(appState.srsSchedule).slice(0, 1000)) : {},
+        drillBest: Math.min(Math.max(appState.drillBest || 0, 0), 100000),
+        writingDrafts: appState.writingDrafts ? Object.fromEntries(Object.entries(appState.writingDrafts).slice(0, 50)) : {},
+        readingDone: (appState.readingDone || []).slice(0, 100),
+        errorLog: (appState.errorLog || []).slice(-500), // retain 500 most recent errors
         userProfile: appState.userProfile || {}
       };
       await docRef.set(payload, { merge: true });
@@ -188,8 +190,13 @@ window.loadUserDataFromCloud = async function() {
     const doc = await docRef.get();
     if (doc.exists) {
       const data = doc.data();
+      
+      // Tombstone-aware merge for mastered items (prevents zombie resurrection)
+      const tombstones = new Set(appState.unmastered || []);
       if (Array.isArray(data.mastered)) {
-        appState.mastered = Array.from(new Set([...(appState.mastered || []), ...data.mastered]));
+        const merged = new Set([...(appState.mastered || []), ...data.mastered]);
+        tombstones.forEach(id => merged.delete(id));
+        appState.mastered = Array.from(merged).slice(0, 1000);
       }
       if (data.srsSchedule && typeof data.srsSchedule === 'object') {
         appState.srsSchedule = Object.assign({}, appState.srsSchedule || {}, data.srsSchedule);
@@ -201,17 +208,33 @@ window.loadUserDataFromCloud = async function() {
         appState.writingDrafts = Object.assign({}, appState.writingDrafts || {}, data.writingDrafts);
       }
       if (Array.isArray(data.readingDone)) {
-        appState.readingDone = Array.from(new Set([...(appState.readingDone || []), ...data.readingDone]));
+        appState.readingDone = Array.from(new Set([...(appState.readingDone || []), ...data.readingDone])).slice(0, 100);
       }
       if (Array.isArray(data.errorLog)) {
-        appState.errorLog = data.errorLog;
+        appState.errorLog = data.errorLog.slice(-500);
       }
       if (data.userProfile && typeof data.userProfile === 'object') {
         if (!appState.userProfile) appState.userProfile = {};
         if (data.userProfile.tier === "vip") {
-          appState.userProfile.tier = "vip";
-          appState.userProfile.vipExpiresAt = data.userProfile.vipExpiresAt;
-          if (data.userProfile.voucherCode) appState.userProfile.voucherCode = data.userProfile.voucherCode;
+          // Check expiration if time-bounded pass
+          let isExpired = false;
+          if (data.userProfile.vipExpiresAt) {
+            const expMillis = typeof data.userProfile.vipExpiresAt.toMillis === 'function'
+              ? data.userProfile.vipExpiresAt.toMillis()
+              : new Date(data.userProfile.vipExpiresAt).getTime();
+            if (!isNaN(expMillis) && expMillis < Date.now()) {
+              isExpired = true;
+            }
+          }
+          if (isExpired) {
+            appState.userProfile.tier = "free";
+            appState.userProfile.vipExpiresAt = null;
+            appState.userProfile.voucherCode = null;
+          } else {
+            appState.userProfile.tier = "vip";
+            appState.userProfile.vipExpiresAt = data.userProfile.vipExpiresAt;
+            if (data.userProfile.voucherCode) appState.userProfile.voucherCode = data.userProfile.voucherCode;
+          }
         } else {
           appState.userProfile.tier = "free";
           appState.userProfile.vipExpiresAt = null;
