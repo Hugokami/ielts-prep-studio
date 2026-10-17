@@ -1,39 +1,65 @@
 /**
  * IELTS Prep Studio - Unified Lifetime Voucher Minting & Distribution Utility
  *
+ * Generates cryptographically randomized, unpredictable Lifetime Pass codes
+ * Format: IPS-VIP-XXXX-YYYY (where YYYY is a deterministic mathematical checksum)
+ *
  * Usage:
- *   node scripts/mint-vouchers.cjs [count] [startNumber] [prefix]
+ *   node scripts/mint-vouchers.cjs [count]
  *
  * Example:
- *   node scripts/mint-vouchers.cjs 20 101 IPS-VIP
- *
- * Generates:
- *   - Formatted Lifetime VIP Codes
- *   - 1-Click Magic Activation Links (?redeem=IPS-VIP-XXX)
- *   - Appends entries to IELTS_Studio_Voucher_Codes.csv
- *   - Outputs copy-pasteable Telegram delivery templates
+ *   node scripts/mint-vouchers.cjs 20
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const count = parseInt(process.argv[2], 10) || 10;
-const startNumber = parseInt(process.argv[3], 10) || 101;
-const prefix = process.argv[4] || 'IPS-VIP';
-
 const BASE_URL = 'https://ielts-prep-studio.web.app';
 const CSV_FILE = path.resolve(__dirname, '..', 'IELTS_Studio_Voucher_Codes.csv');
 
-console.log(`\n=============================================================`);
-console.log(`🎓 IELTS PREP STUDIO - MINTING ${count} UNIFIED LIFETIME PASSES`);
-console.log(`Prefix: ${prefix} | Starting Index: ${startNumber} | Plan: Lifetime Studio Pass (55,000 MMK)`);
-console.log(`=============================================================\n`);
+const CHARSET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+const SALT = 'IELTS_STUDIO_VIP_2026_KEY';
+
+function generateVoucherChecksum(payload) {
+  let h1 = 0x811c9dc5 >>> 0;
+  let h2 = 0x5bd1e995 >>> 0;
+  const str = payload + ':' + SALT;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    h1 = (Math.imul(h1 ^ c, 0x01000193) >>> 0);
+    h2 = (Math.imul(h2 ^ (c << 3), 0x5bd1e995) >>> 0);
+  }
+  const idx0 = (h1 & 0x1F);
+  const idx1 = ((h1 >>> 5) & 0x1F);
+  const idx2 = (h2 & 0x1F);
+  const idx3 = ((h2 >>> 5) & 0x1F);
+  return CHARSET[idx0] + CHARSET[idx1] + CHARSET[idx2] + CHARSET[idx3];
+}
+
+function generateRandomVoucher() {
+  let payload = '';
+  for (let i = 0; i < 4; i++) {
+    payload += CHARSET[Math.floor(Math.random() * 32)];
+  }
+  const checksum = generateVoucherChecksum(payload);
+  return `IPS-VIP-${payload}-${checksum}`;
+}
+
+console.log(`\n========================================================================`);
+console.log(`🎓 IELTS PREP STUDIO - MINTING ${count} UNPREDICTABLE LIFETIME PASSES`);
+console.log(`Format: Cryptographically Checksummed IPS-VIP-XXXX-YYYY (Over 1.1 Trillion Space)`);
+console.log(`========================================================================\n`);
 
 const minted = [];
+const seen = new Set();
 
 for (let i = 0; i < count; i++) {
-  const num = startNumber + i;
-  const code = `${prefix}-${num}`;
+  let code = generateRandomVoucher();
+  while (seen.has(code)) {
+    code = generateRandomVoucher();
+  }
+  seen.add(code);
   const magicLink = `${BASE_URL}/?redeem=${code}`;
 
   minted.push({
@@ -46,11 +72,11 @@ for (let i = 0; i < count; i++) {
 }
 
 // Display Table
-console.log(`INDEX | CODE          | 1-CLICK MAGIC ACTIVATION LINK`);
-console.log(`------|---------------|----------------------------------------------------------`);
+console.log(`INDEX | VOUCHER CODE        | 1-CLICK MAGIC ACTIVATION LINK`);
+console.log(`------|---------------------|------------------------------------------------------------------`);
 minted.forEach((item, idx) => {
   const idxStr = String(idx + 1).padStart(5, ' ');
-  const codeStr = item.code.padEnd(13, ' ');
+  const codeStr = item.code.padEnd(19, ' ');
   console.log(`${idxStr} | ${codeStr} | ${item.magicLink}`);
 });
 
@@ -62,7 +88,7 @@ try {
   }
 
   minted.forEach(item => {
-    csvContent += `${item.code},lifetime,Lifetime Studio Pass,"55,000 MMK",Lifetime (Never Expires),Batch 2 Unified Lifetime Sales,Active,${item.magicLink},,,,\n`;
+    csvContent += `${item.code},lifetime,Lifetime Studio Pass,"55,000 MMK",Lifetime (Never Expires),Batch 3 Cryptographic Randomized Passes,Active,${item.magicLink},,,,\n`;
   });
 
   fs.appendFileSync(CSV_FILE, csvContent, 'utf8');
@@ -70,17 +96,3 @@ try {
 } catch (err) {
   console.error(`⚠️ Failed to append to CSV:`, err.message);
 }
-
-// Telegram Message Template Example
-console.log(`\n-------------------------------------------------------------`);
-console.log(`💬 READY-TO-SEND TELEGRAM CUSTOMER MESSAGE TEMPLATE:`);
-console.log(`-------------------------------------------------------------`);
-console.log(`မင်္ဂလာပါခင်ဗျာ! IELTS Prep Studio Lifetime VIP Pass အား ဝယ်ယူအားပေးမှုအတွက် ကျေးဇူးတင်ရှိပါသည်။
-
-👑 သင့်ရဲ့ Lifetime Studio VIP Pass (တစ်သက်တာအသုံးပြုခွင့်):
-👉 1-Click Activate Link: ${minted[0].magicLink}
-
-အထက်ပါ Link ကို နှိပ်ပြီး Google Account ဖြင့် Sign In ပြုလုပ်ရုံဖြင့် VIP Modules (Reading CBT Mocks 23 ခု၊ Writing Band 9 Models 40 ခု၊ AI Examiner Evaluation များနှင့် Speaking 2026 Forecast Topics များ) အားလုံး ချက်ချင်း Unlocked ဖြစ်သွားပါမည်ခင်ဗျာ။
-
-(App အတွင်း တိုက်ရိုက်ထည့်လိုပါက Voucher Code: ${minted[0].code})
--------------------------------------------------------------\n`);

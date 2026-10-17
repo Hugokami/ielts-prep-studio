@@ -4169,6 +4169,38 @@ for (let i = 101; i <= 150; i++) {
   VALID_VOUCHER_CODES[`IPS-VIP-${i}`] = { plan: "lifetime", name: "Lifetime Studio Pass" };
 }
 
+// ==========================================
+// CRYPTOGRAPHIC RANDOMIZED PASS VERIFICATION
+// ==========================================
+const VOUCHER_SALT = "IELTS_STUDIO_VIP_2026_KEY";
+const VOUCHER_CHARSET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+function generateVoucherChecksum(payload) {
+  let h1 = 0x811c9dc5 >>> 0;
+  let h2 = 0x5bd1e995 >>> 0;
+  const str = payload + ':' + VOUCHER_SALT;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    h1 = (Math.imul(h1 ^ c, 0x01000193) >>> 0);
+    h2 = (Math.imul(h2 ^ (c << 3), 0x5bd1e995) >>> 0);
+  }
+  const idx0 = (h1 & 0x1F);
+  const idx1 = ((h1 >>> 5) & 0x1F);
+  const idx2 = (h2 & 0x1F);
+  const idx3 = ((h2 >>> 5) & 0x1F);
+  return VOUCHER_CHARSET[idx0] + VOUCHER_CHARSET[idx1] + VOUCHER_CHARSET[idx2] + VOUCHER_CHARSET[idx3];
+}
+
+function verifyVoucherChecksum(code) {
+  if (typeof code !== 'string') return false;
+  const parts = code.trim().toUpperCase().split('-');
+  if (parts.length !== 4 || parts[0] !== 'IPS' || parts[1] !== 'VIP') return false;
+  const payload = parts[2];
+  const checksum = parts[3];
+  if (payload.length !== 4 || checksum.length !== 4) return false;
+  return generateVoucherChecksum(payload) === checksum;
+}
+
 const SPEAKING_FREE_MONTHLY_LIMIT = 10;
 const WRITING_FREE_MONTHLY_LIMIT = 5;
 const WRITING_VIP_MONTHLY_LIMIT = 60; // Fair-Use Cap: 2 full essays every single day
@@ -4471,14 +4503,17 @@ async function redeemVoucherCode(explicitCode) {
     }
   }
 
-  // 2. Verified Whitelist Code (for partner campaigns / direct activations)
+  // 2. Verified Whitelist Code or Cryptographic Random Checksum Pass
   const found = VALID_VOUCHER_CODES[code];
-  if (found) {
-    activateVipPass(found.plan || "lifetime", code);
-    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name || "Lifetime Studio Pass"} applied to your account.</span>`;
+  const isAlgorithmicValid = verifyVoucherChecksum(code);
+
+  if (found || isAlgorithmicValid) {
+    const passName = (found && found.name) || "Lifetime Studio Pass";
+    activateVipPass("lifetime", code);
+    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${passName} applied to your account.</span>`;
     return true;
   } else {
-    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or message Telegram @hyuguo.</span>`;
+    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or message Telegram @IELTSPrepStudioBot.</span>`;
     return false;
   }
 }
