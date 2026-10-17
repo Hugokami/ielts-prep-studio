@@ -242,6 +242,10 @@ window.loadUserDataFromCloud = async function() {
         refreshAllVipViews();
       }
     }
+    // Check and execute queued 1-click Magic Link voucher redemption
+    if (typeof window.checkAndExecutePendingVoucher === "function") {
+      window.checkAndExecutePendingVoucher();
+    }
   } catch (err) {
     console.error("[Firestore Load Error]:", err);
   }

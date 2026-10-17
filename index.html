@@ -4124,14 +4124,14 @@ const VIP_PASS_PLANS = {
 };
 
 const VALID_VOUCHER_CODES = {
-  // Campaign & Partner Codes (All Lifetime Access)
+  // Campaign & Partner Master Codes (All Lifetime Access)
   "VIPPASS2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "BAND9VIP": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "SCHOLAR9": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "BURMA2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "ENGNOVATE": { plan: "lifetime", name: "Lifetime Studio Pass" },
 
-  // Batch 1: Customer One-Time Codes (All Lifetime Access - 55,000 MMK)
+  // Batch 1: Customer Passes (All Unified Lifetime Access)
   "IPS-LIFE-901": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-902": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-903": { plan: "lifetime", name: "Lifetime Studio Pass" },
@@ -4163,6 +4163,11 @@ const VALID_VOUCHER_CODES = {
   "IPS-SPRINT-109": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-SPRINT-110": { plan: "lifetime", name: "Lifetime Studio Pass" }
 };
+
+// Batch 2: Unified Standard Lifetime Series (IPS-VIP-101 through IPS-VIP-150)
+for (let i = 101; i <= 150; i++) {
+  VALID_VOUCHER_CODES[`IPS-VIP-${i}`] = { plan: "lifetime", name: "Lifetime Studio Pass" };
+}
 
 const SPEAKING_FREE_MONTHLY_LIMIT = 10;
 const WRITING_FREE_MONTHLY_LIMIT = 5;
@@ -4404,20 +4409,27 @@ function activateVipPass(planType, voucherCode) {
   refreshAllVipViews();
 }
 
-async function redeemVoucherCode() {
+async function redeemVoucherCode(explicitCode) {
   const inp = document.getElementById("vipVoucherInput");
-  if (!inp) return;
-  const code = inp.value.trim().toUpperCase();
+  const rawCode = explicitCode || (inp ? inp.value : "");
+  const code = (rawCode || "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+  if (inp && !explicitCode) inp.value = code;
   const fb = document.getElementById("vipVoucherFeedback");
+
   if (!code) {
     if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Please enter a voucher or access code.</span>`;
-    return;
+    return false;
   }
 
   // Mandatory Authentication Check
   if (!window.currentUser || !window.currentUser.uid) {
-    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⚠️ Please Sign In with Google (top right) first so your VIP Pass is permanently registered to your account across all devices.</span>`;
-    return;
+    // Preserve in pending session storage so it auto-redeems immediately after Google sign-in
+    try { sessionStorage.setItem("ielts_pending_voucher", code); } catch (e) {}
+    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⚠️ Please Sign In with Google (top right) first so your Lifetime Pass is permanently linked to your account.</span>`;
+    if (window.signInWithGoogle) {
+      window.signInWithGoogle();
+    }
+    return false;
   }
 
   // 1. Cloud-backed One-Time Voucher Verification (Firestore)
@@ -4427,35 +4439,33 @@ async function redeemVoucherCode() {
       const vRef = window.firebaseDbInstance.collection("vouchers").doc(code);
       const vDoc = await vRef.get();
 
-      if (!vDoc.exists) {
-        if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact Telegram @hyuguo.</span>`;
-        return;
-      }
-
-      const vData = vDoc.data();
-      if (vData.isOneTime && vData.redeemed) {
-        if (vData.redeemedBy === window.currentUser.uid) {
-          if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">You have already redeemed this voucher on this account.</span>`;
-          activateVipPass(vData.plan, code);
-        } else {
-          if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⛔ This one-time voucher has already been redeemed by another user and cannot be reused.</span>`;
+      if (vDoc.exists) {
+        const vData = vDoc.data();
+        if (vData.isOneTime && vData.redeemed) {
+          if (vData.redeemedBy === window.currentUser.uid) {
+            if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">You have already redeemed this voucher on this account.</span>`;
+            activateVipPass(vData.plan || "lifetime", code);
+            return true;
+          } else {
+            if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⛔ This one-time voucher has already been redeemed by another user and cannot be reused.</span>`;
+            return false;
+          }
         }
-        return;
-      }
 
-      // Claim one-time voucher atomically in Firestore
-      if (vData.isOneTime) {
-        await vRef.update({
-          redeemed: true,
-          redeemedBy: window.currentUser.uid,
-          redeemedByEmail: window.currentUser.email || "user",
-          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
+        // Claim one-time voucher atomically in Firestore
+        if (vData.isOneTime) {
+          await vRef.update({
+            redeemed: true,
+            redeemedBy: window.currentUser.uid,
+            redeemedByEmail: window.currentUser.email || "user",
+            redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
 
-      activateVipPass(vData.plan, code);
-      if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${vData.name || "VIP Pass"} activated.</span>`;
-      return;
+        activateVipPass(vData.plan || "lifetime", code);
+        if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${vData.name || "Lifetime Studio Pass"} activated.</span>`;
+        return true;
+      }
     } catch (err) {
       console.warn("[Cloud Voucher Verification Notice]", err);
     }
@@ -4464,12 +4474,76 @@ async function redeemVoucherCode() {
   // 2. Verified Whitelist Code (for partner campaigns / direct activations)
   const found = VALID_VOUCHER_CODES[code];
   if (found) {
-    activateVipPass(found.plan, code);
-    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name} applied to your account.</span>`;
+    activateVipPass(found.plan || "lifetime", code);
+    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${found.name || "Lifetime Studio Pass"} applied to your account.</span>`;
+    return true;
   } else {
     if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or message Telegram @hyuguo.</span>`;
+    return false;
   }
 }
+
+// ==========================================
+// 1-CLICK MAGIC LINK AUTO-REDEMPTION ENGINE
+// ==========================================
+window.checkAndExecutePendingVoucher = async function() {
+  try {
+    const pending = sessionStorage.getItem("ielts_pending_voucher");
+    if (!pending) return;
+    if (!window.currentUser || !window.currentUser.uid) return;
+
+    if (appState && appState.userProfile && appState.userProfile.tier === "vip") {
+      sessionStorage.removeItem("ielts_pending_voucher");
+      return;
+    }
+
+    sessionStorage.removeItem("ielts_pending_voucher");
+    const m = document.getElementById("vipPassModal");
+    if (m) m.style.display = "block";
+    const inp = document.getElementById("vipVoucherInput");
+    if (inp) inp.value = pending;
+    
+    if (typeof showToast === "function") {
+      showToast(`🎟️ Activating Lifetime VIP Pass (${pending})...`);
+    }
+    await redeemVoucherCode(pending);
+  } catch (err) {
+    console.warn("[Pending Voucher Auto-Execution Error]", err);
+  }
+};
+
+(function initVoucherUrlDetector() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("redeem") || params.get("voucher") || params.get("pass");
+    if (code) {
+      const cleanCode = code.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+      if (cleanCode) {
+        sessionStorage.setItem("ielts_pending_voucher", cleanCode);
+        
+        // Remove voucher query parameter from URL cleanly without reloading
+        const newUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, newUrl);
+
+        // Pre-fill input if modal exists
+        setTimeout(() => {
+          const inp = document.getElementById("vipVoucherInput");
+          if (inp) inp.value = cleanCode;
+
+          if (window.currentUser && window.currentUser.uid) {
+            window.checkAndExecutePendingVoucher();
+          } else {
+            if (typeof showToast === "function") {
+              showToast(`🎟️ Lifetime VIP Code "${cleanCode}" detected! Sign in with Google to claim.`);
+            }
+          }
+        }, 800);
+      }
+    }
+  } catch (e) {
+    console.warn("[Voucher URL Detector Error]", e);
+  }
+})();
 
 function refreshAllVipViews() {
   renderLexiconGrid(true);
@@ -8951,12 +9025,12 @@ if (typeof window !== 'undefined') {
       <!-- Voucher Code Redemption -->
       <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have an Issued VIP Access Code or Voucher?</span>
-          <span style="font-size:0.75rem; color:var(--text-secondary);">Redeem your issued pass (e.g. IPS-LIFE-901)</span>
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a Lifetime VIP Voucher or Access Code?</span>
+          <span style="font-size:0.75rem; color:var(--green); font-weight:600;">✓ Instant 1-Click Activation</span>
         </div>
         <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code (e.g. IPS-LIFE-901)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
-          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Voucher</button>
+          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code (e.g. IPS-VIP-101)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
+          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Lifetime Pass</button>
         </div>
         <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
       </div>
