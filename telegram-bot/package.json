@@ -1,0 +1,15 @@
+{
+  "name": "ielts-prep-studio-telegram-bot",
+  "version": "1.0.0",
+  "description": "1-Tap Telegram Approval Bot for IELTS Prep Studio Lifetime VIP Pass Fulfillment",
+  "main": "bot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "grammy": "^1.35.0"
+  }
+}
