@@ -21,15 +21,18 @@
     return 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
   };
 
-  const tg = (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp && (window.Telegram.WebApp.initData || (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user)))
+  const tg = (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp)
     ? window.Telegram.WebApp
     : null;
 
-  // Initialize TMA SDK immediately
+  // Initialize TMA SDK immediately & auto-expand / request fullscreen
   if (tg) {
     try {
       tg.ready();
       tg.expand();
+      if (typeof tg.requestFullscreen === 'function') {
+        try { tg.requestFullscreen(); } catch (err) {}
+      }
       if (typeof tg.setHeaderColor === 'function') tg.setHeaderColor('#0d0d0d');
       if (typeof tg.setBackgroundColor === 'function') tg.setBackgroundColor('#0d0d0d');
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -124,6 +127,47 @@
 
     getInitData() {
       return (tg && tg.initData) ? tg.initData : '';
+    },
+
+    getPlatform() {
+      return (tg && tg.platform) ? tg.platform : 'web';
+    },
+
+    get isFullscreen() {
+      return !!(tg && tg.isFullscreen);
+    },
+
+    toggleFullscreen() {
+      if (!tg) return false;
+      try {
+        if (tg.isFullscreen && typeof tg.exitFullscreen === 'function') {
+          tg.exitFullscreen();
+          return false;
+        } else if (typeof tg.requestFullscreen === 'function') {
+          tg.requestFullscreen();
+          return true;
+        } else if (typeof tg.expand === 'function') {
+          tg.expand();
+          return true;
+        }
+      } catch (e) {
+        console.warn('[StorageManager toggleFullscreen error]', e);
+        if (typeof tg.expand === 'function') tg.expand();
+      }
+      return false;
+    },
+
+    openSystemBrowser(url) {
+      const target = url || (typeof window !== 'undefined' && window.location.href) || 'https://hugokami.github.io/ielts-prep-studio/';
+      if (tg && typeof tg.openLink === 'function') {
+        try {
+          tg.openLink(target);
+          return;
+        } catch (e) {}
+      }
+      if (typeof window !== 'undefined') {
+        window.open(target, '_blank');
+      }
     },
 
     triggerHaptic,

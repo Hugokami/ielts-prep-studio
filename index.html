@@ -186,6 +186,18 @@
     overflow: visible;
   }
 
+  .topbar-left-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: visible;
+  }
+  .tma-bar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .brand {
     display: flex;
     align-items: center;
@@ -1718,21 +1730,46 @@
 
   @media (max-width: 600px) {
     .topbar-inner {
-      padding: 8px 12px;
-      gap: 8px;
+      padding: 6px 10px 4px 10px;
+      gap: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .topbar-left-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
     }
     .top-utils {
       width: 100%;
+      display: flex;
+      align-items: center;
       justify-content: flex-start;
-      gap: 5px;
+      gap: 6px;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: visible !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      box-sizing: border-box;
     }
-    .util-icon-btn, .top-utils .btn-outlined {
+    .top-utils::-webkit-scrollbar {
+      display: none;
+    }
+    .top-utils > * {
+      flex-shrink: 0 !important;
+    }
+    .util-icon-btn, .top-utils .btn-outlined, .top-utils .vip-upgrade-btn, .top-utils .auth-btn {
       padding: 4px 8px;
       font-size: 0.72rem;
-      min-height: 32px;
+      min-height: 30px;
+      white-space: nowrap;
     }
     .page-wrap {
-      padding: 16px 10px 110px 10px;
+      padding: 12px 10px 85px 10px;
     }
     .occ-card {
       padding: 14px 12px;
@@ -2582,10 +2619,21 @@
 <!-- STICKY TOP NAVIGATION BAR -->
 <header class="topbar" role="banner">
   <div class="topbar-inner">
-    <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
-      <span class="brand-box">IELTS</span>
-      <span class="brand-text">Prep Studio</span>
-    </button>
+    <div class="topbar-left-wrap">
+      <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
+        <span class="brand-box">IELTS</span>
+        <span class="brand-text">Prep Studio</span>
+      </button>
+
+      <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
+        <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
+          ⛶ Maximize
+        </button>
+        <button class="util-icon-btn" id="tgBrowserBtn" onclick="openTmaInBrowser()" title="Open in Full Desktop Browser" style="color:var(--text); padding:4px 9px;">
+          🌐 Browser ↗
+        </button>
+      </div>
+    </div>
 
     <nav class="nav-links" role="tablist" aria-label="Main Study Sections">
       <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="1" onclick="switchView('overview')">
@@ -2646,6 +2694,14 @@
     </div>
   </div>
 </header>
+
+<!-- TELEGRAM DESKTOP EXPAND TIP BANNER -->
+<div id="tdesktopTipBanner" style="display:none; background:rgba(224,108,53,0.12); border-bottom:1px solid var(--accent); padding:7px 14px; font-size:0.75rem; color:var(--text); align-items:center; justify-content:space-between; gap:10px; z-index:1400; position:relative;">
+  <div style="line-height:1.4;">
+    💡 <strong>Desktop Notice:</strong> Click <strong style="color:var(--accent);">⛶ Maximize</strong> or drag this window's borders to expand to full size! Or switch to <a href="javascript:void(0)" onclick="openTmaInBrowser()" style="color:var(--accent); font-weight:700; text-decoration:underline;">Chrome / Edge (Full Desktop) ↗</a>
+  </div>
+  <button onclick="dismissTdesktopTip()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1rem; padding:0 4px; line-height:1;" title="Dismiss Tip">✕</button>
+</div>
 
 <!-- MOBILE BOTTOM NAVIGATION BAR (VISIBLE ON < 860PX) -->
 <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Section Navigation">
@@ -4635,6 +4691,109 @@ window.handleSendPaymentProof = function(e) {
   }
 };
 
+window.toggleTmaFullscreen = function() {
+  if (window.StorageManager && typeof window.StorageManager.toggleFullscreen === "function") {
+    window.StorageManager.toggleFullscreen();
+    window.updateTmaFullscreenUI();
+    return;
+  }
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (!tg) {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+    return;
+  }
+  try {
+    if (tg.isFullscreen && typeof tg.exitFullscreen === "function") {
+      tg.exitFullscreen();
+    } else if (typeof tg.requestFullscreen === "function") {
+      tg.requestFullscreen();
+    } else if (typeof tg.expand === "function") {
+      tg.expand();
+    }
+  } catch (err) {
+    console.warn("[TMA Fullscreen error]", err);
+    if (typeof tg.expand === "function") tg.expand();
+  }
+  window.updateTmaFullscreenUI();
+};
+
+window.openTmaInBrowser = function(url) {
+  const target = url || "https://hugokami.github.io/ielts-prep-studio/";
+  if (window.StorageManager && typeof window.StorageManager.openSystemBrowser === "function") {
+    window.StorageManager.openSystemBrowser(target);
+    return;
+  }
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (tg && typeof tg.openLink === "function") {
+    try {
+      tg.openLink(target);
+      return;
+    } catch (e) {}
+  }
+  window.open(target, "_blank");
+};
+
+window.dismissTdesktopTip = function() {
+  const tip = document.getElementById("tdesktopTipBanner");
+  if (tip) tip.style.display = "none";
+  try { sessionStorage.setItem("ips_tdesktop_tip_dismissed", "1"); } catch (e) {}
+};
+
+window.updateTmaFullscreenUI = function() {
+  const tg = window.Telegram && window.Telegram.WebApp;
+  const isTg = !!(tg || (window.StorageManager && window.StorageManager.isTelegram) || window.telegramUser);
+  const bar = document.getElementById("tmaBarActions");
+  const btn = document.getElementById("tgFullscreenBtn");
+  const tip = document.getElementById("tdesktopTipBanner");
+
+  if (bar && isTg) {
+    bar.style.display = "inline-flex";
+  }
+
+  if (btn && tg) {
+    btn.innerHTML = tg.isFullscreen ? "🗗 Restore" : "⛶ Maximize";
+    btn.title = tg.isFullscreen ? "Exit Fullscreen" : "Maximize / Fullscreen Mini App";
+  }
+
+  // If in Telegram Desktop (tdesktop) and narrow window, show tip banner unless dismissed
+  if (tip && tg && tg.platform === "tdesktop" && window.innerWidth < 700) {
+    try {
+      if (!sessionStorage.getItem("ips_tdesktop_tip_dismissed")) {
+        tip.style.display = "flex";
+      }
+    } catch (e) {
+      tip.style.display = "flex";
+    }
+  }
+};
+
+// Auto-listen to TMA events and auto-expand on boot
+if (typeof window !== "undefined") {
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const tg = window.Telegram.WebApp;
+      try {
+        tg.ready();
+        tg.expand();
+        if (typeof tg.requestFullscreen === "function") {
+          try { tg.requestFullscreen(); } catch (e) {}
+        }
+        if (typeof tg.onEvent === "function") {
+          tg.onEvent("fullscreenChanged", window.updateTmaFullscreenUI);
+          tg.onEvent("viewportChanged", window.updateTmaFullscreenUI);
+        }
+      } catch (e) {}
+    }
+    if (typeof window.updateTmaFullscreenUI === "function") {
+      window.updateTmaFullscreenUI();
+    }
+  });
+}
+
 window.openBackupModal = function() {
   const m = document.getElementById("backupModal");
   if (m) m.style.display = "flex";
@@ -4891,6 +5050,9 @@ function triggerCloudSync() {
 
 function updateAuthUI() {
   ensureUserProfileInitialized();
+  if (typeof window.updateTmaFullscreenUI === 'function') {
+    window.updateTmaFullscreenUI();
+  }
   const isVip = isVipActive();
   const vipBtn = document.getElementById("vipNavBtn");
   const vipText = document.getElementById("vipBtnText");
@@ -4951,6 +5113,12 @@ function updateAuthUI() {
         </div>
 
         <div style="display:flex; flex-direction:column; gap:6px;">
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="toggleTmaFullscreen(); document.getElementById('accountDropdownMenu').style.display='none';">
+            ⛶ ${window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.isFullscreen ? 'Exit Fullscreen' : 'Maximize / Fullscreen View'}
+          </button>
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openTmaInBrowser(); document.getElementById('accountDropdownMenu').style.display='none';">
+            🌐 Open in Desktop Browser (Chrome/Edge) ↗
+          </button>
           <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="if(window.StorageManager && window.StorageManager.syncServerless) { window.StorageManager.syncServerless(window.appState).then(()=>showStudioNotification('☁️ Progress synced to Cloudflare D1!')); }">
             ☁️ Sync Progress Now ${isVip ? '✓' : ''}
           </button>

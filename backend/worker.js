@@ -402,6 +402,7 @@ Transfer 55,000 MMK and *send your payment slip screenshot directly to this chat
       await sendTelegramMessage(botToken, chatId, welcomeText, {
         inline_keyboard: [
           [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+          [{ text: "🌐 Open in Web Browser (Full Desktop) ↗", url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" }],
           [{ text: "💳 How to Pay (55,000 MMK)", callback_data: "info_payment" }]
         ]
       });
