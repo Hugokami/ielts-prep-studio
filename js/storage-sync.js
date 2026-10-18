@@ -32,10 +32,7 @@
       if (tg.isFullscreen) {
         const sysTop = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
         const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
-        topInset = Math.max(sysTop + contentTop, sysTop, contentTop);
-        if (topInset === 0 && tg.platform !== 'tdesktop') {
-          topInset = 54;
-        }
+        topInset = Math.max(sysTop + contentTop, sysTop, contentTop, 54);
       } else {
         topInset = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
       }
@@ -58,17 +55,11 @@
       tg.ready();
       tg.expand();
 
-      // Only auto-request fullscreen on Desktop (tdesktop).
-      // On mobile (iOS / Android), exit fullscreen to restore the native Telegram title bar
-      // which sits safely below the phone notch, clock, and battery icons.
-      if (tg.platform === 'tdesktop') {
-        if (typeof tg.requestFullscreen === 'function') {
-          try { tg.requestFullscreen(); } catch (err) {}
-        }
-      } else {
-        if (tg.isFullscreen && typeof tg.exitFullscreen === 'function') {
-          try { tg.exitFullscreen(); } catch (err) {}
-        }
+      // Fullscreen restored on mobile & desktop per user requirement
+      if (typeof tg.requestFullscreen === 'function') {
+        try { tg.requestFullscreen(); } catch (err) {}
+      } else if (typeof tg.expand === 'function') {
+        try { tg.expand(); } catch (err) {}
       }
 
       applyTelegramSafeAreas();

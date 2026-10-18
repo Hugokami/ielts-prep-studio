@@ -1737,9 +1737,17 @@
   }
 
   @media (max-width: 600px) {
+    .topbar {
+      padding-top: max(
+        54px,
+        var(--app-safe-top, 54px),
+        calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 8px),
+        env(safe-area-inset-top, 50px)
+      ) !important;
+    }
     .topbar-inner {
-      padding: 6px 10px 4px 10px;
-      gap: 6px;
+      padding: 6px 12px 6px 12px;
+      gap: 8px;
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -1747,8 +1755,30 @@
     .topbar-left-wrap {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 10px;
       width: 100%;
+      padding: 4px 0;
+    }
+    .brand {
+      padding: 4px 0;
+      gap: 8px;
+    }
+    .brand-box {
+      font-size: 0.88rem;
+      padding: 6px 11px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .brand-text {
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+    .auth-btn {
+      padding: 6px 11px;
+      font-size: 0.78rem;
+      min-height: 32px;
+      border-radius: 5px;
     }
     .tma-bar-actions {
       display: none !important;
@@ -1764,7 +1794,7 @@
       overflow-y: visible !important;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      padding-bottom: 2px;
+      padding-bottom: 3px;
       box-sizing: border-box;
     }
     .top-utils::-webkit-scrollbar {
@@ -1773,7 +1803,7 @@
     .top-utils > * {
       flex-shrink: 0 !important;
     }
-    .util-icon-btn, .top-utils .btn-outlined, .top-utils .vip-upgrade-btn, .top-utils .auth-btn {
+    .util-icon-btn, .top-utils .btn-outlined, .top-utils .vip-upgrade-btn {
       padding: 4px 8px;
       font-size: 0.72rem;
       min-height: 30px;
@@ -2033,31 +2063,13 @@
   }
 
   .account-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    width: 310px;
-    max-width: calc(100vw - 20px);
-    background: var(--bg-card);
-    border: 1px solid var(--border-accent);
-    border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(249, 115, 22, 0.25);
-    padding: 16px;
-    z-index: 10000;
+    width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
     font-family: Inter, sans-serif;
     box-sizing: border-box;
-  }
-  @media (max-width: 600px) {
-    .account-dropdown {
-      position: fixed;
-      top: 56px;
-      left: 12px;
-      right: 12px;
-      width: auto;
-      max-width: none;
-      z-index: 10001;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 0 1000px rgba(0, 0, 0, 0.55);
-    }
   }
   .account-dropdown-header {
     display: flex;
@@ -2636,6 +2648,13 @@
         <span class="brand-text">Prep Studio</span>
       </button>
 
+      <div class="auth-widget-box" id="authWidgetBox">
+        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account & Sync">
+          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
+          <span id="authBtnLabel">Sign In</span>
+        </button>
+      </div>
+
       <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
         <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
           ⛶ Maximize
@@ -2695,13 +2714,6 @@
       <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
         ⭐ <span id="vipBtnText">VIP Pass (55,000 MMK)</span>
       </button>
-      <div class="auth-widget-box" id="authWidgetBox">
-        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Sign in with Google">
-          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
-          <span id="authBtnLabel">Sign In</span>
-        </button>
-        <div id="accountDropdownMenu" class="account-dropdown" style="display:none;" onclick="event.stopPropagation()"></div>
-      </div>
     </div>
   </div>
 </header>
@@ -4747,10 +4759,7 @@ window.applyTelegramSafeAreas = function() {
     if (tg.isFullscreen) {
       const sysTop = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
       const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
-      topInset = Math.max(sysTop + contentTop, sysTop, contentTop);
-      if (topInset === 0 && tg.platform !== 'tdesktop') {
-        topInset = 54;
-      }
+      topInset = Math.max(sysTop + contentTop, sysTop, contentTop, 54);
     } else {
       topInset = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
     }
@@ -4823,17 +4832,11 @@ if (typeof window !== "undefined") {
         tg.ready();
         tg.expand();
 
-        // Only auto-request fullscreen on Desktop (tdesktop).
-        // On mobile (iOS / Android), exit fullscreen to restore Telegram's native title bar
-        // which sits safely below the phone notch, clock, and battery icons.
-        if (tg.platform === "tdesktop") {
-          if (typeof tg.requestFullscreen === "function") {
-            try { tg.requestFullscreen(); } catch (e) {}
-          }
-        } else {
-          if (tg.isFullscreen && typeof tg.exitFullscreen === "function") {
-            try { tg.exitFullscreen(); } catch (e) {}
-          }
+        // Fullscreen restored on mobile & desktop per user requirement
+        if (typeof tg.requestFullscreen === "function") {
+          try { tg.requestFullscreen(); } catch (e) {}
+        } else if (typeof tg.expand === "function") {
+          try { tg.expand(); } catch (e) {}
         }
 
         if (typeof window.applyTelegramSafeAreas === "function") {
@@ -5080,8 +5083,10 @@ function startTelegramBrowserLogin() {
 function handleAuthAction() {
   const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
   if (tgUser || window.currentUser) {
-    const dd = document.getElementById("accountDropdownMenu");
-    if (dd) dd.style.display = dd.style.display === "none" ? "block" : "none";
+    const modal = document.getElementById("accountModalBackdrop");
+    if (modal) {
+      modal.style.display = (modal.style.display === "none" || !modal.style.display) ? "flex" : "none";
+    }
   } else {
     const modal = document.getElementById("authChoiceModal");
     if (modal) {
@@ -5091,6 +5096,11 @@ function handleAuthAction() {
     }
   }
 }
+
+window.closeAccountModal = function() {
+  const modal = document.getElementById("accountModalBackdrop");
+  if (modal) modal.style.display = "none";
+};
 
 function triggerCloudSync() {
   if (!isVipActive()) {
@@ -5181,25 +5191,25 @@ function updateAuthUI() {
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="toggleTmaFullscreen(); document.getElementById('accountDropdownMenu').style.display='none';">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="toggleTmaFullscreen(); closeAccountModal();">
             ⛶ ${window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.isFullscreen ? 'Exit Fullscreen' : 'Maximize / Fullscreen View'}
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openTmaInBrowser(); document.getElementById('accountDropdownMenu').style.display='none';">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openTmaInBrowser(); closeAccountModal();">
             🌐 Open in Desktop Browser (Chrome/Edge) ↗
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="if(window.StorageManager && window.StorageManager.syncServerless) { window.StorageManager.syncServerless(window.appState).then(()=>showStudioNotification('☁️ Progress synced to Cloudflare D1!')); }">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="if(window.StorageManager && window.StorageManager.syncServerless) { window.StorageManager.syncServerless(window.appState).then(()=>showStudioNotification('☁️ Progress synced to Cloudflare D1!')); }">
             ☁️ Sync Progress Now ${isVip ? '✓' : ''}
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
             ⭐ ${isVip ? 'VIP Studio Pass Status' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
           </button>
           ${(!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) ? `
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border);" onclick="if(window.StorageManager && window.StorageManager.signOutTelegramBrowser) { window.StorageManager.signOutTelegramBrowser(); document.getElementById('accountDropdownMenu').style.display='none'; }">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border); padding:8px 12px;" onclick="if(window.StorageManager && window.StorageManager.signOutTelegramBrowser) { window.StorageManager.signOutTelegramBrowser(); closeAccountModal(); }">
             🚪 Sign Out of Telegram
           </button>
           ` : `
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--text-secondary); border-color:var(--border);" onclick="document.getElementById('accountDropdownMenu').style.display='none';">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--text-secondary); border-color:var(--border); padding:8px 12px;" onclick="closeAccountModal();">
             ✕ Close Menu
           </button>
           `}
@@ -5241,14 +5251,14 @@ function updateAuthUI() {
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="triggerCloudSync()">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="triggerCloudSync()">
             ☁️ Sync Progress to Cloud ${!isVip ? '(🔒 VIP)' : '✓'}
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
             ⭐ ${isVip ? 'Manage Lifetime VIP Pass' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border);" onclick="if(window.signOutUser) window.signOutUser();">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border); padding:8px 12px;" onclick="if(window.signOutUser) { window.signOutUser(); closeAccountModal(); }">
             🚪 Sign Out
           </button>
         </div>
@@ -5257,7 +5267,7 @@ function updateAuthUI() {
   } else {
     if (authLabel) authLabel.textContent = "Sign In";
     if (authIcon) authIcon.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>`;
-    if (dd) dd.style.display = "none";
+    closeAccountModal();
   }
   updateLexiconCounters();
 }
@@ -8674,6 +8684,7 @@ window.addEventListener("keydown", e => {
     closeErrorLogModal();
     if (typeof closeVipPassModal === "function") closeVipPassModal();
     if (typeof closeClozeGateModal === "function") closeClozeGateModal();
+    if (typeof closeAccountModal === "function") closeAccountModal();
   } else if (e.altKey && e.key >= "1" && e.key <= "7") {
     const views = ["overview", "playbook", "speaking", "lexicon", "paraphrase", "reading", "writing"];
     switchView(views[parseInt(e.key, 10) - 1]);
@@ -9024,10 +9035,10 @@ window.addEventListener("DOMContentLoaded", async () => {
   } catch (e) { console.warn("[Init] initFirebaseServices error:", e); }
 
   window.addEventListener("click", (e) => {
-    const dd = document.getElementById("accountDropdownMenu");
+    const modal = document.getElementById("accountModalBackdrop");
     const authBox = document.getElementById("authWidgetBox");
-    if (dd && authBox && !authBox.contains(e.target)) {
-      dd.style.display = "none";
+    if (modal && modal.style.display !== "none" && !modal.contains(e.target) && (!authBox || !authBox.contains(e.target))) {
+      closeAccountModal();
     }
   });
 });
@@ -9914,6 +9925,20 @@ if (typeof window !== 'undefined') {
           <span>Sign In with Google</span>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Student Account & Profile Modal (Global Front Layer) -->
+  <div id="accountModalBackdrop" class="modal-backdrop" style="display:none; z-index:99999;" onclick="if(event.target===this) closeAccountModal()">
+    <div class="modal-card" style="max-width:390px; width:100%; max-height:90vh; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:20px; box-sizing:border-box; box-shadow:0 16px 48px rgba(0,0,0,0.85); position:relative; margin:auto;" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.15rem;">👤</span>
+          <h3 style="margin:0; font-size:1.05rem; font-weight:800; color:var(--text);">Student Account</h3>
+        </div>
+        <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.8rem;" onclick="closeAccountModal()" title="Close Profile">✕</button>
+      </div>
+      <div id="accountDropdownMenu" class="account-dropdown"></div>
     </div>
   </div>
 
