@@ -163,13 +163,13 @@
   .topbar {
     position: sticky;
     top: 0;
-    z-index: 120;
+    z-index: 1500;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     width: 100%;
     max-width: 100%;
     backdrop-filter: blur(10px);
-    overflow-x: hidden;
+    overflow: visible;
   }
 
   .topbar-inner {
@@ -183,6 +183,7 @@
     gap: 14px;
     flex-wrap: wrap;
     box-sizing: border-box;
+    overflow: visible;
   }
 
   .brand {
@@ -262,6 +263,7 @@
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
+    overflow: visible;
   }
 
   .util-icon-btn {
@@ -1953,6 +1955,7 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    z-index: 2500;
   }
   .auth-btn {
     display: inline-flex;
@@ -1985,14 +1988,28 @@
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    width: 290px;
+    width: 310px;
+    max-width: calc(100vw - 20px);
     background: var(--bg-card);
-    border: 1px solid var(--border-mid);
-    border-radius: 6px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-    padding: 14px;
-    z-index: 1000;
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(249, 115, 22, 0.25);
+    padding: 16px;
+    z-index: 10000;
     font-family: Inter, sans-serif;
+    box-sizing: border-box;
+  }
+  @media (max-width: 600px) {
+    .account-dropdown {
+      position: fixed;
+      top: 56px;
+      left: 12px;
+      right: 12px;
+      width: auto;
+      max-width: none;
+      z-index: 10001;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 0 1000px rgba(0, 0, 0, 0.55);
+    }
   }
   .account-dropdown-header {
     display: flex;
@@ -4602,12 +4619,19 @@ function copyPaymentPhone() {
   }
 }
 
-window.handleSendPaymentProof = function() {
-  if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.close === 'function') {
-    alert('Please upload your payment screenshot with the transaction ID directly to @IELTSPrepStudioBot in the chat. Closing WebApp to return to bot...');
-    window.Telegram.WebApp.close();
-  } else {
-    window.open('https://t.me/IELTSPrepStudioBot?start=vip_55k', '_blank');
+window.handleSendPaymentProof = function(e) {
+  const botUrl = "https://t.me/IELTSPrepStudioBot?start=vip_55k";
+  if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === "function") {
+    try {
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
+      window.Telegram.WebApp.openTelegramLink(botUrl);
+      return;
+    } catch (err) {
+      console.warn("[Telegram openTelegramLink fallback]", err);
+    }
+  }
+  if (!e) {
+    window.open(botUrl, "_blank");
   }
 };
 
@@ -9770,9 +9794,9 @@ if (typeof window !== 'undefined') {
             <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
               KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
             </div>
-            <button class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; cursor:pointer;" onclick="handleSendPaymentProof()">
+            <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer;" onclick="handleSendPaymentProof(event)">
               💬 Send Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
-            </button>
+            </a>
           </div>
         </div>
       </div>
