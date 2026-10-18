@@ -1,0 +1,26 @@
+name = "ielts-prep-studio-backend"
+main = "worker.js"
+compatibility_date = "2024-10-01"
+
+[triggers]
+# Daily at 13:00 UTC = 19:30 (7:30 PM) Myanmar Time (UTC+6:30)
+crons = ["0 13 * * *"]
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "ielts-prep-db"
+database_id = "0d1d2fdb-bf92-41c7-a2b3-de8927265652"
+
+# KV Namespace Binding for VIP Curriculum Bundle
+[[kv_namespaces]]
+binding = "VIP_KV"
+id = "7309348eed4d4856822ff0bbcbea8673"
+
+[vars]
+BOT_USERNAME = "IELTSPrepStudioBot"
+PAYMENT_PHONE = "09-768691939"
+ACCOUNT_NAME = "Lyan Htet"
+STUDIO_WEB_URL = "https://hugokami.github.io/ielts-prep-studio"
+# Set via wrangler secret put BOT_TOKEN
+# Set via wrangler secret put ADMIN_TG_ID

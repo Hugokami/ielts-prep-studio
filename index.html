@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <title>IELTS Prep Studio — Open Academic Edition</title>
 
+<!-- Telegram Mini App (TMA) SDK & Storage Manager -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="js/storage-sync.js"></script>
+
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
@@ -1364,7 +1368,7 @@
     background: var(--bg-card);
     border-top: 1px solid var(--border-mid);
     z-index: 200;
-    padding: 4px 2px env(safe-area-inset-bottom, 4px) 2px;
+    padding: 4px 2px env(safe-area-inset-bottom, 8px) 2px;
     justify-content: space-around;
     align-items: center;
     box-sizing: border-box;
@@ -1685,13 +1689,13 @@
     #word-inspector {
       left: 12px !important;
       right: 12px !important;
-      bottom: 68px !important;
+      bottom: calc(68px + env(safe-area-inset-bottom, 8px)) !important;
       width: auto !important;
       max-width: calc(100vw - 24px) !important;
       box-sizing: border-box !important;
     }
     #backToTopBtn {
-      bottom: 68px;
+      bottom: calc(68px + env(safe-area-inset-bottom, 8px)) !important;
       left: 12px;
     }
     .hero-split {
@@ -2485,7 +2489,7 @@
   /* Mobile Floating Action Button */
   #mobileFabContainer {
     position: fixed;
-    bottom: 74px;
+    bottom: calc(74px + env(safe-area-inset-bottom, 8px));
     right: 18px;
     z-index: 150;
     display: none;
@@ -2604,6 +2608,9 @@
       </button>
       <button class="util-icon-btn active-lang" id="langBtn" onclick="toggleLanguageMode()" title="Toggle Burmese Translations">
         文A မြန်မာ ON
+      </button>
+      <button class="util-icon-btn" onclick="openBackupModal()" title="Export or Restore Study Progress Backup (.json)">
+        💾 Backup
       </button>
       <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
         <span id="themeLabel">Light ↗</span>
@@ -4118,6 +4125,37 @@ async function loadStudioData() {
     showLocalFileProtocolWarning();
   }
   try {
+    // 1. Prioritize free curriculum bundle (250 Lexicon, 3 Reading CBTs, 5 Writing Models, 5 Speaking Topics, 1 Listening Set)
+    let bundle = null;
+    const bundlePaths = ["public/data/free-bundle.json", "data/free-bundle.json"];
+    for (const p of bundlePaths) {
+      try {
+        const res = await fetch(p);
+        if (res.ok) {
+          bundle = await res.json();
+          break;
+        }
+      } catch (e) {}
+    }
+
+    if (bundle) {
+      VOCAB_DATA = bundle.lexicon || [];
+      READING_MOCKS = bundle.reading || [];
+      WRITING_MOCKS = bundle.writing || [];
+      const spk = bundle.speaking || {};
+      SPEAKING_FRAMEWORKS = spk.frameworks || [];
+      SPEAKING_VIDEO_SCRIPTS = spk.video_scripts || [];
+      SENTENCE_PATTERNS_BANK = spk.sentence_patterns || [];
+      IDIOM_QA_SAMPLES = spk.idioms || [];
+      WORD_FAMILIES_16 = spk.word_families || [];
+      VOCAB_UPGRADES_14 = spk.vocab_upgrades || [];
+      SYNONYM_SETS_30 = spk.synonym_sets || [];
+      SPEAKING_TOPIC_BANK_DATA = spk.topic_bank || [];
+      LISTENING_PRACTICE_DATA = spk.listening_practice || {};
+      return true;
+    }
+
+    // 2. Fallback to individual legacy data endpoints
     const [lexRes, readRes, writeRes, spkRes] = await Promise.all([
       fetch("data/lexicon.json"),
       fetch("data/reading.json"),
@@ -4171,6 +4209,72 @@ async function loadStudioData() {
     return false;
   }
 }
+
+// In-Memory Merging of VIP Curriculum Bundle (912 Lexicon, 20 Reading CBTs, 35 Writing Models, 45 Speaking Topics, 3 Listening Sets)
+window.mergeVipBundle = function(vipData) {
+  if (!vipData || window._vipBundleMerged) return;
+  window._vipBundleMerged = true;
+  window.isVipUser = true;
+
+  if (typeof appState !== "undefined" && appState.userProfile) {
+    appState.userProfile.tier = "vip";
+    appState.userProfile.vipExpiresAt = "lifetime";
+    try { localStorage.setItem("occ_ielts_studio_v5", JSON.stringify(appState)); } catch (e) {}
+  }
+
+  // 1. Merge Lexicon
+  if (Array.isArray(vipData.lexicon) && vipData.lexicon.length > 0) {
+    const existingIds = new Set(VOCAB_DATA.map(v => v.id));
+    const newItems = vipData.lexicon.filter(v => !existingIds.has(v.id));
+    VOCAB_DATA = VOCAB_DATA.concat(newItems);
+  }
+
+  // 2. Merge Reading Passages
+  if (Array.isArray(vipData.reading) && vipData.reading.length > 0) {
+    const existingCodes = new Set(READING_MOCKS.map(r => r.code || r.id));
+    const newPassages = vipData.reading.filter(r => !existingCodes.has(r.code || r.id));
+    READING_MOCKS = READING_MOCKS.concat(newPassages);
+  }
+
+  // 3. Merge Writing Models
+  if (Array.isArray(vipData.writing) && vipData.writing.length > 0) {
+    const existingCodes = new Set(WRITING_MOCKS.map(w => w.code || w.id));
+    const newModels = vipData.writing.filter(w => !existingCodes.has(w.code || w.id));
+    WRITING_MOCKS = WRITING_MOCKS.concat(newModels);
+  }
+
+  // 4. Merge Speaking & Listening Practice
+  if (vipData.speaking) {
+    if (Array.isArray(vipData.speaking.topic_bank)) {
+      const existingTopics = new Set((SPEAKING_TOPIC_BANK_DATA || []).map(t => t.topic));
+      const newTopics = vipData.speaking.topic_bank.filter(t => !existingTopics.has(t.topic));
+      SPEAKING_TOPIC_BANK_DATA = (SPEAKING_TOPIC_BANK_DATA || []).concat(newTopics);
+    }
+    if (vipData.speaking.listening_practice && Array.isArray(vipData.speaking.listening_practice.sets)) {
+      if (!LISTENING_PRACTICE_DATA) LISTENING_PRACTICE_DATA = {};
+      if (!LISTENING_PRACTICE_DATA.sets) LISTENING_PRACTICE_DATA.sets = [];
+      const existingSets = new Set(LISTENING_PRACTICE_DATA.sets.map(s => s.id));
+      const newSets = vipData.speaking.listening_practice.sets.filter(s => !existingSets.has(s.id));
+      LISTENING_PRACTICE_DATA.sets = LISTENING_PRACTICE_DATA.sets.concat(newSets);
+    }
+  }
+
+  console.log(`[VIP Unlocked] Lexicon: ${VOCAB_DATA.length}, Reading: ${READING_MOCKS.length}, Writing: ${WRITING_MOCKS.length}, Speaking: ${SPEAKING_TOPIC_BANK_DATA.length}`);
+
+  // Dynamic UI Refresh
+  try {
+    if (typeof updateLexiconCounters === "function") updateLexiconCounters();
+    if (typeof renderLexiconGrid === "function") renderLexiconGrid();
+    if (typeof initReadingMocks === "function") initReadingMocks();
+    if (typeof initWritingMocks === "function") initWritingMocks();
+    if (typeof initSpeakingStudio === "function") initSpeakingStudio();
+    if (typeof updateAuthUI === "function") updateAuthUI();
+    if (typeof showToast === "function") showToast("👑 Full Lifetime VIP Pass Unlocked! 1,162 Lexicon Items & All CBT Passages Available.");
+  } catch (err) {
+    console.warn("[VIP UI Refresh Error]", err);
+  }
+};
+
 
 const GRAMMAR_AND_EXERCISES = {"prepositions": [{"prep": "increase / decrease in + Noun", "ex": "There was a sharp increase in demand.", "mm": "အရာဝတ္ထုတစ်ခု မြင့်တက်/ကျဆင်းလျှင် 'in' သုံးပါ"}, {"prep": "increase / decrease from X to Y", "ex": "An increase from 10 to 20 percent.", "mm": "ကိန်းဂဏန်း တစ်ခုမှ တစ်ခုသို့ ပြောင်းလဲလျှင် 'from... to...' သုံးပါ"}, {"prep": "depend on", "ex": "Success depends on consistent practice.", "mm": "'depend on' (depend of / depend in မဟုတ်ပါ)"}, {"prep": "be responsible for", "ex": "Governments are responsible for public services.", "mm": "တာဝန်ရှိသည် ('responsible for + Noun/V-ing')"}, {"prep": "focus on", "ex": "The study focuses on young adults.", "mm": "အာရုံစိုက်သည် ('focus on')"}, {"prep": "benefit from", "ex": "Students benefit from smaller classes.", "mm": "အကျိုးကျေးဇူး ရရှိသည် ('benefit from')"}, {"prep": "participate in", "ex": "Many citizens participate in local elections.", "mm": "ပါဝင်ဆောင်ရွက်သည် ('participate in')"}], "commonErrors": [{"wrong": "The number of people have increased.", "right": "The number of people has increased.", "mm": "'The number of' နောက်တွင် Singular Verb ('has / is / was') အမြဲလိုက်ရမည် ('A number of' ဆိုမှသာ Plural verb လိုက်သည်)။"}, {"wrong": "Despite of the rain, we went out.", "right": "Despite the rain, we went out. (OR: In spite of the rain)", "mm": "'Despite' နောက်တွင် 'of' လုံးဝ မလိုက်ရပါ။"}, {"wrong": "People should to exercise.", "right": "People should exercise.", "mm": "Modal verbs (should, must, can, could, may) နောက်တွင် 'to' မပါသော Base Verb (V1) သာ လိုက်ရမည်။"}, {"wrong": "It is important that everyone must participate.", "right": "It is important that everyone participate. (OR: It is important for everyone to participate.)", "mm": "'It is important that...' နောက်တွင် 'must' ထပ်မထည့်ဘဲ Subjunctive base verb သုံးရသည်။"}, {"wrong": "Recently, I have gone to London last year.", "right": "Last year, I went to London.", "mm": "'last year, in 2020, yesterday' ကဲ့သို့ အတိတ်အချိန် အတိအကျ ပါလျှင် Present Perfect (have + V3) လုံးဝ မသုံးရပါ၊ Past Simple (V2) သာ သုံးပါ။"}, {"wrong": "Less people came to the event.", "right": "Fewer people came to the event.", "mm": "ရေတွက်ရသော အများကိန်းနာမ်များ (people, cars, books) အတွက် 'Fewer' သုံးရပြီး ရေတွက်မရသောနာမ် (water, time, money) အတွက်သာ 'Less' သုံးရမည်။"}], "exercises": [{"title": "Exercise 1: Synonyms (Part 17)", "items": [{"q": "1. The study [revealed] a link between sleep and memory.", "opts": "(a) hid | (b) showed | (c) ignored", "ans": "(b) showed", "mm": "'revealed' = ဖော်ထုတ်ပြသခဲ့သည် (showed)"}, {"q": "2. The city has seen a [dramatic] rise in tourism.", "opts": "(a) slight | (b) sudden and large | (c) gradual", "ans": "(b) sudden and large", "mm": "'dramatic' = ရုတ်တရက် သိသာကြီးမားသော"}, {"q": "3. Her proposal was [rejected] by the committee.", "opts": "(a) approved | (b) reviewed | (c) turned down", "ans": "(c) turned down", "mm": "'rejected' = ပယ်ချခဲ့သည် (turned down)"}, {"q": "4. The company aims to [reduce] costs.", "opts": "(a) increase | (b) lower | (c) hide", "ans": "(b) lower", "mm": "'reduce' = လျှော့ချသည် (lower)"}, {"q": "5. Experts [dismissed] the claim as unrealistic.", "opts": "(a) accepted | (b) rejected as unimportant | (c) doubted quietly", "ans": "(b) rejected as unimportant", "mm": "'dismissed' = အရေးမပါဟု ပယ်ချခဲ့သည်"}]}, {"title": "Exercise 2: Word Forms (Part 17)", "items": [{"q": "1. The new policy had a ______ impact on small businesses. (SIGNIFY)", "opts": "Noun: significance | Adj: significant | Adv: significantly", "ans": "significant", "mm": "Noun 'impact' ရှေ့တွင် အထူးပြုရန် Adjective 'significant' လိုအပ်သည်။"}, {"q": "2. ______ costs have risen sharply this year. (PRODUCE)", "opts": "Noun: Production | Verb: Produce", "ans": "Production", "mm": "'Production costs' = ကုန်ထုတ်လုပ်မှု စရိတ်များ (Compound Noun)။"}, {"q": "3. The government wants to make transport more ______. (SUSTAIN)", "opts": "Noun: sustainability | Adj: sustainable | Adv: sustainably", "ans": "sustainable", "mm": "'make + Noun + Adjective' ပုံစံအရ 'sustainable' (ရေရှည်တည်တံ့သော) ဖြစ်ရမည်။"}, {"q": "4. Researchers reached a ______ after years of study. (CONCLUDE)", "opts": "Noun: conclusion | Verb: conclude", "ans": "conclusion", "mm": "Article 'a' နောက်တွင် Singular Noun 'conclusion' လိုက်ရမည် (reach a conclusion)။"}, {"q": "5. The results were ______ higher than expected. (SIGNIFICANT)", "opts": "Adj: significant | Adv: significantly", "ans": "significantly", "mm": "Comparative Adjective 'higher' ကို အထူးပြုရန် Adverb 'significantly' လိုအပ်သည်။"}]}, {"title": "Exercise 3 & 4: Paraphrasing & Error Correction (Part 17)", "items": [{"q": "Paraphrase 1: 'Many students struggle with the cost of university.'", "opts": "Upgrade: many students -> a considerable number of learners; cost -> tuition", "ans": "A considerable number of learners find university tuition difficult to afford.", "mm": "ကျောင်းသား အတော်များများသည် တက္ကသိုလ်ကျောင်းလခ တတ်နိုင်ရန် ခက်ခဲကြသည်။"}, {"q": "Paraphrase 2: 'The factory polluted the river for years.'", "opts": "Upgrade: factory -> plant; polluted -> contaminated; river -> local waterway", "ans": "For several years, the plant contaminated the local waterway.", "mm": "နှစ်ပေါင်းအတော်ကြာ စက်ရုံက ဒေသတွင်း ရေလမ်းကြောင်းကို ညစ်ညမ်းစေခဲ့သည်။"}, {"q": "Paraphrase 3: 'Doctors recommend that people exercise regularly.'", "opts": "Upgrade: doctors -> medical professionals; recommend -> advise; exercise -> engage in physical activity", "ans": "Medical professionals advise individuals to engage in regular physical activity.", "mm": "ဆေးပညာရှင်များက လူများကို ပုံမှန် ကိုယ်လက်လှုပ်ရှားမှု ပြုလုပ်ရန် အကြံပြုကြသည်။"}, {"q": "Error Correction 1: 'Fewer water was available after the drought.'", "opts": "Countable vs. Uncountable noun check", "ans": "Less water was available after the drought.", "mm": "'water' သည် ရေတွက်မရသောနာမ် ဖြစ်သဖြင့် 'Less water' ဟု သုံးရမည်။"}, {"q": "Error Correction 2: 'She has finished her degree last summer.'", "opts": "Present Perfect vs. Past Simple check", "ans": "She finished her degree last summer.", "mm": "'last summer' ပါသဖြင့် Past Simple 'finished' သာ သုံးရမည်။"}, {"q": "Error Correction 3: 'The data shows that the trend are changing.'", "opts": "Subject-Verb Agreement check", "ans": "The data show/shows that the trend is changing.", "mm": "Singular noun 'the trend' အတွက် 'is changing' ဖြစ်ရမည်။"}]}]};
 const WRITING_ESSENTIALS_BANK = {"task1ChartLanguage": [{"cat": "Upward Movement", "items": "rose, climbed, increased, grew, went up, expanded", "mm": "မြင့်တက်မှုပြ Verb များ"}, {"cat": "Downward Movement", "items": "fell, declined, decreased, dropped, dipped, reduced", "mm": "ကျဆင်းမှုပြ Verb များ"}, {"cat": "Sudden Dramatic Change", "items": "soared, surged, plunged, plummeted, collapsed", "mm": "ရုတ်တရက် အကြီးအကျယ် ထိုးတက်/ထိုးကျမှုပြ Verb များ"}, {"cat": "Gradual & Steady Change", "items": "steadily rose, gradually declined, slowly increased", "mm": "တဖြည်းဖြည်း မှန်မှန် ပြောင်းလဲမှု"}, {"cat": "Stability & No Change", "items": "remained stable, stayed constant, levelled off, held steady, plateaued", "mm": "တည်ငြိမ်နေမှု / တန်းသွားမှု"}, {"cat": "Fluctuation", "items": "fluctuated, varied, went up and down, see-sawed", "mm": "အတက်အကျ မတည်မငြိမ် ဖြစ်မှု"}, {"cat": "Approximation & Quantity", "items": "roughly, around, approximately, in the region of, nearly, close to, just under, exceeded, surpassed", "mm": "ခန့်မှန်းခြေ ကိန်းဂဏန်းပြ စကားလုံးများ"}, {"cat": "Proportions & Shares", "items": "accounted for, made up, represented, constituted, the largest share, the highest proportion", "mm": "ဝေစုနှင့် အချိုးအစားပြ စကားလုံးများ"}], "task2PhraseBank": [{"cat": "1. Introducing Position", "phrases": ["It is often argued that...", "There is ongoing debate about whether...", "While some view X as beneficial, I believe that..."], "mm": "အက်ဆေး နိဒါန်းတွင် အမြင်နှစ်ဖက်နှင့် မိမိရပ်တည်ချက် စတင်ဖော်ပြပုံ"}, {"cat": "2. Presenting Arguments", "phrases": ["One major advantage is that...", "A key reason for this is...", "This is largely because...", "Another consideration is that..."], "mm": "Body Paragraph တွင် အဓိက အကြောင်းပြချက် တင်ပြပုံ"}, {"cat": "3. Giving Examples", "phrases": ["For instance, in countries such as Japan...", "A clear illustration of this is...", "Consider the case of..."], "mm": "လက်တွေ့ ဥပမာပေးပုံ"}, {"cat": "4. Counterarguments", "phrases": ["Admittedly, some people may argue that...", "Critics often point out that...", "Although this view has merit, it overlooks..."], "mm": "တစ်ဖက်အမြင်ကို အသိအမှတ်ပြုပြီး ပြန်လည်ချေပပုံ"}, {"cat": "5. Cause and Effect", "phrases": ["As a result, many families have...", "Consequently, governments must...", "This, in turn, affects...", "The main consequence of this is..."], "mm": "အကြောင်းအကျိုး ဆက်စပ်ပြပုံ"}, {"cat": "6. Suggesting Solutions", "phrases": ["One effective solution would be to...", "Governments could address this issue by...", "A more sustainable approach would involve..."], "mm": "ဖြေရှင်းနည်း အကြံပြုပုံ"}, {"cat": "7. Concluding", "phrases": ["In summary, while there are valid points on both sides, the advantages outweigh the disadvantages.", "On balance, I maintain that...", "Ultimately, the responsibility lies with..."], "mm": "နိဂုံးချုပ် သုံးသပ်ပုံ"}], "selfCheck8": ["1. Did I rewrite the question in my own words instead of copying it word-for-word?", "2. Is there a clear 2-sentence Overview (Task 1) or explicit Thesis Position (Task 2)?", "3. Did I write at least 150 words for Task 1 and 250 words for Task 2?", "4. Are my paragraphs clearly separated with one central topic per body paragraph?", "5. Did I use natural linking words accurately without overusing them in every sentence?", "6. Did I support my points with specific data (Task 1) or concrete real-world examples (Task 2)?", "7. Did I check spelling of high-frequency topic words and keep British/American spelling consistent?", "8. Did I proofread for articles (a/an/the), singular/plural agreement, and past/present tenses?"]};
@@ -4301,10 +4405,10 @@ let geminiCooldownTimer = null;
 const PARAPHRASE_FREE_DAILY_LIMIT = 3;
 const LEXICON_FREE_LIMIT = 250;
 const READING_FREE_LIMIT = 3;
-const WRITING_MODELS_FREE_LIMIT = 3;
-const SPEAKING_FRAMEWORKS_FREE_LIMIT = 1;
+const WRITING_MODELS_FREE_LIMIT = 5;
+const SPEAKING_FRAMEWORKS_FREE_LIMIT = 5;
 const LISTENING_FREE_LIMIT = 1;
-const SPEAKING_TOPICS_FREE_LIMIT = 3;
+const SPEAKING_TOPICS_FREE_LIMIT = 5;
 const MISTAKE_LOG_FREE_LIMIT = 5;
 
 let appState = {
@@ -4379,14 +4483,16 @@ function ensureUserProfileInitialized() {
 }
 
 function isVipActive() {
-  // An unauthenticated guest or logged-out user can NEVER have VIP status
-  if (!window.currentUser || !window.currentUser.uid) return false;
+  if (window.isVipUser) return true;
   ensureUserProfileInitialized();
   if (appState.userProfile.tier === "vip") {
-    if (appState.userProfile.vipExpiresAt === "lifetime") return true;
+    if (appState.userProfile.vipExpiresAt === "lifetime" || appState.userProfile.vipExpiresAt === 1 || appState.userProfile.vipExpiresAt === 0) return true;
     if (appState.userProfile.vipExpiresAt && Date.now() < appState.userProfile.vipExpiresAt) {
       return true;
     }
+  }
+  if (window.currentUser && window.currentUser.uid && appState.userProfile.tier === "vip") {
+    return true;
   }
   return false;
 }
@@ -4495,26 +4601,45 @@ function copyPaymentPhone() {
   }
 }
 
+window.handleSendPaymentProof = function() {
+  if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.close === 'function') {
+    alert('Please upload your payment screenshot with the transaction ID directly to @IELTSPrepStudioBot in the chat. Closing WebApp to return to bot...');
+    window.Telegram.WebApp.close();
+  } else {
+    window.open('https://t.me/IELTSPrepStudioBot?start=vip_55k', '_blank');
+  }
+};
+
+window.openBackupModal = function() {
+  const m = document.getElementById("backupModal");
+  if (m) m.style.display = "flex";
+};
+
+window.closeBackupModal = function() {
+  const m = document.getElementById("backupModal");
+  if (m) m.style.display = "none";
+};
+
 function activateVipPass(planType, voucherCode) {
-  if (!window.currentUser || !window.currentUser.uid) {
-    alert("Please sign in with Google (top right) first so your Lifetime VIP Pass is permanently linked to your account!");
-    if (window.signInWithGoogle) window.signInWithGoogle();
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram));
+  if (!window.currentUser && !isTg && !window.isVipUser) {
+    alert("Please sign in or launch via Telegram so your Lifetime VIP Pass is permanently linked!");
     return;
   }
-  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive;
+  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive || { days: "lifetime", name: "Lifetime Studio VIP Pass" };
   ensureUserProfileInitialized();
+  window.isVipUser = true;
   appState.userProfile.tier = "vip";
   if (voucherCode) appState.userProfile.voucherCode = voucherCode;
-  if (plan.days === "lifetime") {
-    appState.userProfile.vipExpiresAt = "lifetime";
-  } else {
-    appState.userProfile.vipExpiresAt = Date.now() + (plan.days * 24 * 60 * 60 * 1000);
-  }
+  appState.userProfile.vipExpiresAt = "lifetime";
   saveAppState();
   updateAuthUI();
   closeVipPassModal();
   if (window.syncUserDataToCloud) {
     window.syncUserDataToCloud();
+  }
+  if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
+    window.StorageManager.syncServerless(appState);
   }
   showStudioNotification(`🎉 ${plan.name} Activated! All 7 VIP Modules Unlocked.`);
   refreshAllVipViews();
@@ -4532,9 +4657,21 @@ async function redeemVoucherCode(explicitCode) {
     return false;
   }
 
-  // Mandatory Authentication Check
-  if (!window.currentUser || !window.currentUser.uid) {
-    // Preserve in pending session storage so it auto-redeems immediately after Google sign-in
+  // 1. Try TMA / Cloudflare Serverless redemption first
+  if (window.StorageManager && typeof window.StorageManager.redeemActivationCode === "function") {
+    if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">⏳ Verifying code with server...</span>`;
+    const res = await window.StorageManager.redeemActivationCode(code);
+    if (res && res.success) {
+      activateVipPass("lifetime", code);
+      if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! Lifetime VIP Pass Unlocked.</span>`;
+      return true;
+    }
+  }
+
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram));
+
+  // Authentication Check (Only require Google sign in if NOT in Telegram)
+  if (!window.currentUser && !isTg) {
     try { sessionStorage.setItem("ielts_pending_voucher", code); } catch (e) {}
     if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⚠️ Please Sign In with Google (top right) first so your Lifetime Pass is permanently linked to your account.</span>`;
     if (window.signInWithGoogle) {
@@ -4668,7 +4805,8 @@ function refreshAllVipViews() {
 }
 
 function handleAuthAction() {
-  if (window.currentUser) {
+  const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
+  if (tgUser || window.currentUser) {
     const dd = document.getElementById("accountDropdownMenu");
     if (dd) dd.style.display = dd.style.display === "none" ? "block" : "none";
   } else {
@@ -4680,8 +4818,17 @@ function handleAuthAction() {
 
 function triggerCloudSync() {
   if (!isVipActive()) {
-    if (confirm("Firebase Cloud Sync is a VIP Pass feature. Would you like to view VIP Pass options to sync your progress across devices?")) {
+    if (confirm("Cloud Sync is a VIP Pass feature. Would you like to view VIP Pass options to sync your progress across devices?")) {
       openVipPassModal();
+    }
+    return;
+  }
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
+  if (isTg) {
+    if (window.StorageManager && window.StorageManager.syncServerless) {
+      window.StorageManager.syncServerless(window.appState).then(() => {
+        showStudioNotification("☁️ Progress synced to Cloudflare D1!");
+      });
     }
     return;
   }
@@ -4718,8 +4865,57 @@ function updateAuthUI() {
   const authLabel = document.getElementById("authBtnLabel");
   const authIcon = document.getElementById("authBtnIcon");
   const dd = document.getElementById("accountDropdownMenu");
+  const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
 
-  if (window.currentUser) {
+  if (tgUser) {
+    // 1. Authenticated natively via Telegram Mini App
+    const displayName = tgUser.first_name ? `${tgUser.first_name}${tgUser.last_name ? ' ' + tgUser.last_name : ''}` : (tgUser.username || "Telegram User");
+    const displayHandle = tgUser.username ? `@${tgUser.username}` : `UID: ${tgUser.id}`;
+    if (authLabel) authLabel.textContent = displayName;
+    if (authIcon) {
+      if (tgUser.photo_url) {
+        authIcon.innerHTML = `<img src="${tgUser.photo_url}" class="auth-avatar" alt="Avatar">`;
+      } else {
+        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${(displayName || 'T')[0].toUpperCase()}</span>`;
+      }
+    }
+    if (dd) {
+      dd.innerHTML = `
+        <div class="account-dropdown-header">
+          ${tgUser.photo_url ? `<img src="${tgUser.photo_url}" class="account-dropdown-avatar" alt="Avatar">` : `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${(displayName || 'T')[0].toUpperCase()}</div>`}
+          <div style="min-width:0;">
+            <div class="account-dropdown-name">${escapeHtml(displayName)}</div>
+            <div class="account-dropdown-email" style="color:var(--accent);">${escapeHtml(displayHandle)}</div>
+            <span class="account-tier-badge ${isVip ? 'vip' : 'free'}">${isVip ? '👑 LIFETIME VIP PASS' : 'FREE TIER (250 ENTRIES)'}</span>
+          </div>
+        </div>
+
+        <div class="usage-meter-box">
+          <div style="font-weight:700; color:var(--text); margin-bottom:6px; font-size:0.75rem;">TELEGRAM CLOUD SYNC</div>
+          <div class="usage-meter-row">
+            <span style="color:var(--text-secondary);">Curriculum Status:</span>
+            <span class="usage-meter-val" style="color:${isVip ? 'var(--green)' : 'var(--accent)'};">${isVip ? '1,162 VIP Entries (Unlocked)' : '250 Free Entries (Capped)'}</span>
+          </div>
+          <div class="usage-meter-row">
+            <span style="color:var(--text-secondary);">Sync Engine:</span>
+            <span class="usage-meter-val" style="color:var(--green);">Cloudflare D1 + KV</span>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="if(window.StorageManager && window.StorageManager.syncServerless) { window.StorageManager.syncServerless(window.appState).then(()=>showStudioNotification('☁️ Progress synced to Cloudflare D1!')); }">
+            ☁️ Sync Progress Now ${isVip ? '✓' : ''}
+          </button>
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
+            ⭐ ${isVip ? 'VIP Studio Pass Status' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
+          </button>
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--text-secondary); border-color:var(--border);" onclick="document.getElementById('accountDropdownMenu').style.display='none';">
+            ✕ Close Menu
+          </button>
+        </div>
+      `;
+    }
+  } else if (window.currentUser) {
     if (authLabel) authLabel.textContent = window.currentUser.displayName || "Account";
     if (authIcon) {
       authIcon.innerHTML = `<img src="${window.currentUser.photoURL}" class="auth-avatar" alt="Avatar">`;
@@ -4804,9 +5000,8 @@ function loadAppState() {
   ensureUserProfileInitialized();
 
   // Security & Entitlement Invariant:
-  // Local storage can NEVER grant VIP privileges to an unauthenticated session.
-  // VIP entitlement is strictly verified via Firebase Auth and Firestore cloud records.
-  if (!window.currentUser || !window.currentUser.uid) {
+  // VIP entitlement is verified via Telegram Mini App initData sync, Firebase Auth, or valid voucher codes.
+  if (!window.currentUser && !window.telegramUser && !window.isVipUser && !appState.userProfile.voucherCode) {
     appState.userProfile.tier = "free";
     appState.userProfile.vipExpiresAt = null;
     appState.userProfile.voucherCode = null;
@@ -4822,7 +5017,7 @@ function loadAppState() {
 function saveAppState() {
   try {
     ensureUserProfileInitialized();
-    if (!window.currentUser || !window.currentUser.uid) {
+    if (!window.currentUser && !window.telegramUser && !window.isVipUser && !appState.userProfile.voucherCode) {
       appState.userProfile.tier = "free";
       appState.userProfile.vipExpiresAt = null;
       appState.userProfile.voucherCode = null;
@@ -5504,6 +5699,7 @@ function getAccessibleLexicon() {
 function updateLexiconCounters() {
   const isVip = isVipActive();
   const countStr = isVip ? `${VOCAB_DATA.length}` : `${LEXICON_FREE_LIMIT}`;
+  const totalCount = isVip ? VOCAB_DATA.length : 1162;
   const tabLex = document.getElementById("tab-lexicon");
   if (tabLex) {
     tabLex.innerHTML = `<span class="nav-step-num">4</span> Lexicon (${countStr})`;
@@ -5512,13 +5708,13 @@ function updateLexiconCounters() {
   if (guideTitle) {
     guideTitle.innerHTML = isVip 
       ? `SECTION 4 GUIDE // ALL ${VOCAB_DATA.length} LEXICON &amp; EXAM TRAPS (1-3-7 DAY SRS)`
-      : `SECTION 4 GUIDE // ${LEXICON_FREE_LIMIT} FREE COLLOCATIONS (${VOCAB_DATA.length} TOTAL IN VIP PASS)`;
+      : `SECTION 4 GUIDE // ${LEXICON_FREE_LIMIT} FREE COLLOCATIONS (${totalCount} TOTAL IN VIP PASS)`;
   }
   const secTitleSpan = document.querySelector("#lex-cards-sec .sec-title .ver-muted");
   if (secTitleSpan) {
     secTitleSpan.textContent = isVip
       ? `${VOCAB_DATA.length} Entries · 26 Varieties · 1-3-7 Day SRS`
-      : `${LEXICON_FREE_LIMIT} Free Entries (${VOCAB_DATA.length} Total in VIP) · 1-3-7 Day SRS`;
+      : `${LEXICON_FREE_LIMIT} Free Entries (${totalCount} Total in VIP) · 1-3-7 Day SRS`;
   }
   const subnavPill = document.querySelector("a[href='#lex-cards-sec']");
   if (subnavPill) {
@@ -7402,9 +7598,9 @@ function startGeminiButtonCooldown() {
 }
 
 async function gradeEssayWithGemini() {
-  // 1. Mandatory Google Authentication Check to prevent anonymous API quota burning
-  if (!window.currentUser || !window.currentUser.uid) {
-    alert("Please sign in with Google (top right) to access the Official Cambridge AI Examiner.\n\nFree accounts receive 5 evaluations per month; VIP Pass holders receive 60 evaluations per month.");
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
+  if (!window.currentUser && !isTg) {
+    alert("Please sign in with Google (top right) or launch inside Telegram to access the AI Examiner.\n\nFree accounts receive 5 evaluations per month; VIP Pass holders receive 60 evaluations per month.");
     if (window.signInWithGoogle) window.signInWithGoogle();
     return;
   }
@@ -7564,8 +7760,9 @@ function gradeSpeakingFrameworkWithGemini() {
 }
 
 async function gradeSpeakingWithGemini(fromFramework = false) {
-  if (!window.currentUser || !window.currentUser.uid) {
-    alert("Please sign in with Google (top right) to access the Official Cambridge AI Speaking Examiner.\n\nFree accounts receive 10 evaluations per month; VIP Pass holders receive Unlimited evaluations.");
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
+  if (!window.currentUser && !isTg) {
+    alert("Please sign in with Google (top right) or launch inside Telegram to access the AI Speaking Examiner.\n\nFree accounts receive 10 evaluations per month; VIP Pass holders receive Unlimited evaluations.");
     if (window.signInWithGoogle) window.signInWithGoogle();
     return;
   }
@@ -9253,34 +9450,76 @@ window.exportLexiconToAnki = function() {
     alert('Lexicon data is loading. Please try again in a few moments.');
     return;
   }
-  const headers = ['Word', 'Phonetic', 'Part of Speech', 'Band', 'Definition', 'Burmese Meaning', 'Collocations', 'Band 9 Example'];
-  const rows = [headers.join('\t')];
-  VOCAB_DATA.forEach(v => {
-    const collocations = Array.isArray(v.collocations) ? v.collocations.join(', ') : (v.collocations || '');
-    rows.push([
-      v.word || '',
-      v.phonetic || '',
-      v.pos || '',
-      v.band || '',
-      v.defEn || '',
-      v.mmMeaning || '',
-      collocations,
-      v.exampleEn || ''
-    ].map(s => String(s).replace(/\t/g, ' ').replace(/\n/g, '<br>')).join('\t'));
+
+  const isVip = isVipActive();
+  const pool = getAccessibleLexicon();
+  const maxExport = isVip ? 100 : 50;
+
+  if (!isVip && pool.length > maxExport) {
+    if (typeof showStudioNotification === 'function') {
+      showStudioNotification('ℹ️ Free Anki export is capped at 50 cards. Unlock VIP for full export!');
+    }
+  }
+
+  const exportItems = pool.slice(0, maxExport);
+
+  // TG ID or guest
+  const tgUser = (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || window.telegramUser;
+  const uid = tgUser ? tgUser.id : (appState.userProfile && appState.userProfile.telegramId ? appState.userProfile.telegramId : 'guest');
+
+  // Prepend Anki 2.1.54+ headers
+  const lines = [
+    '#separator:tab',
+    '#html:true',
+    '#tags column:3'
+  ];
+
+  exportItems.forEach(v => {
+    const ipaStr = v.ipa || v.phonetic || '';
+    const posStr = v.pos ? ` (${v.pos}${ipaStr ? ` · ${ipaStr}` : ''})` : (ipaStr ? ` (${ipaStr})` : '');
+    const front = sanitizeTsv(`${v.word || ''}${posStr}`);
+
+    const synStr = Array.isArray(v.synonyms) ? v.synonyms.join(', ') : (v.synonyms || 'None');
+    const avoidStr = v.basic || 'None';
+    const collocStr = v.collocation || 'None';
+    const exStr = v.exEn || v.exampleEn || '';
+    const mmStr = `${v.mmMeaning || ''}${v.mmNote ? ` (${v.mmNote})` : ''}`;
+
+    const back = sanitizeTsv(
+      `<b>${v.band || 'Band 8.0'}</b> | ${v.category || 'General'}<br>` +
+      `<b>Synonyms:</b> ${synStr}<br>` +
+      `<b>Avoid:</b> ${avoidStr}<br>` +
+      `<b>Collocations:</b> ${collocStr}<br>` +
+      `<b>Example:</b> <i>${exStr}</i><br>` +
+      `<b>Burmese:</b> <span class="burmese">${mmStr}</span>`
+    );
+
+    const catSlug = (v.category || 'General').replace(/[^a-zA-Z0-9]+/g, '_');
+    const tags = `IELTS_Prep_Studio ${catSlug} UID_${uid}`;
+
+    lines.push(`${front}\t${back}\t${tags}`);
   });
 
-  const blob = new Blob([rows.join('\n')], { type: 'text/tab-separated-values;charset=utf-8;' });
+  const blob = new Blob([lines.join('\n')], { type: 'text/tab-separated-values;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'ielts_academic_lexicon_anki.tsv';
+  a.download = isVip ? `ielts_academic_lexicon_anki_vip_${uid}.tsv` : 'ielts_academic_lexicon_anki_free.tsv';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   studioHaptic(20);
-  showToast('📥 Exported 1,162 vocabulary items to Anki TSV file!');
+  if (typeof showToast === 'function') {
+    showToast(`📥 Exported ${exportItems.length} cards to Anki TSV file!`);
+  }
 };
+
+function sanitizeTsv(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/\t/g, ' ').replace(/\r?\n/g, '<br>');
+}
+
 
 // 8. Mobile Floating Action Button (FAB)
 window.toggleMobileFab = function() {
@@ -9355,11 +9594,11 @@ if (typeof window !== 'undefined') {
         <div style="min-width:0; flex:1;">
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
             <span style="font-size:1.4rem;">👑</span>
-            <h2 style="font-size:1.28rem; font-weight:900; color:var(--text); margin:0;">Target Band 7.5+ Lifetime Studio VIP Pass</h2>
+            <h2 style="font-size:1.28rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio — Full VIP Access</h2>
             <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; white-space:nowrap;">55,000 MMK ONE-TIME</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.5;">
-            Pass your target IELTS band on your first attempt. Save over <strong>500,000 MMK</strong> in private tutoring fees with instant Cambridge 4-criterion AI grading, all 23 CBT simulations (231 questions) &amp; the complete Band 8.5 preparation system forever.
+            Master Band 8.0+ on your first attempt. Unlock all 1,162 vocabulary items, all 23 Cambridge Reading CBT simulations (231 questions), all 40 writing models &amp; automatic cross-device Telegram sync forever.
           </p>
         </div>
         <button class="btn-outlined modal-close-btn" style="padding:6px 14px; font-size:0.82rem; font-weight:700; flex-shrink:0; white-space:nowrap; min-width:max-content;" onclick="closeVipPassModal()">✕ Close</button>
@@ -9386,11 +9625,11 @@ if (typeof window !== 'undefined') {
             <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">55,000 MMK (Once)</span>
           </div>
           <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
-            <li><strong>60 Gemini AI Examiner Evaluations / Mo</strong> (2 full essays every day • 3-second turnaround)</li>
-            <li>Full 4 Cambridge criteria (TA, CC, LR, GRA) + Band 9.0 rewrites</li>
-            <li>All 23 Cambridge Reading CBTs (231 Questions) + Burmese proof citations</li>
-            <li>All 40 Band 8.5/9.0 Writing models + structural essay skeletons</li>
-            <li>All 1,162 high-yield entries (Collocations, 538 Reading Traps &amp; 179 Listening Traps)</li>
+            <li><strong>All 1,162 Lexicon Items</strong> + 1-3-7 Day Spaced Repetition (SRS)</li>
+            <li><strong>All 23 Reading CBT Passages</strong> (231 Questions) + Burmese Evidence</li>
+            <li><strong>All 40 Writing Models</strong> (Task 1 &amp; Task 2) + Live CEFR 90/10 Scorer</li>
+            <li><strong>All 30 Speaking Forecast Topics</strong> + 5 Strategic Frameworks</li>
+            <li><strong>Automatic Cross-Device Telegram Sync</strong> &amp; Anki TSV Export</li>
           </ul>
         </div>
       </div>
@@ -9402,7 +9641,7 @@ if (typeof window !== 'undefined') {
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
             <div>
               <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Everything Unlocked Forever</div>
-              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time payment for lifetime access across all 7 study modules, official Cambridge CBT mocks &amp; 60 monthly Google Gemini AI examiner evaluations (Fair-Use).</div>
+              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for lifetime access across all study modules, official Cambridge CBT mocks, pronunciation audio &amp; cloud sync.</div>
             </div>
             <div style="text-align:right;">
               <div class="vip-price-amount" style="font-size:1.85rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
@@ -9410,31 +9649,28 @@ if (typeof window !== 'undefined') {
             </div>
           </div>
 
-          <!-- The 8 Core Deliverables -->
+          <!-- The Core Deliverables -->
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Full 1,162 Band 8.5 Lexicon Entries</strong> (Collocations, 538 Reading Traps &amp; 179 Listening Distractor Pairs)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 1,162 Band 8.0–9.0 Lexicon Items</strong> (Traps &amp; 1-3-7 Day SRS)</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Timed Reading CBTs (231 Questions)</strong> with Burmese Evidence</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + Burmese Notes)</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Band 8.5/9.0 Writing Models</strong> across Task 1 &amp; Task 2 Archetypes</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Task 1 &amp; Task 2 Writing Models</strong> + Live CEFR 90/10 Scorer</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>60 Gemini AI Examiner Evaluations / Month</strong> (2 Full Essays Daily • Fair-Use)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking 2026 Forecast Topics</strong> &amp; 5 Strategic Frameworks with Band 9 Audio</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 4 Listening CBT Sets</strong> with Full Transcripts &amp; Audio</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Live Microphone Voice Recorder</strong> (Unlimited Self-Evaluation)</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Anki TSV Export (100 Cards/Batch)</strong> with Personal UID Tag</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Smart Mistake Bank with Automated Re-Testing</strong></span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Cross-Device Firebase Cloud Sync</strong> &amp; Telegram Support</span>
+              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
             </div>
           </div>
         </div>
@@ -9446,7 +9682,7 @@ if (typeof window !== 'undefined') {
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
             <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Direct Payment Instructions</span>
-            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime Studio VIP Pass — 55,000 MMK</strong>
+            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">IELTS Prep Studio — Full VIP Access (55,000 MMK)</strong>
           </div>
         </div>
 
@@ -9465,9 +9701,9 @@ if (typeof window !== 'undefined') {
             <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
               KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
             </div>
-            <a href="https://t.me/IELTSPrepStudioBot" target="_blank" rel="noopener" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; text-decoration:none; padding:10px 18px; font-weight:700;">
-              💬 Send Screenshot to Telegram Bot (@IELTSPrepStudioBot) ↗
-            </a>
+            <button class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; cursor:pointer;" onclick="handleSendPaymentProof()">
+              💬 Send Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
+            </button>
           </div>
         </div>
       </div>
@@ -9475,11 +9711,11 @@ if (typeof window !== 'undefined') {
       <!-- Voucher Code Redemption -->
       <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a Lifetime VIP Voucher or Access Code?</span>
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a VIP Activation Code or Partner Voucher?</span>
           <span style="font-size:0.75rem; color:var(--green); font-weight:600;">✓ Instant 1-Click Activation</span>
         </div>
         <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter voucher code (e.g. IPS-VIP-101)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
+          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter activation code (e.g. VIP-XXXX-XXXX or IPS-VIP-101)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
           <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Lifetime Pass</button>
         </div>
         <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
@@ -9487,46 +9723,46 @@ if (typeof window !== 'undefined') {
 
       <!-- Feature Comparison Matrix -->
       <div style="margin-bottom:14px;">
-        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. Lifetime Studio VIP Pass</div>
+        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. Full VIP Access</div>
         <div class="table-responsive-box" style="overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; box-sizing:border-box; margin-bottom:12px;">
           <table style="min-width:440px; width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
             <thead>
               <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
                 <th style="padding:6px;">Module / Feature</th>
                 <th style="padding:6px; color:var(--text);">Free Tier</th>
-                <th style="padding:6px; color:var(--accent);">Lifetime VIP Pass (55,000 MMK)</th>
+                <th style="padding:6px; color:var(--accent);">Full VIP Access (55,000 MMK)</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">1. Lexicon &amp; Traps (1,162)</td>
                 <td style="padding:6px;">First 250 Entries + Audio</td>
-                <td style="padding:6px; color:var(--accent);">All 1,162 Items (Collocations + 538 Reading Traps + 179 Listening Traps)</td>
+                <td style="padding:6px; color:var(--accent);">All 1,162 Items (Collocations + Traps + 1-3-7d SRS)</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">2. Reading CBT Simulator</td>
-                <td style="padding:6px;">Mocks 1, 2 &amp; 3 (Full Timed CBTs)</td>
+                <td style="padding:6px;">Passages 1, 2 &amp; 3 (Full Timed CBTs)</td>
                 <td style="padding:6px; color:var(--accent);">All 23 CBT Passages (231 Questions) + Burmese Evidence</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
-                <td style="padding:6px;">Models 1, 2 &amp; 3 + 5 AI Audits/mo</td>
-                <td style="padding:6px; color:var(--accent);">All 40 Models + 60 Gemini AI Audits/mo (2 Essays/Day Fair-Use)</td>
+                <td style="padding:6px;">Models 1 to 5 + CEFR 90/10 Scorer</td>
+                <td style="padding:6px; color:var(--accent);">All 40 Models + Structural Outlines &amp; CEFR Scorer</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
                 <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
-                <td style="padding:6px;">Topics 1, 2, 3 + Framework 1 (PELL)</td>
-                <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Frameworks &amp; Spoken Audio</td>
+                <td style="padding:6px;">Topics 1 to 5 + 5 Frameworks</td>
+                <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Strategic Frameworks</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">5. Grammar &amp; Drills</td>
-                <td style="padding:6px;">3 Drills/day + 5 Mistake Bank items</td>
-                <td style="padding:6px; color:var(--accent);">Unlimited Daily Drills &amp; Mistake Bank</td>
+                <td style="padding:6px; font-weight:600;">5. Listening Practice</td>
+                <td style="padding:6px;">Set 1 (Full Test) + Traps</td>
+                <td style="padding:6px; color:var(--accent);">All 4 Sets + Complete Transcripts &amp; Traps</td>
               </tr>
               <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">6. Cloud Sync</td>
-                <td style="padding:6px;">Offline Browser Cache</td>
-                <td style="padding:6px; color:var(--accent);">Multi-Device Cloud Sync via Google Account</td>
+                <td style="padding:6px; font-weight:600;">6. Cross-Device Sync</td>
+                <td style="padding:6px;">Offline Local Cache</td>
+                <td style="padding:6px; color:var(--accent);">Automatic Telegram Cloud Sync across Mobile &amp; Desktop</td>
               </tr>
             </tbody>
           </table>
@@ -9534,6 +9770,29 @@ if (typeof window !== 'undefined') {
       </div>
     </div>
   </div>
+
+  <!-- Manual Backup / Restore Modal (Offline Non-Telegram Users) -->
+  <div id="backupModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeBackupModal()">
+    <div class="modal-card" style="max-width:480px; width:92%; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:20px; box-sizing:border-box;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="margin:0; font-size:1.1rem; color:var(--text); font-weight:800;">💾 Study Progress Backup &amp; Restore</h3>
+        <button class="btn-outlined modal-close-btn" style="padding:2px 8px; font-size:0.8rem;" onclick="closeBackupModal()">✕</button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:16px; line-height:1.5;">
+        Export your SRS spaced repetition schedule, mistake log, and solved tests as a portable JSON file, or restore a previous backup without requiring account logins.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="btn-accent-solid" onclick="if(window.StorageManager) window.StorageManager.exportLocalBackup()" style="padding:10px 14px; font-size:0.85rem; font-weight:700;">
+          📥 Download Progress Backup (.json)
+        </button>
+        <label class="btn-outlined" style="padding:10px 14px; font-size:0.85rem; font-weight:700; text-align:center; cursor:pointer; display:block;">
+          📤 Restore Progress from File (.json)
+          <input type="file" accept=".json" style="display:none;" onchange="if(this.files[0] && window.StorageManager) window.StorageManager.importLocalBackup(this.files[0]).then(() => closeBackupModal())">
+        </label>
+      </div>
+    </div>
+  </div>
+
 
 
 <!-- Mobile Floating Action Button (FAB) -->

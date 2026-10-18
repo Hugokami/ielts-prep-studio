@@ -82,7 +82,8 @@ function handleAuthState(user) {
     loadUserDataFromCloud();
   } else {
     window.currentUser = null;
-    if (typeof appState !== "undefined" && appState.userProfile) {
+    const isTg = !!(typeof window !== "undefined" && (window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData))));
+    if (!isTg && typeof appState !== "undefined" && appState.userProfile && appState.userProfile.tier !== "vip") {
       appState.userProfile.tier = "free";
       appState.userProfile.vipExpiresAt = null;
       appState.userProfile.voucherCode = null;
@@ -99,6 +100,14 @@ function handleAuthState(user) {
  * Sign in with Google (Popup)
  */
 window.signInWithGoogle = async function() {
+  const isTg = !!(typeof window !== "undefined" && (window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData))));
+  if (isTg) {
+    const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
+    const name = (tgUser && (tgUser.username ? '@' + tgUser.username : tgUser.first_name)) || "Telegram Account";
+    alert(`Connected to Telegram as ${name}!\n\nInside Telegram Mini App, your account is automatically authenticated via Telegram and Cloudflare D1. Google Sign-In is only needed when using an external desktop browser.`);
+    return null;
+  }
+
   if (typeof firebase !== "undefined" && window.isFirebaseConfigured() && window.firebaseAuthInstance) {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -125,6 +134,12 @@ window.signInWithGoogle = async function() {
  * Sign out
  */
 window.signOutUser = async function() {
+  const isTg = !!(typeof window !== "undefined" && (window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData))));
+  if (isTg) {
+    alert("You are running inside the Telegram Mini App. Your session is tied to your Telegram profile.");
+    return;
+  }
+
   if (window.firebaseAuthInstance && window.isFirebaseConfigured()) {
     try {
       await window.firebaseAuthInstance.signOut();

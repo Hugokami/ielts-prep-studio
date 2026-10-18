@@ -1,0 +1,13 @@
+{
+  "name": "ielts-prep-studio-backend",
+  "version": "1.0.0",
+  "description": "Zero-cost serverless backend for IELTS Prep Studio Telegram Mini App",
+  "main": "worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.100.0"
+  }
+}

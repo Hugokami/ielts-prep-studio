@@ -8,3 +8,8 @@ test_*.js
 verify.py
 find_unclosed.py
 graphify-out/
+backend/data/vip-bundle.json
+backend/.wrangler/
+backend/.dev.vars
+backend/node_modules/
+node_modules/
