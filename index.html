@@ -1557,6 +1557,24 @@
     color: var(--green);
   }
 
+  .cbt-palette-chip.current {
+    box-shadow: 0 0 0 2px var(--accent);
+    border-color: var(--accent);
+    font-weight: 800;
+  }
+
+  .cbt-palette-chip.flagged {
+    border-color: #eab308;
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+  }
+
+  .cbt-palette-chip.answered.flagged {
+    border-color: #eab308;
+    background: rgba(234, 179, 8, 0.22);
+    color: var(--green);
+  }
+
   .floating-cbt-switch-btn {
     display: none;
     position: fixed;
@@ -1618,6 +1636,36 @@
     }
     .cbt-split.mobile-view-questions #rPassageBox {
       display: none !important;
+    }
+    .cbt-split.mobile-view-split {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+    .cbt-split.mobile-view-split #rPassageBox,
+    .cbt-split.mobile-view-split #rQuestionsBox {
+      display: block !important;
+      height: 46vh !important;
+      max-height: 46vh !important;
+      min-height: 240px !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      border: 1.5px solid var(--border-accent);
+      border-radius: 6px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @media (min-width: 680px) and (max-width: 1024px) {
+    .cbt-split.mobile-view-split {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 12px !important;
+    }
+    .cbt-split.mobile-view-split #rPassageBox,
+    .cbt-split.mobile-view-split #rQuestionsBox {
+      height: 72vh !important;
+      max-height: 72vh !important;
     }
   }
 
@@ -2243,11 +2291,17 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 3px 2px;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
   .cbt-q-pill {
     width: 28px;
     height: 28px;
+    min-width: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2260,6 +2314,8 @@
     color: var(--text-secondary);
     position: relative;
     transition: all 0.15s ease;
+    flex-shrink: 0;
+    user-select: none;
   }
   .cbt-q-pill:hover {
     border-color: var(--accent);
@@ -2272,6 +2328,11 @@
   }
   .cbt-q-pill.current {
     box-shadow: 0 0 0 2px var(--teal, #38bdf8);
+    border-color: var(--teal, #38bdf8);
+    font-weight: 800;
+  }
+  .cbt-q-pill.flagged {
+    border-color: #eab308;
   }
   .cbt-q-pill.flagged::after {
     content: "";
@@ -2281,8 +2342,15 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 7px 7px 0;
+    border-width: 0 8px 8px 0;
     border-color: transparent #eab308 transparent transparent;
+  }
+  @media (max-width: 860px) {
+    .cbt-palette-bar {
+      bottom: 54px;
+      padding: 6px 10px;
+      gap: 8px;
+    }
   }
   .flag-q-btn {
     background: transparent;
@@ -3587,21 +3655,6 @@
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">23 Passages · 231 Questions</span></h2>
         <div class="sec-timestamp" id="rMetaBadge"></div>
-      <!-- Interactive Listening Lab Speed & Fuzzy Tolerance Controls -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0; padding:8px 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px;">
-        <div class="listening-speed-bar" style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Audio Speed:</span>
-          <button class="btn-outlined is-active ls-speed-btn" id="btn-ls-spd-10" onclick="setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem;">1.0x</button>
-          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-08" onclick="setListeningSpeed(0.85)" style="padding:2px 8px; font-size:0.72rem;">0.85x</button>
-          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-12" onclick="setListeningSpeed(1.15)" style="padding:2px 8px; font-size:0.72rem;">1.15x</button>
-        </div>
-        <div>
-          <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; cursor:pointer;">
-            <input type="checkbox" id="lsFuzzyToleranceToggle" onchange="toggleListeningFuzzyMode(this.checked)">
-            <span>Learning Mode (Typo-Tolerant, ±1 letter)</span>
-          </label>
-        </div>
-      </div>
       </div>
 
       <div class="occ-toolbar">
@@ -3657,12 +3710,16 @@
       <div class="mobile-cbt-toggle-bar" id="mobileCbtToggleBar" role="tablist" aria-label="Reading CBT View Mode">
         <button type="button" class="mobile-cbt-tab-btn active" id="cbtTabPassageBtn" role="tab" aria-selected="true" onclick="setMobileCbtView('passage')">
           <span class="cbt-tab-icon">📄</span>
-          <span>Reading Passage</span>
+          <span>Passage</span>
         </button>
         <button type="button" class="mobile-cbt-tab-btn" id="cbtTabQuestionsBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('questions')">
           <span class="cbt-tab-icon">📝</span>
-          <span>Questions &amp; Answers</span>
+          <span>Questions</span>
           <span class="cbt-tab-badge" id="cbtAnsweredBadge">0 / 13</span>
+        </button>
+        <button type="button" class="mobile-cbt-tab-btn" id="cbtTabSplitBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('split')">
+          <span class="cbt-tab-icon">⚖️</span>
+          <span>Split View</span>
         </button>
       </div>
 
@@ -3673,14 +3730,16 @@
 
       <!-- Authentic Cambridge CBT Bottom Question Palette Bar -->
       <div class="cbt-palette-bar" id="cbtPaletteBar">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Questions:</span>
+        <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1; flex-wrap:nowrap;">
+          <button type="button" class="btn-outlined" style="padding:3px 8px; font-size:0.74rem; font-weight:700; white-space:nowrap; flex-shrink:0;" onclick="navigateCbtQuestion(-1)" title="Previous Question (Alt+P)">← Prev</button>
+          <button type="button" class="btn-outlined" style="padding:3px 8px; font-size:0.74rem; font-weight:700; white-space:nowrap; flex-shrink:0;" onclick="navigateCbtQuestion(1)" title="Next Question (Alt+N)">Next →</button>
+          <button type="button" class="flag-q-btn" id="cbtBarFlagBtn" onclick="toggleCurrentQuestionFlag()" title="Flag Current Question for Review (Alt+F)" style="white-space:nowrap; flex-shrink:0;">🚩 Review</button>
           <div class="cbt-palette-grid" id="cbtPaletteGrid"></div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem;">
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem; flex-wrap:wrap; flex-shrink:0;">
           <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:var(--accent); border-radius:2px; display:inline-block;"></span> Answered</span>
           <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; border:1px solid #eab308; background:rgba(234,179,8,0.2); border-radius:2px; display:inline-block;"></span> Flagged</span>
-          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> Next · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd> Flag</span>
+          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> / <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+P</kbd> · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd></span>
         </div>
       </div>
 
@@ -3690,8 +3749,8 @@
         <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="clearPassageHighlight()">🧹 Clear</button>
       </div>
 
-      <!-- Floating Mobile Quick-Switcher (Passage <-> Questions) -->
-      <button type="button" class="floating-cbt-switch-btn" id="floatingCbtSwitchBtn" onclick="toggleFloatingCbtTab()" aria-label="Quick Switch Between Passage and Questions">
+      <!-- Floating Mobile Quick-Switcher (Passage <-> Questions <-> Split) -->
+      <button type="button" class="floating-cbt-switch-btn" id="floatingCbtSwitchBtn" onclick="toggleFloatingCbtTab()" aria-label="Quick Switch Between Passage, Questions and Split View">
         <span id="floatingCbtSwitchIcon">📝</span>
         <span id="floatingCbtSwitchText">Questions (0/13)</span>
       </button>
@@ -3731,6 +3790,22 @@
       <div class="sec-header-row">
         <h3 class="sec-title">Interactive Listening Lab <span class="ver-muted">Signposting · Spelling Traps · 2 Audio Practice Tests</span></h3>
         <div class="sec-timestamp">Click Play Audio Recording to hear the listening transcript via Web Speech API</div>
+      </div>
+
+      <!-- Interactive Listening Lab Speed & Fuzzy Tolerance Controls -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0 16px 0; padding:8px 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px;">
+        <div class="listening-speed-bar" style="display:flex; align-items:center; gap:6px;">
+          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Audio Speed:</span>
+          <button class="btn-outlined is-active ls-speed-btn" id="btn-ls-spd-10" onclick="setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem;">1.0x</button>
+          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-08" onclick="setListeningSpeed(0.85)" style="padding:2px 8px; font-size:0.72rem;">0.85x</button>
+          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-12" onclick="setListeningSpeed(1.15)" style="padding:2px 8px; font-size:0.72rem;">1.15x</button>
+        </div>
+        <div>
+          <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; cursor:pointer;">
+            <input type="checkbox" id="lsFuzzyToleranceToggle" onchange="toggleListeningFuzzyMode(this.checked)">
+            <span>Learning Mode (Typo-Tolerant, ±1 letter)</span>
+          </label>
+        </div>
       </div>
 
       <div class="occ-grid-2" style="margin-bottom:18px;">
@@ -6581,66 +6656,113 @@ function setMobileCbtView(mode) {
   const split = document.getElementById("rCbtSplit");
   const tabPassage = document.getElementById("cbtTabPassageBtn");
   const tabQuestions = document.getElementById("cbtTabQuestionsBtn");
+  const tabSplit = document.getElementById("cbtTabSplitBtn");
   const floatIcon = document.getElementById("floatingCbtSwitchIcon");
   const floatText = document.getElementById("floatingCbtSwitchText");
 
   if (!split) return;
 
+  split.classList.remove("mobile-view-passage", "mobile-view-questions", "mobile-view-split");
+
+  if (tabPassage) { tabPassage.classList.remove("active"); tabPassage.setAttribute("aria-selected", "false"); }
+  if (tabQuestions) { tabQuestions.classList.remove("active"); tabQuestions.setAttribute("aria-selected", "false"); }
+  if (tabSplit) { tabSplit.classList.remove("active"); tabSplit.setAttribute("aria-selected", "false"); }
+
+  const answered = getReadingAnsweredCount();
+  const total = getReadingTotalCount();
+
   if (mode === "questions") {
-    split.classList.remove("mobile-view-passage");
     split.classList.add("mobile-view-questions");
-    if (tabPassage) { tabPassage.classList.remove("active"); tabPassage.setAttribute("aria-selected", "false"); }
     if (tabQuestions) { tabQuestions.classList.add("active"); tabQuestions.setAttribute("aria-selected", "true"); }
-    if (floatIcon) floatIcon.textContent = "📄";
-    if (floatText) floatText.textContent = "View Passage";
+    if (floatIcon) floatIcon.textContent = "⚖️";
+    if (floatText) floatText.textContent = "Split View";
     const qBox = document.getElementById("rQuestionsBox");
     if (qBox && window.innerWidth <= 1024) {
       qBox.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  } else if (mode === "split") {
+    split.classList.add("mobile-view-split");
+    if (tabSplit) { tabSplit.classList.add("active"); tabSplit.setAttribute("aria-selected", "true"); }
+    if (floatIcon) floatIcon.textContent = "📄";
+    if (floatText) floatText.textContent = "Full Passage";
+    if (split && window.innerWidth <= 1024) {
+      split.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   } else {
-    split.classList.remove("mobile-view-questions");
+    // passage
     split.classList.add("mobile-view-passage");
     if (tabPassage) { tabPassage.classList.add("active"); tabPassage.setAttribute("aria-selected", "true"); }
-    if (tabQuestions) { tabQuestions.classList.remove("active"); tabQuestions.setAttribute("aria-selected", "false"); }
     if (floatIcon) floatIcon.textContent = "📝";
-    const answered = getReadingAnsweredCount();
-    const total = getReadingTotalCount();
     if (floatText) floatText.textContent = `Questions (${answered}/${total})`;
     const pBox = document.getElementById("rPassageBox");
     if (pBox && window.innerWidth <= 1024) {
       pBox.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
+  studioHaptic(8);
 }
 
 function toggleFloatingCbtTab() {
   if (currentMobileCbtView === "passage") {
     setMobileCbtView("questions");
+  } else if (currentMobileCbtView === "questions") {
+    setMobileCbtView("split");
   } else {
     setMobileCbtView("passage");
   }
 }
 
+function focusCbtQuestion(qi) {
+  if (currentCbtQuestionIndex !== qi) {
+    currentCbtQuestionIndex = qi;
+    if (typeof updateCbtPalette === "function") updateCbtPalette();
+  }
+}
+window.focusCbtQuestion = focusCbtQuestion;
+
 function jumpToQuestionInCbt(idx) {
-  setMobileCbtView("questions");
+  currentCbtQuestionIndex = idx;
+  if (currentMobileCbtView === "passage") {
+    setMobileCbtView("questions");
+  }
+  if (typeof updateCbtPalette === "function") updateCbtPalette();
+
   setTimeout(() => {
-    const card = document.getElementById(`rmq_card_${idx}`);
+    const card = document.getElementById(`rmq_card_${idx}`) || document.querySelector(`[data-q-idx="${idx}"]`);
     if (card) {
-      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      const qBox = document.getElementById("rQuestionsBox");
+      if (qBox && (window.innerWidth > 1024 || currentMobileCbtView === "split")) {
+        const paneRect = qBox.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        qBox.scrollTop += (cardRect.top - paneRect.top) - 15;
+      } else {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       card.classList.add("q-card-focused");
       setTimeout(() => card.classList.remove("q-card-focused"), 1600);
     }
   }, 60);
+  studioHaptic(10);
 }
+window.jumpToQuestionInCbt = jumpToQuestionInCbt;
 
 function jumpToPassageParagraph(paraLabel) {
-  setMobileCbtView("passage");
+  if (currentMobileCbtView === "questions") {
+    setMobileCbtView("passage");
+  }
   setTimeout(() => {
     if (paraLabel) {
       const cleanLabel = paraLabel.trim().toUpperCase();
       const targetPara = document.getElementById(`rm_para_${cleanLabel.toLowerCase()}`);
       if (targetPara) {
-        targetPara.scrollIntoView({ behavior: "smooth", block: "start" });
+        const pBox = document.getElementById("rPassageBox");
+        if (pBox && (window.innerWidth > 1024 || currentMobileCbtView === "split")) {
+          const paneRect = pBox.getBoundingClientRect();
+          const targetRect = targetPara.getBoundingClientRect();
+          pBox.scrollTop += (targetRect.top - paneRect.top) - 15;
+        } else {
+          targetPara.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
         targetPara.classList.add("q-card-focused");
         setTimeout(() => targetPara.classList.remove("q-card-focused"), 1600);
         return;
@@ -6649,32 +6771,18 @@ function jumpToPassageParagraph(paraLabel) {
     const pBox = document.getElementById("rPassageBox");
     if (pBox) pBox.scrollIntoView({ behavior: "smooth", block: "start" });
   }, 60);
+  studioHaptic(10);
 }
+window.jumpToPassageParagraph = jumpToPassageParagraph;
 
 function onReadingAnswerChanged(qi) {
-  const isGap = document.getElementById(`rmq_gap_${qi}`) !== null;
-  let isAnswered = false;
-  if (isGap) {
-    const val = document.getElementById(`rmq_gap_${qi}`).value.trim();
-    isAnswered = val.length > 0;
+  if (typeof updateCbtPalette === "function") {
+    updateCbtPalette();
   } else {
-    const checked = document.querySelector(`input[name="rmq_${qi}"]:checked`);
-    isAnswered = checked !== null;
+    updateReadingAnswerCounts();
   }
-
-  const chip = document.getElementById(`cbt_chip_${qi}`);
-  if (chip) {
-    if (isAnswered) {
-      chip.classList.add("answered");
-      chip.textContent = `✓ Q${qi + 1}`;
-    } else {
-      chip.classList.remove("answered");
-      chip.textContent = `Q${qi + 1}`;
-    }
-  }
-
-  updateReadingAnswerCounts();
 }
+window.onReadingAnswerChanged = onReadingAnswerChanged;
 
 function updateReadingAnswerCounts() {
   const answered = getReadingAnsweredCount();
@@ -6789,19 +6897,24 @@ function loadReadingMock() {
       const paraMatch = (q.expEn && q.expEn.match(/paragraph\s+([A-H])/i)) || (q.q && q.q.match(/paragraph\s+([A-H])/i));
       const targetPara = paraMatch ? paraMatch[1].toUpperCase() : "";
       return `
-        <div class="q-card" id="rmq_card_${qi}">
+        <div class="q-card" id="rmq_card_${qi}" data-q-idx="${qi}" onclick="focusCbtQuestion(${qi})">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
-            <div style="font-size:0.88rem; font-weight:700;">${q.q}</div>
-            <button type="button" class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; white-space:nowrap; border-color:var(--border-accent); color:var(--accent); min-height:28px;" onclick="jumpToPassageParagraph('${targetPara}')" title="Locate evidence in passage">
-              🔍 Passage ${targetPara ? `(${targetPara})` : ''}
-            </button>
+            <div style="font-size:0.88rem; font-weight:700;"><span class="cbt-q-number-tag" style="background:var(--accent-soft); color:var(--accent); padding:2px 6px; border-radius:3px; margin-right:6px; font-size:0.78rem; font-weight:800;">Q${qi + 1}</span>${q.q}</div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button type="button" class="flag-q-btn" id="flag-btn-${qi}" onclick="toggleQuestionFlag(${qi}); event.stopPropagation();" title="Flag question for review (Alt+F)">
+                🚩 <span>Review</span>
+              </button>
+              <button type="button" class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; white-space:nowrap; border-color:var(--border-accent); color:var(--accent); min-height:28px;" onclick="jumpToPassageParagraph('${targetPara}'); event.stopPropagation();" title="Locate evidence in passage">
+                🔍 Passage ${targetPara ? `(${targetPara})` : ''}
+              </button>
+            </div>
           </div>
           <div>
             ${isGap ? `
-              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="Type exact word from the passage (ONE WORD ONLY)..." oninput="onReadingAnswerChanged(${qi})">
+              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="Type exact word from the passage (ONE WORD ONLY)..." oninput="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})">
             ` : q.options.map(opt => `
               <label class="q-opt">
-                <input type="radio" name="rmq_${qi}" value="${opt}" onchange="onReadingAnswerChanged(${qi})"> <span>${opt}</span>
+                <input type="radio" name="rmq_${qi}" value="${opt}" onchange="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})"> <span>${opt}</span>
               </label>
             `).join("")}
           </div>
@@ -6815,8 +6928,18 @@ function loadReadingMock() {
     </div>
   `;
 
-  updateReadingAnswerCounts();
-  setMobileCbtView("passage");
+  currentCbtQuestionIndex = 0;
+  cbtQuestionFlags = {};
+  if (typeof updateCbtPalette === "function") {
+    updateCbtPalette();
+  } else {
+    updateReadingAnswerCounts();
+  }
+  if (currentMobileCbtView !== "split") {
+    setMobileCbtView("passage");
+  } else {
+    setMobileCbtView("split");
+  }
 }
 
 
@@ -8498,6 +8621,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         if (!rBox || !rBox.innerHTML || rBox.innerHTML.trim() === '') {
           if (typeof initReadingMocks === 'function') initReadingMocks();
         }
+        if (typeof updateCbtPalette === 'function') updateCbtPalette();
       } else if (viewId === 'lexicon') {
         const lexGrid = document.getElementById("lexGrid");
         if (!lexGrid || !lexGrid.innerHTML || lexGrid.innerHTML.trim() === '') {
@@ -8886,39 +9010,74 @@ window.toggleQuestionFlag = function(qIdx) {
   cbtQuestionFlags[qIdx] = !cbtQuestionFlags[qIdx];
   studioHaptic(15);
   updateCbtPalette();
-  const flagBtn = document.getElementById('flag-btn-' + qIdx);
-  if (flagBtn) {
-    flagBtn.classList.toggle('is-flagged', !!cbtQuestionFlags[qIdx]);
-  }
+};
+
+window.toggleCurrentQuestionFlag = function() {
+  toggleQuestionFlag(currentCbtQuestionIndex);
 };
 
 window.updateCbtPalette = function() {
   const grid = document.getElementById('cbtPaletteGrid');
-  if (!grid || !Array.isArray(READING_MOCKS)) return;
+  if (!Array.isArray(READING_MOCKS)) return;
   const sel = document.getElementById('rSelect');
   const mIdx = sel ? parseInt(sel.value, 10) : 0;
   const mock = READING_MOCKS[mIdx];
   if (!mock || !Array.isArray(mock.questions)) {
-    grid.innerHTML = '';
+    if (grid) grid.innerHTML = '';
     return;
   }
 
-  grid.innerHTML = mock.questions.map((q, qIdx) => {
-    const inp = document.querySelector(`[name="rq_${qIdx}"]:checked, #rq_in_${qIdx}`);
-    const isAnswered = inp ? Boolean(inp.value && inp.value.trim().length > 0) : false;
-    const isFlagged = Boolean(cbtQuestionFlags[qIdx]);
-    const isCurrent = qIdx === currentCbtQuestionIndex;
-    return `<button type="button" class="cbt-q-pill ${isAnswered ? 'answered' : ''} ${isFlagged ? 'flagged' : ''} ${isCurrent ? 'current' : ''}" onclick="jumpToQuestionInCbt(${qIdx})" title="Question ${qIdx + 1}${isFlagged ? ' (Flagged)' : ''}">${qIdx + 1}</button>`;
-  }).join('');
-};
-
-window.jumpToQuestionInCbt = function(qIdx) {
-  currentCbtQuestionIndex = qIdx;
-  updateCbtPalette();
-  const qEl = document.getElementById('rq_card_' + qIdx) || document.querySelector(`[data-q-idx="${qIdx}"]`);
-  if (qEl) {
-    qEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // 1. Synchronize bottom palette grid (.cbt-q-pill)
+  if (grid) {
+    grid.innerHTML = mock.questions.map((q, qIdx) => {
+      let isAnswered = false;
+      const gap = document.getElementById(`rmq_gap_${qIdx}`);
+      if (gap) {
+        isAnswered = gap.value.trim().length > 0;
+      } else {
+        const checked = document.querySelector(`input[name="rmq_${qIdx}"]:checked`);
+        isAnswered = checked !== null;
+      }
+      const isFlagged = Boolean(cbtQuestionFlags[qIdx]);
+      const isCurrent = qIdx === currentCbtQuestionIndex;
+      return `<button type="button" class="cbt-q-pill ${isAnswered ? 'answered' : ''} ${isFlagged ? 'flagged' : ''} ${isCurrent ? 'current' : ''}" onclick="jumpToQuestionInCbt(${qIdx})" title="Question ${qIdx + 1}${isAnswered ? ' (Answered)' : ''}${isFlagged ? ' (Flagged)' : ''}">${qIdx + 1}</button>`;
+    }).join('');
   }
+
+  // 2. Synchronize in-pane top palette chips (#cbt_chip_${qi}) & card flags
+  mock.questions.forEach((q, qi) => {
+    let isAnswered = false;
+    const gap = document.getElementById(`rmq_gap_${qi}`);
+    if (gap) {
+      isAnswered = gap.value.trim().length > 0;
+    } else {
+      const checked = document.querySelector(`input[name="rmq_${qi}"]:checked`);
+      isAnswered = checked !== null;
+    }
+    const isFlagged = Boolean(cbtQuestionFlags[qi]);
+    const isCurrent = qi === currentCbtQuestionIndex;
+
+    const chip = document.getElementById(`cbt_chip_${qi}`);
+    if (chip) {
+      chip.className = `cbt-palette-chip ${isAnswered ? 'answered' : ''} ${isFlagged ? 'flagged' : ''} ${isCurrent ? 'current' : ''}`;
+      chip.innerHTML = `${isAnswered ? '✓ ' : ''}Q${qi + 1}${isFlagged ? ' 🚩' : ''}`;
+    }
+
+    const flagBtn = document.getElementById(`flag-btn-${qi}`);
+    if (flagBtn) {
+      flagBtn.classList.toggle('is-flagged', isFlagged);
+      const span = flagBtn.querySelector('span');
+      if (span) span.textContent = isFlagged ? 'Flagged' : 'Review';
+    }
+  });
+
+  const barFlagBtn = document.getElementById('cbtBarFlagBtn');
+  if (barFlagBtn) {
+    const isCurrentFlagged = Boolean(cbtQuestionFlags[currentCbtQuestionIndex]);
+    barFlagBtn.classList.toggle('is-flagged', isCurrentFlagged);
+  }
+
+  updateReadingAnswerCounts();
 };
 
 window.navigateCbtQuestion = function(direction) {
@@ -8928,10 +9087,6 @@ window.navigateCbtQuestion = function(direction) {
   if (!mock || !Array.isArray(mock.questions)) return;
   const nextIdx = Math.max(0, Math.min(mock.questions.length - 1, currentCbtQuestionIndex + direction));
   jumpToQuestionInCbt(nextIdx);
-};
-
-window.toggleCurrentQuestionFlag = function() {
-  toggleQuestionFlag(currentCbtQuestionIndex);
 };
 
 // Passage Selection Highlight Engine
