@@ -3847,7 +3847,7 @@
             </div>
             <div id="bounty-pills" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
           </div>
-          <textarea <!-- Paragraph Structure Radar & Autosave Indicator -->
+          <!-- Paragraph Structure Radar & Autosave Indicator -->
           <div class="writing-paragraph-radar" id="writingParagraphRadar">
             <span>📊 Paragraph Radar:</span>
             <span class="para-pill" id="radarIntro">Intro: 0w</span>
@@ -3856,7 +3856,7 @@
             <span class="para-pill" id="radarConcl">Conclusion: 0w</span>
             <span id="radarBalanceAlert" style="display:none; color:#f87171; font-weight:700;">⚠️ Body paragraphs asymmetrical (&gt;50w difference)</span>
           </div>
-          id="essayArea" class="essay-pad" placeholder="Compose your IELTS response here..." oninput="runLiveWritingDiagnostics()" aria-label="Essay writing editor"></textarea>
+          <textarea id="essayArea" class="essay-pad" placeholder="Compose your IELTS response here..." oninput="runLiveWritingDiagnostics()" aria-label="Essay writing editor"></textarea>
 
           <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
@@ -6145,6 +6145,7 @@ function renderAllEssentialsModules() {
       speakText(tb.sample);
     }
   }
+  window.speakSpeakingTopic = speakSpeakingTopic;
 
   const spkTopicGrid = document.getElementById("speakingTopicBankGrid");
   if (spkTopicGrid) {
@@ -7051,12 +7052,17 @@ function loadWritingMock() {
     return `<button class="btn-outlined" style="padding:4px 9px; font-size:0.75rem;" onclick="insertWordAtCursor('${vw.replace(/'/g, "\\'")}')">+ ${label}</button>`;
   }).join("");
 
-  document.getElementById("essayArea").value = appState.writingDrafts[w.id] || "";
+  const essayEl = document.getElementById("essayArea");
+  if (essayEl) {
+    essayEl.value = (appState.writingDrafts && appState.writingDrafts[w.id]) || "";
+  }
   if (wTimerRef) clearInterval(wTimerRef);
   wTimerRef = null;
   wTimerSec = (w.minutes || 40) * 60;
-  document.getElementById("wClock").textContent = `${String(w.minutes || 40).padStart(2, "0")}:00`;
-  document.getElementById("wClockBtn").textContent = "Start Timer";
+  const wClockEl = document.getElementById("wClock");
+  if (wClockEl) wClockEl.textContent = `${String(w.minutes || 40).padStart(2, "0")}:00`;
+  const wClockBtnEl = document.getElementById("wClockBtn");
+  if (wClockBtnEl) wClockBtnEl.textContent = "Start Timer";
   runLiveWritingDiagnostics();
 }
 
@@ -7691,7 +7697,7 @@ function runLiveWritingDiagnostics() {
   const idx = parseInt(document.getElementById("wSelect")?.value || "0", 10) || 0;
   const w = WRITING_MOCKS[idx];
   if (!w) return;
-  const text = document.getElementById("essayArea").value;
+  const text = document.getElementById("essayArea")?.value || "";
   const trimmed = text.trim();
   const wordTokens = trimmed ? trimmed.split(/\s+/) : [];
   const words = wordTokens.length;
@@ -8377,30 +8383,34 @@ function bypassClozeGate() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  await loadStudioData();
-  initIeltsTrapLinter();
-  initReadingProtocols();
-  initActiveLexiconBounty();
+  try { await loadStudioData(); } catch (e) { console.warn("[Init] loadStudioData error:", e); }
+  try { initIeltsTrapLinter(); } catch (e) { console.warn("[Init] initIeltsTrapLinter error:", e); }
+  try { initReadingProtocols(); } catch (e) { console.warn("[Init] initReadingProtocols error:", e); }
+  try { initActiveLexiconBounty(); } catch (e) { console.warn("[Init] initActiveLexiconBounty error:", e); }
 
-  initBgCanvas();
-  animateBgCanvas();
-  loadAppState();
-  populateDynamicLexiconFilters();
-  initGraphSelector();
-  renderLexiconGrid();
-  generateDrill(false);
-  initReadingMocks();
-  initWritingMocks();
-  initSpeakingStudio();
+  try { initBgCanvas(); } catch (e) { console.warn("[Init] initBgCanvas error:", e); }
+  try { animateBgCanvas(); } catch (e) { console.warn("[Init] animateBgCanvas error:", e); }
+  try { loadAppState(); } catch (e) { console.warn("[Init] loadAppState error:", e); }
+  try { populateDynamicLexiconFilters(); } catch (e) { console.warn("[Init] populateDynamicLexiconFilters error:", e); }
+  try { initGraphSelector(); } catch (e) { console.warn("[Init] initGraphSelector error:", e); }
+  try { renderLexiconGrid(); } catch (e) { console.warn("[Init] renderLexiconGrid error:", e); }
+  try { generateDrill(false); } catch (e) { console.warn("[Init] generateDrill error:", e); }
+  try { initReadingMocks(); } catch (e) { console.warn("[Init] initReadingMocks error:", e); }
+  try { initWritingMocks(); } catch (e) { console.warn("[Init] initWritingMocks error:", e); }
+  try { initSpeakingStudio(); } catch (e) { console.warn("[Init] initSpeakingStudio error:", e); }
 
   // Re-hydrate persistent rate-limit shield on reload if within 30s
-  if (Date.now() - getLastGeminiTimestamp() < GEMINI_COOLDOWN_MS) {
-    startGeminiButtonCooldown();
-  }
+  try {
+    if (Date.now() - getLastGeminiTimestamp() < GEMINI_COOLDOWN_MS) {
+      startGeminiButtonCooldown();
+    }
+  } catch (e) {}
 
-  if (window.initFirebaseServices) {
-    window.initFirebaseServices();
-  }
+  try {
+    if (window.initFirebaseServices) {
+      window.initFirebaseServices();
+    }
+  } catch (e) { console.warn("[Init] initFirebaseServices error:", e); }
 
   window.addEventListener("click", (e) => {
     const dd = document.getElementById("accountDropdownMenu");
@@ -8470,6 +8480,33 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
       localStorage.setItem('ips_active_tab', targetIdx);
     } catch (e) {}
+
+    // On-demand tab content hydration fallback
+    try {
+      if (viewId === 'speaking') {
+        const fwPane = document.getElementById("fwDetailPane");
+        if (!fwPane || !fwPane.innerHTML || fwPane.innerHTML.trim() === '') {
+          if (typeof initSpeakingStudio === 'function') initSpeakingStudio();
+        }
+      } else if (viewId === 'writing') {
+        const wPrompt = document.getElementById("wPromptBox");
+        if (!wPrompt || !wPrompt.textContent || wPrompt.textContent.trim() === '') {
+          if (typeof initWritingMocks === 'function') initWritingMocks();
+        }
+      } else if (viewId === 'reading') {
+        const rBox = document.getElementById("rPassageBox");
+        if (!rBox || !rBox.innerHTML || rBox.innerHTML.trim() === '') {
+          if (typeof initReadingMocks === 'function') initReadingMocks();
+        }
+      } else if (viewId === 'lexicon') {
+        const lexGrid = document.getElementById("lexGrid");
+        if (!lexGrid || !lexGrid.innerHTML || lexGrid.innerHTML.trim() === '') {
+          if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
+        }
+      }
+    } catch (hydrateErr) {
+      console.warn('[Tab Hydration Notice]', hydrateErr);
+    }
 
     if (scrollTargetEl) {
       requestAnimationFrame(() => {
@@ -8902,7 +8939,7 @@ if (typeof document !== 'undefined') {
   document.addEventListener('selectionchange', () => {
     const sel = window.getSelection();
     const toolbar = document.getElementById('passageHighlightToolbar');
-    const passage = document.getElementById('rPassageText');
+    const passage = document.getElementById('rPassageBox') || document.getElementById('rPassageText');
     if (!toolbar || !passage) return;
     if (!sel || sel.isCollapsed || !passage.contains(sel.anchorNode)) {
       toolbar.style.display = 'none';
@@ -8937,7 +8974,7 @@ window.applyPassageHighlight = function() {
 };
 
 window.clearPassageHighlight = function() {
-  const passage = document.getElementById('rPassageText');
+  const passage = document.getElementById('rPassageBox') || document.getElementById('rPassageText');
   if (!passage) return;
   passage.querySelectorAll('mark.cbt-user-highlight').forEach(m => {
     m.replaceWith(...m.childNodes);
