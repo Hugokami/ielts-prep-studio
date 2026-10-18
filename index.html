@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <title>IELTS Prep Studio — Open Academic Edition</title>
 
-<!-- Telegram Mini App (TMA) SDK & Storage Manager -->
+<!-- Telegram Mini App (TMA) SDK, Web Login Widget & Storage Manager -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script async src="https://telegram.org/js/telegram-widget.js?22"></script>
 <script src="js/storage-sync.js"></script>
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -4804,13 +4805,36 @@ function refreshAllVipViews() {
   refreshAnalytics();
 }
 
+window.onTelegramAuth = async function(user) {
+  if (user && window.StorageManager && typeof window.StorageManager.loginWithTelegramWidget === 'function') {
+    const modal = document.getElementById("authChoiceModal");
+    if (modal) modal.style.display = "none";
+    await window.StorageManager.loginWithTelegramWidget(user);
+  }
+};
+
+function startTelegramBrowserLogin() {
+  if (window.Telegram && window.Telegram.Login && typeof window.Telegram.Login.auth === 'function') {
+    window.Telegram.Login.auth({ bot_id: '8986357980', request_access: true }, window.onTelegramAuth);
+  } else {
+    const width = 550, height = 480;
+    const left = Math.max(0, (window.screen.width - width) / 2);
+    const top = Math.max(0, (window.screen.height - height) / 2);
+    const authUrl = `https://oauth.telegram.org/auth?bot_id=8986357980&origin=${encodeURIComponent(window.location.origin)}&request_access=write`;
+    window.open(authUrl, 'telegram_oauth', `width=${width},height=${height},left=${left},top=${top},status=0,location=0,menubar=0,toolbar=0`);
+  }
+}
+
 function handleAuthAction() {
   const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
   if (tgUser || window.currentUser) {
     const dd = document.getElementById("accountDropdownMenu");
     if (dd) dd.style.display = dd.style.display === "none" ? "block" : "none";
   } else {
-    if (window.signInWithGoogle) {
+    const modal = document.getElementById("authChoiceModal");
+    if (modal) {
+      modal.style.display = "flex";
+    } else if (window.signInWithGoogle) {
       window.signInWithGoogle();
     }
   }
@@ -4909,9 +4933,15 @@ function updateAuthUI() {
           <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start;" onclick="openVipPassModal(); document.getElementById('accountDropdownMenu').style.display='none';">
             ⭐ ${isVip ? 'VIP Studio Pass Status' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
           </button>
+          ${(!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) ? `
+          <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border);" onclick="if(window.StorageManager && window.StorageManager.signOutTelegramBrowser) { window.StorageManager.signOutTelegramBrowser(); document.getElementById('accountDropdownMenu').style.display='none'; }">
+            🚪 Sign Out of Telegram
+          </button>
+          ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.78rem; text-align:left; justify-content:flex-start; color:var(--text-secondary); border-color:var(--border);" onclick="document.getElementById('accountDropdownMenu').style.display='none';">
             ✕ Close Menu
           </button>
+          `}
         </div>
       `;
     }
@@ -9583,6 +9613,45 @@ if (typeof window !== 'undefined') {
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-outlined" onclick="bypassClozeGate()" style="font-size:0.78rem;">Skip Gate (Rate 3d)</button>
         <button class="btn-accent-solid" onclick="verifyClozeGate()" style="font-size:0.78rem;">Verify &amp; Master 7d ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Choice Modal (for Browser Users) -->
+  <div id="authChoiceModal" class="modal-backdrop" style="display:none; z-index:9999;" onclick="if(event.target===this) document.getElementById('authChoiceModal').style.display='none'">
+    <div class="modal-card" style="max-width:440px; width:100%; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:24px; box-sizing:border-box; box-shadow:0 12px 36px rgba(0,0,0,0.7);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.4rem;">🔑</span>
+          <h3 style="margin:0; font-size:1.15rem; font-weight:800; color:var(--text);">Sign In to IELTS Prep Studio</h3>
+        </div>
+        <button class="btn-outlined modal-close-btn" style="padding:4px 10px; font-size:0.8rem;" onclick="document.getElementById('authChoiceModal').style.display='none'">✕</button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin:0 0 16px 0;">
+        Sign in to unlock your Lifetime VIP Pass, 1,162 vocabulary words, and cross-device sync on this computer.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <!-- Option 1: Telegram Web Login -->
+        <button class="btn-accent-solid" style="padding:12px 16px; font-size:0.9rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:10px; border-radius:6px; cursor:pointer;" onclick="startTelegramBrowserLogin()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.63 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.98-1.73 6.64-2.88 7.98-3.45 3.8-1.6 4.59-1.88 5.11-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.16-.03.25z"/></svg>
+          <span>Log in with Telegram</span>
+        </button>
+        <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:-6px;">
+          ★ Recommended: Instantly unlocks your Telegram VIP Pass on this browser
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin:4px 0;">
+          <div style="flex:1; height:1px; background:var(--border);"></div>
+          <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">or</span>
+          <div style="flex:1; height:1px; background:var(--border);"></div>
+        </div>
+
+        <!-- Option 2: Google Sign-in -->
+        <button class="btn-outlined" style="padding:10px 14px; font-size:0.85rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; cursor:pointer;" onclick="document.getElementById('authChoiceModal').style.display='none'; if(window.signInWithGoogle) window.signInWithGoogle();">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
+          <span>Sign In with Google</span>
+        </button>
       </div>
     </div>
   </div>

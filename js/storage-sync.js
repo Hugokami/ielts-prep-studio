@@ -21,7 +21,7 @@
     return 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
   };
 
-  const tg = (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp)
+  const tg = (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp && (window.Telegram.WebApp.initData || (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user)))
     ? window.Telegram.WebApp
     : null;
 
@@ -39,6 +39,15 @@
     } catch (e) {
       console.warn('[TMA Init Notice]', e);
     }
+  } else {
+    // Check if browser user previously logged in via Telegram Widget
+    try {
+      const savedTgUser = localStorage.getItem('ips_browser_tg_user');
+      if (savedTgUser) {
+        window.telegramUser = JSON.parse(savedTgUser);
+        console.log('[TMA Browser] Restored Telegram browser session:', window.telegramUser.username || window.telegramUser.id);
+      }
+    } catch (e) {}
   }
 
   // Native Haptics Bridge
@@ -96,10 +105,17 @@
   }
 
   const StorageManager = {
-    isTelegram: !!(tg && ((tg.initDataUnsafe && tg.initDataUnsafe.user) || tg.initData)),
-    telegramUser: (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user : null,
+    get isTelegram() {
+      return !!(tg || (typeof window !== 'undefined' && window.telegramUser));
+    },
+    get telegramUser() {
+      return (typeof window !== 'undefined' && window.telegramUser) ? window.telegramUser : null;
+    },
 
     getTelegramUser() {
+      if (typeof window !== 'undefined' && window.telegramUser) {
+        return window.telegramUser;
+      }
       if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         return tg.initDataUnsafe.user;
       }
@@ -249,6 +265,79 @@
         return { success: true, message: 'VIP Activated Successfully!' };
       } catch (err) {
         return { success: false, error: err.message };
+      }
+    },
+
+    // Telegram Login Widget Authentication for Desktop/Browser Users
+    async loginWithTelegramWidget(authData) {
+      const apiBase = getApiBase();
+      try {
+        const response = await fetch(`${apiBase}/api/auth/telegram-widget`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(authData)
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Failed to authenticate Telegram account.');
+        }
+
+        // Store user in memory and localStorage for browser persistence
+        window.telegramUser = data.user;
+        try {
+          localStorage.setItem('ips_browser_tg_user', JSON.stringify(data.user));
+        } catch (e) {}
+
+        // If user is VIP on server, unlock VIP pass & merge bundle
+        if (data.isVip) {
+          if (data.vipData && typeof window.mergeVipBundle === 'function') {
+            window.mergeVipBundle(data.vipData);
+          }
+          if (typeof window.activateVipPass === 'function') {
+            window.activateVipPass('lifetime');
+          }
+        }
+
+        // Merge cloud-saved progress if available
+        if (data.savedProgress && typeof window.appState !== 'undefined') {
+          Object.assign(window.appState, data.savedProgress);
+          if (typeof window.saveAppState === 'function') window.saveAppState();
+          if (typeof window.loadAppState === 'function') window.loadAppState();
+        }
+
+        if (typeof window.updateAuthUI === 'function') {
+          window.updateAuthUI();
+        }
+        if (typeof window.showStudioNotification === 'function') {
+          const name = data.user.first_name || (data.user.username ? '@' + data.user.username : 'Scholar');
+          window.showStudioNotification(`✈️ Logged in as ${name}${data.isVip ? ' · 👑 Lifetime VIP Active' : ''}`);
+        }
+
+        triggerHaptic('success');
+        return data;
+      } catch (err) {
+        console.error('[Telegram Widget Login Error]', err);
+        alert('Telegram Login Error: ' + err.message);
+        return null;
+      }
+    },
+
+    // Sign out from browser Telegram session
+    signOutTelegramBrowser() {
+      try {
+        localStorage.removeItem('ips_browser_tg_user');
+      } catch (e) {}
+      window.telegramUser = null;
+      if (typeof window.appState !== 'undefined' && window.appState.userProfile) {
+        window.appState.userProfile.tier = 'free';
+        window.appState.userProfile.vipExpiresAt = null;
+        if (typeof window.saveAppState === 'function') window.saveAppState();
+      }
+      if (typeof window.updateAuthUI === 'function') window.updateAuthUI();
+      if (typeof window.refreshAllVipViews === 'function') window.refreshAllVipViews();
+      if (typeof window.showStudioNotification === 'function') {
+        window.showStudioNotification('Signed out of Telegram browser session.');
       }
     },
 

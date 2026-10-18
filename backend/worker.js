@@ -21,6 +21,10 @@ export default {
         return await handleRedeemCode(request, env);
       }
 
+      if (url.pathname === "/api/auth/telegram-widget" && request.method === "POST") {
+        return await handleTelegramWidgetAuth(request, env);
+      }
+
       if (url.pathname === "/webhook" && request.method === "POST") {
         return await handleWebhook(request, env);
       }
@@ -129,6 +133,116 @@ async function verifyTelegramInitData(initData, botToken) {
     console.warn("[Auth Error]", err);
     return null;
   }
+}
+
+// Cryptographic verification for Telegram Login Widget
+// Secret Key = SHA256(botToken)
+async function verifyTelegramWidgetData(authData, botToken) {
+  if (!authData || !authData.hash || !botToken) return null;
+
+  try {
+    const { hash, ...data } = authData;
+
+    // Check freshness: reject if auth_date is older than 24 hours
+    const now = Math.floor(Date.now() / 1000);
+    const authDate = parseInt(data.auth_date, 10);
+    if (!authDate || Math.abs(now - authDate) > 86400) {
+      console.warn("[Telegram Widget] auth_date expired or invalid:", data.auth_date);
+      return null;
+    }
+
+    const items = [];
+    for (const key of Object.keys(data).sort()) {
+      if (data[key] !== undefined && data[key] !== null && data[key] !== "") {
+        items.push(`${key}=${data[key]}`);
+      }
+    }
+    const dataCheckString = items.join("\n");
+
+    const enc = new TextEncoder();
+    // 1. secret_key = SHA256(botToken)
+    const secretKeyDigest = await crypto.subtle.digest("SHA-256", enc.encode(botToken));
+
+    // 2. HMAC-SHA256(secret_key, dataCheckString)
+    const hmacKey = await crypto.subtle.importKey(
+      "raw",
+      secretKeyDigest,
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
+
+    const sigBytes = await crypto.subtle.sign("HMAC", hmacKey, enc.encode(dataCheckString));
+    const calculatedHash = Array.from(new Uint8Array(sigBytes))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    if (calculatedHash.toLowerCase() !== String(hash).toLowerCase()) {
+      console.warn("[Telegram Widget] Hash signature mismatch");
+      return null;
+    }
+
+    return {
+      id: parseInt(data.id, 10),
+      first_name: data.first_name || "",
+      last_name: data.last_name || "",
+      username: data.username || "",
+      photo_url: data.photo_url || ""
+    };
+  } catch (err) {
+    console.warn("[Telegram Widget Auth Exception]", err);
+    return null;
+  }
+}
+
+// Handler for Telegram Login Widget Auth
+async function handleTelegramWidgetAuth(request, env) {
+  const body = await request.json();
+  const authData = body || {};
+  const botToken = env.BOT_TOKEN;
+
+  if (!botToken) {
+    return jsonResponse({ success: false, error: "BOT_TOKEN is not configured on server" }, 500);
+  }
+
+  const user = await verifyTelegramWidgetData(authData, botToken);
+  if (!user || !user.id) {
+    return jsonResponse({ success: false, error: "Invalid Telegram authentication signature or expired session." }, 401);
+  }
+
+  // Look up user in D1
+  const existing = await env.DB.prepare(`
+    SELECT * FROM users WHERE telegram_id = ?
+  `).bind(user.id).first();
+
+  let isVip = 0;
+  if (existing) {
+    isVip = existing.is_vip || 0;
+    // Update profile info in D1
+    await env.DB.prepare(`
+      UPDATE users SET username = ?, first_name = ?, updated_at = unixepoch() WHERE telegram_id = ?
+    `).bind(user.username || null, user.first_name || null, user.id).run();
+  } else {
+    // Insert initial user record
+    await env.DB.prepare(`
+      INSERT INTO users (telegram_id, username, first_name, is_vip, updated_at)
+      VALUES (?, ?, ?, 0, unixepoch())
+    `).bind(user.id, user.username || null, user.first_name || null).run();
+  }
+
+  // If user is VIP, load VIP bundle from KV
+  let vipData = null;
+  if (isVip === 1 && env.VIP_KV) {
+    vipData = await env.VIP_KV.get("VIP_BUNDLE_JSON", "json");
+  }
+
+  return jsonResponse({
+    success: true,
+    isVip: isVip === 1,
+    savedProgress: existing && existing.progress_json ? JSON.parse(existing.progress_json) : null,
+    vipData: vipData,
+    user: user
+  });
 }
 
 // ==========================================
