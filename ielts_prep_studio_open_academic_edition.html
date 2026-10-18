@@ -20,6 +20,8 @@
 
   :root {
     --font-scale: 1;
+    --app-safe-top: 0px;
+    --app-safe-bottom: 0px;
   }
 
   :root[data-theme="dark"] {
@@ -170,6 +172,12 @@
     max-width: 100%;
     backdrop-filter: blur(10px);
     overflow: visible;
+    padding-top: max(
+      var(--app-safe-top, 0px),
+      calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)),
+      env(safe-area-inset-top, 0px)
+    );
+    transition: padding-top 0.15s ease;
   }
 
   .topbar-inner {
@@ -1383,7 +1391,7 @@
     background: var(--bg-card);
     border-top: 1px solid var(--border-mid);
     z-index: 200;
-    padding: 4px 2px env(safe-area-inset-bottom, 8px) 2px;
+    padding: 4px 2px max(var(--app-safe-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 8px)) 2px;
     justify-content: space-around;
     align-items: center;
     box-sizing: border-box;
@@ -1741,6 +1749,9 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
+    }
+    .tma-bar-actions {
+      display: none !important;
     }
     .top-utils {
       width: 100%;
@@ -4718,7 +4729,39 @@ window.toggleTmaFullscreen = function() {
     console.warn("[TMA Fullscreen error]", err);
     if (typeof tg.expand === "function") tg.expand();
   }
+  if (typeof window.applyTelegramSafeAreas === "function") {
+    window.applyTelegramSafeAreas();
+  }
   window.updateTmaFullscreenUI();
+};
+
+window.applyTelegramSafeAreas = function() {
+  if (window.StorageManager && typeof window.StorageManager.applySafeAreas === "function") {
+    window.StorageManager.applySafeAreas();
+    return;
+  }
+  const tg = window.Telegram && window.Telegram.WebApp;
+  let topInset = 0;
+  let bottomInset = 0;
+  if (tg) {
+    if (tg.isFullscreen) {
+      const sysTop = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
+      const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
+      topInset = Math.max(sysTop + contentTop, sysTop, contentTop);
+      if (topInset === 0 && tg.platform !== 'tdesktop') {
+        topInset = 54;
+      }
+    } else {
+      topInset = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
+    }
+    const sysBottom = (tg.safeAreaInset && tg.safeAreaInset.bottom) || 0;
+    const contentBottom = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.bottom) || 0;
+    bottomInset = Math.max(sysBottom, contentBottom);
+  }
+  if (typeof document !== "undefined" && document.documentElement) {
+    document.documentElement.style.setProperty("--app-safe-top", `${topInset}px`);
+    document.documentElement.style.setProperty("--app-safe-bottom", `${bottomInset}px`);
+  }
 };
 
 window.openTmaInBrowser = function(url) {
@@ -4779,14 +4822,40 @@ if (typeof window !== "undefined") {
       try {
         tg.ready();
         tg.expand();
-        if (typeof tg.requestFullscreen === "function") {
-          try { tg.requestFullscreen(); } catch (e) {}
+
+        // Only auto-request fullscreen on Desktop (tdesktop).
+        // On mobile (iOS / Android), exit fullscreen to restore Telegram's native title bar
+        // which sits safely below the phone notch, clock, and battery icons.
+        if (tg.platform === "tdesktop") {
+          if (typeof tg.requestFullscreen === "function") {
+            try { tg.requestFullscreen(); } catch (e) {}
+          }
+        } else {
+          if (tg.isFullscreen && typeof tg.exitFullscreen === "function") {
+            try { tg.exitFullscreen(); } catch (e) {}
+          }
         }
+
+        if (typeof window.applyTelegramSafeAreas === "function") {
+          window.applyTelegramSafeAreas();
+        }
+
         if (typeof tg.onEvent === "function") {
-          tg.onEvent("fullscreenChanged", window.updateTmaFullscreenUI);
-          tg.onEvent("viewportChanged", window.updateTmaFullscreenUI);
+          tg.onEvent("safeAreaChanged", window.applyTelegramSafeAreas);
+          tg.onEvent("contentSafeAreaChanged", window.applyTelegramSafeAreas);
+          tg.onEvent("fullscreenChanged", () => {
+            if (typeof window.applyTelegramSafeAreas === "function") window.applyTelegramSafeAreas();
+            if (typeof window.updateTmaFullscreenUI === "function") window.updateTmaFullscreenUI();
+          });
+          tg.onEvent("viewportChanged", () => {
+            if (typeof window.applyTelegramSafeAreas === "function") window.applyTelegramSafeAreas();
+            if (typeof window.updateTmaFullscreenUI === "function") window.updateTmaFullscreenUI();
+          });
         }
       } catch (e) {}
+    }
+    if (typeof window.applyTelegramSafeAreas === "function") {
+      window.applyTelegramSafeAreas();
     }
     if (typeof window.updateTmaFullscreenUI === "function") {
       window.updateTmaFullscreenUI();

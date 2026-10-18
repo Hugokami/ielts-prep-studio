@@ -25,14 +25,61 @@
     ? window.Telegram.WebApp
     : null;
 
-  // Initialize TMA SDK immediately & auto-expand / request fullscreen
+  function applyTelegramSafeAreas() {
+    if (!tg) return;
+    try {
+      let topInset = 0;
+      if (tg.isFullscreen) {
+        const sysTop = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
+        const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
+        topInset = Math.max(sysTop + contentTop, sysTop, contentTop);
+        if (topInset === 0 && tg.platform !== 'tdesktop') {
+          topInset = 54;
+        }
+      } else {
+        topInset = (tg.safeAreaInset && tg.safeAreaInset.top) || 0;
+      }
+      const sysBottom = (tg.safeAreaInset && tg.safeAreaInset.bottom) || 0;
+      const contentBottom = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.bottom) || 0;
+      const bottomInset = Math.max(sysBottom, contentBottom);
+
+      if (typeof document !== 'undefined' && document.documentElement) {
+        document.documentElement.style.setProperty('--app-safe-top', `${topInset}px`);
+        document.documentElement.style.setProperty('--app-safe-bottom', `${bottomInset}px`);
+      }
+    } catch (e) {
+      console.warn('[TMA Safe Area Notice]', e);
+    }
+  }
+
+  // Initialize TMA SDK immediately & handle platform-specific viewport
   if (tg) {
     try {
       tg.ready();
       tg.expand();
-      if (typeof tg.requestFullscreen === 'function') {
-        try { tg.requestFullscreen(); } catch (err) {}
+
+      // Only auto-request fullscreen on Desktop (tdesktop).
+      // On mobile (iOS / Android), exit fullscreen to restore the native Telegram title bar
+      // which sits safely below the phone notch, clock, and battery icons.
+      if (tg.platform === 'tdesktop') {
+        if (typeof tg.requestFullscreen === 'function') {
+          try { tg.requestFullscreen(); } catch (err) {}
+        }
+      } else {
+        if (tg.isFullscreen && typeof tg.exitFullscreen === 'function') {
+          try { tg.exitFullscreen(); } catch (err) {}
+        }
       }
+
+      applyTelegramSafeAreas();
+
+      if (typeof tg.onEvent === 'function') {
+        tg.onEvent('safeAreaChanged', applyTelegramSafeAreas);
+        tg.onEvent('contentSafeAreaChanged', applyTelegramSafeAreas);
+        tg.onEvent('fullscreenChanged', applyTelegramSafeAreas);
+        tg.onEvent('viewportChanged', applyTelegramSafeAreas);
+      }
+
       if (typeof tg.setHeaderColor === 'function') tg.setHeaderColor('#0d0d0d');
       if (typeof tg.setBackgroundColor === 'function') tg.setBackgroundColor('#0d0d0d');
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -169,6 +216,8 @@
         window.open(target, '_blank');
       }
     },
+
+    applySafeAreas: applyTelegramSafeAreas,
 
     triggerHaptic,
 
