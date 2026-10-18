@@ -425,6 +425,131 @@ Transfer 55,000 MMK and *send your payment slip screenshot directly to this chat
       return jsonResponse({ ok: true });
     }
 
+    // 2b. Admin Command: /stats or /admin
+    if ((text === "/stats" || text === "/admin") && String(msg.from.id) === String(adminId)) {
+      const userStats = await env.DB.prepare(`
+        SELECT 
+          COUNT(*) as total_users,
+          SUM(CASE WHEN is_vip = 1 THEN 1 ELSE 0 END) as vip_users,
+          SUM(CASE WHEN is_vip = 0 THEN 1 ELSE 0 END) as free_users
+        FROM users
+      `).first();
+
+      const paymentStats = await env.DB.prepare(`
+        SELECT 
+          COUNT(*) as total_slips,
+          SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved_slips,
+          SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_slips,
+          SUM(CASE WHEN status = 'approved' THEN amount_mmk ELSE 0 END) as total_revenue
+        FROM payments
+      `).first();
+
+      const voucherStats = await env.DB.prepare(`
+        SELECT COUNT(*) as unused_vouchers FROM promo_codes WHERE is_used = 0
+      `).first();
+
+      const totalUsers = userStats ? (userStats.total_users || 0) : 0;
+      const vipUsers = userStats ? (userStats.vip_users || 0) : 0;
+      const freeUsers = userStats ? (userStats.free_users || 0) : 0;
+      const conversionRate = totalUsers > 0 ? ((vipUsers / totalUsers) * 100).toFixed(1) : "0.0";
+      const totalRevenue = paymentStats && paymentStats.total_revenue ? Number(paymentStats.total_revenue).toLocaleString() : "0";
+      const pendingSlips = paymentStats ? (paymentStats.pending_slips || 0) : 0;
+      const approvedSlips = paymentStats ? (paymentStats.approved_slips || 0) : 0;
+      const unusedVouchers = voucherStats ? (voucherStats.unused_vouchers || 0) : 0;
+
+      const statsMsg = 
+`📊 *IELTS PREP STUDIO — EXECUTIVE DASHBOARD*
+━━━━━━━━━━━━━━━━━━━━
+👥 *Student Base:*
+• Total Students: *${totalUsers}*
+• 👑 VIP Subscribers: *${vipUsers}*
+• 🆓 Free Tier: *${freeUsers}*
+• Conversion Rate: *${conversionRate}%*
+
+💰 *Financials (KBZPay / WavePay):*
+• Total Revenue: *${totalRevenue} MMK*
+• Approved Slips: *${approvedSlips}*
+• ⏳ Pending Verifications: *${pendingSlips}*
+
+🎟️ *Voucher Pool:*
+• Available Unused Codes: *${unusedVouchers}*
+
+⚡ *Admin Utilities:*
+• \`/gen_codes 10\` — Generate 10 Lifetime codes
+• \`/lookup <id or username>\` — Search student profile
+• \`/vip <id> on/off\` — Toggle VIP for user`;
+
+      await sendTelegramMessage(botToken, chatId, statsMsg);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2c. Admin Command: /lookup <username_or_id>
+    if (text.startsWith("/lookup") && String(msg.from.id) === String(adminId)) {
+      const query = text.replace("/lookup", "").trim().replace("@", "");
+      if (!query) {
+        await sendTelegramMessage(botToken, chatId, "Usage: `/lookup <telegram_id or username>`");
+        return jsonResponse({ ok: true });
+      }
+
+      let user = null;
+      if (/^\d+$/.test(query)) {
+        user = await env.DB.prepare("SELECT * FROM users WHERE telegram_id = ?").bind(parseInt(query, 10)).first();
+      } else {
+        user = await env.DB.prepare("SELECT * FROM users WHERE LOWER(username) = LOWER(?)").bind(query).first();
+      }
+
+      if (!user) {
+        await sendTelegramMessage(botToken, chatId, `❌ No student found matching \`${query}\`.`);
+        return jsonResponse({ ok: true });
+      }
+
+      const isVip = user.is_vip === 1;
+      const vipDate = user.vip_activated_at ? new Date(user.vip_activated_at * 1000).toLocaleDateString("en-GB") : "N/A";
+      const srsDue = user.srs_due_count || 0;
+
+      const profileMsg = 
+`👤 *STUDENT PROFILE*
+• Name: *${user.first_name || "N/A"}*
+• Username: @${user.username || "None"}
+• Telegram ID: \`${user.telegram_id}\`
+• Status: *${isVip ? "👑 VIP PASS (Lifetime)" : "🆓 Free Tier"}*
+• VIP Activated: ${vipDate}
+• SRS Due Words: ${srsDue}`;
+
+      await sendTelegramMessage(botToken, chatId, profileMsg, {
+        inline_keyboard: [
+          [
+            { text: isVip ? "🚫 Revoke VIP" : "👑 Grant VIP", callback_data: `toggle_vip:${user.telegram_id}:${isVip ? 0 : 1}` },
+            { text: "👤 Chat", url: user.username ? `https://t.me/${user.username}` : `tg://user?id=${user.telegram_id}` }
+          ]
+        ]
+      });
+      return jsonResponse({ ok: true });
+    }
+
+    // 2d. Admin Command: /vip <id> on/off
+    if (text.startsWith("/vip ") && String(msg.from.id) === String(adminId)) {
+      const parts = text.split(" ");
+      const targetId = parseInt(parts[1], 10);
+      const action = (parts[2] || "on").toLowerCase();
+      if (!targetId) {
+        await sendTelegramMessage(botToken, chatId, "Usage: `/vip <telegram_id> on|off`");
+        return jsonResponse({ ok: true });
+      }
+      const setVip = action === "on" ? 1 : 0;
+      await env.DB.prepare(`
+        INSERT INTO users (telegram_id, is_vip, vip_activated_at, updated_at)
+        VALUES (?, ?, unixepoch(), unixepoch())
+        ON CONFLICT(telegram_id) DO UPDATE SET
+          is_vip = excluded.is_vip,
+          vip_activated_at = CASE WHEN excluded.is_vip = 1 THEN unixepoch() ELSE 0 END,
+          updated_at = unixepoch()
+      `).bind(targetId, setVip).run();
+
+      await sendTelegramMessage(botToken, chatId, `Done! User \`${targetId}\` VIP set to *${setVip ? "ON (VIP)" : "OFF (Free)"}*.`);
+      return jsonResponse({ ok: true });
+    }
+
     // 3. Student Photo Submission (Payment Receipt Slip)
     if (msg.photo && msg.photo.length > 0) {
       const highestPhoto = msg.photo[msg.photo.length - 1];
@@ -487,6 +612,25 @@ Your Lifetime VIP Pass will unlock shortly. You will receive an instant notifica
         const [, targetTgId, paymentId] = data.split(":");
         const numTgId = parseInt(targetTgId, 10);
 
+        // Check if payment was already processed
+        if (paymentId && paymentId !== "pending") {
+          const payment = await env.DB.prepare("SELECT status FROM payments WHERE id = ?").bind(paymentId).first();
+          if (payment && payment.status !== "pending") {
+            await answerCallbackQuery(botToken, cb.id, `⚠️ Already ${payment.status.toUpperCase()}!`);
+            if (cb.message) {
+              await editTelegramReplyMarkup(botToken, cb.message.chat.id, cb.message.message_id, { inline_keyboard: [] });
+            }
+            return jsonResponse({ ok: true });
+          }
+        }
+
+        // Generate a personal Desktop VIP voucher code for the student
+        const desktopVoucher = generateRandomCode();
+        await env.DB.prepare(`
+          INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at)
+          VALUES (?, 1, ?, unixepoch())
+        `).bind(desktopVoucher, numTgId).run();
+
         // Update D1: users and payments
         await env.DB.prepare(`
           INSERT INTO users (telegram_id, is_vip, vip_activated_at, updated_at)
@@ -501,17 +645,42 @@ Your Lifetime VIP Pass will unlock shortly. You will receive an instant notifica
           await env.DB.prepare("UPDATE payments SET status = 'approved' WHERE id = ?").bind(paymentId).run();
         }
 
+        // Get target student info for admin quick link
+        const targetUser = await env.DB.prepare("SELECT username FROM users WHERE telegram_id = ?").bind(numTgId).first();
+        const username = targetUser && targetUser.username ? targetUser.username : "";
+        const studentLink = username ? `https://t.me/${username}` : `tg://user?id=${numTgId}`;
+        const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
+
+        // Remove approve/reject buttons and update caption on Admin's screen
+        if (cb.message) {
+          const originalCaption = cb.message.caption || "";
+          const updatedCaption = `${originalCaption}\n\n━━━━━━━━━━━━━━━━━━━━\n✅ *APPROVED & UNLOCKED* by Admin\n🕒 Time: ${nowMmt} MMT\n🎟️ Desktop Code: \`${desktopVoucher}\``;
+          await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption, {
+            inline_keyboard: [
+              [{ text: `👤 Open Student Chat (@${username || numTgId})`, url: studentLink }]
+            ]
+          });
+        }
+
         await answerCallbackQuery(botToken, cb.id, "✅ User upgraded to Lifetime VIP!");
         
-        // Notify Student
+        // Notify Student with Telegram unlock + Desktop Voucher
         await sendTelegramMessage(botToken, numTgId,
 `🎉 *Congratulations! Your Lifetime VIP Pass is ACTIVE!*
 
 Your 55,000 MMK payment has been verified.
-All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models, and Speaking Forecasts are now unlocked forever! 🚀`,
+All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models, and Speaking Forecasts are now unlocked forever! 🚀
+
+💻 *Study on Computer / Laptop (Chrome or Edge):*
+Your Personal Desktop Activation Pass:
+\`${desktopVoucher}\`
+
+Visit: ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"}
+Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly!`,
           {
             inline_keyboard: [
-              [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+              [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+              [{ text: "🌐 Open on Web Browser ↗", url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" }]
             ]
           }
         );
@@ -521,15 +690,65 @@ All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models
 
       if (data.startsWith("reject:")) {
         const [, targetTgId, paymentId] = data.split(":");
+        const numTgId = parseInt(targetTgId, 10);
+
         if (paymentId && paymentId !== "pending") {
+          const payment = await env.DB.prepare("SELECT status FROM payments WHERE id = ?").bind(paymentId).first();
+          if (payment && payment.status !== "pending") {
+            await answerCallbackQuery(botToken, cb.id, `⚠️ Already ${payment.status.toUpperCase()}!`);
+            if (cb.message) {
+              await editTelegramReplyMarkup(botToken, cb.message.chat.id, cb.message.message_id, { inline_keyboard: [] });
+            }
+            return jsonResponse({ ok: true });
+          }
           await env.DB.prepare("UPDATE payments SET status = 'rejected' WHERE id = ?").bind(paymentId).run();
         }
 
+        const targetUser = await env.DB.prepare("SELECT username FROM users WHERE telegram_id = ?").bind(numTgId).first();
+        const username = targetUser && targetUser.username ? targetUser.username : "";
+        const studentLink = username ? `https://t.me/${username}` : `tg://user?id=${numTgId}`;
+        const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
+
+        // Remove approve/reject buttons and update caption on Admin's screen
+        if (cb.message) {
+          const originalCaption = cb.message.caption || "";
+          const updatedCaption = `${originalCaption}\n\n━━━━━━━━━━━━━━━━━━━━\n❌ *REJECTED* by Admin\n🕒 Time: ${nowMmt} MMT`;
+          await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption, {
+            inline_keyboard: [
+              [{ text: `💬 Message Student (@${username || numTgId})`, url: studentLink }]
+            ]
+          });
+        }
+
         await answerCallbackQuery(botToken, cb.id, "Payment marked as rejected.");
-        await sendTelegramMessage(botToken, parseInt(targetTgId, 10),
+        await sendTelegramMessage(botToken, numTgId,
 `⚠️ *Payment Verification Notice*
-We were unable to verify your 55,000 MMK transaction slip. Please ensure the transaction ID is clearly visible and resend the screenshot, or contact support.`
+We were unable to verify your 55,000 MMK transaction slip.
+Please ensure the transaction ID and amount are clearly visible and resend the screenshot directly here, or contact @${env.BOT_USERNAME || "IELTSPrepStudioBot"} support.`
         );
+        return jsonResponse({ ok: true });
+      }
+
+      if (data.startsWith("toggle_vip:")) {
+        const [, targetIdStr, newStatusStr] = data.split(":");
+        const targetId = parseInt(targetIdStr, 10);
+        const newStatus = parseInt(newStatusStr, 10);
+        await env.DB.prepare(`
+          UPDATE users SET is_vip = ?, vip_activated_at = CASE WHEN ? = 1 THEN unixepoch() ELSE 0 END, updated_at = unixepoch()
+          WHERE telegram_id = ?
+        `).bind(newStatus, newStatus, targetId).run();
+
+        await answerCallbackQuery(botToken, cb.id, `User VIP set to ${newStatus === 1 ? "ACTIVE" : "FREE"}`);
+        if (cb.message) {
+          await editTelegramReplyMarkup(botToken, cb.message.chat.id, cb.message.message_id, {
+            inline_keyboard: [
+              [
+                { text: newStatus === 1 ? "🚫 Revoke VIP" : "👑 Grant VIP", callback_data: `toggle_vip:${targetId}:${newStatus === 1 ? 0 : 1}` },
+                { text: "👤 Chat", url: `tg://user?id=${targetId}` }
+              ]
+            ]
+          });
+        }
         return jsonResponse({ ok: true });
       }
     }
@@ -616,4 +835,43 @@ function generateRandomCode() {
     part2 += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return `VIP-${part1}-${part2}`;
+}
+
+async function editTelegramCaption(botToken, chatId, messageId, caption, replyMarkup = null) {
+  try {
+    const payload = {
+      chat_id: chatId,
+      message_id: messageId,
+      caption: caption,
+      parse_mode: "Markdown"
+    };
+    if (replyMarkup) {
+      payload.reply_markup = replyMarkup;
+    } else {
+      payload.reply_markup = { inline_keyboard: [] };
+    }
+    return await fetch(`https://api.telegram.org/bot${botToken}/editMessageCaption`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error("[editTelegramCaption Error]", err);
+  }
+}
+
+async function editTelegramReplyMarkup(botToken, chatId, messageId, replyMarkup = { inline_keyboard: [] }) {
+  try {
+    return await fetch(`https://api.telegram.org/bot${botToken}/editMessageReplyMarkup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        message_id: messageId,
+        reply_markup: replyMarkup
+      })
+    });
+  } catch (err) {
+    console.error("[editTelegramReplyMarkup Error]", err);
+  }
 }
