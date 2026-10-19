@@ -10018,22 +10018,88 @@ async function executeVipCollocationsSearch() {
         <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('synonyms', '${d.word}')">💎 View Synonyms ↗</button>
       </div>`;
 
-    if (d.adjectives && d.adjectives.length) {
-      html += `<div style="margin-bottom:12px;">
-        <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adjective Pairings (adjective + ${d.word}):</span>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          ${d.adjectives.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
-        </div>
-      </div>`;
-    }
-
-    if (d.nouns && d.nouns.length) {
-      html += `<div style="margin-bottom:12px;">
-        <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Noun Pairings (${d.word} + noun):</span>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          ${d.nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
-        </div>
-      </div>`;
+    if (d.pos === 'adj') {
+      const nouns = d.nounCollocations || d.nouns || [];
+      if (nouns.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 High-Yield Noun Pairings (${d.word} + noun):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+      const advs = d.modifierCollocations || d.adjectives || [];
+      if (advs.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adverb Intensifiers (adverb + ${d.word}):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${advs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
+          </div>
+        </div>`;
+      }
+      if (d.sentenceFrames && d.sentenceFrames.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 Band 9 Academic Sentence Frames:</span>
+          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
+            ${d.sentenceFrames.map(f => `<li>${f.replace(/\*/g, '')}</li>`).join('')}
+          </ul>
+        </div>`;
+      }
+    } else if (d.pos === 'verb') {
+      const nouns = d.nounCollocations || d.nouns || [];
+      if (nouns.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Verb-Object Pairings (${d.word} + noun):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> the ${n}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+      const advs = d.modifierCollocations || d.adjectives || [];
+      if (advs.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adverb Modifiers (adverb + ${d.word}):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${advs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
+          </div>
+        </div>`;
+      }
+      if (d.sentenceFrames && d.sentenceFrames.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 Band 9 Academic Sentence Frames:</span>
+          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
+            ${d.sentenceFrames.map(f => `<li>${f.replace(/\*/g, '')}</li>`).join('')}
+          </ul>
+        </div>`;
+      }
+    } else {
+      // noun
+      const adjs = d.modifierCollocations || d.adjectives || [];
+      if (adjs.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adjective Pairings (adjective + ${d.word}):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${adjs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
+          </div>
+        </div>`;
+      }
+      const nouns = d.nounCollocations || d.nouns || [];
+      if (nouns.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Compound Noun Pairings (${d.word} + noun):</span>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+      if (d.verbCollocations && d.verbCollocations.length) {
+        html += `<div style="margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 High-Scoring Verb Collocations:</span>
+          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
+            ${d.verbCollocations.map(v => `<li>${v.replace(/\*/g, '')}</li>`).join('')}
+          </ul>
+        </div>`;
+      }
     }
 
     if (d.triggers && d.triggers.length) {

@@ -891,8 +891,33 @@ Screenshot received! Admin မှ 55,000 MMK စလစ်ကို စစ်ဆ�
       return jsonResponse({ ok: true });
     }
 
-    // If text was not handled and student has a recent pending payment (within 2 hours), treat text as TxRef / Phone
+    // If user has an active pending tool prompt, route typed word to that tool:
     if (text) {
+      try {
+        const userRecord = await env.DB.prepare("SELECT pending_tool FROM users WHERE telegram_id = ?").bind(userId).first();
+        if (userRecord && userRecord.pending_tool) {
+          const pending = userRecord.pending_tool;
+          await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(userId).run();
+
+          if (pending === "collocate") {
+            await handleCollocateCommand(chatId, userId, text, env, botToken);
+            return jsonResponse({ ok: true });
+          } else if (pending === "syn") {
+            await handleSynCommand(chatId, userId, text, env, botToken);
+            return jsonResponse({ ok: true });
+          } else if (pending === "read") {
+            await handleReadCommand(chatId, userId, text, env, botToken);
+            return jsonResponse({ ok: true });
+          } else if (pending === "dict") {
+            await handleDictCommand(chatId, userId, text, env, botToken);
+            return jsonResponse({ ok: true });
+          }
+        }
+      } catch (err) {
+        console.error("[Pending Tool Check Error]", err);
+      }
+
+      // If text was not handled and student has a recent pending payment (within 2 hours), treat text as TxRef / Phone
       const recentPendingPayment = await env.DB.prepare(`
         SELECT id, caption_note FROM payments 
         WHERE telegram_id = ? AND status = 'pending' AND created_at >= (unixepoch() - 7200)
@@ -947,7 +972,17 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
     // Academic Tools Callbacks
     if (data === "menu_tools") {
       await answerCallbackQuery(botToken, cb.id);
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
       await handleToolsMenu(cbChatId, cbUserId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data.startsWith("ask_tool:")) {
+      await answerCallbackQuery(botToken, cb.id);
+      const toolName = data.replace("ask_tool:", "").trim();
+      await handlePromptForTool(cbChatId, cbUserId, toolName, env, botToken);
       return jsonResponse({ ok: true });
     }
 
@@ -965,6 +1000,9 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 
     if (data.startsWith("tool_collocate:")) {
       await answerCallbackQuery(botToken, cb.id);
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
       const w = data.replace("tool_collocate:", "").trim();
       await handleCollocateCommand(cbChatId, cbUserId, w, env, botToken);
       return jsonResponse({ ok: true });
@@ -972,6 +1010,9 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 
     if (data.startsWith("tool_syn:")) {
       await answerCallbackQuery(botToken, cb.id);
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
       const w = data.replace("tool_syn:", "").trim();
       await handleSynCommand(cbChatId, cbUserId, w, env, botToken);
       return jsonResponse({ ok: true });
@@ -979,6 +1020,9 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 
     if (data.startsWith("tool_read:")) {
       await answerCallbackQuery(botToken, cb.id);
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
       const t = data.replace("tool_read:", "").trim();
       await handleReadCommand(cbChatId, cbUserId, t, env, botToken);
       return jsonResponse({ ok: true });
@@ -986,6 +1030,9 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 
     if (data.startsWith("tool_dict:")) {
       await answerCallbackQuery(botToken, cb.id);
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
       const w = data.replace("tool_dict:", "").trim();
       await handleDictCommand(cbChatId, cbUserId, w, env, botToken);
       return jsonResponse({ ok: true });
@@ -2107,26 +2154,129 @@ async function getQuotaStatus(env, telegramId, isVip) {
 // External Zero-Auth API Fetchers
 // ------------------------------------------
 
+const STOP_WORDS = new Set([
+  "the", "a", "an", "this", "that", "these", "those", "my", "your", "his", "her", "its", "our", "their", 
+  "some", "any", "no", "every", "all", "each", "both", "few", "more", "most", "other", "such", "what", 
+  "which", "who", "whom", "whose", "of", "in", "to", "for", "with", "on", "at", "from", "by", "about", 
+  "as", "into", "like", "through", "after", "over", "between", "out", "against", "during", "without", 
+  "before", "under", "around", "among", "is", "are", "was", "were", "be", "been", "being", "have", "has", 
+  "had", "do", "does", "did", "can", "could", "should", "would", "may", "might", "must", "and", "or", "but",
+  "not", "also", "least", "very", "much", "even"
+]);
+
+function cleanWordList(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  const cleaned = [];
+  for (const item of list) {
+    const w = (typeof item === "string" ? item : (item && item.word ? item.word : "")).trim().toLowerCase();
+    if (!w || w.length < 3) continue;
+    if (STOP_WORDS.has(w)) continue;
+    if (seen.has(w)) continue;
+    seen.add(w);
+    cleaned.push(w);
+  }
+  return cleaned;
+}
+
 async function fetchCollocations(rawWord) {
   const word = (rawWord || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (!word) return null;
 
   try {
-    const [jjaRes, jjbRes, trgRes] = await Promise.allSettled([
-      fetch(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(word)}&max=8`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(word)}&max=8`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(word)}&max=8`).then(r => r.json())
+    const [metaRes, jjaRes, jjbRes, bgbRes, trgRes] = await Promise.allSettled([
+      fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(word)}&md=p&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(word)}&max=20`).then(r => r.json())
     ]);
 
-    const adjectives = (jjaRes.status === "fulfilled" && Array.isArray(jjaRes.value)) ? jjaRes.value.map(w => w.word) : [];
-    const nouns = (jjbRes.status === "fulfilled" && Array.isArray(jjbRes.value)) ? jjbRes.value.map(w => w.word) : [];
-    const triggers = (trgRes.status === "fulfilled" && Array.isArray(trgRes.value)) ? trgRes.value.map(w => w.word) : [];
+    const metaItem = (metaRes.status === "fulfilled" && Array.isArray(metaRes.value) && metaRes.value[0]) ? metaRes.value[0] : {};
+    const tags = metaItem.tags || [];
+
+    // Determine POS accurately
+    let pos = "noun";
+    if (metaItem.defs && metaItem.defs.length > 0) {
+      const dPos = metaItem.defs[0].split("\t")[0];
+      if (dPos === "adj") pos = "adj";
+      else if (dPos === "v") pos = "verb";
+      else if (dPos === "n") pos = "noun";
+      else if (dPos === "adv") pos = "adv";
+    } else {
+      const p = tags.filter(t => ["adj", "v", "n", "adv"].includes(t));
+      if (p.length > 0) {
+        if (p[0] === "adj") pos = "adj";
+        else if (p[0] === "v") pos = "verb";
+        else if (p[0] === "adv") pos = "adv";
+        else pos = "noun";
+      }
+    }
+
+    const jjaRaw = (jjaRes.status === "fulfilled" && Array.isArray(jjaRes.value)) ? jjaRes.value : [];
+    const jjbRaw = (jjbRes.status === "fulfilled" && Array.isArray(jjbRes.value)) ? jjbRes.value : [];
+    const bgbRaw = (bgbRes.status === "fulfilled" && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
+    const trgRaw = (trgRes.status === "fulfilled" && Array.isArray(trgRes.value)) ? trgRes.value : [];
+
+    const jjaClean = cleanWordList(jjaRaw); // Nouns modified by this adjective (or compound follower)
+    const jjbClean = cleanWordList(jjbRaw); // Adjectives modifying this noun
+    const trgClean = cleanWordList(trgRaw); // Thematic triggers
+
+    let nounCollocations = [];
+    let modifierCollocations = [];
+    let verbCollocations = [];
+    let sentenceFrames = [];
+
+    if (pos === "adj") {
+      // 1. ADJECTIVE (e.g. crucial, vital, significant)
+      nounCollocations = jjaClean.length ? jjaClean.slice(0, 6) : trgClean.slice(0, 6);
+      const bgbAdvs = bgbRaw
+        .filter(w => w.tags && w.tags.includes("adv"))
+        .map(w => w.word);
+      const advs = Array.from(new Set([...cleanWordList(bgbAdvs), "increasingly", "vitally", "critically", "particularly", "fundamentally"]))
+        .filter(a => a !== word);
+      modifierCollocations = advs.slice(0, 5);
+
+      sentenceFrames = [
+        `play a *${word}* role in [societal development / academic progress]`,
+        `of *${word}* importance to [policymakers / modern economy]`,
+        `proves to be a *${word}* factor in [determining long-term success]`
+      ];
+    } else if (pos === "verb") {
+      // 2. VERB (e.g. mitigate, exacerbate, foster)
+      nounCollocations = trgClean.length ? trgClean.slice(0, 6) : jjaClean.slice(0, 6);
+      modifierCollocations = ["significantly", "effectively", "substantially", "gradually", "successfully"];
+      sentenceFrames = [
+        `proactive government intervention is essential to *${word}* [the issue]`,
+        `failure to regulate could severely *${word}* [existing disparities]`
+      ];
+    } else {
+      // 3. NOUN (e.g. impact, policy, environment, evidence)
+      modifierCollocations = jjbClean.length ? jjbClean.slice(0, 6) : trgClean.slice(0, 6);
+      nounCollocations = jjaClean.slice(0, 5);
+      verbCollocations = [
+        `have / exert a profound *${word}* on...`,
+        `mitigate / alleviate the adverse *${word}* of...`,
+        `evaluate / assess the long-term *${word}*`,
+        `adopt / implement a comprehensive *${word}*`
+      ];
+      sentenceFrames = [
+        `has a profound *${word}* on [global sustainability / educational equity]`,
+        `policymakers must take decisive steps regarding [this *${word}*]`
+      ];
+    }
 
     return {
       word,
-      adjectives: adjectives.slice(0, 6),
-      nouns: nouns.slice(0, 6),
-      triggers: triggers.slice(0, 6)
+      pos,
+      nounCollocations,
+      modifierCollocations,
+      verbCollocations,
+      sentenceFrames,
+      triggers: trgClean.slice(0, 6),
+      // Backward compatibility aliases:
+      adjectives: modifierCollocations,
+      nouns: nounCollocations
     };
   } catch (err) {
     console.error("[fetchCollocations Error]", err);
@@ -2375,44 +2525,34 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
 ━━━━━━━━━━━━━━━━━━━━
 📊 *Your Status:* ${statusBadge}
 
-အောက်ပါ Free No-Auth Academic AI Tools များကို အသုံးပြု၍ သင်၏ IELTS Vocabulary နှင့် Writing Task 2 Idea များကို မြှင့်တင်ပါ:
+အောက်ပါ Academic AI Tools ခလုတ်များကို နှိပ်ပြီး သင်ရှာလိုသော စာလုံး (သို့) ခေါင်းစဉ်ကို လွတ်လပ်စွာ ရိုက်ထည့်၍ ရှာဖွေနိုင်ပါသည်:
 
-🔗 *Academic Collocations:* \`/collocate <word>\`
-• ဥပမာ: \`/collocate impact\` သို့မဟုတ် \`/collocate environment\`
-
-💎 *Band 8.5+ Lexical Synonyms:* \`/syn <word>\`
-• ဥပမာ: \`/syn important\` သို့မဟုတ် \`/syn problem\`
-
-📖 *Academic Topic Briefs:* \`/read <topic>\`
-• ဥပမာ: \`/read artificial intelligence\` သို့မဟုတ် \`/read climate change\`
-
-📚 *Live Academic Dictionary:* \`/dict <word>\`
-• ဥပမာ: \`/dict ubiquitous\` သို့မဟုတ် \`/dict mitigate\`
-
-🧠 *Scholar Thought & Rhetoric:* \`/quote\`
-• Academic Quote များနှင့် Task 2 Essay တွင် ကိုးကားအသုံးချနည်း
+🔗 *Academic Collocations:* သဘာဝကျသော စကားတွဲများ
+💎 *Band 8.5+ Synonyms:* အဆင့်မြင့် စာလုံး အစားထိုးစကားလုံးများ
+📖 *Academic Topic Briefs:* Task 2 Background ဗဟုသုတများ
+📚 *Academic Dictionary:* Formal Definition & Part of Speech
+🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း
 
 👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။
 🆓 *Free Tier:* တစ်နေ့လျှင် ၃ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။
 
-👇 အောက်ပါခလုတ်များကို နှိပ်၍ အမြန်စမ်းသပ်နိုင်ပါသည်:`;
+👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
 
   const inlineKeyboard = [
     [
-      { text: "🔗 Collocate: impact", callback_data: "tool_collocate:impact" },
-      { text: "💎 Syn: crucial", callback_data: "tool_syn:crucial" }
+      { text: "🔗 Academic Collocations", callback_data: "ask_tool:collocate" },
+      { text: "💎 Band 8.5+ Synonyms", callback_data: "ask_tool:syn" }
     ],
     [
-      { text: "📖 Read: AI", callback_data: "tool_read:Artificial intelligence" },
-      { text: "📖 Read: Climate", callback_data: "tool_read:Climate change" }
+      { text: "📖 Academic Topic Briefs", callback_data: "ask_tool:read" },
+      { text: "📚 Academic Dictionary", callback_data: "ask_tool:dict" }
     ],
     [
-      { text: "📚 Dict: ubiquitous", callback_data: "tool_dict:ubiquitous" },
-      { text: "🧠 Scholar Quote", callback_data: "tool_quote" }
+      { text: "🧠 Scholar Quote", callback_data: "tool_quote" },
+      { text: "📊 Check My Quota", callback_data: "tool_quota" }
     ],
     [
-      { text: "📊 Check My Quota", callback_data: "tool_quota" },
-      { text: isVip ? "👑 VIP Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: "info_payment" }
+      { text: isVip ? "👑 VIP Pass Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: "info_payment" }
     ],
     [
       { text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
@@ -2422,24 +2562,87 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
   await sendTelegramMessage(botToken, chatId, menuMsg, { inline_keyboard: inlineKeyboard });
 }
 
-async function handleCollocateCommand(chatId, userId, rawWord, env, botToken) {
-  if (!rawWord) {
-    const guideMsg = 
+async function handlePromptForTool(chatId, userId, toolName, env, botToken) {
+  try {
+    await env.DB.prepare("UPDATE users SET pending_tool = ? WHERE telegram_id = ?").bind(toolName, userId).run();
+  } catch (e) {
+    console.error("[handlePromptForTool DB Error]", e);
+  }
+
+  if (toolName === "collocate") {
+    const text = 
 `🔗 *ACADEMIC COLLOCATIONS ENGINE*
 ━━━━━━━━━━━━━━━━━━━━
-IELTS Writing Task 2 & Speaking တွင် သဘာဝကျသော စကားတွဲ (Natural Word Pairings) များ သုံးစွဲခြင်းသည် Lexical Resource အမှတ် 8.0+ အတွက် မရှိမဖြစ် လိုအပ်ပါသည်။
+IELTS Writing & Speaking တွင် Lexical Resource Band 8.5+ အတွက် သဘာဝကျသော စကားတွဲ (Natural Word Pairings) များ ရှာဖွေနိုင်ပါသည်။
 
-📝 *အသုံးပြုနည်း:*
-\`/collocate <word>\` (ဥပမာ \`/collocate impact\` သို့မဟုတ် \`/collocate policy\`)
+✍️ *Collocations ရှာဖွေလိုသော စကားလုံး (Word) ကို ဤ Chat တွင် ရိုက်ပို့ပေးပါ ခင်ဗျာ:*
+(ဥပမာ — \`impact\`, \`crucial\`, \`environment\`, \`policy\`)
 
-👇 အောက်ပါ စာလုံးများကို ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
-    await sendTelegramMessage(botToken, chatId, guideMsg, {
+👇 အောက်ပါ စာလုံးများကိုလည်း 1-Tap ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
+    await sendTelegramMessage(botToken, chatId, text, {
       inline_keyboard: [
-        [{ text: "🔗 impact", callback_data: "tool_collocate:impact" }, { text: "🔗 policy", callback_data: "tool_collocate:policy" }],
-        [{ text: "🔗 environment", callback_data: "tool_collocate:environment" }, { text: "🔗 technology", callback_data: "tool_collocate:technology" }],
-        [{ text: "⚡ Back to Tools", callback_data: "menu_tools" }]
+        [{ text: "🔗 impact", callback_data: "tool_collocate:impact" }, { text: "🔗 crucial", callback_data: "tool_collocate:crucial" }],
+        [{ text: "🔗 environment", callback_data: "tool_collocate:environment" }, { text: "🔗 policy", callback_data: "tool_collocate:policy" }],
+        [{ text: "⚡ Back to VIP Tools", callback_data: "menu_tools" }]
       ]
     });
+  } else if (toolName === "syn") {
+    const text = 
+`💎 *BAND 8.5+ LEXICAL SYNONYMS*
+━━━━━━━━━━━━━━━━━━━━
+Writing Task 2 တွင် 'important', 'problem', 'increase' စသည့် စကားလုံးများကို ထပ်ခါတလဲလဲ မသုံးဘဲ Academic Paraphrases များ အသုံးပြုပါ။
+
+✍️ *Synonyms ရှာလိုသော စကားလုံး (Word) ကို ဤ Chat တွင် ရိုက်ပို့ပေးပါ ခင်ဗျာ:*
+(ဥပမာ — \`important\`, \`problem\`, \`increase\`, \`crucial\`)
+
+👇 အောက်ပါ စာလုံးများကိုလည်း 1-Tap ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "💎 important", callback_data: "tool_syn:important" }, { text: "💎 problem", callback_data: "tool_syn:problem" }],
+        [{ text: "💎 increase", callback_data: "tool_syn:increase" }, { text: "💎 help", callback_data: "tool_syn:help" }],
+        [{ text: "⚡ Back to VIP Tools", callback_data: "menu_tools" }]
+      ]
+    });
+  } else if (toolName === "read") {
+    const text = 
+`📖 *ACADEMIC TOPIC BRIEFS & KNOWLEDGE*
+━━━━━━━━━━━━━━━━━━━━
+IELTS Writing Task 2 & Speaking Part 3 အတွက် Topic Background Knowledge နှင့် Arguments များ ရယူနိုင်ပါသည်။
+
+✍️ *ဖတ်ရှုလိုသော Essay Topic / ခေါင်းစဉ်ကို ဤ Chat တွင် ရိုက်ပို့ပေးပါ ခင်ဗျာ:*
+(ဥပမာ — \`Artificial intelligence\`, \`Climate change\`, \`Urbanization\`)
+
+👇 အောက်ပါ ခေါင်းစဉ်များကိုလည်း 1-Tap ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "📖 AI in Society", callback_data: "tool_read:Artificial intelligence" }, { text: "📖 Climate Change", callback_data: "tool_read:Climate change" }],
+        [{ text: "📖 Urbanization", callback_data: "tool_read:Urbanization" }, { text: "📖 Higher Education", callback_data: "tool_read:Higher education" }],
+        [{ text: "⚡ Back to VIP Tools", callback_data: "menu_tools" }]
+      ]
+    });
+  } else if (toolName === "dict") {
+    const text = 
+`📚 *LIVE ACADEMIC DICTIONARY*
+━━━━━━━━━━━━━━━━━━━━
+IELTS Band 8.5/9.0 Academic Vocabulary ၏ တိကျသော အဓိပ္ပာယ်ဖွင့်ဆိုချက်နှင့် Part of Speech များကို စစ်ဆေးပါ။
+
+✍️ *အဓိပ္ပာယ် ရှာလိုသော စကားလုံး (Word) ကို ဤ Chat တွင် ရိုက်ပို့ပေးပါ ခင်ဗျာ:*
+(ဥပမာ — \`ubiquitous\`, \`mitigate\`, \`exacerbate\`, \`unprecedented\`)
+
+👇 အောက်ပါ စာလုံးများကိုလည်း 1-Tap ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "📚 ubiquitous", callback_data: "tool_dict:ubiquitous" }, { text: "📚 mitigate", callback_data: "tool_dict:mitigate" }],
+        [{ text: "📚 exacerbate", callback_data: "tool_dict:exacerbate" }, { text: "📚 unprecedented", callback_data: "tool_dict:unprecedented" }],
+        [{ text: "⚡ Back to VIP Tools", callback_data: "menu_tools" }]
+      ]
+    });
+  }
+}
+
+async function handleCollocateCommand(chatId, userId, rawWord, env, botToken) {
+  if (!rawWord) {
+    await handlePromptForTool(chatId, userId, "collocate", env, botToken);
     return;
   }
 
@@ -2453,53 +2656,86 @@ IELTS Writing Task 2 & Speaking တွင် သဘာဝကျသော စက�
   }
 
   const result = await fetchCollocations(rawWord);
-  if (!result || (!result.adjectives.length && !result.nouns.length && !result.triggers.length)) {
-    await sendTelegramMessage(botToken, chatId, `⚠️ No academic collocations found for \`${rawWord}\`. Try common academic words like *impact, policy, environment, education, evidence*.`);
+  if (!result || (!result.nounCollocations.length && !result.modifierCollocations.length && !result.triggers.length)) {
+    await sendTelegramMessage(botToken, chatId, `⚠️ No academic collocations found for \`${rawWord}\`. Try common academic words like *impact, crucial, policy, environment, education, evidence*.`, {
+      inline_keyboard: [
+        [{ text: "🔍 Collocate another word", callback_data: "ask_tool:collocate" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      ]
+    });
     return;
   }
 
   let text = `🔗 *ACADEMIC COLLOCATIONS: "${result.word.toUpperCase()}"*\n━━━━━━━━━━━━━━━━━━━━\n`;
-  if (result.adjectives.length) {
-    text += `🔹 *Adjective Collocations (adjective + ${result.word}):*\n` + result.adjectives.map(a => `• *${a}* ${result.word}`).join("\n") + "\n\n";
-  }
-  if (result.nouns.length) {
-    text += `🔹 *Noun Collocations (${result.word} + noun):*\n` + result.nouns.map(n => `• ${result.word} *${n}*`).join("\n") + "\n\n";
-  }
-  if (result.triggers.length) {
-    text += `🔹 *Academic Associations:*\n` + result.triggers.map(t => `_${t}_`).join(", ") + "\n\n";
+
+  if (result.pos === "adj") {
+    if (result.nounCollocations && result.nounCollocations.length) {
+      text += `🔹 *High-Yield Noun Collocations (${result.word} + noun):*\n` +
+        result.nounCollocations.map(n => `• *${result.word}* ${n}`).join("\n") + "\n\n";
+    }
+    if (result.modifierCollocations && result.modifierCollocations.length) {
+      text += `🔹 *Adverb Intensifiers (adverb + ${result.word}):*\n` +
+        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
+    }
+    if (result.sentenceFrames && result.sentenceFrames.length) {
+      text += `🔹 *Band 9 Academic Sentence Frames:*\n` +
+        result.sentenceFrames.map(f => `• ${f}`).join("\n") + "\n\n";
+    }
+  } else if (result.pos === "verb") {
+    if (result.nounCollocations && result.nounCollocations.length) {
+      text += `🔹 *Verb-Object Collocations (${result.word} + noun):*\n` +
+        result.nounCollocations.map(n => `• *${result.word}* the ${n}`).join("\n") + "\n\n";
+    }
+    if (result.modifierCollocations && result.modifierCollocations.length) {
+      text += `🔹 *Adverb Modifiers (adverb + ${result.word}):*\n` +
+        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
+    }
+    if (result.sentenceFrames && result.sentenceFrames.length) {
+      text += `🔹 *Band 9 Academic Sentence Frames:*\n` +
+        result.sentenceFrames.map(f => `• ${f}`).join("\n") + "\n\n";
+    }
+  } else {
+    // noun
+    if (result.modifierCollocations && result.modifierCollocations.length) {
+      text += `🔹 *Adjective Collocations (adjective + ${result.word}):*\n` +
+        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
+    }
+    if (result.nounCollocations && result.nounCollocations.length) {
+      text += `🔹 *Compound Noun Collocations (${result.word} + noun):*\n` +
+        result.nounCollocations.map(n => `• *${result.word}* ${n}`).join("\n") + "\n\n";
+    }
+    if (result.verbCollocations && result.verbCollocations.length) {
+      text += `🔹 *High-Scoring Verb Collocations:*\n` +
+        result.verbCollocations.map(v => `• ${v}`).join("\n") + "\n\n";
+    }
+    if (result.triggers && result.triggers.length) {
+      text += `🔹 *Thematic Associations:*\n` +
+        result.triggers.map(t => `_${t}_`).join(", ") + "\n\n";
+    }
   }
 
   text += `💡 *Band 8.5 Tip:*
-Always pair nouns with academic verbs and modifiers to demonstrate natural native fluency under IELTS criteria.
+Always pair words with natural academic collocations to demonstrate fluent, native lexical resource under IELTS criteria.
 
 ${formatQuotaFooter(quota)}`;
 
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
-      [{ text: `💎 Synonyms for "${result.word}"`, callback_data: `tool_syn:${result.word}` }, { text: `📚 Dictionary`, callback_data: `tool_dict:${result.word}` }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      [
+        { text: "🔍 Collocate another word", callback_data: "ask_tool:collocate" },
+        { text: `💎 Synonyms for "${result.word}"`, callback_data: `tool_syn:${result.word}` }
+      ],
+      [
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+      ]
     ]
   });
 }
 
 async function handleSynCommand(chatId, userId, rawWord, env, botToken) {
   if (!rawWord) {
-    const guideMsg = 
-`💎 *BAND 8.5+ LEXICAL SYNONYMS*
-━━━━━━━━━━━━━━━━━━━━
-Writing Task 2 တွင် 'important', 'bad', 'problem' ကဲ့သို့ ရိုးစင်းသော စကားလုံးများကို ထပ်ခါတလဲလဲ မသုံးဘဲ Academic Synonyms များကို အစားထိုး အသုံးပြုပါ။
-
-📝 *အသုံးပြုနည်း:*
-\`/syn <word>\` (ဥပမာ \`/syn crucial\` သို့မဟုတ် \`/syn problem\`)
-
-👇 အောက်ပါ စာလုံးများကို ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
-    await sendTelegramMessage(botToken, chatId, guideMsg, {
-      inline_keyboard: [
-        [{ text: "💎 important", callback_data: "tool_syn:important" }, { text: "💎 problem", callback_data: "tool_syn:problem" }],
-        [{ text: "💎 increase", callback_data: "tool_syn:increase" }, { text: "💎 help", callback_data: "tool_syn:help" }],
-        [{ text: "⚡ Back to Tools", callback_data: "menu_tools" }]
-      ]
-    });
+    await handlePromptForTool(chatId, userId, "syn", env, botToken);
     return;
   }
 
@@ -2514,7 +2750,12 @@ Writing Task 2 တွင် 'important', 'bad', 'problem' ကဲ့သို့ 
 
   const result = await fetchSynonyms(rawWord);
   if (!result || !result.synonyms.length) {
-    await sendTelegramMessage(botToken, chatId, `⚠️ No synonyms found for \`${rawWord}\`. Try common essay words like *important, decrease, advantageous, negative*.`);
+    await sendTelegramMessage(botToken, chatId, `⚠️ No synonyms found for \`${rawWord}\`. Try common essay words like *important, decrease, advantageous, negative*.`, {
+      inline_keyboard: [
+        [{ text: "🔍 Search another synonym", callback_data: "ask_tool:syn" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      ]
+    });
     return;
   }
 
@@ -2531,30 +2772,21 @@ ${formatQuotaFooter(quota)}`;
 
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
-      [{ text: `🔗 Collocations for "${result.word}"`, callback_data: `tool_collocate:${result.word}` }, { text: `📚 Dictionary`, callback_data: `tool_dict:${result.word}` }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      [
+        { text: "🔍 Find more synonyms", callback_data: "ask_tool:syn" },
+        { text: `🔗 Collocations for "${result.word}"`, callback_data: `tool_collocate:${result.word}` }
+      ],
+      [
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+      ]
     ]
   });
 }
 
 async function handleReadCommand(chatId, userId, rawTopic, env, botToken) {
   if (!rawTopic) {
-    const guideMsg = 
-`📖 *ACADEMIC TOPIC BRIEFS & KNOWLEDGE*
-━━━━━━━━━━━━━━━━━━━━
-IELTS Writing Task 2 နှင့် Speaking Part 3 အတွက် Topic Background Knowledge နှင့် Ideas များ ရယူနိုင်ပါသည်။
-
-📝 *အသုံးပြုနည်း:*
-\`/read <topic>\` (ဥပမာ \`/read artificial intelligence\` သို့မဟုတ် \`/read renewable energy\`)
-
-👇 အောက်ပါ ခေါင်းစဉ်များကို ချက်ချင်း ဖတ်ရှုနိုင်ပါသည်:`;
-    await sendTelegramMessage(botToken, chatId, guideMsg, {
-      inline_keyboard: [
-        [{ text: "📖 AI in Society", callback_data: "tool_read:Artificial intelligence" }, { text: "📖 Climate Change", callback_data: "tool_read:Climate change" }],
-        [{ text: "📖 Urbanization", callback_data: "tool_read:Urbanization" }, { text: "📖 Higher Education", callback_data: "tool_read:Higher education" }],
-        [{ text: "⚡ Back to Tools", callback_data: "menu_tools" }]
-      ]
-    });
+    await handlePromptForTool(chatId, userId, "read", env, botToken);
     return;
   }
 
@@ -2569,7 +2801,12 @@ IELTS Writing Task 2 နှင့် Speaking Part 3 အတွက် Topic Backg
 
   const result = await fetchTopicBrief(rawTopic);
   if (!result || !result.extract) {
-    await sendTelegramMessage(botToken, chatId, `⚠️ Could not find an academic summary for \`${rawTopic}\`. Try broad IELTS topics like *Renewable energy, Globalization, Automation, Mental health*.`);
+    await sendTelegramMessage(botToken, chatId, `⚠️ Could not find an academic summary for \`${rawTopic}\`. Try broad IELTS topics like *Renewable energy, Globalization, Automation, Mental health*.`, {
+      inline_keyboard: [
+        [{ text: "📖 Read another topic", callback_data: "ask_tool:read" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      ]
+    });
     return;
   }
 
@@ -2586,30 +2823,21 @@ ${formatQuotaFooter(quota)}`;
 
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
-      [{ text: "🌐 Open Full Article ↗", url: result.url }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      [
+        { text: "📖 Read another topic", callback_data: "ask_tool:read" },
+        { text: "🌐 Open Wikipedia ↗", url: result.url }
+      ],
+      [
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+      ]
     ]
   });
 }
 
 async function handleDictCommand(chatId, userId, rawWord, env, botToken) {
   if (!rawWord) {
-    const guideMsg = 
-`📚 *LIVE ACADEMIC DICTIONARY*
-━━━━━━━━━━━━━━━━━━━━
-IELTS Band 8.5/9.0 Academic Vocabulary ၏ တိကျသော အဓိပ္ပာယ်ဖွင့်ဆိုချက်နှင့် Part of Speech များကို စစ်ဆေးပါ။
-
-📝 *အသုံးပြုနည်း:*
-\`/dict <word>\` (ဥပမာ \`/dict ubiquitous\` သို့မဟုတ် \`/dict mitigate\`)
-
-👇 အောက်ပါ စာလုံးများကို ချက်ချင်း စမ်းသပ်နိုင်ပါသည်:`;
-    await sendTelegramMessage(botToken, chatId, guideMsg, {
-      inline_keyboard: [
-        [{ text: "📚 ubiquitous", callback_data: "tool_dict:ubiquitous" }, { text: "📚 exacerbate", callback_data: "tool_dict:exacerbate" }],
-        [{ text: "📚 mitigate", callback_data: "tool_dict:mitigate" }, { text: "📚 unprecedented", callback_data: "tool_dict:unprecedented" }],
-        [{ text: "⚡ Back to Tools", callback_data: "menu_tools" }]
-      ]
-    });
+    await handlePromptForTool(chatId, userId, "dict", env, botToken);
     return;
   }
 
@@ -2624,7 +2852,12 @@ IELTS Band 8.5/9.0 Academic Vocabulary ၏ တိကျသော အဓိပ္
 
   const result = await fetchDictionary(rawWord);
   if (!result || !result.definitions.length) {
-    await sendTelegramMessage(botToken, chatId, `⚠️ No definitions found for \`${rawWord}\`. Try academic terms like *deleterious, ubiquitous, comprehensive, viable*.`);
+    await sendTelegramMessage(botToken, chatId, `⚠️ No definitions found for \`${rawWord}\`. Try academic terms like *deleterious, ubiquitous, comprehensive, viable*.`, {
+      inline_keyboard: [
+        [{ text: "📚 Look up another word", callback_data: "ask_tool:dict" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      ]
+    });
     return;
   }
 
@@ -2638,8 +2871,13 @@ ${formatQuotaFooter(quota)}`;
 
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
-      [{ text: `🔗 Collocations`, callback_data: `tool_collocate:${result.word}` }, { text: `💎 Synonyms`, callback_data: `tool_syn:${result.word}` }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      [
+        { text: "📚 Look up another word", callback_data: "ask_tool:dict" },
+        { text: `🔗 Collocations`, callback_data: `tool_collocate:${result.word}` }
+      ],
+      [
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }
+      ]
     ]
   });
 }

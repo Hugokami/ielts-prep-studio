@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   exam_date TEXT,
   target_band REAL DEFAULT 7.5,
   progress_json TEXT DEFAULT '{}',
+  pending_tool TEXT,
   updated_at INTEGER
 );
 
