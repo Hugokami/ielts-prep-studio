@@ -2050,16 +2050,6 @@
     .writing-rubrics-grid {
       grid-template-columns: 1fr !important;
     }
-    .listening-q-row {
-      flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 6px !important;
-    }
-    .listening-q-row label,
-    .listening-q-row input {
-      min-width: 0 !important;
-      width: 100% !important;
-    }
     table.guide-table th, table.guide-table td,
     table.occ-table th, table.occ-table td {
       padding: 6px 6px;
@@ -2716,23 +2706,6 @@
     max-width: 260px;
   }
 
-  /* Listening Speed & Sentence Sync */
-  .ls-speed-btn.is-active {
-    background: var(--accent) !important;
-    color: #ffffff !important;
-    border-color: var(--accent) !important;
-  }
-  .ls-sentence-clickable {
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 1px 3px;
-    transition: background 0.15s ease;
-  }
-  .ls-sentence-clickable:hover {
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
   /* Mobile Floating Action Button */
   #mobileFabContainer {
     position: fixed;
@@ -2837,7 +2810,7 @@
         Lexicon &amp; Drills
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="reading" onclick="switchView('reading')">
-        Reading &amp; Listening
+        CBT Reading
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="writing" onclick="switchView('writing')">
         Writing Lab
@@ -2990,10 +2963,10 @@
       <div>
         <div class="section-guide-title">STUDY HUB GUIDE // အသုံးပြုပုံ လမ်းညွှန် (START HERE)</div>
         <div class="section-guide-text">
-          Study across 5 streamlined hubs: <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>Reading &amp; Listening</strong>, <strong>Writing Lab</strong>, and <strong>Speaking Studio</strong>. Press <strong>⌘K / Ctrl+K</strong> anytime to search all 1,162 words and 55 practice mocks, or launch your daily session below.
+          Study across 5 streamlined hubs: <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong>, and <strong>Speaking Studio</strong>. Press <strong>⌘K / Ctrl+K</strong> anytime to search all 1,162 words and 55 practice mocks, or launch your daily session below.
         </div>
         <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
-          ပင်မကဏ္ဍ (၅) ခုဖြစ်သော <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>Reading &amp; Listening</strong>, <strong>Writing Lab</strong> နှင့် <strong>Speaking Studio</strong> တို့ကို အလွယ်တကူ ရွေးချယ်လေ့လာနိုင်ပါသည်။ <strong>🔍 Search</strong> ဖြင့် ဝေါဟာရနှင့် လေ့ကျင့်ခန်းများကို အချိန်မရွေး အမြန်ရှာဖွေနိုင်ပါသည်။
+          ပင်မကဏ္ဍ (၅) ခုဖြစ်သော <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong> နှင့် <strong>Speaking Studio</strong> တို့ကို အလွယ်တကူ ရွေးချယ်လေ့လာနိုင်ပါသည်။ <strong>🔍 Search</strong> ဖြင့် ဝေါဟာရနှင့် လေ့ကျင့်ခန်းများကို အချိန်မရွေး အမြန်ရှာဖွေနိုင်ပါသည်။
         </div>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -3028,7 +3001,7 @@
       <div class="hero-left">
         <h1 class="hero-title">Master Academic IELTS.</h1>
         <p class="hero-desc">
-          Practice 23 Reading CBT passages (231 questions), 2 Audio Listening sets, 40 Task 1 &amp; Task 2 Writing models, 30 Speaking Forecast Topics &amp; 5 Frameworks with real microphone recording, and 1,162 Band 8.0–9.0 vocabulary items &amp; exam traps with 1-3-7 day Spaced Repetition.
+          Practice 23 Reading CBT passages (231 questions), 40 Task 1 &amp; Task 2 Writing models, 30 Speaking Forecast Topics &amp; 5 Frameworks with real microphone recording, and 1,162 Band 8.0–9.0 vocabulary items &amp; exam traps with 1-3-7 day Spaced Repetition.
         </p>
         <button class="accent-link" onclick="switchView('lexicon')">
           Explore 1,162 Band 8.0–9.0 lexicon entries &amp; exam traps across 26 varieties + all 34 Exam Essentials modules ↗
@@ -3087,21 +3060,21 @@
               <div class="occ-card-identity">
                 <div class="occ-icon-box" onclick="switchView('reading')">RD</div>
                 <div>
-                  <div class="occ-word-title">23 Reading CBT Passages &amp; 2 Audio Listening Tests</div>
+                  <div class="occ-word-title">23 Cambridge Academic Reading CBT Passages</div>
                   <div class="occ-word-sub">231 Questions • TFNG • Headings • Gap-Fill • YNNG</div>
                 </div>
               </div>
               <div class="occ-meta-right">
-                <span class="occ-ver-pill">25 Sets</span>
+                <span class="occ-ver-pill">23 Passages</span>
                 <div class="occ-size-sub" id="card-kpi-read">0 / 23 Solved</div>
               </div>
             </div>
             <div class="occ-body-mm burmese">
-              <div class="occ-mm-note">Cambridge Academic စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) နှင့် အသံထွက် Listening လေ့ကျင့်ခန်း ၂ ခုကို အချိန်မှတ်၍ မြန်မာရှင်းလင်းချက်ဖြင့် လေ့ကျင့်ရန်။</div>
+              <div class="occ-mm-note">Cambridge Academic စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) ကို ၂၀ မိနစ် အချိန်မှတ် CBT Simulator ဖြင့် မြန်မာရှင်းလင်းချက်များနှင့် လေ့ကျင့်ရန်။</div>
             </div>
           </div>
           <div style="margin-top:12px;">
-            <button class="accent-link" onclick="switchView('reading')">Launch Reading &amp; Listening ↗</button>
+            <button class="accent-link" onclick="switchView('reading')">Launch CBT Reading ↗</button>
           </div>
         </div>
 
@@ -3825,17 +3798,17 @@
 
 
   <!-- =========================================================
-       HUB 3: READING & LISTENING // CBT READING SIMULATOR & LISTENING LAB
+       HUB 3: CBT READING // 23 CAMBRIDGE ACADEMIC CBT PASSAGES & TACTICS
        ========================================================= -->
   <section id="view-reading" class="view-section studio-tab-section" data-tab-index="reading" aria-labelledby="tab-reading">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">READING &amp; LISTENING LAB GUIDE // စာဖတ်နှင့် နားထောင်စွမ်းရည် လမ်းညွှန်</div>
+        <div class="section-guide-title">READING CBT SIMULATOR GUIDE // စာဖတ်စွမ်းရည် လမ်းညွှန်</div>
         <div class="section-guide-text">
-          Select any of the <strong>23 Academic Reading CBT Passages</strong> (231 authentic IELTS questions with Burmese evidence citations), or jump down to the <strong>Interactive Listening Lab</strong> to play audio recordings and check spelling.
+          Select any of the <strong>23 Academic Reading CBT Passages</strong> (231 authentic IELTS questions with Burmese evidence citations). Practice with real 20-minute countdown timer, question review flagging, and instant scoring.
         </div>
         <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">
-          Cambridge Academic Reading စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) ကို ၂၀ မိနစ် အချိန်မှတ်၍ လေ့ကျင့်နိုင်ပါသည်။ အောက်ဘက်ရှိ Listening Lab တွင် <strong>🔊 Play Audio Recording</strong> ကိုနှိပ်၍ အသံဖိုင်နားထောင်ကာ ကွက်လပ်ဖြည့် လေ့ကျင့်နိုင်ပါသည်။
+          Cambridge Academic Reading စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) ကို ၂၀ မိနစ် အချိန်မှတ်၍ CBT Simulator ဖြင့် လက်တွေ့ဖြေဆိုနိုင်ပါသည်။ ပုစ္ဆာတစ်ခုချင်းစီအတွက် မြန်မာဘာသာ အထောက်အထားရှင်းလင်းချက်များ ပါဝင်ပါသည်။
         </div>
       </div>
     </div>
@@ -3843,14 +3816,14 @@
     
 
     <!-- Minimalist Sub-Tab Bar -->
-    <div class="subtab-bar" role="tablist" aria-label="Reading &amp; Listening Sub-Navigation">
+    <div class="subtab-bar" role="tablist" aria-label="Reading CBT Sub-Navigation">
       <button class="subtab-btn active" data-subtab="reading" onclick="switchSubTab('reading', 'reading')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         <span>Reading CBT (23 Passages)</span>
       </button>
-      <button class="subtab-btn" data-subtab="listening" onclick="switchSubTab('reading', 'listening')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-        <span>Interactive Listening Lab</span>
+      <button class="subtab-btn" data-subtab="tactics" onclick="switchSubTab('reading', 'tactics')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Reading Tactics &amp; Traps</span>
       </button>
     </div>
 
@@ -3960,84 +3933,39 @@
         <span id="floatingCbtSwitchIcon">📝</span>
         <span id="floatingCbtSwitchText">Questions (0/13)</span>
       </button>
-    </div>
-
-    
-      <div class="sec-block" style="margin-top:32px;" id="rd-tactics-sec">
-      <div class="sec-eyebrow">EXAM ESSENTIALS PART 22 // READING QUESTION TYPES &amp; SIGNAL WORDS</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">Reading Question Strategies &amp; Signal Words</h3>
-        <div class="sec-timestamp">Spot contrast, cause-effect, and absolute distractor words immediately</div>
-      </div>
-      <div class="occ-grid-2">
-        <div class="occ-card">
-          <div class="sec-eyebrow">5 CORE QUESTION TYPE TACTICS</div>
-          <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
-            • <strong>Matching Headings:</strong> Read the whole paragraph for the main idea; eliminate headings that only mention a minor detail.<br>
-            • <strong>True / False / Not Given:</strong> <em>True</em> = same meaning in synonyms; <em>False</em> = directly contradicts the passage; <em>Not Given</em> = not mentioned. Watch out for extreme words like <em>all, always, never, only, every</em>.<br>
-            • <strong>Yes / No / Not Given:</strong> Tests the writer's opinions/claims rather than factual data.<br>
-            • <strong>Multiple Choice:</strong> Eliminate extreme options or distractors that copy passage words but twist the logic.<br>
-            • <strong>Summary / Sentence Completion:</strong> Obey the strict word limit (e.g., ONE WORD ONLY) and verify whether the blank requires a noun, verb, or adjective.
-          </div>
-        </div>
-        <div class="occ-card">
-          <div class="sec-eyebrow">SIGNAL WORDS THAT POINT TO ANSWERS</div>
-          <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
-            • <strong>Contrast (High Exam Frequency):</strong> <em>however, but, whereas, despite, in contrast</em> (answers frequently appear right after a contrast marker).<br>
-            • <strong>Cause &amp; Effect:</strong> <em>because, therefore, as a result, leads to, due to</em>.<br>
-            • <strong>Examples:</strong> <em>for example, such as, including, for instance</em>.<br>
-            • <strong>Emphasis:</strong> <em>particularly, especially, notably, above all</em>.
-          </div>
-        </div>
       </div>
     </div>
 
-    
-    </div>
-
-    <!-- SUBTAB 2: LISTENING LAB -->
-    <div class="subtab-panel" data-subtab="listening">
-      <div class="sec-block" id="rd-listening-sec">
-      <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 21, 30 &amp; 33 // LISTENING SKILLS GUIDE &amp; AUDIO PRACTICE SETS</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">Interactive Listening Lab <span class="ver-muted">Signposting · Spelling Traps · 2 Audio Practice Tests</span></h3>
-        <div class="sec-timestamp">Click Play Audio Recording to hear the listening transcript via Web Speech API</div>
-      </div>
-
-      <!-- Interactive Listening Lab Speed & Fuzzy Tolerance Controls -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin:12px 0 16px 0; padding:8px 12px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px;">
-        <div class="listening-speed-bar" style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Audio Speed:</span>
-          <button class="btn-outlined is-active ls-speed-btn" id="btn-ls-spd-10" onclick="setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem;">1.0x</button>
-          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-08" onclick="setListeningSpeed(0.85)" style="padding:2px 8px; font-size:0.72rem;">0.85x</button>
-          <button class="btn-outlined ls-speed-btn" id="btn-ls-spd-12" onclick="setListeningSpeed(1.15)" style="padding:2px 8px; font-size:0.72rem;">1.15x</button>
+    <!-- SUBTAB 2: READING TACTICS & TRAPS -->
+    <div class="subtab-panel" data-subtab="tactics">
+      <div class="sec-block" id="rd-tactics-sec">
+        <div class="sec-eyebrow">EXAM ESSENTIALS PART 22 // READING QUESTION TYPES &amp; SIGNAL WORDS</div>
+        <div class="sec-header-row">
+          <h3 class="sec-title">Reading Question Strategies &amp; Signal Words</h3>
+          <div class="sec-timestamp">Spot contrast, cause-effect, and absolute distractor words immediately</div>
         </div>
-        <div>
-          <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.76rem; cursor:pointer;">
-            <input type="checkbox" id="lsFuzzyToleranceToggle" onchange="toggleListeningFuzzyMode(this.checked)">
-            <span>Learning Mode (Typo-Tolerant, ±1 letter)</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="occ-grid-2" style="margin-bottom:18px;">
-        <div class="occ-card">
-          <div class="sec-eyebrow">PART 21 // SIGNPOSTING LANGUAGE &amp; SELF-CORRECTION TRAPS</div>
-          <div class="table-scroll-wrap">
-            <table class="occ-table" id="listeningSignpostingTable"></table>
+        <div class="occ-grid-2">
+          <div class="occ-card">
+            <div class="sec-eyebrow">5 CORE QUESTION TYPE TACTICS</div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
+              • <strong>Matching Headings:</strong> Read the whole paragraph for the main idea; eliminate headings that only mention a minor detail.<br>
+              • <strong>True / False / Not Given:</strong> <em>True</em> = same meaning in synonyms; <em>False</em> = directly contradicts the passage; <em>Not Given</em> = not mentioned. Watch out for extreme words like <em>all, always, never, only, every</em>.<br>
+              • <strong>Yes / No / Not Given:</strong> Tests the writer's opinions/claims rather than factual data.<br>
+              • <strong>Multiple Choice:</strong> Eliminate extreme options or distractors that copy passage words but twist the logic.<br>
+              • <strong>Summary / Sentence Completion:</strong> Obey the strict word limit (e.g., ONE WORD ONLY) and verify whether the blank requires a noun, verb, or adjective.
+            </div>
           </div>
-        </div>
-        <div class="occ-card">
-          <div class="sec-eyebrow">PART 21 // SPELLING, NUMBERS &amp; MAP DIRECTION ESSENTIALS</div>
-          <div class="table-scroll-wrap">
-            <table class="occ-table" id="listeningSpellingTable"></table>
+          <div class="occ-card">
+            <div class="sec-eyebrow">SIGNAL WORDS THAT POINT TO ANSWERS</div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
+              • <strong>Contrast (High Exam Frequency):</strong> <em>however, but, whereas, despite, in contrast</em> (answers frequently appear right after a contrast marker).<br>
+              • <strong>Cause &amp; Effect:</strong> <em>because, therefore, as a result, leads to, due to</em>.<br>
+              • <strong>Examples:</strong> <em>for example, such as, including, for instance</em>.<br>
+              • <strong>Emphasis:</strong> <em>particularly, especially, notably, above all</em>.
+            </div>
           </div>
         </div>
       </div>
-
-      <div id="listeningSetsContainer" class="occ-grid-2"></div>
-    </div>
-  
     </div>
   </section>
 
@@ -4513,7 +4441,7 @@
 <div id="quickSearchModal" class="modal-backdrop" onclick="if(event.target===this) closeQuickSearchModal()">
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Global Quick Search">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <div class="sec-eyebrow" style="margin-bottom:0;">GLOBAL QUICK SEARCH // 1,162 WORDS · 23 READING · 40 WRITING · 30 SPEAKING · 2 LISTENING</div>
+      <div class="sec-eyebrow" style="margin-bottom:0;">GLOBAL QUICK SEARCH // 1,162 WORDS · 23 READING · 40 WRITING · 50 SPEAKING TOPICS</div>
       <button class="btn-outlined" style="padding:3px 9px; font-size:0.75rem;" onclick="closeQuickSearchModal()">ESC</button>
     </div>
     <input type="text" id="globalSearchInput" class="occ-input" style="width:100%; font-size:0.95rem; margin-bottom:12px;" placeholder="Type any English word, Burmese meaning, topic, or mock test title..." oninput="renderGlobalSearchResults()">
@@ -4526,7 +4454,7 @@
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
       <div>
         <div class="sec-eyebrow" style="margin-bottom:2px;">PERSONAL WEAK-SPOT TRACKER</div>
-        <h3 style="font-size:1.15rem; font-weight:700;">My Mistake Log (Reading, Listening &amp; Paraphrase Drills)</h3>
+        <h3 style="font-size:1.15rem; font-weight:700;">My Mistake Log (Reading &amp; Paraphrase Drills)</h3>
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn-outlined" style="padding:4px 10px; font-size:0.75rem;" onclick="clearAllErrors()">Clear All</button>
@@ -4534,7 +4462,7 @@
       </div>
     </div>
     <p class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:12px;">
-      Reading၊ Listening နှင့် Paraphrase Drill တို့တွင် မှားယွင်းခဲ့သော မေးခွန်းများကို ဤနေရာတွင် အလိုအလျောက် စုစည်းပေးထားပါသည်။ အဖြေမှန်နှင့် ရှင်းလင်းချက်ကို ပြန်လည်လေ့လာပြီး နားလည်သွားပါက Resolved နှိပ်ပါ။
+      Reading နှင့် Paraphrase Drill တို့တွင် မှားယွင်းခဲ့သော မေးခွန်းများကို ဤနေရာတွင် အလိုအလျောက် စုစည်းပေးထားပါသည်။ အဖြေမှန်နှင့် ရှင်းလင်းချက်ကို ပြန်လည်လေ့လာပြီး နားလည်သွားပါက Resolved နှိပ်ပါ။
     </p>
     <div id="errorLogList" style="max-height:380px; overflow-y:auto; display:grid; gap:10px;"></div>
   </div>
@@ -4553,7 +4481,6 @@ let WORD_FAMILIES_16 = [];
 let VOCAB_UPGRADES_14 = [];
 let SYNONYM_SETS_30 = [];
 let SPEAKING_TOPIC_BANK_DATA = [];
-let LISTENING_PRACTICE_DATA = {};
 
 function showLocalFileProtocolWarning() {
   if (typeof document === "undefined" || document.getElementById("localFileNotice")) return;
@@ -4575,7 +4502,7 @@ async function loadStudioData() {
     showLocalFileProtocolWarning();
   }
   try {
-    // 1. Prioritize free curriculum bundle (250 Lexicon, 3 Reading CBTs, 5 Writing Models, 5 Speaking Topics, 1 Listening Set)
+    // 1. Prioritize free curriculum bundle (250 Lexicon, 3 Reading CBTs, 5 Writing Models, 50 Speaking Topics)
     let bundle = null;
     const bundlePaths = ["public/data/free-bundle.json", "data/free-bundle.json"];
     for (const p of bundlePaths) {
@@ -4601,7 +4528,6 @@ async function loadStudioData() {
       VOCAB_UPGRADES_14 = spk.vocab_upgrades || [];
       SYNONYM_SETS_30 = spk.synonym_sets || [];
       SPEAKING_TOPIC_BANK_DATA = spk.topic_bank || [];
-      LISTENING_PRACTICE_DATA = spk.listening_practice || {};
 
       // If VIP is active, immediately load and merge full VIP curriculum bundle
       if (typeof isVipActive === 'function' && isVipActive()) {
@@ -4644,7 +4570,6 @@ async function loadStudioData() {
     VOCAB_UPGRADES_14 = spkBundle.vocab_upgrades || [];
     SYNONYM_SETS_30 = spkBundle.synonym_sets || [];
     SPEAKING_TOPIC_BANK_DATA = spkBundle.topic_bank || [];
-    LISTENING_PRACTICE_DATA = spkBundle.listening_practice || {};
     return true;
   } catch (err) {
     console.warn("[Studio Data Loader Notice]", err);
@@ -4677,7 +4602,7 @@ async function loadStudioData() {
   }
 }
 
-// In-Memory Merging of VIP Curriculum Bundle (912 Lexicon, 20 Reading CBTs, 35 Writing Models, 45 Speaking Topics, 3 Listening Sets)
+// In-Memory Merging of VIP Curriculum Bundle (912 Lexicon, 20 Reading CBTs, 35 Writing Models, 50 Speaking Topics)
 window.mergeVipBundle = function(vipData) {
   if (!vipData || window._vipBundleMerged) return;
   window._vipBundleMerged = true;
@@ -4710,20 +4635,11 @@ window.mergeVipBundle = function(vipData) {
     WRITING_MOCKS = WRITING_MOCKS.concat(newModels);
   }
 
-  // 4. Merge Speaking & Listening Practice
-  if (vipData.speaking) {
-    if (Array.isArray(vipData.speaking.topic_bank)) {
-      const existingTopics = new Set((SPEAKING_TOPIC_BANK_DATA || []).map(t => t.topic));
-      const newTopics = vipData.speaking.topic_bank.filter(t => !existingTopics.has(t.topic));
-      SPEAKING_TOPIC_BANK_DATA = (SPEAKING_TOPIC_BANK_DATA || []).concat(newTopics);
-    }
-    if (vipData.speaking.listening_practice && Array.isArray(vipData.speaking.listening_practice.sets)) {
-      if (!LISTENING_PRACTICE_DATA) LISTENING_PRACTICE_DATA = {};
-      if (!LISTENING_PRACTICE_DATA.sets) LISTENING_PRACTICE_DATA.sets = [];
-      const existingSets = new Set(LISTENING_PRACTICE_DATA.sets.map(s => s.id));
-      const newSets = vipData.speaking.listening_practice.sets.filter(s => !existingSets.has(s.id));
-      LISTENING_PRACTICE_DATA.sets = LISTENING_PRACTICE_DATA.sets.concat(newSets);
-    }
+  // 4. Merge Speaking Topics
+  if (vipData.speaking && Array.isArray(vipData.speaking.topic_bank)) {
+    const existingTopics = new Set((SPEAKING_TOPIC_BANK_DATA || []).map(t => t.topic));
+    const newTopics = vipData.speaking.topic_bank.filter(t => !existingTopics.has(t.topic));
+    SPEAKING_TOPIC_BANK_DATA = (SPEAKING_TOPIC_BANK_DATA || []).concat(newTopics);
   }
 
   console.log(`[VIP Unlocked] Lexicon: ${VOCAB_DATA.length}, Reading: ${READING_MOCKS.length}, Writing: ${WRITING_MOCKS.length}, Speaking: ${SPEAKING_TOPIC_BANK_DATA.length}`);
@@ -4874,7 +4790,6 @@ const LEXICON_FREE_LIMIT = 250;
 const READING_FREE_LIMIT = 3;
 const WRITING_MODELS_FREE_LIMIT = 5;
 const SPEAKING_FRAMEWORKS_FREE_LIMIT = 5;
-const LISTENING_FREE_LIMIT = 1;
 const SPEAKING_TOPICS_FREE_LIMIT = 5;
 const MISTAKE_LOG_FREE_LIMIT = 5;
 
@@ -6612,7 +6527,7 @@ function renderLexiconGrid(keepLimit) {
       <div style="font-size:2rem; margin-bottom:8px;">🔒</div>
       <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:4px;">${LEXICON_FREE_LIMIT} Free Entries Displayed</div>
       <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:280px; line-height:1.45;">
-        Unlock all <strong>${VOCAB_DATA.length} Band 8.5 Academic Collocations, 538 Reading Traps &amp; 179 Listening Distractor Pairs</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with Lifetime VIP Pass.
+        Unlock all <strong>${VOCAB_DATA.length} Band 8.5 Academic Collocations, 538 Reading Traps &amp; Academic Lexicon</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with Lifetime VIP Pass.
       </p>
       <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full ${VOCAB_DATA.length} Lexicon (55,000 MMK)</button>
     </article>
@@ -7322,89 +7237,6 @@ function renderAllEssentialsModules() {
     `).join("");
   }
 
-  const lsSignTbl = document.getElementById("listeningSignpostingTable");
-  if (lsSignTbl) {
-    lsSignTbl.innerHTML = `
-      <thead><tr><th>Function</th><th>Signposting Phrase</th><th>မြန်မာရှင်းလင်းချက်</th></tr></thead>
-      <tbody>
-        ${LISTENING_PRACTICE_DATA.signposting.map(s => `
-          <tr>
-            <td><strong>${s.func}</strong></td>
-            <td style="color:var(--accent); font-style:italic;">"${s.phrases}"</td>
-            <td class="burmese" style="font-size:0.8rem;">${s.mm}</td>
-          </tr>
-        `).join("")}
-      </tbody>
-    `;
-  }
-
-  const lsSpellTbl = document.getElementById("listeningSpellingTable");
-  if (lsSpellTbl) {
-    lsSpellTbl.innerHTML = `
-      <thead><tr><th>Category</th><th>Key Words to Master</th><th>မြန်မာရှင်းလင်းချက်</th></tr></thead>
-      <tbody>
-        ${LISTENING_PRACTICE_DATA.spellingTraps.map(s => `
-          <tr>
-            <td><strong>${s.cat}</strong></td>
-            <td style="font-family:monospace; font-size:0.8rem;">${s.examples}</td>
-            <td class="burmese" style="font-size:0.8rem;">${s.mm}</td>
-          </tr>
-        `).join("")}
-      </tbody>
-    `;
-  }
-
-  const lsSetsBox = document.getElementById("listeningSetsContainer");
-  if (lsSetsBox) {
-    const isVip = isVipActive();
-    lsSetsBox.innerHTML = LISTENING_PRACTICE_DATA.sets.map((ls, sIdx) => {
-      const isLocked = (!isVip && sIdx >= LISTENING_FREE_LIMIT);
-      if (isLocked) {
-        return `
-          <article class="occ-card" style="border:1px dashed var(--accent); background:rgba(224,108,53,0.04);">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
-              <div>
-                <div class="sec-eyebrow">INTERACTIVE LISTENING DRILL</div>
-                <div class="occ-word-title" style="font-size:1.05rem;">🔒 [VIP LOCKED] ${ls.title}</div>
-              </div>
-              <span class="badge" style="background:var(--accent); color:#fff; font-size:0.72rem; font-weight:800; padding:4px 8px; border-radius:4px;">VIP EXCLUSIVE</span>
-            </div>
-            <p style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:12px;">
-              Set 1 is free for all students. This full authentic listening test with audio playback, gap-fill autograding, and verbatim transcript analysis is exclusive to Lifetime VIP Pass holders.
-            </p>
-            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:800; padding:8px 14px; width:100%;">👑 Unlock All 4 Listening Sets (55,000 MMK)</button>
-          </article>
-        `;
-      }
-      return `
-        <article class="occ-card">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
-            <div>
-              <div class="sec-eyebrow">INTERACTIVE LISTENING DRILL</div>
-              <div class="occ-word-title" style="font-size:1.05rem;">${ls.title}</div>
-            </div>
-            <button class="btn-accent-solid" style="padding:5px 10px; font-size:0.76rem;" onclick="playListeningSetAudio(ls.id || (sIdx + 1), ${JSON.stringify(ls.audioText).replace(/"/g, '&quot;')})">🔊 Play Audio Recording</button>
-          </div>
-          <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">${ls.instruction}</p>
-          <div style="display:grid; gap:8px; margin-bottom:12px;">
-            ${ls.questions.map((q, qIdx) => `
-              <div class="listening-q-row" style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:8px 10px; background:var(--bg); border:1px solid var(--border);">
-                <label for="ls_in_${sIdx}_${qIdx}" style="font-weight:700; font-size:0.84rem; min-width:140px;">${q.q}</label>
-                <input type="text" id="ls_in_${sIdx}_${qIdx}" class="occ-input" style="flex:1; min-width:140px; padding:5px 8px;" placeholder="Type answer...">
-                <span id="ls_res_${sIdx}_${qIdx}" style="font-family:monospace; font-size:0.76rem;"></span>
-              </div>
-            `).join("")}
-          </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn-accent-solid" onclick="gradeListeningSet(${sIdx})">Check Listening Answers</button>
-            <button class="btn-outlined" onclick="const el=document.getElementById('ls_tr_${sIdx}'); el.style.display=el.style.display==='none'?'block':'none';">Toggle Transcript</button>
-          </div>
-          <div id="ls_tr_${sIdx}" style="display:none; margin-top:10px; padding:12px; background:var(--bg); border:1px solid var(--border); font-size:0.83rem; white-space:pre-line; line-height:1.65;">${ls.transcript}</div>
-        </article>
-      `;
-    }).join("");
-  }
-
   const t1ChartTbl = document.getElementById("task1ChartLangTable");
   if (t1ChartTbl) {
     t1ChartTbl.innerHTML = `
@@ -7463,31 +7295,6 @@ function logMistakeItem(moduleName, questionPrompt, expectedAnswer, explanationT
     });
     saveAppState();
   }
-}
-
-function gradeListeningSet(sIdx) {
-  if (!isVipActive() && sIdx >= LISTENING_FREE_LIMIT) {
-    alert("Interactive scoring and transcripts for Listening Sets 2–4 are exclusive to Lifetime VIP Pass.");
-    openVipPassModal();
-    return;
-  }
-  const ls = LISTENING_PRACTICE_DATA.sets && LISTENING_PRACTICE_DATA.sets[sIdx];
-  if (!ls || !ls.questions) return;
-  ls.questions.forEach((q, qIdx) => {
-    const inp = document.getElementById(`ls_in_${sIdx}_${qIdx}`);
-    const res = document.getElementById(`ls_res_${sIdx}_${qIdx}`);
-    if (!res) return;
-    const val = (inp ? inp.value.trim().toLowerCase() : "");
-    const target = q.ans.toLowerCase();
-    if (val && (val === target || target.includes(val))) {
-      res.style.color = "var(--success)";
-      res.textContent = `✓ ${q.ans}`;
-    } else {
-      res.style.color = "var(--accent)";
-      res.textContent = `Ans: ${q.ans} (${q.note})`;
-      logMistakeItem(`Listening: ${ls.title}`, q.q, q.ans, q.note);
-    }
-  });
 }
 
 // ==========================================
@@ -8944,7 +8751,7 @@ function renderGlobalSearchResults() {
   if (!box) return;
 
   if (!q) {
-    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">Type a keyword above to search across <strong>1,162 vocabulary entries &amp; exam traps</strong>, <strong>23 Reading CBT passages</strong>, <strong>40 Writing models</strong>, <strong>30 Speaking forecast topics</strong>, and <strong>2 Listening audio tests</strong>.</div>`;
+    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">Type a keyword above to search across <strong>1,162 vocabulary entries &amp; exam traps</strong>, <strong>23 Reading CBT passages</strong>, <strong>40 Writing models</strong>, and <strong>50 Speaking forecast topics</strong>.</div>`;
     return;
   }
 
@@ -9023,22 +8830,6 @@ function renderGlobalSearchResults() {
     }
   });
 
-  if (LISTENING_PRACTICE_DATA && Array.isArray(LISTENING_PRACTICE_DATA.sets)) {
-    LISTENING_PRACTICE_DATA.sets.forEach((ls, idx) => {
-      if (ls.title.toLowerCase().includes(q) || (ls.instruction && ls.instruction.toLowerCase().includes(q))) {
-        const isLocked = (!isVip && idx >= LISTENING_FREE_LIMIT);
-        hits.push({
-          type: isLocked ? "LISTENING DRILL 🔒 [VIP]" : "LISTENING DRILL",
-          title: `${isLocked ? '🔒 ' : ''}${ls.title}`,
-          sub: ls.instruction,
-          action: isLocked
-            ? `closeQuickSearchModal(); switchView('paraphrase'); openVipPassModal();`
-            : `closeQuickSearchModal(); switchView('paraphrase');`
-        });
-      }
-    });
-  }
-
   if (!hits.length) {
     box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">No matches found for "${q}".</div>`;
     return;
@@ -9071,7 +8862,7 @@ function renderErrorLogModalList() {
   const isVip = isVipActive();
   const logs = appState.errorLog || [];
   if (!logs.length) {
-    listEl.innerHTML = `<div style="padding:16px; background:var(--bg); border:1px solid var(--border); color:var(--green); font-weight:600;">✓ Zero unresolved mistakes! Any wrong answers in Reading, Listening, or Paraphrase Drills will appear here automatically.</div>`;
+    listEl.innerHTML = `<div style="padding:16px; background:var(--bg); border:1px solid var(--border); color:var(--green); font-weight:600;">✓ Zero unresolved mistakes! Any wrong answers in Reading or Paraphrase Drills will appear here automatically.</div>`;
     return;
   }
 
@@ -9610,9 +9401,12 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     } else if (target === '6' || target === 'reading') {
       hubId = 'reading';
       subTabId = 'reading';
+    } else if (target === 'tactics' || target === 'reading-tactics') {
+      hubId = 'reading';
+      subTabId = 'tactics';
     } else if (target === 'listening') {
       hubId = 'reading';
-      subTabId = 'listening';
+      subTabId = 'reading';
     } else if (target === '7' || target === 'writing') {
       hubId = 'writing';
       subTabId = 'desk';
@@ -9876,52 +9670,6 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     const statusBadge = document.getElementById('sr-status-badge');
     if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--green); font-weight:700;">✅ Analysis Complete</span>';
   };
-})();
-
-// =========================================================
-// HYBRID LISTENING LAB AUDIO PLAYER (NEURAL MP3 + TTS FALLBACK)
-// =========================================================
-(function initHybridListeningPlayer() {
-  let activeAudioEl = null;
-
-  window.playListeningSetAudio = function (setId, transcriptText, onStatusUpdate) {
-    if (activeAudioEl) {
-      activeAudioEl.pause();
-      activeAudioEl = null;
-    }
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-    }
-
-    const audioPath = `data/audio/listening_set_${setId}.mp3`;
-    const audio = new Audio(audioPath);
-    activeAudioEl = audio;
-
-    let hasLoaded = false;
-    audio.addEventListener('canplaythrough', () => {
-      hasLoaded = true;
-      if (onStatusUpdate) onStatusUpdate('🔊 Playing Cambridge Neural Audio...');
-      audio.play().catch(() => fallbackToWebSpeech(transcriptText, onStatusUpdate));
-    }, { once: true });
-
-    audio.addEventListener('error', () => {
-      fallbackToWebSpeech(transcriptText, onStatusUpdate);
-    }, { once: true });
-
-    audio.load();
-  };
-
-  function fallbackToWebSpeech(transcriptText, onStatusUpdate) {
-    if (!('speechSynthesis' in window)) {
-      if (onStatusUpdate) onStatusUpdate('⚠️ Audio unavailable on this browser.');
-      return;
-    }
-    if (onStatusUpdate) onStatusUpdate('🔊 Playing via Browser TTS (en-GB)...');
-    const utterance = new SpeechSynthesisUtterance(transcriptText);
-    utterance.lang = 'en-GB';
-    utterance.rate = 0.95;
-    window.speechSynthesis.speak(utterance);
-  }
 })();
 
 
@@ -10248,44 +9996,7 @@ function updateParagraphRadarAndAutosave() {
   }, 2500);
 }
 
-// 6. Listening Speed & Fuzzy Mode
-let currentListeningSpeed = 1.0;
-let isListeningFuzzyMode = false;
-
-window.setListeningSpeed = function(speed) {
-  currentListeningSpeed = speed;
-  [1.0, 0.85, 1.15].forEach(s => {
-    const id = s === 1.0 ? '10' : (s === 0.85 ? '08' : '12');
-    const btn = document.getElementById('btn-ls-spd-' + id);
-    if (btn) btn.classList.toggle('is-active', s === speed);
-  });
-  if (window.activeAudioEl) {
-    window.activeAudioEl.playbackRate = speed;
-  }
-  studioHaptic(10);
-  showToast(`Listening playback speed set to ${speed}x`);
-};
-
-window.toggleListeningFuzzyMode = function(checked) {
-  isListeningFuzzyMode = checked;
-  studioHaptic(10);
-  showToast(checked ? 'Learning Mode: Typo tolerance active (±1 letter)' : 'Strict Exam Mode: Exact spelling required');
-};
-
-function levenshteinDistance(a, b) {
-  const m = a.length, n = b.length;
-  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
-  for (let i = 0; i <= m; i++) dp[i][0] = i;
-  for (let j = 0; j <= n; j++) dp[0][j] = j;
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
-    }
-  }
-  return dp[m][n];
-}
-
-// 7. Lexicon Quick Filters
+// 6. Lexicon Quick Filters
 window.filterLexiconByTrap = function(category) {
   ['all', 'colloc'].forEach(id => {
     const btn = document.getElementById('btn-trap-' + id);
@@ -11152,7 +10863,7 @@ async function executeVipQuoteSearch() {
                 <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 4 Listening CBT Sets</strong> with Full Transcripts &amp; Audio</span>
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Reading Strategy &amp; Question Tactics</strong> (TFNG, Headings &amp; Distractor Traps)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
                 <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
@@ -11240,9 +10951,9 @@ async function executeVipQuoteSearch() {
                   <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Strategic Frameworks</td>
                 </tr>
                 <tr style="border-bottom:1px solid var(--border);">
-                  <td style="padding:6px; font-weight:600;">5. Listening Practice</td>
-                  <td style="padding:6px;">Set 1 (Full Test)</td>
-                  <td style="padding:6px; color:var(--accent);">All 4 Sets + Complete Transcripts</td>
+                  <td style="padding:6px; font-weight:600;">5. Strategy &amp; Tactics</td>
+                  <td style="padding:6px;">Standard Essentials</td>
+                  <td style="padding:6px; color:var(--accent);">All 34 Exam Essentials &amp; Active Protocol Enforcer</td>
                 </tr>
                 <tr style="border-bottom:1px solid var(--border);">
                   <td style="padding:6px; font-weight:600;">6. Cross-Device Sync</td>

@@ -254,7 +254,7 @@ bot.on('callback_query:data', async (ctx) => {
       `• All 40 Band 8.5/9.0 Writing Models & Frameworks\n` +
       `• 60 Gemini AI Examiner Essay Audits / Month\n` +
       `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
-      `• All 1,162 Vocabulary, Reading & Listening Distractor Banks\n\n` +
+      `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n\n` +
       `_(Website တွင် ကိုယ်တိုင် Code ရိုက်ထည့်လိုပါက Voucher Code: \`${voucher.code}\` ဖြစ်ပါသည်)_\n\n` +
       `IELTS Prep Studio ဖြင့် အောင်မြင်သော ရလဒ်ကောင်းများ ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းအပ်ပါသည်။`;
 

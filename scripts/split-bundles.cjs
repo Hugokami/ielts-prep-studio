@@ -35,7 +35,7 @@ const vipReading = reading.slice(3);
 const freeWriting = writing.slice(0, 5);
 const vipWriting = writing.slice(5);
 
-// 4. Partition Speaking & Listening
+// 4. Partition Speaking
 const freeSpeaking = {
   frameworks: speaking.frameworks || [],
   video_scripts: speaking.video_scripts || [],
@@ -44,19 +44,11 @@ const freeSpeaking = {
   word_families: speaking.word_families || [],
   vocab_upgrades: speaking.vocab_upgrades || [],
   synonym_sets: speaking.synonym_sets || [],
-  topic_bank: speaking.topic_bank || [],
-  listening_practice: {
-    signposting: speaking.listening_practice?.signposting || [],
-    spellingTraps: speaking.listening_practice?.spellingTraps || [],
-    sets: (speaking.listening_practice?.sets || []).slice(0, 1)
-  }
+  topic_bank: speaking.topic_bank || []
 };
 
 const vipSpeaking = {
-  topic_bank: speaking.topic_bank || [],
-  listening_practice: {
-    sets: (speaking.listening_practice?.sets || []).slice(1)
-  }
+  topic_bank: speaking.topic_bank || []
 };
 
 const freeBundle = {
@@ -90,10 +82,8 @@ console.log(`  * Lexicon: ${freeBundle.lexicon.length}`);
 console.log(`  * Reading: ${freeBundle.reading.length}`);
 console.log(`  * Writing: ${freeBundle.writing.length}`);
 console.log(`  * Speaking Topics: ${freeBundle.speaking.topic_bank.length}`);
-console.log(`  * Listening Sets: ${freeBundle.speaking.listening_practice.sets.length}`);
 console.log(`- backend/data/vip-bundle.json: ${(vipBundleJson.length / 1024).toFixed(1)} KB`);
 console.log(`  * Lexicon: ${vipBundle.lexicon.length}`);
 console.log(`  * Reading: ${vipBundle.reading.length}`);
 console.log(`  * Writing: ${vipBundle.writing.length}`);
 console.log(`  * Speaking Topics: ${vipBundle.speaking.topic_bank.length}`);
-console.log(`  * Listening Sets: ${vipBundle.speaking.listening_practice.sets.length}`);
