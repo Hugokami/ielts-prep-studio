@@ -44,7 +44,7 @@ const freeSpeaking = {
   word_families: speaking.word_families || [],
   vocab_upgrades: speaking.vocab_upgrades || [],
   synonym_sets: speaking.synonym_sets || [],
-  topic_bank: (speaking.topic_bank || []).slice(0, 5),
+  topic_bank: speaking.topic_bank || [],
   listening_practice: {
     signposting: speaking.listening_practice?.signposting || [],
     spellingTraps: speaking.listening_practice?.spellingTraps || [],
@@ -53,7 +53,7 @@ const freeSpeaking = {
 };
 
 const vipSpeaking = {
-  topic_bank: (speaking.topic_bank || []).slice(5),
+  topic_bank: speaking.topic_bank || [],
   listening_practice: {
     sets: (speaking.listening_practice?.sets || []).slice(1)
   }
@@ -78,9 +78,11 @@ const freeBundleJson = JSON.stringify(freeBundle);
 fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'free-bundle.json'), freeBundleJson, 'utf8');
 fs.writeFileSync(path.join(DATA_DIR, 'free-bundle.json'), freeBundleJson, 'utf8');
 
-// Write backend/data/vip-bundle.json
+// Write vip-bundle.json to backend, public/data and data for universal availability
 const vipBundleJson = JSON.stringify(vipBundle);
 fs.writeFileSync(path.join(BACKEND_DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
+fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
+fs.writeFileSync(path.join(DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
 
 console.log('✅ Bundle splitting complete:');
 console.log(`- public/data/free-bundle.json: ${(freeBundleJson.length / 1024).toFixed(1)} KB`);

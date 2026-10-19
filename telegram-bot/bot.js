@@ -76,7 +76,9 @@ bot.command('start', async (ctx) => {
     `KBZPay သို့မဟုတ် WavePay ဖြင့် **${PRICE_MMK}** လွှဲပြီးပါက ရရှိလာသော **Transaction Screenshot (ငွေလွှဲစလစ်)** အား ဤ Chat သို့ ချက်ချင်း ပေးပို့ပေးပါခင်ဗျာ။ Admin ဘက်မှ အတည်ပြုပြီးပါက **1-Click Magic Activation Link** ကို ချက်ချင်း ပေးပို့ပေးပါမည်!`;
 
   const keyboard = new InlineKeyboard()
-    .url('🌐 Open IELTS Prep Studio', WEB_URL)
+    .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
+    .url('🌐 Open on Computer ↗', WEB_URL)
+    .row()
     .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
 
   await ctx.reply(welcomeText, {
@@ -259,7 +261,9 @@ bot.on('callback_query:data', async (ctx) => {
     try {
       await ctx.api.sendMessage(studentId, studentDeliveryMessage, {
         parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard().url('🚀 Open & Activate VIP Pass', voucher.magicLink)
+        reply_markup: new InlineKeyboard()
+          .webApp('🚀 Open & Activate in Telegram', voucher.magicLink)
+          .url('💻 Open on Computer ↗', voucher.magicLink)
       });
       await ctx.answerCallbackQuery({ text: `✓ Pass Issued: ${voucher.code}` });
     } catch (err) {
@@ -360,9 +364,21 @@ bot.catch((err) => {
 
 // Start Long-Polling Bot Engine
 bot.start({
-  onStart: (botInfo) => {
+  onStart: async (botInfo) => {
     console.log(`🚀 Telegram Bot is LIVE! Logged in as @${botInfo.username}`);
     console.log(`👉 Student Entrypoint: https://t.me/${botInfo.username}`);
+    try {
+      await bot.api.setChatMenuButton({
+        menu_button: {
+          type: 'web_app',
+          text: '🚀 Launch Studio',
+          web_app: { url: WEB_URL }
+        }
+      });
+      console.log('✅ Telegram Mini App Menu Button configured.');
+    } catch (btnErr) {
+      console.warn('[Menu Button Notice]', btnErr.message);
+    }
     if (ADMIN_CHAT_ID) {
       console.log(`🛡️ Admin Chat ID bound to: ${ADMIN_CHAT_ID}`);
     } else {
