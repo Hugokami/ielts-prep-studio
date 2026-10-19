@@ -43,7 +43,16 @@ function isAdmin(ctx) {
 // ==========================================
 const dailyUsageMap = new Map(); // `${userId}:${dateStr}` -> count
 const userPendingActions = new Map(); // `${userId}` -> 'collocate' | 'syn' | 'dict' | 'read'
+const userLanguages = new Map(); // `${userId}` -> 'en' | 'my'
 const FREE_DAILY_LIMIT = 10;
+
+function getUserLang(userId) {
+  return userLanguages.get(String(userId)) || 'en';
+}
+
+function setUserLang(userId, lang) {
+  userLanguages.set(String(userId), lang === 'my' ? 'my' : 'en');
+}
 
 function getYangonDateStr() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Yangon' });
@@ -83,14 +92,14 @@ function formatQuotaFooter(quota) {
   if (quota.isVip) {
     return '👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*';
   }
-  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
+  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (750 ★ Stars / 55,000 MMK) for Unlimited Access!*`;
 }
 
 function getQuotaExceededMessage() {
   return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (10/10 USED)*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
     `Free tier accounts are allocated 10 Academic AI searches per day.\n\n` +
-    `👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*\n` +
+    `👑 *Target Band 7.5+ Lifetime Studio VIP Pass (750 ★ Stars / 55,000 MMK)*\n` +
     `• ⚡ *UNLIMITED* Academic Collocations (/collocate)\n` +
     `• 💎 *UNLIMITED* Band 8.5+ Synonyms (/syn)\n` +
     `• 📖 *UNLIMITED* Academic Topic Briefs (/read)\n` +
@@ -100,7 +109,7 @@ function getQuotaExceededMessage() {
     `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)\n` +
     `• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer\n` +
     `• 💻 Personal Desktop Activation Voucher for PC & Laptop\n\n` +
-    `👇 တစ်သက်တာ အကန့်အသတ်မရှိ VIP အသုံးပြုရန် အောက်ပါခလုတ်ကို နှိပ်ပါ:`;
+    `👇 *Tap below to upgrade instantly with Telegram Stars or Mobile Wallets:*`;
 }
 
 const STOP_WORDS = new Set([
@@ -341,29 +350,50 @@ bot.command('start', async (ctx) => {
     );
   }
 
-  const welcomeText =
-    `🎓 **IELTS Prep Studio — Lifetime VIP Pass**\n` +
-    `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Lexicon & Traps\n\n` +
-    `🇲🇲 **မြန်မာကျောင်းသားများအတွက် Lifetime VIP Pass ဝယ်ယူခြင်း**\n\n` +
-    `📌 **Payment Details (ငွေပေးချေရန် အချက်အလက်များ):**\n` +
-    `• KBZPay / WavePay Phone: \`${PAYMENT_PHONE}\`\n` +
-    `• Account Name: **${ACCOUNT_NAME}**\n` +
-    `• Investment: **${PRICE_MMK}** (တစ်ကြိမ်ပေး တစ်သက်တာအသုံးပြုခွင့်)\n\n` +
-    `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
-    `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
-    `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
-    `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
-    `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
-    `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
-    `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
-    `7. Multi-Device Cloud Sync via Google Account\n` +
-    `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
-    `📸 **အတည်ပြုရန် လုပ်ဆောင်ချက်:**\n` +
-    `KBZPay သို့မဟုတ် WavePay ဖြင့် **${PRICE_MMK}** လွှဲပြီးပါက ရရှိလာသော **Transaction Screenshot (ငွေလွှဲစလစ်)** အား ဤ Chat သို့ ချက်ချင်း ပေးပို့ပေးပါခင်ဗျာ။ Admin ဘက်မှ အတည်ပြုပြီးပါက **1-Click Magic Activation Link** ကို ချက်ချင်း ပေးပို့ပေးပါမည်!`;
+  const userLang = getUserLang(user?.id);
+  const isBurmese = userLang === 'my';
+
+  const welcomeText = isBurmese
+    ? `🎓 **IELTS Prep Studio — Lifetime VIP Pass**\n` +
+      `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Lexicon & Traps\n\n` +
+      `🇲🇲 **မြန်မာကျောင်းသားများအတွက် Lifetime VIP Pass ဝယ်ယူခြင်း**\n\n` +
+      `📌 **Payment Details (ငွေပေးချေရန် နည်းလမ်းများ):**\n` +
+      `• ⭐️ **Telegram Stars:** \`750 ★ Stars\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
+      `• 🇲🇲 **KBZPay / WavePay:** \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME}) — \`${PRICE_MMK}\`\n\n` +
+      `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
+      `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
+      `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
+      `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
+      `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
+      `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
+      `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
+      `7. Multi-Device Cloud Sync via Google Account\n` +
+      `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
+      `👇 **အောက်ပါ ခလုတ်များမှ မိမိနှစ်သက်ရာ ငွေပေးချေမှုစနစ်ကို ရွေးချယ်ပါ:**`
+    : `🎓 *IELTS Prep Studio — Band 7.5+ VIP Studio Pass*\n` +
+      `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon\n\n` +
+      `✨ *Welcome International Scholar! Studio VIP Pass is available worldwide.*\n\n` +
+      `📌 *Available Payment Rails:*\n` +
+      `• ⭐️ *Telegram Stars:* *750 ★ Stars* (Instant 1-Click Global Automated Activation)\n` +
+      `• 🇲🇲 *Myanmar Mobile Wallets:* *${PRICE_MMK}* (KBZPay / WavePay: \`${PAYMENT_PHONE}\`)\n\n` +
+      `✨ *VIP Pass Deliverables (All 8 Full Modules):*\n` +
+      `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions)\n` +
+      `2. ✍️ Writing Band 8.5/9.0 Models — All 40 Tasks + High-Scoring Skeletons\n` +
+      `3. 🤖 Gemini AI Examiner — 60 Automated Band 9 Assessments / Month\n` +
+      `4. 🎙️ Speaking Forecast Topics — All 30 Topics + 5 Strategic Frameworks & Audio\n` +
+      `5. 📚 Curated Lexicon & Trap Bank — 1,162 Vocabulary items, 538 Traps & Distractors\n` +
+      `6. 🎙️ Live Mic Voice Analyzer — Speech Pace & Pronunciation Metrics\n` +
+      `7. 🔄 Multi-Device Cloud Sync — Google Account & Telegram Mini App\n` +
+      `8. ⚡ VIP Academic AI Tools — Unlimited Collocations, Synonyms, Topic Briefs & Dictionary\n\n` +
+      `👇 *Choose your preferred checkout method below:*`;
 
   const keyboard = new InlineKeyboard()
+    .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+    .row()
+    .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
+    .row()
     .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
-    .url('🌐 Open on Computer ↗', WEB_URL)
+    .text('🌐 Language', 'menu_lang')
     .row()
     .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
 
@@ -452,6 +482,96 @@ bot.on('message:photo', async (ctx) => {
     });
   } catch (err) {
     console.error('[Forward to Admin Error]:', err.message);
+  }
+});
+
+// ==========================================
+// 2B. TELEGRAM STARS (XTR) INVOICE & AUTO-FULFILLMENT
+// ==========================================
+async function sendStarsInvoice(ctx) {
+  const userId = ctx.from?.id;
+  try {
+    await ctx.replyWithInvoice(
+      'IELTS Prep Studio — Lifetime VIP Pass',
+      'Lifetime access to all 23 Cambridge Reading CBT Tests, 40 Band 8.5/9.0 Writing Models, 1,162 Academic Lexicon items, and Unlimited AI Tools.',
+      `stars_vip_${userId}_${Date.now()}`,
+      'XTR',
+      [{ label: 'Lifetime VIP Studio Pass', amount: 750 }]
+    );
+  } catch (err) {
+    console.error('[sendStarsInvoice Error]', err.message);
+    await ctx.reply(`⚠️ Failed to generate Telegram Stars invoice: ${err.message}\nPlease try again or contact @hyuguo.`);
+  }
+}
+
+bot.on('pre_checkout_query', async (ctx) => {
+  try {
+    await ctx.answerPreCheckoutQuery(true);
+  } catch (err) {
+    console.error('[pre_checkout_query Error]', err.message);
+    await ctx.answerPreCheckoutQuery(false, { error_message: 'Checkout verification failed. Please try again.' }).catch(() => {});
+  }
+});
+
+bot.on('message:successful_payment', async (ctx) => {
+  const payment = ctx.message.successful_payment;
+  const studentId = String(ctx.from?.id);
+  const studentName = (ctx.from?.first_name || '') + (ctx.from?.last_name ? ` ${ctx.from.last_name}` : '') || 'Scholar';
+  const studentUsername = ctx.from?.username ? `@${ctx.from.username}` : '';
+  const chargeId = payment.telegram_payment_charge_id || payment.provider_payment_charge_id || `stars_${Date.now()}`;
+
+  console.log(`[Successful Payment] User ${studentId} paid ${payment.total_amount} ${payment.currency} (Charge: ${chargeId})`);
+
+  // Claim next voucher from voucher pool
+  const voucher = voucherPool.claimNextVoucher({
+    id: studentId,
+    name: studentName,
+    username: ctx.from?.username || ''
+  });
+
+  const magicLink = voucher ? voucher.magicLink : `${WEB_URL}/?redeem=VIPPASS2026`;
+  const code = voucher ? voucher.code : 'VIPPASS2026';
+
+  // 1. Deliver to student
+  const successMsg =
+    `🎉 *PAYMENT RECEIVED! YOUR LIFETIME VIP PASS IS ACTIVE!*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `⭐️ *Amount Paid:* \`${payment.total_amount} ${payment.currency}\` (750 Stars)\n` +
+    `🎟️ *Voucher Code:* \`${code}\`\n\n` +
+    `Tap the **1-Click Magic Link** below to immediately activate your Lifetime VIP Studio Pass:\n\n` +
+    `👉 *1-Click Magic Link:*\n${magicLink}\n\n` +
+    `👑 *Unlocked Privileges:*\n` +
+    `• All 23 Cambridge Reading CBT Tests + Explanations\n` +
+    `• All 40 Band 8.5/9.0 Writing Models & Skeletons\n` +
+    `• 60 Gemini AI Examiner Essay Audits / Month\n` +
+    `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
+    `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n` +
+    `• Unlimited Academic AI Tools (/collocate, /syn, /read, /dict, /quote)\n\n` +
+    `Best wishes on achieving your target band score with IELTS Prep Studio!`;
+
+  await ctx.reply(successMsg, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .webApp('🚀 Open & Activate in Telegram', magicLink)
+      .url('💻 Open on Computer ↗', magicLink)
+  });
+
+  // 2. Alert Admin
+  if (ADMIN_CHAT_ID) {
+    try {
+      const adminNotice =
+        `⭐ *NEW TELEGRAM STARS VIP PURCHASE!*\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `👤 *Student:* ${studentName} (${studentUsername || studentId})\n` +
+        `💰 *Amount:* \`${payment.total_amount} ${payment.currency}\` (750 Stars)\n` +
+        `🎟️ *Issued Voucher:* \`${code}\`\n` +
+        `🆔 *Charge ID:* \`${chargeId}\`\n` +
+        `⏰ *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
+
+      await ctx.api.sendMessage(ADMIN_CHAT_ID, adminNotice, { parse_mode: 'Markdown' });
+    } catch (e) {
+      console.warn('[Admin Stars Notice Error]', e.message);
+    }
   }
 });
 
@@ -739,16 +859,47 @@ bot.on('callback_query:data', async (ctx) => {
     return handleSprint(ctx, mins);
   }
 
+  if (data === 'menu_buy') {
+    return handleBuy(ctx);
+  }
+
+  if (data === 'pay_stars') {
+    return sendStarsInvoice(ctx);
+  }
+
+  if (data === 'menu_lang') {
+    return handleLanguage(ctx);
+  }
+
+  if (data.startsWith('set_lang:')) {
+    const selectedLang = data.replace('set_lang:', '').trim();
+    setUserLang(ctx.from?.id, selectedLang);
+    await ctx.answerCallbackQuery({
+      text: selectedLang === 'en' ? 'Language set to English' : 'ဘာသာစကားကို မြန်မာဘာသာသို့ ပြောင်းလဲပြီးပါပြီ'
+    }).catch(() => {});
+    const replyMsg = selectedLang === 'en'
+      ? '🌐 *Language preference set to English Only.*\nAll study tools and bot menus will now default to English.'
+      : '🌐 *ဘာသာစကားကို မြန်မာ + အင်္ဂလိပ် နှစ်ဘာသာဖြင့် သတ်မှတ်ပြီးပါပြီခင်ဗျာ။*\nလေ့လာမှုဆိုင်ရာ အချက်အလက်များနှင့် ရှင်းလင်းချက်များကို မြန်မာလို ဖော်ပြပေးပါမည်။';
+    return ctx.reply(replyMsg, { parse_mode: 'Markdown' });
+  }
+
   if (data === 'info_payment') {
     return ctx.reply(
-      `💳 **Payment Information (55,000 MMK — Lifetime VIP Pass)**\n` +
+      `💳 **Myanmar Mobile Wallet Payment (55,000 MMK — Lifetime VIP Pass)**\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
       `• KBZPay / WavePay: \`${PAYMENT_PHONE}\`\n` +
-      `• Account Name: **${ACCOUNT_NAME}**\n\n` +
-      `လွှဲပြီးပါက ငွေလွှဲ Screenshot စလစ်ကို ဤ Chat သို့ ပို့ပေးပါ။ Admin မှ စစ်ဆေးအတည်ပြုပြီး မိနစ်ပိုင်းအတွင်း VIP ဖွင့်ပေးပါမည်! 🚀`,
+      `• Account Name: **${ACCOUNT_NAME}**\n` +
+      `• Price: **${PRICE_MMK}**\n\n` +
+      `📸 **ညွှန်ကြားချက်:**\n` +
+      `ငွေလွှဲပြီးပါက ရရှိလာသော **ငွေလွှဲစလစ် Screenshot** ကို ဤ Chat သို့ ပို့ပေးပါ။ Admin မှ စစ်ဆေးအတည်ပြုပြီး မိနစ်ပိုင်းအတွင်း VIP ဖွင့်ပေးပါမည်! 🚀\n\n` +
+      `⭐️ *Looking for Instant 1-Click Worldwide Checkout?*\n` +
+      `Tap the Telegram Stars button below (*750 ★*) without waiting for manual verification!`,
       {
         parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard().text('⚡ VIP Academic Menu', 'menu_tools')
+        reply_markup: new InlineKeyboard()
+          .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+          .row()
+          .text('⚡ VIP Academic Menu', 'menu_tools')
       }
     );
   }
@@ -778,30 +929,101 @@ bot.on('message:text', async (ctx, next) => {
 });
 
 // ==========================================
-// 5. ACADEMIC TOOL HANDLERS
+// 5. ACADEMIC TOOL HANDLERS & VIP CHECKOUT
 // ==========================================
+async function handleBuy(ctx) {
+  const isVip = isUserVip(ctx.from?.id);
+  if (isVip) {
+    return ctx.reply(
+      `👑 *VIP Lifetime Studio Pass Active*\n\n` +
+      `Your account has unlimited access to all 8 modules and VIP academic tools.\n` +
+      `Launch the Studio below to start practicing:`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard()
+          .webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+          .url('🌐 Open on Computer ↗', WEB_URL)
+      }
+    );
+  }
+
+  const text =
+    `👑 *IELTS PREP STUDIO — LIFETIME VIP PASS*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `Unlock unlimited access to Cambridge CBT mocks, Band 9 writing models, automated AI scoring, and all 1,162 academic vocabulary items.\n\n` +
+    `💳 *Select Your Payment Rail:*\n\n` +
+    `⭐️ *Option 1: Telegram Stars (Worldwide)*\n` +
+    `• Price: *750 ★ Stars* (~$15 USD)\n` +
+    `• Instant automated activation & 1-Click Magic Link!\n\n` +
+    `🇲🇲 *Option 2: Myanmar Mobile Wallets*\n` +
+    `• Price: *55,000 MMK*\n` +
+    `• KBZPay / WavePay: \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME})\n` +
+    `• Upload transfer screenshot for 1-tap admin approval.`;
+
+  const keyboard = new InlineKeyboard()
+    .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+    .row()
+    .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
+    .row()
+    .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
+    .text('🌐 Language', 'menu_lang');
+
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+async function handleLanguage(ctx) {
+  const currentLang = getUserLang(ctx.from?.id);
+  const text =
+    `🌐 *CHOOSE YOUR BOT LANGUAGE PREFERENCE*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `Select how you would like IELTS Prep Studio Bot to interact with you:\n\n` +
+    `Current setting: *${currentLang === 'my' ? 'မြန်မာ + English (Bilingual)' : 'English Only (Default)'}*`;
+
+  const keyboard = new InlineKeyboard()
+    .text(currentLang === 'en' ? '✅ English Only' : 'English Only', 'set_lang:en')
+    .text(currentLang === 'my' ? '✅ မြန်မာ + English' : 'မြန်မာ + English', 'set_lang:my')
+    .row()
+    .text('⚡ Back to Menu', 'menu_tools');
+
+  await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
 async function handleToolsMenu(ctx) {
   const userId = ctx.from.id;
   const isVip = isUserVip(userId);
   const quota = getQuotaStatus(userId);
+  const userLang = getUserLang(userId);
+  const isBurmese = userLang === 'my';
 
   const statusBadge = isVip
     ? '👑 *LIFETIME VIP PASS* (⚡ Unlimited Daily Queries)'
     : `🆓 *FREE TIER* (${quota.remaining}/10 Queries Remaining Today)`;
 
-  const menuMsg =
-    `⚡ **VIP ACADEMIC LEXICON & TOPIC EXPLORER**\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n` +
-    `📊 **Your Status:** ${statusBadge}\n\n` +
-    `အောက်ပါ Academic AI Tools ခလုတ်များကို နှိပ်ပြီး သင်ရှာလိုသော စာလုံး (သို့) ခေါင်းစဉ်ကို လွတ်လပ်စွာ ရှာဖွေနိုင်ပါသည်:\n\n` +
-    `🔗 *Academic Collocations:* သဘာဝကျသော စကားတွဲများ\n` +
-    `💎 *Band 8.5+ Synonyms:* အဆင့်မြင့် စာလုံး အစားထိုးစကားလုံးများ\n` +
-    `📖 *Academic Topic Briefs:* Task 2 Background ဗဟုသုတများ\n` +
-    `📚 *Academic Dictionary:* Formal Definition & Part of Speech\n` +
-    `🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း\n\n` +
-    `👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။\n` +
-    `🆓 *Free Tier:* တစ်နေ့လျှင် ၁၀ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။\n\n` +
-    `👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
+  const menuMsg = isBurmese
+    ? `⚡ **VIP ACADEMIC LEXICON & TOPIC EXPLORER**\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `📊 **Your Status:** ${statusBadge}\n\n` +
+      `အောက်ပါ Academic AI Tools ခလုတ်များကို နှိပ်ပြီး သင်ရှာလိုသော စာလုံး (သို့) ခေါင်းစဉ်ကို လွတ်လပ်စွာ ရှာဖွေနိုင်ပါသည်:\n\n` +
+      `🔗 *Academic Collocations:* သဘာဝကျသော စကားတွဲများ\n` +
+      `💎 *Band 8.5+ Synonyms:* အဆင့်မြင့် စာလုံး အစားထိုးစကားလုံးများ\n` +
+      `📖 *Academic Topic Briefs:* Task 2 Background ဗဟုသုတများ\n` +
+      `📚 *Academic Dictionary:* Formal Definition & Part of Speech\n` +
+      `🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း\n\n` +
+      `👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။\n` +
+      `🆓 *Free Tier:* တစ်နေ့လျှင် ၁၀ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။\n\n` +
+      `👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`
+    : `⚡ **VIP ACADEMIC LEXICON & TOPIC EXPLORER**\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `📊 **Your Status:** ${statusBadge}\n\n` +
+      `Select an Academic AI Tool below to explore high-impact vocabulary and topic background:\n\n` +
+      `🔗 *Academic Collocations:* Natural, high-yield academic word pairings\n` +
+      `💎 *Band 8.5+ Synonyms:* Sophisticated lexical replacements for Task 2\n` +
+      `📖 *Academic Topic Briefs:* Full articles & contextual arguments\n` +
+      `📚 *Academic Dictionary:* Formal definitions, syntax & parts of speech\n` +
+      `🧠 *Scholar Thought:* Rhetorical quotes & philosophical perspectives\n\n` +
+      `👑 *VIP Pass:* Unlimited queries & all 8 full studio modules.\n` +
+      `🆓 *Free Preview:* 10 queries per day.\n\n` +
+      `👇 Choose an academic tool below to begin:`;
 
   const keyboard = new InlineKeyboard()
     .text('🔗 Academic Collocations', 'ask_tool:collocate')
@@ -818,8 +1040,14 @@ async function handleToolsMenu(ctx) {
     .row()
     .text('⏱️ 20m CBT Sprint', 'sprint:20')
     .text('⏱️ 40m Essay Sprint', 'sprint:40')
-    .row()
-    .webApp('🚀 Launch IELTS Prep Studio', WEB_URL);
+    .row();
+
+  if (!isVip) {
+    keyboard.text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy').row();
+  }
+
+  keyboard.webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+    .text('🌐 Language', 'menu_lang');
 
   await ctx.reply(menuMsg, {
     parse_mode: 'Markdown',
@@ -839,7 +1067,7 @@ async function handleCollocate(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -900,7 +1128,7 @@ async function handleSyn(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -953,7 +1181,7 @@ async function handleDict(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -994,7 +1222,7 @@ async function handleRead(ctx, rawTopic) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -1089,7 +1317,7 @@ async function handleQuote(ctx) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -1117,7 +1345,7 @@ async function handleWotd(ctx) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
 
@@ -1165,7 +1393,7 @@ async function handleQuota(ctx) {
 
   const keyboard = new InlineKeyboard();
   if (!isVip) {
-    keyboard.text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment').row();
+    keyboard.text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy').row();
   }
   keyboard.text('⚡ VIP Academic Menu', 'menu_tools');
 
@@ -1286,6 +1514,27 @@ async function handleHelp(ctx) {
 
 // Register Bot Commands
 bot.command(['tools', 'academic'], handleToolsMenu);
+bot.command(['vip', 'buy', 'stars', 'buy_stars'], handleBuy);
+bot.command(['lang', 'language'], handleLanguage);
+bot.command('pay', async (ctx) => {
+  return ctx.reply(
+    `💳 **Payment Options — Lifetime VIP Pass**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `⭐️ **Option 1: Telegram Stars (Worldwide)**\n` +
+    `• Price: **750 ★ Stars** (Instant 1-Click activation)\n\n` +
+    `🇲🇲 **Option 2: Myanmar Mobile Wallets**\n` +
+    `• KBZPay / WavePay: \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME})\n` +
+    `• Price: **${PRICE_MMK}** (Send slip for 1-tap approval)\n`,
+    {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('⭐️ Pay 750 ★ Stars', 'pay_stars')
+        .text('🇲🇲 Slip Instructions', 'info_payment')
+        .row()
+        .text('⚡ VIP Academic Menu', 'menu_tools')
+    }
+  );
+});
 bot.command('collocate', ctx => {
   const w = ctx.message?.text?.replace('/collocate', '').trim() || '';
   handleCollocate(ctx, w);
@@ -1372,6 +1621,10 @@ bot.start({
     }
     try {
       await bot.api.setMyCommands([
+        { command: 'start', description: '🎓 Launch Studio & Payment Options' },
+        { command: 'vip', description: '👑 Lifetime VIP Pass (750 ★ Stars / 55k MMK)' },
+        { command: 'buy', description: '⭐️ Instant Stars / Wallet Checkout' },
+        { command: 'lang', description: '🌐 Switch Language (English / မြန်မာ)' },
         { command: 'tools', description: '⚡ VIP Academic AI Tools (Collocations, Synonyms, etc.)' },
         { command: 'collocate', description: '🔗 Academic Collocations & Word Pairings' },
         { command: 'syn', description: '💎 Band 8.5+ Academic Synonyms' },
@@ -1383,7 +1636,6 @@ bot.start({
         { command: 'bands', description: '🎯 Band Score Table & Descriptors' },
         { command: 'format', description: '📋 IELTS Academic Exam Format' },
         { command: 'sprint', description: '⏱️ 20m / 40m Focus Study Sprint' },
-        { command: 'start', description: '🎓 Launch Studio & Payment Info' },
         { command: 'help', description: '📕 Study Guide & All Commands' }
       ]);
       console.log('✅ Telegram Bot Commands Menu configured.');

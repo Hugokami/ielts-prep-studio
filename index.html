@@ -2777,7 +2777,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
-<body>
+<body class="hide-burmese">
 
 <a href="#main-content" class="skip-link">Skip to main study workspace</a>
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
@@ -2840,6 +2840,11 @@
         </button>
       </div>
 
+      <!-- Top Language Toggle Pill (Default: English Only, Click for Bilingual) -->
+      <button class="util-icon-btn lang-nav-btn" onclick="toggleLanguageMode()" id="topLangBtn" title="Language: English Only (Default). Click for Bilingual (English + Burmese)">
+        🌐 <span id="topLangLabel">EN</span>
+      </button>
+
       <!-- Minimalist Settings Drawer Trigger Button -->
       <button class="util-icon-btn settings-trigger-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -2867,11 +2872,11 @@
     <div class="drawer-section">
       <div class="drawer-item-row">
         <div>
-          <div class="drawer-item-label">Burmese Translations</div>
-          <div class="drawer-item-sub">Show Burmese explanations &amp; citations</div>
+          <div class="drawer-item-label">Bilingual Annotations</div>
+          <div class="drawer-item-sub">Default: English Only. Enable for Burmese glosses &amp; citations</div>
         </div>
-        <button class="util-icon-btn active-lang" id="langBtn" onclick="toggleLanguageMode()" title="Toggle Burmese Translations">
-          文A မြန်မာ ON
+        <button class="util-icon-btn" id="langBtn" onclick="toggleLanguageMode()" title="Current: English Only. Click to enable Bilingual (English + Burmese)">
+          🌐 EN ONLY
         </button>
       </div>
     </div>
@@ -2962,7 +2967,7 @@
   <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">STUDY HUB GUIDE // အသုံးပြုပုံ လမ်းညွှန် (START HERE)</div>
+        <div class="section-guide-title">STUDY HUB GUIDE <span class="burmese">// အသုံးပြုပုံ လမ်းညွှန်</span> (START HERE)</div>
         <div class="section-guide-text">
           Study across 5 streamlined hubs: <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong>, and <strong>Speaking Studio</strong>. Press <strong>⌘K / Ctrl+K</strong> anytime to search all 1,162 words and 55 practice mocks, or launch your daily session below.
         </div>
@@ -3257,7 +3262,7 @@
         <div style="margin-top:28px;">
           <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">EXAM STRATEGY &amp; SCORING CRITERIA // စာမေးပွဲ စည်းမျဉ်းများနှင့် အမှတ်ပေးစနစ်</div>
+        <div class="section-guide-title">EXAM STRATEGY &amp; SCORING CRITERIA <span class="burmese">// စာမေးပွဲ စည်းမျဉ်းများနှင့် အမှတ်ပေးစနစ်</span></div>
         <div class="section-guide-text">
           Before memorizing big words, read the <strong>90/10 CEFR Rule</strong>, the <strong>6 Deadly Synonym Traps</strong>, and the <strong>Where-Before-What Reading Protocol</strong> below.
         </div>
@@ -3539,7 +3544,7 @@
   <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="lexicon" aria-labelledby="tab-lexicon">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">ACADEMIC LEXICON &amp; 1-3-7 SRS GUIDE // ဝေါဟာရနှင့် စကားလုံးကျက်မှတ်နည်း</div>
+        <div class="section-guide-title">ACADEMIC LEXICON &amp; 1-3-7 SRS GUIDE <span class="burmese">// ဝေါဟာရနှင့် စကားလုံးကျက်မှတ်နည်း</span></div>
         <div class="section-guide-text">
           Rate every word you study using <strong>Again (1d)</strong>, <strong>Good (3d)</strong>, or <strong>Easy (7d)</strong>. Filter by <strong>Due Today (SRS)</strong> to review words right before you forget them.
         </div>
@@ -3643,7 +3648,7 @@
     <div class="subtab-panel" data-subtab="flashcards">
       <div class="section-guide-banner" style="margin-bottom:20px;">
         <div>
-          <div class="section-guide-title">1-3-7 DAY SPACED REPETITION FLASHCARDS // စကားလုံး မမေ့စေရန် ပြန်နွှေးခြင်း</div>
+          <div class="section-guide-title">1-3-7 DAY SPACED REPETITION FLASHCARDS <span class="burmese">// စကားလုံး မမေ့စေရန် ပြန်နွှေးခြင်း</span></div>
           <div class="section-guide-text">
             Flip each card to inspect pronunciation, Burmese context, and collocations. Rate with <strong>Again (1d)</strong> for lapses, <strong>Good (3d)</strong> for steady memory, and <strong>Easy / Master (7d)</strong> when completely mastered.
           </div>
@@ -3804,7 +3809,7 @@
   <section id="view-reading" class="view-section studio-tab-section" data-tab-index="reading" aria-labelledby="tab-reading">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">READING CBT SIMULATOR GUIDE // စာဖတ်စွမ်းရည် လမ်းညွှန်</div>
+        <div class="section-guide-title">READING CBT SIMULATOR GUIDE <span class="burmese">// စာဖတ်စွမ်းရည် လမ်းညွှန်</span></div>
         <div class="section-guide-text">
           Select any of the <strong>23 Academic Reading CBT Passages</strong> (231 authentic IELTS questions with Burmese evidence citations). Practice with real 20-minute countdown timer, question review flagging, and instant scoring.
         </div>
@@ -3977,7 +3982,7 @@
   <section id="view-writing" class="view-section studio-tab-section" data-tab-index="writing" aria-labelledby="tab-writing">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">WRITING LAB &amp; CEFR SCORING GUIDE // အက်ဆေးရေးသားခြင်းနှင့် အမှတ်ဖြတ်နည်း</div>
+        <div class="section-guide-title">WRITING LAB &amp; CEFR SCORING GUIDE <span class="burmese">// အက်ဆေးရေးသားခြင်းနှင့် အမှတ်ဖြတ်နည်း</span></div>
         <div class="section-guide-text">
           Choose any of the <strong>40 Band 8.5/9.0 Task 1 &amp; Task 2 Models</strong>. As you type, the editor checks your <strong>C1/C2 vocabulary ratio</strong> (aim for 5%–10% per the Academic 90/10 rule), flags repeated words, and lets you self-score across TA/TR, CC, LR, and GRA.
         </div>
@@ -4222,7 +4227,7 @@
   <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="speaking" aria-labelledby="tab-speaking">
     <div class="section-guide-banner">
       <div>
-        <div class="section-guide-title">SPEAKING STUDIO &amp; RECORDER GUIDE // အပြောစွမ်းရည် လေ့ကျင့်နည်း လမ်းညွှန်</div>
+        <div class="section-guide-title">SPEAKING STUDIO &amp; RECORDER GUIDE <span class="burmese">// အပြောစွမ်းရည် လေ့ကျင့်နည်း လမ်းညွှန်</span></div>
         <div class="section-guide-text">
           1. Pick one of the <strong>5 Speaking Frameworks</strong> (default to <strong>PELL</strong>). 2. Use the <strong>🎙️ Microphone Voice Recorder</strong> to record your 2-minute answer and listen back to spot filler words. 3. Study the 5 Band 9 transcripts, 9 sentence starters, and 18 idioms below.
         </div>
@@ -4796,7 +4801,7 @@ const MISTAKE_LOG_FREE_LIMIT = 5;
 
 let appState = {
   theme: "dark",
-  showBurmese: true,
+  showBurmese: false, // Default to English Only for global accessibility
   fontScale: 1,
   mastered: [],
   srsSchedule: {},
@@ -5031,6 +5036,68 @@ window.handleSendPaymentProof = function(e) {
   }
   if (!e) {
     window.open(botUrl, "_blank");
+  }
+};
+
+window.handleStarsCheckout = async function() {
+  const btn = document.getElementById("starsCheckoutBtn");
+  const origText = btn ? btn.innerHTML : "";
+  if (btn) {
+    btn.innerHTML = "⏳ Opening Telegram Stars Invoice...";
+    btn.disabled = true;
+  }
+  try {
+    const tg = window.Telegram && window.Telegram.WebApp;
+    const tgUser = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || window.telegramUser;
+    const userId = tgUser ? tgUser.id : null;
+    
+    // Check if running inside Telegram Mini App with openInvoice support
+    if (tg && typeof tg.openInvoice === "function") {
+      try {
+        const resp = await fetch("/api/create-stars-invoice", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: userId || 0, plan: "lifetime" })
+        });
+        const data = await resp.json();
+        if (data && data.invoiceLink) {
+          tg.openInvoice(data.invoiceLink, function(status) {
+            if (status === "paid") {
+              appState.userProfile.tier = "vip";
+              appState.userProfile.vipExpiresAt = "lifetime";
+              window.isVipUser = true;
+              try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
+              saveAppState();
+              showStudioNotification("🎉 Payment Successful! Lifetime VIP Pass is now activated.");
+              openVipPassModal();
+            } else if (status === "cancelled") {
+              showStudioNotification("Payment cancelled.");
+            } else if (status === "failed") {
+              showStudioNotification("⚠️ Payment failed. Please try again or contact support.");
+            }
+          });
+          return;
+        }
+      } catch (invoiceErr) {
+        console.warn("[Stars MiniApp Invoice Fetch Fallback]", invoiceErr);
+      }
+    }
+    
+    // Fallback or external browser: redirect directly to Bot start payload
+    const botUrl = "https://t.me/IELTSPrepStudioBot?start=buy_stars";
+    if (tg && typeof tg.openTelegramLink === "function") {
+      tg.openTelegramLink(botUrl);
+    } else {
+      window.open(botUrl, "_blank");
+    }
+  } catch (err) {
+    console.error("[Stars Checkout Error]", err);
+    window.open("https://t.me/IELTSPrepStudioBot?start=buy_stars", "_blank");
+  } finally {
+    if (btn) {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
   }
 };
 
@@ -5715,8 +5782,18 @@ function applyLanguageUI() {
   document.body.classList.toggle("hide-burmese", !appState.showBurmese);
   const btn = document.getElementById("langBtn");
   if (btn) {
-    btn.textContent = appState.showBurmese ? "文A မြန်မာ ON" : "文A EN ONLY";
+    btn.textContent = appState.showBurmese ? "文A မြန်မာ ON" : "🌐 EN ONLY";
     btn.classList.toggle("active-lang", appState.showBurmese);
+    btn.title = appState.showBurmese ? "Bilingual mode active. Click for English only." : "English only mode active. Click for Bilingual (Burmese).";
+  }
+  const topLabel = document.getElementById("topLangLabel");
+  const topBtn = document.getElementById("topLangBtn");
+  if (topLabel) {
+    topLabel.textContent = appState.showBurmese ? "EN + မြန်မာ" : "EN";
+  }
+  if (topBtn) {
+    topBtn.classList.toggle("active-lang", appState.showBurmese);
+    topBtn.title = appState.showBurmese ? "Bilingual mode active. Click for English only." : "English only mode active. Click for Bilingual (Burmese).";
   }
 }
 
@@ -10788,7 +10865,7 @@ async function executeVipQuoteSearch() {
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
             <span style="font-size:1.4rem;">👑</span>
             <h2 style="font-size:1.28rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio — Full VIP Access</h2>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; white-space:nowrap;">55,000 MMK ONE-TIME</span>
+            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; white-space:nowrap;">750 ★ STARS (~$15) • 55,000 MMK</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.5;">
             Master Band 8.0+ on your first attempt. Unlock all 1,162 vocabulary items, all 23 Cambridge Reading CBT simulations (231 questions), all 40 writing models &amp; automatic cross-device Telegram sync forever.
@@ -10893,8 +10970,8 @@ async function executeVipQuoteSearch() {
                 <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for lifetime access across all study modules, official Cambridge CBT mocks, pronunciation audio &amp; cloud sync.</div>
               </div>
               <div style="text-align:right;">
-                <div class="vip-price-amount" style="font-size:1.85rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
-                <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME INVESTMENT • ZERO SUBSCRIPTIONS</div>
+                <div class="vip-price-amount" style="font-size:1.65rem; font-weight:900; color:var(--accent); line-height:1.1;">750 ★ Stars <span style="font-size:1.1rem; color:var(--text);"><br>or 55,000 MMK</span></div>
+                <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:4px;">ONE-TIME INVESTMENT • LIFETIME PASS</div>
               </div>
             </div>
 
@@ -10920,37 +10997,62 @@ async function executeVipQuoteSearch() {
               </div>
             </div>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">👑 Get Lifetime VIP Pass Now (55,000 MMK)</button>
+          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">👑 Get Lifetime VIP Pass (750 ★ Stars / 55,000 MMK)</button>
         </div>
 
         <!-- Payment & Activation Details -->
         <div id="vipCheckoutStep" style="background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <div>
-              <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Direct Payment Instructions</span>
-              <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">IELTS Prep Studio — Full VIP Access (55,000 MMK)</strong>
+              <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Select Checkout Method</span>
+              <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime VIP Studio Pass</strong>
             </div>
           </div>
 
-          <div style="margin-bottom:10px;">
-            <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px; box-sizing:border-box;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                <span style="font-size:1.2rem;">🇲🇲</span>
-                <strong style="font-size:0.92rem; color:var(--text);">Myanmar Local Mobile Wallets (KBZPay / WavePay)</strong>
+          <!-- Rail 1: Telegram Stars (Worldwide & Instant) -->
+          <div style="background:var(--bg-card); border:2px solid var(--accent); border-radius:8px; padding:16px; margin-bottom:14px; box-sizing:border-box;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.4rem;">⭐️</span>
+                <div>
+                  <strong style="font-size:0.98rem; color:var(--text);">Telegram Stars (Instant Worldwide Checkout)</strong>
+                  <div style="font-size:0.75rem; color:var(--green); font-weight:700;">✓ AUTOMATIC 1-TAP ACTIVATION • APPLE PAY / GOOGLE PAY / STARS</div>
+                </div>
               </div>
-              <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
-                Account Name: <strong>Lyan Htet</strong><br>
-                KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
-                <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;">📋 Copy Number</button><br>
-                Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
-              </div>
-              <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
-                KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
-              </div>
-              <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer;" onclick="handleSendPaymentProof(event)">
-                💬 Send Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
-              </a>
+              <span style="font-size:1.15rem; font-weight:900; color:var(--accent);">750 ★ Stars (~$15)</span>
             </div>
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin:0 0 12px 0; line-height:1.5;">
+              Ideal for international students outside Myanmar. Purchase directly in Telegram using your Stars balance, Apple Pay, Google Pay, or debit card. Your account is upgraded automatically in under 3 seconds.
+            </p>
+            <button id="starsCheckoutBtn" class="btn-accent-solid" onclick="handleStarsCheckout()" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:0.9rem; padding:12px; font-weight:800; cursor:pointer;">
+              ⭐️ Pay 750 Stars via Telegram (Instant Lifetime VIP)
+            </button>
+          </div>
+
+          <!-- Rail 2: Myanmar Local Mobile Wallets (KBZPay / WavePay) -->
+          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:8px; padding:16px; box-sizing:border-box;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.3rem;">🇲🇲</span>
+                <div>
+                  <strong style="font-size:0.92rem; color:var(--text);">Myanmar Mobile Wallets (KBZPay / WavePay)</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted);">MANUAL SLIP VERIFICATION VIA BOT</div>
+                </div>
+              </div>
+              <span style="font-size:1rem; font-weight:800; color:var(--text);">55,000 MMK</span>
+            </div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
+              Account Name: <strong>Lyan Htet</strong><br>
+              KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
+              <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;">📋 Copy Number</button><br>
+              Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
+            </div>
+            <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
+              KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
+            </div>
+            <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer; width:100%; box-sizing:border-box;" onclick="handleSendPaymentProof(event)">
+              💬 Send Myanmar Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
+            </a>
           </div>
         </div>
 
@@ -10976,7 +11078,7 @@ async function executeVipQuoteSearch() {
                 <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
                   <th style="padding:6px;">Module / Feature</th>
                   <th style="padding:6px; color:var(--text);">Free Tier</th>
-                  <th style="padding:6px; color:var(--accent);">Full VIP Access (55,000 MMK)</th>
+                  <th style="padding:6px; color:var(--accent);">Full VIP Access (750 ★ Stars / 55,000 MMK)</th>
                 </tr>
               </thead>
               <tbody>

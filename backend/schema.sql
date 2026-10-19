@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
   target_band REAL DEFAULT 7.5,
   progress_json TEXT DEFAULT '{}',
   pending_tool TEXT,
+  preferred_lang TEXT DEFAULT 'en', -- 'en' (default) or 'my'
   updated_at INTEGER
 );
 
@@ -22,6 +23,10 @@ CREATE TABLE IF NOT EXISTS payments (
   file_id TEXT,
   caption_note TEXT,
   amount_mmk INTEGER DEFAULT 55000,
+  stars_amount INTEGER DEFAULT 0,
+  currency TEXT DEFAULT 'MMK', -- 'MMK', 'XTR'
+  payment_method TEXT DEFAULT 'slip', -- 'slip', 'stars', 'voucher'
+  stars_charge_id TEXT,
   status TEXT DEFAULT 'pending', -- 'pending', 'approved', 'rejected'
   created_at INTEGER
 );

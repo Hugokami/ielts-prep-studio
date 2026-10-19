@@ -30,6 +30,10 @@ export default {
         return jsonResponse({ success: true, commands: BOT_COMMANDS, result: res });
       }
 
+      if (url.pathname === "/api/create-stars-invoice" && request.method === "POST") {
+        return await handleCreateStarsInvoice(request, env);
+      }
+
       if (url.pathname === "/webhook" && request.method === "POST") {
         return await handleWebhook(request, env, ctx);
       }
@@ -399,12 +403,116 @@ async function handleWebhook(request, env, ctx = null) {
     return jsonResponse({ error: "BOT_TOKEN not configured" }, 500);
   }
 
+  // 1. Telegram Stars Pre-Checkout Query (Must answer within 10s)
+  if (update.pre_checkout_query) {
+    const pcq = update.pre_checkout_query;
+    await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pre_checkout_query_id: pcq.id,
+        ok: true
+      })
+    });
+    return jsonResponse({ ok: true });
+  }
+
   // A. Message handler
   if (update.message) {
     const msg = update.message;
     const chatId = msg.chat.id;
     const userId = msg.from ? msg.from.id : chatId;
+    const from = msg.from || {};
     const text = (msg.text || "").trim();
+
+    // Handle Telegram Stars Successful Payment (Auto-Provisioning)
+    if (msg.successful_payment) {
+      const sp = msg.successful_payment;
+      const chargeId = sp.telegram_payment_charge_id;
+      const username = from.username || "";
+      const fullName = (from.first_name || "") + (from.last_name ? " " + from.last_name : "");
+
+      let existingTx = null;
+      try {
+        existingTx = await env.DB.prepare("SELECT id FROM payments WHERE stars_charge_id = ?").bind(chargeId).first();
+      } catch (e) {}
+
+      if (!existingTx) {
+        try {
+          await env.DB.prepare(`
+            INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, updated_at)
+            VALUES (?, ?, ?, 1, unixepoch(), unixepoch())
+            ON CONFLICT(telegram_id) DO UPDATE SET
+              is_vip = 1,
+              vip_activated_at = unixepoch(),
+              updated_at = unixepoch()
+          `).bind(userId, username, fullName).run();
+        } catch (e) {
+          console.error("[Stars User Activation Error]", e);
+        }
+
+        const voucherCode = generateRandomCode();
+        try {
+          await env.DB.prepare("INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at) VALUES (?, 1, ?, unixepoch())").bind(voucherCode, userId).run();
+        } catch (e) {
+          console.error("[Stars Voucher Mint Error]", e);
+        }
+
+        try {
+          await env.DB.prepare(`
+            INSERT INTO payments (telegram_id, username, caption_note, amount_mmk, stars_amount, currency, payment_method, stars_charge_id, status, created_at)
+            VALUES (?, ?, ?, 0, 750, 'XTR', 'stars', ?, 'approved', unixepoch())
+          `).bind(userId, username, "Telegram Stars Lifetime VIP Pass", chargeId).run();
+        } catch (e) {
+          console.error("[Stars Payment Insert Error]", e);
+        }
+
+        const magicUrl = `${env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app"}/?voucher=${voucherCode}`;
+        const confirmMsg =
+`🎉 *PAYMENT SUCCESSFUL! 750 TELEGRAM STARS RECEIVED*
+━━━━━━━━━━━━━━━━━━━━
+👑 *Lifetime VIP Studio Pass Activated!*
+
+Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has permanent, unrestricted access to the entire IELTS Prep Studio curriculum.
+
+✨ *What is now unlocked for you:*
+• 🔤 All 1,162 Vocabulary items, Native Audio & 1-3-7 Spaced Repetition (SRS)
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
+• 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+
+💻 *Your Desktop / PC Activation Voucher:*
+Code: \`${voucherCode}\`
+
+🔗 *1-Click Magic Activation Link:*
+[Click to Launch Studio on Mobile or PC](${magicUrl})
+
+_Need assistance? Lead Instructor: @hyuguo_`;
+
+        await sendTelegramMessage(botToken, chatId, confirmMsg, {
+          inline_keyboard: [
+            [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: magicUrl } }],
+            [{ text: "🌐 Open on Computer / Laptop ↗", url: magicUrl }],
+            [{ text: "💬 Chat with Lead Instructor", url: "https://t.me/hyuguo" }]
+          ]
+        });
+
+        if (env.ADMIN_CHAT_ID) {
+          const adminLog =
+`⭐️ *NEW TELEGRAM STARS PAYMENT RECEIVED!*
+━━━━━━━━━━━━━━━━━━━━
+👤 *Student:* ${fullName} (@${username || "no_username"})
+🆔 *User ID:* \`${userId}\`
+⭐️ *Amount:* 750 XTR (Telegram Stars)
+🔖 *Charge ID:* \`${chargeId}\`
+🎟️ *Minted Voucher:* \`${voucherCode}\`
+✅ *Status:* Auto-Approved & VIP Activated`;
+          await sendTelegramMessage(botToken, env.ADMIN_CHAT_ID, adminLog);
+        }
+      }
+      return jsonResponse({ ok: true });
+    }
 
     // Auto-register student in D1 on incoming message
     if (msg.from && msg.from.id) {
@@ -422,13 +530,42 @@ async function handleWebhook(request, env, ctx = null) {
       }
     }
 
-    // Check user VIP status once for all message handlers
+    // Check user VIP status and language preference once for all message handlers
     let isVip = false;
+    let userLang = "en";
     try {
-      const userRecord = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-      isVip = userRecord && userRecord.is_vip === 1;
+      const userRecord = await env.DB.prepare("SELECT is_vip, preferred_lang FROM users WHERE telegram_id = ?").bind(userId).first();
+      if (userRecord) {
+        isVip = userRecord.is_vip === 1;
+        if (userRecord.preferred_lang) userLang = userRecord.preferred_lang;
+      }
     } catch (e) {
-      console.error("[User VIP Check Error]", e);
+      console.error("[User Check Error]", e);
+    }
+
+    // Direct Telegram Stars Checkout Shortcut
+    if (text === "/buy_stars" || text.startsWith("/start buy_stars")) {
+      await sendStarsInvoice(botToken, chatId, userId);
+      return jsonResponse({ ok: true });
+    }
+
+    // Language switcher command
+    if (text === "/lang" || text === "/language" || text === "🌐 Language" || text === "🌐 Language (EN/မြန်မာ)") {
+      const langMsg =
+`🌐 *CHOOSE YOUR BOT LANGUAGE PREFERENCE*
+━━━━━━━━━━━━━━━━━━━━
+Select how you would like IELTS Prep Studio Bot to interact with you:
+
+• 🇬🇧 *English Only (Default):* Clean, examiner-grade academic English. Recommended for international test takers.
+• 🇲🇲 *Bilingual (English + မြန်မာ):* Includes Burmese explanations, exam traps citations, and Myanmar mobile wallet details.`;
+
+      await sendTelegramMessage(botToken, chatId, langMsg, {
+        inline_keyboard: [
+          [{ text: "🇬🇧 English Only (Default)", callback_data: "set_lang:en" }],
+          [{ text: "🇲🇲 Bilingual (EN + မြန်မာ)", callback_data: "set_lang:my" }]
+        ]
+      });
+      return jsonResponse({ ok: true });
     }
 
     // 1. /start or /menu command or greeting
@@ -439,8 +576,8 @@ async function handleWebhook(request, env, ctx = null) {
 
       let welcomeText = "";
       if (isVip) {
-        welcomeText = 
-`🇲🇲 *Welcome back to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
+        welcomeText = userLang === "my"
+          ? `🇲🇲 *Welcome back to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
 
 👑 *VIP LIFETIME MEMBER (ACTIVE)*
 • All 1,162 Academic Lexicons, Native Audio & 1-3-7 SRS
@@ -452,15 +589,28 @@ async function handleWebhook(request, env, ctx = null) {
 ⚡ Daily Academic AI Quota: *Unlimited Band 9 Access*
 👨‍🏫 Need personalized advice? Lead Instructor: @hyuguo
 
-👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`;
+👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`
+          : `🎓 *Welcome back to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
+
+👑 *VIP LIFETIME MEMBER (ACTIVE)*
+• All 1,162 Academic Lexicons, Native Audio & 1-3-7 SRS
+• All 23 Cambridge Reading CBT Passages (231 Questions)
+• All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer
+• All 30 Speaking Forecast Topics & 5 Frameworks
+• Automatic Cross-Device Cloud Sync + Desktop VIP Access
+
+⚡ Daily Academic AI Quota: *Unlimited Band 9 Access*
+👨‍🏫 Need personalized advice? Lead Instructor: @hyuguo
+
+👇 *Select any module below to continue studying:*`;
       } else {
-        welcomeText = 
-`🇲🇲 *Welcome to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
+        welcomeText = userLang === "my"
+          ? `🇲🇲 *Welcome to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
 
 🎯 *Cambridge CBT Mocks • Band 8.5/9.0 Lexicon • Task 1 & 2 Models*
 Study anytime with 0-latency, offline support, and interactive audio.
 
-👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*
+👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK / 750 ★ Stars)*
 • All 1,162 Vocabulary Items, Traps & 1-3-7 Day SRS
 • All 23 Reading CBT Passages (231 Questions) with Burmese citations
 • All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer
@@ -468,14 +618,30 @@ Study anytime with 0-latency, offline support, and interactive audio.
 • Automatic Cross-Device Cloud Sync + Desktop Activation Voucher
 
 💳 *Payment Information:*
-• KBZPay / WavePay: \`${env.PAYMENT_PHONE || "09-768691939"}\`
-• Account Name: *${env.ACCOUNT_NAME || "Lyan Htet"}*
-• Amount: *55,000 MMK* (One-Time Lifetime • No Monthly Fees)
+• Telegram Stars: *750 ★ Stars* (Instant Worldwide 1-Click)
+• KBZPay / WavePay: \`${env.PAYMENT_PHONE || "09-768691939"}\` (*55,000 MMK*)
 
 📸 *To Activate VIP:*
-Transfer 55,000 MMK and *send your payment slip screenshot directly to this chat*. Our admin will approve your lifetime access immediately!
+Telegram Stars ဖြင့် ချက်ချင်းဝယ်ယူနိုင်ပြီး KBZPay / WavePay ဖြင့် လွှဲပါက စလစ် screenshot ပို့ပေးပါက Admin မှ ဖွင့်ပေးပါမည်။
 
-👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`;
+👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`
+          : `🎓 *Welcome to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
+
+🎯 *Cambridge CBT Mocks • Band 8.5/9.0 Lexicon • Task 1 & 2 Models*
+Master the official test format with examiner-grade interactive scoring.
+
+👑 *Target Band 7.5+ Lifetime Studio VIP Pass*
+• All 1,162 Vocabulary Items, Traps & 1-3-7 Day SRS
+• All 23 Reading CBT Passages (231 Questions) + Evidence Notes
+• All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer
+• All 30 Speaking Forecast Topics & 5 Strategic Frameworks
+• Automatic Cross-Device Cloud Sync + Desktop Activation Voucher
+
+⭐ *Pricing & Instant Activation:*
+• Global: *750 ★ Telegram Stars (~$15 USD)* (Instant 1-Click Activation)
+• Myanmar: *55,000 MMK* (KBZPay / WavePay Mobile Wallets)
+
+👇 *Select an option from the menu below to begin:*`;
       }
 
       await sendTelegramMessage(botToken, chatId, welcomeText, getMainMenuKeyboard(env, isVip));
@@ -568,8 +734,8 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
       return jsonResponse({ ok: true });
     }
 
-    // 3. /vip or VIP pass buttons
-    if (text === "/vip" || text === "👑 Buy VIP Pass (55,000 Ks)" || text === "⭐ VIP Pass (55,000 Ks)" || text === "👑 VIP Lifetime Active" || text === "Buy Products") {
+    // 3. /vip or /buy or VIP pass buttons
+    if (text === "/vip" || text === "/buy" || text === "👑 Buy VIP Pass (55,000 Ks)" || text === "👑 Buy VIP (750 ★ / 55k)" || text === "⭐ VIP Pass (55,000 Ks)" || text === "👑 VIP Lifetime Active" || text === "Buy Products") {
       if (isVip) {
         const activeVipText = 
 `👑 *YOUR LIFETIME STUDIO VIP PASS IS ACTIVE*
@@ -584,11 +750,11 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
 • ⚡ Unlimited Live Academic AI Quota (/collocate, /syn, /dict, /read)
 
 💻 *Desktop PC Access:*
-Open ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} on computer and log in with Telegram or use your Personal VIP Desktop Voucher!`;
+Open ${env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app"} on computer and log in with Telegram or use your Personal VIP Desktop Voucher!`;
 
         await sendTelegramMessage(botToken, chatId, activeVipText, {
           inline_keyboard: [
-            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }],
             [{ text: "📚 View Curriculum Syllabus", callback_data: "mod_catalog_back" }],
             [
               { text: "⚡ VIP Academic Tools", callback_data: "menu_tools" },
@@ -599,31 +765,48 @@ Open ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} on
         return jsonResponse({ ok: true });
       }
 
-      const vipText = 
-`👑 *TARGET BAND 7.5+ LIFETIME STUDIO VIP PASS*
+      const isMy = userLang === "my";
+      const vipText = isMy
+        ? `👑 *TARGET BAND 7.5+ LIFETIME STUDIO VIP PASS*
 ━━━━━━━━━━━━━━━━━━━━
-💎 *One-Time Investment:* *55,000 MMK* (တစ်သက်တာ အသုံးပြုခွင့် • No Monthly Fees)
+💎 *One-Time Investment:* *55,000 MMK* သို့မဟုတ် *750 ★ Telegram Stars* (တစ်သက်တာ အသုံးပြုခွင့် • No Monthly Fees)
 
-🎁 *What You Unlock Forever:*
+🎁 *ပါဝင်သော အချက်များ:*
 • 🔤 All 1,162 Vocabulary Items, Native Audio & 1-3-7 SRS
 • 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Analyzer
 • 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
 • ☁️ Multi-Device Cloud Sync + Desktop PC VIP Voucher Code
 
-📱 *Payment Accounts (KBZPay / WavePay):*
-• ဖုန်းနံပါတ်: \`${env.PAYMENT_PHONE || "09-768691939"}\` _(Click to copy)_
-• အကောင့်အမည်: *${env.ACCOUNT_NAME || "Lyan Htet"}*
-• Amount: *55,000 MMK*
+👇 *ငွေပေးချေမှု စနစ်ကို အောက်ပါ Menu မှ ရွေးချယ်နိုင်ပါသည်:*`
+        : `🎓 *IELTS PREP STUDIO — LIFETIME VIP PASS*
+━━━━━━━━━━━━━━━━━━━━
+Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps
 
-📸 *အသက်သွင်းနည်း:*
-ငွေ 55,000 MMK လွှဲပြီး ရရှိသော **ငွေလွှဲစလစ် (Screenshot)** ကို ဤ Chat သို့ ပို့ပေးပါ။ Admin မှ စစ်ဆေးပြီး မိနစ်ပိုင်းအတွင်း VIP ဖွင့်ပေးပါမည်! 🚀`;
+⭐ *Worldwide Investment:* *750 ★ Telegram Stars (~$15 USD)*
+🇲🇲 *Myanmar Local Price:* *55,000 MMK* (KBZPay / WavePay)
+_One-Time Investment • Lifetime Access • Zero Subscriptions_
+
+🎁 *Everything You Unlock Forever:*
+• 🔤 All 1,162 Vocabulary Items, Native Audio & 1-3-7 SRS
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Analyzer
+• 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• ☁️ Multi-Device Cloud Sync + Desktop PC VIP Voucher Code
+
+👇 *Choose your preferred checkout method below:*`;
 
       await sendTelegramMessage(botToken, chatId, vipText, {
         inline_keyboard: [
-          [{ text: "💳 How to Pay (55,000 Ks)", callback_data: "info_payment" }],
-          [{ text: "📚 View Curriculum Syllabus", callback_data: "mod_catalog_back" }],
-          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          [{ text: "⭐️ Pay with Telegram Stars (750 ★ Instant Worldwide)", callback_data: "pay_stars" }],
+          [{ text: "🇲🇲 KBZPay / WavePay Slip (55,000 MMK — Myanmar)", callback_data: "info_payment" }],
+          [
+            { text: "🎟️ Redeem Voucher Code", callback_data: "menu_redeem" },
+            { text: "🌐 Switch Language", callback_data: "menu_lang" }
+          ],
+          [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -1080,6 +1263,70 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
       const userRow = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(cbUserId).first();
       isVip = userRow && userRow.is_vip === 1;
     } catch (e) {}
+
+    // Telegram Stars Payment Callback
+    if (data === "pay_stars") {
+      await answerCallbackQuery(botToken, cb.id);
+      await sendStarsInvoice(botToken, cbChatId, cbUserId);
+      return jsonResponse({ ok: true });
+    }
+
+    // Language Menu Callback
+    if (data === "menu_lang") {
+      await answerCallbackQuery(botToken, cb.id);
+      const langMsg =
+`🌐 *CHOOSE YOUR BOT LANGUAGE PREFERENCE*
+━━━━━━━━━━━━━━━━━━━━
+Select how you would like IELTS Prep Studio Bot to interact with you:
+
+• 🇬🇧 *English Only (Default):* Clean, examiner-grade academic English. Recommended for international test takers.
+• 🇲🇲 *Bilingual (English + မြန်မာ):* Includes Burmese explanations, exam traps citations, and Myanmar mobile wallet details.`;
+
+      await sendTelegramMessage(botToken, cbChatId, langMsg, {
+        inline_keyboard: [
+          [{ text: "🇬🇧 English Only (Default)", callback_data: "set_lang:en" }],
+          [{ text: "🇲🇲 Bilingual (EN + မြန်မာ)", callback_data: "set_lang:my" }]
+        ]
+      });
+      return jsonResponse({ ok: true });
+    }
+
+    // Language Selection Callback
+    if (data.startsWith("set_lang:")) {
+      const selectedLang = data.replace("set_lang:", "").trim();
+      try {
+        await env.DB.prepare("UPDATE users SET preferred_lang = ? WHERE telegram_id = ?").bind(selectedLang, cbUserId).run();
+      } catch (e) {}
+
+      const confirmText = selectedLang === "en"
+        ? "✓ Switched to English Only"
+        : "✓ မြန်မာဘာသာစကား သို့ ပြောင်းလဲပြီးပါပြီ";
+      await answerCallbackQuery(botToken, cb.id, confirmText);
+
+      const replyMsg = selectedLang === "en"
+        ? "🇬🇧 *Language preference set to English Only.* All study tools and bot menus will now default to English."
+        : "🇲🇲 *ဘာသာစကားအား မြန်မာ + အင်္ဂလိပ် သို့ ပြောင်းလဲထားပါသည်။* လေ့လာမှု လမ်းညွှန်ချက်များနှင့် စာမေးပွဲ ရှင်းလင်းချက်များကို မြန်မာဘာသာဖြင့် ဖော်ပြပေးပါမည်။";
+      await sendTelegramMessage(botToken, cbChatId, replyMsg, getMainMenuKeyboard(env, isVip));
+      return jsonResponse({ ok: true });
+    }
+
+    // Voucher Redeem Callback
+    if (data === "menu_redeem") {
+      await answerCallbackQuery(botToken, cb.id);
+      const redeemMsg =
+`🎟️ *REDEEM VIP VOUCHER CODE*
+━━━━━━━━━━━━━━━━━━━━
+Have a lifetime voucher code (e.g. \`IPS-VIP-XXXX-YYYY\`)?
+
+• Launch the Studio Mini App and paste it in the VIP Pass modal to activate instantly across all devices.
+• Or reply directly with your code here (e.g. \`/redeem IPS-VIP-101\`).`;
+      await sendTelegramMessage(botToken, cbChatId, redeemMsg, {
+        inline_keyboard: [
+          [{ text: "🚀 Open Studio to Redeem", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+        ]
+      });
+      return jsonResponse({ ok: true });
+    }
 
     // Academic Tools Callbacks
     if (data === "menu_tools") {
@@ -1644,6 +1891,64 @@ async function answerCallbackQuery(botToken, callbackQueryId, text) {
   });
 }
 
+async function sendStarsInvoice(botToken, chatId, userId) {
+  const payload = JSON.stringify({
+    type: "vip_lifetime",
+    userId: userId,
+    nonce: Date.now()
+  });
+
+  return await fetch(`https://api.telegram.org/bot${botToken}/sendInvoice`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      title: "IELTS Prep Studio — Lifetime VIP Pass",
+      description: "Lifetime access: 23 Cambridge Reading CBTs, 40 Writing Models, AI Examiner scoring, 1,162 Academic Lexicon & VIP Tools.",
+      payload: payload,
+      provider_token: "",
+      currency: "XTR",
+      prices: [{ label: "Lifetime VIP Studio Pass", amount: 750 }]
+    })
+  });
+}
+
+async function handleCreateStarsInvoice(request, env) {
+  try {
+    const body = await request.json().catch(() => ({}));
+    const userId = body.userId || 0;
+    const botToken = env.BOT_TOKEN;
+    if (!botToken) {
+      return jsonResponse({ error: "BOT_TOKEN not configured" }, 500);
+    }
+    const payload = JSON.stringify({
+      type: "vip_lifetime",
+      userId: userId,
+      nonce: Date.now()
+    });
+
+    const resp = await fetch(`https://api.telegram.org/bot${botToken}/createInvoiceLink`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "IELTS Prep Studio — Lifetime VIP Pass",
+        description: "Lifetime access: 23 Cambridge Reading CBTs, 40 Writing Models, AI Examiner scoring, 1,162 Academic Lexicon & VIP Tools.",
+        payload: payload,
+        provider_token: "",
+        currency: "XTR",
+        prices: [{ label: "Lifetime VIP Studio Pass", amount: 750 }]
+      })
+    });
+    const res = await resp.json();
+    if (res.ok && res.result) {
+      return jsonResponse({ success: true, invoiceLink: res.result });
+    }
+    return jsonResponse({ error: res.description || "Failed to create invoice link" }, 400);
+  } catch (err) {
+    return jsonResponse({ error: err.message }, 500);
+  }
+}
+
 function generateRandomCode() {
   const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
   let part1 = "";
@@ -1723,9 +2028,11 @@ const BOT_COMMANDS = [
   { command: "read", description: "📖 Academic Topic Briefs (/read <topic>)" },
   { command: "dict", description: "📚 Live Academic Dictionary (/dict <word>)" },
   { command: "quote", description: "🧠 Scholar Thought & Rhetoric" },
-  { command: "vip", description: "👑 Lifetime VIP Pass (55,000 MMK)" },
+  { command: "vip", description: "👑 VIP Pass (750 ★ Stars / 55,000 MMK)" },
+  { command: "buy", description: "⭐️ Instant Stars / Wallet Checkout" },
+  { command: "lang", description: "🌐 Switch Language (English / မြန်မာ)" },
   { command: "curriculum", description: "📚 Cambridge CBT & Lexicon Catalog" },
-  { command: "pay", description: "💳 KBZPay / WavePay Payment Info" },
+  { command: "pay", description: "💳 Payment Methods (Stars & Wallets)" },
   { command: "status", description: "📊 My Study Progress & VIP Status" },
   { command: "exam", description: "📅 Exam Countdown & Target Pacing" },
   { command: "tip", description: "💡 Band 9 IELTS Trap & Collocation" },
@@ -1752,7 +2059,7 @@ async function registerBotCommands(botToken) {
 function getMainMenuKeyboard(env, isVip = false) {
   const vipButton = isVip
     ? { text: "👑 VIP Lifetime Active" }
-    : { text: "👑 Buy VIP Pass (55,000 Ks)" };
+    : { text: "👑 Buy VIP (750 ★ / 55k)" };
   const payButton = isVip
     ? { text: "💬 Chat with Lead Instructor" }
     : { text: "💳 Payment Info" };
@@ -1763,11 +2070,11 @@ function getMainMenuKeyboard(env, isVip = false) {
       [{ text: "📚 Curriculum & Features" }, { text: "📊 My Study & VIP Status" }],
       [payButton, { text: "📅 Exam Countdown" }],
       [{ text: "💡 Band 9 Tip of the Day" }, { text: "👨‍🏫 Contact Support" }],
-      [{ text: "👤 Creator Profile" }, { text: "📕 How To Use & Guide" }]
+      [{ text: "🌐 Language (EN/မြန်မာ)" }, { text: "📕 How To Use & Guide" }]
     ],
     resize_keyboard: true,
     is_persistent: true,
-    input_field_placeholder: "လိုအပ်သော Menu ကို ရွေးပါ"
+    input_field_placeholder: "Choose an option or type /app"
   };
 }
 
