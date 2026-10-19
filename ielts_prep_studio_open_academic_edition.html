@@ -10,6 +10,7 @@
 <script async src="https://telegram.org/js/telegram-widget.js?22"></script>
 <script src="js/storage-sync.js"></script>
 <script src="js/ielts-api-features.js"></script>
+<script src="js/academic-lexicon.js"></script>
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
@@ -10179,125 +10180,96 @@ async function executeVipCollocationsSearch() {
     return;
   }
 
-  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Datamuse Academic Collocations Engine...</div>`;
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Collocations Engine...</div>`;
 
   try {
-    const res = await callVipToolApi('collocations', { word });
-    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+    let d = null;
+    let quota = null;
 
-    if (!res || !res.success) {
-      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
-        <strong>⚠️ ${res.error || 'Failed to fetch collocations.'}</strong>
-        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
-      </div>`;
-      return;
+    // Check client-side curated cache first for 0ms latency
+    const cleanW = word.toLowerCase().replace(/[^a-z0-9-]/g, '');
+    if (typeof CURATED_ACADEMIC_LEXICON !== 'undefined' && CURATED_ACADEMIC_LEXICON[cleanW]) {
+      const entry = CURATED_ACADEMIC_LEXICON[cleanW];
+      d = {
+        word: cleanW,
+        pos: entry.pos,
+        collocations: entry.collocations,
+        isCurated: true,
+        nounCollocations: entry.collocations.adj_noun || [],
+        modifierCollocations: entry.collocations.adv_adj || [],
+        verbCollocations: entry.collocations.verb_noun || [],
+        sentenceFrames: [entry.collocations.frame],
+        triggers: entry.collocations.prep_phrase || []
+      };
+    } else {
+      const res = await callVipToolApi('collocations', { word });
+      if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+      if (!res || !res.success) {
+        resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+          <strong>⚠️ ${res.error || 'Failed to fetch collocations.'}</strong>
+          ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+        </div>`;
+        return;
+      }
+      d = res.data;
     }
 
-    const d = res.data;
-    if (!d || (!d.adjectives.length && !d.nouns.length && !d.triggers.length)) {
+    if (!d || !d.collocations) {
       resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No academic collocations found for "${word}". Try common essay terms like <em>impact, environment, policy, evidence</em>.</div>`;
       return;
     }
 
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+    const col = d.collocations;
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
-          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 6px; font-size:0.8rem;">🔊 Listen</button>
+          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+          <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:700;">${d.pos || 'term'}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
         </div>
-        <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('synonyms', '${d.word}')">💎 View Synonyms ↗</button>
+        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem;" onclick="openVipToolsModal('synonyms', '${d.word}')">💎 View Synonyms ↗</button>
       </div>`;
 
-    if (d.pos === 'adj') {
-      const nouns = d.nounCollocations || d.nouns || [];
-      if (nouns.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 High-Yield Noun Pairings (${d.word} + noun):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
-          </div>
-        </div>`;
-      }
-      const advs = d.modifierCollocations || d.adjectives || [];
-      if (advs.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adverb Intensifiers (adverb + ${d.word}):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${advs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
-          </div>
-        </div>`;
-      }
-      if (d.sentenceFrames && d.sentenceFrames.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 Band 9 Academic Sentence Frames:</span>
-          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
-            ${d.sentenceFrames.map(f => `<li>${f.replace(/\*/g, '')}</li>`).join('')}
-          </ul>
-        </div>`;
-      }
-    } else if (d.pos === 'verb') {
-      const nouns = d.nounCollocations || d.nouns || [];
-      if (nouns.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Verb-Object Pairings (${d.word} + noun):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> the ${n}</span>`).join('')}
-          </div>
-        </div>`;
-      }
-      const advs = d.modifierCollocations || d.adjectives || [];
-      if (advs.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adverb Modifiers (adverb + ${d.word}):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${advs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
-          </div>
-        </div>`;
-      }
-      if (d.sentenceFrames && d.sentenceFrames.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 Band 9 Academic Sentence Frames:</span>
-          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
-            ${d.sentenceFrames.map(f => `<li>${f.replace(/\*/g, '')}</li>`).join('')}
-          </ul>
-        </div>`;
-      }
-    } else {
-      // noun
-      const adjs = d.modifierCollocations || d.adjectives || [];
-      if (adjs.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adjective Pairings (adjective + ${d.word}):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${adjs.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
-          </div>
-        </div>`;
-      }
-      const nouns = d.nounCollocations || d.nouns || [];
-      if (nouns.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Compound Noun Pairings (${d.word} + noun):</span>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            ${nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
-          </div>
-        </div>`;
-      }
-      if (d.verbCollocations && d.verbCollocations.length) {
-        html += `<div style="margin-bottom:12px;">
-          <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:6px;">🔹 High-Scoring Verb Collocations:</span>
-          <ul style="margin:0; padding-left:18px; font-size:0.82rem; color:var(--text); line-height:1.6;">
-            ${d.verbCollocations.map(v => `<li>${v.replace(/\*/g, '')}</li>`).join('')}
-          </ul>
-        </div>`;
-      }
+    if (col.verb_noun && col.verb_noun.length) {
+      html += `<div style="margin-bottom:14px;">
+        <span style="font-size:0.82rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Verb + Noun Collocations:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${col.verb_noun.map(v => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="speakWord('${v}')" title="Click to hear pronunciation"><strong>${v}</strong> 🔊</span>`).join('')}
+        </div>
+      </div>`;
     }
 
-    if (d.triggers && d.triggers.length) {
-      html += `<div style="margin-bottom:10px;">
-        <span style="font-size:0.8rem; font-weight:800; color:var(--text-secondary); display:block; margin-bottom:4px;">🔹 High-Yield Academic Triggers:</span>
+    if (col.adj_noun && col.adj_noun.length) {
+      html += `<div style="margin-bottom:14px;">
+        <span style="font-size:0.82rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adjective + Noun Pairings:</span>
         <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          ${d.triggers.map(t => `<span style="font-size:0.78rem; color:var(--text-secondary); padding:2px 6px; background:rgba(0,0,0,0.04); border-radius:4px;">${t}</span>`).join('')}
+          ${col.adj_noun.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="speakWord('${a}')" title="Click to hear pronunciation"><strong>${a}</strong> 🔊</span>`).join('')}
         </div>
+      </div>`;
+    }
+
+    if (col.adv_adj && col.adv_adj.length) {
+      html += `<div style="margin-bottom:14px;">
+        <span style="font-size:0.82rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adverb Intensifiers:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${col.adv_adj.map(ad => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="speakWord('${ad}')" title="Click to hear pronunciation">${ad} 🔊</span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    if (col.prep_phrase && col.prep_phrase.length) {
+      html += `<div style="margin-bottom:14px;">
+        <span style="font-size:0.82rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Academic Prepositional Phrases:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${col.prep_phrase.map(p => `<span style="font-size:0.8rem; color:var(--text-secondary); background:rgba(0,0,0,0.04); padding:3px 8px; border-radius:4px; font-style:italic;">${p}</span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    if (col.frame) {
+      html += `<div style="margin-bottom:14px; background:rgba(217, 119, 54, 0.08); border-left:3px solid var(--accent); padding:10px 14px; border-radius:4px;">
+        <span style="font-size:0.8rem; font-weight:800; color:var(--accent); display:block; margin-bottom:4px;">✍️ Band 9 Model Sentence:</span>
+        <div style="font-size:0.85rem; color:var(--text); line-height:1.6; font-style:italic;">"${col.frame}"</div>
       </div>`;
     }
 
@@ -10320,47 +10292,75 @@ async function executeVipSynonymsSearch() {
     return;
   }
 
-  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Datamuse Academic Lexicon Engine...</div>`;
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Synonyms Engine...</div>`;
 
   try {
-    const res = await callVipToolApi('synonyms', { word });
-    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+    let d = null;
+    const cleanW = word.toLowerCase().replace(/[^a-z0-9-]/g, '');
 
-    if (!res || !res.success) {
-      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
-        <strong>⚠️ ${res.error || 'Failed to fetch synonyms.'}</strong>
-        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
-      </div>`;
-      return;
+    // Check client-side curated cache first
+    if (typeof CURATED_ACADEMIC_LEXICON !== 'undefined' && CURATED_ACADEMIC_LEXICON[cleanW]) {
+      const entry = CURATED_ACADEMIC_LEXICON[cleanW];
+      d = {
+        word: cleanW,
+        pos: entry.pos,
+        synonyms: entry.synonyms.map(s => s.term),
+        items: entry.synonyms,
+        isCurated: true
+      };
+    } else {
+      const res = await callVipToolApi('synonyms', { word });
+      if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+      if (!res || !res.success) {
+        resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+          <strong>⚠️ ${res.error || 'Failed to fetch synonyms.'}</strong>
+          ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+        </div>`;
+        return;
+      }
+      d = res.data;
     }
 
-    const d = res.data;
-    if (!d || !d.synonyms.length) {
+    if (!d || (!d.items?.length && !d.synonyms?.length)) {
       resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No high-yield synonyms found for "${word}". Try common essay words like <em>important, increase, problem, advantage</em>.</div>`;
       return;
     }
 
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
-          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 6px; font-size:0.8rem;">🔊 Listen</button>
+          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
         </div>
-        <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('collocations', '${d.word}')">🔗 View Collocations ↗</button>
+        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem;" onclick="openVipToolsModal('collocations', '${d.word}')">🔗 View Collocations ↗</button>
       </div>`;
 
-    html += `<div style="margin-bottom:14px;">
-      <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:8px;">🎯 High-Yield Academic Substitutes:</span>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        ${d.synonyms.map(s => `<button class="btn-outlined" style="padding:4px 10px; font-size:0.82rem; font-weight:700; color:var(--text);" onclick="speakWord('${s}')" title="Click to listen to pronunciation">${s} 🔊</button>`).join('')}
-      </div>
-    </div>`;
-
-    if (d.specific && d.specific.length) {
-      html += `<div style="margin-bottom:12px;">
-        <span style="font-size:0.8rem; font-weight:800; color:var(--text-secondary); display:block; margin-bottom:6px;">📌 Specialized / Contextual Nuances:</span>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          ${d.specific.map(s => `<span class="occ-ver-pill" style="font-size:0.76rem;">${s}</span>`).join('')}
+    if (d.items && d.items.length) {
+      html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">`;
+      d.items.forEach(item => {
+        html += `<div style="border:1px solid var(--border); border-radius:6px; padding:12px; background:rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1rem; font-weight:800; color:var(--text);">${item.term}</span>
+              <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; background:rgba(16, 185, 129, 0.12); color:#059669;">${item.register || 'C1 Academic'}</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="util-icon-btn" onclick="speakWord('${item.term}')" style="padding:2px 6px; font-size:0.75rem;" title="Listen">🔊 Listen</button>
+              <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem;" onclick="openVipToolsModal('collocations', '${item.term}')">🔗 Collocations</button>
+            </div>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; line-height:1.5;">${item.nuance}</div>
+          <div style="font-size:0.82rem; color:var(--text); background:rgba(0,0,0,0.03); border-left:2px solid var(--accent); padding:6px 10px; border-radius:4px; font-style:italic; line-height:1.5;">
+            ✍️ "${item.example}"
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    } else if (d.synonyms && d.synonyms.length) {
+      html += `<div style="margin-bottom:14px;">
+        <span style="font-size:0.82rem; font-weight:800; color:var(--text); display:block; margin-bottom:8px;">🎯 High-Yield Academic Substitutes:</span>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          ${d.synonyms.map(s => `<button class="btn-outlined" style="padding:4px 10px; font-size:0.82rem; font-weight:700; color:var(--text);" onclick="speakWord('${s}')" title="Click to listen to pronunciation">${s} 🔊</button>`).join('')}
         </div>
       </div>`;
     }
@@ -10384,7 +10384,7 @@ async function executeVipTopicSearch() {
     return;
   }
 
-  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Knowledge Brief...</div>`;
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Full Academic Article &amp; Background Knowledge...</div>`;
 
   try {
     const res = await callVipToolApi('topic', { topic });
@@ -10399,27 +10399,77 @@ async function executeVipTopicSearch() {
     }
 
     const d = res.data;
-    if (!d || !d.extract) {
-      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No academic summary found for "${topic}". Try broad topics like <em>Renewable energy, Globalization, Automation, Education</em>.</div>`;
+    if (!d || (!d.fullText && !d.extract)) {
+      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No academic article found for "${topic}". Try broad topics like <em>Renewable energy, Globalization, Automation, Higher education</em>.</div>`;
       return;
     }
 
-    const html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:8px;">
-        <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:var(--accent);">${d.title}</h3>
-        <a href="${d.url}" target="_blank" rel="noopener" class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;">Full Reference ↗</a>
+    const rawContent = d.fullText || d.extract || '';
+    const wordCount = d.wordCount || rawContent.split(/\s+/).filter(Boolean).length;
+    const readMin = d.readingTimeMin || Math.max(1, Math.ceil(wordCount / 200));
+
+    // Convert Markdown wiki headers to elegant HTML
+    let formattedHtml = rawContent
+      .replace(/\n━━━━━━━━━━━━━━━━━━━━\n📖 \*([^*]+)\*\n━━━━━━━━━━━━━━━━━━━━/g, '<h4 style="margin:24px 0 10px 0; font-size:1.05rem; font-weight:800; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:6px;">📖 $1</h4>')
+      .replace(/📌 \*([^*]+)\*/g, '<h5 style="margin:16px 0 8px 0; font-size:0.95rem; font-weight:700; color:var(--text);">$1</h5>')
+      .replace(/🔹 \*([^*]+)\*/g, '<div style="font-weight:700; margin-top:10px; color:var(--text-secondary);">$1</div>');
+
+    // Split paragraphs
+    const paragraphs = formattedHtml.split(/\n{2,}/);
+    const parsedBody = paragraphs.map(p => {
+      const trimmed = p.trim();
+      if (!trimmed) return '';
+      if (trimmed.startsWith('<h4') || trimmed.startsWith('<h5') || trimmed.startsWith('<div')) return trimmed;
+      return `<p style="margin:0 0 14px 0; color:var(--text); line-height:1.75; text-align:justify;">${trimmed}</p>`;
+    }).filter(Boolean).join('');
+
+    window._lastVipTopicText = rawContent;
+
+    const html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div>
+          <h3 style="margin:0 0 6px 0; font-size:1.25rem; font-weight:900; color:var(--accent);">${d.title}</h3>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <span class="occ-ver-pill" style="font-size:0.75rem; font-weight:700; background:rgba(217, 119, 54, 0.12); color:var(--accent);">📚 Full Academic Article</span>
+            <span class="occ-ver-pill" style="font-size:0.75rem; font-weight:700;">📊 ${wordCount.toLocaleString()} words</span>
+            <span class="occ-ver-pill" style="font-size:0.75rem; font-weight:700;">⏱️ ~${readMin} min read</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-outlined" id="vt-copy-topic-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="copyVipTopicContent()">📋 Copy Article</button>
+          <a href="${d.url}" target="_blank" rel="noopener" class="btn-accent-solid" style="padding:4px 12px; font-size:0.78rem; text-decoration:none; display:inline-flex; align-items:center;">Full Reference ↗</a>
+        </div>
       </div>
-      <p style="font-size:0.86rem; color:var(--text); line-height:1.6; margin:0 0 12px 0;">${d.extract}</p>
-      <div style="background:rgba(0,0,0,0.03); border-radius:6px; padding:10px; font-size:0.78rem; color:var(--text-secondary);">
-        🎯 <strong>IELTS Writing Task 2 &amp; Speaking Part 3 Angles:</strong><br>
-        • Frame arguments balancing innovation/progress against social equity and public welfare.<br>
-        • Incorporate topic-specific vocabulary into your essay outline in the Writing Lab.
+
+      <div style="max-height:500px; overflow-y:auto; padding:14px 16px; border:1px solid var(--border); border-radius:6px; background:var(--bg-main); margin-bottom:14px; font-size:0.88rem;">
+        ${parsedBody}
+      </div>
+
+      <div style="background:rgba(217, 119, 54, 0.05); border-left:3px solid var(--accent); border-radius:4px; padding:12px; font-size:0.8rem; color:var(--text);">
+        🎯 <strong>IELTS Writing Task 2 &amp; Speaking Part 3 Application:</strong><br>
+        • <strong>Task Response:</strong> Frame balanced arguments considering economic feasibility vs. societal welfare.<br>
+        • <strong>Lexical Resource:</strong> Extract the subject-specific terminology above for your essay topic sentences.
       </div>
     </div>`;
 
     resDiv.innerHTML = html;
   } catch (err) {
     resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
+function copyVipTopicContent() {
+  if (window._lastVipTopicText) {
+    navigator.clipboard.writeText(window._lastVipTopicText).then(() => {
+      const btn = document.getElementById('vt-copy-topic-btn');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      }
+    }).catch(err => {
+      alert('Copied to clipboard!');
+    });
   }
 }
 

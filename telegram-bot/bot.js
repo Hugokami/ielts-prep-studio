@@ -8,6 +8,12 @@ import 'dotenv/config';
 import http from 'http';
 import { Bot, InlineKeyboard } from 'grammy';
 import { voucherPool } from './voucherPool.js';
+import {
+  CURATED_ACADEMIC_LEXICON,
+  getAcademicCollocations,
+  getAcademicSynonyms,
+  fetchFullWikipediaArticle
+} from '../academic_engine.mjs';
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID ? String(process.env.ADMIN_CHAT_ID).trim() : null;
@@ -122,175 +128,7 @@ function cleanWordList(list) {
   return cleaned;
 }
 
-const ACADEMIC_ADJECTIVES = new Set([
-  'crucial', 'vital', 'essential', 'significant', 'substantial', 'profound', 'detrimental',
-  'beneficial', 'fundamental', 'critical', 'pivotal', 'paramount', 'feasible', 'viable',
-  'pressing', 'ubiquitous', 'unprecedented', 'imperative', 'prevalent', 'drastic', 'considerable',
-  'inevitable', 'compelling', 'notable', 'pervasive', 'stringent', 'comprehensive', 'adverse',
-  'sustainable', 'prominent', 'dominant', 'inherent'
-]);
-
-const ACADEMIC_VERBS = new Set([
-  'mitigate', 'exacerbate', 'foster', 'facilitate', 'alleviate', 'advocate', 'implement',
-  'demonstrate', 'accelerate', 'deteriorate', 'augment', 'diminish', 'curb', 'hinder',
-  'jeopardize', 'undermine', 'perpetuate', 'scrutinize', 'enhance', 'reinforce'
-]);
-
-async function fetchCollocations(rawWord) {
-  const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
-  if (!word) return null;
-  try {
-    const [metaRes, jjaRes, jjbRes, bgbRes, trgRes] = await Promise.allSettled([
-      fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(word)}&md=p&max=20`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(word)}&max=20`).then(r => r.json())
-    ]);
-
-    const metaItem = (metaRes.status === 'fulfilled' && Array.isArray(metaRes.value) && metaRes.value[0]) ? metaRes.value[0] : {};
-    const tags = metaItem.tags || [];
-
-    const jjaRaw = (jjaRes.status === 'fulfilled' && Array.isArray(jjaRes.value)) ? jjaRes.value : [];
-    const jjbRaw = (jjbRes.status === 'fulfilled' && Array.isArray(jjbRes.value)) ? jjbRes.value : [];
-    const bgbRaw = (bgbRes.status === 'fulfilled' && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
-    const trgRaw = (trgRes.status === 'fulfilled' && Array.isArray(trgRes.value)) ? trgRes.value : [];
-
-    let pos = 'noun';
-    if (ACADEMIC_ADJECTIVES.has(word)) {
-      pos = 'adj';
-    } else if (ACADEMIC_VERBS.has(word)) {
-      pos = 'verb';
-    } else if (metaItem.defs && metaItem.defs.length > 0) {
-      const dPos = metaItem.defs[0].split('\t')[0];
-      if (dPos === 'adj') pos = 'adj';
-      else if (dPos === 'v') pos = 'verb';
-      else if (dPos === 'n') pos = 'noun';
-      else if (dPos === 'adv') pos = 'adv';
-    } else if (tags.length > 0) {
-      const p = tags.filter(t => ['adj', 'v', 'n', 'adv'].includes(t));
-      if (p.length > 0) {
-        if (p[0] === 'adj') pos = 'adj';
-        else if (p[0] === 'v') pos = 'verb';
-        else if (p[0] === 'adv') pos = 'adv';
-        else pos = 'noun';
-      }
-    }
-
-    const jjaClean = cleanWordList(jjaRaw);
-    const jjbClean = cleanWordList(jjbRaw);
-    const trgClean = cleanWordList(trgRaw);
-
-    let nounCollocations = [];
-    let modifierCollocations = [];
-    let sentenceFrames = [];
-
-    if (pos === 'adj') {
-      nounCollocations = jjaClean.length ? jjaClean.slice(0, 6) : trgClean.slice(0, 6);
-      const bgbAdvs = bgbRaw.filter(w => w.tags && w.tags.includes('adv')).map(w => w.word);
-      const advs = Array.from(new Set([...cleanWordList(bgbAdvs), 'increasingly', 'vitally', 'critically', 'particularly', 'fundamentally'])).filter(a => a !== word);
-      modifierCollocations = advs.slice(0, 5);
-      sentenceFrames = [
-        `play a *${word}* role in [societal development / academic progress]`,
-        `of *${word}* importance to [policymakers / modern economy]`,
-        `proves to be a *${word}* factor in [determining long-term success]`
-      ];
-    } else if (pos === 'verb') {
-      nounCollocations = trgClean.length ? trgClean.slice(0, 6) : jjaClean.slice(0, 6);
-      modifierCollocations = ['significantly', 'effectively', 'substantially', 'gradually', 'proactively'];
-      sentenceFrames = [
-        `proactive government intervention is essential to *${word}* [the issue]`,
-        `failure to regulate could severely *${word}* [existing disparities]`
-      ];
-    } else {
-      modifierCollocations = jjbClean.length ? jjbClean.slice(0, 6) : trgClean.slice(0, 6);
-      nounCollocations = jjaClean.filter(n => n !== word).slice(0, 5);
-      sentenceFrames = [
-        `plays a pivotal role in the context of *${word}* [within contemporary society]`,
-        `policymakers must carefully examine issues regarding [this *${word}*]`
-      ];
-    }
-
-    return {
-      word,
-      pos,
-      nounCollocations,
-      modifierCollocations,
-      sentenceFrames,
-      triggers: trgClean.slice(0, 6)
-    };
-  } catch (err) {
-    console.error('[fetchCollocations Error]', err.message);
-    return null;
-  }
-}
-
-async function fetchSynonyms(rawWord) {
-  const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
-  if (!word) return null;
-  try {
-    const [synRes, spcRes] = await Promise.allSettled([
-      fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(word)}&max=12`).then(r => r.json()),
-      fetch(`https://api.datamuse.com/words?rel_spc=${encodeURIComponent(word)}&max=8`).then(r => r.json())
-    ]);
-
-    const synList = (synRes.status === 'fulfilled' && Array.isArray(synRes.value)) ? synRes.value.map(w => w.word) : [];
-    const spcList = (spcRes.status === 'fulfilled' && Array.isArray(spcRes.value)) ? spcRes.value.map(w => w.word) : [];
-    const combined = Array.from(new Set([...synList, ...spcList])).filter(w => w.toLowerCase() !== word);
-
-    return {
-      word,
-      synonyms: combined.slice(0, 10),
-      specific: spcList.slice(0, 5)
-    };
-  } catch (err) {
-    console.error('[fetchSynonyms Error]', err.message);
-    return null;
-  }
-}
-
-async function fetchTopicBrief(rawTopic) {
-  const topic = (rawTopic || '').trim();
-  if (!topic) return null;
-  try {
-    let resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic.replace(/\s+/g, '_'))}`, {
-      headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
-    });
-    let data = null;
-    if (resp.ok) {
-      data = await resp.json();
-    } else {
-      const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(topic)}&limit=1&namespace=0&format=json`;
-      const searchResp = await fetch(searchUrl, {
-        headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
-      });
-      if (searchResp.ok) {
-        const searchJson = await searchResp.json();
-        const matched = searchJson[1] && searchJson[1][0] ? searchJson[1][0] : null;
-        if (matched) {
-          resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(matched.replace(/\s+/g, '_'))}`, {
-            headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
-          });
-          if (resp.ok) data = await resp.json();
-        }
-      }
-    }
-    if (!data || !data.extract) return null;
-    let extract = data.extract;
-    if (extract.length > 450) {
-      const dotIdx = extract.indexOf('.', 350);
-      if (dotIdx !== -1) extract = extract.substring(0, dotIdx + 1);
-    }
-    return {
-      title: data.title || topic,
-      extract,
-      description: data.description || 'Academic Topic'
-    };
-  } catch (err) {
-    console.error('[fetchTopicBrief Error]', err.message);
-    return null;
-  }
-}
+const articleCache = new Map();
 
 async function fetchDictionary(rawWord) {
   const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
@@ -864,6 +702,17 @@ bot.on('callback_query:data', async (ctx) => {
     return handleRead(ctx, topic);
   }
 
+  if (data.startsWith('wiki_p:')) {
+    const parts = data.split(':');
+    const cacheId = parts[1];
+    const pageIdx = parseInt(parts[2], 10) || 0;
+    return handleWikiPage(ctx, cacheId, pageIdx);
+  }
+
+  if (data === 'wiki_noop') {
+    return ctx.answerCallbackQuery({ text: 'Use ⬅️ Prev / Next ➡️ to navigate pages.' });
+  }
+
   if (data === 'tool_quote') {
     return handleQuote(ctx);
   }
@@ -993,9 +842,9 @@ async function handleCollocate(ctx, rawWord) {
     });
   }
 
-  const result = await fetchCollocations(word);
-  if (!result || (!result.nounCollocations.length && !result.modifierCollocations.length)) {
-    return ctx.reply(`⚠️ No academic collocations found for \`${word}\`. Try common academic words like *impact, crucial, policy, environment, evidence*.`, {
+  const result = await getAcademicCollocations(word);
+  if (!result || !result.collocations) {
+    return ctx.reply(`⚠️ No academic collocations found for \`${word}\`. Try common academic words like *impact, crucial, policy, environment, education, evidence*.`, {
       parse_mode: 'Markdown',
       reply_markup: new InlineKeyboard()
         .text('🔍 Search another word', 'ask_tool:collocate')
@@ -1003,26 +852,36 @@ async function handleCollocate(ctx, rawWord) {
     });
   }
 
+  const col = result.collocations;
   let text = `🔗 **ACADEMIC COLLOCATIONS: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `🏷️ **Identified POS:** _${result.pos}_\n\n`;
+  text += `🏷️ **Part of Speech:** _${result.pos}_\n\n`;
 
-  if (result.modifierCollocations.length) {
-    text += `✨ **High-Scoring Modifiers / Adverbs:**\n` + result.modifierCollocations.map(w => `• *${w}* ${result.word}`).join('\n') + `\n\n`;
+  if (col.verb_noun && col.verb_noun.length) {
+    text += `🔹 **Verb + Noun Collocations:**\n` + col.verb_noun.map(v => `• ${v}`).join('\n') + `\n\n`;
   }
-  if (result.nounCollocations.length) {
-    text += `📌 **Natural Partner Nouns:**\n` + result.nounCollocations.map(w => `• ${result.word} *${w}*`).join('\n') + `\n\n`;
+  if (col.adj_noun && col.adj_noun.length) {
+    text += `🔹 **Adjective + Noun Pairings:**\n` + col.adj_noun.map(a => `• ${a}`).join('\n') + `\n\n`;
   }
-  if (result.sentenceFrames.length) {
-    text += `✍️ **Band 9 Sentence Skeletons:**\n` + result.sentenceFrames.map((f, i) => `${i + 1}. ${f}`).join('\n') + `\n\n`;
+  if (col.adv_adj && col.adv_adj.length) {
+    text += `🔹 **Adverb Intensifiers:**\n` + col.adv_adj.map(ad => `• ${ad}`).join('\n') + `\n\n`;
+  }
+  if (col.prep_phrase && col.prep_phrase.length) {
+    text += `🔹 **Academic Prepositional Phrases:**\n` + col.prep_phrase.map(p => `• _${p}_`).join('\n') + `\n\n`;
+  }
+  if (col.frame) {
+    text += `✍️ **Band 9 Academic Model Sentence:**\n"${col.frame}"\n\n`;
   }
 
-  text += formatQuotaFooter(quota);
+  text += `💡 *Band 8.5 Tip:*
+Pair words with authentic academic collocations to elevate your Lexical Resource mark from Band 6.0 to 8.0+.
+
+${formatQuotaFooter(quota)}`;
 
   await ctx.reply(text, {
     parse_mode: 'Markdown',
     reply_markup: new InlineKeyboard()
       .text('🔗 Collocate another word', 'ask_tool:collocate')
-      .text('💎 Synonyms', `tool_syn:${result.word}`)
+      .text(`💎 Synonyms for "${result.word}"`, `tool_syn:${result.word}`)
       .row()
       .text('⚡ VIP Academic Menu', 'menu_tools')
   });
@@ -1044,8 +903,8 @@ async function handleSyn(ctx, rawWord) {
     });
   }
 
-  const result = await fetchSynonyms(word);
-  if (!result || !result.synonyms.length) {
+  const result = await getAcademicSynonyms(word);
+  if (!result || (!result.items && !result.synonyms?.length)) {
     return ctx.reply(`⚠️ No academic synonyms found for \`${word}\`. Try words like *important, crucial, beneficial, problem, increase*.`, {
       parse_mode: 'Markdown',
       reply_markup: new InlineKeyboard()
@@ -1054,18 +913,28 @@ async function handleSyn(ctx, rawWord) {
     });
   }
 
-  let text = `💎 **BAND 8.5+ SYNONYMS: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `💡 **Academic Alternatives:**\n` + result.synonyms.map(w => `• *${w}*`).join('\n') + `\n\n`;
-  if (result.specific && result.specific.length) {
-    text += `🎯 **Context-Specific Precision Terms:**\n` + result.specific.map(w => `• *${w}*`).join('\n') + `\n\n`;
+  let text = `💎 **BAND 8.5+ SYNONYMS FOR: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+  if (result.items && result.items.length) {
+    for (const item of result.items.slice(0, 4)) {
+      text += `• **${item.term}** \`[${item.register || 'C1 Academic'}]\`\n` +
+              `  _${item.nuance}_\n` +
+              `  ✍️ *Model:* "${item.example}"\n\n`;
+    }
+  } else if (result.synonyms && result.synonyms.length) {
+    text += `🎯 **Academic Substitutes:**\n` + result.synonyms.map(s => `• *${s}*`).join('\n') + `\n\n`;
   }
-  text += formatQuotaFooter(quota);
+
+  text += `💡 *Lexical Flexibility Warning:*
+Avoid mechanical substitutions. Ensure the synonym matches the precise academic register and nuance of your thesis.
+
+${formatQuotaFooter(quota)}`;
 
   await ctx.reply(text, {
     parse_mode: 'Markdown',
     reply_markup: new InlineKeyboard()
       .text('💎 Find more synonyms', 'ask_tool:syn')
-      .text('🔗 Collocations', `tool_collocate:${result.word}`)
+      .text(`🔗 Collocations for "${result.word}"`, `tool_collocate:${result.word}`)
       .row()
       .text('⚡ VIP Academic Menu', 'menu_tools')
   });
@@ -1128,9 +997,9 @@ async function handleRead(ctx, rawTopic) {
     });
   }
 
-  const result = await fetchTopicBrief(topic);
-  if (!result) {
-    return ctx.reply(`⚠️ No academic topic brief found for \`${topic}\`. Try topics like *Higher education, Globalization, Renewable energy, Urbanization*.`, {
+  const result = await fetchFullWikipediaArticle(topic);
+  if (!result || !result.pages || !result.pages.length) {
+    return ctx.reply(`⚠️ Could not retrieve an academic knowledge brief for \`${topic}\`. Try topics like *Higher education, Globalization, Renewable energy, Urbanization*.`, {
       parse_mode: 'Markdown',
       reply_markup: new InlineKeyboard()
         .text('📖 Search another topic', 'ask_tool:read')
@@ -1138,17 +1007,79 @@ async function handleRead(ctx, rawTopic) {
     });
   }
 
-  let text = `📖 **ACADEMIC TOPIC BRIEF: "${result.title.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `🏷️ **Domain:** _${result.description}_\n\n`;
-  text += `💡 **Academic Context & Arguments:**\n${result.extract}\n\n`;
-  text += formatQuotaFooter(quota);
+  const cacheId = Math.random().toString(36).substring(2, 8);
+  articleCache.set(cacheId, result);
+
+  const pageText = result.pages[0];
+  const text = 
+`📖 **ACADEMIC TOPIC BRIEF: "${result.title.toUpperCase()}"**\n` +
+`📊 **${result.wordCount} words** • ~**${result.readingTimeMin} min read** • **Page 1 of ${result.totalPages}**\n` +
+`━━━━━━━━━━━━━━━━━━━━\n\n` +
+`${pageText}\n\n` +
+`🎯 **IELTS Writing & Speaking Angles:**\n` +
+`• *Key Perspectives:* Evaluate socioeconomic impacts, statutory regulations, and long-term implications.\n\n` +
+formatQuotaFooter(quota);
+
+  const keyboard = new InlineKeyboard();
+  if (result.totalPages > 1) {
+    keyboard.text(`📄 Page 1/${result.totalPages}`, 'wiki_noop')
+      .text('Next Page ➡️', `wiki_p:${cacheId}:1`)
+      .row();
+  }
+  keyboard.text('📖 Read Another Topic', 'ask_tool:read')
+    .url('🌐 Open Wikipedia ↗', result.url)
+    .row()
+    .text('⚡ VIP Academic Menu', 'menu_tools')
+    .webApp('🚀 Open Studio', WEB_URL);
 
   await ctx.reply(text, {
     parse_mode: 'Markdown',
-    reply_markup: new InlineKeyboard()
-      .text('📖 Read another topic', 'ask_tool:read')
-      .text('⚡ VIP Academic Menu', 'menu_tools')
+    reply_markup: keyboard
   });
+}
+
+async function handleWikiPage(ctx, cacheId, pageIdx) {
+  const article = articleCache.get(cacheId);
+  if (!article || !article.pages || !article.pages[pageIdx]) {
+    return ctx.answerCallbackQuery({
+      text: 'Session expired. Please request the topic again via /read.',
+      show_alert: true
+    });
+  }
+
+  const pageText = article.pages[pageIdx];
+  const text = 
+`📖 **ACADEMIC TOPIC BRIEF: "${article.title.toUpperCase()}"**\n` +
+`📊 **${article.wordCount} words** • ~**${article.readingTimeMin} min read** • **Page ${pageIdx + 1} of ${article.totalPages}**\n` +
+`━━━━━━━━━━━━━━━━━━━━\n\n` +
+`${pageText}\n\n` +
+`🎯 **IELTS Writing & Speaking Angles:**\n` +
+`• *Key Perspectives:* Evaluate socioeconomic impacts, statutory regulations, and long-term implications.`;
+
+  const keyboard = new InlineKeyboard();
+  if (pageIdx > 0) {
+    keyboard.text('⬅️ Prev', `wiki_p:${cacheId}:${pageIdx - 1}`);
+  }
+  keyboard.text(`📄 ${pageIdx + 1}/${article.totalPages}`, 'wiki_noop');
+  if (pageIdx < article.totalPages - 1) {
+    keyboard.text('Next ➡️', `wiki_p:${cacheId}:${pageIdx + 1}`);
+  }
+  keyboard.row()
+    .text('📖 Read Another Topic', 'ask_tool:read')
+    .url('🌐 Open Wikipedia ↗', article.url)
+    .row()
+    .text('⚡ VIP Academic Menu', 'menu_tools')
+    .webApp('🚀 Open Studio', WEB_URL);
+
+  try {
+    await ctx.editMessageText(text, {
+      parse_mode: 'Markdown',
+      reply_markup: keyboard
+    });
+  } catch (err) {
+    console.error('[handleWikiPage edit error]', err.message);
+  }
+  await ctx.answerCallbackQuery({ text: `Page ${pageIdx + 1} of ${article.totalPages}` });
 }
 
 async function handleQuote(ctx) {

@@ -1165,6 +1165,19 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
       return jsonResponse({ ok: true });
     }
 
+    if (data.startsWith("wiki_p:")) {
+      const parts = data.split(":");
+      const cacheId = parts[1];
+      const pageIdx = parseInt(parts[2], 10) || 0;
+      await handleWikiPageCallback(cbChatId, cbUserId, cbMessageId, cb.id, cacheId, pageIdx, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "wiki_noop") {
+      await answerCallbackQuery(botToken, cb.id, "Use ⬅️ Prev / Next ➡️ to navigate pages.");
+      return jsonResponse({ ok: true });
+    }
+
     if (data.startsWith("tool_dict:")) {
       await answerCallbackQuery(botToken, cb.id);
       try {
@@ -2412,24 +2425,411 @@ function cleanWordList(list) {
   return cleaned;
 }
 
-const ACADEMIC_ADJECTIVES = new Set([
-  "crucial", "vital", "essential", "significant", "substantial", "profound", "detrimental", 
-  "beneficial", "fundamental", "critical", "pivotal", "paramount", "feasible", "viable", 
-  "pressing", "ubiquitous", "unprecedented", "imperative", "prevalent", "drastic", "considerable",
-  "inevitable", "compelling", "notable", "pervasive", "stringent", "comprehensive", "adverse",
-  "detrimental", "sustainable", "prominent", "dominant", "inherent"
-]);
+const CURATED_ACADEMIC_LEXICON = {
+  important: {
+    pos: "adj",
+    collocations: {
+      verb_noun: ["play a pivotal role", "assume paramount importance", "warrant urgent attention", "attach significant weight to"],
+      adj_noun: ["paramount importance", "critical factor", "indispensable component", "salient feature", "vital prerequisite"],
+      adv_adj: ["vitally important", "critically significant", "profoundly impactful", "exceptionally crucial"],
+      prep_phrase: ["of paramount significance to", "at a crucial juncture in", "central to the discussion on"],
+      frame: "It is widely acknowledged that early childhood education is of paramount importance in fostering societal cohesion."
+    },
+    synonyms: [
+      { term: "Paramount", register: "C2 High Academic", nuance: "Supreme; superior to all others in rank, order, or importance.", example: "Public safety considerations must remain of paramount concern to urban authorities." },
+      { term: "Pivotal", register: "C1 Analytical", nuance: "Acting as the vital turning point on which outcomes depend.", example: "Technological innovation plays a pivotal role in accelerating industrial productivity." },
+      { term: "Indispensable", register: "C1 Academic", nuance: "Essential; absolutely required and cannot be dispensed with.", example: "Empirical data is an indispensable requirement for robust scientific research." },
+      { term: "Imperative", register: "C2 Formal", nuance: "Of urgent priority demanding immediate compliance or action.", example: "It is imperative that comprehensive climate policies be executed globally." }
+    ]
+  },
+  mitigate: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["mitigate adverse consequences", "alleviate systemic poverty", "curb environmental degradation", "cushion the economic impact"],
+      adj_noun: ["mitigating factor", "substantial mitigation", "effective mitigation strategy", "proactive risk mitigation"],
+      adv_adj: ["proactively mitigated", "measurably alleviated", "gradually mitigated", "partially offset"],
+      prep_phrase: ["with a view to mitigating", "in an effort to mitigate", "as a means of mitigating"],
+      frame: "Decisive government intervention is imperative to mitigate the catastrophic repercussions of urban sprawl."
+    },
+    synonyms: [
+      { term: "Alleviate", register: "C1 Academic", nuance: "Relieve suffering, deficiency, or severe systemic burdens.", example: "Targeted educational grants aim to alleviate deep socio-economic inequalities." },
+      { term: "Moderate", register: "C1 Analytical", nuance: "Reduce the extremity, speed, or volatility of an undesirable trend.", example: "Fiscal adjustments can moderate cyclic macroeconomic fluctuations." },
+      { term: "Attenuate", register: "C2 High Academic", nuance: "Diminish the thickness, intensity, or virulent momentum of a threat.", example: "Afforestation initiatives help attenuate catastrophic flash flood risks." },
+      { term: "Curb", register: "B2-C1 Core", nuance: "Restrain or check within boundaries to halt uncontrolled expansion.", example: "Strict tariffs are deployed to curb the illicit trafficking of wildlife." }
+    ]
+  },
+  ubiquitous: {
+    pos: "adj",
+    collocations: {
+      verb_noun: ["witness the proliferation", "curb the dominance", "harness the reach", "navigate ubiquitous surveillance"],
+      adj_noun: ["ubiquitous presence", "pervasive influence", "ubiquitous connectivity", "omnipresent digital media"],
+      adv_adj: ["increasingly ubiquitous", "nearly ubiquitous", "virtually ubiquitous", "rapidly becoming ubiquitous"],
+      prep_phrase: ["in an era of ubiquitous connectivity", "across ubiquitous digital channels"],
+      frame: "Portable digital devices have become so ubiquitous that their pervasive psychological impact warrants rigorous study."
+    },
+    synonyms: [
+      { term: "Pervasive", register: "C1 Academic", nuance: "Spreading widely throughout all layers of a system or society.", example: "The pervasive influence of advertising shapes contemporary consumer preferences." },
+      { term: "Omnipresent", register: "C2 Formal", nuance: "Present simultaneously in all places at all times.", example: "Algorithmic data collection has become virtually omnipresent in modern online commerce." },
+      { term: "Prevalent", register: "B2-C1 Core", nuance: "Commonly occurring or widely accepted in a particular demographic.", example: "Sedentary lifestyles remain distressingly prevalent among corporate desk workers." }
+    ]
+  },
+  exacerbate: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["exacerbate existing inequalities", "compound the difficulty", "worsen living standards", "intensify social friction"],
+      adj_noun: ["exacerbating factor", "severe exacerbation", "underlying catalyst", "compounding effect"],
+      adv_adj: ["severely exacerbated", "drastically exacerbated", "exponentially exacerbated", "unintentionally compounded"],
+      prep_phrase: ["threatens to exacerbate", "serves only to exacerbate", "has a tendency to exacerbate"],
+      frame: "Rapid rural-to-urban migration threatens to exacerbate acute shortages in municipal affordable housing."
+    },
+    synonyms: [
+      { term: "Compound", register: "C1 Analytical", nuance: "Add a new dimension of difficulty, making a predicament exponentially worse.", example: "Severe currency inflation has compounded the economic challenges facing developing nations." },
+      { term: "Aggravate", register: "B2-C1 Academic", nuance: "Inflame an existing grievance, friction, or delicate state.", example: "Unchecked industrial effluent aggravates localized waterway degradation." },
+      { term: "Intensify", register: "B2 Academic", nuance: "Escalate the raw magnitude or sharpness of a conflict.", example: "Resource scarcity continues to intensify geopolitical frictions across border regions." }
+    ]
+  },
+  education: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["pursue tertiary education", "acquire holistic knowledge", "reform pedagogical systems", "expand vocational training"],
+      adj_noun: ["tertiary education", "compulsory schooling", "pedagogical framework", "holistic development", "inclusive education"],
+      adv_adj: ["academically rigorous", "intellectually demanding", "pedagogically sound"],
+      prep_phrase: ["in the pursuit of higher education", "fundamental to educational attainment", "across diverse learning environments"],
+      frame: "Subsidizing tertiary education enables marginalized youths to break intergenerational cycles of poverty."
+    },
+    synonyms: [
+      { term: "Pedagogy", register: "C2 High Academic", nuance: "The formal method, theory, and practice of teaching.", example: "Innovative pedagogical frameworks prioritize critical inquiry over passive memorization." },
+      { term: "Tertiary Schooling", register: "C1 Academic", nuance: "Post-secondary college or university education.", example: "Access to tertiary schooling correlates directly with enhanced career mobility." },
+      { term: "Intellectual Development", register: "C1 Analytical", nuance: "The overarching maturation of cognitive and reasoning faculties.", example: "Early literacy programs lay the bedrock for sustained intellectual development." }
+    ]
+  },
+  problem: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["address pressing issues", "tackle an acute dilemma", "resolve thorny predicaments", "confront an intractable challenge"],
+      adj_noun: ["acute predicament", "insurmountable challenge", "pressing dilemma", "chronic setback", "deep-seated issue"],
+      adv_adj: ["deeply problematic", "inherently challenging", "systemically flawed"],
+      prep_phrase: ["at the root of this predicament", "in the face of mounting dilemmas", "fraught with complications"],
+      frame: "Urban congestion represents an acute predicament that requires multi-modal transportation solutions."
+    },
+    synonyms: [
+      { term: "Predicament", register: "C1 Academic", nuance: "A difficult, perplexing, or precarious plight.", example: "Indebted developing states face an acute economic predicament in balancing budgets." },
+      { term: "Dilemma", register: "B2-C1 Analytical", nuance: "A situation demanding a choice between two equally undesirable alternatives.", example: "Policymakers confront an ethical dilemma regarding public health restrictions versus economic reopening." },
+      { term: "Impediment", register: "C1 Formal", nuance: "A structural obstacle that obstructs forward progress.", example: "Prohibitive tariff walls constitute an impediment to regional agricultural commerce." }
+    ]
+  },
+  increase: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["accelerate productivity", "augment state revenue", "escalate expenditure", "bolster economic growth"],
+      adj_noun: ["exponential growth", "substantial surge", "marked upward trajectory", "unprecedented escalation"],
+      adv_adj: ["substantially augmented", "exponentially increased", "measurably heightened", "dramatically escalated"],
+      prep_phrase: ["on an unprecedented upward trajectory", "in tandem with increasing demand", "surging at a rapid pace"],
+      frame: "Renewable energy adoption has surged on an unprecedented upward trajectory over the past decade."
+    },
+    synonyms: [
+      { term: "Augment", register: "C1 Academic", nuance: "Make larger or more effective by adding supplementary resources.", example: "Municipalities must augment healthcare funding to meet aging demographic needs." },
+      { term: "Proliferate", register: "C2 High Academic", nuance: "Multiply and spread rapidly across an entire ecosystem.", example: "Online vocational courses have proliferated exponentially across emerging economies." },
+      { term: "Escalate", register: "B2-C1 Formal", nuance: "Increase rapidly in intensity, scale, or severity.", example: "Localized labor strikes threaten to escalate into nationwide supply-chain disruptions." }
+    ]
+  },
+  decrease: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["curtail greenhouse emissions", "diminish purchasing power", "deplete natural reserves", "dampen economic enthusiasm"],
+      adj_noun: ["precipitous decline", "gradual diminution", "downward trajectory", "substantial curtailment"],
+      adv_adj: ["sharply curtailed", "substantially diminished", "precipitously dropped"],
+      prep_phrase: ["on a steady downward trajectory", "in light of dwindling resources"],
+      frame: "Carbon taxation has proven instrumental in curtailing industrial greenhouse emissions across the continent."
+    },
+    synonyms: [
+      { term: "Curtail", register: "C1 Academic", nuance: "Impose an active restriction to reduce volume, extent, or duration.", example: "Governments must curtail discretionary spending during economic recessions." },
+      { term: "Diminish", register: "B2-C1 Formal", nuance: "Make smaller or lessen in authority, reputation, or volume.", example: "Prolonged screen usage can diminish attention spans among young learners." },
+      { term: "Plummet", register: "C1 Expressive", nuance: "Drop steeply and rapidly from a high level.", example: "Tourism revenues plummeted drastically during the global pandemic." }
+    ]
+  },
+  detrimental: {
+    pos: "adj",
+    collocations: {
+      verb_noun: ["exert a detrimental influence", "pose a grave risk", "incur severe harm", "suffer adverse consequences"],
+      adj_noun: ["detrimental impact", "deleterious effect", "adverse repercussions", "corrosive influence"],
+      adv_adj: ["distinctly detrimental", "profoundly deleterious", "demonstrably harmful"],
+      prep_phrase: ["detrimental to long-term sustainability", "with deleterious consequences for"],
+      frame: "Excessive consumption of ultra-processed food exerts a profoundly detrimental effect on cardiovascular health."
+    },
+    synonyms: [
+      { term: "Deleterious", register: "C2 High Academic", nuance: "Causing subtle, insidious, yet long-lasting harm.", example: "Chemical pesticides can exert deleterious effects on surrounding groundwater ecology." },
+      { term: "Adverse", register: "C1 Analytical", nuance: "Unfavorable, contrary, or preventing success or development.", example: "High interest rates create adverse conditions for emerging tech startups." },
+      { term: "Inimical", register: "C2 Formal", nuance: "Tending to obstruct or harm; hostile to beneficial progress.", example: "Severe censorship is inimical to the flourishing of academic research." }
+    ]
+  },
+  advantage: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["confer substantial benefits", "yield a competitive edge", "derive distinct advantages", "harness the merits of"],
+      adj_noun: ["inestimable merit", "distinct competitive edge", "lucrative dividend", "salient advantage"],
+      adv_adj: ["decidedly advantageous", "inherently beneficial", "immensely lucrative"],
+      prep_phrase: ["to great advantage", "conferring a decisive advantage on", "yields clear dividends for"],
+      frame: "Bilingualism confers inestimable cognitive advantages that persist well into later adulthood."
+    },
+    synonyms: [
+      { term: "Merit", register: "C1 Academic", nuance: "An inherent positive virtue or quality deserving praise.", example: "The plan possesses considerable merit, particularly in addressing wealth disparities." },
+      { term: "Boon", register: "C1 Literary", nuance: "A timely, unexpected benefit or blessing to a community.", example: "High-speed rail connectivity has proven an economic boon for rural townships." },
+      { term: "Dividend", register: "C1 Analytical", nuance: "A long-term beneficial payoff from early effort or investment.", example: "Investing heavily in green infrastructure yields massive environmental dividends." }
+    ]
+  },
+  disadvantage: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["outweigh the drawbacks", "offset potential pitfalls", "remedy structural shortcomings", "address severe deficiencies"],
+      adj_noun: ["inherent drawback", "glaring shortcoming", "perilous pitfall", "structural deficiency"],
+      adv_adj: ["inherently disadvantageous", "systemically compromised"],
+      prep_phrase: ["at a marked disadvantage", "fraught with unforeseen pitfalls"],
+      frame: "The merits of urbanization clearly outweigh its inherent drawbacks when managed with modern zoning."
+    },
+    synonyms: [
+      { term: "Drawback", register: "B2-C1 Core", nuance: "An undesirable feature or disadvantage of an otherwise good idea.", example: "The primary drawback of electric transport remains the slow rate of battery recharging." },
+      { term: "Shortcoming", register: "C1 Analytical", nuance: "A fault or defect in a system, policy, or character.", example: "The audit revealed glaring shortcomings in municipal wastewater regulation." },
+      { term: "Pitfall", register: "C1 Formal", nuance: "A hidden or unsuspected hazard or trap for unwary planners.", example: "Relying strictly on fossil subsidies presents grave long-term macroeconomic pitfalls." }
+    ]
+  },
+  technology: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["harness frontier technology", "deploy artificial intelligence", "regulate disruptive innovations", "accelerate technological diffusion"],
+      adj_noun: ["disruptive technology", "technological paradigm", "frontier innovation", "automated architecture"],
+      adv_adj: ["technologically sophisticated", "digitally empowered", "algorithmically driven"],
+      prep_phrase: ["at the vanguard of technology", "driven by technological automation", "in an era of rapid digitization"],
+      frame: "Harnessing frontier technologies in agriculture is vital to ensure long-term food security."
+    },
+    synonyms: [
+      { term: "Technological Advancement", register: "C1 Academic", nuance: "The cumulative progression of scientific applications and machinery.", example: "Rapid technological advancement has revolutionized remote collaboration across borders." },
+      { term: "Disruptive Innovation", register: "C1 Analytical", nuance: "Novel technological processes that upend established markets.", example: "Autonomous logistics represents a disruptive innovation within the freight sector." },
+      { term: "Digital Infrastructure", register: "C1 Formal", nuance: "The underlying hardware and software enabling connected systems.", example: "Modernizing digital infrastructure is essential for inclusive digital governance." }
+    ]
+  },
+  environment: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["preserve delicate ecosystems", "halt environmental degradation", "safeguard the biosphere", "curb ecological destruction"],
+      adj_noun: ["ecological equilibrium", "fragile biosphere", "pristine wilderness", "anthropogenic footprint"],
+      adv_adj: ["environmentally tenable", "ecologically catastrophic", "sustainable in design"],
+      prep_phrase: ["for the preservation of the environment", "with severe implications for the biosphere"],
+      frame: "Preserving ecological equilibrium requires strict statutory ceilings on industrial emissions."
+    },
+    synonyms: [
+      { term: "Biosphere", register: "C2 High Academic", nuance: "The global ecological system integrating all living beings and relationships.", example: "Anthropogenic pollution poses an existential danger to marine life across the biosphere." },
+      { term: "Ecosystem", register: "C1 Academic", nuance: "A biological community of interacting organisms and their physical habitat.", example: "Wetland ecosystems provide indispensable flood protection and water filtration services." },
+      { term: "Habitat", register: "B2-C1 Formal", nuance: "The natural home or natural environment of an animal, plant, or organism.", example: "Deforestation destroys the native habitats of endangered primate species." }
+    ]
+  },
+  policy: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["enact statutory legislation", "formulate comprehensive policies", "implement stringent regulations", "repeal archaic mandates"],
+      adj_noun: ["statutory framework", "pragmatic policy", "stringent regulation", "holistic policy blueprint"],
+      adv_adj: ["statutorily mandated", "politically viable", "fiscally sustainable"],
+      prep_phrase: ["under the prevailing policy framework", "in adherence to regulatory mandates"],
+      frame: "Governments must formulate comprehensive statutory frameworks to govern artificial intelligence development."
+    },
+    synonyms: [
+      { term: "Regulatory Framework", register: "C1 High Academic", nuance: "The formal codified system of rules and legal enforcement.", example: "A robust regulatory framework is needed to prevent predatory lending practices." },
+      { term: "Statutory Measure", register: "C2 Formal", nuance: "Actions or rules enacted by formal parliamentary or congressional law.", example: "Compulsory recycling represents an effective statutory measure against urban waste." },
+      { term: "Mandate", register: "C1 Analytical", nuance: "An official order, authorization, or commission to carry out a policy.", example: "The public health mandate required universal mask compliance in enclosed spaces." }
+    ]
+  },
+  sustainable: {
+    pos: "adj",
+    collocations: {
+      verb_noun: ["pursue sustainable development", "achieve ecological balance", "foster enduring growth", "maintain viable yields"],
+      adj_noun: ["sustainable development", "viable alternative", "tenable strategy", "long-term viability"],
+      adv_adj: ["environmentally sustainable", "economically viable", "socially tenable"],
+      prep_phrase: ["conducive to sustainable growth", "with a commitment to sustainability"],
+      frame: "Transitioning toward sustainable renewable energy sources is imperative for mitigating climate volatility."
+    },
+    synonyms: [
+      { term: "Viable", register: "C1 Analytical", nuance: "Capable of working successfully; feasible and practicable.", example: "Solar microgrids represent a viable energy solution for isolated rural settlements." },
+      { term: "Tenable", register: "C2 High Academic", nuance: "Able to be maintained or defended against challenge or depletion.", example: "Unlimited consumption of fossil fuels is no longer an environmentally tenable position." },
+      { term: "Enduring", register: "C1 Formal", nuance: "Continuing or long-lasting across generations.", example: "Sound educational reform creates enduring prosperity for national economies." }
+    ]
+  },
+  significant: {
+    pos: "adj",
+    collocations: {
+      verb_noun: ["exert a significant influence", "demonstrate marked progress", "witness a substantial shift", "warrant close scrutiny"],
+      adj_noun: ["substantial shift", "momentous breakthrough", "pronounced disparity", "consequential development"],
+      adv_adj: ["statistically significant", "exceptionally momentous", "substantially pronounced"],
+      prep_phrase: ["of significant importance to", "in a significant manner"],
+      frame: "There is a statistically significant correlation between higher educational investment and lower national crime rates."
+    },
+    synonyms: [
+      { term: "Substantial", register: "C1 Academic", nuance: "Of considerable importance, size, or worth.", example: "The reform delivered substantial economic dividends across regional economies." },
+      { term: "Momentous", register: "C2 High Academic", nuance: "Of enormous significance, especially having great bearing on the future.", example: "The eradication of smallpox was a momentous milestone in medical history." },
+      { term: "Pronounced", register: "C1 Analytical", nuance: "Very noticeable, marked, or conspicuous.", example: "There is a pronounced disparity in healthcare access between rural and urban sectors." }
+    ]
+  },
+  implement: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["institute regulatory reforms", "execute pragmatic solutions", "roll out comprehensive programs", "enforce statutory rules"],
+      adj_noun: ["seamless implementation", "rigorous enforcement", "strategic execution", "phased rollout"],
+      adv_adj: ["systematically implemented", "strictly enforced", "swiftly instituted"],
+      prep_phrase: ["in the process of implementing", "geared toward executing"],
+      frame: "Municipalities must swiftly institute zoning reforms to accommodate expanding urban populations."
+    },
+    synonyms: [
+      { term: "Institute", register: "C1 Formal", nuance: "Establish, initiate, or set in motion a formal system or rule.", example: "The university instituted a stringent anti-plagiarism honor code." },
+      { term: "Execute", register: "C1 Analytical", nuance: "Carry out, perform, or put a planned strategy into practical effect.", example: "The civil engineering team executed the flood defense project ahead of schedule." },
+      { term: "Enact", register: "C1 Academic", nuance: "Pass legislation or decree into formal law.", example: "Parliament enacted landmark legislation protecting consumer privacy online." }
+    ]
+  },
+  scrutinize: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["scrutinize empirical evidence", "examine underlying factors", "dissect complex data", "audit public expenditure"],
+      adj_noun: ["close scrutiny", "meticulous examination", "rigorous analysis", "in-depth audit"],
+      adv_adj: ["closely scrutinized", "rigorously evaluated", "meticulously inspected"],
+      prep_phrase: ["under intense public scrutiny", "subject to academic scrutiny"],
+      frame: "Scholars must carefully scrutinize the ethical implications of genetic engineering prior to widespread clinical deployment."
+    },
+    synonyms: [
+      { term: "Examine", register: "B2-C1 Academic", nuance: "Inspect closely and thoroughly in order to determine the nature or condition.", example: "Researchers must examine the longitudinal outcomes of early screen exposure." },
+      { term: "Dissect", register: "C1 Analytical", nuance: "Analyze a problem or text in minute, systematic detail.", example: "The essay dissects the multifaceted causes of contemporary political polarization." },
+      { term: "Audit", register: "C1 Formal", nuance: "Conduct an official and rigorous inspection of financial or systemic records.", example: "Independent bodies regularly audit healthcare facilities to uphold medical standards." }
+    ]
+  },
+  consequence: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["bear catastrophic repercussions", "suffer dire consequences", "mitigate the fallout", "foresee adverse outcomes"],
+      adj_noun: ["dire consequence", "catastrophic repercussion", "unintended fallout", "profound implication"],
+      adv_adj: ["consequentially affected", "gravitationally linked"],
+      prep_phrase: ["as a direct consequence of", "with grave repercussions for", "in the aftermath of"],
+      frame: "Unchecked deforestation carries catastrophic repercussions for biodiversity and global atmospheric stability."
+    },
+    synonyms: [
+      { term: "Repercussion", register: "C1 Academic", nuance: "An unintended, widespread, and usually unwelcome indirect consequence.", example: "The collapse of the commercial bank had dire financial repercussions across Europe." },
+      { term: "Ramification", register: "C2 High Academic", nuance: "A complex or unwelcome consequence of an action or event, branching out in many directions.", example: "Legal scholars continue to debate the commercial ramifications of AI copyright cases." },
+      { term: "Aftermath", register: "B2-C1 Formal", nuance: "The consequences or after-effects of a significant unpleasant event.", example: "Rebuilding civil infrastructure in the aftermath of the earthquake took over a decade." }
+    ]
+  },
+  foster: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["foster critical thinking", "cultivate innovation", "nurture social cohesion", "stimulate economic dynamism"],
+      adj_noun: ["fostering environment", "nurturing atmosphere", "conducive climate for growth"],
+      adv_adj: ["actively fostered", "consciously cultivated", "carefully nurtured"],
+      prep_phrase: ["instrumental in fostering", "conducive to fostering"],
+      frame: "Interactive school curricula foster critical thinking and intellectual autonomy among students."
+    },
+    synonyms: [
+      { term: "Cultivate", register: "C1 Academic", nuance: "Actively develop or acquire a mental faculty, relationship, or skill.", example: "Universities should cultivate intellectual curiosity alongside technical vocational training." },
+      { term: "Nurture", register: "B2-C1 Core", nuance: "Encourage growth, development, or positive attitudes over time.", example: "Mentorship initiatives help nurture leadership qualities in underprivileged youths." },
+      { term: "Stimulate", register: "C1 Analytical", nuance: "Raise levels of physiological or economic activity and progress.", example: "Tax credits stimulate investment in zero-emission green technology." }
+    ]
+  },
+  hinder: {
+    pos: "verb",
+    collocations: {
+      verb_noun: ["hinder economic progress", "impede cognitive development", "thwart academic achievement", "stifle entrepreneurship"],
+      adj_noun: ["hindering factor", "formidable impediment", "stifling constraint"],
+      adv_adj: ["severely hindered", "substantially impeded", "cripplingly obstructed"],
+      prep_phrase: ["serves to hinder", "threatens to impede"],
+      frame: "Excessive bureaucracy and red tape hinder entrepreneurial innovation and foreign direct investment."
+    },
+    synonyms: [
+      { term: "Impede", register: "C1 Academic", nuance: "Delay, slow down, or prevent the progress or movement of someone or something.", example: "Severe winter blizzards impeded the timely delivery of medical relief supplies." },
+      { term: "Thwart", register: "C2 High Academic", nuance: "Prevent someone from accomplishing their goals; completely frustrate plans.", example: "Rigorous anti-corruption watchdogs thwarted attempts to misappropriate public funds." },
+      { term: "Stifle", register: "C1 Expressive", nuance: "Suffocate, repress, or prevent from flourishing.", example: "Rigid curriculum mandates often stifle creative problem-solving in classrooms." }
+    ]
+  },
+  society: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["strengthen social cohesion", "shape contemporary society", "polarize the populace", "advance civic harmony"],
+      adj_noun: ["contemporary society", "civic harmony", "egalitarian society", "pluralistic community"],
+      adv_adj: ["socially cohesive", "culturally diverse", "civically engaged"],
+      prep_phrase: ["in contemporary society", "across all strata of society", "for the betterment of society"],
+      frame: "Promoting universal public healthcare is indispensable for safeguarding equity across all strata of society."
+    },
+    synonyms: [
+      { term: "Contemporary Society", register: "C1 Academic", nuance: "Modern human civilization and collective social life.", example: "Digital connectivity has profoundly restructured the social architecture of contemporary society." },
+      { term: "Populace", register: "C2 High Academic", nuance: "The general public or total collective population of a state.", example: "Educating the populace on epidemic prevention is paramount during global health crises." },
+      { term: "Civilization", register: "B2-C1 Formal", nuance: "An advanced stage of social and cultural development and organization.", example: "Preserving archaeological heritage is essential for maintaining human civilization's collective memory." }
+    ]
+  },
+  inequality: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["bridge the wealth gap", "alleviate income disparity", "remedy systemic inequality", "entrench class divisions"],
+      adj_noun: ["glaring disparity", "systemic inequality", "socioeconomic chasm", "intergenerational imbalance"],
+      adv_adj: ["deeply unequal", "alarmingly disparate", "systemically skewed"],
+      prep_phrase: ["in terms of income disparity", "at the heart of socioeconomic inequality"],
+      frame: "Progressive taxation remains a tested fiscal mechanism to alleviate systemic wealth disparities."
+    },
+    synonyms: [
+      { term: "Disparity", register: "C1 Academic", nuance: "A great and noticeable difference or imbalance, especially in treat or income.", example: "The glaring disparity in healthcare funding between regions warrants immediate federal review." },
+      { term: "Imbalance", register: "B2-C1 Analytical", nuance: "Lack of proportion or equitable distribution.", example: "Trade tariffs can exacerbate structural imbalances between export and import markets." },
+      { term: "Iniquity", register: "C2 High Academic", nuance: "Gross injustice or deeply unfair treatment embedded into a social system.", example: "Civil rights movements mobilized millions against legal iniquities in segregated states." }
+    ]
+  },
+  solution: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["devise viable remedies", "implement pragmatic solutions", "adopt a holistic approach", "craft multifaceted strategies"],
+      adj_noun: ["pragmatic solution", "viable remedy", "holistic approach", "feasible roadmap", "panacea"],
+      adv_adj: ["pragmatically viable", "empirically tested", "comprehensive in scope"],
+      prep_phrase: ["as a viable remedy for", "in search of a panacea for"],
+      frame: "Addressing climate change demands a multifaceted strategy rather than reliance on a single technological panacea."
+    },
+    synonyms: [
+      { term: "Remedy", register: "C1 Academic", nuance: "A treatment or measure that resolves or counteracts a disease, grievance, or defect.", example: "Subsidized public transit is a proven remedy for downtown vehicular congestion." },
+      { term: "Panacea", register: "C2 High Academic", nuance: "A hypothetical single cure-all for all diseases or problems (often used skeptically).", example: "Artificial intelligence is an extraordinary tool, but it should not be viewed as a panacea for all administrative woes." },
+      { term: "Pragmatic Resolution", register: "C1 Analytical", nuance: "A realistic and sensible conclusion to a dispute or hurdle.", example: "Both parties negotiated a pragmatic resolution to prevent prolonged factory closures." }
+    ]
+  },
+  evidence: {
+    pos: "noun",
+    collocations: {
+      verb_noun: ["substantiate with empirical data", "corroborate hypotheses", "furnish compelling evidence", "scrutinize scholarly proof"],
+      adj_noun: ["empirical data", "compelling evidence", "irrefutable proof", "scholarly documentation"],
+      adv_adj: ["empirically grounded", "evidenced-based", "substantially corroborated"],
+      prep_phrase: ["in the light of empirical evidence", "supported by compelling data"],
+      frame: "Compelling empirical evidence indicates that green urban spaces measurably lower cortisol and anxiety levels."
+    },
+    synonyms: [
+      { term: "Empirical Data", register: "C1 Academic", nuance: "Information acquired through direct observation or systematic experimentation.", example: "Public policy should be formulated based on rigorous empirical data rather than ideological intuition." },
+      { term: "Corroboration", register: "C2 High Academic", nuance: "Evidence that confirms or supports a statement, theory, or finding.", example: "Independent clinical trials provided decisive corroboration for the novel vaccine's efficacy." },
+      { term: "Testimony", register: "B2-C1 Formal", nuance: "Formal evidence or affirmation of an event, experience, or fact.", example: "The remarkable recovery of the coral reef stands as testimony to strict conservation policies." }
+    ]
+  }
+};
 
-const ACADEMIC_VERBS = new Set([
-  "mitigate", "exacerbate", "foster", "facilitate", "alleviate", "advocate", "implement", 
-  "demonstrate", "accelerate", "deteriorate", "augment", "diminish", "curb", "hinder", 
-  "jeopardize", "undermine", "perpetuate", "scrutinize", "enhance", "reinforce"
-]);
+const articleCache = new Map();
 
 async function fetchCollocations(rawWord) {
   const word = (rawWord || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (!word) return null;
 
+  // 1. Check curated high-yield lexicon first
+  if (CURATED_ACADEMIC_LEXICON[word]) {
+    const entry = CURATED_ACADEMIC_LEXICON[word];
+    return {
+      word,
+      pos: entry.pos,
+      collocations: entry.collocations,
+      isCurated: true,
+      nounCollocations: entry.collocations.adj_noun || [],
+      modifierCollocations: entry.collocations.adv_adj || [],
+      verbCollocations: entry.collocations.verb_noun || [],
+      sentenceFrames: [entry.collocations.frame],
+      triggers: entry.collocations.prep_phrase || [],
+      adjectives: entry.collocations.adv_adj || [],
+      nouns: entry.collocations.adj_noun || []
+    };
+  }
+
+  // 2. Dynamic Datamuse with intelligent POS categorization
   try {
     const [metaRes, jjaRes, jjbRes, bgbRes, trgRes] = await Promise.allSettled([
       fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`).then(r => r.json()),
@@ -2447,108 +2847,72 @@ async function fetchCollocations(rawWord) {
     const bgbRaw = (bgbRes.status === "fulfilled" && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
     const trgRaw = (trgRes.status === "fulfilled" && Array.isArray(trgRes.value)) ? trgRes.value : [];
 
-    // Determine POS accurately with multi-tiered resolution
     let pos = "noun";
-    if (ACADEMIC_ADJECTIVES.has(word)) {
+    if (word.endsWith("ful") || word.endsWith("less") || word.endsWith("ous") || word.endsWith("ive") || word.endsWith("ic") || word.endsWith("al") || word.endsWith("able") || word.endsWith("ible")) {
       pos = "adj";
-    } else if (ACADEMIC_VERBS.has(word)) {
+    } else if (word.endsWith("ize") || word.endsWith("ise") || word.endsWith("ate") || word.endsWith("ify")) {
       pos = "verb";
     } else if (metaItem.defs && metaItem.defs.length > 0) {
       const dPos = metaItem.defs[0].split("\t")[0];
       if (dPos === "adj") pos = "adj";
       else if (dPos === "v") pos = "verb";
-      else if (dPos === "n") pos = "noun";
       else if (dPos === "adv") pos = "adv";
-    } else if (tags.length > 0) {
-      const p = tags.filter(t => ["adj", "v", "n", "adv"].includes(t));
-      if (p.length > 0) {
-        if (p[0] === "adj") pos = "adj";
-        else if (p[0] === "v") pos = "verb";
-        else if (p[0] === "adv") pos = "adv";
-        else pos = "noun";
-      }
-    } else if (word.endsWith("ful") || word.endsWith("less") || word.endsWith("ous") || word.endsWith("ive") || word.endsWith("ic") || word.endsWith("al") || word.endsWith("able") || word.endsWith("ible")) {
-      pos = "adj";
-    } else if (word.endsWith("ize") || word.endsWith("ise") || word.endsWith("ate")) {
-      pos = "verb";
-    }
+      else pos = "noun";
+    } else if (tags.includes("adj")) pos = "adj";
+    else if (tags.includes("v")) pos = "verb";
 
-    // Secondary semantic heuristic: if rel_jja returns common modified nouns with high score, it's definitely an adjective!
-    if (pos === "noun" && jjaRaw.some(item => ["role", "factor", "point", "importance", "question", "issue", "element", "aspect", "step"].includes(item.word) && item.score > 800)) {
-      pos = "adj";
-    }
+    const jjaClean = cleanWordList(jjaRaw);
+    const jjbClean = cleanWordList(jjbRaw);
+    const trgClean = cleanWordList(trgRaw);
 
-    const jjaClean = cleanWordList(jjaRaw); // Nouns modified by this adjective (or compound followers)
-    const jjbClean = cleanWordList(jjbRaw); // Adjectives modifying this noun
-    const trgClean = cleanWordList(trgRaw); // Thematic triggers
-
-    let nounCollocations = [];
-    let modifierCollocations = [];
-    let verbCollocations = [];
-    let sentenceFrames = [];
+    let verb_noun = [];
+    let adj_noun = [];
+    let adv_adj = [];
+    let prep_phrase = [];
+    let frame = "";
 
     if (pos === "adj") {
-      // 1. ADJECTIVE (e.g. crucial, vital, significant)
-      nounCollocations = jjaClean.length ? jjaClean.slice(0, 6) : trgClean.slice(0, 6);
-      const bgbAdvs = bgbRaw
-        .filter(w => w.tags && w.tags.includes("adv"))
-        .map(w => w.word);
-      const advs = Array.from(new Set([...cleanWordList(bgbAdvs), "increasingly", "vitally", "critically", "particularly", "fundamentally"]))
-        .filter(a => a !== word);
-      modifierCollocations = advs.slice(0, 5);
-
-      sentenceFrames = [
-        `play a *${word}* role in [societal development / academic progress]`,
-        `of *${word}* importance to [policymakers / modern economy]`,
-        `proves to be a *${word}* factor in [determining long-term success]`
-      ];
+      adj_noun = jjaClean.slice(0, 5).map(n => `${word} ${n}`);
+      if (!adj_noun.length) adj_noun = [`${word} factor`, `${word} dimension`, `${word} consideration`];
+      adv_adj = ["vitally", "critically", "profoundly", "increasingly", "substantially"].map(a => `${a} ${word}`);
+      prep_phrase = [`of ${word} significance to`, `in a ${word} capacity`, `central to ${word} discourse`];
+      frame = `The ${word} characteristics of this phenomenon warrant comprehensive empirical evaluation.`;
+      verb_noun = [`demonstrate ${word} outcomes`, `exert a ${word} influence`, `assume a ${word} posture`];
     } else if (pos === "verb") {
-      // 2. VERB (e.g. mitigate, exacerbate, foster)
-      nounCollocations = trgClean.length ? trgClean.slice(0, 6) : jjaClean.slice(0, 6);
-      modifierCollocations = ["significantly", "effectively", "substantially", "gradually", "proactively"];
-      sentenceFrames = [
-        `proactive government intervention is essential to *${word}* [the issue]`,
-        `failure to regulate could severely *${word}* [existing disparities]`
-      ];
+      verb_noun = trgClean.slice(0, 5).map(n => `${word} the ${n}`);
+      if (!verb_noun.length) verb_noun = [`${word} the problem`, `${word} systemic risks`, `${word} ongoing disputes`];
+      adj_noun = [`substantial ${word} efforts`, `proactive ${word} policies`];
+      adv_adj = ["measurably", "proactively", "effectively", "substantially", "systematically"].map(a => `${a} ${word}`);
+      prep_phrase = [`with a view to ${word}ing`, `in an effort to ${word}`, `aimed at ${word}ing`];
+      frame = `Targeted state intervention is imperative to ${word} systemic deficiencies within the sector.`;
     } else {
-      // 3. NOUN (e.g. impact, policy, environment, evidence)
-      modifierCollocations = jjbClean.length ? jjbClean.slice(0, 6) : trgClean.slice(0, 6);
-      nounCollocations = jjaClean.filter(n => n !== word).slice(0, 5);
-      
-      if (word === "impact" || word === "effect") {
-        verbCollocations = [
-          `have / exert a profound *${word}* on...`,
-          `assess / evaluate the long-term *${word}* of...`,
-          `mitigate / alleviate the adverse *${word}* of...`
-        ];
-      } else if (word === "evidence" || word === "data") {
-        verbCollocations = [
-          `provide / present compelling *${word}* for...`,
-          `scrutinize / examine empirical *${word}* regarding...`
-        ];
-      } else {
-        verbCollocations = [
-          `examine / evaluate key issues surrounding *${word}*`,
-          `formulate / implement policies regarding *${word}*`
-        ];
-      }
-
-      sentenceFrames = [
-        `plays a pivotal role in the context of *${word}* [within contemporary society]`,
-        `policymakers must carefully examine issues regarding [this *${word}*]`
-      ];
+      // noun
+      adj_noun = jjbClean.slice(0, 5).map(a => `${a} ${word}`);
+      if (!adj_noun.length) adj_noun = [`pressing ${word}`, `profound ${word}`, `underlying ${word}`];
+      verb_noun = ["scrutinize", "evaluate", "implement", "foster", "remedy"].map(v => `${v} ${word}`);
+      adv_adj = [`fundamentally centered on ${word}`, `intrinsically linked to ${word}`];
+      prep_phrase = [`in the context of ${word}`, `with respect to ${word}`, `at the forefront of ${word}`];
+      frame = `Policymakers must carefully scrutinize the multifaceted implications of ${word} within contemporary society.`;
     }
 
     return {
       word,
       pos,
-      nounCollocations,
-      modifierCollocations,
-      verbCollocations,
-      sentenceFrames,
-      triggers: trgClean.slice(0, 6),
-      adjectives: modifierCollocations,
-      nouns: nounCollocations
+      collocations: {
+        verb_noun,
+        adj_noun,
+        adv_adj,
+        prep_phrase,
+        frame
+      },
+      isCurated: false,
+      nounCollocations: adj_noun,
+      modifierCollocations: adv_adj,
+      verbCollocations: verb_noun,
+      sentenceFrames: [frame],
+      triggers: prep_phrase,
+      adjectives: adv_adj,
+      nouns: adj_noun
     };
   } catch (err) {
     console.error("[fetchCollocations Error]", err);
@@ -2560,20 +2924,50 @@ async function fetchSynonyms(rawWord) {
   const word = (rawWord || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (!word) return null;
 
+  // 1. Curated check
+  if (CURATED_ACADEMIC_LEXICON[word]) {
+    const entry = CURATED_ACADEMIC_LEXICON[word];
+    return {
+      word,
+      pos: entry.pos,
+      synonyms: entry.synonyms.map(s => s.term),
+      items: entry.synonyms,
+      specific: entry.synonyms.map(s => s.term),
+      isCurated: true
+    };
+  }
+
+  // 2. Dynamic fetch
   try {
     const [synRes, spcRes] = await Promise.allSettled([
-      fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(word)}&max=12`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(word)}&max=15`).then(r => r.json()),
       fetch(`https://api.datamuse.com/words?rel_spc=${encodeURIComponent(word)}&max=8`).then(r => r.json())
     ]);
 
-    const synList = (synRes.status === "fulfilled" && Array.isArray(synRes.value)) ? synRes.value.map(w => w.word) : [];
-    const spcList = (spcRes.status === "fulfilled" && Array.isArray(spcRes.value)) ? spcRes.value.map(w => w.word) : [];
+    const synList = cleanWordList(synRes.status === "fulfilled" ? synRes.value : []);
+    const spcList = cleanWordList(spcRes.status === "fulfilled" ? spcRes.value : []);
+    const combined = Array.from(new Set([...synList, ...spcList])).filter(w => w !== word).slice(0, 8);
 
-    const combined = Array.from(new Set([...synList, ...spcList])).filter(w => w.toLowerCase() !== word);
+    if (!combined.length) return null;
+
+    const formatted = combined.map((term, i) => {
+      const capTerm = term.charAt(0).toUpperCase() + term.slice(1);
+      const reg = i < 2 ? "C1 Academic" : (i < 4 ? "C1 Analytical" : "B2-C1 Formal");
+      return {
+        term: capTerm,
+        register: reg,
+        nuance: `Academic equivalent of "${word}" appropriate for IELTS Task 2 discourse.`,
+        example: `Scholars frequently substitute "${term}" in place of "${word}" to enhance lexical precision.`
+      };
+    });
+
     return {
       word,
-      synonyms: combined.slice(0, 10),
-      specific: spcList.slice(0, 5)
+      pos: "academic term",
+      synonyms: formatted.map(s => s.term),
+      items: formatted,
+      specific: spcList.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+      isCurated: false
     };
   } catch (err) {
     console.error("[fetchSynonyms Error]", err);
@@ -2581,55 +2975,95 @@ async function fetchSynonyms(rawWord) {
   }
 }
 
-async function fetchTopicBrief(rawTopic) {
+async function fetchFullWikipediaArticle(rawTopic) {
   const topic = (rawTopic || "").trim();
   if (!topic) return null;
 
-  try {
-    let resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic.replace(/\s+/g, "_"))}`, {
-      headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" }
-    });
+  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(topic)}&gsrlimit=1&prop=extracts&explaintext=1&format=json&redirects=1`;
 
-    let data = null;
-    if (resp.ok) {
-      data = await resp.json();
-    } else {
-      const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(topic)}&limit=1&namespace=0&format=json`;
-      const searchResp = await fetch(searchUrl, {
-        headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" }
-      });
-      if (searchResp.ok) {
-        const searchJson = await searchResp.json();
-        const matched = searchJson[1] && searchJson[1][0] ? searchJson[1][0] : null;
-        if (matched) {
-          resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(matched.replace(/\s+/g, "_"))}`, {
-            headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" }
-          });
-          if (resp.ok) data = await resp.json();
+  let data = null;
+  try {
+    const res = await fetch(searchUrl, { headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" } });
+    if (res.ok) data = await res.json();
+  } catch (e) {
+    console.error("[Wikipedia Search Error]", e);
+  }
+
+  // Fallback to opensearch if generator yields empty
+  if (!data || !data.query || !data.query.pages) {
+    try {
+      const openSearchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(topic)}&limit=1&namespace=0&format=json`;
+      const osRes = await fetch(openSearchUrl, { headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" } });
+      if (osRes.ok) {
+        const osJson = await osRes.json();
+        const matchedTitle = osJson[1] && osJson[1][0] ? osJson[1][0] : null;
+        if (matchedTitle) {
+          const directUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(matchedTitle)}&prop=extracts&explaintext=1&format=json&redirects=1`;
+          const dirRes = await fetch(directUrl, { headers: { "User-Agent": "IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)" } });
+          if (dirRes.ok) data = await dirRes.json();
         }
       }
+    } catch (osErr) {
+      console.error("[Wikipedia Fallback Error]", osErr);
     }
-
-    if (!data || !data.extract) return null;
-
-    let extract = data.extract;
-    if (extract.length > 450) {
-      const dotIdx = extract.indexOf(".", 350);
-      if (dotIdx !== -1) {
-        extract = extract.substring(0, dotIdx + 1);
-      }
-    }
-
-    return {
-      title: data.title || topic,
-      extract: extract,
-      description: data.description || "Academic Topic",
-      url: data.content_urls && data.content_urls.desktop ? data.content_urls.desktop.page : `https://en.wikipedia.org/wiki/${encodeURIComponent(topic)}`
-    };
-  } catch (err) {
-    console.error("[fetchTopicBrief Error]", err);
-    return null;
   }
+
+  if (!data || !data.query || !data.query.pages) return null;
+  const pages = data.query.pages;
+  const pageId = Object.keys(pages)[0];
+  if (pageId === "-1") return null;
+  const page = pages[pageId];
+  if (!page || !page.extract) return null;
+
+  let raw = page.extract;
+  // Strip trailing bibliography, references, notes, and external links
+  const cutoffRegex = /\n==\s*(References|External links|Further reading|See also|Notes|Bibliography)\s*==/i;
+  const cutoff = raw.search(cutoffRegex);
+  if (cutoff !== -1) {
+    raw = raw.substring(0, cutoff).trim();
+  }
+
+  // Format headers for clear readability
+  raw = raw.replace(/^={4}\s*([^=]+?)\s*={4}$/gm, "🔹 *$1*");
+  raw = raw.replace(/^={3}\s*([^=]+?)\s*={3}$/gm, "📌 *$1*");
+  raw = raw.replace(/^={2}\s*([^=]+?)\s*={2}$/gm, "\n━━━━━━━━━━━━━━━━━━━━\n📖 *$1*\n━━━━━━━━━━━━━━━━━━━━");
+
+  // Split into paragraphs and build chunk pages (~3,200 chars each for safe Telegram limits)
+  const paragraphs = raw.split(/\n{2,}/);
+  const pagesArr = [];
+  let currentChunk = "";
+
+  for (const p of paragraphs) {
+    const trimmed = p.trim();
+    if (!trimmed) continue;
+    if (currentChunk.length + trimmed.length + 2 > 3200) {
+      if (currentChunk) pagesArr.push(currentChunk.trim());
+      currentChunk = trimmed;
+    } else {
+      currentChunk = currentChunk ? `${currentChunk}\n\n${trimmed}` : trimmed;
+    }
+  }
+  if (currentChunk) pagesArr.push(currentChunk.trim());
+  if (!pagesArr.length && raw.trim()) pagesArr.push(raw.trim());
+
+  const wordCount = raw.split(/\s+/).filter(Boolean).length;
+  const readingTimeMin = Math.max(1, Math.ceil(wordCount / 200));
+
+  return {
+    title: page.title,
+    fullText: raw,
+    pages: pagesArr,
+    totalLength: raw.length,
+    wordCount: wordCount,
+    readingTimeMin: readingTimeMin,
+    totalPages: pagesArr.length,
+    url: `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title.replace(/\s+/g, "_"))}`,
+    extract: pagesArr[0] || raw
+  };
+}
+
+async function fetchTopicBrief(rawTopic) {
+  return await fetchFullWikipediaArticle(rawTopic);
 }
 
 async function fetchDictionary(rawWord) {
@@ -2936,7 +3370,7 @@ async function handleCollocateCommand(chatId, userId, rawWord, env, botToken) {
   }
 
   const result = await fetchCollocations(rawWord);
-  if (!result || (!result.nounCollocations.length && !result.modifierCollocations.length && !result.triggers.length)) {
+  if (!result || !result.collocations) {
     await sendTelegramMessage(botToken, chatId, `⚠️ No academic collocations found for \`${rawWord}\`. Try common academic words like *impact, crucial, policy, environment, education, evidence*.`, {
       inline_keyboard: [
         [{ text: "🔍 Collocate another word", callback_data: "ask_tool:collocate" }],
@@ -2946,56 +3380,28 @@ async function handleCollocateCommand(chatId, userId, rawWord, env, botToken) {
     return;
   }
 
+  const col = result.collocations;
   let text = `🔗 *ACADEMIC COLLOCATIONS: "${result.word.toUpperCase()}"*\n━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `🏷️ *Part of Speech:* _${result.pos}_\n\n`;
 
-  if (result.pos === "adj") {
-    if (result.nounCollocations && result.nounCollocations.length) {
-      text += `🔹 *High-Yield Noun Collocations (${result.word} + noun):*\n` +
-        result.nounCollocations.map(n => `• *${result.word}* ${n}`).join("\n") + "\n\n";
-    }
-    if (result.modifierCollocations && result.modifierCollocations.length) {
-      text += `🔹 *Adverb Intensifiers (adverb + ${result.word}):*\n` +
-        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
-    }
-    if (result.sentenceFrames && result.sentenceFrames.length) {
-      text += `🔹 *Band 9 Academic Sentence Frames:*\n` +
-        result.sentenceFrames.map(f => `• ${f}`).join("\n") + "\n\n";
-    }
-  } else if (result.pos === "verb") {
-    if (result.nounCollocations && result.nounCollocations.length) {
-      text += `🔹 *Verb-Object Collocations (${result.word} + noun):*\n` +
-        result.nounCollocations.map(n => `• *${result.word}* the ${n}`).join("\n") + "\n\n";
-    }
-    if (result.modifierCollocations && result.modifierCollocations.length) {
-      text += `🔹 *Adverb Modifiers (adverb + ${result.word}):*\n` +
-        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
-    }
-    if (result.sentenceFrames && result.sentenceFrames.length) {
-      text += `🔹 *Band 9 Academic Sentence Frames:*\n` +
-        result.sentenceFrames.map(f => `• ${f}`).join("\n") + "\n\n";
-    }
-  } else {
-    // noun
-    if (result.modifierCollocations && result.modifierCollocations.length) {
-      text += `🔹 *Adjective Collocations (adjective + ${result.word}):*\n` +
-        result.modifierCollocations.map(a => `• ${a} *${result.word}*`).join("\n") + "\n\n";
-    }
-    if (result.nounCollocations && result.nounCollocations.length) {
-      text += `🔹 *Compound Noun Collocations (${result.word} + noun):*\n` +
-        result.nounCollocations.map(n => `• *${result.word}* ${n}`).join("\n") + "\n\n";
-    }
-    if (result.verbCollocations && result.verbCollocations.length) {
-      text += `🔹 *High-Scoring Verb Collocations:*\n` +
-        result.verbCollocations.map(v => `• ${v}`).join("\n") + "\n\n";
-    }
-    if (result.triggers && result.triggers.length) {
-      text += `🔹 *Thematic Associations:*\n` +
-        result.triggers.map(t => `_${t}_`).join(", ") + "\n\n";
-    }
+  if (col.verb_noun && col.verb_noun.length) {
+    text += `🔹 *Verb + Noun Pairings:*\n` + col.verb_noun.map(v => `• ${v}`).join("\n") + "\n\n";
+  }
+  if (col.adj_noun && col.adj_noun.length) {
+    text += `🔹 *Adjective + Noun Pairings:*\n` + col.adj_noun.map(a => `• ${a}`).join("\n") + "\n\n";
+  }
+  if (col.adv_adj && col.adv_adj.length) {
+    text += `🔹 *Adverb Intensifiers:*\n` + col.adv_adj.map(ad => `• ${ad}`).join("\n") + "\n\n";
+  }
+  if (col.prep_phrase && col.prep_phrase.length) {
+    text += `🔹 *Academic Prepositional Phrases:*\n` + col.prep_phrase.map(p => `• _${p}_`).join("\n") + "\n\n";
+  }
+  if (col.frame) {
+    text += `✍️ *Band 9 Academic Model Sentence:*\n"${col.frame}"\n\n`;
   }
 
   text += `💡 *Band 8.5 Tip:*
-Always pair words with natural academic collocations to demonstrate fluent, native lexical resource under IELTS criteria.
+Pair words with authentic academic collocations to secure high Lexical Resource marks in Task 2.
 
 ${formatQuotaFooter(quota)}`;
 
@@ -3029,7 +3435,7 @@ async function handleSynCommand(chatId, userId, rawWord, env, botToken) {
   }
 
   const result = await fetchSynonyms(rawWord);
-  if (!result || !result.synonyms.length) {
+  if (!result || (!result.items && !result.synonyms?.length)) {
     await sendTelegramMessage(botToken, chatId, `⚠️ No synonyms found for \`${rawWord}\`. Try common essay words like *important, decrease, advantageous, negative*.`, {
       inline_keyboard: [
         [{ text: "🔍 Search another synonym", callback_data: "ask_tool:syn" }],
@@ -3039,14 +3445,20 @@ async function handleSynCommand(chatId, userId, rawWord, env, botToken) {
     return;
   }
 
-  let text = `💎 *BAND 8.5+ SYNONYMS FOR: "${result.word.toUpperCase()}"*\n━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `🎯 *Academic Substitutes:*\n` + result.synonyms.map(s => `• *${s}*`).join("\n") + "\n\n";
-  if (result.specific && result.specific.length) {
-    text += `📌 *Specialized Sub-types:*\n` + result.specific.map(s => `• ${s}`).join("\n") + "\n\n";
+  let text = `💎 *BAND 8.5+ SYNONYMS FOR: "${result.word.toUpperCase()}"*\n━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+  if (result.items && result.items.length) {
+    for (const item of result.items.slice(0, 4)) {
+      text += `• *${item.term}* \`[${item.register || "C1 Academic"}]\`\n` +
+              `  _${item.nuance}_\n` +
+              `  ✍️ *Model:* "${item.example}"\n\n`;
+    }
+  } else if (result.synonyms && result.synonyms.length) {
+    text += `🎯 *Academic Substitutes:*\n` + result.synonyms.map(s => `• *${s}*`).join("\n") + "\n\n";
   }
 
   text += `💡 *Lexical Flexibility Warning:*
-Do not mechanically substitute words. Ensure the synonym matches the formality and context of your academic sentence.
+Avoid mechanical substitutions. Ensure the synonym matches the precise academic register and nuance of your thesis.
 
 ${formatQuotaFooter(quota)}`;
 
@@ -3079,9 +3491,9 @@ async function handleReadCommand(chatId, userId, rawTopic, env, botToken) {
     return;
   }
 
-  const result = await fetchTopicBrief(rawTopic);
-  if (!result || !result.extract) {
-    await sendTelegramMessage(botToken, chatId, `⚠️ Could not find an academic summary for \`${rawTopic}\`. Try broad IELTS topics like *Renewable energy, Globalization, Automation, Mental health*.`, {
+  const result = await fetchFullWikipediaArticle(rawTopic);
+  if (!result || !result.pages || !result.pages.length) {
+    await sendTelegramMessage(botToken, chatId, `⚠️ Could not retrieve an academic knowledge brief for \`${rawTopic}\`. Try broad IELTS topics like *Renewable energy, Globalization, Automation, Mental health*.`, {
       inline_keyboard: [
         [{ text: "📖 Read another topic", callback_data: "ask_tool:read" }],
         [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
@@ -3090,29 +3502,99 @@ async function handleReadCommand(chatId, userId, rawTopic, env, botToken) {
     return;
   }
 
-  const text = 
-`📖 *ACADEMIC TOPIC BRIEF: "${result.title}"*
-━━━━━━━━━━━━━━━━━━━━
-${result.extract}
+  const cacheId = Math.random().toString(36).substring(2, 8);
+  articleCache.set(cacheId, result);
+  if (env.VIP_KV) {
+    try {
+      await env.VIP_KV.put("wiki:" + cacheId, JSON.stringify(result), { expirationTtl: 3600 });
+    } catch (e) {
+      console.warn("[KV Put wiki Error]", e);
+    }
+  }
 
-🎯 *IELTS Writing & Speaking Application:*
-• *Key Angles:* Consider socioeconomic ramifications, statutory regulations, and intergenerational impacts.
-• *Reference:* [Open Wikipedia Article](${result.url})
+  const pageText = result.pages[0];
+  const text = 
+`📖 *ACADEMIC TOPIC BRIEF: "${result.title.toUpperCase()}"*
+📊 *${result.wordCount} words* • ~*${result.readingTimeMin} min read* • *Page 1 of ${result.totalPages}*
+━━━━━━━━━━━━━━━━━━━━
+
+${pageText}
+
+🎯 *IELTS Writing & Speaking Angles:*
+• *Key Perspectives:* Evaluate socioeconomic impacts, statutory regulations, and long-term implications.
 
 ${formatQuotaFooter(quota)}`;
 
-  await sendTelegramMessage(botToken, chatId, text, {
+  const buttons = [];
+  if (result.totalPages > 1) {
+    buttons.push([
+      { text: `📄 Page 1/${result.totalPages}`, callback_data: "wiki_noop" },
+      { text: "Next Page ➡️", callback_data: `wiki_p:${cacheId}:1` }
+    ]);
+  }
+  buttons.push([
+    { text: "📖 Read Another Topic", callback_data: "ask_tool:read" },
+    { text: "🌐 Open Wikipedia ↗", url: result.url }
+  ]);
+  buttons.push([
+    { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
+    { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+  ]);
+
+  await sendTelegramMessage(botToken, chatId, text, { inline_keyboard: buttons });
+}
+
+async function handleWikiPageCallback(chatId, userId, messageId, callbackQueryId, cacheId, pageIdx, env, botToken) {
+  let article = articleCache.get(cacheId);
+  if (!article && env.VIP_KV) {
+    try {
+      article = await env.VIP_KV.get("wiki:" + cacheId, "json");
+    } catch (e) {
+      console.warn("[KV Get wiki Error]", e);
+    }
+  }
+
+  if (!article || !article.pages || !article.pages[pageIdx]) {
+    await answerCallbackQuery(botToken, callbackQueryId, "Session expired. Please request the topic again via /read.");
+    return;
+  }
+
+  const pageText = article.pages[pageIdx];
+  const text = 
+`📖 *ACADEMIC TOPIC BRIEF: "${article.title.toUpperCase()}"*
+📊 *${article.wordCount} words* • ~*${article.readingTimeMin} min read* • *Page ${pageIdx + 1} of ${article.totalPages}*
+━━━━━━━━━━━━━━━━━━━━
+
+${pageText}
+
+🎯 *IELTS Writing & Speaking Angles:*
+• *Key Perspectives:* Evaluate socioeconomic impacts, statutory regulations, and long-term implications.`;
+
+  const navRow = [];
+  if (pageIdx > 0) {
+    navRow.push({ text: "⬅️ Prev", callback_data: `wiki_p:${cacheId}:${pageIdx - 1}` });
+  }
+  navRow.push({ text: `📄 ${pageIdx + 1}/${article.totalPages}`, callback_data: "wiki_noop" });
+  if (pageIdx < article.totalPages - 1) {
+    navRow.push({ text: "Next ➡️", callback_data: `wiki_p:${cacheId}:${pageIdx + 1}` });
+  }
+
+  const keyboard = {
     inline_keyboard: [
+      navRow,
       [
-        { text: "📖 Read another topic", callback_data: "ask_tool:read" },
-        { text: "🌐 Open Wikipedia ↗", url: result.url }
+        { text: "📖 Read Another Topic", callback_data: "ask_tool:read" },
+        { text: "🌐 Open Wikipedia ↗", url: article.url }
       ],
       [
         { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
         { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
       ]
     ]
-  });
+  };
+
+  await editTelegramMessageText(botToken, chatId, messageId, text, keyboard);
+  await answerCallbackQuery(botToken, callbackQueryId, `Page ${pageIdx + 1} of ${article.totalPages}`);
 }
 
 async function handleDictCommand(chatId, userId, rawWord, env, botToken) {
