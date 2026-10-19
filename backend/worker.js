@@ -516,7 +516,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       await sendTelegramMessage(botToken, chatId, payMsg, {
         inline_keyboard: [
           [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-          [{ text: "💬 Contact Instructor (@HugoKami)", url: "https://t.me/HugoKami" }]
+          [{ text: "💬 Contact Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -550,7 +550,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 ကျွန်ုပ်တို့၏ Lead Instructor နှင့် Academic Support Team မှ ကျောင်းသားများ၏ မေးခွန်းများကို ကူညီဖြေကြားပေးရန် အသင့်ရှိပါသည်။
 
 💬 *Direct Support:*
-• Instructor Telegram: @HugoKami
+• Instructor Telegram: @hyuguo
 • Bot Support: @${env.BOT_USERNAME || "IELTSPrepStudioBot"}
 • Working Hours: 9:00 AM – 10:00 PM MMT (7 Days a Week)
 
@@ -563,7 +563,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 
       await sendTelegramMessage(botToken, chatId, supportMsg, {
         inline_keyboard: [
-          [{ text: "💬 Chat with Lead Instructor (@HugoKami)", url: "https://t.me/HugoKami" }],
+          [{ text: "💬 Chat with Lead Instructor (@hyuguo)", url: "https://t.me/hyuguo" }],
           [{ text: "💳 How to Pay (55,000 Ks)", callback_data: "info_payment" }]
         ]
       });
@@ -588,7 +588,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       await sendTelegramMessage(botToken, chatId, profileMsg, {
         inline_keyboard: [
           [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-          [{ text: "💬 Chat with Instructor (@HugoKami)", url: "https://t.me/HugoKami" }]
+          [{ text: "💬 Chat with Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -893,7 +893,7 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 ငွေလွှဲပြီးပါက စလစ် Screenshot ကို ဤ Chat သို့ ပို့ပေးပါ ခင်ဗျာ!`;
       await sendTelegramMessage(botToken, cbChatId, payMsg, {
         inline_keyboard: [
-          [{ text: "💬 Contact Instructor (@HugoKami)", url: "https://t.me/HugoKami" }]
+          [{ text: "💬 Contact Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });
       return jsonResponse({ ok: true });
