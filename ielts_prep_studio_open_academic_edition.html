@@ -2830,19 +2830,19 @@
 
     <!-- 5 Core Hub Navigation (Desktop) -->
     <nav class="nav-links" role="tablist" aria-label="Main Study Hubs">
-      <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="1" onclick="switchView('overview')">
+      <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="overview" onclick="switchView('overview')">
         Home
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="2" onclick="switchView('lexicon')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')">
         Lexicon &amp; Drills
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="3" onclick="switchView('reading')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="reading" onclick="switchView('reading')">
         Reading &amp; Listening
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="4" onclick="switchView('writing')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="writing" onclick="switchView('writing')">
         Writing Lab
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="5" onclick="switchView('speaking')">
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="speaking" onclick="switchView('speaking')">
         Speaking Studio
       </button>
     </nav>
@@ -2958,23 +2958,23 @@
 
 <!-- MOBILE BOTTOM NAVIGATION BAR (MINIMALIST 5 THUMB-FRIENDLY TABS) -->
 <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Section Navigation">
-  <button class="mob-nav-btn active" id="mob-overview" data-target-tab="1" onclick="switchView('overview')">
+  <button class="mob-nav-btn active" id="mob-overview" data-target-tab="overview" onclick="switchView('overview')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
     <span>Home</span>
   </button>
-  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="2" onclick="switchView('lexicon')">
+  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
     <span>Lexicon</span>
   </button>
-  <button class="mob-nav-btn" id="mob-reading" data-target-tab="3" onclick="switchView('reading')">
+  <button class="mob-nav-btn" id="mob-reading" data-target-tab="reading" onclick="switchView('reading')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
     <span>Reading</span>
   </button>
-  <button class="mob-nav-btn" id="mob-writing" data-target-tab="4" onclick="switchView('writing')">
+  <button class="mob-nav-btn" id="mob-writing" data-target-tab="writing" onclick="switchView('writing')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
     <span>Writing</span>
   </button>
-  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="5" onclick="switchView('speaking')">
+  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="speaking" onclick="switchView('speaking')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
     <span>Speaking</span>
   </button>
@@ -2985,7 +2985,7 @@
   <!-- =========================================================
        HUB 1: HOME // DASHBOARD, STUDY PLANS & EXAM PLAYBOOK
        ========================================================= -->
-  <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="1" aria-labelledby="tab-overview">
+  <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">HOW TO USE THIS APP // အသုံးပြုပုံ လမ်းညွှန် (START HERE)</div>
@@ -3234,7 +3234,7 @@
 
     <!-- SUBTAB 3: EXAM PLAYBOOK -->
     <div class="subtab-panel" data-subtab="playbook" id="subpanel-playbook">
-      <div id="view-playbook" class="view-section studio-tab-section" data-tab-index="2" style="display:block;">
+      <div id="view-playbook" class="playbook-wrapper" style="display:block;">
         <div class="sec-block" id="ov-format">
       <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 18 &amp; 24 // COMPLETE EXAM ARCHITECTURE &amp; BAND DESCRIPTORS</div>
       <div class="sec-header-row">
@@ -3562,7 +3562,7 @@
   <!-- =========================================================
        HUB 2: LEXICON & DRILLS // VOCABULARY, FLASHCARDS, GRAMMAR & DRILLS
        ========================================================= -->
-  <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="2" aria-labelledby="tab-lexicon">
+  <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="lexicon" aria-labelledby="tab-lexicon">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 4 GUIDE // 1,162 LEXICON &amp; EXAM TRAPS (1-3-7 DAY SRS)</div>
@@ -3764,7 +3764,7 @@
 
     <!-- SUBTAB 4: SPEED DRILLS -->
     <div class="subtab-panel" data-subtab="drills" id="subpanel-paraphrase">
-      <div id="view-paraphrase" class="view-section studio-tab-section" data-tab-index="5" style="display:block;">
+      <div id="view-paraphrase" class="drills-wrapper" style="display:block;">
         <div id="dr-quiz-sec">
       <div class="sec-eyebrow">CONTEXTUAL SYNONYM DRILL</div>
       <div class="sec-header-row">
@@ -3827,7 +3827,7 @@
   <!-- =========================================================
        HUB 3: READING & LISTENING // CBT READING SIMULATOR & LISTENING LAB
        ========================================================= -->
-  <section id="view-reading" class="view-section studio-tab-section" data-tab-index="3" aria-labelledby="tab-reading">
+  <section id="view-reading" class="view-section studio-tab-section" data-tab-index="reading" aria-labelledby="tab-reading">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 6 GUIDE // READING CBT SIMULATOR (23 PASSAGES · 231 QUESTIONS) &amp; LISTENING LAB (2 AUDIO TESTS + 2 SKILL GUIDES)</div>
@@ -4045,7 +4045,7 @@
   <!-- =========================================================
        HUB 4: WRITING LAB // LIVE CEFR EDITOR, 40 MODELS & REFERENCE BANK
        ========================================================= -->
-  <section id="view-writing" class="view-section studio-tab-section" data-tab-index="4" aria-labelledby="tab-writing">
+  <section id="view-writing" class="view-section studio-tab-section" data-tab-index="writing" aria-labelledby="tab-writing">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 7 GUIDE // 40 WRITING MODELS, LIVE CEFR 90/10 METER &amp; 4-CRITERION RUBRIC SCORER</div>
@@ -4290,7 +4290,7 @@
   <!-- =========================================================
        HUB 5: SPEAKING STUDIO // VOICE RECORDER, 30 TOPICS & 5 FRAMEWORKS
        ========================================================= -->
-  <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="5" aria-labelledby="tab-speaking">
+  <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="speaking" aria-labelledby="tab-speaking">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 3 GUIDE // SPEAKING STUDIO &amp; MICROPHONE RECORDER</div>
@@ -9564,87 +9564,86 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
 // PROGRESSIVE DISCLOSURE TAB MANAGER & DEEP-LINK INTERCEPTOR
 // =========================================================
 (function initStudioTabController() {
-  const TAB_MAP = {
-    '1': 'overview',
-    '2': 'playbook',
-    '3': 'speaking',
-    '4': 'lexicon',
-    '5': 'paraphrase',
-    '6': 'reading',
-    '7': 'writing',
-    'overview': '1',
-    'playbook': '2',
-    'speaking': '3',
-    'lexicon': '4',
-    'paraphrase': '5',
-    'reading': '6',
-    'writing': '7'
-  };
+  function activateStudioTab(rawTarget, scrollTargetEl = null) {
+    if (!rawTarget) rawTarget = 'overview';
+    let target = String(rawTarget).trim().toLowerCase();
 
-    function activateStudioTab(tabIndex, scrollTargetEl = null) {
-    let target = String(tabIndex).toLowerCase();
-    
-    // Normalization map to the 5 core Hubs and their corresponding sub-tabs
-    let hubView = 'overview';
-    let targetSubTab = null;
-    let targetIdx = '1';
+    // Normalization to Hub ID and optional SubTab ID
+    let hubId = 'overview';
+    let subTabId = null;
 
-    if (target === '1' || target === 'overview' || target === 'home') {
-      hubView = 'overview';
-      targetSubTab = 'dash';
-      targetIdx = '1';
-    } else if (target === '2' || target === 'playbook') {
-      hubView = 'overview';
-      targetSubTab = 'playbook';
-      targetIdx = '1';
-    } else if (target === '3' || target === 'speaking') {
-      hubView = 'speaking';
-      targetSubTab = 'practice';
-      targetIdx = '5';
+    if (target === '1' || target === 'overview' || target === 'home' || target === 'dash') {
+      hubId = 'overview';
+      subTabId = 'dash';
+    } else if (target === '2' || target === 'playbook' || target === 'rules') {
+      hubId = 'overview';
+      subTabId = 'playbook';
+    } else if (target === 'plans' || target === 'studyplans') {
+      hubId = 'overview';
+      subTabId = 'plans';
     } else if (target === '4' || target === 'lexicon' || target === 'vocab') {
-      hubView = 'lexicon';
-      targetSubTab = 'vocab';
-      targetIdx = '2';
+      hubId = 'lexicon';
+      subTabId = 'vocab';
+    } else if (target === 'flashcards' || target === 'srs') {
+      hubId = 'lexicon';
+      subTabId = 'flashcards';
+    } else if (target === 'grammar') {
+      hubId = 'lexicon';
+      subTabId = 'grammar';
     } else if (target === '5' || target === 'paraphrase' || target === 'drills') {
-      hubView = 'lexicon';
-      targetSubTab = 'drills';
-      targetIdx = '2';
+      hubId = 'lexicon';
+      subTabId = 'drills';
     } else if (target === '6' || target === 'reading') {
-      hubView = 'reading';
-      targetSubTab = 'reading';
-      targetIdx = '3';
+      hubId = 'reading';
+      subTabId = 'reading';
     } else if (target === 'listening') {
-      hubView = 'reading';
-      targetSubTab = 'listening';
-      targetIdx = '3';
+      hubId = 'reading';
+      subTabId = 'listening';
     } else if (target === '7' || target === 'writing') {
-      hubView = 'writing';
-      targetSubTab = 'desk';
-      targetIdx = '4';
+      hubId = 'writing';
+      subTabId = 'desk';
+    } else if (target === 'models') {
+      hubId = 'writing';
+      subTabId = 'models';
+    } else if (target === 'phrases') {
+      hubId = 'writing';
+      subTabId = 'phrases';
+    } else if (target === '3' || target === 'speaking') {
+      hubId = 'speaking';
+      subTabId = 'practice';
+    } else if (target === 'forecast') {
+      hubId = 'speaking';
+      subTabId = 'forecast';
+    } else if (target === 'frameworks') {
+      hubId = 'speaking';
+      subTabId = 'frameworks';
     } else {
-      hubView = target;
-      targetIdx = '1';
+      if (target.startsWith('view-')) target = target.replace('view-', '');
+      hubId = target;
     }
 
+    // 1. Toggle the 5 Hub sections
     const hubSections = ['view-overview', 'view-lexicon', 'view-reading', 'view-writing', 'view-speaking'];
     hubSections.forEach(secId => {
       const sec = document.getElementById(secId);
       if (sec) {
-        const isMatch = (secId === ('view-' + hubView));
+        const isMatch = (secId === ('view-' + hubId));
         sec.classList.toggle('active', isMatch);
         sec.classList.toggle('active-tab', isMatch);
       }
     });
 
-    if (targetSubTab && typeof window.switchSubTab === 'function') {
-      window.switchSubTab(hubView, targetSubTab);
+    // 2. Switch subtab if specified
+    if (subTabId && typeof window.switchSubTab === 'function') {
+      window.switchSubTab(hubId, subTabId);
     }
 
+    // 3. Highlight active nav button
     const navButtons = document.querySelectorAll('[data-target-tab], .nav-link, .mob-nav-btn');
     navButtons.forEach(btn => {
-      const btnTarget = btn.getAttribute('data-target-tab');
-      const btnId = btn.id || '';
-      const isMatch = (btnTarget === targetIdx) || btnId.includes(hubView);
+      const btnTarget = (btn.getAttribute('data-target-tab') || '').toLowerCase();
+      const btnId = (btn.id || '').toLowerCase();
+      const isMatch = (btnTarget === hubId) || btnId.includes(hubId);
       btn.classList.toggle('active', isMatch);
       btn.classList.toggle('is-active', isMatch);
       if (btn.hasAttribute('aria-selected')) {
@@ -9652,26 +9651,27 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       }
     });
 
+    // 4. Update mobile floating CBT switcher button
     const floatBtn = document.getElementById("floatingCbtSwitchBtn");
     if (floatBtn) {
-      floatBtn.style.display = (hubView === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
+      floatBtn.style.display = (hubId === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
     }
 
     try {
-      localStorage.setItem('ips_active_tab', targetIdx);
+      localStorage.setItem('ips_active_tab', hubId);
     } catch (e) {}
 
-    // On-demand hydration
+    // 5. On-demand hydration
     try {
-      if (hubView === 'speaking' && typeof initSpeakingStudio === 'function') {
+      if (hubId === 'speaking' && typeof initSpeakingStudio === 'function') {
         initSpeakingStudio();
-      } else if (hubView === 'writing') {
+      } else if (hubId === 'writing') {
         if (typeof initWritingMocks === 'function') initWritingMocks();
         if (typeof renderWritingModelsDirectory === 'function') renderWritingModelsDirectory();
-      } else if (hubView === 'reading') {
+      } else if (hubId === 'reading') {
         if (typeof initReadingMocks === 'function') initReadingMocks();
         if (typeof updateCbtPalette === 'function') updateCbtPalette();
-      } else if (hubView === 'lexicon') {
+      } else if (hubId === 'lexicon') {
         if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
       }
     } catch (hydrateErr) {
@@ -9686,11 +9686,11 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
+
   // Expose globally
   window.activateStudioTab = activateStudioTab;
   window.switchView = function(viewId, scrollTargetEl = null) {
-    const tabIdx = TAB_MAP[viewId] || '1';
-    activateStudioTab(tabIdx, scrollTargetEl);
+    activateStudioTab(viewId, scrollTargetEl);
   };
 
   // Bind top & mobile navigation buttons with data-target-tab
@@ -9701,7 +9701,7 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     });
   });
 
-  // Intercept all in-page anchor links (<a href="#...">)
+  // Intercept in-page anchor links (<a href="#...">)
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href^="#"]');
     if (!link) return;
@@ -9719,8 +9719,8 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       const parentTab = targetEl.closest('.studio-tab-section, .view-section');
       if (parentTab) {
         e.preventDefault();
-        const tabIdx = parentTab.getAttribute('data-tab-index') || TAB_MAP[parentTab.id.replace('view-', '')] || '1';
-        activateStudioTab(tabIdx, targetEl);
+        const tabTarget = parentTab.getAttribute('data-tab-index') || parentTab.id.replace('view-', '');
+        activateStudioTab(tabTarget, targetEl);
         history.replaceState(null, '', hash);
       }
     } catch (err) {}
@@ -9734,13 +9734,13 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
         const hashEl = document.querySelector(initialHash);
         const parentTab = hashEl ? hashEl.closest('.studio-tab-section, .view-section') : null;
         if (parentTab) {
-          const tabIdx = parentTab.getAttribute('data-tab-index') || TAB_MAP[parentTab.id.replace('view-', '')] || '1';
-          activateStudioTab(tabIdx, hashEl);
+          const tabTarget = parentTab.getAttribute('data-tab-index') || parentTab.id.replace('view-', '');
+          activateStudioTab(tabTarget, hashEl);
           return;
         }
       } catch (err) {}
     }
-    const savedTab = localStorage.getItem('ips_active_tab') || '1';
+    const savedTab = localStorage.getItem('ips_active_tab') || 'overview';
     activateStudioTab(savedTab);
   });
 })();
