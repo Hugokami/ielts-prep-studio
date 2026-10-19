@@ -10108,9 +10108,9 @@ function updateVipToolsQuotaUI(quota) {
     badge.innerText = '👑 LIFETIME VIP PASS (UNLIMITED)';
     if (banner) banner.style.display = 'none';
   } else {
-    const rem = (quota && typeof quota.remaining === 'number') ? quota.remaining : 3;
+    const rem = (quota && typeof quota.remaining === 'number') ? quota.remaining : 15;
     badge.style.background = rem > 0 ? 'var(--accent)' : 'var(--crimson)';
-    badge.innerText = `💡 FREE PREVIEW: ${rem}/3 QUERIES LEFT`;
+    badge.innerText = `💡 FREE PREVIEW: ${rem}/15 QUERIES LEFT`;
 
     if (banner) {
       if (rem === 0) {
@@ -10118,14 +10118,14 @@ function updateVipToolsQuotaUI(quota) {
         banner.style.background = 'rgba(224, 86, 36, 0.12)';
         banner.style.border = '1px solid rgba(224, 86, 36, 0.4)';
         banner.style.color = 'var(--crimson)';
-        banner.innerHTML = `<strong>⚠️ Daily Free Limit Reached (3/3 queries used today).</strong><br>
-        Free tier users receive 3 Academic AI queries per day. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:800; text-decoration:underline;">Upgrade to Lifetime VIP (55,000 MMK)</a> for UNLIMITED daily access across all tools, reading CBT &amp; writing labs!`;
+        banner.innerHTML = `<strong>⚠️ Daily Free Limit Reached (15/15 queries used today).</strong><br>
+        Free tier users receive 15 Academic AI queries per day. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:800; text-decoration:underline;">Upgrade to Lifetime VIP (55,000 MMK)</a> for UNLIMITED daily access across all tools, reading CBT &amp; writing labs!`;
       } else {
         banner.style.display = 'block';
         banner.style.background = 'rgba(46, 204, 113, 0.08)';
         banner.style.border = '1px solid rgba(46, 204, 113, 0.3)';
         banner.style.color = 'var(--green)';
-        banner.innerHTML = `💡 Free Preview: <strong>${rem} of 3</strong> queries remaining today. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:700; text-decoration:underline;">Upgrade to VIP</a> for unlimited queries!`;
+        banner.innerHTML = `💡 Free Preview: <strong>${rem} of 15</strong> queries remaining today. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:700; text-decoration:underline;">Upgrade to VIP</a> for unlimited queries!`;
       }
     }
   }

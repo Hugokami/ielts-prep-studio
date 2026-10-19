@@ -33,6 +33,453 @@ function isAdmin(ctx) {
 }
 
 // ==========================================
+// QUOTA & ACADEMIC TOOL CONFIG (15 queries/day)
+// ==========================================
+const dailyUsageMap = new Map(); // `${userId}:${dateStr}` -> count
+const userPendingActions = new Map(); // `${userId}` -> 'collocate' | 'syn' | 'dict' | 'read'
+const FREE_DAILY_LIMIT = 15;
+
+function getYangonDateStr() {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Yangon' });
+}
+
+function isUserVip(userId) {
+  if (ADMIN_CHAT_ID && String(userId) === ADMIN_CHAT_ID) return true;
+  return voucherPool.vouchers.some(v => String(v.telegramId) === String(userId) && v.status === 'Issued');
+}
+
+function checkAndConsumeQuota(userId) {
+  if (isUserVip(userId)) {
+    return { allowed: true, isVip: true, count: 0, limit: 'unlimited', remaining: 'unlimited' };
+  }
+  const dateStr = getYangonDateStr();
+  const key = `${userId}:${dateStr}`;
+  const current = dailyUsageMap.get(key) || 0;
+  if (current >= FREE_DAILY_LIMIT) {
+    return { allowed: false, isVip: false, count: current, limit: FREE_DAILY_LIMIT, remaining: 0 };
+  }
+  const next = current + 1;
+  dailyUsageMap.set(key, next);
+  return { allowed: true, isVip: false, count: next, limit: FREE_DAILY_LIMIT, remaining: FREE_DAILY_LIMIT - next };
+}
+
+function getQuotaStatus(userId) {
+  if (isUserVip(userId)) {
+    return { isVip: true, count: 0, limit: 'unlimited', remaining: 'unlimited' };
+  }
+  const dateStr = getYangonDateStr();
+  const key = `${userId}:${dateStr}`;
+  const current = dailyUsageMap.get(key) || 0;
+  return { isVip: false, count: current, limit: FREE_DAILY_LIMIT, remaining: Math.max(0, FREE_DAILY_LIMIT - current) };
+}
+
+function formatQuotaFooter(quota) {
+  if (quota.isVip) {
+    return '👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*';
+  }
+  return `💡 *Free Preview:* *${quota.remaining}/15 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
+}
+
+function getQuotaExceededMessage() {
+  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (15/15 USED)*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `Free tier accounts are allocated 15 Academic AI searches per day.\n\n` +
+    `👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*\n` +
+    `• ⚡ *UNLIMITED* Academic Collocations (/collocate)\n` +
+    `• 💎 *UNLIMITED* Band 8.5+ Synonyms (/syn)\n` +
+    `• 📖 *UNLIMITED* Academic Topic Briefs (/read)\n` +
+    `• 📚 *UNLIMITED* Live Academic Dictionary (/dict)\n` +
+    `• 🧠 *UNLIMITED* Scholar Quotes & Rhetoric (/quote)\n` +
+    `• 🔤 All 1,162 Vocabulary items, Audio & 1-3-7 Spaced Repetition\n` +
+    `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)\n` +
+    `• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer\n` +
+    `• 💻 Personal Desktop Activation Voucher for PC & Laptop\n\n` +
+    `👇 တစ်သက်တာ အကန့်အသတ်မရှိ VIP အသုံးပြုရန် အောက်ပါခလုတ်ကို နှိပ်ပါ:`;
+}
+
+const STOP_WORDS = new Set([
+  'the', 'a', 'an', 'this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'its', 'our', 'their',
+  'some', 'any', 'no', 'every', 'all', 'each', 'both', 'few', 'more', 'most', 'other', 'such', 'what',
+  'which', 'who', 'whom', 'whose', 'of', 'in', 'to', 'for', 'with', 'on', 'at', 'from', 'by', 'about',
+  'as', 'into', 'like', 'through', 'after', 'over', 'between', 'out', 'against', 'during', 'without',
+  'before', 'under', 'around', 'among', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has',
+  'had', 'do', 'does', 'did', 'can', 'could', 'should', 'would', 'may', 'might', 'must', 'and', 'or', 'but',
+  'not', 'also', 'least', 'very', 'much', 'even'
+]);
+
+function cleanWordList(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  const cleaned = [];
+  for (const item of list) {
+    const w = (typeof item === 'string' ? item : (item && item.word ? item.word : '')).trim().toLowerCase();
+    if (!w || w.length < 3) continue;
+    if (STOP_WORDS.has(w)) continue;
+    if (seen.has(w)) continue;
+    seen.add(w);
+    cleaned.push(w);
+  }
+  return cleaned;
+}
+
+const ACADEMIC_ADJECTIVES = new Set([
+  'crucial', 'vital', 'essential', 'significant', 'substantial', 'profound', 'detrimental',
+  'beneficial', 'fundamental', 'critical', 'pivotal', 'paramount', 'feasible', 'viable',
+  'pressing', 'ubiquitous', 'unprecedented', 'imperative', 'prevalent', 'drastic', 'considerable',
+  'inevitable', 'compelling', 'notable', 'pervasive', 'stringent', 'comprehensive', 'adverse',
+  'sustainable', 'prominent', 'dominant', 'inherent'
+]);
+
+const ACADEMIC_VERBS = new Set([
+  'mitigate', 'exacerbate', 'foster', 'facilitate', 'alleviate', 'advocate', 'implement',
+  'demonstrate', 'accelerate', 'deteriorate', 'augment', 'diminish', 'curb', 'hinder',
+  'jeopardize', 'undermine', 'perpetuate', 'scrutinize', 'enhance', 'reinforce'
+]);
+
+async function fetchCollocations(rawWord) {
+  const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (!word) return null;
+  try {
+    const [metaRes, jjaRes, jjbRes, bgbRes, trgRes] = await Promise.allSettled([
+      fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_jja=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(word)}&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_bgb=${encodeURIComponent(word)}&md=p&max=20`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_trg=${encodeURIComponent(word)}&max=20`).then(r => r.json())
+    ]);
+
+    const metaItem = (metaRes.status === 'fulfilled' && Array.isArray(metaRes.value) && metaRes.value[0]) ? metaRes.value[0] : {};
+    const tags = metaItem.tags || [];
+
+    const jjaRaw = (jjaRes.status === 'fulfilled' && Array.isArray(jjaRes.value)) ? jjaRes.value : [];
+    const jjbRaw = (jjbRes.status === 'fulfilled' && Array.isArray(jjbRes.value)) ? jjbRes.value : [];
+    const bgbRaw = (bgbRes.status === 'fulfilled' && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
+    const trgRaw = (trgRes.status === 'fulfilled' && Array.isArray(trgRes.value)) ? trgRes.value : [];
+
+    let pos = 'noun';
+    if (ACADEMIC_ADJECTIVES.has(word)) {
+      pos = 'adj';
+    } else if (ACADEMIC_VERBS.has(word)) {
+      pos = 'verb';
+    } else if (metaItem.defs && metaItem.defs.length > 0) {
+      const dPos = metaItem.defs[0].split('\t')[0];
+      if (dPos === 'adj') pos = 'adj';
+      else if (dPos === 'v') pos = 'verb';
+      else if (dPos === 'n') pos = 'noun';
+      else if (dPos === 'adv') pos = 'adv';
+    } else if (tags.length > 0) {
+      const p = tags.filter(t => ['adj', 'v', 'n', 'adv'].includes(t));
+      if (p.length > 0) {
+        if (p[0] === 'adj') pos = 'adj';
+        else if (p[0] === 'v') pos = 'verb';
+        else if (p[0] === 'adv') pos = 'adv';
+        else pos = 'noun';
+      }
+    }
+
+    const jjaClean = cleanWordList(jjaRaw);
+    const jjbClean = cleanWordList(jjbRaw);
+    const trgClean = cleanWordList(trgRaw);
+
+    let nounCollocations = [];
+    let modifierCollocations = [];
+    let sentenceFrames = [];
+
+    if (pos === 'adj') {
+      nounCollocations = jjaClean.length ? jjaClean.slice(0, 6) : trgClean.slice(0, 6);
+      const bgbAdvs = bgbRaw.filter(w => w.tags && w.tags.includes('adv')).map(w => w.word);
+      const advs = Array.from(new Set([...cleanWordList(bgbAdvs), 'increasingly', 'vitally', 'critically', 'particularly', 'fundamentally'])).filter(a => a !== word);
+      modifierCollocations = advs.slice(0, 5);
+      sentenceFrames = [
+        `play a *${word}* role in [societal development / academic progress]`,
+        `of *${word}* importance to [policymakers / modern economy]`,
+        `proves to be a *${word}* factor in [determining long-term success]`
+      ];
+    } else if (pos === 'verb') {
+      nounCollocations = trgClean.length ? trgClean.slice(0, 6) : jjaClean.slice(0, 6);
+      modifierCollocations = ['significantly', 'effectively', 'substantially', 'gradually', 'proactively'];
+      sentenceFrames = [
+        `proactive government intervention is essential to *${word}* [the issue]`,
+        `failure to regulate could severely *${word}* [existing disparities]`
+      ];
+    } else {
+      modifierCollocations = jjbClean.length ? jjbClean.slice(0, 6) : trgClean.slice(0, 6);
+      nounCollocations = jjaClean.filter(n => n !== word).slice(0, 5);
+      sentenceFrames = [
+        `plays a pivotal role in the context of *${word}* [within contemporary society]`,
+        `policymakers must carefully examine issues regarding [this *${word}*]`
+      ];
+    }
+
+    return {
+      word,
+      pos,
+      nounCollocations,
+      modifierCollocations,
+      sentenceFrames,
+      triggers: trgClean.slice(0, 6)
+    };
+  } catch (err) {
+    console.error('[fetchCollocations Error]', err.message);
+    return null;
+  }
+}
+
+async function fetchSynonyms(rawWord) {
+  const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (!word) return null;
+  try {
+    const [synRes, spcRes] = await Promise.allSettled([
+      fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(word)}&max=12`).then(r => r.json()),
+      fetch(`https://api.datamuse.com/words?rel_spc=${encodeURIComponent(word)}&max=8`).then(r => r.json())
+    ]);
+
+    const synList = (synRes.status === 'fulfilled' && Array.isArray(synRes.value)) ? synRes.value.map(w => w.word) : [];
+    const spcList = (spcRes.status === 'fulfilled' && Array.isArray(spcRes.value)) ? spcRes.value.map(w => w.word) : [];
+    const combined = Array.from(new Set([...synList, ...spcList])).filter(w => w.toLowerCase() !== word);
+
+    return {
+      word,
+      synonyms: combined.slice(0, 10),
+      specific: spcList.slice(0, 5)
+    };
+  } catch (err) {
+    console.error('[fetchSynonyms Error]', err.message);
+    return null;
+  }
+}
+
+async function fetchTopicBrief(rawTopic) {
+  const topic = (rawTopic || '').trim();
+  if (!topic) return null;
+  try {
+    let resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topic.replace(/\s+/g, '_'))}`, {
+      headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
+    });
+    let data = null;
+    if (resp.ok) {
+      data = await resp.json();
+    } else {
+      const searchUrl = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(topic)}&limit=1&namespace=0&format=json`;
+      const searchResp = await fetch(searchUrl, {
+        headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
+      });
+      if (searchResp.ok) {
+        const searchJson = await searchResp.json();
+        const matched = searchJson[1] && searchJson[1][0] ? searchJson[1][0] : null;
+        if (matched) {
+          resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(matched.replace(/\s+/g, '_'))}`, {
+            headers: { 'User-Agent': 'IELTSPrepStudioBot/1.0 (academic.prep@gmail.com)' }
+          });
+          if (resp.ok) data = await resp.json();
+        }
+      }
+    }
+    if (!data || !data.extract) return null;
+    let extract = data.extract;
+    if (extract.length > 450) {
+      const dotIdx = extract.indexOf('.', 350);
+      if (dotIdx !== -1) extract = extract.substring(0, dotIdx + 1);
+    }
+    return {
+      title: data.title || topic,
+      extract,
+      description: data.description || 'Academic Topic'
+    };
+  } catch (err) {
+    console.error('[fetchTopicBrief Error]', err.message);
+    return null;
+  }
+}
+
+async function fetchDictionary(rawWord) {
+  const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (!word) return null;
+  try {
+    const resp = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`);
+    if (!resp.ok) return null;
+    const json = await resp.json();
+    if (!json || !json.length) return null;
+
+    const item = json[0];
+    const defs = item.defs || [];
+    const parsedDefs = defs.map(d => {
+      const parts = d.split('\t');
+      return { pos: parts[0] || 'n', definition: parts[1] ? parts[1].trim() : d };
+    });
+
+    const tags = item.tags || [];
+    const pos = tags.filter(t => ['n', 'v', 'adj', 'adv'].includes(t));
+
+    return {
+      word: item.word || word,
+      pos: pos.length ? pos.join(', ') : (parsedDefs[0] ? parsedDefs[0].pos : 'noun'),
+      definitions: parsedDefs.slice(0, 3)
+    };
+  } catch (err) {
+    console.error('[fetchDictionary Error]', err.message);
+    return null;
+  }
+}
+
+const SCHOLAR_QUOTES_BANK = [
+  {
+    quote: "The roots of education are bitter, but the fruit is sweet.",
+    author: "Aristotle",
+    advice: "Use in Task 2 essays on tertiary education, pedagogical reform, or the dedication required for academic advancement."
+  },
+  {
+    quote: "Knowledge itself is power.",
+    author: "Francis Bacon",
+    advice: "A classical foundation for essays addressing public information accessibility, scientific research funding, or educational equality."
+  },
+  {
+    quote: "We cannot solve our problems with the same thinking we used when we created them.",
+    author: "Albert Einstein",
+    advice: "An excellent topic sentence or transition for problem-solution essays on environmental conservation, urban sprawl, or healthcare reform."
+  },
+  {
+    quote: "Education is the most powerful weapon which you can use to change the world.",
+    author: "Nelson Mandela",
+    advice: "Highly effective for concluding paragraphs emphasizing governmental allocation of resources to primary and higher education."
+  },
+  {
+    quote: "The only true wisdom is in knowing you know nothing.",
+    author: "Socrates",
+    advice: "Can be adapted into philosophical discussions on lifelong learning, scientific inquiry, and avoiding dogmatism in civic policy."
+  },
+  {
+    quote: "It is not that we have a short time to live, but that we waste a lot of it.",
+    author: "Seneca",
+    advice: "Ideal for Speaking Part 3 or Task 2 essays debating work-life balance, digital distractions, and modern productivity."
+  },
+  {
+    quote: "The good life is one inspired by love and guided by knowledge.",
+    author: "Bertrand Russell",
+    advice: "Superb rhetorical benchmark for evaluating societal progress beyond mere gross domestic product (GDP) or material wealth."
+  },
+  {
+    quote: "Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less.",
+    author: "Marie Curie",
+    advice: "Compelling argument for technological adoption, biotechnology, and artificial intelligence in modern healthcare and science."
+  },
+  {
+    quote: "He who has a why to live can bear almost any how.",
+    author: "Friedrich Nietzsche",
+    advice: "Powerful psychological evidence in essays addressing mental health, career resilience, and youth motivation in competitive economies."
+  },
+  {
+    quote: "Real knowledge is to know the extent of one's ignorance.",
+    author: "Confucius",
+    advice: "Fits essays discussing the role of critical thinking, media literacy, and epistemic humility in the age of misinformation."
+  }
+];
+
+async function fetchScholarQuote() {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2500);
+    const resp = await fetch('https://dummyjson.com/quotes/random', { signal: controller.signal });
+    clearTimeout(timer);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.quote && data.author) {
+        return {
+          quote: data.quote,
+          author: data.author,
+          advice: 'Examine the philosophical premise of this quote. Paraphrase its core thesis into an abstract background statement or evaluation in IELTS Writing Task 2.'
+        };
+      }
+    }
+  } catch (_) {}
+  const randomIndex = Math.floor(Math.random() * SCHOLAR_QUOTES_BANK.length);
+  return SCHOLAR_QUOTES_BANK[randomIndex];
+}
+
+const ACADEMIC_WOTD_BANK = [
+  {
+    word: 'ubiquitous',
+    pos: 'adjective',
+    ipa: '/juːˈbɪk.wɪ.təs/',
+    mm: 'နေရာအနှံ့အပြားတွင် တွေ့ရှိရသော / အလွန်ပျံ့နှံ့နေသော',
+    collocations: ['ubiquitous presence', 'become ubiquitous', 'ubiquitous technology'],
+    example: 'Smartphones have become so ubiquitous that their pervasive influence on social interactions cannot be overlooked.'
+  },
+  {
+    word: 'mitigate',
+    pos: 'verb',
+    ipa: '/ˈmɪt.ɪ.ɡeɪt/',
+    mm: 'သက်သာလျော့ပါးစေသည် / ဆိုးကျိုးကို နည်းပါးစေသည်',
+    collocations: ['mitigate adverse effects', 'mitigate environmental damage', 'mitigate risks'],
+    example: 'Governments must implement stringent carbon tariffs to mitigate the catastrophic repercussions of climate change.'
+  },
+  {
+    word: 'exacerbate',
+    pos: 'verb',
+    ipa: '/ɪɡˈzæs.ə.beɪt/',
+    mm: 'ပိုမိုဆိုးရွားစေသည် / အခြေအနေ ပိုမိုတင်းမာစေသည်',
+    collocations: ['exacerbate the problem', 'exacerbate existing inequalities', 'severely exacerbate'],
+    example: 'Unplanned urban sprawl threatens to exacerbate traffic congestion and air pollution in metropolitan areas.'
+  },
+  {
+    word: 'paramount',
+    pos: 'adjective',
+    ipa: '/ˈpær.ə.maʊnt/',
+    mm: 'အရေးအကြီးဆုံးသော / ထိပ်တန်းဦးစားပေးဖြစ်သော',
+    collocations: ['of paramount importance', 'paramount consideration', 'paramount duty'],
+    example: 'Ensuring equitable access to primary education is of paramount importance for long-term economic development.'
+  },
+  {
+    word: 'pervasive',
+    pos: 'adjective',
+    ipa: '/pəˈveɪ.sɪv/',
+    mm: 'အလွှာစုံသို့ ထိုးဖောက်ပျံ့နှံ့နေသော',
+    collocations: ['pervasive influence', 'pervasive problem', 'pervasive nature'],
+    example: 'The pervasive influence of mass media plays a transformative role in shaping youthful attitudes.'
+  },
+  {
+    word: 'scrutinize',
+    pos: 'verb',
+    ipa: '/ˈskruː.tɪ.naɪz/',
+    mm: 'အသေအချာ စိစစ်ဝေဖန်လေ့လာသည်',
+    collocations: ['carefully scrutinize', 'scrutinize empirical evidence', 'scrutinize policy outcomes'],
+    example: 'Policymakers must meticulously scrutinize proposed infrastructure projects before allocating fiscal budgets.'
+  },
+  {
+    word: 'detrimental',
+    pos: 'adjective',
+    ipa: '/ˌdet.rɪˈmen.təl/',
+    mm: 'ထိခိုက်နစ်နာစေသော / အန္တရာယ်ရှိသော',
+    collocations: ['detrimental impact', 'detrimental effect on health', 'prove detrimental'],
+    example: 'Excessive exposure to digital screens can exert a highly detrimental impact on cognitive development.'
+  },
+  {
+    word: 'imperative',
+    pos: 'adjective / noun',
+    ipa: '/ɪmˈper.ə.tɪv/',
+    mm: 'မဖြစ်မနေ လုပ်ဆောင်ရမည့် တာဝန် / မရှိမဖြစ် အရေးကြီးသော',
+    collocations: ['moral imperative', 'economic imperative', 'it is imperative that'],
+    example: 'It is imperative that international organizations collaborate to protect biodiversity in vulnerable ecosystems.'
+  },
+  {
+    word: 'feasible',
+    pos: 'adjective',
+    ipa: '/ˈfiː.zə.bəl/',
+    mm: 'လက်တွေ့ဖြစ်နိုင်ခြေရှိသော / အကောင်အထည်ဖော်နိုင်သော',
+    collocations: ['economically feasible', 'technically feasible', 'a feasible alternative'],
+    example: 'Transitioning toward renewable energy represents the only economically feasible trajectory for sustainable development.'
+  },
+  {
+    word: 'unprecedented',
+    pos: 'adjective',
+    ipa: '/ʌnˈpres.ɪ.den.tɪd/',
+    mm: 'တစ်ခါမှ မကြုံစဖူးသော / အဆမတန်များပြားသော',
+    collocations: ['unprecedented scale', 'unprecedented challenge', 'grow at an unprecedented rate'],
+    example: 'The proliferation of artificial intelligence presents society with unprecedented legal and ethical quandaries.'
+  }
+];
+
+// ==========================================
 // 1. STUDENT ONBOARDING & PAYMENT DETAILS
 // ==========================================
 bot.command('start', async (ctx) => {
@@ -176,151 +623,763 @@ bot.on('callback_query:data', async (ctx) => {
   const data = ctx.callbackQuery.data;
   const fromId = String(ctx.from.id);
 
-  // Security Check: Only designated Admin can tap buttons
-  if (fromId !== ADMIN_CHAT_ID) {
-    return ctx.answerCallbackQuery({
-      text: '⛔ Unauthorized: Only the designated Admin can approve orders.',
-      show_alert: true
-    });
-  }
-
-  // Handle Approval: appr:<studentId>:<studentName>
-  if (data.startsWith('appr:')) {
-    const parts = data.split(':');
-    const studentId = parts[1];
-    const studentName = decodeURIComponent(parts[2] || 'Scholar');
-
-    const msgId = ctx.callbackQuery.message?.message_id;
-    const lockKey = `${msgId}:${studentId}`;
-
-    // Race condition prevention: block duplicate clicks immediately
-    if (activeApprovalLocks.has(lockKey)) {
+  // Security Check: Only designated Admin can tap approval/rejection buttons
+  if (data.startsWith('appr:') || data.startsWith('rej:')) {
+    if (fromId !== ADMIN_CHAT_ID) {
       return ctx.answerCallbackQuery({
-        text: '⏳ Processing approval, please wait...',
-        show_alert: false
-      });
-    }
-    activeApprovalLocks.add(lockKey);
-
-    // Immediately clear keyboard on message to prevent client double-taps
-    try {
-      await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
-    } catch (_) {}
-
-    // Claim next voucher from pool
-    const voucher = voucherPool.claimNextVoucher({
-      id: studentId,
-      name: studentName,
-      username: ''
-    });
-
-    if (!voucher) {
-      activeApprovalLocks.delete(lockKey);
-      await ctx.answerCallbackQuery({
-        text: '⚠️ Voucher pool is empty! Use /mint to add more codes.',
+        text: '⛔ Unauthorized: Only the designated Admin can approve orders.',
         show_alert: true
       });
+    }
+
+    // Handle Approval: appr:<studentId>:<studentName>
+    if (data.startsWith('appr:')) {
+      const parts = data.split(':');
+      const studentId = parts[1];
+      const studentName = decodeURIComponent(parts[2] || 'Scholar');
+
+      const msgId = ctx.callbackQuery.message?.message_id;
+      const lockKey = `${msgId}:${studentId}`;
+
+      // Race condition prevention: block duplicate clicks immediately
+      if (activeApprovalLocks.has(lockKey)) {
+        return ctx.answerCallbackQuery({
+          text: '⏳ Processing approval, please wait...',
+          show_alert: false
+        });
+      }
+      activeApprovalLocks.add(lockKey);
+
+      // Immediately clear keyboard on message to prevent client double-taps
+      try {
+        await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
+      } catch (_) {}
+
+      // Claim next voucher from pool
+      const voucher = voucherPool.claimNextVoucher({
+        id: studentId,
+        name: studentName,
+        username: ''
+      });
+
+      if (!voucher) {
+        activeApprovalLocks.delete(lockKey);
+        await ctx.answerCallbackQuery({
+          text: '⚠️ Voucher pool is empty! Use /mint to add more codes.',
+          show_alert: true
+        });
+        return;
+      }
+
+      // 1. Update Admin Message UI in real-time
+      const currentCaption = ctx.callbackQuery.message?.caption || '';
+      const updatedCaption =
+        currentCaption +
+        `\n\n━━━━━━━━━━━━━━━━━━━━\n` +
+        `🎉 **APPROVED by Admin**\n` +
+        `🎟️ **Issued Code:** \`${voucher.code}\`\n` +
+        `🔗 **Magic Link:** ${voucher.magicLink}\n` +
+        `⏰ **Processed At:** ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
+
+      try {
+        await ctx.editMessageCaption({
+          caption: updatedCaption,
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+        });
+      } catch (e) {
+        console.warn('[Edit Caption Notice]:', e.message);
+      }
+
+      // 2. Deliver Magic Link to Student
+      const studentDeliveryMessage =
+        `🎉 **Congratulations! သင်၏ Lifetime Studio VIP Pass အား အတည်ပြုပြီးပါပြီခင်ဗျာ။**\n\n` +
+        `အောက်ပါ **1-Click Magic Link** ကို နှိပ်ပြီး Google Account ဖြင့် Sign In ပြုလုပ်ရုံဖြင့် VIP Modules အားလုံး ချက်ချင်း ပွင့်သွားပါမည်:\n\n` +
+        `👉 **1-Click Activate Link:**\n` +
+        `${voucher.magicLink}\n\n` +
+        `👑 **Unlocked Privileges:**\n` +
+        `• All 23 Cambridge Reading CBT Tests + Burmese Citations\n` +
+        `• All 40 Band 8.5/9.0 Writing Models & Frameworks\n` +
+        `• 60 Gemini AI Examiner Essay Audits / Month\n` +
+        `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
+        `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n\n` +
+        `_(Website တွင် ကိုယ်တိုင် Code ရိုက်ထည့်လိုပါက Voucher Code: \`${voucher.code}\` ဖြစ်ပါသည်)_\n\n` +
+        `IELTS Prep Studio ဖြင့် အောင်မြင်သော ရလဒ်ကောင်းများ ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းအပ်ပါသည်။`;
+
+      try {
+        await ctx.api.sendMessage(studentId, studentDeliveryMessage, {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .webApp('🚀 Open & Activate in Telegram', voucher.magicLink)
+            .url('💻 Open on Computer ↗', voucher.magicLink)
+        });
+        await ctx.answerCallbackQuery({ text: `✓ Pass Issued: ${voucher.code}` });
+      } catch (err) {
+        console.error('[Student Delivery Error]:', err.message);
+        await ctx.answerCallbackQuery({ text: `⚠️ Approved, but failed to message student directly.` });
+      }
       return;
     }
 
-    // 1. Update Admin Message UI in real-time
-    const currentCaption = ctx.callbackQuery.message?.caption || '';
-    const updatedCaption =
-      currentCaption +
-      `\n\n━━━━━━━━━━━━━━━━━━━━\n` +
-      `🎉 **APPROVED by Admin**\n` +
-      `🎟️ **Issued Code:** \`${voucher.code}\`\n` +
-      `🔗 **Magic Link:** ${voucher.magicLink}\n` +
-      `⏰ **Processed At:** ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
+    // Handle Rejection: rej:<studentId>
+    if (data.startsWith('rej:')) {
+      const studentId = data.split(':')[1];
+      const msgId = ctx.callbackQuery.message?.message_id;
+      const lockKey = `${msgId}:${studentId}`;
 
-    try {
-      await ctx.editMessageCaption({
-        caption: updatedCaption,
-        parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard() // Clear buttons to prevent double-click
-      });
-    } catch (e) {
-      console.warn('[Edit Caption Notice]:', e.message);
+      if (activeApprovalLocks.has(lockKey)) {
+        return ctx.answerCallbackQuery({
+          text: '⏳ Action already in progress...',
+          show_alert: false
+        });
+      }
+      activeApprovalLocks.add(lockKey);
+
+      try {
+        await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
+      } catch (_) {}
+
+      const currentCaption = ctx.callbackQuery.message?.caption || '';
+      const updatedCaption =
+        currentCaption +
+        `\n\n━━━━━━━━━━━━━━━━━━━━\n` +
+        `❌ **REJECTED by Admin**\n` +
+        `⏰ **Processed At:** ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
+
+      try {
+        await ctx.editMessageCaption({
+          caption: updatedCaption,
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+        });
+      } catch (e) {}
+
+      try {
+        await ctx.api.sendMessage(
+          studentId,
+          `⚠️ **ငွေလွှဲစလစ် အတည်မပြုနိုင်သေးပါခင်ဗျာ**\n\n` +
+          `သင်ပေးပို့ထားသော ငွေလွှဲပြေစာအား စစ်ဆေးရာတွင် အဆင်မပြေမှု အနည်းငယ် ရှိနေပါသဖြင့် ငွေလွှဲအချက်အလက် (Transaction Slip) အား ပြန်လည်စစ်ဆေးပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။\n\n` +
+          `အသေးစိတ်သိရှိလိုပါက Admin Telegram @hyuguo သို့ တိုက်ရိုက် ဆက်သွယ်စုံစမ်းနိုင်ပါသည်။`,
+          { parse_mode: 'Markdown' }
+        );
+        await ctx.answerCallbackQuery({ text: 'Order rejected.' });
+      } catch (err) {
+        console.error('[Reject Notice Error]:', err.message);
+      }
+      return;
     }
-
-    // 2. Deliver Magic Link to Student
-    const studentDeliveryMessage =
-      `🎉 **Congratulations! သင်၏ Lifetime Studio VIP Pass အား အတည်ပြုပြီးပါပြီခင်ဗျာ။**\n\n` +
-      `အောက်ပါ **1-Click Magic Link** ကို နှိပ်ပြီး Google Account ဖြင့် Sign In ပြုလုပ်ရုံဖြင့် VIP Modules အားလုံး ချက်ချင်း ပွင့်သွားပါမည်:\n\n` +
-      `👉 **1-Click Activate Link:**\n` +
-      `${voucher.magicLink}\n\n` +
-      `👑 **Unlocked Privileges:**\n` +
-      `• All 23 Cambridge Reading CBT Tests + Burmese Citations\n` +
-      `• All 40 Band 8.5/9.0 Writing Models & Frameworks\n` +
-      `• 60 Gemini AI Examiner Essay Audits / Month\n` +
-      `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
-      `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n\n` +
-      `_(Website တွင် ကိုယ်တိုင် Code ရိုက်ထည့်လိုပါက Voucher Code: \`${voucher.code}\` ဖြစ်ပါသည်)_\n\n` +
-      `IELTS Prep Studio ဖြင့် အောင်မြင်သော ရလဒ်ကောင်းများ ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းအပ်ပါသည်။`;
-
-    try {
-      await ctx.api.sendMessage(studentId, studentDeliveryMessage, {
-        parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard()
-          .webApp('🚀 Open & Activate in Telegram', voucher.magicLink)
-          .url('💻 Open on Computer ↗', voucher.magicLink)
-      });
-      await ctx.answerCallbackQuery({ text: `✓ Pass Issued: ${voucher.code}` });
-    } catch (err) {
-      console.error('[Student Delivery Error]:', err.message);
-      await ctx.answerCallbackQuery({ text: `⚠️ Approved, but failed to message student directly.` });
-    }
-    return;
   }
 
-  // Handle Rejection: rej:<studentId>
-  if (data.startsWith('rej:')) {
-    const studentId = data.split(':')[1];
-    const msgId = ctx.callbackQuery.message?.message_id;
-    const lockKey = `${msgId}:${studentId}`;
+  // ==========================================
+  // STUDENT INTERACTIVE CALLBACK HANDLERS
+  // ==========================================
+  await ctx.answerCallbackQuery().catch(() => {});
 
-    if (activeApprovalLocks.has(lockKey)) {
-      return ctx.answerCallbackQuery({
-        text: '⏳ Action already in progress...',
-        show_alert: false
-      });
-    }
-    activeApprovalLocks.add(lockKey);
+  if (data === 'menu_tools') {
+    return handleToolsMenu(ctx);
+  }
 
-    // Immediately clear keyboard on message to prevent client double-taps
-    try {
-      await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
-    } catch (_) {}
-
-    const currentCaption = ctx.callbackQuery.message?.caption || '';
-    const updatedCaption =
-      currentCaption +
-      `\n\n━━━━━━━━━━━━━━━━━━━━\n` +
-      `❌ **REJECTED by Admin**\n` +
-      `⏰ **Processed At:** ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
-
-    try {
-      await ctx.editMessageCaption({
-        caption: updatedCaption,
-        parse_mode: 'Markdown',
-        reply_markup: new InlineKeyboard()
-      });
-    } catch (e) {}
-
-    try {
-      await ctx.api.sendMessage(
-        studentId,
-        `⚠️ **ငွေလွှဲစလစ် အတည်မပြုနိုင်သေးပါခင်ဗျာ**\n\n` +
-        `သင်ပေးပို့ထားသော ငွေလွှဲပြေစာအား စစ်ဆေးရာတွင် အဆင်မပြေမှု အနည်းငယ် ရှိနေပါသဖြင့် ငွေလွှဲအချက်အလက် (Transaction Slip) အား ပြန်လည်စစ်ဆေးပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။\n\n` +
-        `အသေးစိတ်သိရှိလိုပါက Admin Telegram @hyuguo သို့ တိုက်ရိုက် ဆက်သွယ်စုံစမ်းနိုင်ပါသည်။`,
-        { parse_mode: 'Markdown' }
+  if (data.startsWith('ask_tool:')) {
+    const tool = data.replace('ask_tool:', '').trim();
+    userPendingActions.set(ctx.from.id, tool);
+    if (tool === 'collocate') {
+      return ctx.reply(
+        `🔗 **Academic Collocations Engine**\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `Type any academic word to find high-yield word pairings (e.g., \`impact\`, \`crucial\`, \`policy\`, \`evidence\`):`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .text('🔗 impact', 'tool_collocate:impact')
+            .text('🔗 crucial', 'tool_collocate:crucial')
+            .row()
+            .text('⚡ Back to Tools', 'menu_tools')
+        }
       );
-      await ctx.answerCallbackQuery({ text: 'Order rejected.' });
-    } catch (err) {
-      console.error('[Reject Notice Error]:', err.message);
     }
+    if (tool === 'syn') {
+      return ctx.reply(
+        `💎 **Band 8.5+ Academic Synonyms**\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `Type any word to get sophisticated paraphrases for Writing Task 2 (e.g., \`important\`, \`increase\`, \`problem\`):`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .text('💎 important', 'tool_syn:important')
+            .text('💎 increase', 'tool_syn:increase')
+            .row()
+            .text('⚡ Back to Tools', 'menu_tools')
+        }
+      );
+    }
+    if (tool === 'dict') {
+      return ctx.reply(
+        `📚 **Live Academic Dictionary**\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `Type any academic vocabulary item for formal definition and part of speech (e.g., \`ubiquitous\`, \`mitigate\`):`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .text('📚 ubiquitous', 'tool_dict:ubiquitous')
+            .text('📚 mitigate', 'tool_dict:mitigate')
+            .row()
+            .text('⚡ Back to Tools', 'menu_tools')
+        }
+      );
+    }
+    if (tool === 'read') {
+      return ctx.reply(
+        `📖 **Academic Topic Briefs**\n` +
+        `━━━━━━━━━━━━━━━━━━━━\n` +
+        `Type an essay topic to get background context and arguments (e.g., \`Artificial intelligence\`, \`Climate change\`):`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .text('📖 AI in Society', 'tool_read:Artificial intelligence')
+            .text('📖 Climate Change', 'tool_read:Climate change')
+            .row()
+            .text('⚡ Back to Tools', 'menu_tools')
+        }
+      );
+    }
+  }
+
+  if (data.startsWith('tool_collocate:')) {
+    const word = data.replace('tool_collocate:', '').trim();
+    return handleCollocate(ctx, word);
+  }
+
+  if (data.startsWith('tool_syn:')) {
+    const word = data.replace('tool_syn:', '').trim();
+    return handleSyn(ctx, word);
+  }
+
+  if (data.startsWith('tool_dict:')) {
+    const word = data.replace('tool_dict:', '').trim();
+    return handleDict(ctx, word);
+  }
+
+  if (data.startsWith('tool_read:')) {
+    const topic = data.replace('tool_read:', '').trim();
+    return handleRead(ctx, topic);
+  }
+
+  if (data === 'tool_quote') {
+    return handleQuote(ctx);
+  }
+
+  if (data === 'tool_wotd') {
+    return handleWotd(ctx);
+  }
+
+  if (data === 'tool_quota') {
+    return handleQuota(ctx);
+  }
+
+  if (data === 'tool_bands') {
+    return handleBands(ctx);
+  }
+
+  if (data === 'tool_format') {
+    return handleFormat(ctx);
+  }
+
+  if (data.startsWith('sprint:')) {
+    const mins = parseInt(data.split(':')[1], 10) || 20;
+    return handleSprint(ctx, mins);
+  }
+
+  if (data === 'info_payment') {
+    return ctx.reply(
+      `💳 **Payment Information (55,000 MMK — Lifetime VIP Pass)**\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `• KBZPay / WavePay: \`${PAYMENT_PHONE}\`\n` +
+      `• Account Name: **${ACCOUNT_NAME}**\n\n` +
+      `လွှဲပြီးပါက ငွေလွှဲ Screenshot စလစ်ကို ဤ Chat သို့ ပို့ပေးပါ။ Admin မှ စစ်ဆေးအတည်ပြုပြီး မိနစ်ပိုင်းအတွင်း VIP ဖွင့်ပေးပါမည်! 🚀`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard().text('⚡ VIP Academic Menu', 'menu_tools')
+      }
+    );
   }
 });
+
+// ==========================================
+// 4. STUDENT TEXT INTAKE (PENDING TOOLS)
+// ==========================================
+bot.on('message:text', async (ctx, next) => {
+  const text = (ctx.message?.text || '').trim();
+  const userId = ctx.from?.id;
+
+  if (text.startsWith('/')) {
+    return next();
+  }
+
+  const pending = userPendingActions.get(userId);
+  if (pending) {
+    userPendingActions.delete(userId);
+    if (pending === 'collocate') return handleCollocate(ctx, text);
+    if (pending === 'syn') return handleSyn(ctx, text);
+    if (pending === 'dict') return handleDict(ctx, text);
+    if (pending === 'read') return handleRead(ctx, text);
+  }
+
+  return next();
+});
+
+// ==========================================
+// 5. ACADEMIC TOOL HANDLERS
+// ==========================================
+async function handleToolsMenu(ctx) {
+  const userId = ctx.from.id;
+  const isVip = isUserVip(userId);
+  const quota = getQuotaStatus(userId);
+
+  const statusBadge = isVip
+    ? '👑 *LIFETIME VIP PASS* (⚡ Unlimited Daily Queries)'
+    : `🆓 *FREE TIER* (${quota.remaining}/15 Queries Remaining Today)`;
+
+  const menuMsg =
+    `⚡ **VIP ACADEMIC LEXICON & TOPIC EXPLORER**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `📊 **Your Status:** ${statusBadge}\n\n` +
+    `အောက်ပါ Academic AI Tools ခလုတ်များကို နှိပ်ပြီး သင်ရှာလိုသော စာလုံး (သို့) ခေါင်းစဉ်ကို လွတ်လပ်စွာ ရှာဖွေနိုင်ပါသည်:\n\n` +
+    `🔗 *Academic Collocations:* သဘာဝကျသော စကားတွဲများ\n` +
+    `💎 *Band 8.5+ Synonyms:* အဆင့်မြင့် စာလုံး အစားထိုးစကားလုံးများ\n` +
+    `📖 *Academic Topic Briefs:* Task 2 Background ဗဟုသုတများ\n` +
+    `📚 *Academic Dictionary:* Formal Definition & Part of Speech\n` +
+    `🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း\n\n` +
+    `👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။\n` +
+    `🆓 *Free Tier:* တစ်နေ့လျှင် ၁၅ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။\n\n` +
+    `👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
+
+  const keyboard = new InlineKeyboard()
+    .text('🔗 Academic Collocations', 'ask_tool:collocate')
+    .text('💎 Band 8.5+ Synonyms', 'ask_tool:syn')
+    .row()
+    .text('📖 Academic Topic Briefs', 'ask_tool:read')
+    .text('📚 Academic Dictionary', 'ask_tool:dict')
+    .row()
+    .text('🧠 Scholar Quote', 'tool_quote')
+    .text('🌟 Word of the Day', 'tool_wotd')
+    .row()
+    .text('📊 Check My Quota', 'tool_quota')
+    .text('🎯 Band Score Scale', 'tool_bands')
+    .row()
+    .text('⏱️ 20m CBT Sprint', 'sprint:20')
+    .text('⏱️ 40m Essay Sprint', 'sprint:40')
+    .row()
+    .webApp('🚀 Launch IELTS Prep Studio', WEB_URL);
+
+  await ctx.reply(menuMsg, {
+    parse_mode: 'Markdown',
+    reply_markup: keyboard
+  });
+}
+
+async function handleCollocate(ctx, rawWord) {
+  const userId = ctx.from.id;
+  const word = (rawWord || '').trim();
+  if (!word) {
+    userPendingActions.set(userId, 'collocate');
+    return ctx.reply('✍️ Please type the word you want to collocate (e.g. `impact`, `crucial`, `policy`):', { parse_mode: 'Markdown' });
+  }
+
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const result = await fetchCollocations(word);
+  if (!result || (!result.nounCollocations.length && !result.modifierCollocations.length)) {
+    return ctx.reply(`⚠️ No academic collocations found for \`${word}\`. Try common academic words like *impact, crucial, policy, environment, evidence*.`, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('🔍 Search another word', 'ask_tool:collocate')
+        .text('⚡ VIP Tools', 'menu_tools')
+    });
+  }
+
+  let text = `🔗 **ACADEMIC COLLOCATIONS: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `🏷️ **Identified POS:** _${result.pos}_\n\n`;
+
+  if (result.modifierCollocations.length) {
+    text += `✨ **High-Scoring Modifiers / Adverbs:**\n` + result.modifierCollocations.map(w => `• *${w}* ${result.word}`).join('\n') + `\n\n`;
+  }
+  if (result.nounCollocations.length) {
+    text += `📌 **Natural Partner Nouns:**\n` + result.nounCollocations.map(w => `• ${result.word} *${w}*`).join('\n') + `\n\n`;
+  }
+  if (result.sentenceFrames.length) {
+    text += `✍️ **Band 9 Sentence Skeletons:**\n` + result.sentenceFrames.map((f, i) => `${i + 1}. ${f}`).join('\n') + `\n\n`;
+  }
+
+  text += formatQuotaFooter(quota);
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('🔗 Collocate another word', 'ask_tool:collocate')
+      .text('💎 Synonyms', `tool_syn:${result.word}`)
+      .row()
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleSyn(ctx, rawWord) {
+  const userId = ctx.from.id;
+  const word = (rawWord || '').trim();
+  if (!word) {
+    userPendingActions.set(userId, 'syn');
+    return ctx.reply('✍️ Please type the word you want to find synonyms for (e.g. `important`, `increase`, `problem`):', { parse_mode: 'Markdown' });
+  }
+
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const result = await fetchSynonyms(word);
+  if (!result || !result.synonyms.length) {
+    return ctx.reply(`⚠️ No academic synonyms found for \`${word}\`. Try words like *important, crucial, beneficial, problem, increase*.`, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('🔍 Try another word', 'ask_tool:syn')
+        .text('⚡ VIP Tools', 'menu_tools')
+    });
+  }
+
+  let text = `💎 **BAND 8.5+ SYNONYMS: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `💡 **Academic Alternatives:**\n` + result.synonyms.map(w => `• *${w}*`).join('\n') + `\n\n`;
+  if (result.specific && result.specific.length) {
+    text += `🎯 **Context-Specific Precision Terms:**\n` + result.specific.map(w => `• *${w}*`).join('\n') + `\n\n`;
+  }
+  text += formatQuotaFooter(quota);
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('💎 Find more synonyms', 'ask_tool:syn')
+      .text('🔗 Collocations', `tool_collocate:${result.word}`)
+      .row()
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleDict(ctx, rawWord) {
+  const userId = ctx.from.id;
+  const word = (rawWord || '').trim();
+  if (!word) {
+    userPendingActions.set(userId, 'dict');
+    return ctx.reply('✍️ Please type the word to look up in the academic dictionary (e.g. `ubiquitous`, `mitigate`):', { parse_mode: 'Markdown' });
+  }
+
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const result = await fetchDictionary(word);
+  if (!result || !result.definitions.length) {
+    return ctx.reply(`⚠️ Word \`${word}\` not found in dictionary database. Check spelling or try common academic terms.`, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('📚 Search another word', 'ask_tool:dict')
+        .text('⚡ VIP Tools', 'menu_tools')
+    });
+  }
+
+  let text = `📚 **LIVE ACADEMIC DICTIONARY: "${result.word.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `🏷️ **Part of Speech:** _${result.pos}_\n\n`;
+  text += `📖 **Formal Definitions:**\n` + result.definitions.map((d, i) => `${i + 1}. *(${d.pos})* ${d.definition}`).join('\n\n') + `\n\n`;
+  text += formatQuotaFooter(quota);
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('📚 Look up another word', 'ask_tool:dict')
+      .text('🔗 Collocations', `tool_collocate:${result.word}`)
+      .row()
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleRead(ctx, rawTopic) {
+  const userId = ctx.from.id;
+  const topic = (rawTopic || '').trim();
+  if (!topic) {
+    userPendingActions.set(userId, 'read');
+    return ctx.reply('✍️ Please type the topic for background knowledge (e.g. `Artificial intelligence`, `Climate change`):', { parse_mode: 'Markdown' });
+  }
+
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const result = await fetchTopicBrief(topic);
+  if (!result) {
+    return ctx.reply(`⚠️ No academic topic brief found for \`${topic}\`. Try topics like *Higher education, Globalization, Renewable energy, Urbanization*.`, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('📖 Search another topic', 'ask_tool:read')
+        .text('⚡ VIP Tools', 'menu_tools')
+    });
+  }
+
+  let text = `📖 **ACADEMIC TOPIC BRIEF: "${result.title.toUpperCase()}"**\n━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `🏷️ **Domain:** _${result.description}_\n\n`;
+  text += `💡 **Academic Context & Arguments:**\n${result.extract}\n\n`;
+  text += formatQuotaFooter(quota);
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('📖 Read another topic', 'ask_tool:read')
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleQuote(ctx) {
+  const userId = ctx.from.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const quote = await fetchScholarQuote();
+  const text =
+    `🧠 **SCHOLAR THOUGHT & RHETORIC**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `❝ *${quote.quote}* ❞\n` +
+    `— **${quote.author}**\n\n` +
+    `✍️ **IELTS Task 2 Application:**\n` +
+    `${quote.advice}\n\n` +
+    `${formatQuotaFooter(quota)}`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('🔄 Another Quote ⏭️', 'tool_quote')
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleWotd(ctx) {
+  const userId = ctx.from.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment')
+    });
+  }
+
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+  const wotd = ACADEMIC_WOTD_BANK[dayOfYear % ACADEMIC_WOTD_BANK.length];
+
+  const text =
+    `🌟 **BAND 8.5+ ACADEMIC WORD OF THE DAY**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `🔤 **${wotd.word.toUpperCase()}** \`${wotd.ipa}\`\n` +
+    `🏷️ **Part of Speech:** _${wotd.pos}_\n` +
+    `🇲🇲 **Meaning:** ${wotd.mm}\n\n` +
+    `🔗 **Key Collocations:**\n` +
+    wotd.collocations.map(c => `• *${c}*`).join('\n') + `\n\n` +
+    `✍️ **IELTS Band 9.0 Exam Example:**\n` +
+    `"${wotd.example}"\n\n` +
+    `${formatQuotaFooter(quota)}`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('🔗 Collocations', `tool_collocate:${wotd.word}`)
+      .text('💎 Synonyms', `tool_syn:${wotd.word}`)
+      .row()
+      .text('📚 Dictionary', `tool_dict:${wotd.word}`)
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleQuota(ctx) {
+  const userId = ctx.from.id;
+  const isVip = isUserVip(userId);
+  const quota = getQuotaStatus(userId);
+
+  const text =
+    `📊 **YOUR DAILY ACADEMIC AI TOOL QUOTA**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `👤 **Telegram ID:** \`${userId}\`\n` +
+    `👑 **Tier Status:** ${isVip ? '👑 **LIFETIME VIP PASS (Active)**' : '🆓 **FREE TIER**'}\n\n` +
+    (isVip
+      ? '✨ **Unlimited Daily Queries Activated!**\nYou have lifetime unrestricted access to all academic collocations, synonyms, topic briefs, dictionary queries, and scholar quotes.'
+      : `📅 **Today's Quota (${getYangonDateStr()} MMT):**\n• Used Today: *${quota.count} / ${quota.limit}*\n• Remaining Today: *${quota.remaining} queries*\n\n⭐ **Upgrade to Lifetime VIP (55,000 MMK)** for unlimited queries, all 1,162 vocabulary items, 23 CBT reading passages, and 40 writing models!`);
+
+  const keyboard = new InlineKeyboard();
+  if (!isVip) {
+    keyboard.text('⭐ Upgrade to Lifetime VIP (55,000 Ks)', 'info_payment').row();
+  }
+  keyboard.text('⚡ VIP Academic Menu', 'menu_tools');
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: keyboard
+  });
+}
+
+async function handleBands(ctx) {
+  const text =
+    `🎯 **IELTS BAND SCORE CONVERSION & ASSESSMENT RUBRIC**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `📊 **Raw Score to Band Conversion (Listening & Academic Reading — 40 Questions):**\n` +
+    `• Band 9.0: 39 – 40 correct\n` +
+    `• Band 8.5: 37 – 38 correct\n` +
+    `• Band 8.0: 35 – 36 correct\n` +
+    `• Band 7.5: 33 – 34 correct\n` +
+    `• Band 7.0: 30 – 32 correct\n` +
+    `• Band 6.5: 27 – 29 correct\n` +
+    `• Band 6.0: 23 – 26 correct\n` +
+    `• Band 5.5: 19 – 22 correct\n\n` +
+    `✍️ **Writing 4 Core Criteria (25% each):**\n` +
+    `1. **Task Achievement / Response** — Fully address all parts with supported arguments.\n` +
+    `2. **Coherence & Cohesion** — Logical progression, cohesive devices, proper paragraphing.\n` +
+    `3. **Lexical Resource** — Wide academic vocabulary, precise collocations, rare errors.\n` +
+    `4. **Grammatical Range & Accuracy** — Complex sentence structures, error-free clauses.\n\n` +
+    `🗣️ **Speaking 4 Core Criteria (25% each):**\n` +
+    `1. **Fluency & Coherence** — Natural speech flow, minimal hesitation.\n` +
+    `2. **Lexical Resource** — Idiomatic expressions, flexible vocabulary.\n` +
+    `3. **Grammatical Range & Accuracy** — Varied tenses, complex conditionals.\n` +
+    `4. **Pronunciation** — Clear intonation, stress patterns, easy to understand.`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('📋 IELTS Exam Format', 'tool_format')
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleFormat(ctx) {
+  const text =
+    `📋 **IELTS ACADEMIC TEST FORMAT CHEAT SHEET**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `🎧 **1. Listening (approx. 30 mins + 2 mins review CBT / 10 mins Paper)**\n` +
+    `• 4 Sections, 40 Questions (Played ONCE only)\n` +
+    `• Section 1: Everyday social dialogue (2 speakers)\n` +
+    `• Section 2: Everyday social monologue (1 speaker)\n` +
+    `• Section 3: Academic discussion (up to 4 speakers)\n` +
+    `• Section 4: University academic lecture (1 speaker)\n\n` +
+    `📖 **2. Reading (60 mins — No extra transfer time!)**\n` +
+    `• 3 Passages, 40 Questions (~2,150–2,750 words total)\n` +
+    `• Passage 1: Descriptive / Factual\n` +
+    `• Passage 2: Analytical / Discursive\n` +
+    `• Passage 3: Complex argument / Academic theory\n\n` +
+    `✍️ **3. Writing (60 mins total)**\n` +
+    `• Task 1: Visual Data Report (Graph, Chart, Table) — min 150 words (20 mins, 33% weight)\n` +
+    `• Task 2: Formal Academic Essay — min 250 words (40 mins, 66% weight)\n\n` +
+    `🗣️ **4. Speaking (11 – 14 mins face-to-face or video call)**\n` +
+    `• Part 1: Introduction & familiar topics (4–5 mins)\n` +
+    `• Part 2: Long turn Cue Card monologue (1 min prep, 1–2 mins speech)\n` +
+    `• Part 3: Abstract academic discussion (4–5 mins)`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('🎯 Band Score Scale', 'tool_bands')
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+async function handleSprint(ctx, mins = 20) {
+  const safeMins = typeof mins === 'number' && mins > 0 ? mins : 20;
+  const text =
+    `⏱️ **IELTS FOCUS SPRINT STARTED (${safeMins} MINUTES)**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `🎯 **Sprint Goal:**\n` +
+    (safeMins <= 20
+      ? '📖 **CBT Reading Sprint:** Complete 1 Cambridge passage (13–14 questions) in 20 minutes under strict exam conditions!'
+      : '✍️ **Writing Task 2 Sprint:** Plan and draft a full 250+ word academic essay in 40 minutes without stopping!') +
+    `\n\n💡 **Pro Tip:**\n` +
+    `Put your phone on Do Not Disturb, silence all social notifications, and immerse yourself in the task.\n\n` +
+    `👇 Mini App တွင် ချက်ချင်း လေ့ကျင့်ရန်:`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('⏱️ 20m CBT Reading Sprint', 'sprint:20')
+      .text('⏱️ 40m Writing Sprint', 'sprint:40')
+      .row()
+      .webApp('🚀 Open Studio Mini App', WEB_URL)
+  });
+}
+
+async function handleHelp(ctx) {
+  const helpText =
+    `📕 **IELTS PREP STUDIO — BOT COMMANDS & SHORTCUTS**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `⚡ **/tools** — Open VIP Academic Lexicon & Topic Explorer\n` +
+    `🔗 **/collocate <word>** — Search high-yield academic collocations\n` +
+    `💎 **/syn <word>** — Search Band 8.5+ academic synonyms\n` +
+    `📚 **/dict <word>** — Check formal definition & part of speech\n` +
+    `📖 **/read <topic>** — Get essay background knowledge & ideas\n` +
+    `🧠 **/quote** — Scholar philosophical thought for Task 2\n` +
+    `🌟 **/wotd** — Academic Word of the Day with Burmese meaning\n` +
+    `📊 **/quota** — Check your remaining daily searches (15/day free)\n` +
+    `🎯 **/bands** — IELTS 9-band scale & raw score conversion table\n` +
+    `📋 **/format** — Academic exam timings & structure cheat sheet\n` +
+    `⏱️ **/sprint [20|40]** — 20m Reading or 40m Essay study sprint\n` +
+    `🎓 **/start** — View syllabus, deliverables & payment info`;
+
+  await ctx.reply(helpText, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard().text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
+
+// Register Bot Commands
+bot.command(['tools', 'academic'], handleToolsMenu);
+bot.command('collocate', ctx => {
+  const w = ctx.message?.text?.replace('/collocate', '').trim() || '';
+  handleCollocate(ctx, w);
+});
+bot.command(['syn', 'synonym'], ctx => {
+  const w = ctx.message?.text?.replace(/^\/syn(onym)?/i, '').trim() || '';
+  handleSyn(ctx, w);
+});
+bot.command(['dict', 'dictionary'], ctx => {
+  const w = ctx.message?.text?.replace(/^\/dict(ionary)?/i, '').trim() || '';
+  handleDict(ctx, w);
+});
+bot.command(['read', 'topic'], ctx => {
+  const t = ctx.message?.text?.replace(/^\/(read|topic)/i, '').trim() || '';
+  handleRead(ctx, t);
+});
+bot.command('quote', handleQuote);
+bot.command(['wotd', 'word'], handleWotd);
+bot.command('quota', handleQuota);
+bot.command(['bands', 'score'], handleBands);
+bot.command(['format', 'exam'], handleFormat);
+bot.command('sprint', ctx => {
+  const m = ctx.message?.text?.match(/\d+/);
+  handleSprint(ctx, m ? parseInt(m[0], 10) : 20);
+});
+bot.command('help', handleHelp);
 
 // ==========================================
 // 4. ADMIN INVENTORY COMMANDS
@@ -378,6 +1437,26 @@ bot.start({
       console.log('✅ Telegram Mini App Menu Button configured.');
     } catch (btnErr) {
       console.warn('[Menu Button Notice]', btnErr.message);
+    }
+    try {
+      await bot.api.setMyCommands([
+        { command: 'tools', description: '⚡ VIP Academic AI Tools (Collocations, Synonyms, etc.)' },
+        { command: 'collocate', description: '🔗 Academic Collocations & Word Pairings' },
+        { command: 'syn', description: '💎 Band 8.5+ Academic Synonyms' },
+        { command: 'dict', description: '📚 Academic Dictionary & Pronunciation' },
+        { command: 'read', description: '📖 Essay Topic Briefs & Arguments' },
+        { command: 'quote', description: '🧠 Scholar Quotes for Task 2' },
+        { command: 'wotd', description: '🌟 Band 8.5+ Word of the Day' },
+        { command: 'quota', description: '📊 Check Daily AI Tool Usage (15/day)' },
+        { command: 'bands', description: '🎯 Band Score Table & Descriptors' },
+        { command: 'format', description: '📋 IELTS Academic Exam Format' },
+        { command: 'sprint', description: '⏱️ 20m / 40m Focus Study Sprint' },
+        { command: 'start', description: '🎓 Launch Studio & Payment Info' },
+        { command: 'help', description: '📕 Study Guide & All Commands' }
+      ]);
+      console.log('✅ Telegram Bot Commands Menu configured.');
+    } catch (cmdErr) {
+      console.warn('[Commands Menu Notice]', cmdErr.message);
     }
     if (ADMIN_CHAT_ID) {
       console.log(`🛡️ Admin Chat ID bound to: ${ADMIN_CHAT_ID}`);

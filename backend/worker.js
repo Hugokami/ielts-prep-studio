@@ -538,6 +538,36 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
       return jsonResponse({ ok: true });
     }
 
+    // 2.7. /quota or "📊 My Quota" or "Check Quota"
+    if (text === "/quota" || text === "📊 My Quota" || text === "Check Quota" || text === "📊 Check My Quota") {
+      await handleQuotaCheck(chatId, userId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.8. /wotd or /word or "🌟 Word of the Day"
+    if (text === "/wotd" || text === "/word" || text === "🌟 Word of the Day" || text === "Word of the Day") {
+      await handleWotdCommand(chatId, userId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.9. /bands or /score or "🎯 Band Descriptors"
+    if (text === "/bands" || text === "/score" || text === "🎯 Band Descriptors" || text === "Band Scale") {
+      await handleBandsCommand(chatId, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.10. /format or "📋 IELTS Exam Format"
+    if (text === "/format" || text === "📋 IELTS Exam Format" || text === "Exam Format") {
+      await handleFormatCommand(chatId, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.11. /sprint or "⏱️ Study Sprint"
+    if (text.startsWith("/sprint") || text === "⏱️ Study Sprint") {
+      await handleSprintCommand(chatId, text, botToken);
+      return jsonResponse({ ok: true });
+    }
+
     // 3. /vip or VIP pass buttons
     if (text === "/vip" || text === "👑 Buy VIP Pass (55,000 Ks)" || text === "⭐ VIP Pass (55,000 Ks)" || text === "👑 VIP Lifetime Active" || text === "Buy Products") {
       if (isVip) {
@@ -1077,6 +1107,31 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
     if (data === "tool_quote") {
       await answerCallbackQuery(botToken, cb.id);
       await handleQuoteCommand(cbChatId, cbUserId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "tool_wotd") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handleWotdCommand(cbChatId, cbUserId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "tool_bands") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handleBandsCommand(cbChatId, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "tool_format") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handleFormatCommand(cbChatId, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data.startsWith("sprint:")) {
+      await answerCallbackQuery(botToken, cb.id);
+      const mins = data.split(":")[1];
+      await handleSprintCommand(cbChatId, `/sprint ${mins}`, botToken);
       return jsonResponse({ ok: true });
     }
 
@@ -2274,7 +2329,7 @@ async function checkAndConsumeQuota(env, telegramId, isVip) {
   ).bind(safeId, dateStr).first();
 
   const currentCount = row ? (row.count || 0) : 0;
-  const FREE_DAILY_LIMIT = 3;
+  const FREE_DAILY_LIMIT = 15;
 
   if (currentCount >= FREE_DAILY_LIMIT) {
     return {
@@ -2319,7 +2374,7 @@ async function getQuotaStatus(env, telegramId, isVip) {
   ).bind(safeId, dateStr).first();
 
   const currentCount = row ? (row.count || 0) : 0;
-  const FREE_DAILY_LIMIT = 3;
+  const FREE_DAILY_LIMIT = 15;
   return {
     isVip: false,
     count: currentCount,
@@ -2690,7 +2745,7 @@ function formatQuotaFooter(quota) {
   if (quota.isVip) {
     return "👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*";
   }
-  return `💡 *Free Preview:* *${quota.remaining}/3 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
+  return `💡 *Free Preview:* *${quota.remaining}/15 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
 }
 
 function getQuotaExceededKeyboard(env) {
@@ -2703,9 +2758,9 @@ function getQuotaExceededKeyboard(env) {
 }
 
 function getQuotaExceededMessage() {
-  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (3/3 USED)*
+  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (15/15 USED)*
 ━━━━━━━━━━━━━━━━━━━━
-Free tier accounts are allocated 3 Academic AI searches per day.
+Free tier accounts are allocated 15 Academic AI searches per day.
 
 👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*
 • ⚡ *UNLIMITED* Academic Collocations (/collocate)
@@ -2734,7 +2789,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
   if (isVip) {
     statusBadge = "👑 *LIFETIME VIP PASS* (⚡ Unlimited Daily Queries)";
   } else {
-    statusBadge = `🆓 *FREE TIER* (${quota.remaining}/3 Queries Remaining Today)`;
+    statusBadge = `🆓 *FREE TIER* (${quota.remaining}/15 Queries Remaining Today)`;
   }
 
   const menuMsg = 
@@ -2751,7 +2806,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
 🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း
 
 👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။
-🆓 *Free Tier:* တစ်နေ့လျှင် ၃ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။
+🆓 *Free Tier:* တစ်နေ့လျှင် ၁၅ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။
 
 👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
 
@@ -2766,7 +2821,15 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
     ],
     [
       { text: "🧠 Scholar Quote", callback_data: "tool_quote" },
-      { text: "📊 Check My Quota", callback_data: "tool_quota" }
+      { text: "🌟 Word of the Day", callback_data: "tool_wotd" }
+    ],
+    [
+      { text: "📊 Check My Quota", callback_data: "tool_quota" },
+      { text: "🎯 Band Score Scale", callback_data: "tool_bands" }
+    ],
+    [
+      { text: "⏱️ 20m CBT Sprint", callback_data: "sprint:20" },
+      { text: "⏱️ 40m Essay Sprint", callback_data: "sprint:40" }
     ],
     [
       { text: isVip ? "👑 VIP Lifetime Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: isVip ? "vip_status" : "info_payment" }
@@ -3155,6 +3218,237 @@ ${isVip ?
   await sendTelegramMessage(botToken, chatId, text, { inline_keyboard: buttons });
 }
 
+const ACADEMIC_WOTD_BANK = [
+  {
+    word: "ubiquitous",
+    pos: "adjective",
+    ipa: "/juːˈbɪk.wɪ.təs/",
+    mm: "နေရာအနှံ့အပြားတွင် တွေ့ရှိရသော / အလွန်ပျံ့နှံ့နေသော",
+    collocations: ["ubiquitous presence", "become ubiquitous", "ubiquitous technology"],
+    example: "Smartphones have become so ubiquitous that their pervasive influence on social interactions cannot be overlooked."
+  },
+  {
+    word: "mitigate",
+    pos: "verb",
+    ipa: "/ˈmɪt.ɪ.ɡeɪt/",
+    mm: "သက်သာလျော့ပါးစေသည် / ဆိုးကျိုးကို နည်းပါးစေသည်",
+    collocations: ["mitigate adverse effects", "mitigate environmental damage", "mitigate risks"],
+    example: "Governments must implement stringent carbon tariffs to mitigate the catastrophic repercussions of climate change."
+  },
+  {
+    word: "exacerbate",
+    pos: "verb",
+    ipa: "/ɪɡˈzæs.ə.beɪt/",
+    mm: "ပိုမိုဆိုးရွားစေသည် / အခြေအနေ ပိုမိုတင်းမာစေသည်",
+    collocations: ["exacerbate the problem", "exacerbate existing inequalities", "severely exacerbate"],
+    example: "Unplanned urban sprawl threatens to exacerbate traffic congestion and air pollution in metropolitan areas."
+  },
+  {
+    word: "paramount",
+    pos: "adjective",
+    ipa: "/ˈpær.ə.maʊnt/",
+    mm: "အရေးအကြီးဆုံးသော / ထိပ်တန်းဦးစားပေးဖြစ်သော",
+    collocations: ["of paramount importance", "paramount consideration", "paramount duty"],
+    example: "Ensuring equitable access to primary education is of paramount importance for long-term economic development."
+  },
+  {
+    word: "pervasive",
+    pos: "adjective",
+    ipa: "/pəˈveɪ.sɪv/",
+    mm: "အလွှာစုံသို့ ထိုးဖောက်ပျံ့နှံ့နေသော",
+    collocations: ["pervasive influence", "pervasive problem", "pervasive nature"],
+    example: "The pervasive influence of mass media plays a transformative role in shaping youthful attitudes."
+  },
+  {
+    word: "scrutinize",
+    pos: "verb",
+    ipa: "/ˈskruː.tɪ.naɪz/",
+    mm: "အသေအချာ စိစစ်ဝေဖန်လေ့လာသည်",
+    collocations: ["carefully scrutinize", "scrutinize empirical evidence", "scrutinize policy outcomes"],
+    example: "Policymakers must meticulously scrutinize proposed infrastructure projects before allocating fiscal budgets."
+  },
+  {
+    word: "detrimental",
+    pos: "adjective",
+    ipa: "/ˌdet.rɪˈmen.təl/",
+    mm: "ထိခိုက်နစ်နာစေသော / အန္တရာယ်ရှိသော",
+    collocations: ["detrimental impact", "detrimental effect on health", "prove detrimental"],
+    example: "Excessive exposure to digital screens can exert a highly detrimental impact on cognitive development."
+  },
+  {
+    word: "imperative",
+    pos: "adjective / noun",
+    ipa: "/ɪmˈper.ə.tɪv/",
+    mm: "မဖြစ်မနေ လုပ်ဆောင်ရမည့် တာဝန် / မရှိမဖြစ် အရေးကြီးသော",
+    collocations: ["moral imperative", "economic imperative", "it is imperative that"],
+    example: "It is imperative that international organizations collaborate to protect biodiversity in vulnerable ecosystems."
+  },
+  {
+    word: "feasible",
+    pos: "adjective",
+    ipa: "/ˈfiː.zə.bəl/",
+    mm: "လက်တွေ့ဖြစ်နိုင်ခြေရှိသော / အကောင်အထည်ဖော်နိုင်သော",
+    collocations: ["economically feasible", "technically feasible", "a feasible alternative"],
+    example: "Transitioning toward renewable energy represents the only economically feasible trajectory for sustainable development."
+  },
+  {
+    word: "unprecedented",
+    pos: "adjective",
+    ipa: "/ʌnˈpres.ɪ.den.tɪd/",
+    mm: "တစ်ခါမှ မကြုံစဖူးသော / အဆမတန်များပြားသော",
+    collocations: ["unprecedented scale", "unprecedented challenge", "grow at an unprecedented rate"],
+    example: "The proliferation of artificial intelligence presents society with unprecedented legal and ethical quandaries."
+  }
+];
+
+async function handleWotdCommand(chatId, userId, env, botToken) {
+  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
+  const isVip = user && user.is_vip === 1;
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+    return;
+  }
+
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 0);
+  const diff = now - startOfYear;
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+  const wotd = ACADEMIC_WOTD_BANK[dayOfYear % ACADEMIC_WOTD_BANK.length];
+
+  const text = 
+`🌟 *BAND 8.5+ ACADEMIC WORD OF THE DAY*
+━━━━━━━━━━━━━━━━━━━━
+🔤 *${wotd.word.toUpperCase()}* \`${wotd.ipa}\`
+🏷️ *Part of Speech:* _${wotd.pos}_
+🇲🇲 *Meaning:* ${wotd.mm}
+
+🔗 *Key Collocations:*
+${wotd.collocations.map(c => `• *${c}*`).join("\n")}
+
+✍️ *IELTS Band 9.0 Exam Example:*
+"${wotd.example}"
+
+${formatQuotaFooter(quota)}`;
+
+  await sendTelegramMessage(botToken, chatId, text, {
+    inline_keyboard: [
+      [
+        { text: "🔗 Collocations", callback_data: `tool_collocate:${wotd.word}` },
+        { text: "💎 Synonyms", callback_data: `tool_syn:${wotd.word}` }
+      ],
+      [
+        { text: "📚 Dictionary", callback_data: `tool_dict:${wotd.word}` },
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }
+      ]
+    ]
+  });
+}
+
+async function handleBandsCommand(chatId, botToken) {
+  const text = 
+`🎯 *IELTS BAND SCORE CONVERSION & ASSESSMENT RUBRIC*
+━━━━━━━━━━━━━━━━━━━━
+📊 *Raw Score to Band Conversion (Listening & Academic Reading — 40 Questions):*
+• Band 9.0: 39 – 40 correct
+• Band 8.5: 37 – 38 correct
+• Band 8.0: 35 – 36 correct
+• Band 7.5: 33 – 34 correct
+• Band 7.0: 30 – 32 correct
+• Band 6.5: 27 – 29 correct
+• Band 6.0: 23 – 26 correct
+• Band 5.5: 19 – 22 correct
+
+✍️ *Writing 4 Core Criteria (25% each):*
+1. **Task Achievement (Task 1) / Task Response (Task 2)** — Fully address all prompt parts with supported evidence.
+2. **Coherence & Cohesion** — Logical progression, cohesive devices, proper paragraphing.
+3. **Lexical Resource** — Wide academic vocabulary, precise collocations, rare spelling slips.
+4. **Grammatical Range & Accuracy** — Complex sentence structures, varied clauses, accurate punctuation.
+
+🗣️ *Speaking 4 Core Criteria (25% each):*
+1. **Fluency & Coherence** — Natural speech flow, minimal hesitation, clear discourse markers.
+2. **Lexical Resource** — Idiomatic expressions, flexible vocabulary range.
+3. **Grammatical Range & Accuracy** — Varied verb tenses, conditionals, complex grammar.
+4. **Pronunciation** — Clear intonation, stress patterns, easy to understand.`;
+
+  await sendTelegramMessage(botToken, chatId, text, {
+    inline_keyboard: [
+      [
+        { text: "📋 IELTS Exam Format", callback_data: "tool_format" },
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }
+      ]
+    ]
+  });
+}
+
+async function handleFormatCommand(chatId, botToken) {
+  const text = 
+`📋 *IELTS ACADEMIC TEST FORMAT CHEAT SHEET*
+━━━━━━━━━━━━━━━━━━━━
+🎧 *1. Listening (approx. 30 mins + 2 mins review CBT / 10 mins Paper)*
+• 4 Sections, 40 Questions (Played ONCE only)
+• Section 1: Everyday social dialogue (2 speakers)
+• Section 2: Everyday social monologue (1 speaker)
+• Section 3: Academic/educational discussion (up to 4 speakers)
+• Section 4: University academic lecture (1 speaker)
+
+📖 *2. Reading (60 mins — No transfer time!)*
+• 3 Passages, 40 Questions (~2,150–2,750 words total)
+• Passage 1: Descriptive / Factual
+• Passage 2: Analytical / Discursive
+• Passage 3: Complex argument / Academic theory
+
+✍️ *3. Writing (60 mins total)*
+• Task 1: Visual Data Report (Graph, Chart, Table, Map) — min 150 words (20 mins, 33% weight)
+• Task 2: Formal Academic Essay (Opinion, Discussion, Problem-Solution) — min 250 words (40 mins, 66% weight)
+
+🗣️ *4. Speaking (11 – 14 mins face-to-face or video call)*
+• Part 1: Introduction & familiar topics (4–5 mins)
+• Part 2: Long turn Cue Card monologue (1 min prep, 1–2 mins speech)
+• Part 3: Abstract academic discussion (4–5 mins)`;
+
+  await sendTelegramMessage(botToken, chatId, text, {
+    inline_keyboard: [
+      [
+        { text: "🎯 Band Score Scale", callback_data: "tool_bands" },
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }
+      ]
+    ]
+  });
+}
+
+async function handleSprintCommand(chatId, rawText, botToken) {
+  const match = (rawText || "").match(/\d+/);
+  const mins = match ? parseInt(match[0], 10) : 20;
+
+  const text = 
+`⏱️ *IELTS FOCUS SPRINT STARTED (${mins} MINUTES)*
+━━━━━━━━━━━━━━━━━━━━
+🎯 *Sprint Goal:*
+${mins <= 20 ? 
+  "📖 **CBT Reading Sprint:** Complete 1 Cambridge passage (13–14 questions) in 20 minutes under strict exam conditions!" : 
+  "✍️ **Writing Task 2 Sprint:** Plan and draft a full 250+ word academic essay in 40 minutes without stopping!"}
+
+💡 *Pro Tip:*
+Put your phone on Do Not Disturb, silence all social notifications, and immerse yourself in the task.
+
+👇 Mini App တွင် ချက်ချင်း လေ့ကျင့်ရန်:`;
+
+  await sendTelegramMessage(botToken, chatId, text, {
+    inline_keyboard: [
+      [
+        { text: "⏱️ 20m CBT Reading Sprint", callback_data: "sprint:20" },
+        { text: "⏱️ 40m Writing Sprint", callback_data: "sprint:40" }
+      ],
+      [
+        { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }
+      ]
+    ]
+  });
+}
+
 // ------------------------------------------
 // HTTP API Handlers for Web App
 // ------------------------------------------
@@ -3171,7 +3465,7 @@ async function handleApiCollocations(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (3/3). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3192,7 +3486,7 @@ async function handleApiSynonyms(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (3/3). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3213,7 +3507,7 @@ async function handleApiTopic(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (3/3). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3234,7 +3528,7 @@ async function handleApiDict(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (3/3). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3252,7 +3546,7 @@ async function handleApiQuote(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (3/3). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
