@@ -422,13 +422,39 @@ async function handleWebhook(request, env, ctx = null) {
       }
     }
 
+    // Check user VIP status once for all message handlers
+    let isVip = false;
+    try {
+      const userRecord = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
+      isVip = userRecord && userRecord.is_vip === 1;
+    } catch (e) {
+      console.error("[User VIP Check Error]", e);
+    }
+
     // 1. /start or /menu command or greeting
     if (text === "/start" || text.startsWith("/start ") || text === "/menu" || text === "မင်္ဂလာပါ") {
       if (ctx && ctx.waitUntil) {
         ctx.waitUntil(registerBotCommands(botToken));
       }
 
-      const welcomeText = 
+      let welcomeText = "";
+      if (isVip) {
+        welcomeText = 
+`🇲🇲 *Welcome back to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
+
+👑 *VIP LIFETIME MEMBER (ACTIVE)*
+• All 1,162 Academic Lexicons, Native Audio & 1-3-7 SRS
+• All 23 Cambridge Reading CBT Passages (231 Questions)
+• All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer
+• All 30 Speaking Forecast Topics & 5 Frameworks
+• Automatic Cross-Device Cloud Sync + Desktop VIP Access
+
+⚡ Daily Academic AI Quota: *Unlimited Band 9 Access*
+👨‍🏫 Need personalized advice? Lead Instructor: @hyuguo
+
+👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`;
+      } else {
+        welcomeText = 
 `🇲🇲 *Welcome to IELTS Prep Studio (@${env.BOT_USERNAME || "IELTSPrepStudioBot"})!*
 
 🎯 *Cambridge CBT Mocks • Band 8.5/9.0 Lexicon • Task 1 & 2 Models*
@@ -450,8 +476,9 @@ Study anytime with 0-latency, offline support, and interactive audio.
 Transfer 55,000 MMK and *send your payment slip screenshot directly to this chat*. Our admin will approve your lifetime access immediately!
 
 👇 *အောက်ပါ Menu မှ လိုအပ်ရာကို ရွေးချယ်နိုင်ပါသည်:*`;
+      }
 
-      await sendTelegramMessage(botToken, chatId, welcomeText, getMainMenuKeyboard(env));
+      await sendTelegramMessage(botToken, chatId, welcomeText, getMainMenuKeyboard(env, isVip));
       return jsonResponse({ ok: true });
     }
 
@@ -511,8 +538,37 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
       return jsonResponse({ ok: true });
     }
 
-    // 3. /vip or "👑 Buy VIP Pass (55,000 Ks)" or "⭐ VIP Pass (55,000 Ks)" or "Buy Products"
-    if (text === "/vip" || text === "👑 Buy VIP Pass (55,000 Ks)" || text === "⭐ VIP Pass (55,000 Ks)" || text === "Buy Products") {
+    // 3. /vip or VIP pass buttons
+    if (text === "/vip" || text === "👑 Buy VIP Pass (55,000 Ks)" || text === "⭐ VIP Pass (55,000 Ks)" || text === "👑 VIP Lifetime Active" || text === "Buy Products") {
+      if (isVip) {
+        const activeVipText = 
+`👑 *YOUR LIFETIME STUDIO VIP PASS IS ACTIVE*
+━━━━━━━━━━━━━━━━━━━━
+💎 *Status:* Active (Lifetime • No Expiration)
+✨ *Features Unlocked Forever:*
+• 🔤 All 1,162 Band 8.5/9.0 Academic Lexicon Items & Native Audio
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Evaluator
+• 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
+• ☁️ Multi-Device Cloud Sync + Telegram Mini App Integration
+• ⚡ Unlimited Live Academic AI Quota (/collocate, /syn, /dict, /read)
+
+💻 *Desktop PC Access:*
+Open ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} on computer and log in with Telegram or use your Personal VIP Desktop Voucher!`;
+
+        await sendTelegramMessage(botToken, chatId, activeVipText, {
+          inline_keyboard: [
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+            [{ text: "📚 View Curriculum Syllabus", callback_data: "mod_catalog_back" }],
+            [
+              { text: "⚡ VIP Academic Tools", callback_data: "menu_tools" },
+              { text: "💬 Chat with Lead Instructor", url: "https://t.me/hyuguo" }
+            ]
+          ]
+        });
+        return jsonResponse({ ok: true });
+      }
+
       const vipText = 
 `👑 *TARGET BAND 7.5+ LIFETIME STUDIO VIP PASS*
 ━━━━━━━━━━━━━━━━━━━━
@@ -550,7 +606,7 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
 ━━━━━━━━━━━━━━━━━━━━
 Choose a module below to inspect full syllabus details, practice questions, and Band 9 strategies:`;
 
-      await sendTelegramMessage(botToken, chatId, catalogMsg, getCurriculumCatalogKeyboard(env));
+      await sendTelegramMessage(botToken, chatId, catalogMsg, getCurriculumCatalogKeyboard(env, isVip));
       return jsonResponse({ ok: true });
     }
 
@@ -560,8 +616,28 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       return jsonResponse({ ok: true });
     }
 
-    // 6. /pay or "💳 Payment Info"
-    if (text === "/pay" || text === "💳 Payment Info") {
+    // 6. /pay or "💳 Payment Info" or "💬 Chat with Lead Instructor"
+    if (text === "/pay" || text === "💳 Payment Info" || text === "💬 Chat with Lead Instructor") {
+      if (isVip) {
+        const vipPayMsg = 
+`👑 *VIP LIFETIME MEMBERSHIP ACTIVE*
+━━━━━━━━━━━━━━━━━━━━
+✅ သင်သည် Lifetime VIP Pass အသုံးပြုသူဖြစ်ပြီး ဖြစ်ပါသည်။ ထပ်မံပေးသွင်းရန် မလိုတော့ပါ။
+
+✨ All 1,162 Academic Lexicons, 23 CBT Readings & 40 Writing Models are unlocked forever.
+
+💬 ပညာရေးဆိုင်ရာ မေးခွန်းများ သို့မဟုတ် အကူအညီ လိုအပ်ပါက Lead Instructor @hyuguo ထံ တိုက်ရိုက်ဆက်သွယ်နိုင်ပါသည် ခင်ဗျာ:`;
+
+        await sendTelegramMessage(botToken, chatId, vipPayMsg, {
+          inline_keyboard: [
+            [{ text: "💬 Chat with Lead Instructor (@hyuguo)", url: "https://t.me/hyuguo" }],
+            [{ text: "⚡ VIP Academic Tools", callback_data: "menu_tools" }],
+            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          ]
+        });
+        return jsonResponse({ ok: true });
+      }
+
       const payMsg = 
 `💳 *KBZPAY / WAVEPAY PAYMENT DETAILS*
 ━━━━━━━━━━━━━━━━━━━━
@@ -969,6 +1045,12 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
     const cbChatId = cb.message ? cb.message.chat.id : cbUserId;
     const cbMessageId = cb.message ? cb.message.message_id : null;
 
+    let isVip = false;
+    try {
+      const userRow = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(cbUserId).first();
+      isVip = userRow && userRow.is_vip === 1;
+    } catch (e) {}
+
     // Academic Tools Callbacks
     if (data === "menu_tools") {
       await answerCallbackQuery(botToken, cb.id);
@@ -1040,6 +1122,26 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 
     // 1. Info payment button
     if (data === "info_payment") {
+      if (isVip) {
+        await answerCallbackQuery(botToken, cb.id, "👑 You already have Lifetime VIP Active!");
+        const activeMsg = 
+`👑 *VIP LIFETIME ACTIVE*
+━━━━━━━━━━━━━━━━━━━━
+✅ You are already a Lifetime Studio VIP Member. All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, and 40 Writing Models are completely unlocked!
+
+👨‍🏫 For instructor support, reach out directly to @hyuguo.`;
+        if (cbMessageId) {
+          await editTelegramMessageText(botToken, cbChatId, cbMessageId, activeMsg, {
+            inline_keyboard: [
+              [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+              [{ text: "⚡ VIP Academic Tools", callback_data: "menu_tools" }],
+              [{ text: "💬 Chat with Lead Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
+            ]
+          });
+        }
+        return jsonResponse({ ok: true });
+      }
+
       await answerCallbackQuery(botToken, cb.id, "KBZPay / WavePay: 09-768691939 (Lyan Htet)");
       const payMsg = 
 `💳 *LIFETIME STUDIO VIP PASS — 55,000 MMK*
@@ -1057,6 +1159,39 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
       return jsonResponse({ ok: true });
     }
 
+    // 1.1 VIP Status card
+    if (data === "vip_status") {
+      await answerCallbackQuery(botToken, cb.id, "👑 Lifetime VIP Pass is Active!");
+      const statusMsg = 
+`👑 *YOUR LIFETIME STUDIO VIP PASS IS ACTIVE*
+━━━━━━━━━━━━━━━━━━━━
+💎 *Status:* Active (Lifetime • No Expiration)
+✨ *Features Unlocked Forever:*
+• 🔤 All 1,162 Band 8.5/9.0 Academic Lexicon Items
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer
+• 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
+• ☁️ Cross-Device Cloud Sync Enabled
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read)
+
+💻 *Desktop PC Access:*
+Open ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} on computer and log in with Telegram!`;
+
+      if (cbMessageId) {
+        await editTelegramMessageText(botToken, cbChatId, cbMessageId, statusMsg, {
+          inline_keyboard: [
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+            [{ text: "📚 View Curriculum Syllabus", callback_data: "mod_catalog_back" }],
+            [
+              { text: "⚡ VIP Academic Tools", callback_data: "menu_tools" },
+              { text: "💬 Chat with Lead Instructor", url: "https://t.me/hyuguo" }
+            ]
+          ]
+        });
+      }
+      return jsonResponse({ ok: true });
+    }
+
     // 2. Curriculum Catalog Back Button
     if (data === "mod_catalog_back") {
       await answerCallbackQuery(botToken, cb.id);
@@ -1065,7 +1200,7 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
 ━━━━━━━━━━━━━━━━━━━━
 Choose a module below to inspect full syllabus details, practice questions, and Band 9 strategies:`;
       if (cbMessageId) {
-        await editTelegramMessageText(botToken, cbChatId, cbMessageId, catalogMsg, getCurriculumCatalogKeyboard(env));
+        await editTelegramMessageText(botToken, cbChatId, cbMessageId, catalogMsg, getCurriculumCatalogKeyboard(env, isVip));
       }
       return jsonResponse({ ok: true });
     }
@@ -1075,7 +1210,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       await answerCallbackQuery(botToken, cb.id);
       const moduleData = CURRICULUM_MODULES[data];
       if (moduleData && cbMessageId) {
-        await editTelegramMessageText(botToken, cbChatId, cbMessageId, moduleData.content, getModuleKeyboard(data, env));
+        await editTelegramMessageText(botToken, cbChatId, cbMessageId, moduleData.content, getModuleKeyboard(data, env, isVip));
       }
       return jsonResponse({ ok: true });
     }
@@ -1227,15 +1362,29 @@ Select your required score to optimize your daily study quota:`;
         const studentLink = username ? `https://t.me/${username}` : `tg://user?id=${numTgId}`;
         const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
 
-        // Remove approve/reject buttons and update caption on Admin's screen
+        // Remove approve/reject buttons immediately and update caption on Admin's screen
         if (cb.message) {
-          const originalCaption = cb.message.caption || "";
-          const updatedCaption = `${originalCaption}\n\n━━━━━━━━━━━━━━━━━━━━\n✅ *APPROVED & UNLOCKED* by Admin\n🕒 Time: ${nowMmt} MMT\n🎟️ Desktop Code: \`${desktopVoucher}\``;
-          await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption, {
-            inline_keyboard: [
-              [{ text: `👤 Open Student Chat (@${username || numTgId})`, url: studentLink }]
-            ]
-          });
+          try {
+            await editTelegramReplyMarkup(botToken, cb.message.chat.id, cb.message.message_id, {
+              inline_keyboard: [
+                [{ text: `👤 Open Student Chat (@${username || numTgId})`, url: studentLink }]
+              ]
+            });
+          } catch (btnErr) {
+            console.error("[approve editTelegramReplyMarkup Error]", btnErr);
+          }
+
+          try {
+            const originalCaption = cb.message.caption || "";
+            const appendText = `\n\n━━━━━━━━━━━━━━━━━━━━\n✅ APPROVED & UNLOCKED by Admin\n🕒 Time: ${nowMmt} MMT\n🎟️ Desktop Code: ${desktopVoucher}`;
+            let updatedCaption = originalCaption + appendText;
+            if (updatedCaption.length > 1000) {
+              updatedCaption = originalCaption.substring(0, 1000 - appendText.length) + appendText;
+            }
+            await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption);
+          } catch (capErr) {
+            console.error("[approve editTelegramCaption Error]", capErr);
+          }
         }
 
         await answerCallbackQuery(botToken, cb.id, "✅ User upgraded to Lifetime VIP!");
@@ -1285,15 +1434,29 @@ Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly
         const studentLink = username ? `https://t.me/${username}` : `tg://user?id=${numTgId}`;
         const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
 
-        // Remove approve/reject buttons and update caption on Admin's screen
+        // Remove approve/reject buttons immediately and update caption on Admin's screen
         if (cb.message) {
-          const originalCaption = cb.message.caption || "";
-          const updatedCaption = `${originalCaption}\n\n━━━━━━━━━━━━━━━━━━━━\n❌ *REJECTED* by Admin\n🕒 Time: ${nowMmt} MMT`;
-          await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption, {
-            inline_keyboard: [
-              [{ text: `💬 Message Student (@${username || numTgId})`, url: studentLink }]
-            ]
-          });
+          try {
+            await editTelegramReplyMarkup(botToken, cb.message.chat.id, cb.message.message_id, {
+              inline_keyboard: [
+                [{ text: `💬 Message Student (@${username || numTgId})`, url: studentLink }]
+              ]
+            });
+          } catch (btnErr) {
+            console.error("[reject editTelegramReplyMarkup Error]", btnErr);
+          }
+
+          try {
+            const originalCaption = cb.message.caption || "";
+            const appendText = `\n\n━━━━━━━━━━━━━━━━━━━━\n❌ REJECTED by Admin\n🕒 Time: ${nowMmt} MMT`;
+            let updatedCaption = originalCaption + appendText;
+            if (updatedCaption.length > 1000) {
+              updatedCaption = originalCaption.substring(0, 1000 - appendText.length) + appendText;
+            }
+            await editTelegramCaption(botToken, cb.message.chat.id, cb.message.message_id, updatedCaption);
+          } catch (capErr) {
+            console.error("[reject editTelegramCaption Error]", capErr);
+          }
         }
 
         await answerCallbackQuery(botToken, cb.id, "Payment marked as rejected.");
@@ -1518,13 +1681,19 @@ async function registerBotCommands(botToken) {
 }
 
 // Persistent Reply Keyboard (Matching Reference Screenshot 1)
-function getMainMenuKeyboard(env) {
+function getMainMenuKeyboard(env, isVip = false) {
+  const vipButton = isVip
+    ? { text: "👑 VIP Lifetime Active" }
+    : { text: "👑 Buy VIP Pass (55,000 Ks)" };
+  const payButton = isVip
+    ? { text: "💬 Chat with Lead Instructor" }
+    : { text: "💳 Payment Info" };
   return {
     keyboard: [
       [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-      [{ text: "⚡ VIP Academic Tools" }, { text: "👑 Buy VIP Pass (55,000 Ks)" }],
+      [{ text: "⚡ VIP Academic Tools" }, vipButton],
       [{ text: "📚 Curriculum & Features" }, { text: "📊 My Study & VIP Status" }],
-      [{ text: "💳 Payment Info" }, { text: "📅 Exam Countdown" }],
+      [payButton, { text: "📅 Exam Countdown" }],
       [{ text: "💡 Band 9 Tip of the Day" }, { text: "👨‍🏫 Contact Support" }],
       [{ text: "👤 Creator Profile" }, { text: "📕 How To Use & Guide" }]
     ],
@@ -1535,7 +1704,10 @@ function getMainMenuKeyboard(env) {
 }
 
 // Interactive Curriculum Catalog Keyboards & Module Details (Matching Reference Screenshot 1 & 2)
-function getCurriculumCatalogKeyboard(env) {
+function getCurriculumCatalogKeyboard(env, isVip = false) {
+  const ctaButton = isVip
+    ? { text: "⚡ VIP Academic Tools", callback_data: "menu_tools" }
+    : { text: "💳 How to Pay (55,000 Ks)", callback_data: "info_payment" };
   return {
     inline_keyboard: [
       [
@@ -1552,22 +1724,28 @@ function getCurriculumCatalogKeyboard(env) {
       ],
       [
         { text: "☁️ Multi-Device Sync", callback_data: "mod_sync" },
-        { text: "👑 Full Lifetime VIP", callback_data: "mod_vip" }
+        { text: "👑 Full Lifetime VIP", callback_data: isVip ? "vip_status" : "mod_vip" }
       ],
       [
         { text: "🚀 Launch Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } },
-        { text: "💳 How to Pay (55,000 Ks)", callback_data: "info_payment" }
+        ctaButton
       ]
     ]
   };
 }
 
-function getModuleKeyboard(moduleId, env) {
+function getModuleKeyboard(moduleId, env, isVip = false) {
+  const topButton = isVip
+    ? [{ text: "👑 Unlocked in Lifetime VIP", callback_data: "vip_status" }]
+    : [{ text: "⭐ Unlock in Lifetime VIP (55,000 MMK)", callback_data: "info_payment" }];
   return {
     inline_keyboard: [
-      [{ text: "⭐ Unlock in Lifetime VIP (55,000 MMK)", callback_data: "info_payment" }],
+      topButton,
       [{ text: "🚀 Open in IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-      [{ text: "⏪ Back to Modules", callback_data: "mod_catalog_back" }]
+      [
+        { text: "◀️ Back to Curriculum", callback_data: "mod_catalog_back" },
+        { text: "⚡ VIP Tools", callback_data: "menu_tools" }
+      ]
     ]
   };
 }
@@ -2179,6 +2357,20 @@ function cleanWordList(list) {
   return cleaned;
 }
 
+const ACADEMIC_ADJECTIVES = new Set([
+  "crucial", "vital", "essential", "significant", "substantial", "profound", "detrimental", 
+  "beneficial", "fundamental", "critical", "pivotal", "paramount", "feasible", "viable", 
+  "pressing", "ubiquitous", "unprecedented", "imperative", "prevalent", "drastic", "considerable",
+  "inevitable", "compelling", "notable", "pervasive", "stringent", "comprehensive", "adverse",
+  "detrimental", "sustainable", "prominent", "dominant", "inherent"
+]);
+
+const ACADEMIC_VERBS = new Set([
+  "mitigate", "exacerbate", "foster", "facilitate", "alleviate", "advocate", "implement", 
+  "demonstrate", "accelerate", "deteriorate", "augment", "diminish", "curb", "hinder", 
+  "jeopardize", "undermine", "perpetuate", "scrutinize", "enhance", "reinforce"
+]);
+
 async function fetchCollocations(rawWord) {
   const word = (rawWord || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (!word) return null;
@@ -2195,15 +2387,24 @@ async function fetchCollocations(rawWord) {
     const metaItem = (metaRes.status === "fulfilled" && Array.isArray(metaRes.value) && metaRes.value[0]) ? metaRes.value[0] : {};
     const tags = metaItem.tags || [];
 
-    // Determine POS accurately
+    const jjaRaw = (jjaRes.status === "fulfilled" && Array.isArray(jjaRes.value)) ? jjaRes.value : [];
+    const jjbRaw = (jjbRes.status === "fulfilled" && Array.isArray(jjbRes.value)) ? jjbRes.value : [];
+    const bgbRaw = (bgbRes.status === "fulfilled" && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
+    const trgRaw = (trgRes.status === "fulfilled" && Array.isArray(trgRes.value)) ? trgRes.value : [];
+
+    // Determine POS accurately with multi-tiered resolution
     let pos = "noun";
-    if (metaItem.defs && metaItem.defs.length > 0) {
+    if (ACADEMIC_ADJECTIVES.has(word)) {
+      pos = "adj";
+    } else if (ACADEMIC_VERBS.has(word)) {
+      pos = "verb";
+    } else if (metaItem.defs && metaItem.defs.length > 0) {
       const dPos = metaItem.defs[0].split("\t")[0];
       if (dPos === "adj") pos = "adj";
       else if (dPos === "v") pos = "verb";
       else if (dPos === "n") pos = "noun";
       else if (dPos === "adv") pos = "adv";
-    } else {
+    } else if (tags.length > 0) {
       const p = tags.filter(t => ["adj", "v", "n", "adv"].includes(t));
       if (p.length > 0) {
         if (p[0] === "adj") pos = "adj";
@@ -2211,14 +2412,18 @@ async function fetchCollocations(rawWord) {
         else if (p[0] === "adv") pos = "adv";
         else pos = "noun";
       }
+    } else if (word.endsWith("ful") || word.endsWith("less") || word.endsWith("ous") || word.endsWith("ive") || word.endsWith("ic") || word.endsWith("al") || word.endsWith("able") || word.endsWith("ible")) {
+      pos = "adj";
+    } else if (word.endsWith("ize") || word.endsWith("ise") || word.endsWith("ate")) {
+      pos = "verb";
     }
 
-    const jjaRaw = (jjaRes.status === "fulfilled" && Array.isArray(jjaRes.value)) ? jjaRes.value : [];
-    const jjbRaw = (jjbRes.status === "fulfilled" && Array.isArray(jjbRes.value)) ? jjbRes.value : [];
-    const bgbRaw = (bgbRes.status === "fulfilled" && Array.isArray(bgbRes.value)) ? bgbRes.value : [];
-    const trgRaw = (trgRes.status === "fulfilled" && Array.isArray(trgRes.value)) ? trgRes.value : [];
+    // Secondary semantic heuristic: if rel_jja returns common modified nouns with high score, it's definitely an adjective!
+    if (pos === "noun" && jjaRaw.some(item => ["role", "factor", "point", "importance", "question", "issue", "element", "aspect", "step"].includes(item.word) && item.score > 800)) {
+      pos = "adj";
+    }
 
-    const jjaClean = cleanWordList(jjaRaw); // Nouns modified by this adjective (or compound follower)
+    const jjaClean = cleanWordList(jjaRaw); // Nouns modified by this adjective (or compound followers)
     const jjbClean = cleanWordList(jjbRaw); // Adjectives modifying this noun
     const trgClean = cleanWordList(trgRaw); // Thematic triggers
 
@@ -2245,7 +2450,7 @@ async function fetchCollocations(rawWord) {
     } else if (pos === "verb") {
       // 2. VERB (e.g. mitigate, exacerbate, foster)
       nounCollocations = trgClean.length ? trgClean.slice(0, 6) : jjaClean.slice(0, 6);
-      modifierCollocations = ["significantly", "effectively", "substantially", "gradually", "successfully"];
+      modifierCollocations = ["significantly", "effectively", "substantially", "gradually", "proactively"];
       sentenceFrames = [
         `proactive government intervention is essential to *${word}* [the issue]`,
         `failure to regulate could severely *${word}* [existing disparities]`
@@ -2253,16 +2458,29 @@ async function fetchCollocations(rawWord) {
     } else {
       // 3. NOUN (e.g. impact, policy, environment, evidence)
       modifierCollocations = jjbClean.length ? jjbClean.slice(0, 6) : trgClean.slice(0, 6);
-      nounCollocations = jjaClean.slice(0, 5);
-      verbCollocations = [
-        `have / exert a profound *${word}* on...`,
-        `mitigate / alleviate the adverse *${word}* of...`,
-        `evaluate / assess the long-term *${word}*`,
-        `adopt / implement a comprehensive *${word}*`
-      ];
+      nounCollocations = jjaClean.filter(n => n !== word).slice(0, 5);
+      
+      if (word === "impact" || word === "effect") {
+        verbCollocations = [
+          `have / exert a profound *${word}* on...`,
+          `assess / evaluate the long-term *${word}* of...`,
+          `mitigate / alleviate the adverse *${word}* of...`
+        ];
+      } else if (word === "evidence" || word === "data") {
+        verbCollocations = [
+          `provide / present compelling *${word}* for...`,
+          `scrutinize / examine empirical *${word}* regarding...`
+        ];
+      } else {
+        verbCollocations = [
+          `examine / evaluate key issues surrounding *${word}*`,
+          `formulate / implement policies regarding *${word}*`
+        ];
+      }
+
       sentenceFrames = [
-        `has a profound *${word}* on [global sustainability / educational equity]`,
-        `policymakers must take decisive steps regarding [this *${word}*]`
+        `plays a pivotal role in the context of *${word}* [within contemporary society]`,
+        `policymakers must carefully examine issues regarding [this *${word}*]`
       ];
     }
 
@@ -2274,7 +2492,6 @@ async function fetchCollocations(rawWord) {
       verbCollocations,
       sentenceFrames,
       triggers: trgClean.slice(0, 6),
-      // Backward compatibility aliases:
       adjectives: modifierCollocations,
       nouns: nounCollocations
     };
@@ -2552,7 +2769,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
       { text: "📊 Check My Quota", callback_data: "tool_quota" }
     ],
     [
-      { text: isVip ? "👑 VIP Pass Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: "info_payment" }
+      { text: isVip ? "👑 VIP Lifetime Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: isVip ? "vip_status" : "info_payment" }
     ],
     [
       { text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }

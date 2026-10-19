@@ -163,8 +163,16 @@ window.signOutUser = async function() {
  * Cloud Sync (Firestore)
  */
 window.syncUserDataToCloud = async function() {
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
+  if (isTg) {
+    if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
+      return await window.StorageManager.syncServerless(window.appState);
+    }
+    return true;
+  }
+
   if (!window.currentUser) {
-    alert("Please sign in with Google to sync your study progress to the cloud!");
+    console.log("[CloudSync] No Google user signed in; skipping Firestore sync.");
     return false;
   }
 

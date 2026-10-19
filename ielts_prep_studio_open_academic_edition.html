@@ -2709,9 +2709,6 @@
       <button class="util-icon-btn active-lang" id="langBtn" onclick="toggleLanguageMode()" title="Toggle Burmese Translations">
         文A မြန်မာ ON
       </button>
-      <button class="util-icon-btn" onclick="openBackupModal()" title="Export or Restore Study Progress Backup (.json)">
-        💾 Backup
-      </button>
       <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
         <span id="themeLabel">Light ↗</span>
       </button>
@@ -3526,9 +3523,7 @@
       <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; align-items:center;">
         <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">Quick Filters:</span>
         <button class="btn-outlined is-active" id="btn-trap-all" onclick="filterLexiconByTrap('ALL')" style="padding:2px 8px; font-size:0.72rem;">All (1,162)</button>
-        <button class="btn-outlined" id="btn-trap-traps" onclick="filterLexiconByTrap('TRAP')" style="padding:2px 8px; font-size:0.72rem;">⚠️ False Friends &amp; Traps</button>
         <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;">💬 Band 9 Collocations</button>
-        <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; margin-left:auto; border-color:var(--accent); color:var(--accent);" onclick="exportLexiconToAnki()">📥 Export to Anki (TSV)</button>
       </div>
       <div class="occ-toolbar">
         <input type="text" id="lexSearch" class="occ-input" style="flex:1; min-width:200px;" placeholder="Search English word, synonym, collocation, or Burmese meaning..." oninput="renderLexiconGrid()" aria-label="Search Lexicon">
@@ -4585,14 +4580,35 @@ function ensureUserProfileInitialized() {
 
 function isVipActive() {
   if (window.isVipUser) return true;
+  try {
+    if (typeof localStorage !== "undefined") {
+      if (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher")) {
+        window.isVipUser = true;
+        return true;
+      }
+    }
+  } catch (e) {}
+
   ensureUserProfileInitialized();
   if (appState.userProfile.tier === "vip") {
-    if (appState.userProfile.vipExpiresAt === "lifetime" || appState.userProfile.vipExpiresAt === 1 || appState.userProfile.vipExpiresAt === 0) return true;
-    if (appState.userProfile.vipExpiresAt && Date.now() < appState.userProfile.vipExpiresAt) {
+    const exp = appState.userProfile.vipExpiresAt;
+    if (!exp || exp === "lifetime" || exp === 0 || exp === 1) {
+      window.isVipUser = true;
       return true;
     }
+    const expTime = typeof exp === "number" ? (exp < 10000000000 ? exp * 1000 : exp) : Date.parse(exp);
+    if (!isNaN(expTime)) {
+      if (Date.now() < expTime) {
+        window.isVipUser = true;
+        return true;
+      }
+      return false; // Expired temporary pass
+    }
+    window.isVipUser = true;
+    return true;
   }
   if (window.currentUser && window.currentUser.uid && appState.userProfile.tier === "vip") {
+    window.isVipUser = true;
     return true;
   }
   return false;
@@ -4663,7 +4679,20 @@ function recordParaphraseDrillUsage() {
 
 function openVipPassModal() {
   const m = document.getElementById("vipPassModal");
-  if (m) m.style.display = "flex";
+  if (!m) return;
+  const isVip = isVipActive();
+  const activeSec = document.getElementById("vipActiveSection");
+  const purchaseSec = document.getElementById("vipPurchaseSection");
+  if (activeSec && purchaseSec) {
+    if (isVip) {
+      activeSec.style.display = "block";
+      purchaseSec.style.display = "none";
+    } else {
+      activeSec.style.display = "none";
+      purchaseSec.style.display = "block";
+    }
+  }
+  m.style.display = "flex";
 }
 
 function closeVipPassModal() {
@@ -4870,14 +4899,23 @@ if (typeof window !== "undefined") {
   });
 }
 
-window.openBackupModal = function() {
-  const m = document.getElementById("backupModal");
-  if (m) m.style.display = "flex";
-};
-
-window.closeBackupModal = function() {
-  const m = document.getElementById("backupModal");
-  if (m) m.style.display = "none";
+window.ensureVipBundleLoaded = async function() {
+  if (!isVipActive() || window._vipBundleMerged) return;
+  if (Array.isArray(VOCAB_DATA) && VOCAB_DATA.length >= 1000) {
+    window._vipBundleMerged = true;
+    return;
+  }
+  try {
+    const res = await fetch("data/vip-bundle.json");
+    if (res.ok) {
+      const data = await res.json();
+      if (typeof window.mergeVipBundle === "function") {
+        window.mergeVipBundle(data);
+      }
+    }
+  } catch (err) {
+    console.warn("[ensureVipBundleLoaded fallback notice]", err);
+  }
 };
 
 function activateVipPass(planType, voucherCode) {
@@ -4892,16 +4930,19 @@ function activateVipPass(planType, voucherCode) {
   appState.userProfile.tier = "vip";
   if (voucherCode) appState.userProfile.voucherCode = voucherCode;
   appState.userProfile.vipExpiresAt = "lifetime";
+  try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
   saveAppState();
+  if (typeof window.ensureVipBundleLoaded === "function") {
+    window.ensureVipBundleLoaded();
+  }
   updateAuthUI();
   closeVipPassModal();
-  if (window.syncUserDataToCloud) {
-    window.syncUserDataToCloud();
-  }
   if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
     window.StorageManager.syncServerless(appState);
+  } else if (window.currentUser && window.syncUserDataToCloud) {
+    window.syncUserDataToCloud();
   }
-  showStudioNotification(`🎉 ${plan.name} Activated! All 7 VIP Modules Unlocked.`);
+  showStudioNotification(`🎉 ${plan.name} Activated! All 1,162 VIP Modules Unlocked.`);
   refreshAllVipViews();
 }
 
@@ -5107,23 +5148,33 @@ window.closeAccountModal = function() {
 };
 
 function triggerCloudSync() {
+  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
+  if (isTg) {
+    if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
+      showStudioNotification("⏳ Syncing study progress to Cloudflare D1...");
+      window.StorageManager.syncServerless(window.appState).then((res) => {
+        if (res && res.isVip) {
+          showStudioNotification("☁️ Progress synced! 👑 Lifetime VIP Active.");
+        } else {
+          showStudioNotification("☁️ Progress synced to Cloudflare D1!");
+        }
+      }).catch(() => {
+        showStudioNotification("☁️ Progress saved in Telegram storage.");
+      });
+    } else {
+      showStudioNotification("☁️ Progress saved in Telegram storage.");
+    }
+    return;
+  }
+
   if (!isVipActive()) {
     if (confirm("Cloud Sync is a VIP Pass feature. Would you like to view VIP Pass options to sync your progress across devices?")) {
       openVipPassModal();
     }
     return;
   }
-  const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
-  if (isTg) {
-    if (window.StorageManager && window.StorageManager.syncServerless) {
-      window.StorageManager.syncServerless(window.appState).then(() => {
-        showStudioNotification("☁️ Progress synced to Cloudflare D1!");
-      });
-    }
-    return;
-  }
   if (!window.currentUser) {
-    alert("Please sign in with Google first to sync your study progress to the cloud!");
+    alert("Please sign in with Google (top right) or launch inside Telegram to sync your study progress to the cloud!");
     return;
   }
   if (window.syncUserDataToCloud) {
@@ -5143,14 +5194,17 @@ function updateAuthUI() {
   if (vipBtn && vipText) {
     if (isVip) {
       vipBtn.classList.add("vip-active");
-      if (appState.userProfile.vipExpiresAt === "lifetime") {
-        vipText.textContent = "👑 Lifetime VIP";
-      } else {
-        const daysLeft = Math.max(1, Math.ceil((appState.userProfile.vipExpiresAt - Date.now()) / (24 * 60 * 60 * 1000)));
-        vipText.textContent = `👑 VIP (${daysLeft}d)`;
-      }
+      vipBtn.style.background = "rgba(34,197,94,0.15)";
+      vipBtn.style.borderColor = "var(--green)";
+      vipBtn.style.color = "var(--green)";
+      vipBtn.title = "Lifetime VIP Active — All 1,162 Vocabulary Items & CBT Modules Unlocked";
+      vipText.innerHTML = `<span style="color:var(--green); font-weight:800;">👑 VIP Lifetime Active</span>`;
     } else {
       vipBtn.classList.remove("vip-active");
+      vipBtn.style.background = "";
+      vipBtn.style.borderColor = "";
+      vipBtn.style.color = "";
+      vipBtn.title = "Upgrade to VIP Studio Pass";
       vipText.textContent = "⭐ VIP Pass (55,000 MMK)";
     }
   }
@@ -5202,12 +5256,19 @@ function updateAuthUI() {
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openTmaInBrowser(); closeAccountModal();">
             🌐 Open in Desktop Browser (Chrome/Edge) ↗
           </button>
-          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="if(window.StorageManager && window.StorageManager.syncServerless) { window.StorageManager.syncServerless(window.appState).then(()=>showStudioNotification('☁️ Progress synced to Cloudflare D1!')); }">
+          <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="triggerCloudSync()">
             ☁️ Sync Progress Now ${isVip ? '✓' : ''}
           </button>
+          ${isVip ? `
+          <div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(34,197,94,0.12); border:1px solid var(--green); border-radius:6px; color:var(--green); font-size:0.8rem; font-weight:700;">
+            <span style="font-size:1.05rem;">👑</span>
+            <span>VIP Lifetime Active (1,162 Entries Unlocked)</span>
+          </div>
+          ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
-            ⭐ ${isVip ? 'VIP Studio Pass Status' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
+            ⭐ Upgrade to Lifetime VIP (55,000 MMK)
           </button>
+          `}
           ${(!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) ? `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border); padding:8px 12px;" onclick="if(window.StorageManager && window.StorageManager.signOutTelegramBrowser) { window.StorageManager.signOutTelegramBrowser(); closeAccountModal(); }">
             🚪 Sign Out of Telegram
@@ -5259,9 +5320,16 @@ function updateAuthUI() {
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="triggerCloudSync()">
             ☁️ Sync Progress to Cloud ${!isVip ? '(🔒 VIP)' : '✓'}
           </button>
+          ${isVip ? `
+          <div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(34,197,94,0.12); border:1px solid var(--green); border-radius:6px; color:var(--green); font-size:0.8rem; font-weight:700;">
+            <span style="font-size:1.05rem;">👑</span>
+            <span>VIP Lifetime Active (1,162 Entries Unlocked)</span>
+          </div>
+          ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
-            ⭐ ${isVip ? 'Manage Lifetime VIP Pass' : 'Upgrade to Lifetime VIP (55,000 MMK)'}
+            ⭐ Upgrade to Lifetime VIP (55,000 MMK)
           </button>
+          `}
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border); padding:8px 12px;" onclick="if(window.signOutUser) { window.signOutUser(); closeAccountModal(); }">
             🚪 Sign Out
           </button>
@@ -5304,12 +5372,15 @@ function loadAppState() {
   if (!appState.fontScale) appState.fontScale = 1;
   ensureUserProfileInitialized();
 
-  // Security & Entitlement Invariant:
-  // VIP entitlement is verified via Telegram Mini App initData sync, Firebase Auth, or valid voucher codes.
-  if (!window.currentUser && !window.telegramUser && !window.isVipUser && !appState.userProfile.voucherCode) {
-    appState.userProfile.tier = "free";
-    appState.userProfile.vipExpiresAt = null;
-    appState.userProfile.voucherCode = null;
+  // Entitlement Preservation Invariant:
+  // Retain active VIP status if set in user profile or verified in localStorage
+  const isVipPersisted = (appState.userProfile.tier === "vip") || 
+                         (typeof localStorage !== "undefined" && (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher")));
+  if (isVipPersisted) {
+    appState.userProfile.tier = "vip";
+    if (!appState.userProfile.vipExpiresAt) appState.userProfile.vipExpiresAt = "lifetime";
+    window.isVipUser = true;
+    try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
   }
 
   applyThemeUI();
@@ -5317,15 +5388,17 @@ function loadAppState() {
   applyFontScaleUI();
   refreshAnalytics();
   updateAuthUI();
+
+  if (isVipActive() && typeof window.ensureVipBundleLoaded === "function") {
+    window.ensureVipBundleLoaded();
+  }
 }
 
 function saveAppState() {
   try {
     ensureUserProfileInitialized();
-    if (!window.currentUser && !window.telegramUser && !window.isVipUser && !appState.userProfile.voucherCode) {
-      appState.userProfile.tier = "free";
-      appState.userProfile.vipExpiresAt = null;
-      appState.userProfile.voucherCode = null;
+    if (appState.userProfile.tier === "vip" || window.isVipUser) {
+      try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
     }
     localStorage.setItem("occ_ielts_studio_v5", JSON.stringify(appState));
   } catch (e) {}
@@ -9729,20 +9802,18 @@ function levenshteinDistance(a, b) {
   return dp[m][n];
 }
 
-// 7. Lexicon Quick Filters & Anki TSV Exporter
+// 7. Lexicon Quick Filters
 window.filterLexiconByTrap = function(category) {
-  ['all', 'traps', 'colloc'].forEach(id => {
+  ['all', 'colloc'].forEach(id => {
     const btn = document.getElementById('btn-trap-' + id);
     if (btn) btn.classList.remove('is-active');
   });
-  const activeBtn = document.getElementById('btn-trap-' + (category === 'ALL' ? 'all' : (category === 'TRAP' ? 'traps' : 'colloc')));
+  const activeBtn = document.getElementById('btn-trap-' + (category === 'ALL' ? 'all' : 'colloc'));
   if (activeBtn) activeBtn.classList.add('is-active');
 
   const sInp = document.getElementById('lexSearch');
   if (!sInp) return;
-  if (category === 'TRAP') {
-    sInp.value = 'trap';
-  } else if (category === 'COLLOC') {
+  if (category === 'COLLOC') {
     sInp.value = 'collocation';
   } else {
     sInp.value = '';
@@ -9750,81 +9821,6 @@ window.filterLexiconByTrap = function(category) {
   renderLexiconGrid();
   studioHaptic(10);
 };
-
-window.exportLexiconToAnki = function() {
-  if (!Array.isArray(VOCAB_DATA) || VOCAB_DATA.length === 0) {
-    alert('Lexicon data is loading. Please try again in a few moments.');
-    return;
-  }
-
-  const isVip = isVipActive();
-  const pool = getAccessibleLexicon();
-  const maxExport = isVip ? 100 : 50;
-
-  if (!isVip && pool.length > maxExport) {
-    if (typeof showStudioNotification === 'function') {
-      showStudioNotification('ℹ️ Free Anki export is capped at 50 cards. Unlock VIP for full export!');
-    }
-  }
-
-  const exportItems = pool.slice(0, maxExport);
-
-  // TG ID or guest
-  const tgUser = (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || window.telegramUser;
-  const uid = tgUser ? tgUser.id : (appState.userProfile && appState.userProfile.telegramId ? appState.userProfile.telegramId : 'guest');
-
-  // Prepend Anki 2.1.54+ headers
-  const lines = [
-    '#separator:tab',
-    '#html:true',
-    '#tags column:3'
-  ];
-
-  exportItems.forEach(v => {
-    const ipaStr = v.ipa || v.phonetic || '';
-    const posStr = v.pos ? ` (${v.pos}${ipaStr ? ` · ${ipaStr}` : ''})` : (ipaStr ? ` (${ipaStr})` : '');
-    const front = sanitizeTsv(`${v.word || ''}${posStr}`);
-
-    const synStr = Array.isArray(v.synonyms) ? v.synonyms.join(', ') : (v.synonyms || 'None');
-    const avoidStr = v.basic || 'None';
-    const collocStr = v.collocation || 'None';
-    const exStr = v.exEn || v.exampleEn || '';
-    const mmStr = `${v.mmMeaning || ''}${v.mmNote ? ` (${v.mmNote})` : ''}`;
-
-    const back = sanitizeTsv(
-      `<b>${v.band || 'Band 8.0'}</b> | ${v.category || 'General'}<br>` +
-      `<b>Synonyms:</b> ${synStr}<br>` +
-      `<b>Avoid:</b> ${avoidStr}<br>` +
-      `<b>Collocations:</b> ${collocStr}<br>` +
-      `<b>Example:</b> <i>${exStr}</i><br>` +
-      `<b>Burmese:</b> <span class="burmese">${mmStr}</span>`
-    );
-
-    const catSlug = (v.category || 'General').replace(/[^a-zA-Z0-9]+/g, '_');
-    const tags = `IELTS_Prep_Studio ${catSlug} UID_${uid}`;
-
-    lines.push(`${front}\t${back}\t${tags}`);
-  });
-
-  const blob = new Blob([lines.join('\n')], { type: 'text/tab-separated-values;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = isVip ? `ielts_academic_lexicon_anki_vip_${uid}.tsv` : 'ielts_academic_lexicon_anki_free.tsv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  studioHaptic(20);
-  if (typeof showToast === 'function') {
-    showToast(`📥 Exported ${exportItems.length} cards to Anki TSV file!`);
-  }
-};
-
-function sanitizeTsv(str) {
-  if (str === null || str === undefined) return '';
-  return String(str).replace(/\t/g, ' ').replace(/\r?\n/g, '<br>');
-}
 
 
 // 8. Mobile Floating Action Button (FAB)
@@ -10557,191 +10553,223 @@ async function executeVipQuoteSearch() {
         <button class="btn-outlined modal-close-btn" style="padding:6px 14px; font-size:0.82rem; font-weight:700; flex-shrink:0; white-space:nowrap; min-width:max-content;" onclick="closeVipPassModal()">✕ Close</button>
       </div>
 
-      <!-- Private Tutor vs IELTS Prep Studio ROI Anchor -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin:14px 0;">
-        <div style="background:rgba(224, 86, 36, 0.05); border:1px solid rgba(224, 86, 36, 0.25); border-radius:6px; padding:14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:0.75rem; font-weight:800; color:var(--crimson); text-transform:uppercase; letter-spacing:0.04em;">Traditional Private Tutoring</span>
-            <span style="font-size:0.85rem; font-weight:900; color:var(--crimson);">500,000+ MMK</span>
+      <!-- VIP Active Member Status Section (Shown for Active VIP Users) -->
+      <div id="vipActiveSection" style="display:none; padding:6px 0;">
+        <div style="background:linear-gradient(135deg, rgba(34,197,94,0.12) 0%, rgba(224,108,53,0.06) 100%); border:2px solid var(--green); border-radius:8px; padding:22px; text-align:center; margin-bottom:16px;">
+          <div style="font-size:2.8rem; margin-bottom:6px;">👑</div>
+          <h2 style="font-size:1.4rem; font-weight:900; color:var(--text); margin:0 0 6px 0;">VIP Lifetime Active</h2>
+          <div style="display:inline-flex; align-items:center; gap:6px; background:var(--green); color:#000; font-weight:800; font-size:0.75rem; padding:3px 14px; border-radius:12px; margin-bottom:14px;">
+            ✓ ALL 1,162 VOCABULARY ITEMS &amp; CBT MODULES UNLOCKED
           </div>
-          <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text-secondary); line-height:1.65;">
-            <li><strong>50,000 MMK</strong> per single essay review</li>
-            <li>2 to 3 days wait for written feedback</li>
-            <li>No real-time band rewrites or automated trap checks</li>
-            <li><strong>450,000+ MMK</strong> lost if forced to retake the exam</li>
-          </ul>
-        </div>
-        <div style="background:rgba(46, 204, 113, 0.06); border:1px solid rgba(46, 204, 113, 0.35); border-radius:6px; padding:14px; position:relative;">
-          <span style="position:absolute; top:-9px; right:12px; background:var(--green); color:#000; font-size:0.65rem; font-weight:900; padding:2px 8px; border-radius:3px; text-transform:uppercase;">Save 500,000+ MMK</span>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:0.75rem; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:0.04em;">Lifetime Studio VIP Pass</span>
-            <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">55,000 MMK (Once)</span>
+          <p style="font-size:0.86rem; color:var(--text-secondary); max-width:500px; margin:0 auto 16px; line-height:1.55;">
+            You have permanent, unrestricted lifetime access across all official Cambridge CBT reading mocks, Band 8.5/9.0 lexicon, writing models, speaking topic forecasts, and cross-device cloud sync.
+          </p>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-bottom:18px; font-size:0.82rem; text-align:left;">
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ 1,162 Lexicon Items</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">Full 1-3-7 Spaced Repetition (SRS)</span>
+            </div>
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ 23 Reading CBT Passages</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">231 Questions + Burmese Notes</span>
+            </div>
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ 40 Writing Models</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">Task 1 &amp; 2 + CEFR 90/10 AI Evaluator</span>
+            </div>
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ 30 Speaking Forecast Topics</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">5 Strategic Response Frameworks</span>
+            </div>
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ Unlimited Multi-Device Sync</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">Telegram Mini App &amp; Desktop Browser</span>
+            </div>
+            <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
+              <span style="color:var(--green); font-weight:800;">✓ Academic AI Tools</span><br>
+              <span style="color:var(--text-secondary); font-size:0.75rem;">Unlimited Collocations &amp; Synonyms</span>
+            </div>
           </div>
-          <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
-            <li><strong>All 1,162 Lexicon Items</strong> + 1-3-7 Day Spaced Repetition (SRS)</li>
-            <li><strong>All 23 Reading CBT Passages</strong> (231 Questions) + Burmese Evidence</li>
-            <li><strong>All 40 Writing Models</strong> (Task 1 &amp; Task 2) + Live CEFR 90/10 Scorer</li>
-            <li><strong>All 30 Speaking Forecast Topics</strong> + 5 Strategic Frameworks</li>
-            <li><strong>Automatic Cross-Device Telegram Sync</strong> &amp; Anki TSV Export</li>
-          </ul>
+
+          <div style="background:rgba(255,255,255,0.03); border:1px dashed var(--border-mid); border-radius:6px; padding:12px; margin-bottom:14px; font-size:0.82rem; color:var(--text-secondary);">
+            💬 Direct Lead Instructor Academic Support: <a href="https://t.me/hyuguo" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:800; text-decoration:underline;">@hyuguo</a>
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button class="btn-outlined" onclick="triggerCloudSync()" style="font-size:0.82rem; font-weight:700;">
+              ☁️ Sync Progress Now
+            </button>
+            <button class="btn-accent-solid" onclick="closeVipPassModal()" style="font-size:0.82rem; font-weight:700;">
+              🚀 Continue Learning
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Lifetime VIP Pass Pricing Card -->
-      <div class="vip-pricing-card popular" style="margin:14px 0; border:2px solid var(--accent); padding:18px; background:linear-gradient(180deg, rgba(224, 108, 53, 0.08) 0%, var(--bg) 100%);">
-        <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;">👑 ALL-ACCESS LIFETIME PASS</div>
-        <div>
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
-            <div>
-              <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Everything Unlocked Forever</div>
-              <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for lifetime access across all study modules, official Cambridge CBT mocks, pronunciation audio &amp; cloud sync.</div>
+      <!-- VIP Purchase & Activation Section (Shown for Free Users) -->
+      <div id="vipPurchaseSection">
+        <!-- Private Tutor vs IELTS Prep Studio ROI Anchor -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin:14px 0;">
+          <div style="background:rgba(224, 86, 36, 0.05); border:1px solid rgba(224, 86, 36, 0.25); border-radius:6px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:0.75rem; font-weight:800; color:var(--crimson); text-transform:uppercase; letter-spacing:0.04em;">Traditional Private Tutoring</span>
+              <span style="font-size:0.85rem; font-weight:900; color:var(--crimson);">500,000+ MMK</span>
             </div>
-            <div style="text-align:right;">
-              <div class="vip-price-amount" style="font-size:1.85rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
-              <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME INVESTMENT • ZERO SUBSCRIPTIONS</div>
-            </div>
+            <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text-secondary); line-height:1.65;">
+              <li><strong>50,000 MMK</strong> per single essay review</li>
+              <li>2 to 3 days wait for written feedback</li>
+              <li>No real-time band rewrites or automated trap checks</li>
+              <li><strong>450,000+ MMK</strong> lost if forced to retake the exam</li>
+            </ul>
           </div>
-
-          <!-- The Core Deliverables -->
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 1,162 Band 8.0–9.0 Lexicon Items</strong> (Traps &amp; 1-3-7 Day SRS)</span>
+          <div style="background:rgba(46, 204, 113, 0.06); border:1px solid rgba(46, 204, 113, 0.35); border-radius:6px; padding:14px; position:relative;">
+            <span style="position:absolute; top:-9px; right:12px; background:var(--green); color:#000; font-size:0.65rem; font-weight:900; padding:2px 8px; border-radius:3px; text-transform:uppercase;">Save 500,000+ MMK</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:0.75rem; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:0.04em;">Lifetime Studio VIP Pass</span>
+              <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">55,000 MMK (Once)</span>
             </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + Burmese Notes)</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Task 1 &amp; Task 2 Writing Models</strong> + Live CEFR 90/10 Scorer</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 4 Listening CBT Sets</strong> with Full Transcripts &amp; Audio</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Anki TSV Export (100 Cards/Batch)</strong> with Personal UID Tag</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-              <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
-            </div>
+            <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
+              <li><strong>All 1,162 Lexicon Items</strong> + 1-3-7 Day Spaced Repetition (SRS)</li>
+              <li><strong>All 23 Reading CBT Passages</strong> (231 Questions) + Burmese Evidence</li>
+              <li><strong>All 40 Writing Models</strong> (Task 1 &amp; Task 2) + Live CEFR 90/10 Scorer</li>
+              <li><strong>All 30 Speaking Forecast Topics</strong> + 5 Strategic Frameworks</li>
+              <li><strong>Automatic Cross-Device Telegram Sync</strong></li>
+            </ul>
           </div>
         </div>
-        <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">👑 Get Lifetime VIP Pass Now (55,000 MMK)</button>
-      </div>
 
-      <!-- Payment & Activation Details -->
-      <div id="vipCheckoutStep" style="background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <!-- Lifetime VIP Pass Pricing Card -->
+        <div class="vip-pricing-card popular" style="margin:14px 0; border:2px solid var(--accent); padding:18px; background:linear-gradient(180deg, rgba(224, 108, 53, 0.08) 0%, var(--bg) 100%);">
+          <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;">👑 ALL-ACCESS LIFETIME PASS</div>
           <div>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Direct Payment Instructions</span>
-            <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">IELTS Prep Studio — Full VIP Access (55,000 MMK)</strong>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+              <div>
+                <div class="vip-price-title" style="font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:2px;">Everything Unlocked Forever</div>
+                <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for lifetime access across all study modules, official Cambridge CBT mocks, pronunciation audio &amp; cloud sync.</div>
+              </div>
+              <div style="text-align:right;">
+                <div class="vip-price-amount" style="font-size:1.85rem; font-weight:900; color:var(--accent); line-height:1;">55,000 MMK</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:3px;">ONE-TIME INVESTMENT • ZERO SUBSCRIPTIONS</div>
+              </div>
+            </div>
+
+            <!-- The Core Deliverables -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 1,162 Band 8.0–9.0 Lexicon Items</strong> (Collocations &amp; 1-3-7 Day SRS)</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + Burmese Notes)</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Task 1 &amp; Task 2 Writing Models</strong> + Live CEFR 90/10 Scorer</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 4 Listening CBT Sets</strong> with Full Transcripts &amp; Audio</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
+                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')">👑 Get Lifetime VIP Pass Now (55,000 MMK)</button>
+        </div>
+
+        <!-- Payment & Activation Details -->
+        <div id="vipCheckoutStep" style="background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div>
+              <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Direct Payment Instructions</span>
+              <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">IELTS Prep Studio — Full VIP Access (55,000 MMK)</strong>
+            </div>
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px; box-sizing:border-box;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <span style="font-size:1.2rem;">🇲🇲</span>
+                <strong style="font-size:0.92rem; color:var(--text);">Myanmar Local Mobile Wallets (KBZPay / WavePay)</strong>
+              </div>
+              <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
+                Account Name: <strong>Lyan Htet</strong><br>
+                KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
+                <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;">📋 Copy Number</button><br>
+                Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
+              </div>
+              <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
+                KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
+              </div>
+              <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer;" onclick="handleSendPaymentProof(event)">
+                💬 Send Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
+              </a>
+            </div>
           </div>
         </div>
 
-        <div style="margin-bottom:10px;">
-          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:16px; box-sizing:border-box;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-              <span style="font-size:1.2rem;">🇲🇲</span>
-              <strong style="font-size:0.92rem; color:var(--text);">Myanmar Local Mobile Wallets (KBZPay / WavePay)</strong>
-            </div>
-            <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
-              Account Name: <strong>Lyan Htet</strong><br>
-              KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
-              <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;">📋 Copy Number</button><br>
-              Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
-            </div>
-            <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
-              KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
-            </div>
-            <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-accent-solid" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer;" onclick="handleSendPaymentProof(event)">
-              💬 Send Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
-            </a>
+        <!-- Voucher Code Redemption -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a VIP Activation Code or Partner Voucher?</span>
+            <span style="font-size:0.75rem; color:var(--green); font-weight:600;">✓ Instant 1-Click Activation</span>
+          </div>
+          <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter activation code (e.g. VIP-XXXX-XXXX or IPS-VIP-101)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
+            <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Lifetime Pass</button>
+          </div>
+          <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
+        </div>
+
+        <!-- Feature Comparison Matrix -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. Full VIP Access</div>
+          <div class="table-responsive-box" style="overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; box-sizing:border-box; margin-bottom:12px;">
+            <table style="min-width:440px; width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
+                  <th style="padding:6px;">Module / Feature</th>
+                  <th style="padding:6px; color:var(--text);">Free Tier</th>
+                  <th style="padding:6px; color:var(--accent);">Full VIP Access (55,000 MMK)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">1. Lexicon &amp; Collocations (1,162)</td>
+                  <td style="padding:6px;">First 250 Entries + Audio</td>
+                  <td style="padding:6px; color:var(--accent);">All 1,162 Items (Collocations + 1-3-7d SRS)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">2. Reading CBT Simulator</td>
+                  <td style="padding:6px;">Passages 1, 2 &amp; 3 (Full Timed CBTs)</td>
+                  <td style="padding:6px; color:var(--accent);">All 23 CBT Passages (231 Questions) + Burmese Evidence</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
+                  <td style="padding:6px;">Models 1 to 5 + CEFR 90/10 Scorer</td>
+                  <td style="padding:6px; color:var(--accent);">All 40 Models + Structural Outlines &amp; CEFR Scorer</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
+                  <td style="padding:6px;">Topics 1 to 5 + 5 Frameworks</td>
+                  <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Strategic Frameworks</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">5. Listening Practice</td>
+                  <td style="padding:6px;">Set 1 (Full Test)</td>
+                  <td style="padding:6px; color:var(--accent);">All 4 Sets + Complete Transcripts</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px; font-weight:600;">6. Cross-Device Sync</td>
+                  <td style="padding:6px;">Offline Local Cache</td>
+                  <td style="padding:6px; color:var(--accent);">Automatic Telegram Cloud Sync across Mobile &amp; Desktop</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-
-      <!-- Voucher Code Redemption -->
-      <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a VIP Activation Code or Partner Voucher?</span>
-          <span style="font-size:0.75rem; color:var(--green); font-weight:600;">✓ Instant 1-Click Activation</span>
-        </div>
-        <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="vipVoucherInput" class="occ-input" placeholder="Enter activation code (e.g. VIP-XXXX-XXXX or IPS-VIP-101)..." style="flex:1; min-width:0; font-size:0.85rem; text-transform:uppercase;">
-          <button class="btn-accent-solid" onclick="redeemVoucherCode()" style="font-size:0.82rem; white-space:nowrap; flex-shrink:0;">Activate Lifetime Pass</button>
-        </div>
-        <div id="vipVoucherFeedback" style="font-size:0.78rem; margin-top:6px; min-height:16px;"></div>
-      </div>
-
-      <!-- Feature Comparison Matrix -->
-      <div style="margin-bottom:14px;">
-        <div style="font-size:0.85rem; font-weight:700; margin-bottom:8px; color:var(--text);">⚖️ Free Tier vs. Full VIP Access</div>
-        <div class="table-responsive-box" style="overflow-x:auto; -webkit-overflow-scrolling:touch; width:100%; max-width:100%; box-sizing:border-box; margin-bottom:12px;">
-          <table style="min-width:440px; width:100%; border-collapse:collapse; font-size:0.78rem; text-align:left;">
-            <thead>
-              <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
-                <th style="padding:6px;">Module / Feature</th>
-                <th style="padding:6px; color:var(--text);">Free Tier</th>
-                <th style="padding:6px; color:var(--accent);">Full VIP Access (55,000 MMK)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">1. Lexicon &amp; Traps (1,162)</td>
-                <td style="padding:6px;">First 250 Entries + Audio</td>
-                <td style="padding:6px; color:var(--accent);">All 1,162 Items (Collocations + Traps + 1-3-7d SRS)</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">2. Reading CBT Simulator</td>
-                <td style="padding:6px;">Passages 1, 2 &amp; 3 (Full Timed CBTs)</td>
-                <td style="padding:6px; color:var(--accent);">All 23 CBT Passages (231 Questions) + Burmese Evidence</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">3. Writing Models &amp; Lab</td>
-                <td style="padding:6px;">Models 1 to 5 + CEFR 90/10 Scorer</td>
-                <td style="padding:6px; color:var(--accent);">All 40 Models + Structural Outlines &amp; CEFR Scorer</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">4. Speaking Studio</td>
-                <td style="padding:6px;">Topics 1 to 5 + 5 Frameworks</td>
-                <td style="padding:6px; color:var(--accent);">All 30 Forecast Topics + 5 Strategic Frameworks</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">5. Listening Practice</td>
-                <td style="padding:6px;">Set 1 (Full Test) + Traps</td>
-                <td style="padding:6px; color:var(--accent);">All 4 Sets + Complete Transcripts &amp; Traps</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:6px; font-weight:600;">6. Cross-Device Sync</td>
-                <td style="padding:6px;">Offline Local Cache</td>
-                <td style="padding:6px; color:var(--accent);">Automatic Telegram Cloud Sync across Mobile &amp; Desktop</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Manual Backup / Restore Modal (Offline Non-Telegram Users) -->
-  <div id="backupModal" class="modal-backdrop" style="display:none;" onclick="if(event.target===this) closeBackupModal()">
-    <div class="modal-card" style="max-width:480px; width:92%; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:8px; padding:20px; box-sizing:border-box;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <h3 style="margin:0; font-size:1.1rem; color:var(--text); font-weight:800;">💾 Study Progress Backup &amp; Restore</h3>
-        <button class="btn-outlined modal-close-btn" style="padding:2px 8px; font-size:0.8rem;" onclick="closeBackupModal()">✕</button>
-      </div>
-      <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:16px; line-height:1.5;">
-        Export your SRS spaced repetition schedule, mistake log, and solved tests as a portable JSON file, or restore a previous backup without requiring account logins.
-      </p>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn-accent-solid" onclick="if(window.StorageManager) window.StorageManager.exportLocalBackup()" style="padding:10px 14px; font-size:0.85rem; font-weight:700;">
-          📥 Download Progress Backup (.json)
-        </button>
-        <label class="btn-outlined" style="padding:10px 14px; font-size:0.85rem; font-weight:700; text-align:center; cursor:pointer; display:block;">
-          📤 Restore Progress from File (.json)
-          <input type="file" accept=".json" style="display:none;" onchange="if(this.files[0] && window.StorageManager) window.StorageManager.importLocalBackup(this.files[0]).then(() => closeBackupModal())">
-        </label>
       </div>
     </div>
   </div>
