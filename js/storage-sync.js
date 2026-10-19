@@ -485,6 +485,30 @@
         reader.onerror = () => reject(new Error('File reading failed'));
         reader.readAsText(file);
       });
+    },
+
+    getApiBase() {
+      return getApiBase();
+    },
+
+    async fetchVipTool(toolName, params = {}) {
+      const apiBase = getApiBase();
+      const tgUser = this.getTelegramUser();
+      const query = new URLSearchParams(params);
+      if (tgUser && tgUser.id) {
+        query.set('telegram_id', tgUser.id);
+      }
+      const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ielts_voucher_code') || (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) || '';
+      if (voucher) {
+        query.set('code', voucher);
+      }
+      try {
+        const resp = await fetch(`${apiBase}/api/tools/${toolName}?${query.toString()}`);
+        return await resp.json();
+      } catch (err) {
+        console.error(`[fetchVipTool ${toolName} Error]`, err);
+        return { success: false, error: err.message };
+      }
     }
   };
 

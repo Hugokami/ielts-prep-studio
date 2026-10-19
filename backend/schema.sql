@@ -32,6 +32,14 @@ CREATE TABLE IF NOT EXISTS promo_codes (
   used_at INTEGER
 );
 
+-- Daily API Tool Usage Quota for VIP and Free tiers
+CREATE TABLE IF NOT EXISTS daily_quota (
+  telegram_id INTEGER,
+  date_str TEXT, -- 'YYYY-MM-DD' in Asia/Yangon time
+  count INTEGER DEFAULT 0,
+  PRIMARY KEY (telegram_id, date_str)
+);
+
 -- Seed initial partner & emergency promo codes
 INSERT OR IGNORE INTO promo_codes (code, is_used) VALUES
   ('VIPPASS2026', 0),

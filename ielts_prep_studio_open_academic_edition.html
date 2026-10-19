@@ -2691,6 +2691,9 @@
     </nav>
 
     <div class="top-utils">
+      <button class="util-icon-btn vip-academic-tool-btn" onclick="openVipToolsModal()" id="vipToolsTopBtn" title="VIP Academic AI Tools (Collocations, Synonyms, Topic Explorer &amp; Dictionary)" style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(186, 74, 37, 0.15)); border-color:var(--accent); color:var(--accent); font-weight:700;">
+        ⚡ VIP Academic Tools
+      </button>
       <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
         🔍 <span>Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
       </button>
@@ -9863,6 +9866,403 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// ==========================================
+// VIP ACADEMIC AI TOOLS (Zero-Auth External APIs)
+// ==========================================
+
+let vipToolsQuotaState = null;
+
+async function callVipToolApi(toolName, params = {}) {
+  if (window.StorageManager && typeof window.StorageManager.fetchVipTool === 'function') {
+    return await window.StorageManager.fetchVipTool(toolName, params);
+  }
+  const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+  const query = new URLSearchParams(params);
+  const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser;
+  if (tgUser && tgUser.id) {
+    query.set('telegram_id', tgUser.id);
+  }
+  const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ielts_voucher_code') || (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) || '';
+  if (voucher) {
+    query.set('code', voucher);
+  }
+  try {
+    const resp = await fetch(`${apiBase}/api/tools/${toolName}?${query.toString()}`);
+    return await resp.json();
+  } catch (err) {
+    console.error(`[callVipToolApi error: ${toolName}]`, err);
+    return { success: false, error: err.message };
+  }
+}
+
+async function fetchVipToolsQuota() {
+  try {
+    const res = await callVipToolApi('quota');
+    if (res && res.quota) {
+      vipToolsQuotaState = res.quota;
+      updateVipToolsQuotaUI(res.quota);
+    }
+  } catch (e) {
+    console.warn('[fetchVipToolsQuota error]', e);
+  }
+}
+
+function updateVipToolsQuotaUI(quota) {
+  const badge = document.getElementById('vipToolsQuotaBadge');
+  const banner = document.getElementById('vipToolsQuotaBanner');
+  if (!badge) return;
+
+  const isVip = quota && quota.isVip;
+  if (isVip) {
+    badge.style.background = 'var(--green)';
+    badge.innerText = '👑 LIFETIME VIP PASS (UNLIMITED)';
+    if (banner) banner.style.display = 'none';
+  } else {
+    const rem = (quota && typeof quota.remaining === 'number') ? quota.remaining : 3;
+    badge.style.background = rem > 0 ? 'var(--accent)' : 'var(--crimson)';
+    badge.innerText = `💡 FREE PREVIEW: ${rem}/3 QUERIES LEFT`;
+
+    if (banner) {
+      if (rem === 0) {
+        banner.style.display = 'block';
+        banner.style.background = 'rgba(224, 86, 36, 0.12)';
+        banner.style.border = '1px solid rgba(224, 86, 36, 0.4)';
+        banner.style.color = 'var(--crimson)';
+        banner.innerHTML = `<strong>⚠️ Daily Free Limit Reached (3/3 queries used today).</strong><br>
+        Free tier users receive 3 Academic AI queries per day. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:800; text-decoration:underline;">Upgrade to Lifetime VIP (55,000 MMK)</a> for UNLIMITED daily access across all tools, reading CBT &amp; writing labs!`;
+      } else {
+        banner.style.display = 'block';
+        banner.style.background = 'rgba(46, 204, 113, 0.08)';
+        banner.style.border = '1px solid rgba(46, 204, 113, 0.3)';
+        banner.style.color = 'var(--green)';
+        banner.innerHTML = `💡 Free Preview: <strong>${rem} of 3</strong> queries remaining today. <a href="javascript:void(0)" onclick="closeVipToolsModal(); openVipPassModal();" style="color:var(--accent); font-weight:700; text-decoration:underline;">Upgrade to VIP</a> for unlimited queries!`;
+      }
+    }
+  }
+}
+
+function openVipToolsModal(initialTab = 'collocations', initialQuery = '') {
+  const modal = document.getElementById('vipToolsModalBackdrop');
+  if (modal) {
+    modal.style.display = 'flex';
+    switchVipToolsTab(initialTab);
+    if (initialQuery) {
+      setVipToolInput(initialTab, initialQuery);
+      if (initialTab === 'collocations') executeVipCollocationsSearch();
+      else if (initialTab === 'synonyms') executeVipSynonymsSearch();
+      else if (initialTab === 'topic') executeVipTopicSearch();
+      else if (initialTab === 'dict') executeVipDictSearch();
+    }
+    fetchVipToolsQuota();
+  }
+}
+
+function closeVipToolsModal() {
+  const modal = document.getElementById('vipToolsModalBackdrop');
+  if (modal) modal.style.display = 'none';
+}
+
+function switchVipToolsTab(tabName) {
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`vt-tab-${t}`);
+    const pane = document.getElementById(`vt-pane-${t}`);
+    if (btn) btn.classList.toggle('active', t === tabName);
+    if (pane) pane.style.display = (t === tabName) ? 'block' : 'none';
+  });
+}
+
+function setVipToolInput(toolName, val) {
+  const input = document.getElementById(`vt-${toolName}-input`);
+  if (input) {
+    input.value = val;
+    input.focus();
+  }
+}
+
+async function executeVipCollocationsSearch() {
+  const input = document.getElementById('vt-collocations-input');
+  const resDiv = document.getElementById('vt-collocations-results');
+  const word = (input ? input.value : '').trim();
+  if (!word) {
+    alert('Please enter an academic word to find collocations.');
+    return;
+  }
+
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Datamuse Academic Collocations Engine...</div>`;
+
+  try {
+    const res = await callVipToolApi('collocations', { word });
+    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+
+    if (!res || !res.success) {
+      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+        <strong>⚠️ ${res.error || 'Failed to fetch collocations.'}</strong>
+        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+      </div>`;
+      return;
+    }
+
+    const d = res.data;
+    if (!d || (!d.adjectives.length && !d.nouns.length && !d.triggers.length)) {
+      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No academic collocations found for "${word}". Try common essay terms like <em>impact, environment, policy, evidence</em>.</div>`;
+      return;
+    }
+
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 6px; font-size:0.8rem;">🔊 Listen</button>
+        </div>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('synonyms', '${d.word}')">💎 View Synonyms ↗</button>
+      </div>`;
+
+    if (d.adjectives && d.adjectives.length) {
+      html += `<div style="margin-bottom:12px;">
+        <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Adjective Pairings (adjective + ${d.word}):</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${d.adjectives.map(a => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${a}'); executeVipCollocationsSearch();" title="Click to inspect">${a} <strong>${d.word}</strong></span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    if (d.nouns && d.nouns.length) {
+      html += `<div style="margin-bottom:12px;">
+        <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:6px;">🔹 Noun Pairings (${d.word} + noun):</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${d.nouns.map(n => `<span class="occ-ver-pill" style="cursor:pointer;" onclick="setVipToolInput('collocations', '${n}'); executeVipCollocationsSearch();" title="Click to inspect"><strong>${d.word}</strong> ${n}</span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    if (d.triggers && d.triggers.length) {
+      html += `<div style="margin-bottom:10px;">
+        <span style="font-size:0.8rem; font-weight:800; color:var(--text-secondary); display:block; margin-bottom:4px;">🔹 High-Yield Academic Triggers:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${d.triggers.map(t => `<span style="font-size:0.78rem; color:var(--text-secondary); padding:2px 6px; background:rgba(0,0,0,0.04); border-radius:4px;">${t}</span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    html += `<div style="font-size:0.75rem; color:var(--text-secondary); border-top:1px dashed var(--border); padding-top:8px; margin-top:8px;">
+      💡 <strong>Band 8.5 Usage Tip:</strong> Deploy natural collocation pairings in Writing Task 2 topic sentences to elevate your Lexical Resource mark from Band 6.0 to 8.0+.
+    </div></div>`;
+
+    resDiv.innerHTML = html;
+  } catch (err) {
+    resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
+async function executeVipSynonymsSearch() {
+  const input = document.getElementById('vt-synonyms-input');
+  const resDiv = document.getElementById('vt-synonyms-results');
+  const word = (input ? input.value : '').trim();
+  if (!word) {
+    alert('Please enter a word to find Band 8.5+ synonyms.');
+    return;
+  }
+
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Datamuse Academic Lexicon Engine...</div>`;
+
+  try {
+    const res = await callVipToolApi('synonyms', { word });
+    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+
+    if (!res || !res.success) {
+      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+        <strong>⚠️ ${res.error || 'Failed to fetch synonyms.'}</strong>
+        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+      </div>`;
+      return;
+    }
+
+    const d = res.data;
+    if (!d || !d.synonyms.length) {
+      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No high-yield synonyms found for "${word}". Try common essay words like <em>important, increase, problem, advantage</em>.</div>`;
+      return;
+    }
+
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 6px; font-size:0.8rem;">🔊 Listen</button>
+        </div>
+        <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('collocations', '${d.word}')">🔗 View Collocations ↗</button>
+      </div>`;
+
+    html += `<div style="margin-bottom:14px;">
+      <span style="font-size:0.8rem; font-weight:800; color:var(--text); display:block; margin-bottom:8px;">🎯 High-Yield Academic Substitutes:</span>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${d.synonyms.map(s => `<button class="btn-outlined" style="padding:4px 10px; font-size:0.82rem; font-weight:700; color:var(--text);" onclick="speakWord('${s}')" title="Click to listen to pronunciation">${s} 🔊</button>`).join('')}
+      </div>
+    </div>`;
+
+    if (d.specific && d.specific.length) {
+      html += `<div style="margin-bottom:12px;">
+        <span style="font-size:0.8rem; font-weight:800; color:var(--text-secondary); display:block; margin-bottom:6px;">📌 Specialized / Contextual Nuances:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          ${d.specific.map(s => `<span class="occ-ver-pill" style="font-size:0.76rem;">${s}</span>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    html += `<div style="font-size:0.75rem; color:var(--text-secondary); border-top:1px dashed var(--border); padding-top:8px; margin-top:8px;">
+      💡 <strong>Lexical Precision:</strong> Avoid mechanical synonym substitution. Ensure the selected word accurately fits the academic register of your thesis.
+    </div></div>`;
+
+    resDiv.innerHTML = html;
+  } catch (err) {
+    resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
+async function executeVipTopicSearch() {
+  const input = document.getElementById('vt-topic-input');
+  const resDiv = document.getElementById('vt-topic-results');
+  const topic = (input ? input.value : '').trim();
+  if (!topic) {
+    alert('Please enter an essay topic to explore.');
+    return;
+  }
+
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Knowledge Brief...</div>`;
+
+  try {
+    const res = await callVipToolApi('topic', { topic });
+    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+
+    if (!res || !res.success) {
+      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+        <strong>⚠️ ${res.error || 'Failed to fetch topic brief.'}</strong>
+        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+      </div>`;
+      return;
+    }
+
+    const d = res.data;
+    if (!d || !d.extract) {
+      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No academic summary found for "${topic}". Try broad topics like <em>Renewable energy, Globalization, Automation, Education</em>.</div>`;
+      return;
+    }
+
+    const html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+        <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:var(--accent);">${d.title}</h3>
+        <a href="${d.url}" target="_blank" rel="noopener" class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;">Full Reference ↗</a>
+      </div>
+      <p style="font-size:0.86rem; color:var(--text); line-height:1.6; margin:0 0 12px 0;">${d.extract}</p>
+      <div style="background:rgba(0,0,0,0.03); border-radius:6px; padding:10px; font-size:0.78rem; color:var(--text-secondary);">
+        🎯 <strong>IELTS Writing Task 2 &amp; Speaking Part 3 Angles:</strong><br>
+        • Frame arguments balancing innovation/progress against social equity and public welfare.<br>
+        • Incorporate topic-specific vocabulary into your essay outline in the Writing Lab.
+      </div>
+    </div>`;
+
+    resDiv.innerHTML = html;
+  } catch (err) {
+    resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
+async function executeVipDictSearch() {
+  const input = document.getElementById('vt-dict-input');
+  const resDiv = document.getElementById('vt-dict-results');
+  const word = (input ? input.value : '').trim();
+  if (!word) {
+    alert('Please enter a word to lookup in the academic dictionary.');
+    return;
+  }
+
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Live Academic Dictionary...</div>`;
+
+  try {
+    const res = await callVipToolApi('dict', { word });
+    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+
+    if (!res || !res.success) {
+      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+        <strong>⚠️ ${res.error || 'Failed to fetch definition.'}</strong>
+        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+      </div>`;
+      return;
+    }
+
+    const d = res.data;
+    if (!d || !d.definitions.length) {
+      resDiv.innerHTML = `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No definitions found for "${word}". Try academic words like <em>ubiquitous, mitigate, exacerbate, viable</em>.</div>`;
+      return;
+    }
+
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+          <span class="occ-ver-pill" style="font-size:0.72rem;">${d.pos}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 6px; font-size:0.8rem;">🔊 Listen</button>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('collocations', '${d.word}')">🔗 Collocations</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="openVipToolsModal('synonyms', '${d.word}')">💎 Synonyms</button>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <ol style="margin:0; padding-left:20px; font-size:0.86rem; color:var(--text); line-height:1.65;">
+          ${d.definitions.map(item => `<li><span style="font-weight:700; color:var(--text-secondary); font-size:0.78rem;">(${item.pos})</span> ${item.definition}</li>`).join('')}
+        </ol>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text-secondary); border-top:1px dashed var(--border); padding-top:8px;">
+        💡 <strong>IELTS Application:</strong> Verify precise definition boundaries to avoid false friend usage errors under Grammatical Range &amp; Accuracy.
+      </div>
+    </div>`;
+
+    resDiv.innerHTML = html;
+  } catch (err) {
+    resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
+async function executeVipQuoteSearch() {
+  const resDiv = document.getElementById('vt-quote-results');
+  resDiv.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Synthesizing Scholar Rhetoric &amp; Thought...</div>`;
+
+  try {
+    const res = await callVipToolApi('quote');
+    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+
+    if (!res || !res.success) {
+      resDiv.innerHTML = `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
+        <strong>⚠️ ${res.error || 'Failed to fetch quote.'}</strong>
+        ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="closeVipToolsModal(); openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;">⭐ Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+      </div>`;
+      return;
+    }
+
+    const d = res.data;
+    const html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:linear-gradient(180deg, rgba(217, 119, 6, 0.05) 0%, var(--bg-card) 100%);">
+      <div style="font-size:1.05rem; font-weight:700; color:var(--text); font-style:italic; line-height:1.6; margin-bottom:8px;">
+        ❝ ${d.quote} ❞
+      </div>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--accent); text-align:right; margin-bottom:14px;">
+        — ${d.author}
+      </div>
+      <div style="background:rgba(0,0,0,0.03); border-left:3px solid var(--accent); padding:10px 12px; border-radius:4px; font-size:0.8rem; color:var(--text-secondary); line-height:1.55;">
+        ✍️ <strong>IELTS Task 2 Application:</strong><br>
+        ${d.advice}
+      </div>
+      <div style="text-align:right; margin-top:12px;">
+        <button class="btn-outlined" onclick="executeVipQuoteSearch()" style="padding:4px 12px; font-size:0.78rem;">🔄 Draw Another Quote</button>
+      </div>
+    </div>`;
+
+    resDiv.innerHTML = html;
+  } catch (err) {
+    resDiv.innerHTML = `<div style="color:var(--crimson); padding:14px;">Error: ${err.message}</div>`;
+  }
+}
+
 </script>
 
   <!-- Tab 4 Upgrade: Active Collocation Cloze Gate Modal (Lexicon 2.0) -->
@@ -9926,6 +10326,137 @@ if (typeof window !== 'undefined') {
           <span>Sign In with Google</span>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- VIP Academic AI Tools Modal (No-Auth Free External APIs with Quota) -->
+  <div id="vipToolsModalBackdrop" class="modal-backdrop" style="display:none; z-index:99998;" onclick="if(event.target===this) closeVipToolsModal()">
+    <div class="modal-card" style="max-width:760px; width:100%; max-height:92vh; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:22px; box-sizing:border-box; box-shadow:0 20px 60px rgba(0,0,0,0.85); position:relative; margin:auto;" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:12px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span style="font-size:1.35rem;">⚡</span>
+            <h2 style="margin:0; font-size:1.18rem; font-weight:900; color:var(--text);">VIP Academic AI Lexicon &amp; Topic Tools</h2>
+            <span id="vipToolsQuotaBadge" class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; font-size:0.75rem;">Loading Quota...</span>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0 0;">
+            Supercharge your IELTS Writing Task 2 &amp; Speaking with Academic Collocations, Band 8.5+ Synonyms, Topic Briefs &amp; Dictionary.
+          </p>
+        </div>
+        <button class="btn-outlined modal-close-btn" style="padding:4px 12px; font-size:0.82rem; font-weight:700;" onclick="closeVipToolsModal()" title="Close">✕ Close</button>
+      </div>
+
+      <!-- Quota Alert Banner (When near or at limit) -->
+      <div id="vipToolsQuotaBanner" style="display:none; margin-bottom:14px; padding:10px 14px; border-radius:8px; font-size:0.82rem;"></div>
+
+      <!-- Navigation Tabs inside Modal -->
+      <div class="vip-tools-nav" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:16px; border-bottom:1px solid var(--border);">
+        <button class="nav-link active" id="vt-tab-collocations" onclick="switchVipToolsTab('collocations')">🔗 Collocations</button>
+        <button class="nav-link" id="vt-tab-synonyms" onclick="switchVipToolsTab('synonyms')">💎 Band 8.5+ Synonyms</button>
+        <button class="nav-link" id="vt-tab-topic" onclick="switchVipToolsTab('topic')">📖 Topic Briefs</button>
+        <button class="nav-link" id="vt-tab-dict" onclick="switchVipToolsTab('dict')">📚 Academic Dictionary</button>
+        <button class="nav-link" id="vt-tab-quote" onclick="switchVipToolsTab('quote')">🧠 Scholar Quote</button>
+      </div>
+
+      <!-- Tab 1: Collocations Pane -->
+      <div id="vt-pane-collocations" class="vt-pane">
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="vt-collocations-input" class="search-input" placeholder="Enter academic noun or adjective (e.g. impact, policy, environment)..." style="flex:1;" onkeydown="if(event.key==='Enter') executeVipCollocationsSearch()">
+          <button class="btn-accent-solid" onclick="executeVipCollocationsSearch()" style="padding:8px 16px; font-weight:700;">Find Collocations</button>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
+          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('collocations', 'impact'); executeVipCollocationsSearch();">impact</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('collocations', 'environment'); executeVipCollocationsSearch();">environment</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('collocations', 'policy'); executeVipCollocationsSearch();">policy</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('collocations', 'evidence'); executeVipCollocationsSearch();">evidence</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('collocations', 'technology'); executeVipCollocationsSearch();">technology</button>
+        </div>
+        <div id="vt-collocations-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Enter an academic word above or click a 1-tap chip to discover native high-scoring collocations!
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Synonyms Pane -->
+      <div id="vt-pane-synonyms" class="vt-pane" style="display:none;">
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="vt-synonyms-input" class="search-input" placeholder="Enter word to upgrade (e.g. important, problem, increase, bad)..." style="flex:1;" onkeydown="if(event.key==='Enter') executeVipSynonymsSearch()">
+          <button class="btn-accent-solid" onclick="executeVipSynonymsSearch()" style="padding:8px 16px; font-weight:700;">Upgrade Synonyms</button>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
+          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('synonyms', 'important'); executeVipSynonymsSearch();">important</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('synonyms', 'problem'); executeVipSynonymsSearch();">problem</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('synonyms', 'increase'); executeVipSynonymsSearch();">increase</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('synonyms', 'detrimental'); executeVipSynonymsSearch();">detrimental</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('synonyms', 'advantage'); executeVipSynonymsSearch();">advantage</button>
+        </div>
+        <div id="vt-synonyms-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Enter a common IELTS word to discover Band 8.5+ replacements and specialized academic sub-types!
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Topic Explorer Pane -->
+      <div id="vt-pane-topic" class="vt-pane" style="display:none;">
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="vt-topic-input" class="search-input" placeholder="Enter essay topic (e.g. Artificial intelligence, Renewable energy)..." style="flex:1;" onkeydown="if(event.key==='Enter') executeVipTopicSearch()">
+          <button class="btn-accent-solid" onclick="executeVipTopicSearch()" style="padding:8px 16px; font-weight:700;">Explore Topic</button>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
+          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Artificial intelligence'); executeVipTopicSearch();">AI in Society</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Renewable energy'); executeVipTopicSearch();">Renewable Energy</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Urbanization'); executeVipTopicSearch();">Urbanization</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Globalization'); executeVipTopicSearch();">Globalization</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Higher education'); executeVipTopicSearch();">Higher Education</button>
+        </div>
+        <div id="vt-topic-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Explore background knowledge and academic perspectives on any IELTS Task 2 or Speaking Part 3 topic!
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Academic Dictionary Pane -->
+      <div id="vt-pane-dict" class="vt-pane" style="display:none;">
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="vt-dict-input" class="search-input" placeholder="Enter academic word (e.g. ubiquitous, exacerbate, mitigate)..." style="flex:1;" onkeydown="if(event.key==='Enter') executeVipDictSearch()">
+          <button class="btn-accent-solid" onclick="executeVipDictSearch()" style="padding:8px 16px; font-weight:700;">Lookup Word</button>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
+          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('dict', 'ubiquitous'); executeVipDictSearch();">ubiquitous</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('dict', 'exacerbate'); executeVipDictSearch();">exacerbate</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('dict', 'mitigate'); executeVipDictSearch();">mitigate</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('dict', 'unprecedented'); executeVipDictSearch();">unprecedented</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('dict', 'counterproductive'); executeVipDictSearch();">counterproductive</button>
+        </div>
+        <div id="vt-dict-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Lookup formal definitions, parts of speech, and usage guidance for advanced Band 8.5/9.0 words!
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Scholar Quote Pane -->
+      <div id="vt-pane-quote" class="vt-pane" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <span style="font-size:0.85rem; color:var(--text-secondary);">Draw inspiration from thinkers, scientists, and rhetoricians:</span>
+          <button class="btn-accent-solid" onclick="executeVipQuoteSearch()" style="padding:6px 14px; font-weight:700;">🎲 Draw New Quote</button>
+        </div>
+        <div id="vt-quote-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Click "Draw New Quote" to receive thought-provoking rhetoric and learn how to apply it in IELTS Writing Task 2!
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
