@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
   is_vip INTEGER DEFAULT 0,
   vip_activated_at INTEGER DEFAULT 0,
   srs_due_count INTEGER DEFAULT 0,
+  exam_date TEXT,
+  target_band REAL DEFAULT 7.5,
   progress_json TEXT DEFAULT '{}',
   updated_at INTEGER
 );
