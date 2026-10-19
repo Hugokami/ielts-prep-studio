@@ -236,6 +236,174 @@
     letter-spacing: -0.02em;
   }
 
+  
+  /* =========================================================
+     MINIMALIST UI & SUBTAB ARCHITECTURE (NO ENDLESS SCROLLING)
+     ========================================================= */
+  .subtab-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: sticky;
+    top: 54px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .subtab-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .subtab-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .subtab-btn:hover {
+    color: var(--text);
+    background: var(--bg-elevated);
+  }
+  .subtab-btn.active {
+    background: var(--bg);
+    border-color: var(--border-mid);
+    color: var(--text);
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .subtab-panel {
+    display: none;
+    animation: fadeInSubtab 0.18s ease forwards;
+  }
+  .subtab-panel.active {
+    display: block;
+  }
+  @keyframes fadeInSubtab {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SETTINGS & PREFERENCES SLIDE-OUT DRAWER */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 2500;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .drawer-backdrop.open {
+    display: block;
+    opacity: 1;
+  }
+  .settings-drawer {
+    position: fixed;
+    top: 0;
+    right: -360px;
+    width: 340px;
+    max-width: 85vw;
+    height: 100vh;
+    background: var(--bg-card);
+    border-left: 1px solid var(--border);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+    z-index: 2600;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .settings-drawer.open {
+    right: 0;
+  }
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .drawer-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+  }
+  .drawer-close-btn:hover {
+    color: var(--text);
+  }
+  .drawer-content {
+    padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .drawer-section {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer-section:last-child {
+    border-bottom: none;
+  }
+  .drawer-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .drawer-item-label {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .drawer-item-sub {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  .brand-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--border-accent);
+    border-radius: 3px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .badge-accent {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .util-icon-btn.settings-trigger-btn {
+    padding: 6px 10px;
+  }
+
   .nav-links {
     display: flex;
     align-items: center;
@@ -2640,21 +2808,15 @@
 <a href="#main-content" class="skip-link">Skip to main study workspace</a>
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-<!-- STICKY TOP NAVIGATION BAR -->
+<!-- STICKY TOP NAVIGATION BAR (MINIMALIST 5 HUBS) -->
 <header class="topbar" role="banner">
   <div class="topbar-inner">
     <div class="topbar-left-wrap">
       <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
         <span class="brand-box">IELTS</span>
         <span class="brand-text">Prep Studio</span>
+        <span class="brand-badge">Academic 8.5+</span>
       </button>
-
-      <div class="auth-widget-box" id="authWidgetBox">
-        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account & Sync">
-          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
-          <span id="authBtnLabel">Sign In</span>
-        </button>
-      </div>
 
       <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
         <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
@@ -2666,58 +2828,125 @@
       </div>
     </div>
 
-    <nav class="nav-links" role="tablist" aria-label="Main Study Sections">
+    <!-- 5 Core Hub Navigation (Desktop) -->
+    <nav class="nav-links" role="tablist" aria-label="Main Study Hubs">
       <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="1" onclick="switchView('overview')">
-        <span class="nav-step-num">1</span> Overview
+        Home
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-playbook" data-target-tab="2" onclick="switchView('playbook')">
-        <span class="nav-step-num">2</span> Playbook
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="2" onclick="switchView('lexicon')">
+        Lexicon &amp; Drills
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="3" onclick="switchView('speaking')">
-        <span class="nav-step-num">3</span> Speaking
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="3" onclick="switchView('reading')">
+        Reading &amp; Listening
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="4" onclick="switchView('lexicon')">
-        <span class="nav-step-num">4</span> Lexicon (1,162)
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="4" onclick="switchView('writing')">
+        Writing Lab
       </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-paraphrase" data-target-tab="5" onclick="switchView('paraphrase')">
-        <span class="nav-step-num">5</span> Grammar &amp; Drills
-      </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="6" onclick="switchView('reading')">
-        <span class="nav-step-num">6</span> Reading &amp; Listening
-      </button>
-      <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="7" onclick="switchView('writing')">
-        <span class="nav-step-num">7</span> Writing Lab
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="5" onclick="switchView('speaking')">
+        Speaking Studio
       </button>
     </nav>
 
+    <!-- Top Right Utilities -->
     <div class="top-utils">
-      <button class="util-icon-btn vip-academic-tool-btn" onclick="openVipToolsModal()" id="vipToolsTopBtn" title="VIP Academic AI Tools (Collocations, Synonyms, Topic Explorer &amp; Dictionary)" style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(186, 74, 37, 0.15)); border-color:var(--accent); color:var(--accent); font-weight:700;">
-        ⚡ VIP Academic Tools
+      <button class="util-icon-btn vip-academic-tool-btn" onclick="openVipToolsModal()" id="vipToolsTopBtn" title="VIP Academic Tools (Collocations, Synonyms, Topic Explorer &amp; Dictionary)" style="background:var(--accent-soft); border-color:var(--border-accent); color:var(--accent); font-weight:700;">
+        VIP Tools
       </button>
       <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
         🔍 <span>Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
       </button>
       <button class="util-icon-btn" onclick="jumpToDueSRS()" id="srsDueTopBtn" title="Review Spaced Repetition Words Due Today">
-        ⏳ Due: <strong id="srsDueCountBadge" style="color:var(--accent);">0</strong>
+        Due <strong id="srsDueCountBadge" class="badge-accent">0</strong>
       </button>
-      <button class="util-icon-btn" onclick="openErrorLogModal()" title="View Personal Error Log &amp; Weak Spots">
-        ⚠ Mistakes: <strong id="errorLogCountBadge" style="color:var(--crimson);">0</strong>
+
+      <div class="auth-widget-box" id="authWidgetBox">
+        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account &amp; Sync">
+          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
+          <span id="authBtnLabel">Sign In</span>
+        </button>
+      </div>
+
+      <!-- Minimalist Settings Drawer Trigger Button -->
+      <button class="util-icon-btn settings-trigger-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
       </button>
-      <button class="util-icon-btn" onclick="cycleFontScale()" id="fontScaleBtn" title="Adjust Text Size for Easier Reading">
-        A+ 100%
-      </button>
-      <button class="util-icon-btn active-lang" id="langBtn" onclick="toggleLanguageMode()" title="Toggle Burmese Translations">
-        文A မြန်မာ ON
-      </button>
-      <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
-        <span id="themeLabel">Light ↗</span>
-      </button>
+
       <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
-        ⭐ <span id="vipBtnText">VIP Pass (55,000 MMK)</span>
+        ⭐ <span id="vipBtnText">VIP Pass</span>
       </button>
     </div>
   </div>
 </header>
+
+<!-- SETTINGS & PREFERENCES SLIDE-OUT DRAWER -->
+<div id="settingsDrawerBackdrop" class="drawer-backdrop" onclick="toggleSettingsDrawer(false)"></div>
+<aside id="settingsDrawer" class="settings-drawer" aria-label="Settings and Preferences">
+  <div class="drawer-header">
+    <div class="drawer-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings &amp; Preferences</span>
+    </div>
+    <button class="drawer-close-btn" onclick="toggleSettingsDrawer(false)" aria-label="Close settings">✕</button>
+  </div>
+  <div class="drawer-content">
+    <div class="drawer-section">
+      <div class="drawer-item-row">
+        <div>
+          <div class="drawer-item-label">Burmese Translations</div>
+          <div class="drawer-item-sub">Show Burmese explanations &amp; citations</div>
+        </div>
+        <button class="util-icon-btn active-lang" id="langBtn" onclick="toggleLanguageMode()" title="Toggle Burmese Translations">
+          文A မြန်မာ ON
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-item-row">
+        <div>
+          <div class="drawer-item-label">Interface Theme</div>
+          <div class="drawer-item-sub">Switch between Dark and Light mode</div>
+        </div>
+        <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
+          <span id="themeLabel">Light ↗</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-item-row">
+        <div>
+          <div class="drawer-item-label">Reading Text Size</div>
+          <div class="drawer-item-sub">Adjust font scale for easy reading</div>
+        </div>
+        <button class="util-icon-btn" onclick="cycleFontScale()" id="fontScaleBtn" title="Adjust Text Size">
+          A+ 100%
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-item-row">
+        <div>
+          <div class="drawer-item-label">Personal Error Log</div>
+          <div class="drawer-item-sub">Review incorrect drill answers &amp; traps</div>
+        </div>
+        <button class="util-icon-btn" onclick="toggleSettingsDrawer(false); openErrorLogModal();" title="View Weak Spots">
+          ⚠ Mistakes: <strong id="errorLogCountBadge" style="color:var(--crimson);">0</strong>
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-item-label" style="margin-bottom:6px;">Academic Support &amp; Instructor</div>
+      <div class="drawer-item-sub" style="margin-bottom:10px;">Chat with lead instructor for essay reviews, feedback &amp; VIP passes</div>
+      <a href="https://t.me/hyuguo" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:6px 12px; font-size:0.8rem;">
+        <span>💬 Contact Lead Instructor (@hyuguo) ↗</span>
+      </a>
+    </div>
+  </div>
+</aside>
 
 <!-- TELEGRAM DESKTOP EXPAND TIP BANNER -->
 <div id="tdesktopTipBanner" style="display:none; background:rgba(224,108,53,0.12); border-bottom:1px solid var(--accent); padding:7px 14px; font-size:0.75rem; color:var(--text); align-items:center; justify-content:space-between; gap:10px; z-index:1400; position:relative;">
@@ -2727,39 +2956,36 @@
   <button onclick="dismissTdesktopTip()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1rem; padding:0 4px; line-height:1;" title="Dismiss Tip">✕</button>
 </div>
 
-<!-- MOBILE BOTTOM NAVIGATION BAR (VISIBLE ON < 860PX) -->
+<!-- MOBILE BOTTOM NAVIGATION BAR (MINIMALIST 5 THUMB-FRIENDLY TABS) -->
 <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Section Navigation">
   <button class="mob-nav-btn active" id="mob-overview" data-target-tab="1" onclick="switchView('overview')">
-    <span class="mob-nav-icon">🏠</span><span>1.Plan</span>
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+    <span>Home</span>
   </button>
-  <button class="mob-nav-btn" id="mob-playbook" data-target-tab="2" onclick="switchView('playbook')">
-    <span class="mob-nav-icon">📘</span><span>2.Rules</span>
+  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="2" onclick="switchView('lexicon')">
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+    <span>Lexicon</span>
   </button>
-  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="3" onclick="switchView('speaking')">
-    <span class="mob-nav-icon">🎙️</span><span>3.Speak</span>
+  <button class="mob-nav-btn" id="mob-reading" data-target-tab="3" onclick="switchView('reading')">
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+    <span>Reading</span>
   </button>
-  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="4" onclick="switchView('lexicon')">
-    <span class="mob-nav-icon">🔤</span><span>4.Vocab</span>
+  <button class="mob-nav-btn" id="mob-writing" data-target-tab="4" onclick="switchView('writing')">
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+    <span>Writing</span>
   </button>
-  <button class="mob-nav-btn" id="mob-paraphrase" data-target-tab="5" onclick="switchView('paraphrase')">
-    <span class="mob-nav-icon">⚡</span><span>5.Drills</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-reading" data-target-tab="6" onclick="switchView('reading')">
-    <span class="mob-nav-icon">📖</span><span>6.Read/Lis</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-writing" data-target-tab="7" onclick="switchView('writing')">
-    <span class="mob-nav-icon">✍️</span><span>7.Write</span>
+  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="5" onclick="switchView('speaking')">
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+    <span>Speaking</span>
   </button>
 </nav>
 
 <main id="main-content" class="page-wrap">
 
   <!-- =========================================================
-       VIEW 1: OVERVIEW, QUICK-START ROUTINE & STUDY PLAN
+       HUB 1: HOME // DASHBOARD, STUDY PLANS & EXAM PLAYBOOK
        ========================================================= -->
   <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="1" aria-labelledby="tab-overview">
-
-    <!-- Beginner-Friendly How-To Banner -->
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">HOW TO USE THIS APP // အသုံးပြုပုံ လမ်းညွှန် (START HERE)</div>
@@ -2778,18 +3004,27 @@
       </div>
     </div>
 
-    <!-- In-Page Sub-Navigation Jump Bar -->
-    <div class="subnav-strip" role="navigation" aria-label="Overview Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#ov-hero">↑ Dashboard KPIs</a>
-      <a class="subnav-pill" href="#ov-constellation">↓ Synonym Constellation</a>
-      <a class="subnav-pill" href="#ov-modules">↓ Core Practice Modules</a>
-      <a class="subnav-pill" href="#ov-format">↓ 4-Module Exam Format &amp; Band 9 Scale</a>
-      <a class="subnav-pill" href="#ov-studyplans">↓ 1-Week / 1-Month / 3-Month Plans</a>
+    
+
+    <!-- Minimalist Sub-Tab Bar -->
+    <div class="subtab-bar" role="tablist" aria-label="Home Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="dash" onclick="switchSubTab('overview', 'dash')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="subtab-btn" data-subtab="plans" onclick="switchSubTab('overview', 'plans')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Study Plans</span>
+      </button>
+      <button class="subtab-btn" data-subtab="playbook" onclick="switchSubTab('overview', 'playbook')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Exam Playbook</span>
+      </button>
     </div>
 
-    <!-- Hero Section -->
-    <div class="hero-split" id="ov-hero">
+    <!-- SUBTAB 1: DASHBOARD -->
+    <div class="subtab-panel active" data-subtab="dash">
+      <div class="hero-split" id="ov-hero">
       <div class="hero-left">
         <h1 class="hero-title">Master Academic IELTS.</h1>
         <p class="hero-desc">
@@ -2812,56 +3047,8 @@
       </div>
     </div>
 
-    <!-- Interactive Visualizations Section -->
-    <div class="sec-block" id="ov-constellation">
-      <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>
-      <div class="sec-header-row">
-        <h2 class="sec-title">Semantic Synonym Constellation <span class="ver-muted">v4.0</span></h2>
-        <div class="sec-timestamp">Click any node to pronounce or refocus • Mobile-responsive layout</div>
-      </div>
-
-      <div class="viz-layout">
-        <div class="constellation-box">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-            <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:220px;">
-              <label for="graphWordSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); white-space:nowrap;">FOCUS WORD:</label>
-              <select id="graphWordSelect" class="occ-select" style="flex:1; min-width:140px;" onchange="selectGraphWord(this.value)" aria-label="Select word for synonym constellation"></select>
-            </div>
-            <div style="display:flex; gap:6px; align-items:center;">
-              <div class="viz-toggle-group">
-                <button id="btnVizGraph" class="viz-toggle-btn active" onclick="switchConstellationView('graph')" title="Switch to Constellation Graph">🕸 Graph</button>
-                <button id="btnVizList" class="viz-toggle-btn" onclick="switchConstellationView('list')" title="Switch to Lexical Breakdown List">📋 Cards</button>
-              </div>
-              <button class="btn-outlined" onclick="randomizeGraphWord()" style="padding:6px 10px; font-size:0.78rem;">Shuffle ↗</button>
-            </div>
-          </div>
-
-          <div class="graph-viewport" id="graphViewport">
-            <svg id="graph-svg-lines"></svg>
-            <div id="graph-dom-nodes"></div>
-          </div>
-          <div class="graph-list-view" id="graphListView" style="display:none;"></div>
-
-          <div id="graphFooterBar" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;"></div>
-        </div>
-
-        <div class="constellation-box">
-          <div>
-            <div class="sec-eyebrow" style="margin-bottom:4px;">DIAGNOSTIC METRICS</div>
-            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:10px;">IELTS 5-Pillar Readiness</h3>
-            <div id="radarContainer" style="display:flex; justify-content:center; align-items:center; height:215px;"></div>
-          </div>
-
-          <div style="border-top:1px solid var(--border); padding-top:14px; margin-top:8px;">
-            <div class="sec-eyebrow" style="margin-bottom:8px;">LEXICON VARIETY DISTRIBUTION (CLICK ANY BAR TO FILTER)</div>
-            <div id="varietyBars" style="max-height:220px; overflow-y:auto; padding-right:4px;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Module Cards -->
-    <div class="sec-block" id="ov-modules">
+    
+      <div class="sec-block" id="ov-modules">
       <div class="sec-eyebrow">CORE PRACTICE MODULES</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge Simulation Suite <span class="ver-muted">55 Interactive Tests &amp; Models</span></h2>
@@ -2944,8 +3131,111 @@
       </div>
     </div>
 
-    <!-- EXAM ESSENTIALS PARTS 18 & 24: 4-MODULE FORMAT, BAND SCALE & STUDY PLANS -->
-    <div class="sec-block" id="ov-format">
+    
+      <div class="sec-block" id="ov-constellation">
+      <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>
+      <div class="sec-header-row">
+        <h2 class="sec-title">Semantic Synonym Constellation <span class="ver-muted">v4.0</span></h2>
+        <div class="sec-timestamp">Click any node to pronounce or refocus • Mobile-responsive layout</div>
+      </div>
+
+      <div class="viz-layout">
+        <div class="constellation-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:220px;">
+              <label for="graphWordSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); white-space:nowrap;">FOCUS WORD:</label>
+              <select id="graphWordSelect" class="occ-select" style="flex:1; min-width:140px;" onchange="selectGraphWord(this.value)" aria-label="Select word for synonym constellation"></select>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <div class="viz-toggle-group">
+                <button id="btnVizGraph" class="viz-toggle-btn active" onclick="switchConstellationView('graph')" title="Switch to Constellation Graph">🕸 Graph</button>
+                <button id="btnVizList" class="viz-toggle-btn" onclick="switchConstellationView('list')" title="Switch to Lexical Breakdown List">📋 Cards</button>
+              </div>
+              <button class="btn-outlined" onclick="randomizeGraphWord()" style="padding:6px 10px; font-size:0.78rem;">Shuffle ↗</button>
+            </div>
+          </div>
+
+          <div class="graph-viewport" id="graphViewport">
+            <svg id="graph-svg-lines"></svg>
+            <div id="graph-dom-nodes"></div>
+          </div>
+          <div class="graph-list-view" id="graphListView" style="display:none;"></div>
+
+          <div id="graphFooterBar" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;"></div>
+        </div>
+
+        <div class="constellation-box">
+          <div>
+            <div class="sec-eyebrow" style="margin-bottom:4px;">DIAGNOSTIC METRICS</div>
+            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:10px;">IELTS 5-Pillar Readiness</h3>
+            <div id="radarContainer" style="display:flex; justify-content:center; align-items:center; height:215px;"></div>
+          </div>
+
+          <div style="border-top:1px solid var(--border); padding-top:14px; margin-top:8px;">
+            <div class="sec-eyebrow" style="margin-bottom:8px;">LEXICON VARIETY DISTRIBUTION (CLICK ANY BAR TO FILTER)</div>
+            <div id="varietyBars" style="max-height:220px; overflow-y:auto; padding-right:4px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    </div>
+
+    <!-- SUBTAB 2: STUDY PLANS -->
+    <div class="subtab-panel" data-subtab="plans">
+      <div class="sec-block">
+        <div class="sec-eyebrow">EXAM ESSENTIALS PART 24 // STRUCTURED TIMELINES &amp; CHECKLISTS</div>
+        <div class="sec-header-row">
+          <h2 class="sec-title">Academic Study Plans &amp; Test-Day Protocol</h2>
+          <div class="sec-timestamp">Choose your target timeline and maintain daily momentum</div>
+        </div>
+        <div class="occ-grid-3" id="ov-studyplans">
+        <div class="occ-card">
+          <div class="sec-eyebrow">1-WEEK CRASH PLAN (PART 24)</div>
+          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Final 7-Day Sprint</div>
+          <div class="occ-mono-stack">
+            • <strong>Day 1:</strong> Full timed Reading + review every wrong answer.<br>
+            • <strong>Day 2:</strong> Write one Task 1 &amp; one Task 2 under strict time.<br>
+            • <strong>Day 3:</strong> Full Listening test + 3 Part 2 Cue Cards aloud.<br>
+            • <strong>Day 4:</strong> Review core vocabulary, collocations &amp; linking phrases.<br>
+            • <strong>Day 5:</strong> Second timed Reading + rewrite weakest essay.<br>
+            • <strong>Day 6:</strong> Light review of error log, spelling traps &amp; templates.<br>
+            • <strong>Day 7:</strong> Rest, prepare ID/documents, and sleep early.
+          </div>
+        </div>
+
+        <div class="occ-card">
+          <div class="sec-eyebrow">1-MONTH &amp; 3-MONTH PLANS (PART 24)</div>
+          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Structured Weekly Progression</div>
+          <div class="occ-mono-stack">
+            • <strong>Week 1:</strong> Learn format; build core vocabulary (education, environment, health); write 2 Task 1 reports.<br>
+            • <strong>Week 2:</strong> Focus on Task 2 essays (opinion &amp; discussion); practice Reading TFNG &amp; Matching Headings.<br>
+            • <strong>Week 3:</strong> Focus on Speaking Parts 2 &amp; 3 and Listening Sections 3 &amp; 4; write 3 timed essays.<br>
+            • <strong>Week 4:</strong> Complete 2–3 full mock tests under exam conditions; fix recurring grammar mistakes.<br>
+            • <strong>3-Month Plan:</strong> Month 1 Foundation (15 words/day) → Month 2 Technique → Month 3 Timed Exam Simulation.
+          </div>
+        </div>
+
+        <div class="occ-card">
+          <div class="sec-eyebrow">EXAM-DAY CHECKLIST (PART 18)</div>
+          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Golden Rules on Test Day</div>
+          <div class="occ-mono-stack">
+            • Bring the exact <strong>same ID / Passport</strong> used for registration.<br>
+            • Arrive at the test center at least <strong>30 minutes early</strong>.<br>
+            • In Listening, read questions ahead during pauses and check <strong>singular/plural &amp; spelling</strong>.<br>
+            • In Reading, never spend more than <strong>20 minutes per passage</strong>; transfer answers as you go.<br>
+            • In Writing, spend <strong>20m on Task 1</strong> and <strong>40m on Task 2</strong> (plan 5m, write 30m, proofread 5m).
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- SUBTAB 3: EXAM PLAYBOOK -->
+    <div class="subtab-panel" data-subtab="playbook" id="subpanel-playbook">
+      <div id="view-playbook" class="view-section studio-tab-section" data-tab-index="2" style="display:block;">
+        <div class="sec-block" id="ov-format">
       <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 18 &amp; 24 // COMPLETE EXAM ARCHITECTURE &amp; BAND DESCRIPTORS</div>
       <div class="sec-header-row">
         <h2 class="sec-title">IELTS 4-Module Format &amp; Official Band Scale <span class="ver-muted">Parts 18 &amp; 24</span></h2>
@@ -2989,54 +3279,9 @@
         </div>
       </div>
 
-      <div class="occ-grid-3" id="ov-studyplans">
-        <div class="occ-card">
-          <div class="sec-eyebrow">1-WEEK CRASH PLAN (PART 24)</div>
-          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Final 7-Day Sprint</div>
-          <div class="occ-mono-stack">
-            • <strong>Day 1:</strong> Full timed Reading + review every wrong answer.<br>
-            • <strong>Day 2:</strong> Write one Task 1 &amp; one Task 2 under strict time.<br>
-            • <strong>Day 3:</strong> Full Listening test + 3 Part 2 Cue Cards aloud.<br>
-            • <strong>Day 4:</strong> Review core vocabulary, collocations &amp; linking phrases.<br>
-            • <strong>Day 5:</strong> Second timed Reading + rewrite weakest essay.<br>
-            • <strong>Day 6:</strong> Light review of error log, spelling traps &amp; templates.<br>
-            • <strong>Day 7:</strong> Rest, prepare ID/documents, and sleep early.
-          </div>
-        </div>
-
-        <div class="occ-card">
-          <div class="sec-eyebrow">1-MONTH &amp; 3-MONTH PLANS (PART 24)</div>
-          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Structured Weekly Progression</div>
-          <div class="occ-mono-stack">
-            • <strong>Week 1:</strong> Learn format; build core vocabulary (education, environment, health); write 2 Task 1 reports.<br>
-            • <strong>Week 2:</strong> Focus on Task 2 essays (opinion &amp; discussion); practice Reading TFNG &amp; Matching Headings.<br>
-            • <strong>Week 3:</strong> Focus on Speaking Parts 2 &amp; 3 and Listening Sections 3 &amp; 4; write 3 timed essays.<br>
-            • <strong>Week 4:</strong> Complete 2–3 full mock tests under exam conditions; fix recurring grammar mistakes.<br>
-            • <strong>3-Month Plan:</strong> Month 1 Foundation (15 words/day) → Month 2 Technique → Month 3 Timed Exam Simulation.
-          </div>
-        </div>
-
-        <div class="occ-card">
-          <div class="sec-eyebrow">EXAM-DAY CHECKLIST (PART 18)</div>
-          <div class="occ-word-title" style="font-size:1.05rem; margin-bottom:8px;">Golden Rules on Test Day</div>
-          <div class="occ-mono-stack">
-            • Bring the exact <strong>same ID / Passport</strong> used for registration.<br>
-            • Arrive at the test center at least <strong>30 minutes early</strong>.<br>
-            • In Listening, read questions ahead during pauses and check <strong>singular/plural &amp; spelling</strong>.<br>
-            • In Reading, never spend more than <strong>20 minutes per passage</strong>; transfer answers as you go.<br>
-            • In Writing, spend <strong>20m on Task 1</strong> and <strong>40m on Task 2</strong> (plan 5m, write 30m, proofread 5m).
-          </div>
-        </div>
       </div>
-    </div>
-
-  </section>
-
-  <!-- =========================================================
-       VIEW 2: ACADEMIC EXAM PLAYBOOK
-       ========================================================= -->
-  <section id="view-playbook" class="view-section studio-tab-section" data-tab-index="2" aria-labelledby="tab-playbook">
-    <div class="section-guide-banner">
+        <div style="margin-top:28px;">
+          <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 2 GUIDE // ACADEMIC EXAM RULES</div>
         <div class="section-guide-text">
@@ -3307,193 +3552,17 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- =========================================================
-       VIEW 3: BAND 9 SPEAKING STUDIO (WITH VOICE RECORDER)
-       ========================================================= -->
-  <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="3" aria-labelledby="tab-speaking">
-    <div class="section-guide-banner">
-      <div>
-        <div class="section-guide-title">SECTION 3 GUIDE // SPEAKING STUDIO &amp; MICROPHONE RECORDER</div>
-        <div class="section-guide-text">
-          1. Pick one of the <strong>5 Speaking Frameworks</strong> (default to <strong>PELL</strong>). 2. Use the <strong>🎙️ Microphone Voice Recorder</strong> to record your 2-minute answer and listen back to spot filler words. 3. Study the 5 Band 9 transcripts, 9 sentence starters, and 18 idioms below.
-        </div>
-        <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">
-          (၁) PELL အပါအဝင် မူဘောင် ၅ ခုမှ တစ်ခုကို ရွေးပါ၊ (၂) <strong>🎙️ Record My Voice</strong> ကိုနှိပ်၍ မိမိအသံကို ဖမ်းယူပြီး ပြန်နားထောင်ပါ၊ (၃) အောက်ရှိ Band 9 ဗီဒီယို စာသားများနှင့် Idiom ၁၈ ခုကို လေ့လာပါ။
+  
         </div>
       </div>
-    </div>
-
-    <div class="subnav-strip" role="navigation" aria-label="Speaking Studio Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#spk-frameworks">↓ 5 Frameworks &amp; Voice Recorder</a>
-      <a class="subnav-pill" href="#spk-videos">↓ 5 Band 9 Candidate Scripts</a>
-      <a class="subnav-pill" href="#spk-patterns">↓ 9 Sentence Starters</a>
-      <a class="subnav-pill" href="#spk-idioms">↓ Top 18 Idioms Q&amp;A</a>
-      <a class="subnav-pill" href="#spk-topics">↓ 9 Topic Banks</a>
-    </div>
-
-    <div class="sec-eyebrow">BAND 9 SPEAKING BENCHMARK SCRIPTS &amp; SCAFFOLDING FRAMEWORKS</div>
-    <div class="sec-header-row">
-      <h2 class="sec-title">Band 9 Speaking Studio <span class="ver-muted">5 Frameworks · Voice Recorder · 5 Video Scripts · 9 Patterns · 18 Idioms</span></h2>
-      <div class="sec-timestamp">Never memorize scripts — combine frameworks with natural functional patterns</div>
-    </div>
-
-    <div class="sec-block" id="spk-frameworks">
-      <div class="occ-toolbar" style="justify-content:space-between;">
-        <div style="display:flex; gap:8px; flex-wrap:wrap;" id="fwTabButtons"></div>
-        <span class="occ-ver-pill" style="color:var(--accent);">Emergency Rule: Default to PELL (Works for 80% of Questions)</span>
-      </div>
-
-      <div class="cbt-split">
-        <div class="cbt-pane" id="fwDetailPane"></div>
-
-        <div class="cbt-pane">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-            <div>
-              <div class="sec-eyebrow">ACTIVE SPEAKING SIMULATOR</div>
-              <h3 style="font-size:1.05rem; font-weight:700;">Framework Builder &amp; Voice Recorder</h3>
-            </div>
-            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-              <span class="occ-ver-pill" id="spkClock" style="font-size:0.9rem; padding:5px 10px;" aria-live="polite">02:00</span>
-              <button class="btn-accent-solid" id="spkClockBtn" onclick="toggleSpkClock()">Start 2m</button>
-              <button class="btn-outlined" onclick="setSpkClock(60)">1m Prep</button>
-              <button class="btn-outlined" onclick="setSpkClock(120)">2m Talk</button>
-            </div>
-          </div>
-
-          <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent); border-radius:3px; margin-bottom:14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-              <span style="font-family:monospace; font-size:0.74rem; font-weight:700; color:var(--accent);">🎙️ LIVE MICROPHONE RECORDER (SELF-EVALUATION)</span>
-              <span id="micStatusBadge" class="occ-ver-pill">Ready to Record</span>
-            </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-              <button class="btn-accent-solid" id="micRecBtn" onclick="toggleMicRecording()">🎙️ Record My Voice</button>
-              <button class="btn-outlined" id="micStopBtn" onclick="stopMicRecording()" disabled>⏹ Stop</button>
-              <a id="micDownloadLink" class="btn-outlined" style="display:none; text-decoration:none;" download="ielts_speaking_practice.webm">⬇ Save Audio</a>
-            </div>
-            <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector) -->
-            <div id="speaking-analytics-panel" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);">
-              <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                  <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
-                  <canvas id="micVuCanvas" width="120" height="18" style="border-radius:3px; background:rgba(0,0,0,0.3); vertical-align:middle;" title="Real-time Microphone Audio Input"></canvas>
-                </div>
-                <div style="display: flex; gap: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; align-items: center;">
-                  <span>⏱ Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
-                  <span>💬 Words: <strong id="sr-word-count">0</strong></span>
-                  <span>⚠️ Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
-                </div>
-              </div>
-              <div class="sr-pace-gauge">
-                <div id="sr-wpm-bar" class="sr-pace-fill"></div>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-secondary); margin:3px 0 8px 0;">
-                <span>Slow (&lt;110 WPM)</span>
-                <span id="sr-pace-status" style="color:var(--green); font-weight:700;">Target: 120–150 WPM</span>
-                <span>Fast (&gt;165 WPM)</span>
-              </div>
-              <div id="sr-transcript-output" style="min-height: 64px; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg-elevated); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border);">
-                <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and speak your response. Your live speech transcript, speaking pace (WPM), and highlighted filler words will appear here automatically.</em>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
-                <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
-                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="sendSpeakingTranscriptToWriting()">✍️ Send to Writing Editor</button>
-                  <button class="btn-accent-solid" id="aiSpeakingGradeBtn" style="padding:4px 12px; font-size:0.76rem;" onclick="gradeSpeakingWithGemini()">✨ AI Examiner Feedback &amp; Part 3 Challenge</button>
-                </div>
-              </div>
-            </div>
-            <!-- Speaking AI Evaluation Result Container -->
-            <div id="geminiSpeakingAuditResult" style="display:none; margin-top:1rem; padding:1.2rem; border-radius:10px; border:1px solid var(--border-accent); background:var(--bg-card);"></div>
-            <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
-            <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
-              မိမိပြောဆိုသည့် အသံကို ဖမ်းယူပြီး ပြန်နားထောင်ခြင်းဖြင့် 'um / uh' အသံများ၊ Grammar အမှားများနှင့် အသံအနိမ့်အမြင့်ကို ချက်ချင်း စစ်ဆေးပြုပြင်နိုင်ပါသည်။
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px;">
-            <label for="fwPracticePromptSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); display:block; margin-bottom:4px;">SELECT PRACTICE QUESTION FOR THIS FRAMEWORK:</label>
-            <select id="fwPracticePromptSelect" class="occ-select" style="width:100%;"></select>
-          </div>
-
-          <div id="fwStepInputs"></div>
-
-          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
-            <button class="btn-accent-solid" onclick="speakBuiltFrameworkAnswer()">🔊 Listen to Assembled Text (TTS)</button>
-            <button class="btn-outlined" onclick="clearFrameworkInputs()">Clear Steps</button>
-            <button class="btn-accent-solid" style="padding:6px 12px; font-size:0.8rem; background:var(--accent-hover);" onclick="gradeSpeakingFrameworkWithGemini()">✨ AI Grade Framework Answer</button>
-          </div>
-
-          <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">
-            <div class="sec-eyebrow">5 COMMON MISTAKES TO AVOID (FRAMEWORKS PDF P.11 &amp; PART 15 CUE CARD STRATEGY)</div>
-            <div class="occ-mono-stack" style="margin-top:6px;">
-              1. <strong>Don't memorize specific answers</strong> — Examiners spot fake memorized scripts immediately.<br>
-              2. <strong>Don't switch frameworks mid-answer</strong> — Pick one (default to PELL) and stick with it.<br>
-              3. <strong>Use 1-minute prep to write 4–5 keywords</strong> — Cover each bullet in order and end with a short personal reflection.<br>
-              4. <strong>In Part 2, NEVER stop talking at 1 minute</strong> — Keep adding details/anecdotes until the examiner stops you.<br>
-              5. <strong>Pause naturally instead of saying "um"</strong> — If a question is unclear, politely ask: <em>"Sorry, could you repeat the question?"</em>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec-block" id="spk-videos">
-      <div class="sec-eyebrow">BAND 9 SPEAKING BENCHMARK INTERVIEWS (PART 1 · PART 2 · PART 3)</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">Official Band 9.0 Benchmark Interviews <span class="ver-muted">Part 1 · Part 2 · Part 3</span></h3>
-        <div class="sec-timestamp">Mapped to PELL, 123, Triple AAA, STAR &amp; PARA Frameworks</div>
-      </div>
-
-      <div class="occ-toolbar">
-        <select id="svSelect" class="occ-select" style="flex:1; min-width:240px;" onchange="renderSpeakingVideoScript()" aria-label="Select Band 9 Video Script"></select>
-        <select id="svPartFilter" class="occ-select" onchange="renderSpeakingVideoScript()" aria-label="Filter by Speaking Part">
-          <option value="ALL">All Parts (Part 1, Part 2 &amp; Part 3)</option>
-          <option value="Part 1">Part 1 Only (Everyday Small Talk)</option>
-          <option value="Part 2 (Cue Card)">Part 2 Only (2-Minute Cue Cards)</option>
-          <option value="Part 3">Part 3 Only (Analytical Discussion)</option>
-        </select>
-      </div>
-
-      <div id="svExaminerBox" class="occ-card featured" style="margin-bottom:20px;"></div>
-      <div id="svScriptsList" style="display:grid; gap:16px;"></div>
-    </div>
-
-    <div class="sec-block" id="spk-patterns">
-      <div class="sec-eyebrow">AI ANALYSIS OF THOUSANDS OF BAND 7–9 TESTS // SENTENCE PATTERNS &amp; OPENERS</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">Band 9 Sentence Patterns &amp; Starters <span class="ver-muted">9 Functional Blueprints</span></h3>
-        <div class="sec-timestamp">Band 9 speakers use accurate functional starters rather than memorized clichés</div>
-      </div>
-      <div id="sentencePatternsGrid" class="occ-grid-3"></div>
-    </div>
-
-    <div class="sec-block" id="spk-idioms">
-      <div class="sec-eyebrow">THE 1.2 IDIOMS PER TEST RULE // TOP 18 BAND 9 IDIOMS IN CONTEXT</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">18 Band 9 Idioms &amp; Full Sample Answers <span class="ver-muted">Origin · Grammar Traps · Q&amp;A</span></h3>
-        <div class="sec-timestamp">Real Band 9 students average 1.2 idioms per test — prioritize 100% accuracy over quantity</div>
-      </div>
-      <div id="idiomSamplesGrid" class="occ-grid-2"></div>
-    </div>
-
-    <div class="sec-block" id="spk-topics">
-      <div class="sec-eyebrow">2026 FORECAST &amp; TOPIC BANK // COMPLETE PART 1, PART 2 CUE CARDS &amp; PART 3 SCRIPTS</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">Speaking 2026 Forecast Bank &amp; Band 8.5/9.0 Models <span class="ver-muted">30 Complete Topics</span></h3>
-        <div class="sec-timestamp">Part 1 Q&amp;A, 1-Min Prep Notes, 2-Min Cue Card Spoken Scripts &amp; Part 3 Analytical Discussions</div>
-      </div>
-      <div id="speakingTopicBankGrid" class="occ-grid-3"></div>
     </div>
   </section>
 
+
   <!-- =========================================================
-       VIEW 4: LEXICON & EXAM TRAPS (1,162 ENTRIES + 1-3-7 DAY SRS)
+       HUB 2: LEXICON & DRILLS // VOCABULARY, FLASHCARDS, GRAMMAR & DRILLS
        ========================================================= -->
-  <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="4" aria-labelledby="tab-lexicon">
+  <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="2" aria-labelledby="tab-lexicon">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 4 GUIDE // 1,162 LEXICON &amp; EXAM TRAPS (1-3-7 DAY SRS)</div>
@@ -3506,14 +3575,31 @@
       </div>
     </div>
 
-    <div class="subnav-strip" role="navigation" aria-label="Lexicon Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#lex-cards-sec">↓ 1,162 Vocabulary Cards &amp; Flashcards</a>
-      <a class="subnav-pill" href="#lex-families-sec">↓ 16 Word Families &amp; 14 Band 7+ Upgrades</a>
-      <a class="subnav-pill" href="#lex-syn30-sec">↓ 30 Daily Synonym Clusters</a>
+    
+
+    <!-- Minimalist Sub-Tab Bar -->
+    <div class="subtab-bar" role="tablist" aria-label="Lexicon &amp; Drills Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="vocab" onclick="switchSubTab('lexicon', 'vocab')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Vocabulary (1,162)</span>
+      </button>
+      <button class="subtab-btn" data-subtab="flashcards" onclick="switchSubTab('lexicon', 'flashcards')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
+        <span>SRS Flashcards</span>
+      </button>
+      <button class="subtab-btn" data-subtab="grammar" onclick="switchSubTab('lexicon', 'grammar')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>Grammar &amp; Traps</span>
+      </button>
+      <button class="subtab-btn" data-subtab="drills" onclick="switchSubTab('lexicon', 'drills')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Speed Drills</span>
+      </button>
     </div>
 
-    <div id="lex-cards-sec">
+    <!-- SUBTAB 1: VOCABULARY -->
+    <div class="subtab-panel active" data-subtab="vocab">
+      <div id="lex-cards-sec">
       <div class="sec-eyebrow">VOCABULARY &amp; SYNONYM ARCHITECTURE</div>
       <div class="sec-header-row">
         <h2 class="sec-title">High-Frequency IELTS Lexicon &amp; Traps <span class="ver-muted">1,162 Entries · 26 Varieties · 1-3-7 Day SRS</span></h2>
@@ -3538,7 +3624,59 @@
         <button class="btn-accent-solid" id="fcDrawerBtn" onclick="toggleFlashcardDrawer()">Flashcard Mode ↗</button>
       </div>
 
-      <div id="fcDrawer" class="occ-card featured" style="display:none; max-width:680px; margin:0 auto 28px auto; cursor:pointer;" onclick="flipActiveCard()">
+      <div id="lexGrid" class="occ-grid-3"></div>
+      <div id="lexPaginationBar" style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 16px; background:var(--surface); border:1px solid var(--border);"></div>
+    </div>
+
+    
+      <div class="sec-block" style="margin-top:32px;" id="lex-families-sec">
+      <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 11 &amp; 12 // WORD FORMATION &amp; PRECISION UPGRADES</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">16 Word Families &amp; 14 Band 7+ Vocabulary Upgrades</h3>
+        <div class="sec-timestamp">Aim for precision rather than forced complexity</div>
+      </div>
+
+      <div class="occ-grid-2">
+        <div class="occ-card">
+          <div class="sec-eyebrow">PART 11 // 16 ESSENTIAL WORD FAMILIES (NOUN · VERB · ADJ · ADV)</div>
+          <div class="table-scroll-wrap">
+            <table class="occ-table" id="wordFamiliesTable"></table>
+          </div>
+        </div>
+
+        <div class="occ-card">
+          <div class="sec-eyebrow">PART 12 // UPGRADING BASIC WORDS FOR BAND 7+</div>
+          <div class="table-scroll-wrap">
+            <table class="occ-table" id="vocabUpgradesTable"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="sec-block" id="lex-syn30-sec">
+      <div class="sec-eyebrow">EXAM ESSENTIALS PART 23 // 30 HIGH-FREQUENCY SYNONYM CLUSTERS</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">30 Additional Synonym Sets <span class="ver-muted">Click any group to listen aloud</span></h3>
+        <div class="sec-timestamp">Say each word aloud and test 20 words from memory every week</div>
+      </div>
+      <div id="synonymSets30Grid" class="occ-grid-3"></div>
+    </div>
+  
+    </div>
+
+    <!-- SUBTAB 2: SRS FLASHCARDS -->
+    <div class="subtab-panel" data-subtab="flashcards">
+      <div class="section-guide-banner" style="margin-bottom:20px;">
+        <div>
+          <div class="section-guide-title">1-3-7 DAY SPACED REPETITION FLASHCARDS // စကားလုံး မမေ့စေရန် ပြန်နွှေးခြင်း</div>
+          <div class="section-guide-text">
+            Flip each card to inspect pronunciation, Burmese context, and collocations. Rate with <strong>Again (1d)</strong> for lapses, <strong>Good (3d)</strong> for steady memory, and <strong>Easy / Master (7d)</strong> when completely mastered.
+          </div>
+        </div>
+      </div>
+      <div style="padding:10px 0;">
+        <div id="fcDrawer" class="occ-card featured" style="display:block; max-width:680px; margin:0 auto 28px auto; cursor:pointer;" onclick="flipActiveCard()">
         <div class="occ-ribbon" id="fc-band-meta">BAND 8.5</div>
         <div style="margin-bottom:12px;">
           <span class="occ-ver-pill" id="fc-pos-meta"></span>
@@ -3569,112 +3707,13 @@
         </div>
       </div>
 
-      <div id="lexGrid" class="occ-grid-3"></div>
-      <div id="lexPaginationBar" style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 16px; background:var(--surface); border:1px solid var(--border);"></div>
-    </div>
-
-    <div class="sec-block" style="margin-top:32px;" id="lex-families-sec">
-      <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 11 &amp; 12 // WORD FORMATION &amp; PRECISION UPGRADES</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">16 Word Families &amp; 14 Band 7+ Vocabulary Upgrades</h3>
-        <div class="sec-timestamp">Aim for precision rather than forced complexity</div>
-      </div>
-
-      <div class="occ-grid-2">
-        <div class="occ-card">
-          <div class="sec-eyebrow">PART 11 // 16 ESSENTIAL WORD FAMILIES (NOUN · VERB · ADJ · ADV)</div>
-          <div class="table-scroll-wrap">
-            <table class="occ-table" id="wordFamiliesTable"></table>
-          </div>
-        </div>
-
-        <div class="occ-card">
-          <div class="sec-eyebrow">PART 12 // UPGRADING BASIC WORDS FOR BAND 7+</div>
-          <div class="table-scroll-wrap">
-            <table class="occ-table" id="vocabUpgradesTable"></table>
-          </div>
-        </div>
+      
       </div>
     </div>
 
-    <div class="sec-block" id="lex-syn30-sec">
-      <div class="sec-eyebrow">EXAM ESSENTIALS PART 23 // 30 HIGH-FREQUENCY SYNONYM CLUSTERS</div>
-      <div class="sec-header-row">
-        <h3 class="sec-title">30 Additional Synonym Sets <span class="ver-muted">Click any group to listen aloud</span></h3>
-        <div class="sec-timestamp">Say each word aloud and test 20 words from memory every week</div>
-      </div>
-      <div id="synonymSets30Grid" class="occ-grid-3"></div>
-    </div>
-  </section>
-
-  <!-- =========================================================
-       VIEW 5: GRAMMAR & PARAPHRASE DRILLS
-       ========================================================= -->
-  <section id="view-paraphrase" class="view-section studio-tab-section" data-tab-index="5" aria-labelledby="tab-paraphrase">
-    <div class="section-guide-banner">
-      <div>
-        <div class="section-guide-title">SECTION 5 GUIDE // CONTEXTUAL PARAPHRASE &amp; GRAMMAR DRILLS</div>
-        <div class="section-guide-text">
-          Test your contextual vocabulary with the <strong>10-Question Paraphrase Drill</strong> (wrong answers are automatically saved to your <strong>⚠ Mistakes Log</strong>), then review the <strong>6 Complex Grammar Blueprints</strong> and <strong>Part 17 Interactive Exercises</strong>.
-        </div>
-        <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">
-          မေးခွန်း ၁၀ ခုပါသော Paraphrase Drill ကို ဖြေဆိုပါ (မှားသွားသော မေးခွန်းများကို အပေါ်ဆုံးရှိ ⚠ Mistakes ထဲသို့ အလိုအလျောက် မှတ်တမ်းတင်ပေးပါသည်)။ ထို့နောက် သဒ္ဒါပုံစံ ၆ ခုနှင့် လေ့ကျင့်ခန်း ၄ ခုကို လေ့လာပါ။
-        </div>
-      </div>
-    </div>
-
-    <div class="subnav-strip" role="navigation" aria-label="Grammar and Drills Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#dr-quiz-sec">↓ 10-Item Paraphrase Drill &amp; Decoder</a>
-      <a class="subnav-pill" href="#dr-grammar-sec">↓ Tenses, 6 Complex Structures &amp; 6 Error Traps</a>
-      <a class="subnav-pill" href="#dr-part17-sec">↓ Part 17 Interactive Exercises</a>
-    </div>
-
-    <div id="dr-quiz-sec">
-      <div class="sec-eyebrow">CONTEXTUAL SYNONYM DRILL</div>
-      <div class="sec-header-row">
-        <h2 class="sec-title">Paraphrase Recognition Lab <span class="ver-muted">10-Item Set</span></h2>
-        <button class="btn-accent-solid" onclick="generateDrill(true)">New 10-Question Drill ↗</button>
-      </div>
-
-      <div class="cbt-split">
-        <div class="cbt-pane">
-          <div id="drillContainer"></div>
-          <div style="margin-top:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-            <button class="btn-accent-solid" onclick="gradeDrill()">Submit &amp; View Burmese Notes ↗</button>
-            <span id="drillScoreLabel" style="font-weight:700; color:var(--accent);" aria-live="polite"></span>
-          </div>
-        </div>
-
-        <div class="cbt-pane">
-          <div class="sec-eyebrow">CAMBRIDGE READING DECODER</div>
-          <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:12px;">Question-to-Passage Paraphrase Matrix</h3>
-          <div class="table-scroll-wrap">
-            <table class="guide-table">
-              <thead>
-                <tr>
-                  <th>Question Wording</th>
-                  <th>Passage Paraphrase</th>
-                  <th>Burmese Meaning</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>caused by humans</td><td><strong style="color:var(--accent)">anthropogenic</strong></td><td class="burmese">လူသားတို့ကြောင့် ဖြစ်ပေါ်သော</td></tr>
-                <tr><td>by accident</td><td><strong style="color:var(--accent)">inadvertently</strong></td><td class="burmese">မရည်ရွယ်ဘဲ၊ အမှတ်တမဲ့</td></tr>
-                <tr><td>occasional / irregular</td><td><strong style="color:var(--accent)">sporadic</strong></td><td class="burmese">တစ်ခါတစ်ရံမှ ပေါ်ပေါက်သော</td></tr>
-                <tr><td>basic early tools</td><td><strong style="color:var(--accent)">rudimentary</strong></td><td class="burmese">အခြေခံအကျဆုံး အဆင့်သာရှိသော</td></tr>
-                <tr><td>prove with facts</td><td><strong style="color:var(--accent)">substantiate</strong></td><td class="burmese">သက်သေအထောက်အထားဖြင့် အတည်ပြုသည်</td></tr>
-                <tr><td>prove wrong</td><td><strong style="color:var(--accent)">refute / debunk</strong></td><td class="burmese">မှားယွင်းကြောင်း ချေပသည်</td></tr>
-                <tr><td>stop gradually</td><td><strong style="color:var(--accent)">phase out</strong></td><td class="burmese">အဆင့်လိုက် ရပ်ဆိုင်းသည်</td></tr>
-                <tr><td>knocked down</td><td><strong style="color:var(--accent)">demolished / razed</strong></td><td class="burmese">ဖြိုချဖျက်ဆီးသည်</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec-block" style="margin-top:32px;" id="dr-grammar-sec">
+    <!-- SUBTAB 3: GRAMMAR & TRAPS -->
+    <div class="subtab-panel" data-subtab="grammar">
+      <div class="sec-block" style="margin-top:32px;" id="dr-grammar-sec">
       <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 5 &amp; 16 // GRAMMATICAL RANGE &amp; ACCURACY (25% OF SCORE)</div>
       <div class="sec-header-row">
         <h3 class="sec-title">Grammar That Boosts Your Score <span class="ver-muted">Tenses · Articles · Prepositions · 6 Complex Structures · 6 Error Traps</span></h3>
@@ -3720,7 +3759,58 @@
       </div>
     </div>
 
-    <div class="sec-block" id="dr-part17-sec">
+    
+    </div>
+
+    <!-- SUBTAB 4: SPEED DRILLS -->
+    <div class="subtab-panel" data-subtab="drills" id="subpanel-paraphrase">
+      <div id="view-paraphrase" class="view-section studio-tab-section" data-tab-index="5" style="display:block;">
+        <div id="dr-quiz-sec">
+      <div class="sec-eyebrow">CONTEXTUAL SYNONYM DRILL</div>
+      <div class="sec-header-row">
+        <h2 class="sec-title">Paraphrase Recognition Lab <span class="ver-muted">10-Item Set</span></h2>
+        <button class="btn-accent-solid" onclick="generateDrill(true)">New 10-Question Drill ↗</button>
+      </div>
+
+      <div class="cbt-split">
+        <div class="cbt-pane">
+          <div id="drillContainer"></div>
+          <div style="margin-top:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+            <button class="btn-accent-solid" onclick="gradeDrill()">Submit &amp; View Burmese Notes ↗</button>
+            <span id="drillScoreLabel" style="font-weight:700; color:var(--accent);" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="cbt-pane">
+          <div class="sec-eyebrow">CAMBRIDGE READING DECODER</div>
+          <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:12px;">Question-to-Passage Paraphrase Matrix</h3>
+          <div class="table-scroll-wrap">
+            <table class="guide-table">
+              <thead>
+                <tr>
+                  <th>Question Wording</th>
+                  <th>Passage Paraphrase</th>
+                  <th>Burmese Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>caused by humans</td><td><strong style="color:var(--accent)">anthropogenic</strong></td><td class="burmese">လူသားတို့ကြောင့် ဖြစ်ပေါ်သော</td></tr>
+                <tr><td>by accident</td><td><strong style="color:var(--accent)">inadvertently</strong></td><td class="burmese">မရည်ရွယ်ဘဲ၊ အမှတ်တမဲ့</td></tr>
+                <tr><td>occasional / irregular</td><td><strong style="color:var(--accent)">sporadic</strong></td><td class="burmese">တစ်ခါတစ်ရံမှ ပေါ်ပေါက်သော</td></tr>
+                <tr><td>basic early tools</td><td><strong style="color:var(--accent)">rudimentary</strong></td><td class="burmese">အခြေခံအကျဆုံး အဆင့်သာရှိသော</td></tr>
+                <tr><td>prove with facts</td><td><strong style="color:var(--accent)">substantiate</strong></td><td class="burmese">သက်သေအထောက်အထားဖြင့် အတည်ပြုသည်</td></tr>
+                <tr><td>prove wrong</td><td><strong style="color:var(--accent)">refute / debunk</strong></td><td class="burmese">မှားယွင်းကြောင်း ချေပသည်</td></tr>
+                <tr><td>stop gradually</td><td><strong style="color:var(--accent)">phase out</strong></td><td class="burmese">အဆင့်လိုက် ရပ်ဆိုင်းသည်</td></tr>
+                <tr><td>knocked down</td><td><strong style="color:var(--accent)">demolished / razed</strong></td><td class="burmese">ဖြိုချဖျက်ဆီးသည်</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sec-block" id="dr-part17-sec">
       <div class="sec-eyebrow">EXAM ESSENTIALS PART 17 // INTERACTIVE PRACTICE EXERCISES</div>
       <div class="sec-header-row">
         <h3 class="sec-title">4 Practice Exercises with Instant Answer Keys</h3>
@@ -3728,12 +3818,16 @@
       </div>
       <div id="interactiveExercisesGrid" class="occ-grid-3"></div>
     </div>
+  
+      </div>
+    </div>
   </section>
 
+
   <!-- =========================================================
-       VIEW 6: READING CBT SIMULATOR (23 PASSAGES · 231 QUESTIONS) &amp; LISTENING LAB (2 AUDIO TESTS + 2 SKILL GUIDES)
+       HUB 3: READING & LISTENING // CBT READING SIMULATOR & LISTENING LAB
        ========================================================= -->
-  <section id="view-reading" class="view-section studio-tab-section" data-tab-index="6" aria-labelledby="tab-reading">
+  <section id="view-reading" class="view-section studio-tab-section" data-tab-index="3" aria-labelledby="tab-reading">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 6 GUIDE // READING CBT SIMULATOR (23 PASSAGES · 231 QUESTIONS) &amp; LISTENING LAB (2 AUDIO TESTS + 2 SKILL GUIDES)</div>
@@ -3746,14 +3840,23 @@
       </div>
     </div>
 
-    <div class="subnav-strip" role="navigation" aria-label="Reading and Listening Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#rd-cbt-sec">↓ 23 Reading CBT Mock Passages</a>
-      <a class="subnav-pill" href="#rd-tactics-sec">↓ Reading Signal Words &amp; Tactics</a>
-      <a class="subnav-pill" href="#rd-listening-sec">↓ Interactive Listening Lab (2 Audio Sets)</a>
+    
+
+    <!-- Minimalist Sub-Tab Bar -->
+    <div class="subtab-bar" role="tablist" aria-label="Reading &amp; Listening Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="reading" onclick="switchSubTab('reading', 'reading')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Reading CBT (23 Passages)</span>
+      </button>
+      <button class="subtab-btn" data-subtab="listening" onclick="switchSubTab('reading', 'listening')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        <span>Interactive Listening Lab</span>
+      </button>
     </div>
 
-    <div id="rd-cbt-sec">
+    <!-- SUBTAB 1: READING CBT -->
+    <div class="subtab-panel active" data-subtab="reading">
+      <div id="rd-cbt-sec">
       <div class="sec-eyebrow">COMPUTER-BASED READING SIMULATION</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">23 Passages · 231 Questions</span></h2>
@@ -3859,7 +3962,8 @@
       </button>
     </div>
 
-    <div class="sec-block" style="margin-top:32px;" id="rd-tactics-sec">
+    
+      <div class="sec-block" style="margin-top:32px;" id="rd-tactics-sec">
       <div class="sec-eyebrow">EXAM ESSENTIALS PART 22 // READING QUESTION TYPES &amp; SIGNAL WORDS</div>
       <div class="sec-header-row">
         <h3 class="sec-title">Reading Question Strategies &amp; Signal Words</h3>
@@ -3888,7 +3992,12 @@
       </div>
     </div>
 
-    <div class="sec-block" id="rd-listening-sec">
+    
+    </div>
+
+    <!-- SUBTAB 2: LISTENING LAB -->
+    <div class="subtab-panel" data-subtab="listening">
+      <div class="sec-block" id="rd-listening-sec">
       <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 21, 30 &amp; 33 // LISTENING SKILLS GUIDE &amp; AUDIO PRACTICE SETS</div>
       <div class="sec-header-row">
         <h3 class="sec-title">Interactive Listening Lab <span class="ver-muted">Signposting · Spelling Traps · 2 Audio Practice Tests</span></h3>
@@ -3928,12 +4037,15 @@
 
       <div id="listeningSetsContainer" class="occ-grid-2"></div>
     </div>
+  
+    </div>
   </section>
 
+
   <!-- =========================================================
-       VIEW 7: WRITING LAB (40 MODELS + CEFR 90/10 &amp; RUBRIC SCORER)
+       HUB 4: WRITING LAB // LIVE CEFR EDITOR, 40 MODELS & REFERENCE BANK
        ========================================================= -->
-  <section id="view-writing" class="view-section studio-tab-section" data-tab-index="7" aria-labelledby="tab-writing">
+  <section id="view-writing" class="view-section studio-tab-section" data-tab-index="4" aria-labelledby="tab-writing">
     <div class="section-guide-banner">
       <div>
         <div class="section-guide-title">SECTION 7 GUIDE // 40 WRITING MODELS, LIVE CEFR 90/10 METER &amp; 4-CRITERION RUBRIC SCORER</div>
@@ -3946,14 +4058,27 @@
       </div>
     </div>
 
-    <div class="subnav-strip" role="navigation" aria-label="Writing Lab Sub-sections">
-      <span class="subnav-label">Jump to:</span>
-      <a class="subnav-pill" href="#wr-workspace-sec">↓ 40 Writing Models &amp; Live CEFR Editor</a>
-      <a class="subnav-pill" href="#wr-rubric-sec">↓ 4-Criterion Band Scorer</a>
-      <a class="subnav-pill" href="#wr-phrasebank-sec">↓ Task 1 Chart Verbs, Task 2 Phrase Bank &amp; 8-Point Checklist</a>
+    
+
+    <!-- Minimalist Sub-Tab Bar -->
+    <div class="subtab-bar" role="tablist" aria-label="Writing Lab Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="desk" onclick="switchSubTab('writing', 'desk')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>Essay Desk</span>
+      </button>
+      <button class="subtab-btn" data-subtab="models" onclick="switchSubTab('writing', 'models')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Model Essays (40)</span>
+      </button>
+      <button class="subtab-btn" data-subtab="phrases" onclick="switchSubTab('writing', 'phrases')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Reference &amp; Phrases</span>
+      </button>
     </div>
 
-    <div id="wr-workspace-sec">
+    <!-- SUBTAB 1: ESSAY DESK -->
+    <div class="subtab-panel active" data-subtab="desk">
+      <div id="wr-workspace-sec">
       <div class="sec-eyebrow">ACADEMIC WRITING LABORATORY</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Writing Task 1 &amp; Task 2 Models <span class="ver-muted">40 Models</span></h2>
@@ -4111,7 +4236,26 @@
       </div>
     </div>
 
-    <div class="sec-block" style="margin-top:32px;" id="wr-phrasebank-sec">
+    
+    </div>
+
+    <!-- SUBTAB 2: MODEL ESSAYS (40) -->
+    <div class="subtab-panel" data-subtab="models">
+      <div class="sec-block">
+        <div class="sec-eyebrow">BAND 8.5 &amp; 9.0 BENCHMARK MODELS DIRECTORY</div>
+        <div class="sec-header-row">
+          <h2 class="sec-title">40 High-Scoring Academic Models <span class="ver-muted">Task 1 &amp; Task 2</span></h2>
+          <button class="btn-accent-solid" onclick="switchSubTab('writing', 'desk')">Open in Essay Desk ↗</button>
+        </div>
+        <div id="writingModelsDirectory" class="occ-grid-2">
+          <!-- Populated by JavaScript from WRITING_MOCKS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBTAB 3: REFERENCE & PHRASES -->
+    <div class="subtab-panel" data-subtab="phrases">
+      <div class="sec-block" style="margin-top:32px;" id="wr-phrasebank-sec">
       <div class="sec-eyebrow">EXAM ESSENTIALS PARTS 13, 14 &amp; 28 // TASK 1 CHART VERBS, TASK 2 PHRASE BANK &amp; 8-POINT CHECKLIST</div>
       <div class="sec-header-row">
         <h3 class="sec-title">Writing Reference Bank &amp; Pre-Submission Checklist</h3>
@@ -4138,6 +4282,216 @@
       </div>
     </div>
 
+  
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       HUB 5: SPEAKING STUDIO // VOICE RECORDER, 30 TOPICS & 5 FRAMEWORKS
+       ========================================================= -->
+  <section id="view-speaking" class="view-section studio-tab-section" data-tab-index="5" aria-labelledby="tab-speaking">
+    <div class="section-guide-banner">
+      <div>
+        <div class="section-guide-title">SECTION 3 GUIDE // SPEAKING STUDIO &amp; MICROPHONE RECORDER</div>
+        <div class="section-guide-text">
+          1. Pick one of the <strong>5 Speaking Frameworks</strong> (default to <strong>PELL</strong>). 2. Use the <strong>🎙️ Microphone Voice Recorder</strong> to record your 2-minute answer and listen back to spot filler words. 3. Study the 5 Band 9 transcripts, 9 sentence starters, and 18 idioms below.
+        </div>
+        <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">
+          (၁) PELL အပါအဝင် မူဘောင် ၅ ခုမှ တစ်ခုကို ရွေးပါ၊ (၂) <strong>🎙️ Record My Voice</strong> ကိုနှိပ်၍ မိမိအသံကို ဖမ်းယူပြီး ပြန်နားထောင်ပါ၊ (၃) အောက်ရှိ Band 9 ဗီဒီယို စာသားများနှင့် Idiom ၁၈ ခုကို လေ့လာပါ။
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- Minimalist Sub-Tab Bar -->
+    <div class="subtab-bar" role="tablist" aria-label="Speaking Studio Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="practice" onclick="switchSubTab('speaking', 'practice')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span>Practice Studio</span>
+      </button>
+      <button class="subtab-btn" data-subtab="forecast" onclick="switchSubTab('speaking', 'forecast')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+        <span>Forecast Topics (30)</span>
+      </button>
+      <button class="subtab-btn" data-subtab="frameworks" onclick="switchSubTab('speaking', 'frameworks')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Frameworks &amp; Scripts</span>
+      </button>
+    </div>
+
+    <!-- SUBTAB 1: PRACTICE STUDIO -->
+    <div class="subtab-panel active" data-subtab="practice">
+      <div class="sec-eyebrow">BAND 9 SPEAKING BENCHMARK SCRIPTS &amp; SCAFFOLDING FRAMEWORKS</div>
+      <div class="sec-header-row">
+        <h2 class="sec-title">Band 9 Speaking Studio <span class="ver-muted">5 Frameworks · Voice Recorder</span></h2>
+        <div class="sec-timestamp">Never memorize scripts — combine frameworks with natural functional patterns</div>
+      </div>
+      <div class="sec-block" id="spk-frameworks">
+        
+      <div class="occ-toolbar" style="justify-content:space-between;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;" id="fwTabButtons"></div>
+        <span class="occ-ver-pill" style="color:var(--accent);">Emergency Rule: Default to PELL (Works for 80% of Questions)</span>
+      </div>
+
+      <div class="cbt-split">
+        <div class="cbt-pane" id="fwDetailPane"></div>
+
+        <div class="cbt-pane">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <div>
+              <div class="sec-eyebrow">ACTIVE SPEAKING SIMULATOR</div>
+              <h3 style="font-size:1.05rem; font-weight:700;">Framework Builder &amp; Voice Recorder</h3>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <span class="occ-ver-pill" id="spkClock" style="font-size:0.9rem; padding:5px 10px;" aria-live="polite">02:00</span>
+              <button class="btn-accent-solid" id="spkClockBtn" onclick="toggleSpkClock()">Start 2m</button>
+              <button class="btn-outlined" onclick="setSpkClock(60)">1m Prep</button>
+              <button class="btn-outlined" onclick="setSpkClock(120)">2m Talk</button>
+            </div>
+          </div>
+
+          <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent); border-radius:3px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <span style="font-family:monospace; font-size:0.74rem; font-weight:700; color:var(--accent);">🎙️ LIVE MICROPHONE RECORDER (SELF-EVALUATION)</span>
+              <span id="micStatusBadge" class="occ-ver-pill">Ready to Record</span>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+              <button class="btn-accent-solid" id="micRecBtn" onclick="toggleMicRecording()">🎙️ Record My Voice</button>
+              <button class="btn-outlined" id="micStopBtn" onclick="stopMicRecording()" disabled>⏹ Stop</button>
+              <a id="micDownloadLink" class="btn-outlined" style="display:none; text-decoration:none;" download="ielts_speaking_practice.webm">⬇ Save Audio</a>
+            </div>
+            <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector) -->
+            <div id="speaking-analytics-panel" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);">
+              <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                  <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
+                  <canvas id="micVuCanvas" width="120" height="18" style="border-radius:3px; background:rgba(0,0,0,0.3); vertical-align:middle;" title="Real-time Microphone Audio Input"></canvas>
+                </div>
+                <div style="display: flex; gap: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; align-items: center;">
+                  <span>⏱ Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
+                  <span>💬 Words: <strong id="sr-word-count">0</strong></span>
+                  <span>⚠️ Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
+                </div>
+              </div>
+              <div class="sr-pace-gauge">
+                <div id="sr-wpm-bar" class="sr-pace-fill"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-secondary); margin:3px 0 8px 0;">
+                <span>Slow (&lt;110 WPM)</span>
+                <span id="sr-pace-status" style="color:var(--green); font-weight:700;">Target: 120–150 WPM</span>
+                <span>Fast (&gt;165 WPM)</span>
+              </div>
+              <div id="sr-transcript-output" style="min-height: 64px; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg-elevated); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border);">
+                <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and speak your response. Your live speech transcript, speaking pace (WPM), and highlighted filler words will appear here automatically.</em>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
+                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="sendSpeakingTranscriptToWriting()">✍️ Send to Writing Editor</button>
+                  <button class="btn-accent-solid" id="aiSpeakingGradeBtn" style="padding:4px 12px; font-size:0.76rem;" onclick="gradeSpeakingWithGemini()">✨ AI Examiner Feedback &amp; Part 3 Challenge</button>
+                </div>
+              </div>
+            </div>
+            <!-- Speaking AI Evaluation Result Container -->
+            <div id="geminiSpeakingAuditResult" style="display:none; margin-top:1rem; padding:1.2rem; border-radius:10px; border:1px solid var(--border-accent); background:var(--bg-card);"></div>
+            <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
+            <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
+              မိမိပြောဆိုသည့် အသံကို ဖမ်းယူပြီး ပြန်နားထောင်ခြင်းဖြင့် 'um / uh' အသံများ၊ Grammar အမှားများနှင့် အသံအနိမ့်အမြင့်ကို ချက်ချင်း စစ်ဆေးပြုပြင်နိုင်ပါသည်။
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label for="fwPracticePromptSelect" style="font-size:0.75rem; font-family:monospace; color:var(--text-secondary); display:block; margin-bottom:4px;">SELECT PRACTICE QUESTION FOR THIS FRAMEWORK:</label>
+            <select id="fwPracticePromptSelect" class="occ-select" style="width:100%;"></select>
+          </div>
+
+          <div id="fwStepInputs"></div>
+
+          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <button class="btn-accent-solid" onclick="speakBuiltFrameworkAnswer()">🔊 Listen to Assembled Text (TTS)</button>
+            <button class="btn-outlined" onclick="clearFrameworkInputs()">Clear Steps</button>
+            <button class="btn-accent-solid" style="padding:6px 12px; font-size:0.8rem; background:var(--accent-hover);" onclick="gradeSpeakingFrameworkWithGemini()">✨ AI Grade Framework Answer</button>
+          </div>
+
+          <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border);">
+            <div class="sec-eyebrow">5 COMMON MISTAKES TO AVOID (FRAMEWORKS PDF P.11 &amp; PART 15 CUE CARD STRATEGY)</div>
+            <div class="occ-mono-stack" style="margin-top:6px;">
+              1. <strong>Don't memorize specific answers</strong> — Examiners spot fake memorized scripts immediately.<br>
+              2. <strong>Don't switch frameworks mid-answer</strong> — Pick one (default to PELL) and stick with it.<br>
+              3. <strong>Use 1-minute prep to write 4–5 keywords</strong> — Cover each bullet in order and end with a short personal reflection.<br>
+              4. <strong>In Part 2, NEVER stop talking at 1 minute</strong> — Keep adding details/anecdotes until the examiner stops you.<br>
+              5. <strong>Pause naturally instead of saying "um"</strong> — If a question is unclear, politely ask: <em>"Sorry, could you repeat the question?"</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    </div>
+
+    <!-- SUBTAB 2: FORECAST TOPICS -->
+    <div class="subtab-panel" data-subtab="forecast">
+      <div class="sec-block" id="spk-topics">
+        
+      <div class="sec-eyebrow">2026 FORECAST &amp; TOPIC BANK // COMPLETE PART 1, PART 2 CUE CARDS &amp; PART 3 SCRIPTS</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">Speaking 2026 Forecast Bank &amp; Band 8.5/9.0 Models <span class="ver-muted">30 Complete Topics</span></h3>
+        <div class="sec-timestamp">Part 1 Q&amp;A, 1-Min Prep Notes, 2-Min Cue Card Spoken Scripts &amp; Part 3 Analytical Discussions</div>
+      </div>
+      <div id="speakingTopicBankGrid" class="occ-grid-3"></div>
+    </div>
+  
+    </div>
+
+    <!-- SUBTAB 3: FRAMEWORKS & BENCHMARK SCRIPTS -->
+    <div class="subtab-panel" data-subtab="frameworks">
+      <div class="sec-block" id="spk-videos">
+      <div class="sec-eyebrow">BAND 9 SPEAKING BENCHMARK INTERVIEWS (PART 1 · PART 2 · PART 3)</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">Official Band 9.0 Benchmark Interviews <span class="ver-muted">Part 1 · Part 2 · Part 3</span></h3>
+        <div class="sec-timestamp">Mapped to PELL, 123, Triple AAA, STAR &amp; PARA Frameworks</div>
+      </div>
+
+      <div class="occ-toolbar">
+        <select id="svSelect" class="occ-select" style="flex:1; min-width:240px;" onchange="renderSpeakingVideoScript()" aria-label="Select Band 9 Video Script"></select>
+        <select id="svPartFilter" class="occ-select" onchange="renderSpeakingVideoScript()" aria-label="Filter by Speaking Part">
+          <option value="ALL">All Parts (Part 1, Part 2 &amp; Part 3)</option>
+          <option value="Part 1">Part 1 Only (Everyday Small Talk)</option>
+          <option value="Part 2 (Cue Card)">Part 2 Only (2-Minute Cue Cards)</option>
+          <option value="Part 3">Part 3 Only (Analytical Discussion)</option>
+        </select>
+      </div>
+
+      <div id="svExaminerBox" class="occ-card featured" style="margin-bottom:20px;"></div>
+      <div id="svScriptsList" style="display:grid; gap:16px;"></div>
+    </div>
+
+    
+      <div class="sec-block" id="spk-patterns">
+      <div class="sec-eyebrow">AI ANALYSIS OF THOUSANDS OF BAND 7–9 TESTS // SENTENCE PATTERNS &amp; OPENERS</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">Band 9 Sentence Patterns &amp; Starters <span class="ver-muted">9 Functional Blueprints</span></h3>
+        <div class="sec-timestamp">Band 9 speakers use accurate functional starters rather than memorized clichés</div>
+      </div>
+      <div id="sentencePatternsGrid" class="occ-grid-3"></div>
+    </div>
+
+    
+      <div class="sec-block" id="spk-idioms">
+      <div class="sec-eyebrow">THE 1.2 IDIOMS PER TEST RULE // TOP 18 BAND 9 IDIOMS IN CONTEXT</div>
+      <div class="sec-header-row">
+        <h3 class="sec-title">18 Band 9 Idioms &amp; Full Sample Answers <span class="ver-muted">Origin · Grammar Traps · Q&amp;A</span></h3>
+        <div class="sec-timestamp">Real Band 9 students average 1.2 idioms per test — prioritize 100% accuracy over quantity</div>
+      </div>
+      <div id="idiomSamplesGrid" class="occ-grid-2"></div>
+    </div>
+
+    
+    </div>
   </section>
 
 </main>
@@ -6264,6 +6618,8 @@ function toggleMasterWord(id) {
 }
 
 function toggleFlashcardDrawer() {
+  if (typeof switchView === 'function') switchView('lexicon');
+  if (typeof switchSubTab === 'function') switchSubTab('lexicon', 'flashcards');
   appState.fcOpen = !appState.fcOpen;
   const dr = document.getElementById("fcDrawer");
   const btn = document.getElementById("fcDrawerBtn");
@@ -9122,6 +9478,88 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 
+
+// =========================================================
+// MINIMALIST SUBTAB CONTROLLER & SETTINGS DRAWER LOGIC
+// =========================================================
+function switchSubTab(hubId, subTabId) {
+  const hubSec = document.getElementById('view-' + hubId);
+  if (!hubSec) return;
+
+  const bar = hubSec.querySelector('.subtab-bar');
+  if (bar) {
+    bar.querySelectorAll('.subtab-btn').forEach(btn => {
+      const isTarget = btn.getAttribute('data-subtab') === subTabId;
+      btn.classList.toggle('active', isTarget);
+      btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+    });
+  }
+
+  hubSec.querySelectorAll('.subtab-panel').forEach(panel => {
+    const isTarget = panel.getAttribute('data-subtab') === subTabId;
+    panel.classList.toggle('active', isTarget);
+  });
+
+  try {
+    if (hubId === 'lexicon') {
+      if (subTabId === 'flashcards') {
+        const dr = document.getElementById("fcDrawer");
+        if (dr) dr.style.display = "block";
+        if (typeof updateFCDisplay === 'function') updateFCDisplay();
+      } else if (subTabId === 'vocab') {
+        if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
+      } else if (subTabId === 'drills') {
+        const dContainer = document.getElementById("drillContainer");
+        if (dContainer && (!dContainer.children.length || dContainer.children.length === 0)) {
+          if (typeof generateDrill === 'function') generateDrill(false);
+        }
+      }
+    } else if (hubId === 'writing' && subTabId === 'models') {
+      if (typeof renderWritingModelsDirectory === 'function') renderWritingModelsDirectory();
+    }
+  } catch (e) {
+    console.warn('[switchSubTab hook notice]', e);
+  }
+}
+window.switchSubTab = switchSubTab;
+
+function toggleSettingsDrawer(force) {
+  const drawer = document.getElementById('settingsDrawer');
+  const backdrop = document.getElementById('settingsDrawerBackdrop');
+  if (!drawer || !backdrop) return;
+  const shouldOpen = (force !== undefined) ? !!force : !drawer.classList.contains('open');
+  drawer.classList.toggle('open', shouldOpen);
+  backdrop.classList.toggle('open', shouldOpen);
+}
+window.toggleSettingsDrawer = toggleSettingsDrawer;
+
+function renderWritingModelsDirectory() {
+  const container = document.getElementById("writingModelsDirectory");
+  if (!container || !window.WRITING_MOCKS) return;
+  const isVip = (typeof isVipActive === 'function') ? isVipActive() : false;
+  container.innerHTML = WRITING_MOCKS.map((w, idx) => {
+    const isLocked = (!isVip && idx >= (window.WRITING_MODELS_FREE_LIMIT || 5));
+    return `
+      <div class="occ-card" style="display:flex; flex-direction:column; justify-content:space-between; margin-bottom:12px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="occ-ver-pill">${escapeHtml(w.type || 'Writing Task')}</span>
+            <span class="occ-mono-stack" style="font-size:0.75rem; color:var(--text-secondary);">${escapeHtml(w.code || 'WM-' + (idx+1))}</span>
+          </div>
+          <h4 style="font-size:1.02rem; font-weight:700; margin-bottom:8px; color:var(--text);">${isLocked ? '🔒 ' : ''}${escapeHtml(w.title)}</h4>
+          <p style="font-size:0.84rem; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">${escapeHtml(w.promptEn || '')}</p>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn-accent-solid" style="padding:6px 12px; font-size:0.78rem;" onclick="switchSubTab('writing', 'desk'); document.getElementById('wSelect').value='${idx}'; loadWritingMock();">
+            Open in Essay Desk ↗
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+window.renderWritingModelsDirectory = renderWritingModelsDirectory;
+
 // =========================================================
 // PROGRESSIVE DISCLOSURE TAB MANAGER & DEEP-LINK INTERCEPTOR
 // =========================================================
@@ -9143,27 +9581,70 @@ window.addEventListener("DOMContentLoaded", async () => {
     'writing': '7'
   };
 
-  function activateStudioTab(tabIndex, scrollTargetEl = null) {
-    let targetIdx = String(tabIndex);
-    let viewId = TAB_MAP[targetIdx] || targetIdx;
-    if (isNaN(Number(targetIdx))) {
-      targetIdx = TAB_MAP[viewId] || '1';
+    function activateStudioTab(tabIndex, scrollTargetEl = null) {
+    let target = String(tabIndex).toLowerCase();
+    
+    // Normalization map to the 5 core Hubs and their corresponding sub-tabs
+    let hubView = 'overview';
+    let targetSubTab = null;
+    let targetIdx = '1';
+
+    if (target === '1' || target === 'overview' || target === 'home') {
+      hubView = 'overview';
+      targetSubTab = 'dash';
+      targetIdx = '1';
+    } else if (target === '2' || target === 'playbook') {
+      hubView = 'overview';
+      targetSubTab = 'playbook';
+      targetIdx = '1';
+    } else if (target === '3' || target === 'speaking') {
+      hubView = 'speaking';
+      targetSubTab = 'practice';
+      targetIdx = '5';
+    } else if (target === '4' || target === 'lexicon' || target === 'vocab') {
+      hubView = 'lexicon';
+      targetSubTab = 'vocab';
+      targetIdx = '2';
+    } else if (target === '5' || target === 'paraphrase' || target === 'drills') {
+      hubView = 'lexicon';
+      targetSubTab = 'drills';
+      targetIdx = '2';
+    } else if (target === '6' || target === 'reading') {
+      hubView = 'reading';
+      targetSubTab = 'reading';
+      targetIdx = '3';
+    } else if (target === 'listening') {
+      hubView = 'reading';
+      targetSubTab = 'listening';
+      targetIdx = '3';
+    } else if (target === '7' || target === 'writing') {
+      hubView = 'writing';
+      targetSubTab = 'desk';
+      targetIdx = '4';
+    } else {
+      hubView = target;
+      targetIdx = '1';
     }
 
-    const sections = document.querySelectorAll('.studio-tab-section, .view-section');
-    sections.forEach(sec => {
-      const matchByIdx = sec.getAttribute('data-tab-index') === targetIdx;
-      const matchById = sec.id === ('view-' + viewId);
-      const isMatch = matchByIdx || matchById;
-      sec.classList.toggle('active', isMatch);
-      sec.classList.toggle('active-tab', isMatch);
+    const hubSections = ['view-overview', 'view-lexicon', 'view-reading', 'view-writing', 'view-speaking'];
+    hubSections.forEach(secId => {
+      const sec = document.getElementById(secId);
+      if (sec) {
+        const isMatch = (secId === ('view-' + hubView));
+        sec.classList.toggle('active', isMatch);
+        sec.classList.toggle('active-tab', isMatch);
+      }
     });
+
+    if (targetSubTab && typeof window.switchSubTab === 'function') {
+      window.switchSubTab(hubView, targetSubTab);
+    }
 
     const navButtons = document.querySelectorAll('[data-target-tab], .nav-link, .mob-nav-btn');
     navButtons.forEach(btn => {
       const btnTarget = btn.getAttribute('data-target-tab');
       const btnId = btn.id || '';
-      const isMatch = (btnTarget === targetIdx) || btnId.includes(viewId);
+      const isMatch = (btnTarget === targetIdx) || btnId.includes(hubView);
       btn.classList.toggle('active', isMatch);
       btn.classList.toggle('is-active', isMatch);
       if (btn.hasAttribute('aria-selected')) {
@@ -9173,36 +9654,25 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const floatBtn = document.getElementById("floatingCbtSwitchBtn");
     if (floatBtn) {
-      floatBtn.style.display = (viewId === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
+      floatBtn.style.display = (hubView === "reading" && window.innerWidth <= 1024) ? "inline-flex" : "none";
     }
 
     try {
       localStorage.setItem('ips_active_tab', targetIdx);
     } catch (e) {}
 
-    // On-demand tab content hydration fallback
+    // On-demand hydration
     try {
-      if (viewId === 'speaking') {
-        const fwPane = document.getElementById("fwDetailPane");
-        if (!fwPane || !fwPane.innerHTML || fwPane.innerHTML.trim() === '') {
-          if (typeof initSpeakingStudio === 'function') initSpeakingStudio();
-        }
-      } else if (viewId === 'writing') {
-        const wPrompt = document.getElementById("wPromptBox");
-        if (!wPrompt || !wPrompt.textContent || wPrompt.textContent.trim() === '') {
-          if (typeof initWritingMocks === 'function') initWritingMocks();
-        }
-      } else if (viewId === 'reading') {
-        const rBox = document.getElementById("rPassageBox");
-        if (!rBox || !rBox.innerHTML || rBox.innerHTML.trim() === '') {
-          if (typeof initReadingMocks === 'function') initReadingMocks();
-        }
+      if (hubView === 'speaking' && typeof initSpeakingStudio === 'function') {
+        initSpeakingStudio();
+      } else if (hubView === 'writing') {
+        if (typeof initWritingMocks === 'function') initWritingMocks();
+        if (typeof renderWritingModelsDirectory === 'function') renderWritingModelsDirectory();
+      } else if (hubView === 'reading') {
+        if (typeof initReadingMocks === 'function') initReadingMocks();
         if (typeof updateCbtPalette === 'function') updateCbtPalette();
-      } else if (viewId === 'lexicon') {
-        const lexGrid = document.getElementById("lexGrid");
-        if (!lexGrid || !lexGrid.innerHTML || lexGrid.innerHTML.trim() === '') {
-          if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
-        }
+      } else if (hubView === 'lexicon') {
+        if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
       }
     } catch (hydrateErr) {
       console.warn('[Tab Hydration Notice]', hydrateErr);
@@ -9216,7 +9686,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
-
   // Expose globally
   window.activateStudioTab = activateStudioTab;
   window.switchView = function(viewId, scrollTargetEl = null) {
