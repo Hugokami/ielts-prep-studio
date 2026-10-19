@@ -2333,7 +2333,7 @@ async function checkAndConsumeQuota(env, telegramId, isVip) {
     };
   }
 
-  // Free users have 3 queries per day in Asia/Yangon time
+  // Free users have 10 queries per day in Asia/Yangon time
   const dateStr = getYangonDateStr();
   const safeId = parseInt(telegramId, 10) || 0;
 
@@ -2342,7 +2342,7 @@ async function checkAndConsumeQuota(env, telegramId, isVip) {
   ).bind(safeId, dateStr).first();
 
   const currentCount = row ? (row.count || 0) : 0;
-  const FREE_DAILY_LIMIT = 15;
+  const FREE_DAILY_LIMIT = 10;
 
   if (currentCount >= FREE_DAILY_LIMIT) {
     return {
@@ -2387,7 +2387,7 @@ async function getQuotaStatus(env, telegramId, isVip) {
   ).bind(safeId, dateStr).first();
 
   const currentCount = row ? (row.count || 0) : 0;
-  const FREE_DAILY_LIMIT = 15;
+  const FREE_DAILY_LIMIT = 10;
   return {
     isVip: false,
     count: currentCount,
@@ -3179,7 +3179,7 @@ function formatQuotaFooter(quota) {
   if (quota.isVip) {
     return "👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*";
   }
-  return `💡 *Free Preview:* *${quota.remaining}/15 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
+  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
 }
 
 function getQuotaExceededKeyboard(env) {
@@ -3192,9 +3192,9 @@ function getQuotaExceededKeyboard(env) {
 }
 
 function getQuotaExceededMessage() {
-  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (15/15 USED)*
+  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (10/10 USED)*
 ━━━━━━━━━━━━━━━━━━━━
-Free tier accounts are allocated 15 Academic AI searches per day.
+Free tier accounts are allocated 10 Academic AI searches per day.
 
 👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*
 • ⚡ *UNLIMITED* Academic Collocations (/collocate)
@@ -3223,7 +3223,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
   if (isVip) {
     statusBadge = "👑 *LIFETIME VIP PASS* (⚡ Unlimited Daily Queries)";
   } else {
-    statusBadge = `🆓 *FREE TIER* (${quota.remaining}/15 Queries Remaining Today)`;
+    statusBadge = `🆓 *FREE TIER* (${quota.remaining}/10 Queries Remaining Today)`;
   }
 
   const menuMsg = 
@@ -3240,7 +3240,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
 🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း
 
 👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။
-🆓 *Free Tier:* တစ်နေ့လျှင် ၁၅ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။
+🆓 *Free Tier:* တစ်နေ့လျှင် ၁၀ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။
 
 👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
 
@@ -3947,7 +3947,7 @@ async function handleApiCollocations(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (10/10). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3968,7 +3968,7 @@ async function handleApiSynonyms(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (10/10). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -3989,7 +3989,7 @@ async function handleApiTopic(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (10/10). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -4010,7 +4010,7 @@ async function handleApiDict(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (10/10). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }
@@ -4028,7 +4028,7 @@ async function handleApiQuote(request, env, url) {
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
-      error: "Daily free quota limit reached (15/15). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
+      error: "Daily free quota limit reached (10/10). Upgrade to Lifetime VIP (55,000 MMK) for unlimited queries.",
       quota
     }, 429);
   }

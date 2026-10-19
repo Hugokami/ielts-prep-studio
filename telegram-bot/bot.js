@@ -39,11 +39,11 @@ function isAdmin(ctx) {
 }
 
 // ==========================================
-// QUOTA & ACADEMIC TOOL CONFIG (15 queries/day)
+// QUOTA & ACADEMIC TOOL CONFIG (10 queries/day)
 // ==========================================
 const dailyUsageMap = new Map(); // `${userId}:${dateStr}` -> count
 const userPendingActions = new Map(); // `${userId}` -> 'collocate' | 'syn' | 'dict' | 'read'
-const FREE_DAILY_LIMIT = 15;
+const FREE_DAILY_LIMIT = 10;
 
 function getYangonDateStr() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Yangon' });
@@ -83,13 +83,13 @@ function formatQuotaFooter(quota) {
   if (quota.isVip) {
     return '👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*';
   }
-  return `💡 *Free Preview:* *${quota.remaining}/15 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
+  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (55,000 MMK) for Unlimited Access!*`;
 }
 
 function getQuotaExceededMessage() {
-  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (15/15 USED)*\n` +
+  return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (10/10 USED)*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `Free tier accounts are allocated 15 Academic AI searches per day.\n\n` +
+    `Free tier accounts are allocated 10 Academic AI searches per day.\n\n` +
     `👑 *Target Band 7.5+ Lifetime Studio VIP Pass (55,000 MMK)*\n` +
     `• ⚡ *UNLIMITED* Academic Collocations (/collocate)\n` +
     `• 💎 *UNLIMITED* Band 8.5+ Synonyms (/syn)\n` +
@@ -349,14 +349,15 @@ bot.command('start', async (ctx) => {
     `• KBZPay / WavePay Phone: \`${PAYMENT_PHONE}\`\n` +
     `• Account Name: **${ACCOUNT_NAME}**\n` +
     `• Investment: **${PRICE_MMK}** (တစ်ကြိမ်ပေး တစ်သက်တာအသုံးပြုခွင့်)\n\n` +
-    `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (7 ခုလုံး):**\n` +
+    `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
     `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
     `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
     `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
     `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
     `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
     `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
-    `7. Multi-Device Cloud Sync via Google Account\n\n` +
+    `7. Multi-Device Cloud Sync via Google Account\n` +
+    `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
     `📸 **အတည်ပြုရန် လုပ်ဆောင်ချက်:**\n` +
     `KBZPay သို့မဟုတ် WavePay ဖြင့် **${PRICE_MMK}** လွှဲပြီးပါက ရရှိလာသော **Transaction Screenshot (ငွေလွှဲစလစ်)** အား ဤ Chat သို့ ချက်ချင်း ပေးပို့ပေးပါခင်ဗျာ။ Admin ဘက်မှ အတည်ပြုပြီးပါက **1-Click Magic Activation Link** ကို ချက်ချင်း ပေးပို့ပေးပါမည်!`;
 
@@ -786,7 +787,7 @@ async function handleToolsMenu(ctx) {
 
   const statusBadge = isVip
     ? '👑 *LIFETIME VIP PASS* (⚡ Unlimited Daily Queries)'
-    : `🆓 *FREE TIER* (${quota.remaining}/15 Queries Remaining Today)`;
+    : `🆓 *FREE TIER* (${quota.remaining}/10 Queries Remaining Today)`;
 
   const menuMsg =
     `⚡ **VIP ACADEMIC LEXICON & TOPIC EXPLORER**\n` +
@@ -799,7 +800,7 @@ async function handleToolsMenu(ctx) {
     `📚 *Academic Dictionary:* Formal Definition & Part of Speech\n` +
     `🧠 *Scholar Thought:* Task 2 Essay တွင် ကိုးကားအသုံးချနည်း\n\n` +
     `👑 *VIP Pass:* တစ်နေ့လျှင် အကန့်အသတ်မရှိ (Unlimited) သုံးနိုင်ပါသည်။\n` +
-    `🆓 *Free Tier:* တစ်နေ့လျှင် ၁၅ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။\n\n` +
+    `🆓 *Free Tier:* တစ်နေ့လျှင် ၁၀ ကြိမ် စမ်းသပ် အသုံးပြုနိုင်ပါသည်။\n\n` +
     `👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
 
   const keyboard = new InlineKeyboard()
@@ -1271,7 +1272,7 @@ async function handleHelp(ctx) {
     `📖 **/read <topic>** — Get essay background knowledge & ideas\n` +
     `🧠 **/quote** — Scholar philosophical thought for Task 2\n` +
     `🌟 **/wotd** — Academic Word of the Day with Burmese meaning\n` +
-    `📊 **/quota** — Check your remaining daily searches (15/day free)\n` +
+    `📊 **/quota** — Check your remaining daily searches (10/day free)\n` +
     `🎯 **/bands** — IELTS 9-band scale & raw score conversion table\n` +
     `📋 **/format** — Academic exam timings & structure cheat sheet\n` +
     `⏱️ **/sprint [20|40]** — 20m Reading or 40m Essay study sprint\n` +
@@ -1378,7 +1379,7 @@ bot.start({
         { command: 'read', description: '📖 Essay Topic Briefs & Arguments' },
         { command: 'quote', description: '🧠 Scholar Quotes for Task 2' },
         { command: 'wotd', description: '🌟 Band 8.5+ Word of the Day' },
-        { command: 'quota', description: '📊 Check Daily AI Tool Usage (15/day)' },
+        { command: 'quota', description: '📊 Check Daily AI Tool Usage (10/day)' },
         { command: 'bands', description: '🎯 Band Score Table & Descriptors' },
         { command: 'format', description: '📋 IELTS Academic Exam Format' },
         { command: 'sprint', description: '⏱️ 20m / 40m Focus Study Sprint' },
