@@ -618,19 +618,40 @@ export async function fetchFullWikipediaArticle(query) {
   raw = raw.replace(/^={3}\s*([^=]+?)\s*={3}$/gm, '📌 *$1*');
   raw = raw.replace(/^={2}\s*([^=]+?)\s*={2}$/gm, '\n━━━━━━━━━━━━━━━━━━━━\n📖 *$1*\n━━━━━━━━━━━━━━━━━━━━');
 
-  // Split into paragraphs and build chunk pages (~3,200 chars each for safe Telegram limits)
-  const paragraphs = raw.split(/\n{2,}/);
+  // Split into paragraphs, cleanly segment any oversized blocks, and pack multi-paragraph pages (~2,400-2,800 chars)
+  const rawParagraphs = raw.split(/\n{2,}/);
+  const normalizedParagraphs = [];
+
+  for (const p of rawParagraphs) {
+    const trimmed = p.trim();
+    if (!trimmed) continue;
+    // If a single paragraph is exceptionally long, split cleanly on sentence boundaries
+    if (trimmed.length > 2200) {
+      const sentences = trimmed.split(/(?<=[.!?])\s+/);
+      let subChunk = '';
+      for (const s of sentences) {
+        if (subChunk.length + s.length + 1 > 2000) {
+          if (subChunk) normalizedParagraphs.push(subChunk.trim());
+          subChunk = s;
+        } else {
+          subChunk = subChunk ? `${subChunk} ${s}` : s;
+        }
+      }
+      if (subChunk) normalizedParagraphs.push(subChunk.trim());
+    } else {
+      normalizedParagraphs.push(trimmed);
+    }
+  }
+
   const pagesArr = [];
   let currentChunk = '';
 
-  for (const p of paragraphs) {
-    const trimmed = p.trim();
-    if (!trimmed) continue;
-    if (currentChunk.length + trimmed.length + 2 > 3200) {
+  for (const p of normalizedParagraphs) {
+    if (currentChunk.length + p.length + 2 > 2600) {
       if (currentChunk) pagesArr.push(currentChunk.trim());
-      currentChunk = trimmed;
+      currentChunk = p;
     } else {
-      currentChunk = currentChunk ? `${currentChunk}\n\n${trimmed}` : trimmed;
+      currentChunk = currentChunk ? `${currentChunk}\n\n${p}` : p;
     }
   }
   if (currentChunk) pagesArr.push(currentChunk.trim());

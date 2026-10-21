@@ -309,6 +309,17 @@
         if (data.isVip && typeof window.activateVipPass === 'function') {
           window.activateVipPass('lifetime');
         }
+        if (data.isVip) {
+          window.isVipUser = true;
+          try { localStorage.setItem('ips_vip_active', 'true'); } catch (e) {}
+          if (typeof window.refreshAllVipViews === 'function') {
+            window.refreshAllVipViews();
+          } else {
+            if (typeof window.populateDynamicLexiconFilters === 'function') window.populateDynamicLexiconFilters();
+            if (typeof window.updateLexiconCounters === 'function') window.updateLexiconCounters();
+            if (typeof window.renderLexiconGrid === 'function') window.renderLexiconGrid(true);
+          }
+        }
         if (typeof window.updateAuthUI === 'function') {
           window.updateAuthUI();
         }

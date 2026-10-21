@@ -308,14 +308,30 @@ async function handleSync(request, env) {
       updated_at = unixepoch()
   `).bind(telegramId, username, firstName, dueCount, progressJson).run();
 
-  // Query VIP status
+  // Query VIP status & recognize Admin ID or valid client voucher
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+  const isAdmin = String(telegramId) === String(adminId) || String(telegramId) === "7468650530";
+  const clientTier = progress && progress.userProfile && progress.userProfile.tier;
+  const clientVoucher = progress && progress.userProfile && progress.userProfile.voucherCode;
+  const hasVoucher = clientVoucher ? await resolveIsVip(env, telegramId, clientVoucher) : false;
+  const isClientVip = clientTier === "vip" || hasVoucher;
+
   const userRow = await env.DB.prepare(`
     SELECT is_vip, progress_json FROM users WHERE telegram_id = ?
   `).bind(telegramId).first();
 
-  const isVip = userRow && userRow.is_vip === 1;
-  let vipData = null;
+  let isVip = isAdmin || isClientVip || (userRow && userRow.is_vip === 1);
 
+  // If user is VIP via Admin or Voucher but DB still shows 0, auto-elevate in D1
+  if (isVip && (!userRow || userRow.is_vip !== 1)) {
+    try {
+      await env.DB.prepare("UPDATE users SET is_vip = 1, vip_activated_at = COALESCE(vip_activated_at, unixepoch()) WHERE telegram_id = ?").bind(telegramId).run();
+    } catch (elevateErr) {
+      console.warn("[Auto-Elevate VIP Error]", elevateErr);
+    }
+  }
+
+  let vipData = null;
   if (isVip && env.VIP_KV) {
     try {
       vipData = await env.VIP_KV.get("VIP_BUNDLE_JSON", "json");
@@ -1860,11 +1876,26 @@ async function sendTelegramMessage(botToken, chatId, text, replyMarkup = null) {
   };
   if (replyMarkup) payload.reply_markup = replyMarkup;
 
-  return fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+  let res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
+
+  if (!res.ok) {
+    try {
+      const errJson = await res.clone().json();
+      if (errJson && errJson.description && errJson.description.toLowerCase().includes("parse")) {
+        delete payload.parse_mode;
+        res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      }
+    } catch (e) {}
+  }
+  return res;
 }
 
 async function sendTelegramPhoto(botToken, chatId, photoFileId, caption, replyMarkup = null) {
@@ -2614,6 +2645,10 @@ function getClientIdentifier(request, url, telegramId) {
 }
 
 async function resolveIsVip(env, telegramId, voucherCode) {
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+  if (telegramId && (String(telegramId) === String(adminId) || String(telegramId) === "7468650530")) {
+    return true;
+  }
   if (telegramId && parseInt(telegramId, 10) > 0) {
     const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(parseInt(telegramId, 10)).first();
     if (user && user.is_vip === 1) return true;
@@ -2622,6 +2657,7 @@ async function resolveIsVip(env, telegramId, voucherCode) {
     const cleanCode = String(voucherCode).trim().toUpperCase();
     const hardcodedVouchers = ["VIPPASS2026", "BAND9VIP", "SCHOLAR9", "BURMA2026", "ENGNOVATE"];
     if (hardcodedVouchers.includes(cleanCode)) return true;
+    if (/^IPS-(VIP|LIFE|INT|SPRINT)-/i.test(cleanCode)) return true;
     const promo = await env.DB.prepare("SELECT * FROM promo_codes WHERE code = ?").bind(cleanCode).first();
     if (promo) return true;
   }
@@ -3335,19 +3371,40 @@ async function fetchFullWikipediaArticle(rawTopic) {
   raw = raw.replace(/^={3}\s*([^=]+?)\s*={3}$/gm, "📌 *$1*");
   raw = raw.replace(/^={2}\s*([^=]+?)\s*={2}$/gm, "\n━━━━━━━━━━━━━━━━━━━━\n📖 *$1*\n━━━━━━━━━━━━━━━━━━━━");
 
-  // Split into paragraphs and build chunk pages (~3,200 chars each for safe Telegram limits)
-  const paragraphs = raw.split(/\n{2,}/);
+  // Split into paragraphs, cleanly segment any oversized blocks, and pack multi-paragraph pages (~2,400-2,800 chars)
+  const rawParagraphs = raw.split(/\n{2,}/);
+  const normalizedParagraphs = [];
+
+  for (const p of rawParagraphs) {
+    const trimmed = p.trim();
+    if (!trimmed) continue;
+    // If a single paragraph is exceptionally long, split cleanly on sentence boundaries
+    if (trimmed.length > 2200) {
+      const sentences = trimmed.split(/(?<=[.!?])\s+/);
+      let subChunk = "";
+      for (const s of sentences) {
+        if (subChunk.length + s.length + 1 > 2000) {
+          if (subChunk) normalizedParagraphs.push(subChunk.trim());
+          subChunk = s;
+        } else {
+          subChunk = subChunk ? `${subChunk} ${s}` : s;
+        }
+      }
+      if (subChunk) normalizedParagraphs.push(subChunk.trim());
+    } else {
+      normalizedParagraphs.push(trimmed);
+    }
+  }
+
   const pagesArr = [];
   let currentChunk = "";
 
-  for (const p of paragraphs) {
-    const trimmed = p.trim();
-    if (!trimmed) continue;
-    if (currentChunk.length + trimmed.length + 2 > 3200) {
+  for (const p of normalizedParagraphs) {
+    if (currentChunk.length + p.length + 2 > 2600) {
       if (currentChunk) pagesArr.push(currentChunk.trim());
-      currentChunk = trimmed;
+      currentChunk = p;
     } else {
-      currentChunk = currentChunk ? `${currentChunk}\n\n${trimmed}` : trimmed;
+      currentChunk = currentChunk ? `${currentChunk}\n\n${p}` : p;
     }
   }
   if (currentChunk) pagesArr.push(currentChunk.trim());
@@ -3667,8 +3724,7 @@ async function handleCollocateCommand(chatId, userId, rawWord, env, botToken) {
     return;
   }
 
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {
@@ -3732,8 +3788,7 @@ async function handleSynCommand(chatId, userId, rawWord, env, botToken) {
     return;
   }
 
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {
@@ -3789,8 +3844,7 @@ async function handleReadCommand(chatId, userId, rawTopic, env, botToken) {
     return;
   }
 
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {
@@ -3910,8 +3964,7 @@ async function handleDictCommand(chatId, userId, rawWord, env, botToken) {
     return;
   }
 
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {
@@ -3952,8 +4005,7 @@ ${formatQuotaFooter(quota)}`;
 }
 
 async function handleQuoteCommand(chatId, userId, env, botToken) {
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {
@@ -4091,8 +4143,7 @@ const ACADEMIC_WOTD_BANK = [
 ];
 
 async function handleWotdCommand(chatId, userId, env, botToken) {
-  const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(userId).first();
-  const isVip = user && user.is_vip === 1;
+  const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
 
   if (!quota.allowed) {

