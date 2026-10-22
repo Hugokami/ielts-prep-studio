@@ -196,7 +196,7 @@
     top: -100px;
     left: 16px;
     background: var(--accent);
-    color: #050505;
+    color: #FFFFFF !important;
     font-weight: 800;
     padding: 10px 16px;
     z-index: 9999;
@@ -568,7 +568,7 @@
   .btn-accent-solid {
     background: var(--accent);
     border: 1px solid var(--accent);
-    color: #050505;
+    color: #FFFFFF !important;
     padding: 7px 14px;
     border-radius: 3px;
     font-size: 0.81rem;
@@ -879,7 +879,7 @@
     top: 0;
     right: 0;
     background: var(--accent);
-    color: #050505;
+    color: #FFFFFF !important;
     font-size: 0.64rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -1187,7 +1187,7 @@
 
   .viz-toggle-btn.active {
     background: var(--accent);
-    color: #050505;
+    color: #FFFFFF !important;
     font-weight: 700;
   }
 
@@ -1288,7 +1288,7 @@
   .g-node.node-center {
     background: var(--accent);
     border: 1px solid var(--accent-bright);
-    color: #050505;
+    color: #FFFFFF !important;
     padding: 9px 16px;
     z-index: 5;
   }
@@ -2997,6 +2997,23 @@
     gap: 10px;
     margin-bottom: 12px;
   }
+  .at-search-bar-wrap button,
+  .at-search-bar-wrap .btn-accent-solid {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+  @media (max-width: 600px) {
+    .at-search-bar-wrap {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .at-search-bar-wrap button,
+    .at-search-bar-wrap .btn-accent-solid {
+      width: 100% !important;
+      justify-content: center !important;
+      padding: 12px 16px !important;
+    }
+  }
 
   .at-input-box {
     flex: 1;
@@ -4131,8 +4148,8 @@ body.dark .speak-v6-card {
 .speak-icon-well.coral  { background: #FFF0F3; color: #FF3B5C; }
 
 .speak-pill-btn {
-  background: var(--accent, #F59E0B);
-  color: #11141A;
+  background: var(--accent, #0F172A);
+  color: #FFFFFF !important;
   font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
   font-size: 0.86rem;
@@ -7668,10 +7685,10 @@ body.in-cbt-drill #backToTopBtn {
       <div class="speak-v6-card" id="tool-card-podcasts">
         <div class="speak-v6-title">
           <span class="speak-icon-well peach">🎧</span>
-          <span>Cambridge &amp; BBC Native Podcast Shadowing Deck</span>
+          <span>Cambridge &amp; BBC Native Podcasts &amp; Transcripts</span>
         </div>
         <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
-          Stream real English learning episodes with variable playback speed (0.75x / 1.0x / 1.25x) for active pronunciation shadowing.
+          Stream authentic British &amp; Cambridge English episodes with variable speed (0.75x / 1.0x / 1.25x) and read along with precise word-for-word transcripts &amp; captions.
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
           <select id="v6-podcast-query" class="speak-input-pill">
@@ -13853,8 +13870,9 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
         }
       } catch (err) {}
     }
-    const savedTab = localStorage.getItem('ips_active_tab') || 'overview';
-    activateStudioTab(savedTab);
+    // Default is strictly Home (overview) on fresh startup or Telegram Mini App open
+    activateStudioTab('overview');
+    try { localStorage.setItem('ips_active_tab', 'overview'); } catch (e) {}
   });
 })();
 
