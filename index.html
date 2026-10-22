@@ -4581,8 +4581,10 @@ body, main {
 }
 .pencil {
   display: block;
-  width: 8.5rem;
-  height: 8.5rem;
+  width: 160px;
+  height: 160px;
+  color: #FFFFFF;
+  overflow: visible;
 }
 .pencil__body1,
 .pencil__body2,
@@ -4592,14 +4594,16 @@ body, main {
 .pencil__point,
 .pencil__rotate,
 .pencil__stroke {
-  animation-duration: 3s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  animation-duration: 3s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
 }
 .pencil__body1,
 .pencil__body2,
 .pencil__body3 {
   transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 .pencil__body1 { animation-name: pencilBody1; }
 .pencil__body2 { animation-name: pencilBody2; }
@@ -4607,19 +4611,40 @@ body, main {
 .pencil__eraser {
   animation-name: pencilEraser;
   transform: rotate(-90deg) translate(49px,0);
+  transform-box: view-box;
+  transform-origin: 0 0;
 }
 .pencil__eraser-skew {
   animation-name: pencilEraserSkew;
   animation-timing-function: ease-in-out;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 .pencil__point {
   animation-name: pencilPoint;
   transform: rotate(-90deg) translate(49px,-30px);
+  transform-box: view-box;
+  transform-origin: 0 0;
 }
-.pencil__rotate { animation-name: pencilRotate; }
+.pencil__rotate {
+  animation-name: pencilRotate;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+}
 .pencil__stroke {
   animation-name: pencilStroke;
-  transform: translate(100px,100px) rotate(-113deg);
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  color: #38BDF8;
+}
+
+/* Force animation even if OS has reduced-motion preference active */
+@media (prefers-reduced-motion: reduce) {
+  #ips-intro-splash *,
+  #wifi-loader * {
+    animation-duration: inherit !important;
+    animation-iteration-count: infinite !important;
+  }
 }
 @keyframes pencilBody1 {
   from, to { stroke-dashoffset: 351.86; transform: rotate(-90deg); }
@@ -4832,19 +4857,32 @@ body, main {
 
 /* COMPONENT 6: FLOATING GLASSMORPHIC BOTTOM NAVIGATION MENU */
 .mobile-bottom-nav {
-  position: fixed;
-  bottom: 12px;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  left: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 500;
-  pointer-events: none;
-  padding: 0 8px;
-  box-sizing: border-box;
+  display: none !important;
+}
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+    pointer-events: none;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+}
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+  .speak-floating-copilot {
+    bottom: 24px !important;
+  }
 }
 .mobile-bottom-nav .menu {
   pointer-events: auto;
@@ -4994,9 +5032,12 @@ body, main {
 
 <!-- CINEMATIC MOTION INTRO OVERLAY: "IELTS-PREP-STUDIO" -->
 <div id="ips-intro-splash" role="dialog" aria-modal="true" aria-label="IELTS Prep Studio Intro">
+  <button id="skipIntroBtn" onclick="dismissIntroSplash()" title="Skip Intro" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:6px 14px; font-size:0.75rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px); z-index:10;">
+    Skip Intro ✕
+  </button>
   <div class="ips-intro-logo-wrap">
     <div class="pencil-loader-wrap">
-      <svg xmlns="http://www.w3.org/2000/svg" height="140px" width="140px" viewBox="0 0 200 200" class="pencil">
+      <svg xmlns="http://www.w3.org/2000/svg" height="160px" width="160px" viewBox="0 0 200 200" class="pencil">
         <defs>
           <clipPath id="pencil-eraser">
             <rect height="30" width="30" ry="5" rx="5" />
@@ -5476,7 +5517,72 @@ body, main {
                   <div class="occ-word-sub">26 Varieties &amp; Trap Banks • 16 Word Families • 30 Synonym Sets</div>
                 </div>
               </div>
-      <div class="sec-block" id="ov-constellation">
+              <div class="occ-meta-right">
+                <span class="occ-ver-pill">Band 7.5–9.0</span>
+                <div class="occ-size-sub" id="card-kpi-vocab">0 / 1,162 Mastered</div>
+              </div>
+            </div>
+            <div class="occ-body-mm burmese">
+              <div class="occ-mm-note">စကားလုံးနှင့် Exam Traps ၁,၁၆၂ ခုကို Again (၁ ရက်)၊ Good (၃ ရက်)၊ Easy (၇ ရက်) Spaced Repetition စနစ်ဖြင့် မမေ့ပျောက်အောင် လေ့ကျင့်နိုင်သည်။</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <button class="accent-link" onclick="switchView('lexicon')">Open Lexicon Studio ↗</button>
+          </div>
+        </div>
+
+        <div class="occ-card">
+          <div>
+            <div class="occ-card-top">
+              <div class="occ-card-identity">
+                <div class="occ-icon-box" onclick="switchView('reading')">RD</div>
+                <div>
+                  <div class="occ-word-title">23 Cambridge Academic Reading CBT Passages</div>
+                  <div class="occ-word-sub">231 Questions • TFNG • Headings • Gap-Fill • YNNG</div>
+                </div>
+              </div>
+              <div class="occ-meta-right">
+                <span class="occ-ver-pill">23 Passages</span>
+                <div class="occ-size-sub" id="card-kpi-read">0 / 23 Solved</div>
+              </div>
+            </div>
+            <div class="occ-body-mm burmese">
+              <div class="occ-mm-note">Cambridge Academic စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) ကို ၂၀ မိနစ် အချိန်မှတ် CBT Simulator ဖြင့် မြန်မာရှင်းလင်းချက်များနှင့် လေ့ကျင့်ရန်။</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <button class="accent-link" onclick="switchView('reading')">Launch CBT Reading ↗</button>
+          </div>
+        </div>
+
+        <div class="occ-card">
+          <div>
+            <div class="occ-card-top">
+              <div class="occ-card-identity">
+                <div class="occ-icon-box" onclick="switchView('writing')">WR</div>
+                <div>
+                  <div class="occ-word-title">40 Writing Models &amp; Live CEFR 90/10 Scorer</div>
+                  <div class="occ-word-sub">Task 1 Charts, Maps, Processes • Task 2 All 5 Archetypes</div>
+                </div>
+              </div>
+              <div class="occ-meta-right">
+                <span class="occ-ver-pill">40 Models</span>
+                <div class="occ-size-sub" id="card-kpi-write">0 / 40 Saved</div>
+              </div>
+            </div>
+            <div class="occ-body-mm burmese">
+              <div class="occ-mm-note">Task 1 နှင့် Task 2 မေးခွန်း ၄၀ ပုဒ်ကို C1/C2 ဝေါဟာရ အချိုးအစား တိုင်းတာစက်နှင့် Band Score အကဲဖြတ်စနစ်ဖြင့် လေ့ကျင့်ရန်။</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <button class="accent-link" onclick="switchView('writing')">Open Writing Workspace ↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FULL-WIDTH INTERACTIVE VISUALIZATION: SYNONYM CONSTELLATION -->
+    <div class="sec-block" id="ov-constellation">
       <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Semantic Synonym Constellation <span class="ver-muted">v4.0</span></h2>
@@ -15372,17 +15478,20 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
     const splash = document.getElementById('ips-intro-splash');
     if (!splash) return;
 
-    function dismiss() {
-      if (!splash.classList.contains('dismissed')) {
+    window.dismissIntroSplash = function() {
+      if (splash && !splash.classList.contains('dismissed')) {
         splash.classList.add('dismissed');
         setTimeout(() => {
           splash.style.display = 'none';
-        }, 550);
+        }, 600);
       }
+    };
+    function dismiss() {
+      window.dismissIntroSplash();
     }
 
-    // Auto dismiss after 1.5s
-    setTimeout(dismiss, 1500);
+    // Auto dismiss after 3.2s to showcase full 3s loop
+    setTimeout(dismiss, 3200);
 
     // Instant dismiss on touch or click
     splash.addEventListener('click', dismiss);
