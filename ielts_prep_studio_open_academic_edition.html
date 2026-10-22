@@ -19,31 +19,96 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 
   :root {
     --font-scale: 1;
     --app-safe-top: 0px;
     --app-safe-bottom: 0px;
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
+  /* =========================================================
+     SPEAK-INSPIRED VIBRANT & TACTILE DESIGN TOKENS
+     Primary: Electric Royal Cobalt Blue (#0D55FE)
+     Surfaces: Crisp Porcelain (#F5F7FA) & Pure White (#FFFFFF)
+     ========================================================= */
+  :root,
+  :root[data-theme="light"] {
+    --bg: #F5F7FA;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFD;
+    --bg-elevated: #EEF2F7;
+    --bg-Elevated: #EEF2F7;
+    --bg-subtle: #F1F4F9;
+    --surface: #FFFFFF;
+    --border: #E5EBF2;
+    --border-mid: #D3DDEB;
+    --border-accent: #0D55FE;
+    --text: #11141A;
+    --text-secondary: #5B6476;
+    --text-muted: #8E99AB;
+    --accent: #0D55FE;
+    --accent-bright: #1E66FF;
+    --accent-dark: #0043D6;
+    --accent-soft: rgba(13, 85, 254, 0.08);
+    --teal: #0284c7;
+    --teal-soft: rgba(2, 132, 199, 0.10);
+    --green: #10B981;
+    --green-soft: rgba(16, 185, 129, 0.12);
+    --success: #10B981;
+    --crimson: #EF4444;
+    --crimson-soft: rgba(239, 68, 68, 0.10);
+    --danger: #EF4444;
+    --badge-bg: #EEF2F8;
+    --grid-line: rgba(13, 85, 254, 0.03);
+
+    /* Speak Signature Pastel Icon Wells */
+    --well-blue: #EBF1FF;
+    --well-blue-icon: #0D55FE;
+    --well-purple: #F3EDFF;
+    --well-purple-icon: #7A35FF;
+    --well-green: #E9F8EF;
+    --well-green-icon: #199A46;
+    --well-orange: #FFF2EB;
+    --well-orange-icon: #F26722;
+    --well-peach: #FFF4ED;
+    --well-coral: #FFF0F3;
+    --well-coral-icon: #FF3B5C;
+
+    --r-card: 20px;
+    --r-bubble: 18px;
+    --r-pill: 9999px;
+    --shadow-sm: 0 2px 8px rgba(13, 85, 254, 0.04);
+    --shadow-md: 0 8px 24px -4px rgba(13, 85, 254, 0.08);
+    --shadow-card: 0 4px 20px -2px rgba(13, 85, 254, 0.05), 0 2px 6px rgba(17, 20, 26, 0.03);
+    --shadow-hover: 0 10px 28px -4px rgba(13, 85, 254, 0.12), 0 4px 10px rgba(17, 20, 26, 0.04);
+    --shadow-float: 0 16px 40px -6px rgba(13, 85, 254, 0.18);
+  }
+
+  /* Speak-Calibrated Midnight Obsidian Dark Mode */
   :root[data-theme="dark"] {
-    --bg: #050505;
-    --bg-card: #0b0b0b;
-    --bg-card-hover: #111111;
-    --bg-elevated: #141414;
-    --bg-Elevated: #141414;
-    --bg-subtle: #0e0e0e;
-    --surface: #0b0b0b;
-    --border: #1f1f1f;
-    --border-mid: #303030;
-    --border-accent: #8c4221;
-    --text: #ffffff;
-    --text-secondary: #a6a6ab;
-    --text-muted: #717178;
-    --accent: #e06c35;
-    --accent-bright: #f27b41;
-    --accent-soft: rgba(224, 108, 53, 0.14);
+    --bg: #090D16;
+    --bg-card: #0F1726;
+    --bg-card-hover: #162034;
+    --bg-elevated: #1A253C;
+    --bg-Elevated: #1A253C;
+    --bg-subtle: #121C2F;
+    --surface: #0F1726;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-mid: rgba(255, 255, 255, 0.14);
+    --border-accent: #1E66FF;
+    --text: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent: #1E66FF;
+    --accent-bright: #3B82F6;
+    --accent-dark: #0D55FE;
+    --accent-soft: rgba(30, 102, 255, 0.16);
     --teal: #38bdf8;
     --teal-soft: rgba(56, 189, 248, 0.14);
     --green: #34d399;
@@ -52,37 +117,30 @@
     --crimson: #f87171;
     --crimson-soft: rgba(248, 113, 113, 0.14);
     --danger: #f87171;
-    --badge-bg: #171717;
-    --grid-line: rgba(255, 255, 255, 0.028);
-  }
+    --badge-bg: #162034;
+    --grid-line: rgba(255, 255, 255, 0.02);
 
-  :root[data-theme="light"] {
-    --bg: #f7f6f2;
-    --bg-card: #ffffff;
-    --bg-card-hover: #fcfbf9;
-    --bg-elevated: #efede7;
-    --bg-Elevated: #efede7;
-    --bg-subtle: #f0eee8;
-    --surface: #ffffff;
-    --border: #dad7ce;
-    --border-mid: #bdb9ae;
-    --border-accent: #c8521a;
-    --text: #0d0d0d;
-    --text-secondary: #4a4946;
-    --text-muted: #73716b;
-    --accent: #c8521a;
-    --accent-bright: #d95d22;
-    --accent-soft: rgba(200, 82, 26, 0.11);
-    --teal: #0284c7;
-    --teal-soft: rgba(2, 132, 199, 0.11);
-    --green: #059669;
-    --green-soft: rgba(5, 150, 105, 0.11);
-    --success: #059669;
-    --crimson: #dc2626;
-    --crimson-soft: rgba(220, 38, 38, 0.11);
-    --danger: #dc2626;
-    --badge-bg: #f0eee8;
-    --grid-line: rgba(0, 0, 0, 0.035);
+    /* Speak Pastel Icon Wells (Dark Adapted) */
+    --well-blue: rgba(13, 85, 254, 0.2);
+    --well-blue-icon: #60A5FA;
+    --well-purple: rgba(122, 53, 255, 0.2);
+    --well-purple-icon: #C084FC;
+    --well-green: rgba(25, 154, 70, 0.2);
+    --well-green-icon: #4ADE80;
+    --well-orange: rgba(242, 103, 34, 0.2);
+    --well-orange-icon: #FB923C;
+    --well-peach: rgba(255, 122, 0, 0.2);
+    --well-coral: rgba(255, 59, 92, 0.2);
+    --well-coral-icon: #F43F5E;
+
+    --r-card: 20px;
+    --r-bubble: 18px;
+    --r-pill: 9999px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+    --shadow-hover: 0 10px 28px -4px rgba(0, 0, 0, 0.5);
+    --shadow-float: 0 16px 40px -6px rgba(0, 0, 0, 0.6);
   }
 
   *, *::before, *::after {
@@ -101,7 +159,7 @@
   }
 
   body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg);
     color: var(--text);
     line-height: 1.62;
@@ -3201,6 +3259,713 @@
     min-height: 120px;
   }
 
+
+  /* =========================================================
+     SPEAK APP SIGNATURE UI REWORK (OPEN-DESIGN AUDITED)
+     ========================================================= */
+
+  /* Global Tactile Buttons & Pills */
+  .btn-accent-solid {
+    background: var(--accent) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    border-radius: var(--r-pill) !important;
+    height: 46px;
+    padding: 0 22px !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.28) !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .btn-accent-solid:hover {
+    background: var(--accent-bright) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(13, 85, 254, 0.38) !important;
+  }
+  .btn-accent-solid:active {
+    transform: scale(0.97);
+  }
+
+  .btn-outlined {
+    border: 1.5px solid var(--border-mid) !important;
+    background: var(--bg-card) !important;
+    color: var(--text) !important;
+    border-radius: var(--r-pill) !important;
+    font-weight: 600 !important;
+    padding: 0 20px !important;
+    height: 44px;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .btn-outlined:hover {
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    background: var(--accent-soft) !important;
+    transform: translateY(-1px);
+  }
+  .btn-outlined:active {
+    transform: scale(0.97);
+  }
+
+  .occ-ver-pill, .occ-pill {
+    border-radius: var(--r-pill) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
+  }
+
+  /* Speak Topbar Polish */
+  .topbar {
+    background: rgba(245, 247, 250, 0.92) !important;
+    border-bottom: 1px solid var(--border) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+  :root[data-theme="dark"] .topbar {
+    background: rgba(9, 13, 22, 0.92) !important;
+  }
+  .brand-box {
+    background: var(--accent) !important;
+    color: #FFFFFF !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    font-weight: 800 !important;
+  }
+  .brand-badge {
+    border-radius: var(--r-pill) !important;
+    background: var(--accent-soft) !important;
+    border: 1px solid rgba(13, 85, 254, 0.2) !important;
+    color: var(--accent) !important;
+    font-weight: 700 !important;
+  }
+  .nav-link {
+    border-radius: var(--r-pill) !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+  }
+  .nav-link.active, .nav-link.is-active {
+    background: var(--accent) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.3) !important;
+    border-color: transparent !important;
+  }
+
+  /* Speak Hero Action Lesson Card (Reference Image 4) */
+  .speak-hero-lesson-card {
+    background: linear-gradient(135deg, #0D55FE 0%, #1A62FF 100%);
+    border-radius: 24px;
+    padding: 24px;
+    color: #FFFFFF;
+    box-shadow: 0 12px 32px rgba(13, 85, 254, 0.28);
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .speak-hero-lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(13, 85, 254, 0.35);
+  }
+  .speak-hero-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .speak-hero-play-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #FFD13B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .speak-hero-play-icon svg {
+    margin-left: 2px;
+  }
+  .speak-hero-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2px;
+  }
+  .speak-hero-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .speak-hero-tag {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
+  .speak-hero-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin: 0 0 18px 0;
+  }
+  .speak-hero-start-btn {
+    width: 100%;
+    height: 50px;
+    background: #FFFFFF;
+    color: #0D55FE;
+    font-weight: 800;
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .speak-hero-start-btn:hover {
+    background: #F8FAFD;
+    transform: scale(1.01);
+  }
+  .speak-hero-start-btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Speak Progress Streak Banner (Reference Image 4) */
+  .speak-progress-banner {
+    background: var(--well-coral);
+    border: 1px solid rgba(255, 59, 92, 0.15);
+    border-radius: 20px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(255, 59, 92, 0.04);
+  }
+  .speak-streak-flame {
+    font-size: 2.2rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(255, 59, 92, 0.3));
+    animation: flamePulse 2s infinite ease-in-out;
+  }
+  @keyframes flamePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .speak-streak-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #FF3B5C;
+    margin-bottom: 2px;
+  }
+  .speak-streak-sub {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .speak-streak-btn {
+    background: #FFFFFF;
+    border: 1.5px solid rgba(255, 59, 92, 0.25);
+    color: #FF3B5C;
+    border-radius: var(--r-pill);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .speak-streak-btn:hover {
+    background: #FF3B5C;
+    color: #FFFFFF;
+  }
+
+  /* Speak Jump-in Lessons Bento Grid (Reference Image 4) */
+  .speak-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .speak-section-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .speak-section-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .speak-jumpin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .speak-jumpin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .speak-jumpin-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
+  }
+  .speak-jumpin-card:active {
+    transform: scale(0.98);
+  }
+  .speak-well {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .well-peach  { background: var(--well-peach); }
+  .well-purple { background: var(--well-purple); }
+  .well-blue   { background: var(--well-blue); }
+  .well-mint   { background: var(--well-green); }
+  .speak-jumpin-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .speak-jumpin-title {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .speak-jumpin-sub {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .speak-jumpin-arrow {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+  }
+  .speak-jumpin-card:hover .speak-jumpin-arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  /* Speak Value Proposition & Bar Chart (Reference Image 2) */
+  .speak-value-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+  }
+  .speak-chart-wrap {
+    max-width: 440px;
+    margin: 0 auto 24px auto;
+  }
+  .speak-chart-header {
+    margin-bottom: 16px;
+  }
+  .speak-chart-num {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #0D55FE;
+    line-height: 1;
+    display: block;
+  }
+  .speak-chart-unit {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0D55FE;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .speak-chart-bars {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 180px;
+    padding: 0 10px 10px 10px;
+    border-bottom: 1.5px solid var(--border);
+    gap: 8px;
+  }
+  .speak-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .speak-bar-val {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .speak-bar-val.highlight {
+    color: #0D55FE;
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .speak-bar {
+    width: 80%;
+    max-width: 44px;
+    background: #CBD5E1;
+    border-radius: 8px 8px 4px 4px;
+    transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .speak-bar.highlight {
+    background: #0D55FE;
+    box-shadow: 0 6px 18px rgba(13, 85, 254, 0.35);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+  }
+  .speak-soundwave-icon {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .speak-soundwave-icon span {
+    width: 3px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    animation: soundWave 1.2s infinite ease-in-out;
+  }
+  .speak-soundwave-icon span:nth-child(1) { height: 8px; animation-delay: 0.1s; }
+  .speak-soundwave-icon span:nth-child(2) { height: 16px; animation-delay: 0.3s; }
+  .speak-soundwave-icon span:nth-child(3) { height: 22px; animation-delay: 0.2s; }
+  .speak-soundwave-icon span:nth-child(4) { height: 14px; animation-delay: 0.4s; }
+  .speak-soundwave-icon span:nth-child(5) { height: 6px; animation-delay: 0.15s; }
+  @keyframes soundWave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .speak-bar-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 8px;
+    white-space: nowrap;
+  }
+  .speak-bar-label.highlight {
+    color: #0D55FE;
+    font-weight: 800;
+  }
+  .speak-value-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .speak-value-sub {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Speak Band Assessment Modal (Reference Image 3) */
+  .speak-assessment-card {
+    max-width: 480px !important;
+    width: 94% !important;
+    background: var(--bg-card) !important;
+    border-radius: 24px !important;
+    padding: 24px !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25) !important;
+  }
+  .speak-assessment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .speak-back-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+  }
+  .speak-assessment-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-align: center;
+    flex: 1;
+  }
+  .speak-assessment-sub {
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0 0 20px 0;
+  }
+  .speak-levels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .speak-level-item {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .speak-level-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .speak-level-item.active {
+    background: #0D55FE !important;
+    border-color: #0D55FE !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 8px 24px rgba(13, 85, 254, 0.3) !important;
+  }
+  .speak-level-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    background: var(--bg-card);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+  .speak-level-item.active .speak-level-badge {
+    background: #FFFFFF;
+  }
+  .speak-level-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .speak-level-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .speak-level-desc {
+    font-size: 0.78rem;
+    opacity: 0.85;
+    line-height: 1.35;
+  }
+  .speak-level-radio {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+  .speak-level-item.active .speak-level-radio {
+    border-color: #FFFFFF;
+    background: #FFFFFF;
+    color: #0D55FE;
+  }
+
+  /* Speak Luminous Floating Copilot Bar (Reference Image 4) */
+  .speak-floating-copilot {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 460px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--r-pill);
+    box-shadow: 0 12px 36px rgba(13, 85, 254, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: 1.5px solid rgba(13, 85, 254, 0.35);
+    display: flex;
+    align-items: center;
+    padding: 6px 8px 6px 16px;
+    z-index: 1400;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :root[data-theme="dark"] .speak-floating-copilot {
+    background: rgba(15, 23, 38, 0.96);
+    border-color: rgba(30, 102, 255, 0.4);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  }
+  .speak-floating-copilot:focus-within {
+    border-color: #0D55FE;
+    box-shadow: 0 16px 44px rgba(13, 85, 254, 0.28);
+    transform: translateX(-50%) translateY(-2px);
+  }
+  .speak-copilot-icon {
+    font-size: 1.25rem;
+    margin-right: 10px;
+  }
+  .speak-copilot-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-family: inherit;
+    min-width: 0;
+  }
+  .speak-copilot-mic-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+  }
+  .speak-copilot-mic-btn:hover {
+    color: #0D55FE;
+  }
+  .speak-copilot-send-btn {
+    width: 38px;
+    height: 38px;
+    background: #0D55FE;
+    border: none;
+    border-radius: 50%;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(13, 85, 254, 0.35);
+    transition: transform 0.15s ease;
+  }
+  .speak-copilot-send-btn:hover {
+    transform: scale(1.05);
+  }
+  .speak-copilot-send-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Speak Conversational Chat Bubbles with Bookmark (Reference Image 5) */
+  .ai-chat-stream {
+    background: var(--bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    padding: 20px !important;
+  }
+  .ai-chat-bubble {
+    border-radius: 20px 20px 20px 6px !important;
+    padding: 16px 20px !important;
+    background: #F1F4F9 !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    position: relative;
+  }
+  :root[data-theme="dark"] .ai-chat-bubble {
+    background: #151E32 !important;
+  }
+  .ai-chat-msg.user .ai-chat-bubble {
+    background: #0D55FE !important;
+    color: #FFFFFF !important;
+    border-radius: 20px 20px 6px 20px !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.25) !important;
+  }
+  .ai-chat-bookmark-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .ai-chat-bookmark-btn:hover {
+    color: #0D55FE;
+    transform: scale(1.1);
+  }
+  .ai-chat-bookmark-btn.saved {
+    color: #0D55FE;
+  }
+
+  /* Mobile Bottom Nav Dock (Reference Image 4) */
+  .mob-nav-bar {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-top: 1px solid var(--border) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05) !important;
+  }
+  :root[data-theme="dark"] .mob-nav-bar {
+    background: rgba(15, 23, 38, 0.94) !important;
+  }
+  .mob-nav-btn.active, .mob-nav-btn.is-active {
+    color: #0D55FE !important;
+    background: var(--accent-soft) !important;
+    border-radius: var(--r-pill) !important;
+  }
+
 </style>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#e06c35">
@@ -3447,23 +4212,159 @@
 
     <!-- SUBTAB 1: DASHBOARD -->
     <div class="subtab-panel active" data-subtab="dash">
-      <div class="hero-split" id="ov-hero">
-      <div class="hero-left">
-        <h1 class="hero-title">Master Academic IELTS.</h1>
-        <p class="hero-desc">
-          Practice 23 Reading CBT passages (231 questions), 40 Task 1 &amp; Task 2 Writing models, 30 Speaking Forecast Topics &amp; 5 Frameworks with real microphone recording, and 1,162 Band 8.0–9.0 vocabulary items &amp; exam traps with 1-3-7 day Spaced Repetition.
+      <!-- SPEAK APP SIGNATURE DASHBOARD SUITE -->
+      <div class="speak-dashboard-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, #0D55FE, #3B82F6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.2rem; box-shadow:0 4px 14px rgba(13,85,254,0.3);">
+            👤
+          </div>
+          <div>
+            <h1 style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;" id="speakWelcomeUser">Welcome back, Scholar</h1>
+            <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn-outlined" style="height:38px; padding:0 16px; font-size:0.82rem; font-weight:700;" onclick="openBandAssessmentModal()">
+            🎯 Target Band 8.5 ▾
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. SPEAK HERO CARD ("NEXT UP IN COURSE" / REFERENCE IMAGE 4) -->
+      <div class="speak-hero-lesson-card">
+        <div class="speak-hero-top">
+          <div class="speak-hero-play-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0D55FE"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div class="speak-hero-badge">DAILY CAMBRIDGE TARGET DRILL • 5 MIN</div>
+            <div class="speak-hero-title">Speaking Forecast: Artificial Intelligence &amp; Modern Cities</div>
+          </div>
+          <span class="speak-hero-tag">Part 2 &amp; 3 Forecast</span>
+        </div>
+        <p class="speak-hero-desc">
+          Practice 1-minute cue card note framing &amp; Part 3 inversion hedging ("Seldom do we consider...") with instant Cambridge AI pronunciation &amp; lexical resource scoring.
         </p>
-        <button class="accent-link" onclick="switchView('lexicon')">
-          Explore 1,162 Band 8.0–9.0 lexicon entries &amp; exam traps across 26 varieties + all 34 Exam Essentials modules ↗
+        <button class="speak-hero-start-btn" onclick="switchView('speaking')">
+          <span>Start Daily Lesson</span> <span>→</span>
         </button>
       </div>
 
-      <div class="hero-right">
-        <div class="release-box">
-          <div class="release-label">Current study progress</div>
-          <div class="release-ver" id="hero-progress-val">0 / 1,162 Mastered</div>
-          <div class="release-sub" id="hero-quiz-sub">Paraphrase Accuracy: 0%</div>
+      <!-- 2. SPEAK PROGRESS STREAK BANNER ("YOUR PROGRESS" / REFERENCE IMAGE 4) -->
+      <div class="speak-progress-banner">
+        <div class="speak-streak-flame">🔥</div>
+        <div style="flex:1;">
+          <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> Study Streak</div>
+          <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> academic collocations. Paraphrase accuracy on track.</div>
         </div>
+        <button class="speak-streak-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
+          Review SRS Flashcards ↗
+        </button>
+      </div>
+
+      <!-- 3. SPEAK JUMP-IN LESSONS BENTO GRID (REFERENCE IMAGE 4) -->
+      <div class="speak-section-header">
+        <h3 class="speak-section-title">Jump-in Lessons</h3>
+        <span class="speak-section-sub">High-yield 3-minute practice</span>
+      </div>
+      <div class="speak-jumpin-grid">
+        <div class="speak-jumpin-card" onclick="switchView('lexicon')">
+          <div class="speak-well well-peach">🏛️</div>
+          <div class="speak-jumpin-content">
+            <div class="speak-jumpin-title">Word Smart</div>
+            <div class="speak-jumpin-sub">1,162 Must-know academic words &amp; AWL sublists</div>
+          </div>
+          <div class="speak-jumpin-arrow">→</div>
+        </div>
+
+        <div class="speak-jumpin-card" onclick="switchView('lexicon'); switchSubTab('lexicon', 'grammar');">
+          <div class="speak-well well-purple">📐</div>
+          <div class="speak-jumpin-content">
+            <div class="speak-jumpin-title">Verb &amp; Grammar Master</div>
+            <div class="speak-jumpin-sub">Inversions, conditionals &amp; nominalization</div>
+          </div>
+          <div class="speak-jumpin-arrow">→</div>
+        </div>
+
+        <div class="speak-jumpin-card" onclick="switchView('speaking')">
+          <div class="speak-well well-blue">🎙️</div>
+          <div class="speak-jumpin-content">
+            <div class="speak-jumpin-title">Speaking Forecast</div>
+            <div class="speak-jumpin-sub">50 Real exam topics &amp; 160 questions</div>
+          </div>
+          <div class="speak-jumpin-arrow">→</div>
+        </div>
+
+        <div class="speak-jumpin-card" onclick="switchView('writing')">
+          <div class="speak-well well-mint">📝</div>
+          <div class="speak-jumpin-content">
+            <div class="speak-jumpin-title">Writing Lab</div>
+            <div class="speak-jumpin-sub">40 Band 9 model essays &amp; CEFR grader</div>
+          </div>
+          <div class="speak-jumpin-arrow">→</div>
+        </div>
+      </div>
+
+      <!-- 4. SPEAK VALUE PROPOSITION & COMPARISON BAR CHART (REFERENCE IMAGE 2) -->
+      <div class="speak-value-card">
+        <div class="speak-chart-wrap">
+          <div class="speak-chart-header">
+            <span class="speak-chart-num">100</span>
+            <span class="speak-chart-unit">Speaking &amp; Writing Breakdown Models</span>
+          </div>
+          <div class="speak-chart-bars">
+            <div class="speak-bar-col">
+              <span class="speak-bar-val">0</span>
+              <div class="speak-bar" style="height: 6%;"></div>
+              <span class="speak-bar-label">Video App A</span>
+            </div>
+            <div class="speak-bar-col">
+              <span class="speak-bar-val">0</span>
+              <div class="speak-bar" style="height: 6%;"></div>
+              <span class="speak-bar-label">Video App B</span>
+            </div>
+            <div class="speak-bar-col">
+              <span class="speak-bar-val">16</span>
+              <div class="speak-bar" style="height: 24%;"></div>
+              <span class="speak-bar-label">App C</span>
+            </div>
+            <div class="speak-bar-col">
+              <span class="speak-bar-val">19</span>
+              <div class="speak-bar" style="height: 29%;"></div>
+              <span class="speak-bar-label">App D</span>
+            </div>
+            <div class="speak-bar-col">
+              <span class="speak-bar-val">25</span>
+              <div class="speak-bar" style="height: 38%;"></div>
+              <span class="speak-bar-label">App E</span>
+            </div>
+            <div class="speak-bar-col featured">
+              <span class="speak-bar-val highlight">100</span>
+              <div class="speak-bar highlight" style="height: 100%;">
+                <div class="speak-soundwave-icon">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <span class="speak-bar-label highlight">IELTS Studio</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="speak-value-body">
+          <h2 class="speak-value-title">The Studio That Lets You Speak &amp; Score Band 8.5+</h2>
+          <p class="speak-value-sub">
+            Practice active speaking and writing 4x more than standard video courses. Real-time Cambridge evaluation, instant feedback, and authentic CBT simulations.
+          </p>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px;">
+            <button class="btn-accent-solid" style="padding:14px 28px; font-size:1rem;" onclick="openBandAssessmentModal()">
+              🎯 Take Band Assessment (1 Min)
+            </button>
+            <button class="btn-outlined" style="padding:14px 24px; font-size:0.92rem;" onclick="switchView('speaking')">
+              🎙️ Launch Speaking Studio
+            </button>
+          </div>
+        </div>
+      </div>
         <button class="btn-outlined" onclick="switchView('reading')">
           All 55 Practice Mocks ↗
         </button>
@@ -12428,9 +13329,21 @@ function appendAiChatMessage(role, text) {
 
   const bubble = document.createElement('div');
   bubble.className = 'ai-chat-bubble';
-  bubble.innerHTML = (role === 'user') 
-    ? String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
-    : renderAiChatMarkdown(text);
+  if (role === 'user') {
+    bubble.innerHTML = `
+      <div style="display:flex; align-items:flex-start; gap:8px;">
+        <span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:#10B981; color:#fff; font-size:0.68rem; font-weight:800; flex-shrink:0; margin-top:2px;">✓</span>
+        <div style="flex:1;">${String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>
+      </div>
+    `;
+  } else {
+    bubble.innerHTML = `
+      <button class="ai-chat-bookmark-btn" onclick="bookmarkPhraseToSrs(this.parentElement.textContent, '', this)" title="Bookmark phrase to SRS Flashcards">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+      </button>
+      <div>${renderAiChatMarkdown(text)}</div>
+    `;
+  }
 
   msgDiv.appendChild(avatar);
   msgDiv.appendChild(bubble);
@@ -12572,6 +13485,89 @@ async function sendAiChatMessage() {
     if (status) status.textContent = 'Status: Error';
   } finally {
     if (sendBtn) sendBtn.disabled = false;
+  }
+}
+
+
+// =========================================================
+// SPEAK APP SUITE INTERACTIVE HELPERS (OPEN-DESIGN)
+// =========================================================
+function openBandAssessmentModal() {
+  const modal = document.getElementById('bandAssessmentModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeBandAssessmentModal() {
+  const modal = document.getElementById('bandAssessmentModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function selectBandLevel(level, element) {
+  document.querySelectorAll('.speak-level-item').forEach(el => {
+    el.classList.remove('active');
+    const radio = el.querySelector('.speak-level-radio');
+    if (radio) radio.textContent = '';
+  });
+  if (element) {
+    element.classList.add('active');
+    const radio = element.querySelector('.speak-level-radio');
+    if (radio) radio.textContent = '✓';
+  }
+  localStorage.setItem('ips_user_target_band', String(level));
+}
+
+function confirmBandLevelSelection() {
+  closeBandAssessmentModal();
+  const lvl = localStorage.getItem('ips_user_target_band') || '3';
+  const labelMap = { '1': 'Band 6.0', '2': 'Band 6.5', '3': 'Band 7.5', '4': 'Band 8.5', '5': 'Band 9.0' };
+  if (typeof showStudioNotification === 'function') {
+    showStudioNotification(`🎯 Target ${labelMap[lvl] || 'Band 8.5'} saved! Your daily drills have been personalized.`);
+  }
+}
+
+function triggerSpeakCopilot() {
+  const input = document.getElementById('speakCopilotInput');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  if (typeof switchView === 'function') {
+    switchView('aichat');
+    setTimeout(() => {
+      const chatInput = document.getElementById('aiChatInput');
+      if (chatInput) {
+        chatInput.value = val;
+        if (typeof sendAiChatMessage === 'function') {
+          sendAiChatMessage();
+        }
+      }
+    }, 150);
+  }
+}
+
+function startVoiceCopilot() {
+  if (typeof switchView === 'function') {
+    switchView('speaking');
+    if (typeof showStudioNotification === 'function') {
+      showStudioNotification('🎙️ Switched to Speaking Studio - tap Record to practice!');
+    }
+  }
+}
+
+function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
+  if (!phraseText) return;
+  if (btnEl) {
+    btnEl.classList.toggle('saved');
+    const isSaved = btnEl.classList.contains('saved');
+    if (isSaved) {
+      btnEl.style.color = '#0D55FE';
+      if (typeof showStudioNotification === 'function') {
+        const snippet = phraseText.replace(/[\n\r]+/g, ' ').slice(0, 32);
+        showStudioNotification(`🔖 "${snippet}..." bookmarked to SRS Flashcards!`);
+      }
+    } else {
+      btnEl.style.color = '';
+    }
   }
 }
 
@@ -13068,6 +14064,88 @@ async function sendAiChatMessage() {
     <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();">🔝 Back to Top</button>
   </div>
   <button class="mobile-fab-main" id="mobileFabBtn" onclick="toggleMobileFab()" aria-label="Quick Actions">⚡</button>
+</div>
+
+
+<!-- =========================================================
+     SPEAK APP INTERACTIVE MODALS & FLOATING COPILOT
+     ========================================================= -->
+
+<!-- Interactive Band Assessment Modal (Reference Image 3) -->
+<div id="bandAssessmentModal" class="modal-backdrop" style="display:none; z-index:9999;" onclick="if(event.target===this) closeBandAssessmentModal()">
+  <div class="modal-card speak-assessment-card" role="dialog" aria-modal="true" aria-label="IELTS Target Band Assessment">
+    <div class="speak-assessment-header">
+      <button class="speak-back-btn" onclick="closeBandAssessmentModal()" aria-label="Back">←</button>
+      <h3 class="speak-assessment-title">How would you rate your English?</h3>
+      <div style="width:32px;"></div>
+    </div>
+    <p class="speak-assessment-sub">Select your target level to personalize your daily drills &amp; exam forecasts:</p>
+
+    <div class="speak-levels-list">
+      <div class="speak-level-item" data-level="1" onclick="selectBandLevel(1, this)">
+        <div class="speak-level-badge">🌱</div>
+        <div class="speak-level-info">
+          <div class="speak-level-name">Level 1 (Band 5.5 - 6.0)</div>
+          <div class="speak-level-desc">I know basic vocabulary and can express simple everyday ideas.</div>
+        </div>
+        <div class="speak-level-radio"></div>
+      </div>
+
+      <div class="speak-level-item" data-level="2" onclick="selectBandLevel(2, this)">
+        <div class="speak-level-badge">🌿</div>
+        <div class="speak-level-info">
+          <div class="speak-level-name">Level 2 (Band 6.5)</div>
+          <div class="speak-level-desc">I understand academic topics and can explain opinions with some errors.</div>
+        </div>
+        <div class="speak-level-radio"></div>
+      </div>
+
+      <div class="speak-level-item active" data-level="3" onclick="selectBandLevel(3, this)">
+        <div class="speak-level-badge">🌳</div>
+        <div class="speak-level-info">
+          <div class="speak-level-name">Level 3 (Band 7.0 - 7.5)</div>
+          <div class="speak-level-desc">I handle complex syntax, explain nuanced arguments, and use academic collocations.</div>
+        </div>
+        <div class="speak-level-radio">✓</div>
+      </div>
+
+      <div class="speak-level-item" data-level="4" onclick="selectBandLevel(4, this)">
+        <div class="speak-level-badge">🌲</div>
+        <div class="speak-level-info">
+          <div class="speak-level-name">Level 4 (Band 8.0 - 8.5)</div>
+          <div class="speak-level-desc">I speak and write with natural fluency, idiomatic phrasing, and rare minor slips.</div>
+        </div>
+        <div class="speak-level-radio"></div>
+      </div>
+
+      <div class="speak-level-item" data-level="5" onclick="selectBandLevel(5, this)">
+        <div class="speak-level-badge">👑</div>
+        <div class="speak-level-info">
+          <div class="speak-level-name">Level 5 (Band 9.0 Expert Master)</div>
+          <div class="speak-level-desc">Full academic mastery, nuanced modal hedging, C2 lexicon, and effortless fluency.</div>
+        </div>
+        <div class="speak-level-radio"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <button class="btn-accent-solid" style="width:100%; height:52px; font-size:1.05rem;" onclick="confirmBandLevelSelection()">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Speak Luminous Floating Copilot Search Bar (Reference Image 4) -->
+<div class="speak-floating-copilot" id="speakFloatingCopilot">
+  <div class="speak-copilot-icon">🤖</div>
+  <input type="text" class="speak-copilot-input" id="speakCopilotInput" placeholder="Explain a phrase or ask Cambridge Mentor..." onkeydown="if(event.key==='Enter') triggerSpeakCopilot()">
+  <button class="speak-copilot-mic-btn" onclick="startVoiceCopilot()" title="Speak to Cambridge AI Mentor">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  </button>
+  <button class="speak-copilot-send-btn" onclick="triggerSpeakCopilot()" title="Send">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
 </div>
 
 </body>
