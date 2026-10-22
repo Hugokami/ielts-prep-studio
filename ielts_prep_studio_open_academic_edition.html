@@ -3389,94 +3389,145 @@
     letter-spacing: 0.02em;
   }
 
-  /* Top Navigation Bar: High-End Frosted Glass Header (Zero Spill & Zero Content Overlap) */
-  @media (min-width: 769px) {
-    .topbar {
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 1500 !important;
-      background: rgba(255, 255, 255, 0.95) !important;
-      backdrop-filter: blur(20px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      padding: 0 !important;
-      pointer-events: auto !important;
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
-    :root[data-theme="dark"] .topbar {
-      background: rgba(17, 24, 39, 0.95) !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45) !important;
-    }
-    .topbar-inner {
-      pointer-events: auto !important;
-      max-width: 1280px !important;
-      width: 100% !important;
-      margin: 0 auto !important;
-      padding: 8px 16px !important;
-      min-height: 52px !important;
-      height: auto !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      gap: 10px 14px !important;
-      flex-wrap: wrap !important;
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      border: none !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      overflow: visible !important;
-    }
+  /* Top Navigation Bar: High-End Header (Zero Spill & Zero Content Overlap) */
+  .topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1500 !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    pointer-events: auto !important;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  :root[data-theme="dark"] .topbar {
+    background: #0B0F19 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45) !important;
+  }
+  .topbar-inner {
+    pointer-events: auto !important;
+    max-width: 1280px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 8px 16px !important;
+    min-height: 52px !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+  .topbar-row-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: 38px !important;
+  }
+  .topbar-left-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+  }
+  .top-utils {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+  .top-utils::-webkit-scrollbar {
+    display: none !important;
+  }
+  .top-utils > * {
+    flex-shrink: 0 !important;
+  }
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
+    padding-top: 6px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  :root[data-theme="dark"] .nav-links {
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+  }
+  .nav-links::-webkit-scrollbar {
+    display: none !important;
+  }
+  .nav-links > * {
+    flex-shrink: 0 !important;
   }
 
-  /* Intermediate Desktops & Telegram Desktop PC (861px - 1280px) */
-  @media (min-width: 861px) and (max-width: 1280px) {
-    .topbar-inner {
-      display: grid !important;
-      grid-template-columns: auto 1fr auto !important;
-      grid-template-rows: auto auto !important;
-      gap: 8px 12px !important;
-      padding: 8px 16px 10px 16px !important;
-    }
-    .topbar-left-wrap {
-      grid-column: 1 !important;
-      grid-row: 1 !important;
-      align-self: center !important;
-    }
-    .top-utils {
-      grid-column: 3 !important;
-      grid-row: 1 !important;
-      justify-content: flex-end !important;
-      align-self: center !important;
-      flex-wrap: wrap !important;
-      gap: 6px !important;
-    }
-    .nav-links {
-      grid-column: 1 / -1 !important;
-      grid-row: 2 !important;
-      display: flex !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
-      padding-top: 8px !important;
-      overflow-x: auto !important;
-      scrollbar-width: none !important;
-    }
-    :root[data-theme="dark"] .nav-links {
-      border-top-color: rgba(255, 255, 255, 0.08) !important;
-    }
+  /* Compact button adaptations for intermediate desktops and Telegram PC */
+  .vip-btn-compact {
+    display: none;
   }
-
-  /* When primary navigation tabs are visible, hide redundant VIP tools button in utility cluster */
-  @media (min-width: 861px) {
-    #vipToolsTopBtn {
+  @media (max-width: 960px) {
+    .vip-btn-full {
       display: none !important;
     }
+    .vip-btn-compact {
+      display: inline !important;
+    }
+  }
+  @media (max-width: 860px) {
+    .search-btn-label {
+      display: none !important;
+    }
+    .settings-trigger-btn span {
+      display: none !important;
+    }
+  }
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .topbar-row-top {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 8px !important;
+    }
+    .topbar-left-wrap {
+      width: 100% !important;
+      justify-content: flex-start !important;
+    }
+    .top-utils {
+      width: 100% !important;
+      justify-content: flex-start !important;
+    }
+  }
+
+  #vipToolsTopBtn {
+    display: none !important;
+  }
+  #speakFloatingCopilot,
+  .speak-floating-copilot {
+    display: none !important;
   }
   .brand-box {
     background: #0F172A !important;
@@ -5638,24 +5689,62 @@ body.in-cbt-drill #backToTopBtn {
 <!-- STICKY TOP NAVIGATION BAR (MINIMALIST 5 HUBS) -->
 <header class="topbar" role="banner">
   <div class="topbar-inner">
-    <div class="topbar-left-wrap">
-      <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
-        <span class="brand-box">IELTS</span>
-        <span class="brand-text">Prep Studio</span>
-        <span class="brand-badge">Academic 8.5+</span>
-      </button>
-
-      <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
-        <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
-          ⛶ Maximize
+    <!-- ROW 1: Brand & Actions on Left, Utilities on Right -->
+    <div class="topbar-row-top">
+      <div class="topbar-left-wrap">
+        <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
+          <span class="brand-box">IELTS</span>
+          <span class="brand-text">Prep Studio</span>
+          <span class="brand-badge">Academic 8.5+</span>
         </button>
-        <button class="util-icon-btn" id="tgBrowserBtn" onclick="openTmaInBrowser()" title="Open in Full Desktop Browser" style="color:var(--text); padding:4px 9px;">
-          🌐 Browser ↗
+
+        <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
+          <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
+            ⛶ Maximize
+          </button>
+          <button class="util-icon-btn" id="tgBrowserBtn" onclick="openTmaInBrowser()" title="Open in Full Desktop Browser" style="color:var(--text); padding:4px 9px;">
+            🌐 Browser ↗
+          </button>
+        </div>
+      </div>
+
+      <!-- Top Right Utilities -->
+      <div class="top-utils">
+        <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
+          🔍 <span class="search-btn-label">Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
+        </button>
+        <button class="util-icon-btn" onclick="jumpToDueSRS()" id="srsDueTopBtn" title="Review Spaced Repetition Words Due Today">
+          Due <strong id="srsDueCountBadge" class="badge-accent">0</strong>
+        </button>
+
+        <div class="auth-widget-box" id="authWidgetBox">
+          <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account &amp; Sync">
+            <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
+            <span id="authBtnLabel">Sign In</span>
+          </button>
+        </div>
+
+        <!-- Top Language Toggle Pill (Default: English Only, Click for Bilingual) -->
+        <button class="util-icon-btn lang-nav-btn" onclick="toggleLanguageMode()" id="topLangBtn" title="Language: English Only (Default). Click for Bilingual (English + Burmese)">
+          🌐 <span id="topLangLabel">EN</span>
+        </button>
+
+        <!-- Minimalist Settings Drawer Trigger Button -->
+        <button class="util-icon-btn settings-trigger-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+
+        <button class="vip-upgrade-btn-pro" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+            <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
+          </svg>
+          <span id="vipBtnText"><span class="vip-btn-full">⭐ VIP Pass (55,000 MMK)</span><span class="vip-btn-compact">⭐ VIP Pass</span></span>
         </button>
       </div>
     </div>
 
-    <!-- 6 Core Hub Navigation (Desktop) -->
+    <!-- ROW 2: 7 Core Hub Navigation (Desktop) -->
     <nav class="nav-links" role="tablist" aria-label="Main Study Hubs">
       <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="overview" onclick="switchView('overview')">
         Home
@@ -5679,44 +5768,6 @@ body.in-cbt-drill #backToTopBtn {
         🤖 AI Mentor
       </button>
     </nav>
-
-    <!-- Top Right Utilities -->
-    <div class="top-utils">
-      <button class="util-icon-btn vip-academic-tool-btn" onclick="switchView('tools')" id="vipToolsTopBtn" title="VIP Academic Tools (Collocations, Synonyms, Topic Explorer &amp; Dictionary)" style="background:var(--accent-soft); border-color:var(--border-accent); color:var(--accent); font-weight:700;">
-        ⚡ VIP Tools
-      </button>
-      <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
-        🔍 <span>Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
-      </button>
-      <button class="util-icon-btn" onclick="jumpToDueSRS()" id="srsDueTopBtn" title="Review Spaced Repetition Words Due Today">
-        Due <strong id="srsDueCountBadge" class="badge-accent">0</strong>
-      </button>
-
-      <div class="auth-widget-box" id="authWidgetBox">
-        <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account &amp; Sync">
-          <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
-          <span id="authBtnLabel">Sign In</span>
-        </button>
-      </div>
-
-      <!-- Top Language Toggle Pill (Default: English Only, Click for Bilingual) -->
-      <button class="util-icon-btn lang-nav-btn" onclick="toggleLanguageMode()" id="topLangBtn" title="Language: English Only (Default). Click for Bilingual (English + Burmese)">
-        🌐 <span id="topLangLabel">EN</span>
-      </button>
-
-      <!-- Minimalist Settings Drawer Trigger Button -->
-      <button class="util-icon-btn settings-trigger-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span>Settings</span>
-      </button>
-
-      <button class="vip-upgrade-btn-pro" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
-          <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
-        </svg>
-        <span id="vipBtnText">VIP Pass</span>
-      </button>
-    </div>
   </div>
 </header>
 
@@ -5857,10 +5908,6 @@ body.in-cbt-drill #backToTopBtn {
     <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
     <!-- CIRRUS INSPIRING DAYLIGHT HERO STAGE (ANTI-AI-SLOP CRAFT STANDARD) -->
     <div class="cirrus-hero-stage uiv-animate-enter">
-      <div class="cirrus-eyebrow-pill">
-        <span class="cirrus-eyebrow-dot"></span>
-        CAMBRIDGE CBT ACADEMIC ACCELERATOR
-      </div>
       <h1 class="cirrus-headline">
         Master Cambridge IELTS on a quieter kind of preparation.
       </h1>
@@ -9112,7 +9159,7 @@ function updateAuthUI() {
       vipBtn.style.borderColor = "";
       vipBtn.style.color = "";
       vipBtn.title = "Upgrade to VIP Studio Pass";
-      vipText.textContent = "⭐ VIP Pass (55,000 MMK)";
+      vipText.innerHTML = `<span class="vip-btn-full">⭐ VIP Pass (55,000 MMK)</span><span class="vip-btn-compact">⭐ VIP Pass</span>`;
     }
   }
 
@@ -16169,17 +16216,6 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
   </div>
 </div>
 
-<!-- Speak Luminous Floating Copilot Search Bar (Reference Image 4) -->
-<div class="speak-floating-copilot" id="speakFloatingCopilot">
-  <div class="speak-copilot-icon">🤖</div>
-  <input type="text" class="speak-copilot-input" id="speakCopilotInput" placeholder="Explain a phrase or ask Cambridge Mentor..." onkeydown="if(event.key==='Enter') triggerSpeakCopilot()">
-  <button class="speak-copilot-mic-btn" onclick="startVoiceCopilot()" title="Speak to Cambridge AI Mentor">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-  </button>
-  <button class="speak-copilot-send-btn" onclick="triggerSpeakCopilot()" title="Send">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-  </button>
-</div>
 
 
 <script>
