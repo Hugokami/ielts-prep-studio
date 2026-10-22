@@ -2586,10 +2586,20 @@
     padding: 8px 14px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: nowrap;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
+  }
+  .cbt-palette-bar .btn-outlined,
+  .cbt-palette-bar .flag-q-btn {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 0.76rem !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
   }
   .cbt-palette-grid {
     display: flex;
@@ -6918,11 +6928,6 @@ body.in-cbt-drill #backToTopBtn {
           <button type="button" class="btn-outlined" style="padding:3px 8px; font-size:0.74rem; font-weight:700; white-space:nowrap; flex-shrink:0;" onclick="navigateCbtQuestion(1)" title="Next Question (Alt+N)">Next →</button>
           <button type="button" class="flag-q-btn" id="cbtBarFlagBtn" onclick="toggleCurrentQuestionFlag()" title="Flag Current Question for Review (Alt+F)" style="white-space:nowrap; flex-shrink:0;">🚩 Review</button>
           <div class="cbt-palette-grid" id="cbtPaletteGrid"></div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; font-size:0.74rem; flex-wrap:wrap; flex-shrink:0;">
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:var(--accent); border-radius:2px; display:inline-block;"></span> Answered</span>
-          <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; border:1px solid #eab308; background:rgba(234,179,8,0.2); border-radius:2px; display:inline-block;"></span> Flagged</span>
-          <span style="color:var(--text-secondary);"><kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+N</kbd> / <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+P</kbd> · <kbd style="background:var(--bg-elevated); padding:1px 4px; border-radius:3px; border:1px solid var(--border);">Alt+F</kbd></span>
         </div>
       </div>
 
