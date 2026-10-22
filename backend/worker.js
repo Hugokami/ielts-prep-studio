@@ -723,7 +723,7 @@ Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon
     // 1.2. "🔽 Collapse Menu" or "Collapse" or "/collapse" -> Collapse back to single Start button
     if (text === "🔽 Collapse Menu" || text === "Collapse Menu" || text === "Collapse" || text === "collapse" || text === "/collapse") {
       await sendTelegramMessage(botToken, chatId,
-        `🔽 *Menu collapsed.* Tap *🚀 Open App*, */start*, or *🚀 Start Menu* whenever you want to reopen the menu.`,
+        `🔽 *Menu collapsed.* Tap *🚀 Start Menu* whenever you want to reopen the menu.`,
         getPrimaryKeyboard(env, userId)
       );
       return jsonResponse({ ok: true });
@@ -2288,15 +2288,13 @@ async function registerBotCommands(botToken, studioUrl = "https://hugokami.githu
 
 // Persistent Reply Keyboard (with Open App and /start for new users)
 function getPrimaryKeyboard(env = null, userId = null, voucher = null) {
-  const launchUrl = env ? getStudioLaunchUrl(env, userId, voucher) : "https://hugokami.github.io/ielts-prep-studio/";
   return {
     keyboard: [
-      [{ text: "🚀 Open App", web_app: { url: launchUrl } }],
-      [{ text: "/start" }, { text: "🚀 Start Menu" }]
+      [{ text: "🚀 Start Menu" }]
     ],
     resize_keyboard: true,
     is_persistent: true,
-    input_field_placeholder: "Tap /start or Open App to explore"
+    input_field_placeholder: "Tap 🚀 Start Menu to explore"
   };
 }
 
@@ -4335,109 +4333,39 @@ async function handleChartCommand(chatId, userId, country, env, botToken) {
 const FALLBACK_CLOZE_BANK = [
   {
     topicKey: "climate policy",
-    title: "Carbon Pricing Mechanisms and Climate Policy Alignment in Global Economies",
+    title: "Macroeconomic Decarbonization Pathways and Cross-Border Carbon Pricing Frameworks",
     year: 2025,
-    citations: 342,
-    rawTokens: "Economic decarbonization requires robust policy frameworks that integrate carbon taxation with renewable subsidies. Global climate initiatives demonstrate that targeted financial interventions accelerate institutional transitions toward net-zero emissions while mitigating competitive disparities across developing industrial sectors.".split(" "),
-    targetWords: ["frameworks", "subsidies", "initiatives", "transitions", "mitigating"]
+    citations: 489,
+    paragraphs: [
+      "Paragraph A — Global Decarbonization Mandates:\nEconomic decarbonization requires robust institutional frameworks that integrate carbon taxation with targeted fiscal subsidies. International climate treaties demonstrate that structural financial interventions accelerate clean-energy transitions while preventing competitive disparities across developing industrial sectors.",
+      "Paragraph B — Empirical Methodologies & Market Adjustments:\nEmpirical evaluations across OECD member nations confirm that border carbon adjustments significantly reduce carbon leakage without inducing macroeconomic contraction. Advanced econometric modeling indicates that phased revenue recycling protects vulnerable lower-income demographics from rising utility tariffs while incentivizing corporate capital investments into zero-emission manufacturing facilities.",
+      "Paragraph C — Strategic Synthesis & Policy Implications:\nUltimately, the efficacy of municipal decarbonization relies upon coherent cross-border governance. Policymakers must harmoniously align regulatory mandates with market-based cap-and-trade systems to sustain long-term ecological equilibrium and achieve net-zero targets by 2050."
+    ],
+    targetWords: ["frameworks", "subsidies", "leakage", "contraction", "recycling", "governance", "equilibrium"]
   },
   {
     topicKey: "urban sustainability",
-    title: "Decarbonization Pathways and Resource Efficiency in Mega-City Infrastructures",
-    year: 2024,
-    citations: 289,
-    rawTokens: "Rapid urbanization introduces profound ecological challenges that necessitate comprehensive municipal planning. Sustainable infrastructure projects must optimize public transit networks and energy consumption patterns to ensure environmental equilibrium and long-term socio-economic resilience.".split(" "),
-    targetWords: ["ecological", "necessitate", "infrastructure", "consumption", "equilibrium"]
+    title: "Urban Microclimates, Spatial Density, and Ecological Infrastructure in Mega-Cities",
+    year: 2025,
+    citations: 395,
+    paragraphs: [
+      "Paragraph A — Urban Heat Island Dynamics:\nRapid metropolitan growth has exacerbated urban heat island phenomena, severely compromising microclimatic equilibrium and ambient living standards in high-density corridors. Anthropogenic surface materials such as asphalt and concrete absorb vast quantities of shortwave solar radiation, re-emitting thermal energy and elevating nighttime surface temperatures.",
+      "Paragraph B — Biophilic Architecture & Empirical Evidence:\nTo mitigate these detrimental microclimatic conditions, municipal urban planners are increasingly mandating the integration of extensive vegetative green rooftops and vertical pocket gardens into building codes. Empirical longitudinal assessments in Singapore and Rotterdam verify that rooftop vegetation lowers building cooling loads by up to 32 percent while absorbing stormwater runoff.",
+      "Paragraph C — Strategic Urban Synthesis:\nNonetheless, retrofitting historic building stock with heavy soil-based systems presents formidable structural and financial hurdles. Municipalities are consequently deploying high-albedo cool pavements alongside shaded transit corridors as practical cost-effective interventions that deliver immediate ecological and public health dividends."
+    ],
+    targetWords: ["equilibrium", "anthropogenic", "radiation", "mitigate", "vegetative", "retrofitting", "dividends"]
   },
   {
     topicKey: "artificial intelligence",
-    title: "Algorithmic Pedagogies and Cognitive Synthesis in Higher Education Learning",
+    title: "Generative Artificial Intelligence in Higher Education: Cognitive Scaffolding and Assessment Integrity",
     year: 2025,
-    citations: 412,
-    rawTokens: "The integration of generative artificial intelligence into educational curricula demands critical re-examination of assessment methodologies. Adaptive learning platforms facilitate personalized mastery while presenting ethical dilemmas concerning academic integrity and intellectual independence.".split(" "),
-    targetWords: ["curricula", "methodologies", "facilitate", "dilemmas", "integrity"]
-  },
-  {
-    topicKey: "renewable energy",
-    title: "Grid Modernization and Storage Economics in Decentralized Energy Ecosystems",
-    year: 2024,
-    citations: 276,
-    rawTokens: "Transitioning toward decentralized renewable energy requires substantial investment in battery storage technologies. Fluctuating generation capacity poses significant operational vulnerabilities that advanced smart-grid automation can effectively mitigate across regional distribution networks.".split(" "),
-    targetWords: ["substantial", "technologies", "generation", "vulnerabilities", "distribution"]
-  },
-  {
-    topicKey: "cognitive linguistics",
-    title: "Lexical Retention Protocols and Neural Encoding in Second Language Acquisition",
-    year: 2025,
-    citations: 198,
-    rawTokens: "Second language acquisition research emphasizes the critical role of spaced repetition in consolidating vocabulary memory traces. Contextual collocation retrieval strengthens neural pathways and enhances communicative fluency during high-stakes formal academic examinations.".split(" "),
-    targetWords: ["consolidating", "contextual", "collocation", "retrieval", "communicative"]
-  }
-];
-
-const FALLBACK_PODCAST_BANK = [
-  {
-    searchTerm: "speaking",
-    show: "IELTS Band 9 Speaking Simulation",
-    title: "EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!",
-    date: "2026-10-20",
-    durationMin: 15,
-    audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111",
-    dialogue: [
-      "[01:23] Examiner: Now in this first part, I'd like to ask you some questions about yourself. Let's talk about where you're living now.",
-      "[01:30] Examiner: Tell me about the town or city where you're living at the moment.",
-      "[01:34] Candidate: At the moment, I am living in Oxford, which is a city that I absolutely love. It's so pretty.",
-      "[01:42] Examiner: And how long have you been living in this city?",
-      "[01:45] Candidate: I've been living in this city since September last year. So that's about five months, I'd say.",
-      "[01:53] Examiner: Do you think you will move to a different place in the near future?",
-      "[01:57] Candidate: In the near future, I don't think so. I'm quite happy where I am. I've got a nice job."
+    citations: 612,
+    paragraphs: [
+      "Paragraph A — Pedagogical Disruption:\nThe widespread diffusion of generative artificial intelligence and large language models has triggered a paradigm transformation across tertiary education curricula. While generative tools provide unprecedented opportunities for personalized cognitive scaffolding and adaptive learning support, they simultaneously challenge foundational assumptions regarding authentic student authorship.",
+      "Paragraph B — Empirical Classroom Findings:\nEmpirical trials conducted across university computer science and linguistics departments reveal that students utilizing AI as an interactive conversational tutor demonstrate accelerated mastery of introductory theoretical paradigms. However, unguided automated text generation frequently induces cognitive atrophy, diminishing students' capacity for critical synthesis and independent rhetorical problem-solving.",
+      "Paragraph C — Future Institutional Imperatives:\nConsequently, higher education institutions must urgently transition away from traditional memorization-based take-home evaluations. Academic faculties must establish innovative multimodal assessment protocols that evaluate iterative reasoning, oral viva defenses, and reflective problem formulation over mechanized text regurgitation."
     ],
-    vocab: [
-      "• Oxford: Historic university city in Oxfordshire, England celebrated for collegiate architecture",
-      "• Near future: An idiomatic temporal marker indicating the immediate upcoming period",
-      "• Fluency & Coherence: Band 9 criterion evaluating spontaneous, unhesitating delivery"
-    ]
-  },
-  {
-    searchTerm: "bbc",
-    show: "BBC 6 Minute English",
-    title: "Why has gold got so expensive?",
-    date: "2026-10-15",
-    durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3",
-    dialogue: [
-      "[01:06] Phil: Hello, welcome to 6 Minute English from BBC Learning English. I'm Phil.",
-      "[01:11] Georgie: And I'm Georgie.",
-      "[01:19] Phil: I've got a question for you. Do you own anything made of gold?",
-      "[01:29] Georgie: Well, at the moment, I'm wearing a lot of gold colour jewelry, but I'm not sure exactly how much of it is made of gold.",
-      "[01:42] Phil: In recent months, the price of gold has soared to record highs over $2,700 per ounce."
-    ],
-    vocab: [
-      "• Jewelry: Decorative personal items such as rings, necklaces, and bracelets",
-      "• Safe haven: An investment asset retaining intrinsic value during economic turbulence",
-      "• Soar: To rise rapidly to an exceptionally elevated altitude or historic high"
-    ]
-  },
-  {
-    searchTerm: "alcohol",
-    show: "BBC 6 Minute English",
-    title: "Are people drinking less alcohol?",
-    date: "2026-10-08",
-    durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3",
-    dialogue: [
-      "[01:11] Georgie: Hello, welcome to 6 Minute English from BBC Learning English. I'm Georgie.",
-      "[01:17] Neil: And I'm Neil.",
-      "[01:24] Georgie: Do you want to hear something quite unusual for me?",
-      "[01:29] Neil: Yes!",
-      "[01:30] Georgie: I'm trying to drink less alcohol.",
-      "[01:35] Neil: That is unusual for you, Georgie. Mindful drinking has become a prominent wellness movement."
-    ],
-    vocab: [
-      "• Mindful drinking: Consciously evaluating and moderating alcohol consumption",
-      "• Abstain: To deliberately refrain from indulging in an appetite or habit",
-      "• Dealcoholized: Beverages produced with alcohol removed through vacuum distillation"
-    ]
+    targetWords: ["paradigm", "scaffolding", "authorship", "interactive", "cognitive", "synthesis", "protocols"]
   }
 ];
 
@@ -4453,13 +4381,13 @@ async function handleClozeCommand(chatId, userId, topic, env, botToken) {
   let workTitle = "";
   let pubYear = 2025;
   let citations = 214;
-  let maskedText = "";
+  let articleParagraphs = [];
   let wordBank = [];
   let answerKey = "";
-  let targetCount = 5;
+  let targetCount = 6;
 
   try {
-    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&filter=has_abstract:true,language:en&per_page=3`, {
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&filter=has_abstract:true,language:en&per_page=4`, {
       headers: {
         "User-Agent": "IELTSPrepStudioBot/1.0 (mailto:contact@hyuguo.com)",
         "Accept": "application/json"
@@ -4468,89 +4396,101 @@ async function handleClozeCommand(chatId, userId, topic, env, botToken) {
     
     if (res.ok) {
       const data = await res.json();
-      const work = data.results && data.results.find((w) => w.abstract_inverted_index);
-      if (work) {
-        const inv = work.abstract_inverted_index;
-        const words = [];
-        Object.keys(inv).forEach((w) => inv[w].forEach((pos) => { words[pos] = w; }));
-        const rawTokens = words.filter(Boolean);
-        const stopWords = ["between", "through", "because", "without", "another", "against", "however", "therefore", "further", "several", "during", "before", "should", "within", "across"];
-
-        const candidates = [];
-        rawTokens.forEach((tok, idx) => {
-          const clean = tok.replace(/[^a-zA-Z]/g, "").toLowerCase();
-          if (clean.length >= 6 && !stopWords.includes(clean) && !candidates.some((c) => c.clean === clean)) {
-            candidates.push({ idx, orig: tok, clean });
-          }
+      const works = (data.results || []).filter((w) => w.abstract_inverted_index);
+      if (works.length >= 2) {
+        const reconstructedPars = works.slice(0, 3).map((w, wIdx) => {
+          const inv = w.abstract_inverted_index;
+          const words = [];
+          Object.keys(inv).forEach((tok) => inv[tok].forEach((pos) => { words[pos] = tok; }));
+          const text = words.filter(Boolean).join(" ");
+          const label = String.fromCharCode(65 + wIdx);
+          return `Paragraph ${label} — ${w.title}:\n${text}`;
         });
 
-        if (candidates.length >= 4) {
-          targetCount = Math.min(5, candidates.length);
-          const step = Math.max(1, Math.floor(candidates.length / targetCount));
-          const selected = [];
-          for (let i = 0; i < targetCount; i++) {
-            selected.push(candidates[Math.min(i * step, candidates.length - 1)]);
-          }
+        const stopWords = ["between", "through", "because", "without", "another", "against", "however", "therefore", "further", "several", "during", "before", "should", "within", "across", "although", "whereas", "furthermore"];
+        const candidates = [];
+        reconstructedPars.forEach((pText, pIdx) => {
+          const tokens = pText.split(/\s+/);
+          tokens.forEach((tok) => {
+            const clean = tok.replace(/[^a-zA-Z]/g, "").toLowerCase();
+            if (clean.length >= 7 && !stopWords.includes(clean) && !candidates.some(c => c.clean === clean)) {
+              candidates.push({ pIdx, clean });
+            }
+          });
+        });
 
-          const maskedTokens = [...rawTokens];
-          selected.forEach((sel, i) => {
-            const punc = sel.orig.match(/[^a-zA-Z]+$/)?.[0] || "";
-            maskedTokens[sel.idx] = `[ ${i + 1} ]${punc}`;
+        if (candidates.length >= 5) {
+          targetCount = Math.min(6, candidates.length);
+          const selected = candidates.slice(0, targetCount);
+          wordBank = [...selected.map(s => s.clean)].sort(() => Math.random() - 0.5);
+
+          let blankNum = 1;
+          const answers = [];
+          articleParagraphs = reconstructedPars.map((pText) => {
+            let processed = pText;
+            selected.forEach((sel) => {
+              const reg = new RegExp(`\\b${sel.clean}\\b([.,;:]?)`, 'i');
+              if (reg.test(processed)) {
+                processed = processed.replace(reg, `[ ${blankNum} ]$1`);
+                answers.push(`${blankNum}. *${sel.clean}*`);
+                blankNum++;
+              }
+            });
+            return processed;
           });
 
-          workTitle = work.title;
-          pubYear = work.publication_year || 2025;
-          citations = work.cited_by_count || 0;
-          maskedText = maskedTokens.join(" ").slice(0, 950);
-          wordBank = [...selected.map((s) => s.clean)].sort(() => Math.random() - 0.5);
-          answerKey = selected.map((s, i) => `${i + 1}. *${s.clean}*`).join("\n");
+          workTitle = works[0].title;
+          pubYear = works[0].publication_year || 2025;
+          citations = works[0].cited_by_count || 180;
+          answerKey = answers.join("\n");
         }
       }
     }
   } catch (err) {
-    console.warn("[OpenAlex Fetch Notice]", err);
+    console.warn("[OpenAlex Multi-Paragraph Fetch Notice]", err);
   }
 
-  // Resilient fallback if OpenAlex failed or had insufficient academic words
-  if (!maskedText) {
+  if (!articleParagraphs.length) {
     const tLow = t.toLowerCase();
     const fallback = FALLBACK_CLOZE_BANK.find(f => tLow.includes(f.topicKey) || f.topicKey.includes(tLow)) || FALLBACK_CLOZE_BANK[0];
     workTitle = fallback.title;
     pubYear = fallback.year;
     citations = fallback.citations;
 
-    const rawTokens = [...fallback.rawTokens];
-    const selected = [];
-    fallback.targetWords.forEach((word) => {
-      const idx = rawTokens.findIndex(tok => tok.toLowerCase().replace(/[^a-zA-Z]/g, "") === word);
-      if (idx !== -1) {
-        selected.push({ idx, orig: rawTokens[idx], clean: word });
-      }
+    let blankNum = 1;
+    const answers = [];
+    const chosenWords = fallback.targetWords.slice(0, 6);
+    wordBank = [...chosenWords].sort(() => Math.random() - 0.5);
+
+    articleParagraphs = fallback.paragraphs.map((pText) => {
+      let processed = pText;
+      chosenWords.forEach((word) => {
+        const reg = new RegExp(`\\b${word}\\b([.,;:]?)`, 'i');
+        if (reg.test(processed)) {
+          processed = processed.replace(reg, `[ ${blankNum} ]$1`);
+          answers.push(`${blankNum}. *${word}*`);
+          blankNum++;
+        }
+      });
+      return processed;
     });
 
-    targetCount = selected.length;
-    selected.forEach((sel, i) => {
-      const punc = sel.orig.match(/[^a-zA-Z]+$/)?.[0] || "";
-      rawTokens[sel.idx] = `[ ${i + 1} ]${punc}`;
-    });
-
-    maskedText = rawTokens.join(" ");
-    wordBank = [...selected.map(s => s.clean)].sort(() => Math.random() - 0.5);
-    answerKey = selected.map((s, i) => `${i + 1}. *${s.clean}*`).join("\n");
+    targetCount = answers.length;
+    answerKey = answers.join("\n");
   }
 
   const launchUrl = env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/";
   const text =
-`📖 *PEER-REVIEWED CLOZE DRILL*
+`📖 *FULL SCHOLARLY ARTICLE CLOZE DRILL*
 ━━━━━━━━━━━━━━━━━━━━
-🔬 *Scholarly Study:* _${workTitle}_
-📅 *Year:* ${pubYear} • *Citations:* ${citations}
+🔬 *Academic Topic:* _${workTitle}_
+📅 *Publication Year:* ${pubYear} • *Citations:* ${citations}
 
-Fill in blanks *[ 1 ]* to *[ ${targetCount} ]* using the Academic Word Bank:
+Fill in blanks *[ 1 ]* to *[ ${targetCount} ]* across the 3 article paragraphs:
 
-"${maskedText}..."
+${articleParagraphs.join("\n\n")}
 
-🔤 *Word Bank:*
+🔤 *Academic Word Bank:*
 \`${wordBank.join("  •  ")}\`
 
 ||🔍 *Answer Key:*
@@ -4560,8 +4500,8 @@ ${formatQuotaFooter(quota)}`;
 
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
-      [{ text: "🔄 Another Cloze Drill", callback_data: "tool_cloze" }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: launchUrl } }]
+      [{ text: "⚡ Launch Interactive Cloze Lab", web_app: { url: launchUrl } }],
+      [{ text: "🔄 Next Article Topic", callback_data: "tool_cloze" }, { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
     ]
   });
 }

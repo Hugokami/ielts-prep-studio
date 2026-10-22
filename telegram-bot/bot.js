@@ -448,12 +448,11 @@ bot.command('start', async (ctx) => {
     parse_mode: 'Markdown',
     reply_markup: {
       keyboard: [
-        [{ text: '🚀 Open App', web_app: { url: WEB_URL } }],
-        [{ text: '/start' }, { text: '🚀 Start Menu' }]
+        [{ text: '🚀 Start Menu' }]
       ],
       resize_keyboard: true,
       is_persistent: true,
-      input_field_placeholder: 'Tap /start or Open App to explore'
+      input_field_placeholder: 'Tap 🚀 Start Menu to explore'
     }
   });
 });
@@ -1080,8 +1079,7 @@ bot.on('message:text', async (ctx, next) => {
       parse_mode: 'Markdown',
       reply_markup: {
         keyboard: [
-          [{ text: '🚀 Open App', web_app: { url: WEB_URL } }],
-          [{ text: '/start' }, { text: '🚀 Start Menu' }]
+          [{ text: '🚀 Start Menu' }]
         ],
         resize_keyboard: true,
         input_field_placeholder: 'Tap 🚀 Start Menu to explore'

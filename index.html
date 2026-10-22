@@ -6130,6 +6130,63 @@ body.in-cbt-drill #backToTopBtn {
     </div>
     </div>
 
+    
+    <!-- FEATURED NATIVE PODCASTS & VERBATIM TRANSCRIPTS HUB (IELTS SPEAKING & ACADEMIC DISCOURSE) -->
+    <div class="sec-block" id="ov-podcasts-feature" style="margin-top:24px;">
+      <div class="sec-eyebrow">FEATURED AUDIO IMMERSION // NATIVE DISCOURSE &amp; LIVE CAPTIONS</div>
+      <div class="sec-header-row">
+        <h2 class="sec-title">Cambridge &amp; BBC Native Podcasts &amp; Transcripts <span class="ver-muted">Live Playhead Sync</span></h2>
+        <div class="sec-timestamp">IELTS Speaking Band 9 Real Test + BBC 6 Minute English</div>
+        <button class="btn-outlined" onclick="switchView('tools'); setTimeout(function(){ var el = document.getElementById('tool-card-podcasts'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 100);" style="margin-left:auto;">
+          Open Full Podcast Deck ↗
+        </button>
+      </div>
+
+      <div class="occ-card featured" style="padding:20px; background:var(--bg-card); border:1.5px solid var(--border-accent); border-radius:12px; margin-top:14px; position:relative; overflow:hidden;">
+        <div class="occ-ribbon" style="background:var(--accent); color:#FFFFFF !important;">BAND 9 SPEAKING &amp; DISCOURSE</div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+          <div>
+            <h3 id="ov-pod-title" style="font-size:1.15rem; font-weight:800; color:var(--text); margin:0 0 4px 0;">EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!</h3>
+            <div id="ov-pod-meta" style="font-size:0.82rem; color:var(--text-secondary);">🎙️ IELTS Band 9 Speaking Simulation &bull; ⏱️ 15 min &bull; 📅 2026-10-20</div>
+          </div>
+          <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <button class="speak-pill-btn" onclick="switchFeaturedHomePodcast(0)" id="ov-chip-0" style="padding:4px 10px; font-size:0.75rem; font-weight:700; background:var(--accent); color:#FFFFFF;">IELTS Speaking (Real Test)</button>
+            <button class="speak-pill-btn secondary" onclick="switchFeaturedHomePodcast(1)" id="ov-chip-1" style="padding:4px 10px; font-size:0.75rem;">BBC: Gold</button>
+            <button class="speak-pill-btn secondary" onclick="switchFeaturedHomePodcast(2)" id="ov-chip-2" style="padding:4px 10px; font-size:0.75rem;">BBC: Mindful Drinking</button>
+          </div>
+        </div>
+
+        <audio id="v6-pod-audio-home" controls preload="none" src="https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111" style="width:100%; height:42px; margin:10px 0; border-radius:8px;"></audio>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div style="display:flex; gap:6px; align-items:center;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Speed:</span>
+            <button onclick="document.getElementById('v6-pod-audio-home').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">0.75x</button>
+            <button onclick="document.getElementById('v6-pod-audio-home').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.0x Native</button>
+            <button onclick="document.getElementById('v6-pod-audio-home').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.25x Sprint</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span id="pod-live-status-home" class="occ-ver-pill" style="font-size:0.7rem; font-weight:800; background:rgba(245,158,11,0.12); color:var(--accent);">🔴 LIVE PLAYHEAD: 00:00</span>
+            <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700; color:#10B981; border-color:rgba(16,185,129,0.3);">✨ Verbatim Captions</span>
+            <button id="pod-autoscroll-btn-home" onclick="window.togglePodcastAutoScroll('home')" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">Auto-Scroll: ON</button>
+            <button onclick="window.copyPodcastTranscriptText('home')" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">📋 Copy All</button>
+          </div>
+        </div>
+
+        <div id="pod-transcript-content-home" style="max-height:260px; overflow-y:auto; padding:10px 12px; font-size:0.86rem; color:var(--text); background:var(--bg); border-radius:8px; border:1px solid var(--border-mid);">
+          <!-- Populated dynamically with live playhead-synced captions -->
+        </div>
+
+        <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:10px; border-top:1px dashed var(--border);">
+          <span style="font-size:0.78rem; color:var(--text-secondary);">💡 Click any line in the captions to jump the audio playhead directly to that second.</span>
+          <button class="btn-accent-solid" onclick="switchView('tools'); setTimeout(function(){ var el = document.getElementById('tool-card-podcasts'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 100);" style="padding:6px 14px; font-size:0.78rem; font-weight:800;">
+            Explore All 4 Native Channels ↗
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- FULL-WIDTH INTERACTIVE VISUALIZATION: SYNONYM CONSTELLATION -->
     <div class="sec-block" id="ov-constellation">
       <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>

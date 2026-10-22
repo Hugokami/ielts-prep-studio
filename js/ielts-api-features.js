@@ -2248,7 +2248,148 @@
     // AUTHENTIC LIVE CAPTIONS & SYNCHRONIZED PODCAST ENGINE
     window.podActiveCaptions = {};
 
-    window.initLivePodcastCaptions = function(idx, segments) {
+    
+    // DYNAMIC FASTER-WHISPER CLIENT (PYTHON 8089 MICROSERVICE)
+    window.transcribeEpisodeWithFasterWhisper = async function(idx, audioUrl) {
+      const btn = document.getElementById(`btn-transcribe-${idx}`);
+      const box = document.getElementById(`pod-transcript-content-${idx}`);
+      const statusEl = document.getElementById(`pod-live-status-${idx}`);
+      if (!audioUrl) return;
+
+      const origText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.innerHTML = '⏳ Transcribing with Faster-Whisper (Python)...';
+        btn.disabled = true;
+      }
+
+      try {
+        // Check local storage cache first
+        const cacheKey = `ips_whisper_${audioUrl}`;
+        let segments = null;
+        try {
+          const cached = localStorage.getItem(cacheKey);
+          if (cached) segments = JSON.parse(cached);
+        } catch(e) {}
+
+        if (!segments) {
+          const serviceUrl = `http://127.0.0.1:8089/transcribe?url=${encodeURIComponent(audioUrl)}`;
+          const resp = await fetch(serviceUrl, { method: 'GET' });
+          if (!resp.ok) throw new Error('Faster-Whisper service returned error status');
+          const data = await resp.json();
+          if (!data.success || !data.segments || !data.segments.length) {
+            throw new Error(data.error || 'No speech segments returned');
+          }
+          segments = data.segments;
+          try { localStorage.setItem(cacheKey, JSON.stringify(segments)); } catch(e) {}
+        }
+
+        // Render dynamic segments
+        const captionsHtml = segments.map((seg, cIdx) => `
+          <div class="pod-caption-line" id="cap-${idx}-${cIdx}" data-start="${seg.start}" data-end="${seg.end}" onclick="window.seekPodcastAudio(${idx}, ${seg.start})" title="Jump playhead to ${seg.time}">
+            <span style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary); margin-right:8px; opacity:0.85; flex-shrink:0;">[${seg.time}]</span>
+            <span class="cap-text" style="color:var(--text);">${seg.text}</span>
+          </div>
+        `).join('');
+
+        if (box) {
+          box.innerHTML = captionsHtml;
+          box.style.whiteSpace = 'normal';
+        }
+
+        if (statusEl) {
+          statusEl.innerHTML = `🔴 <strong>LIVE PLAYHEAD:</strong> 00:00`;
+          statusEl.style.display = 'inline-block';
+        }
+
+        // Wire live audio playhead tracking
+        window.initLivePodcastCaptions(idx, segments);
+
+        if (btn) {
+          btn.innerHTML = '✨ Verbatim Faster-Whisper Synced';
+          btn.style.background = '#10B981';
+          btn.style.borderColor = '#10B981';
+          btn.disabled = true;
+        }
+
+        if (typeof showToast === 'function') {
+          showToast('✓ Verbatim Faster-Whisper live captions generated & playhead synced!');
+        }
+      } catch (err) {
+        console.warn('[Faster-Whisper Fetch Error]', err);
+        if (btn) {
+          btn.innerHTML = origText;
+          btn.disabled = false;
+        }
+        alert("Could not connect to local Faster-Whisper service.\n\nTo enable live dynamic transcription for any podcast:\n1. Open your terminal in this workspace\n2. Run: python scripts/faster_whisper_service.py --serve\n3. Click Transcribe again!");
+      }
+    };
+
+    // HOME TAB FEATURED PODCAST CONTROLLER
+    window.switchFeaturedHomePodcast = function(index) {
+      const all = window.VERIFIED_PODCAST_SESSIONS || [];
+      const ep = all[index] || all[0];
+      if (!ep) return;
+
+      const titleEl = document.getElementById('ov-pod-title');
+      const metaEl = document.getElementById('ov-pod-meta');
+      const audioEl = document.getElementById('v6-pod-audio-home');
+      const contentEl = document.getElementById('pod-transcript-content-home');
+      
+      if (titleEl) titleEl.textContent = ep.title;
+      if (metaEl) metaEl.innerHTML = `🎙️ ${ep.show} &bull; ⏱️ ${ep.durationMin} min &bull; 📅 ${ep.date}`;
+      if (audioEl) {
+        audioEl.src = ep.audioUrl;
+        audioEl.playbackRate = 1.0;
+      }
+
+      // Update chips UI
+      [0, 1, 2].forEach(i => {
+        const chip = document.getElementById(`ov-chip-${i}`);
+        if (chip) {
+          if (i === index) {
+            chip.classList.remove('secondary');
+            chip.style.background = 'var(--accent, #0F172A)';
+            chip.style.color = '#FFFFFF';
+            chip.style.fontWeight = '800';
+          } else {
+            chip.classList.add('secondary');
+            chip.style.background = '';
+            chip.style.color = '';
+            chip.style.fontWeight = 'normal';
+          }
+        }
+      });
+
+      if (contentEl && ep.segments) {
+        contentEl.innerHTML = ep.segments.map((seg, cIdx) => `
+          <div class="pod-caption-line" id="cap-home-${cIdx}" data-start="${seg.start}" data-end="${seg.end}" onclick="window.seekPodcastAudio('home', ${seg.start})" title="Jump to ${seg.time}">
+            <span style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary); margin-right:8px; opacity:0.85; flex-shrink:0;">[${seg.time}]</span>
+            <span class="cap-text" style="color:var(--text);">${seg.text}</span>
+          </div>
+        `).join('');
+
+        window.initLivePodcastCaptions('home', ep.segments);
+      }
+    };
+
+    window.initHomeFeaturedPodcast = function() {
+      if (typeof window === 'undefined') return;
+      setTimeout(() => {
+        if (document.getElementById('v6-pod-audio-home')) {
+          window.switchFeaturedHomePodcast(0);
+        }
+      }, 150);
+    };
+
+    if (typeof window !== 'undefined') {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', window.initHomeFeaturedPodcast);
+      } else {
+        window.initHomeFeaturedPodcast();
+      }
+    }
+
+window.initLivePodcastCaptions = function(idx, segments) {
       const audio = document.getElementById(`v6-pod-audio-${idx}`);
       const container = document.getElementById(`pod-transcript-content-${idx}`);
       const statusEl = document.getElementById(`pod-live-status-${idx}`);
@@ -2405,7 +2546,10 @@
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px dashed var(--border);">
                   <span style="font-size:0.75rem; color:var(--text-secondary);">Want word-for-word live playhead captions?</span>
-                  <button onclick="window.loadVerifiedPodcastSessions()" class="btn-accent-solid" style="padding:4px 10px; font-size:0.74rem;">Load Verified IELTS Sessions 🎧</button>
+                  <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                    <button id="btn-transcribe-${idx}" onclick="window.transcribeEpisodeWithFasterWhisper(${idx}, '${ep.audioUrl}')" class="btn-accent-solid" style="padding:4px 10px; font-size:0.74rem; font-weight:800; cursor:pointer;">⚡ Transcribe with Faster-Whisper</button>
+                    <button onclick="window.loadVerifiedPodcastSessions()" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem;">Load Verified Sessions 🎧</button>
+                  </div>
                 </div>
               `}
             </div>
