@@ -283,47 +283,66 @@ async function handleTelegramWidgetAuth(request, env) {
 // ==========================================
 async function handleSync(request, env) {
   const body = await request.json();
-  const { initData, progress, srsDueCount } = body || {};
+  const { initData, progress, srsDueCount, telegramId: clientTgId, voucher: explicitVoucher } = body || {};
 
-  const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
-  if (!user || !user.id) {
-    return jsonResponse({ error: "Unauthorized initData" }, 401);
+  let telegramId = 0;
+  let username = "";
+  let firstName = "";
+
+  if (initData) {
+    const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
+    if (user && user.id) {
+      telegramId = user.id;
+      username = user.username || "";
+      firstName = user.first_name || "";
+    }
   }
 
-  const telegramId = user.id;
-  const username = user.username || "";
-  const firstName = user.first_name || "";
+  // Fallback: If initData is absent (e.g. desktop browser, external webview), allow sync if valid explicit voucher or admin ID
+  const clientVoucher = explicitVoucher || (progress && progress.userProfile && progress.userProfile.voucherCode) || "";
+  if (!telegramId && clientTgId) {
+    telegramId = parseInt(clientTgId, 10) || 0;
+  }
+
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+  const isAdmin = telegramId && (String(telegramId) === String(adminId) || String(telegramId) === "7468650530");
+  const hasVoucher = clientVoucher ? await resolveIsVip(env, telegramId, clientVoucher) : false;
+
+  if (!telegramId && !hasVoucher && !isAdmin) {
+    return jsonResponse({ error: "Unauthorized session" }, 401);
+  }
+
   const progressJson = progress ? JSON.stringify(progress) : "{}";
   const dueCount = typeof srsDueCount === "number" ? srsDueCount : 0;
 
-  // Upsert user progress into D1
-  await env.DB.prepare(`
-    INSERT INTO users (telegram_id, username, first_name, is_vip, srs_due_count, progress_json, updated_at)
-    VALUES (?, ?, ?, 0, ?, ?, unixepoch())
-    ON CONFLICT(telegram_id) DO UPDATE SET
-      username = excluded.username,
-      first_name = excluded.first_name,
-      srs_due_count = excluded.srs_due_count,
-      progress_json = excluded.progress_json,
-      updated_at = unixepoch()
-  `).bind(telegramId, username, firstName, dueCount, progressJson).run();
+  // Upsert user progress into D1 if telegramId is available
+  if (telegramId) {
+    await env.DB.prepare(`
+      INSERT INTO users (telegram_id, username, first_name, is_vip, srs_due_count, progress_json, updated_at)
+      VALUES (?, ?, ?, 0, ?, ?, unixepoch())
+      ON CONFLICT(telegram_id) DO UPDATE SET
+        username = CASE WHEN excluded.username != '' THEN excluded.username ELSE users.username END,
+        first_name = CASE WHEN excluded.first_name != '' THEN excluded.first_name ELSE users.first_name END,
+        srs_due_count = excluded.srs_due_count,
+        progress_json = excluded.progress_json,
+        updated_at = unixepoch()
+    `).bind(telegramId, username, firstName, dueCount, progressJson).run();
+  }
 
-  // Query VIP status & recognize Admin ID or valid client voucher
-  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
-  const isAdmin = String(telegramId) === String(adminId) || String(telegramId) === "7468650530";
   const clientTier = progress && progress.userProfile && progress.userProfile.tier;
-  const clientVoucher = progress && progress.userProfile && progress.userProfile.voucherCode;
-  const hasVoucher = clientVoucher ? await resolveIsVip(env, telegramId, clientVoucher) : false;
   const isClientVip = clientTier === "vip" || hasVoucher;
 
-  const userRow = await env.DB.prepare(`
-    SELECT is_vip, progress_json FROM users WHERE telegram_id = ?
-  `).bind(telegramId).first();
+  let userRow = null;
+  if (telegramId) {
+    userRow = await env.DB.prepare(`
+      SELECT is_vip, progress_json FROM users WHERE telegram_id = ?
+    `).bind(telegramId).first();
+  }
 
   let isVip = isAdmin || isClientVip || (userRow && userRow.is_vip === 1);
 
   // If user is VIP via Admin or Voucher but DB still shows 0, auto-elevate in D1
-  if (isVip && (!userRow || userRow.is_vip !== 1)) {
+  if (telegramId && isVip && (!userRow || userRow.is_vip !== 1)) {
     try {
       await env.DB.prepare("UPDATE users SET is_vip = 1, vip_activated_at = COALESCE(vip_activated_at, unixepoch()) WHERE telegram_id = ?").bind(telegramId).run();
     } catch (elevateErr) {
@@ -344,6 +363,7 @@ async function handleSync(request, env) {
     success: true,
     telegramId,
     isVip: !!isVip,
+    vipVoucher: (isVip && telegramId) ? await getUserVipVoucher(env, telegramId) : (clientVoucher || null),
     vipData: vipData
   });
 }
@@ -367,19 +387,29 @@ async function handleRedeemCode(request, env) {
     if (user && user.id) telegramId = user.id;
   }
 
-  // Check code validity in D1
+  // 1. Check if hardcoded whitelist or algorithmic format
+  const isHardcoded = ["VIPPASS2026", "BAND9VIP", "SCHOLAR9", "BURMA2026", "ENGNOVATE"].includes(cleanCode);
+  const isAlgorithmic = /^(IPS-(VIP|LIFE|INT|SPRINT)-|VIP-)/i.test(cleanCode);
+
+  // 2. Check code validity in D1
   const promo = await env.DB.prepare(`
-    SELECT * FROM promo_codes WHERE code = ? AND is_used = 0
+    SELECT * FROM promo_codes WHERE code = ?
   `).bind(cleanCode).first();
 
-  if (!promo) {
-    return jsonResponse({ success: false, error: "Invalid or already used activation code." }, 400);
+  if (!promo && !isHardcoded && !isAlgorithmic) {
+    return jsonResponse({ success: false, error: "Invalid activation code." }, 400);
   }
 
-  // Mark code used
-  await env.DB.prepare(`
-    UPDATE promo_codes SET is_used = 1, used_by_tg_id = ?, used_at = unixepoch() WHERE code = ?
-  `).bind(telegramId || null, cleanCode).run();
+  if (promo && promo.is_used === 1 && promo.used_by_tg_id && telegramId && String(promo.used_by_tg_id) !== String(telegramId)) {
+    return jsonResponse({ success: false, error: "This activation code has already been redeemed by another account." }, 400);
+  }
+
+  // Mark code used in D1 if not already marked
+  if (promo && promo.is_used !== 1) {
+    await env.DB.prepare(`
+      UPDATE promo_codes SET is_used = 1, used_by_tg_id = ?, used_at = unixepoch() WHERE code = ?
+    `).bind(telegramId || null, cleanCode).run();
+  }
 
   // If inside Telegram, elevate user to VIP in D1
   if (telegramId) {
@@ -660,12 +690,16 @@ Master the official test format with examiner-grade interactive scoring.
 👇 *Select an option from the menu below to begin:*`;
       }
 
-      await sendTelegramMessage(botToken, chatId, welcomeText, getMainMenuKeyboard(env, isVip));
+      const vipVoucher = isVip ? await getUserVipVoucher(env, userId) : null;
+      await sendTelegramMessage(botToken, chatId, welcomeText, getMainMenuKeyboard(env, isVip, userId, vipVoucher));
       return jsonResponse({ ok: true });
     }
 
     // 2. /app or "🚀 Launch IELTS Prep Studio"
     if (text === "/app" || text === "🚀 Launch IELTS Prep Studio") {
+      const isVip = await resolveIsVip(env, userId);
+      const vipVoucher = isVip ? await getUserVipVoucher(env, userId) : null;
+      const launchUrl = getStudioLaunchUrl(env, userId, vipVoucher);
       await sendTelegramMessage(botToken, chatId,
 `🎯 *IELTS PREP STUDIO — FULLSCREEN MINI APP*
 ━━━━━━━━━━━━━━━━━━━━
@@ -673,8 +707,8 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
 
 👇 အောက်ပါခလုတ်ကို နှိပ်၍ Fullscreen Studio သို့ ဝင်ရောက်လေ့လာပါ:`, {
         inline_keyboard: [
-          [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-          [{ text: "🌐 Open on Computer / Laptop ↗", url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" }]
+          [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }],
+          [{ text: "🌐 Open on Computer / Laptop ↗", url: launchUrl }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -2071,13 +2105,50 @@ const BOT_COMMANDS = [
   { command: "help", description: "📕 How to Use & Study Guide" }
 ];
 
-async function registerBotCommands(botToken) {
+async function getUserVipVoucher(env, userId) {
+  if (!userId) return null;
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+  if (String(userId) === String(adminId) || String(userId) === "7468650530") {
+    return "VIP-5X2V-BQQK";
+  }
+  try {
+    const promo = await env.DB.prepare(
+      "SELECT code FROM promo_codes WHERE used_by_tg_id = ? ORDER BY used_at DESC LIMIT 1"
+    ).bind(userId).first();
+    if (promo && promo.code) return promo.code;
+  } catch (e) {
+    console.warn("[getUserVipVoucher Error]", e);
+  }
+  return null;
+}
+
+function getStudioLaunchUrl(env, userId = null, voucher = null) {
+  const base = (env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio").replace(/\/+$/, "");
+  const params = [];
+  if (voucher) params.push(`voucher=${encodeURIComponent(voucher)}`);
+  if (userId) params.push(`tg_user=${encodeURIComponent(userId)}`);
+  return params.length ? `${base}/?${params.join("&")}` : `${base}/`;
+}
+
+async function registerBotCommands(botToken, studioUrl = "https://hugokami.github.io/ielts-prep-studio/") {
   if (!botToken) return { ok: false, error: "No bot token" };
   try {
     const resp = await fetch(`https://api.telegram.org/bot${botToken}/setMyCommands`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ commands: BOT_COMMANDS })
+    });
+    const cleanUrl = studioUrl.replace(/\/+$/, "") + "/";
+    await fetch(`https://api.telegram.org/bot${botToken}/setChatMenuButton`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        menu_button: {
+          type: "web_app",
+          text: "🗂️ Launch Studio",
+          web_app: { url: cleanUrl }
+        }
+      })
     });
     return await resp.json();
   } catch (err) {
@@ -2087,7 +2158,8 @@ async function registerBotCommands(botToken) {
 }
 
 // Persistent Reply Keyboard (Matching Reference Screenshot 1)
-function getMainMenuKeyboard(env, isVip = false) {
+function getMainMenuKeyboard(env, isVip = false, userId = null, voucher = null) {
+  const launchUrl = getStudioLaunchUrl(env, userId, voucher);
   const vipButton = isVip
     ? { text: "👑 VIP Lifetime Active" }
     : { text: "👑 Buy VIP (750 ★ / 55k)" };
@@ -2096,7 +2168,7 @@ function getMainMenuKeyboard(env, isVip = false) {
     : { text: "💳 Payment Info" };
   return {
     keyboard: [
-      [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+      [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }],
       [{ text: "⚡ VIP Academic Tools" }, vipButton],
       [{ text: "📚 Curriculum & Features" }, { text: "📊 My Study & VIP Status" }],
       [payButton, { text: "📅 Exam Countdown" }],
@@ -2485,18 +2557,24 @@ ${user && user.vip_activated_at ? `• Activated: ${new Date(user.vip_activated_
 • 🧠 SRS Due Cards Today: *${srsDue} items*
 • 📅 Exam Date: *${examDate ? examDate : "Not Set Yet (Click Exam Countdown)"}*`;
 
+  const launchUrl = getStudioLaunchUrl(env, userId, vipVoucher);
   const inlineKeyboard = [];
   if (!isVip) {
     inlineKeyboard.push([{ text: "👑 Upgrade to Lifetime VIP (55,000 MMK)", callback_data: "info_payment" }]);
   }
   inlineKeyboard.push([
-    { text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } },
+    { text: "🚀 Launch Studio Now", web_app: { url: launchUrl } },
     { text: "📅 Exam Countdown", callback_data: "view_exam" }
   ]);
   inlineKeyboard.push([
     { text: "💡 Band 9 Tip of the Day", callback_data: "next_tip" },
     { text: "📚 Curriculum Catalog", callback_data: "mod_catalog_back" }
   ]);
+  if (isVip && vipVoucher) {
+    inlineKeyboard.push([
+      { text: "🌐 Open on PC / Laptop ↗", url: launchUrl }
+    ]);
+  }
 
   await sendTelegramMessage(botToken, chatId, statusCard, { inline_keyboard: inlineKeyboard });
 }
@@ -2657,7 +2735,7 @@ async function resolveIsVip(env, telegramId, voucherCode) {
     const cleanCode = String(voucherCode).trim().toUpperCase();
     const hardcodedVouchers = ["VIPPASS2026", "BAND9VIP", "SCHOLAR9", "BURMA2026", "ENGNOVATE"];
     if (hardcodedVouchers.includes(cleanCode)) return true;
-    if (/^IPS-(VIP|LIFE|INT|SPRINT)-/i.test(cleanCode)) return true;
+    if (/^(IPS-(VIP|LIFE|INT|SPRINT)-|VIP-)/i.test(cleanCode)) return true;
     const promo = await env.DB.prepare("SELECT * FROM promo_codes WHERE code = ?").bind(cleanCode).first();
     if (promo) return true;
   }
@@ -3608,6 +3686,9 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
 
 👇 စတင်ရှာဖွေရန် အောက်ပါ ခလုတ်များမှ ရွေးချယ်ပါ:`;
 
+  const vipVoucher = isVip ? await getUserVipVoucher(env, userId) : null;
+  const launchUrl = getStudioLaunchUrl(env, userId, vipVoucher);
+
   const inlineKeyboard = [
     [
       { text: "🔗 Academic Collocations", callback_data: "ask_tool:collocate" },
@@ -3633,7 +3714,7 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
       { text: isVip ? "👑 VIP Lifetime Active" : "⭐ Upgrade VIP (55,000 Ks)", callback_data: isVip ? "vip_status" : "info_payment" }
     ],
     [
-      { text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+      { text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }
     ]
   ];
 

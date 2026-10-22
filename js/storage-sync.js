@@ -75,6 +75,9 @@
       if (typeof tg.setBackgroundColor === 'function') tg.setBackgroundColor('#0d0d0d');
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         window.telegramUser = tg.initDataUnsafe.user;
+        try {
+          localStorage.setItem('ips_browser_tg_user', JSON.stringify(tg.initDataUnsafe.user));
+        } catch (e) {}
         console.log('[TMA] Telegram User connected:', tg.initDataUnsafe.user.id, tg.initDataUnsafe.user.first_name);
       }
     } catch (e) {
@@ -277,7 +280,9 @@
     // Tier B: Cloudflare Serverless Sync (D1 + KV)
     async syncServerless(state) {
       const initData = this.getInitData();
-      if (!initData) return null; // Outside Telegram, no initData
+      const tgUser = this.getTelegramUser();
+      const clientVoucher = (state && state.userProfile && state.userProfile.voucherCode) || localStorage.getItem('occ_vip_voucher') || '';
+      if (!initData && !tgUser && !clientVoucher) return null; // Outside Telegram and no credentials
 
       const dueCount = getDueSrsCount(state);
       const apiBase = getApiBase();
@@ -290,6 +295,8 @@
           },
           body: JSON.stringify({
             initData: initData,
+            telegramId: tgUser ? tgUser.id : (state && state.userProfile && state.userProfile.telegramId) || 0,
+            voucher: clientVoucher,
             progress: state,
             srsDueCount: dueCount
           })
@@ -307,11 +314,14 @@
           window.mergeVipBundle(data.vipData);
         }
         if (data.isVip && typeof window.activateVipPass === 'function') {
-          window.activateVipPass('lifetime');
+          window.activateVipPass('lifetime', data.vipVoucher || clientVoucher);
         }
         if (data.isVip) {
           window.isVipUser = true;
-          try { localStorage.setItem('ips_vip_active', 'true'); } catch (e) {}
+          try {
+            localStorage.setItem('ips_vip_active', 'true');
+            if (data.vipVoucher) localStorage.setItem('occ_vip_voucher', data.vipVoucher);
+          } catch (e) {}
           if (typeof window.refreshAllVipViews === 'function') {
             window.refreshAllVipViews();
           } else {

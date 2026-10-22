@@ -20,7 +20,15 @@ const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID ? String(process.env.ADMIN_CHAT_
 const PAYMENT_PHONE = process.env.PAYMENT_PHONE || '09-768691939';
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME || 'Lyan Htet';
 const PRICE_MMK = process.env.PRICE_MMK || '55,000 MMK';
-const WEB_URL = process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.web.app';
+const WEB_URL = process.env.STUDIO_WEB_URL || 'https://hugokami.github.io/ielts-prep-studio';
+
+function getLaunchUrl(userId = null, voucher = null) {
+  const base = WEB_URL.replace(/\/+$/, '');
+  const params = [];
+  if (voucher) params.push(`voucher=${encodeURIComponent(voucher)}`);
+  if (userId) params.push(`tg_user=${encodeURIComponent(userId)}`);
+  return params.length ? `${base}/?${params.join('&')}` : `${base}/`;
+}
 
 if (!BOT_TOKEN) {
   console.error('❌ Error: BOT_TOKEN is missing in .env file!');
