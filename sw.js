@@ -1,11 +1,13 @@
 // IELTS Prep Studio Service Worker (Network-First with Cache Fallback)
-const CACHE_NAME = 'ips-cache-v1';
+const CACHE_NAME = 'ielts-prep-studio-v6.1';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './ielts_prep_studio_open_academic_edition.html',
   './firebase-config.js',
   './manifest.json',
+  './js/ielts-api-features.js',
+  './js/storage-sync.js',
   './data/lexicon.json',
   './data/reading.json',
   './data/writing.json',
@@ -39,6 +41,27 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
+
+  const LIVE_API_HOSTS = [
+    'api.openalex.org',
+    'api.semanticscholar.org',
+    'api.worldbank.org',
+    'restcountries.com',
+    'api.open-meteo.com',
+    'itunes.apple.com',
+    'api.dictionaryapi.dev',
+    'api.datamuse.com',
+    'api.languagetool.org',
+    'api.mymemory.translated.net',
+    'en.wikipedia.org',
+    'www.reddit.com',
+    'ielts-prep-studio-backend.lyan123-lh.workers.dev'
+  ];
+
+  if (LIVE_API_HOSTS.some((host) => url.hostname.includes(host))) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   // Network first, falling back to cache
   event.respondWith(

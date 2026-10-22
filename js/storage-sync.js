@@ -554,3 +554,67 @@
   }
 
 })(typeof window !== 'undefined' ? window : this);
+
+
+/* ============================================================================
+   v6.0 3-TIER STORAGE EXTENSION (SRS BOOKMARKS, QUOTA & LEARNER TRACK)
+   File: js/storage-sync.js (Append at bottom)
+   ============================================================================ */
+
+(function (window) {
+  'use strict';
+
+  const V6_SYNC_KEYS = [
+    'ips_srs_deck_v6',
+    'ips_daily_tool_quota',
+    'ips_learner_track'
+  ];
+
+  function collectV6State() {
+    const payload = {};
+    V6_SYNC_KEYS.forEach((key) => {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) {
+        try {
+          payload[key] = JSON.parse(raw);
+        } catch (e) {
+          payload[key] = raw;
+        }
+      }
+    });
+    return payload;
+  }
+
+  function restoreV6State(remoteData) {
+    if (!remoteData || typeof remoteData !== 'object') return;
+    V6_SYNC_KEYS.forEach((key) => {
+      if (remoteData[key] !== undefined) {
+        const val = typeof remoteData[key] === 'string'
+          ? remoteData[key]
+          : JSON.stringify(remoteData[key]);
+        localStorage.setItem(key, val);
+      }
+    });
+  }
+
+  // Merge into existing global StorageManager if present
+  if (window.StorageManager) {
+    const origExport = window.StorageManager.exportState || window.StorageManager.getState;
+    if (typeof origExport === 'function') {
+      window.StorageManager.exportState = function () {
+        const base = origExport.apply(this, arguments) || {};
+        return Object.assign({}, base, collectV6State());
+      };
+    }
+
+    const origImport = window.StorageManager.importState || window.StorageManager.setState;
+    if (typeof origImport === 'function') {
+      window.StorageManager.importState = function (data) {
+        restoreV6State(data);
+        return origImport.apply(this, arguments);
+      };
+    }
+  }
+
+  window.V6StorageBridge = { collectV6State, restoreV6State };
+})(window);

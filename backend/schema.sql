@@ -58,3 +58,19 @@ INSERT OR IGNORE INTO promo_codes (code, is_used) VALUES
   ('IPS-VIP-103', 0),
   ('IPS-VIP-104', 0),
   ('IPS-VIP-105', 0);
+
+
+-- v6.0 VIP Vouchers & Edge API Cache Tables
+CREATE TABLE IF NOT EXISTS vip_vouchers (
+  code_hash TEXT PRIMARY KEY,
+  plan_type TEXT DEFAULT 'VIP_LIFETIME',
+  redeemed_by_uid TEXT,
+  redeemed_at INTEGER,
+  is_active INTEGER DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS api_cache (
+  cache_key TEXT PRIMARY KEY,
+  response_json TEXT NOT NULL,
+  expires_at INTEGER NOT NULL
+);
