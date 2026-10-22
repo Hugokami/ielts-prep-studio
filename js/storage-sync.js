@@ -475,7 +475,8 @@
           window.mergeVipBundle(data.vipData);
         }
         if (data.isVip && typeof window.activateVipPass === 'function') {
-          window.activateVipPass('lifetime', data.vipVoucher || clientVoucher);
+          // Pass isNewActivation = false to prevent toast popup spam and infinite sync loops on restore
+          window.activateVipPass('lifetime', data.vipVoucher || clientVoucher, false);
         }
         if (data.isVip) {
           window.isVipUser = true;
@@ -561,7 +562,8 @@
             window.mergeVipBundle(data.vipData);
           }
           if (typeof window.activateVipPass === 'function') {
-            window.activateVipPass('lifetime');
+            // Pass isNewActivation = false to prevent toast popup spam and infinite sync loops on restore
+            window.activateVipPass('lifetime', data.vipVoucher || clientVoucher, false);
           }
         }
 

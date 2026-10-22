@@ -3389,43 +3389,93 @@
     letter-spacing: 0.02em;
   }
 
-  /* Cirrus Floating Pill Navigation (Anti-AI-Slop Standard) */
+  /* Top Navigation Bar: High-End Frosted Glass Header (Zero Spill & Zero Content Overlap) */
   @media (min-width: 769px) {
     .topbar {
       position: sticky !important;
-      top: 14px !important;
+      top: 0 !important;
       z-index: 1500 !important;
-      background: transparent !important;
-      border-bottom: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      display: flex !important;
-      justify-content: center !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04) !important;
       width: 100% !important;
-      padding: 0 16px !important;
-      pointer-events: none !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+      pointer-events: auto !important;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    :root[data-theme="dark"] .topbar {
+      background: rgba(17, 24, 39, 0.95) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45) !important;
     }
     .topbar-inner {
       pointer-events: auto !important;
-      max-width: 1180px !important;
+      max-width: 1280px !important;
       width: 100% !important;
       margin: 0 auto !important;
-      padding: 0 12px 0 18px !important;
-      height: 52px !important;
+      padding: 8px 16px !important;
+      min-height: 52px !important;
+      height: auto !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
-      background: rgba(255, 255, 255, 0.92) !important;
-      backdrop-filter: blur(20px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-      border: 1px solid rgba(15, 23, 42, 0.08) !important;
-      border-radius: 9999px !important;
-      box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.02) !important;
+      gap: 10px 14px !important;
+      flex-wrap: wrap !important;
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      overflow: visible !important;
     }
-    :root[data-theme="dark"] .topbar-inner {
-      background: rgba(17, 24, 39, 0.9) !important;
-      border-color: rgba(255, 255, 255, 0.08) !important;
-      box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Intermediate Desktops & Telegram Desktop PC (861px - 1280px) */
+  @media (min-width: 861px) and (max-width: 1280px) {
+    .topbar-inner {
+      display: grid !important;
+      grid-template-columns: auto 1fr auto !important;
+      grid-template-rows: auto auto !important;
+      gap: 8px 12px !important;
+      padding: 8px 16px 10px 16px !important;
+    }
+    .topbar-left-wrap {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      align-self: center !important;
+    }
+    .top-utils {
+      grid-column: 3 !important;
+      grid-row: 1 !important;
+      justify-content: flex-end !important;
+      align-self: center !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+    }
+    .nav-links {
+      grid-column: 1 / -1 !important;
+      grid-row: 2 !important;
+      display: flex !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
+      padding-top: 8px !important;
+      overflow-x: auto !important;
+      scrollbar-width: none !important;
+    }
+    :root[data-theme="dark"] .nav-links {
+      border-top-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  /* When primary navigation tabs are visible, hide redundant VIP tools button in utility cluster */
+  @media (min-width: 861px) {
+    #vipToolsTopBtn {
+      display: none !important;
     }
   }
   .brand-box {
@@ -8769,7 +8819,7 @@ window.ensureVipBundleLoaded = async function() {
   } catch (e) {}
 };
 
-function activateVipPass(planType, voucherCode) {
+function activateVipPass(planType, voucherCode, isNewActivation = false) {
   const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive || { days: "lifetime", name: "Lifetime Studio VIP Pass" };
   ensureUserProfileInitialized();
   window.isVipUser = true;
@@ -8786,12 +8836,17 @@ function activateVipPass(planType, voucherCode) {
   }
   updateAuthUI();
   closeVipPassModal();
-  if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
-    window.StorageManager.syncServerless(appState);
-  } else if (window.currentUser && window.syncUserDataToCloud) {
-    window.syncUserDataToCloud();
+
+  // ONLY sync outward to cloud and trigger celebratory toast on a NEW manual activation/purchase!
+  // Silent state restoration on startup or background sync must never spam notifications or ping-pong the server.
+  if (isNewActivation) {
+    if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
+      window.StorageManager.syncServerless(appState);
+    } else if (window.currentUser && window.syncUserDataToCloud) {
+      window.syncUserDataToCloud();
+    }
+    showStudioNotification(`🎉 ${plan.name} Activated! All 1,162 VIP Modules Unlocked.`);
   }
-  showStudioNotification(`🎉 ${plan.name} Activated! All 1,162 VIP Modules Unlocked.`);
   refreshAllVipViews();
 }
 
@@ -8813,7 +8868,7 @@ async function redeemVoucherCode(explicitCode) {
     try {
       const res = await window.StorageManager.redeemActivationCode(code);
       if (res && res.success) {
-        activateVipPass("lifetime", code);
+        activateVipPass("lifetime", code, true);
         if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! Lifetime VIP Pass Unlocked.</span>`;
         return true;
       }
@@ -8832,7 +8887,7 @@ async function redeemVoucherCode(explicitCode) {
         if (vData.isOneTime && vData.redeemed) {
           if (vData.redeemedBy === window.currentUser.uid) {
             if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">You have already redeemed this voucher on this account.</span>`;
-            activateVipPass(vData.plan || "lifetime", code);
+            activateVipPass(vData.plan || "lifetime", code, true);
             return true;
           } else {
             if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">⛔ This one-time voucher has already been redeemed by another user.</span>`;
@@ -8849,7 +8904,7 @@ async function redeemVoucherCode(explicitCode) {
           });
         }
 
-        activateVipPass(vData.plan || "lifetime", code);
+        activateVipPass(vData.plan || "lifetime", code, true);
         if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${vData.name || "Lifetime Studio Pass"} activated.</span>`;
         return true;
       }
@@ -8864,7 +8919,7 @@ async function redeemVoucherCode(explicitCode) {
 
   if (found || isAlgorithmicValid) {
     const passName = (found && found.name) || "Lifetime Studio Pass";
-    activateVipPass("lifetime", code);
+    activateVipPass("lifetime", code, true);
     if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✓ Valid Code! ${passName} applied to your account.</span>`;
     return true;
   } else {
@@ -9196,17 +9251,57 @@ function updateAuthUI() {
   updateLexiconCounters();
 }
 
-function showStudioNotification(msg) {
+function showStudioNotification(msg, duration = 3500) {
   let toast = document.getElementById("studio-toast");
   if (!toast) {
     toast = document.createElement("div");
     toast.id = "studio-toast";
-    toast.style.cssText = "position:fixed; bottom:80px; right:20px; z-index:9999; background:var(--bg-card); border:1px solid var(--accent); color:var(--text); padding:10px 16px; border-radius:4px; font-size:0.82rem; font-weight:700; box-shadow:0 8px 24px rgba(0,0,0,0.5); transition:opacity 0.3s ease; pointer-events:none;";
+    toast.style.cssText = "position:fixed; bottom:80px; right:20px; z-index:99999; background:var(--bg-card); border:1px solid var(--accent); color:var(--text); padding:10px 36px 10px 16px; border-radius:8px; font-size:0.82rem; font-weight:700; box-shadow:0 8px 24px rgba(0,0,0,0.35); transition:opacity 0.25s ease, transform 0.25s ease; opacity:0; pointer-events:auto; display:none; align-items:center; gap:8px;";
+    
+    const textSpan = document.createElement("span");
+    textSpan.id = "studio-toast-text";
+    toast.appendChild(textSpan);
+
+    const closeBtn = document.createElement("button");
+    closeBtn.innerHTML = "&times;";
+    closeBtn.setAttribute("aria-label", "Dismiss notification");
+    closeBtn.style.cssText = "position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.15rem; line-height:1; padding:2px 6px; font-weight:bold;";
+    closeBtn.onclick = function(e) {
+      e.stopPropagation();
+      dismissStudioNotification();
+    };
+    toast.appendChild(closeBtn);
     document.body.appendChild(toast);
   }
-  toast.textContent = msg;
+  if (toast._hideTimer) {
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = null;
+  }
+  const textSpan = toast.querySelector("#studio-toast-text") || toast;
+  textSpan.textContent = msg;
+  toast.style.display = "inline-flex";
+  void toast.offsetWidth;
   toast.style.opacity = "1";
-  setTimeout(() => { toast.style.opacity = "0"; }, 3500);
+  toast.style.transform = "translateY(0)";
+  toast._hideTimer = setTimeout(() => {
+    dismissStudioNotification();
+  }, duration);
+}
+
+function dismissStudioNotification() {
+  const toast = document.getElementById("studio-toast");
+  if (!toast) return;
+  if (toast._hideTimer) {
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = null;
+  }
+  toast.style.opacity = "0";
+  toast.style.transform = "translateY(8px)";
+  setTimeout(() => {
+    if (toast && toast.style.opacity === "0") {
+      toast.style.display = "none";
+    }
+  }, 250);
 }
 
 function loadAppState() {
