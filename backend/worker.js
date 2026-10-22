@@ -62,6 +62,10 @@ export default {
         return await handleApiQuota(request, env, url);
       }
 
+      if (url.pathname === "/api/ai/chat" && request.method === "POST") {
+        return await handleAiChat(request, env);
+      }
+
       if (url.pathname === "/api/health") {
         return jsonResponse({ status: "ok", time: new Date().toISOString() });
       }
@@ -4482,6 +4486,82 @@ async function handleApiQuota(request, env, url) {
   const isVip = await resolveIsVip(env, tgId, voucher);
   const quota = await getQuotaStatus(env, tgId, isVip);
   return jsonResponse({ success: true, quota });
+}
+
+// ==========================================
+// 8. CLOUDFLARE WORKERS AI CHAT ENDPOINT ($0 COST, NO-AUTH, ZERO POPUPS)
+// ==========================================
+async function handleAiChat(request, env) {
+  try {
+    const body = await request.json();
+    const promptText = (body.prompt || body.promptText || "").trim();
+    const systemInstruction = body.systemInstruction || "You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.";
+    const maxTokens = body.max_tokens || 1400;
+
+    const MODEL_MAP = {
+      "@cf/meta/llama-3.1-8b-instruct": "@cf/meta/llama-3.1-8b-instruct",
+      "llama-3.1-8b": "@cf/meta/llama-3.1-8b-instruct",
+      "@cf/meta/llama-3.2-3b-instruct": "@cf/meta/llama-3.2-3b-instruct",
+      "llama-3.2-3b": "@cf/meta/llama-3.2-3b-instruct",
+      "@cf/mistral/mistral-7b-instruct-v0.2": "@cf/mistral/mistral-7b-instruct-v0.2",
+      "mistral-7b": "@cf/mistral/mistral-7b-instruct-v0.2",
+      "@cf/qwen/qwen1.5-7b-chat-awq": "@cf/qwen/qwen1.5-7b-chat-awq",
+      "qwen-7b": "@cf/qwen/qwen1.5-7b-chat-awq",
+      "gpt-4o-mini": "@cf/meta/llama-3.1-8b-instruct",
+      "claude-3-5-sonnet": "@cf/meta/llama-3.1-8b-instruct",
+      "gemini-1.5-flash": "@cf/meta/llama-3.1-8b-instruct",
+      "deepseek-chat": "@cf/meta/llama-3.1-8b-instruct"
+    };
+
+    const selectedModel = MODEL_MAP[body.model] || "@cf/meta/llama-3.1-8b-instruct";
+
+    let messages = body.messages;
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      messages = [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: promptText }
+      ];
+    } else {
+      // Ensure system prompt is at the top if provided
+      if (systemInstruction && !messages.some(m => m.role === "system")) {
+        messages = [{ role: "system", content: systemInstruction }, ...messages];
+      }
+    }
+
+    if (!env.AI) {
+      throw new Error("Cloudflare Workers AI binding is not configured.");
+    }
+
+    let aiRes = null;
+    let modelUsed = selectedModel;
+    try {
+      aiRes = await env.AI.run(selectedModel, {
+        messages: messages,
+        max_tokens: maxTokens
+      });
+    } catch (modelErr) {
+      console.warn(`[Workers AI] Model ${selectedModel} failed, trying fallback @cf/meta/llama-3.2-3b-instruct...`, modelErr);
+      modelUsed = "@cf/meta/llama-3.2-3b-instruct";
+      aiRes = await env.AI.run(modelUsed, {
+        messages: messages,
+        max_tokens: 1024
+      });
+    }
+
+    const outputText = (aiRes && (aiRes.response || aiRes.text)) || (typeof aiRes === "string" ? aiRes : "");
+    if (!outputText) {
+      throw new Error("Empty response received from Workers AI.");
+    }
+
+    return jsonResponse({
+      success: true,
+      text: outputText,
+      modelUsed: modelUsed
+    });
+  } catch (err) {
+    console.error("[handleAiChat Error]", err);
+    return jsonResponse({ success: false, error: err.message }, 500);
+  }
 }
 
 

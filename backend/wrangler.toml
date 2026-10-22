@@ -17,6 +17,10 @@ database_id = "0d1d2fdb-bf92-41c7-a2b3-de8927265652"
 binding = "VIP_KV"
 id = "7309348eed4d4856822ff0bbcbea8673"
 
+# Cloudflare Workers AI Binding (Zero-Cost Serverless AI)
+[ai]
+binding = "AI"
+
 [vars]
 BOT_USERNAME = "IELTSPrepStudioBot"
 PAYMENT_PHONE = "09-768691939"
