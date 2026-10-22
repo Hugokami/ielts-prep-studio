@@ -695,7 +695,7 @@ Master the official test format with examiner-grade interactive scoring.
       }
 
       const vipVoucher = isVip ? await getUserVipVoucher(env, userId) : null;
-      await sendTelegramMessage(botToken, chatId, welcomeText, getPrimaryKeyboard());
+      await sendTelegramMessage(botToken, chatId, welcomeText, getPrimaryKeyboard(env, userId, vipVoucher));
       return jsonResponse({ ok: true });
     }
 
@@ -723,8 +723,8 @@ Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon
     // 1.2. "🔽 Collapse Menu" or "Collapse" or "/collapse" -> Collapse back to single Start button
     if (text === "🔽 Collapse Menu" || text === "Collapse Menu" || text === "Collapse" || text === "collapse" || text === "/collapse") {
       await sendTelegramMessage(botToken, chatId,
-        `🔽 *Menu collapsed.* Tap *🚀 Start Menu* below whenever you want to reopen the full study menu.`,
-        getPrimaryKeyboard()
+        `🔽 *Menu collapsed.* Tap *🚀 Open App*, */start*, or *🚀 Start Menu* whenever you want to reopen the menu.`,
+        getPrimaryKeyboard(env, userId)
       );
       return jsonResponse({ ok: true });
     }
@@ -2257,13 +2257,17 @@ async function registerBotCommands(botToken, studioUrl = "https://hugokami.githu
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ commands: BOT_COMMANDS })
     });
-    const cleanUrl = studioUrl.replace(/\/+$/, "") + "/";
+    const cleanUrl = studioUrl.replace(/\/+$/, "");
     await fetch(`https://api.telegram.org/bot${botToken}/setChatMenuButton`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         menu_button: {
-          type: "commands"
+          type: "web_app",
+          text: "Open App",
+          web_app: {
+            url: cleanUrl
+          }
         }
       })
     });
@@ -2274,15 +2278,17 @@ async function registerBotCommands(botToken, studioUrl = "https://hugokami.githu
   }
 }
 
-// Persistent Reply Keyboard (Matching Reference Screenshot 1)
-function getPrimaryKeyboard() {
+// Persistent Reply Keyboard (with Open App and /start for new users)
+function getPrimaryKeyboard(env = null, userId = null, voucher = null) {
+  const launchUrl = env ? getStudioLaunchUrl(env, userId, voucher) : "https://hugokami.github.io/ielts-prep-studio/";
   return {
     keyboard: [
-      [{ text: "🚀 Start Menu" }]
+      [{ text: "🚀 Open App", web_app: { url: launchUrl } }],
+      [{ text: "/start" }, { text: "🚀 Start Menu" }]
     ],
     resize_keyboard: true,
     is_persistent: true,
-    input_field_placeholder: "Tap 🚀 Start Menu to explore"
+    input_field_placeholder: "Tap /start or Open App to explore"
   };
 }
 

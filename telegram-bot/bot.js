@@ -443,14 +443,17 @@ bot.command('start', async (ctx) => {
       .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
   }
 
-  // Send single-button collapsed keyboard to save screen space
+  // Send persistent keyboard with Open App, /start, and Start Menu
   await ctx.reply(welcomeText, {
     parse_mode: 'Markdown',
     reply_markup: {
-      keyboard: [[{ text: '🚀 Start Menu' }]],
+      keyboard: [
+        [{ text: '🚀 Open App', web_app: { url: WEB_URL } }],
+        [{ text: '/start' }, { text: '🚀 Start Menu' }]
+      ],
       resize_keyboard: true,
       is_persistent: true,
-      input_field_placeholder: 'Tap 🚀 Start Menu to explore'
+      input_field_placeholder: 'Tap /start or Open App to explore'
     }
   });
 });
@@ -1074,7 +1077,10 @@ bot.on('message:text', async (ctx, next) => {
     return ctx.reply(`🔽 *Menu collapsed.* Tap *🚀 Start Menu* whenever you want to reopen the full study menu.`, {
       parse_mode: 'Markdown',
       reply_markup: {
-        keyboard: [[{ text: '🚀 Start Menu' }]],
+        keyboard: [
+          [{ text: '🚀 Open App', web_app: { url: WEB_URL } }],
+          [{ text: '/start' }, { text: '🚀 Start Menu' }]
+        ],
         resize_keyboard: true,
         input_field_placeholder: 'Tap 🚀 Start Menu to explore'
       }
@@ -2050,10 +2056,14 @@ bot.start({
     try {
       await bot.api.setChatMenuButton({
         menu_button: {
-          type: 'commands'
+          type: 'web_app',
+          text: 'Open App',
+          web_app: {
+            url: WEB_URL
+          }
         }
       });
-      console.log('✅ Telegram Bot Commands Menu Button restored.');
+      console.log('✅ Telegram Bot "Open App" Web App Menu Button configured.');
     } catch (btnErr) {
       console.warn('[Menu Button Notice]', btnErr.message);
     }
