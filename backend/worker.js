@@ -4594,7 +4594,7 @@ async function handleAiChat(request, env) {
     const body = await request.json();
     const promptText = (body.prompt || body.promptText || "").trim();
     const systemInstruction = body.systemInstruction || "You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.";
-    const maxTokens = body.max_tokens || 1400;
+    const maxTokens = Math.min(body.max_tokens || 650, 800);
 
     const MODEL_MAP = {
       "@cf/meta/llama-3.1-8b-instruct": "@cf/meta/llama-3.1-8b-instruct",
@@ -4623,6 +4623,12 @@ async function handleAiChat(request, env) {
       // Ensure system prompt is at the top if provided
       if (systemInstruction && !messages.some(m => m.role === "system")) {
         messages = [{ role: "system", content: systemInstruction }, ...messages];
+      }
+      // Speed optimization: trim conversation history to last 6 turns + system prompt
+      if (messages.length > 7) {
+        const sys = messages.find(m => m.role === "system");
+        const recent = messages.filter(m => m.role !== "system").slice(-6);
+        messages = sys ? [sys, ...recent] : recent;
       }
     }
 

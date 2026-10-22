@@ -4127,6 +4127,169 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
   display: none !important;
 }
 
+
+/* =========================================================
+   UIVERSE.IO CURATED TACTILE UI & KINETIC ANIMATIONS
+   (Adapted from satyamchaudharydev & Yaya12085)
+   ========================================================= */
+
+/* Uiverse Tactile 3D Shine Button */
+.uiv-btn-shine {
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+.uiv-btn-shine:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35) !important;
+}
+.uiv-btn-shine:active {
+  transform: translateY(1px) scale(0.98) !important;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2) !important;
+}
+.uiv-btn-shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120px;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  z-index: 2;
+}
+.uiv-btn-shine:hover::before {
+  animation: uivShineSweep 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes uivShineSweep {
+  0% { left: -120px; }
+  100% { left: calc(100% + 120px); }
+}
+
+/* Uiverse Kinetic Orbital Shimmer Loader */
+.uiv-kinetic-loader {
+  display: inline-block;
+  width: 54px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.18);
+  position: relative;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.uiv-kinetic-loader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #F59E0B, #FBBF24);
+  animation: uivKineticMoving 1.1s ease-in-out infinite;
+}
+@keyframes uivKineticMoving {
+  0% { left: 0; width: 0%; }
+  50% { width: 100%; }
+  100% { left: 100%; width: 0%; }
+}
+
+/* Scholar Avatar & Live Online Presence Pulse Ring */
+.uiv-avatar-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+  flex-shrink: 0;
+}
+.uiv-avatar-pulse {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 13px;
+  height: 13px;
+  background: #10B981;
+  border: 2px solid var(--bg-card, #ffffff);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: uivPulse 2s infinite;
+}
+@keyframes uivPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Non-Intrusive Collapsible Study Hub Guide Drawer */
+.uiv-guide-collapsible {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, rgba(0,0,0,0.08));
+  border-radius: 20px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.uiv-guide-collapsible[open] {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+.uiv-guide-collapsible summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.uiv-guide-collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+/* UI Entrance Fluidity */
+@keyframes uivFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.uiv-animate-enter {
+  animation: uivFadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.uiv-delay-1 { animation-delay: 0.04s; }
+.uiv-delay-2 { animation-delay: 0.08s; }
+.uiv-delay-3 { animation-delay: 0.12s; }
+.uiv-delay-4 { animation-delay: 0.16s; }
+
+/* Zero-Obstruction Rule: Hide Mobile FAB and Floating Copilot on AI Chat Hub */
+body.tab-aichat-active #mobileFabContainer,
+body[data-active-tab="aichat"] #mobileFabContainer,
+body[data-active-tab="mentor"] #mobileFabContainer,
+#view-aichat.active ~ #mobileFabContainer {
+  display: none !important;
+}
+
 </style>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#F59E0B">
@@ -4334,65 +4497,29 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
   <!-- =========================================================
        HUB 1: HOME // DASHBOARD, STUDY PLANS & EXAM PLAYBOOK
        ========================================================= -->
-  <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
-    <div class="section-guide-banner">
-      <div>
-        <div class="section-guide-title">STUDY HUB GUIDE <span class="burmese">// အသုံးပြုပုံ လမ်းညွှန်</span> (START HERE)</div>
-        <div class="section-guide-text">
-          Study across 5 streamlined hubs: <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong>, and <strong>Speaking Studio</strong>. Press <strong>⌘K / Ctrl+K</strong> anytime to search all 1,162 words and 55 practice mocks, or launch your daily session below.
+  
+    <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
+    <!-- 1. TOP SCHOLAR WELCOME & TARGET BAND BAR -->
+    <div class="speak-dashboard-header uiv-animate-enter uiv-delay-1" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:18px;">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div class="uiv-avatar-wrap">
+          <span>👤</span>
+          <div class="uiv-avatar-pulse" title="Cambridge AI Mentor Online &amp; Ready"></div>
         </div>
-        <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
-          ပင်မကဏ္ဍ (၅) ခုဖြစ်သော <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong> နှင့် <strong>Speaking Studio</strong> တို့ကို အလွယ်တကူ ရွေးချယ်လေ့လာနိုင်ပါသည်။ <strong>🔍 Search</strong> ဖြင့် ဝေါဟာရနှင့် လေ့ကျင့်ခန်းများကို အချိန်မရွေး အမြန်ရှာဖွေနိုင်ပါသည်။
+        <div>
+          <h1 id="speakWelcomeUser" style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;">Welcome back, Scholar</h1>
+          <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
         </div>
       </div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-accent-solid" onclick="switchView('lexicon'); toggleFlashcardDrawer();">1. Start 15m Vocab SRS ↗</button>
-        <button class="btn-outlined" onclick="switchView('speaking')">2. Record Speaking ↗</button>
-        <button class="btn-outlined" onclick="switchView('reading')">3. Take Reading Mock ↗</button>
-        <button class="btn-outlined" onclick="switchView('writing')">4. Write &amp; Grade Essay ↗</button>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="btn-outlined uiv-btn-shine" onclick="openBandAssessmentModal()" style="height:40px; padding:0 16px; font-size:0.84rem; font-weight:700; border-radius:9999px;">
+          🎯 Target Band 8.5 ▾
+        </button>
       </div>
     </div>
 
-    
-
-    <!-- Minimalist Sub-Tab Bar -->
-    <div class="subtab-bar" role="tablist" aria-label="Home Sub-Navigation">
-      <button class="subtab-btn active" data-subtab="dash" onclick="switchSubTab('overview', 'dash')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        <span>Dashboard</span>
-      </button>
-      <button class="subtab-btn" data-subtab="plans" onclick="switchSubTab('overview', 'plans')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span>Study Plans</span>
-      </button>
-      <button class="subtab-btn" data-subtab="playbook" onclick="switchSubTab('overview', 'playbook')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <span>Exam Playbook</span>
-      </button>
-    </div>
-
-    <!-- SUBTAB 1: DASHBOARD -->
-    <div class="subtab-panel active" data-subtab="dash">
-      <!-- SPEAK APP SIGNATURE DASHBOARD SUITE -->
-      <div class="speak-dashboard-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, #F59E0B, #D97706); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.2rem; box-shadow:0 4px 14px rgba(245,158,11,0.25);">
-            👤
-          </div>
-          <div>
-            <h1 style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;" id="speakWelcomeUser">Welcome back, Scholar</h1>
-            <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
-          </div>
-        </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <button class="btn-outlined" style="height:38px; padding:0 16px; font-size:0.82rem; font-weight:700;" onclick="openBandAssessmentModal()">
-            🎯 Target Band 8.5 ▾
-          </button>
-        </div>
-      </div>
-
-      <!-- 1. SPEAK HERO CARD ("NEXT UP IN COURSE" / REFERENCE IMAGE 4) -->
-      <div class="speak-hero-lesson-card">
+    <!-- 2. DAILY CAMBRIDGE TARGET DRILL HERO CARD -->
+    <div class="speak-hero-lesson-card uiv-animate-enter uiv-delay-2">
         <div class="speak-hero-top">
           <div class="speak-hero-play-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="6 3 20 12 6 21 6 3"/></svg>
@@ -4406,29 +4533,29 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
         <p class="speak-hero-desc">
           Practice 1-minute cue card note framing &amp; Part 3 inversion hedging ("Seldom do we consider...") with instant Cambridge AI pronunciation &amp; lexical resource scoring.
         </p>
-        <button class="speak-hero-start-btn" onclick="switchView('speaking')">
+        <button class="speak-hero-start-btn uiv-btn-shine" onclick="switchView('speaking')">
           <span>Start Daily Lesson</span> <span>→</span>
         </button>
       </div>
 
-      <!-- 2. SPEAK PROGRESS STREAK BANNER ("YOUR PROGRESS" / REFERENCE IMAGE 4) -->
-      <div class="speak-progress-banner">
+    <!-- 3. STUDY PROGRESS STREAK BANNER -->
+    <div class="speak-progress-banner uiv-animate-enter uiv-delay-3">
         <div class="speak-streak-flame">🔥</div>
         <div style="flex:1;">
           <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> Study Streak</div>
           <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> academic collocations. Paraphrase accuracy on track.</div>
         </div>
-        <button class="speak-streak-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
+        <button class="speak-streak-btn uiv-btn-shine" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
           Review SRS Flashcards ↗
         </button>
       </div>
 
-      <!-- 3. SPEAK JUMP-IN LESSONS BENTO GRID (REFERENCE IMAGE 4) -->
-      <div class="speak-section-header">
+    <!-- 4. JUMP-IN LESSONS BENTO GRID -->
+    <div class="speak-section-header uiv-animate-enter uiv-delay-4">
         <h3 class="speak-section-title">Jump-in Lessons</h3>
         <span class="speak-section-sub">High-yield 3-minute practice</span>
       </div>
-      <div class="speak-jumpin-grid">
+      <div class="speak-jumpin-grid uiv-animate-enter uiv-delay-4">
         <div class="speak-jumpin-card" onclick="switchView('lexicon')">
           <div class="speak-well well-peach">🏛️</div>
           <div class="speak-jumpin-content">
@@ -4466,7 +4593,49 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
         </div>
       </div>
 
-      <!-- 4. SPEAK VALUE PROPOSITION & COMPARISON BAR CHART (REFERENCE IMAGE 2) -->
+    <!-- 5. COMPACT COLLAPSIBLE STUDY HUB GUIDE -->
+    <details class="uiv-guide-collapsible">
+      <summary>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.05rem;">📖</span>
+          <span>STUDY HUB GUIDE <span class="burmese" style="font-size:0.8rem; font-weight:400; opacity:0.85;">// အသုံးပြုပုံ လမ်းညွှန်</span></span>
+        </div>
+        <span style="font-size:0.75rem; color:var(--accent); font-weight:700;">Tap to open ▾</span>
+      </summary>
+      <div style="padding-top:12px; border-top:1px solid var(--border); margin-top:10px;">
+        <div class="section-guide-text" style="font-size:0.85rem; line-height:1.5;">
+          Study across 5 streamlined hubs: <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong>, and <strong>Speaking Studio</strong>. Press <strong>⌘K / Ctrl+K</strong> anytime to search all 1,162 words and 55 practice mocks, or launch your daily session below.
+        </div>
+        <div class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-top:6px; line-height:1.5;">
+          ပင်မကဏ္ဍ (၅) ခုဖြစ်သော <strong>Home</strong>, <strong>Lexicon &amp; Drills</strong>, <strong>CBT Reading</strong>, <strong>Writing Lab</strong> နှင့် <strong>Speaking Studio</strong> တို့ကို အလွယ်တကူ ရွေးချယ်လေ့လာနိုင်ပါသည်။ <strong>🔍 Search</strong> ဖြင့် ဝေါဟာရနှင့် လေ့ကျင့်ခန်းများကို အချိန်မရွေး အမြန်ရှာဖွေနိုင်ပါသည်။
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <button class="btn-accent-solid uiv-btn-shine" style="padding:6px 14px; font-size:0.8rem;" onclick="switchView('lexicon'); toggleFlashcardDrawer();">1. Start 15m Vocab SRS ↗</button>
+          <button class="btn-outlined uiv-btn-shine" style="padding:6px 14px; font-size:0.8rem;" onclick="switchView('speaking')">2. Record Speaking ↗</button>
+          <button class="btn-outlined uiv-btn-shine" style="padding:6px 14px; font-size:0.8rem;" onclick="switchView('reading')">3. Take Reading Mock ↗</button>
+          <button class="btn-outlined uiv-btn-shine" style="padding:6px 14px; font-size:0.8rem;" onclick="switchView('writing')">4. Write &amp; Grade Essay ↗</button>
+        </div>
+      </div>
+    </details>
+
+    <!-- 6. SUB-TAB BAR -->
+    <div class="subtab-bar" role="tablist" aria-label="Home Sub-Navigation">
+      <button class="subtab-btn active" data-subtab="dash" onclick="switchSubTab('overview', 'dash')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="subtab-btn" data-subtab="plans" onclick="switchSubTab('overview', 'plans')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Study Plans</span>
+      </button>
+      <button class="subtab-btn" data-subtab="playbook" onclick="switchSubTab('overview', 'playbook')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Exam Playbook</span>
+      </button>
+    </div>
+
+    <!-- 7. SUBTAB 1: DASHBOARD -->
+    <div class="subtab-panel active" data-subtab="dash">
       <div class="speak-value-card">
         <div class="speak-chart-wrap">
           <div class="speak-chart-header">
@@ -4529,10 +4698,6 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
         <button class="btn-outlined" onclick="switchView('reading')">
           All 55 Practice Mocks ↗
         </button>
-      </div>
-    </div>
-
-    
       <div class="sec-block" id="ov-modules">
       <div class="sec-eyebrow">CORE PRACTICE MODULES</div>
       <div class="sec-header-row">
@@ -4552,71 +4717,6 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
                   <div class="occ-word-sub">26 Varieties &amp; Trap Banks • 16 Word Families • 30 Synonym Sets</div>
                 </div>
               </div>
-              <div class="occ-meta-right">
-                <span class="occ-ver-pill">Band 7.5–9.0</span>
-                <div class="occ-size-sub" id="card-kpi-vocab">0 / 1,162 Mastered</div>
-              </div>
-            </div>
-            <div class="occ-body-mm burmese">
-              <div class="occ-mm-note">စကားလုံးနှင့် Exam Traps ၁,၁၆၂ ခုကို Again (၁ ရက်)၊ Good (၃ ရက်)၊ Easy (၇ ရက်) Spaced Repetition စနစ်ဖြင့် မမေ့ပျောက်အောင် လေ့ကျင့်နိုင်သည်။</div>
-            </div>
-          </div>
-          <div style="margin-top:12px;">
-            <button class="accent-link" onclick="switchView('lexicon')">Open Lexicon Studio ↗</button>
-          </div>
-        </div>
-
-        <div class="occ-card">
-          <div>
-            <div class="occ-card-top">
-              <div class="occ-card-identity">
-                <div class="occ-icon-box" onclick="switchView('reading')">RD</div>
-                <div>
-                  <div class="occ-word-title">23 Cambridge Academic Reading CBT Passages</div>
-                  <div class="occ-word-sub">231 Questions • TFNG • Headings • Gap-Fill • YNNG</div>
-                </div>
-              </div>
-              <div class="occ-meta-right">
-                <span class="occ-ver-pill">23 Passages</span>
-                <div class="occ-size-sub" id="card-kpi-read">0 / 23 Solved</div>
-              </div>
-            </div>
-            <div class="occ-body-mm burmese">
-              <div class="occ-mm-note">Cambridge Academic စာပိုဒ် ၂၃ ပုဒ် (မေးခွန်း ၂၃၁ ခု) ကို ၂၀ မိနစ် အချိန်မှတ် CBT Simulator ဖြင့် မြန်မာရှင်းလင်းချက်များနှင့် လေ့ကျင့်ရန်။</div>
-            </div>
-          </div>
-          <div style="margin-top:12px;">
-            <button class="accent-link" onclick="switchView('reading')">Launch CBT Reading ↗</button>
-          </div>
-        </div>
-
-        <div class="occ-card">
-          <div>
-            <div class="occ-card-top">
-              <div class="occ-card-identity">
-                <div class="occ-icon-box" onclick="switchView('writing')">WR</div>
-                <div>
-                  <div class="occ-word-title">40 Writing Models &amp; Live CEFR 90/10 Scorer</div>
-                  <div class="occ-word-sub">Task 1 Charts, Maps, Processes • Task 2 All 5 Archetypes</div>
-                </div>
-              </div>
-              <div class="occ-meta-right">
-                <span class="occ-ver-pill">40 Models</span>
-                <div class="occ-size-sub" id="card-kpi-write">0 / 40 Saved</div>
-              </div>
-            </div>
-            <div class="occ-body-mm burmese">
-              <div class="occ-mm-note">Task 1 နှင့် Task 2 မေးခွန်း ၄၀ ပုဒ်ကို C1/C2 ဝေါဟာရ အချိုးအစား တိုင်းတာစက်နှင့် Band Score အကဲဖြတ်စနစ်ဖြင့် လေ့ကျင့်ရန်။</div>
-            </div>
-          </div>
-          <div style="margin-top:12px;">
-            <button class="accent-link" onclick="switchView('writing')">Open Writing Workspace ↗</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
       <div class="sec-block" id="ov-constellation">
       <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>
       <div class="sec-header-row">
@@ -4661,13 +4761,9 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
             <div id="varietyBars" style="max-height:220px; overflow-y:auto; padding-right:4px;"></div>
           </div>
         </div>
-      </div>
     </div>
 
-    
-    </div>
-
-    <!-- SUBTAB 2: STUDY PLANS -->
+    <!-- 8. PLANS & PLAYBOOK SUBTABS -->
     <div class="subtab-panel" data-subtab="plans">
       <div class="sec-block">
         <div class="sec-eyebrow">EXAM ESSENTIALS PART 24 // STRUCTURED TIMELINES &amp; CHECKLISTS</div>
@@ -5043,10 +5139,6 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
     </div>
   </section>
 
-
-  <!-- =========================================================
-       HUB 2: LEXICON & DRILLS // VOCABULARY, FLASHCARDS, GRAMMAR & DRILLS
-       ========================================================= -->
   <section id="view-lexicon" class="view-section studio-tab-section" data-tab-index="lexicon" aria-labelledby="tab-lexicon">
     <div class="section-guide-banner">
       <div>
@@ -12155,6 +12247,14 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
   function activateStudioTab(rawTarget, scrollTargetEl = null) {
     // Mobile / AI Chat copilot guard:
     const targetCheck = String(rawTarget || '').trim().toLowerCase();
+    const fabEl = document.getElementById('mobileFabContainer');
+    if (fabEl) {
+      if (targetCheck === 'aichat' || targetCheck === 'mentor' || hubId === 'aichat') {
+        fabEl.style.display = 'none';
+      } else if (window.innerWidth <= 768) {
+        fabEl.style.display = 'block';
+      }
+    }
     const copilotEl = document.getElementById('speakFloatingCopilot');
     if (copilotEl) {
       if (targetCheck === 'aichat' || targetCheck === 'mentor' || window.innerWidth <= 768) {
@@ -13655,19 +13755,17 @@ async function sendAiChatMessage() {
   input.value = '';
   input.style.height = 'auto';
 
-  // Append typing indicator
+  // Append typing indicator with kinetic orbital loader
   const stream = document.getElementById('aiChatStream');
   const typingDiv = document.createElement('div');
   typingDiv.className = 'ai-chat-msg assistant';
   typingDiv.id = 'aiChatTyping';
   typingDiv.innerHTML = `
     <div class="ai-chat-avatar">🤖</div>
-    <div class="ai-chat-bubble" style="padding:8px 14px;">
-      <div class="ai-typing-indicator">
-        <span style="font-size:0.78rem; color:var(--text-secondary); margin-right:4px;">Cambridge Mentor is thinking...</span>
-        <span class="ai-typing-dot"></span>
-        <span class="ai-typing-dot"></span>
-        <span class="ai-typing-dot"></span>
+    <div class="ai-chat-bubble" style="padding:10px 16px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:0.82rem; font-weight:700; color:var(--text);">Cambridge Mentor is synthesizing...</span>
+        <div class="uiv-kinetic-loader"></div>
       </div>
     </div>
   `;
@@ -13677,18 +13775,22 @@ async function sendAiChatMessage() {
   }
 
   if (sendBtn) sendBtn.disabled = true;
-  if (status) status.textContent = `Status: Synthesizing with Serverless AI...`;
+  if (status) status.textContent = `Status: Synthesizing with Cambridge AI...`;
 
-  // Maintain sliding window conversation history (last 8 turns)
+  // Maintain sliding window conversation history (last 6 turns)
   aiChatMessages.push({ role: 'user', content: promptText });
-  if (aiChatMessages.length > 8) {
-    aiChatMessages = aiChatMessages.slice(-8);
+  if (aiChatMessages.length > 6) {
+    aiChatMessages = aiChatMessages.slice(-6);
   }
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 18000);
+  let replyText = '';
+  let providerUsed = 'Cambridge Neural Core';
 
+  // PRIMARY ATTEMPT: Cloudflare Workers AI with 8.5s timeout cap
   try {
+    const primaryController = new AbortController();
+    const primaryTimeout = setTimeout(() => primaryController.abort(), 8500);
+
     const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
     const messagesPayload = [
       { role: 'system', content: AI_MENTOR_SYSTEM_PROMPT },
@@ -13701,54 +13803,77 @@ async function sendAiChatMessage() {
       body: JSON.stringify({
         messages: messagesPayload,
         model: selectedModel,
-        max_tokens: 1400
+        max_tokens: 600
       }),
-      signal: controller.signal
+      signal: primaryController.signal
     });
-    clearTimeout(timeoutId);
+    clearTimeout(primaryTimeout);
 
-    if (!response.ok) {
-      const errJson = await response.json().catch(() => ({}));
-      throw new Error(errJson.error || `HTTP ${response.status}: Failed to reach AI service`);
+    if (response.ok) {
+      const resData = await response.json();
+      if (resData && resData.text && resData.text.trim().length > 0) {
+        replyText = resData.text.trim();
+        providerUsed = (resData.modelUsed || 'Llama 3.1 8B').replace('@cf/meta/', '').replace('@cf/', '');
+      }
     }
+  } catch (primaryErr) {
+    console.warn('[AI Mentor] Primary engine busy or timed out. Auto-routing to High-Speed Neural Core...', primaryErr);
+  }
 
-    const resData = await response.json();
-    const replyText = resData.text || '';
+  // SECONDARY AUTO-FAILOVER: Fast Zero-Key Neural Core (Pollinations OpenAI)
+  if (!replyText) {
+    if (status) status.textContent = `Status: Routing to High-Speed Neural Core...`;
+    try {
+      const secondaryController = new AbortController();
+      const secondaryTimeout = setTimeout(() => secondaryController.abort(), 18000);
 
-    if (!replyText || replyText.trim().length === 0) {
-      throw new Error('Empty response received from AI model.');
+      const secondaryRes = await fetch("https://text.pollinations.ai/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "openai",
+          messages: [
+            { role: "system", content: AI_MENTOR_SYSTEM_PROMPT },
+            ...aiChatMessages
+          ],
+          seed: 42
+        }),
+        signal: secondaryController.signal
+      });
+      clearTimeout(secondaryTimeout);
+
+      if (secondaryRes.ok) {
+        const secData = await secondaryRes.json();
+        if (secData && secData.choices && secData.choices[0] && secData.choices[0].message) {
+          replyText = secData.choices[0].message.content.trim();
+          providerUsed = 'Neural Core (High Speed)';
+        }
+      }
+    } catch (secondaryErr) {
+      console.error('[AI Mentor] Secondary failover error:', secondaryErr);
     }
+  }
 
-    // Remove typing indicator safely
-    const typingEl = document.getElementById('aiChatTyping');
-    if (typingEl) typingEl.remove();
+  // Remove typing indicator safely
+  const typingEl = document.getElementById('aiChatTyping');
+  if (typingEl) typingEl.remove();
 
+  if (replyText) {
     aiChatMessages.push({ role: 'assistant', content: replyText });
     appendAiChatMessage('assistant', replyText);
-    const cleanModelName = (resData.modelUsed || 'Llama 3.1 8B').replace('@cf/meta/', '').replace('@cf/', '');
-    if (status) status.textContent = `Status: Ready (${cleanModelName})`;
-  } catch (err) {
-    clearTimeout(timeoutId);
-    console.error('[AI Mentor Error]', err);
-    const typingEl = document.getElementById('aiChatTyping');
-    if (typingEl) typingEl.remove();
-
-    const isTimeout = err.name === 'AbortError';
-    const errReason = isTimeout ? 'Response timed out (18s limit)' : (err.message || 'Network error');
-    
+    if (status) status.textContent = `Status: Ready (${providerUsed})`;
+  } else {
+    // Only if BOTH fail do we show the friendly fallback card
     const fallbackBubble = document.createElement('div');
     fallbackBubble.className = 'ai-chat-msg assistant';
     fallbackBubble.innerHTML = `
       <div class="ai-chat-avatar">⚠️</div>
       <div class="ai-chat-bubble" style="border-left: 3px solid var(--accent); padding:10px 14px;">
-        <div style="font-weight:700; color:var(--text); margin-bottom:4px;">Cambridge Mentor could not reach the model</div>
-        <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px;">${errReason}. Tap below to instantly retry with high speed.</div>
+        <div style="font-weight:700; color:var(--text); margin-bottom:4px;">Cambridge Mentor could not reach the neural network</div>
+        <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px;">Network connection was interrupted. Please check your data or tap retry.</div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button type="button" class="speak-pill-btn" onclick="retryLastAiPrompt('${selectedModel}')" style="padding:6px 14px; font-size:0.78rem;">
             🔄 Retry Question
-          </button>
-          <button type="button" class="speak-pill-btn secondary" onclick="retryWithFastLlama()" style="padding:6px 14px; font-size:0.78rem;">
-            ⚡ Fast Mode (Llama 3.2 3B)
           </button>
         </div>
       </div>
@@ -13758,9 +13883,9 @@ async function sendAiChatMessage() {
       stream.scrollTop = stream.scrollHeight;
     }
     if (status) status.textContent = 'Status: Connection Issue (Tap Retry)';
-  } finally {
-    if (sendBtn) sendBtn.disabled = false;
   }
+
+  if (sendBtn) sendBtn.disabled = false;
 }
 
 function retryLastAiPrompt(model) {
