@@ -2297,8 +2297,9 @@
         } catch (e) {}
         window.activeSpeechRecognizers[idx] = null;
         if (btn) {
-          btn.innerHTML = '🎙️ Start Live Transcribe';
-          btn.style.background = 'var(--accent, #0F172A)';
+          btn.innerHTML = '🎙️ Practice Shadowing (Mic)';
+          btn.style.background = '';
+          btn.style.color = '';
         }
         if (statusEl) {
           statusEl.innerHTML = '⏸️ TRANSCRIBE PAUSED';
@@ -2328,8 +2329,9 @@
         recognition.onstart = () => {
           window.activeSpeechRecognizers[idx] = recognition;
           if (btn) {
-            btn.innerHTML = '⏹️ Stop Transcribe';
+            btn.innerHTML = '⏹️ Stop Shadowing';
             btn.style.background = '#EF4444';
+            btn.style.color = '#FFFFFF';
           }
           if (statusEl) {
             statusEl.innerHTML = '🔴 <strong>LISTENING LIVE SPEECH...</strong>';
@@ -2426,7 +2428,7 @@
         statusEl.style.color = 'var(--text-secondary)';
       }
       if (box) {
-        box.innerHTML = `<div style="color:var(--text-secondary); font-style:italic; padding:10px 4px; font-size:0.88rem;">🎙️ Live speech recognition ready. Press ▶️ Play on the audio above and tap <strong>🎙️ Start Live Transcribe</strong> to transcribe speech in real time as words are spoken. (Zero pre-printed static text).</div>`;
+        box.innerHTML = `<div style="color:var(--text-secondary); font-style:italic; padding:10px 4px; font-size:0.88rem;">🎙️ <strong>Shadowing Practice:</strong> Speak along with the podcast to transcribe your voice live and practice pronunciation. (To listen to native audio only, use player above).</div>`;
       }
     };
 
@@ -2477,14 +2479,16 @@
         if (chip) {
           if (i === index) {
             chip.classList.remove('secondary');
-            chip.style.background = 'var(--accent, #0F172A)';
-            chip.style.color = '#FFFFFF';
+            chip.classList.add('active');
+            chip.style.background = '';
+            chip.style.color = '';
             chip.style.fontWeight = '800';
           } else {
+            chip.classList.remove('active');
             chip.classList.add('secondary');
             chip.style.background = '';
             chip.style.color = '';
-            chip.style.fontWeight = 'normal';
+            chip.style.fontWeight = '600';
           }
         }
       });
@@ -2545,7 +2549,7 @@
             <div class="podcast-transcript-box" style="margin-top:10px; padding:12px; border-radius:14px; background:var(--bg, #f8fafc); border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,0.04);">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
                 <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                  <button id="pod-mic-btn-${idx}" onclick="window.togglePodcastSpeechRecognition('${idx}')" class="btn-accent-solid" style="padding:4px 12px; font-size:0.74rem; font-weight:800; cursor:pointer;">🎙️ Start Live Transcribe</button>
+                  <button id="pod-mic-btn-${idx}" onclick="window.togglePodcastSpeechRecognition('${idx}')" class="btn-accent-solid" style="padding:4px 12px; font-size:0.74rem; font-weight:800; cursor:pointer; white-space:nowrap;">🎙️ Practice Shadowing (Mic)</button>
                   <button onclick="window.copyCurrentPodcastTranscript('${idx}')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">📋 Copy Spoken Text</button>
                   <button onclick="window.clearPodcastTranscript('${idx}')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">🗑️ Clear</button>
                 </div>
@@ -2554,7 +2558,7 @@
                 </div>
               </div>
               <div id="pod-transcript-content-${idx}" class="podcast-live-speech-box" style="min-height:100px; max-height:240px; overflow-y:auto; padding:12px 14px; font-size:0.92rem; line-height:1.75; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-accent); scroll-behavior:smooth;">
-                <div style="color:var(--text-secondary); font-style:italic; padding:8px 2px; font-size:0.86rem;">🎙️ Live speech recognition ready. Press ▶️ Play on the audio above and tap <strong>🎙️ Start Live Transcribe</strong> to transcribe speech in real time as words are spoken. (Zero pre-printed static text).</div>
+                <div style="color:var(--text-secondary); font-style:italic; padding:8px 2px; font-size:0.86rem;">🎙️ <strong>Shadowing Practice:</strong> Speak along with the podcast to transcribe your voice live and practice pronunciation. (To listen to native audio only, use player above).</div>
               </div>
             </div>
           </div>

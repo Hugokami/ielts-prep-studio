@@ -566,8 +566,8 @@
   }
 
   .btn-accent-solid {
-    background: var(--accent);
-    border: 1px solid var(--accent);
+    background: #0F172A;
+    border: 1px solid #0F172A;
     color: #FFFFFF !important;
     padding: 7px 14px;
     border-radius: 3px;
@@ -580,6 +580,7 @@
     gap: 6px;
     min-height: 36px;
     transition: opacity 0.15s ease;
+    white-space: nowrap !important;
   }
 
   .btn-accent-solid:hover {
@@ -3048,10 +3049,20 @@
   }
 
   .at-subnav-btn.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    box-shadow: 0 2px 8px rgba(224, 108, 53, 0.3);
+    background: #0F172A !important;
+    color: #FFFFFF !important;
+    border-color: #0F172A !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18) !important;
+    font-weight: 800 !important;
+  }
+  [data-theme="dark"] .at-subnav-btn.active,
+  body.dark .at-subnav-btn.active,
+  :root[data-theme="dark"] .at-subnav-btn.active {
+    background: #F8FAFC !important;
+    color: #0F172A !important;
+    border-color: #F8FAFC !important;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15) !important;
+    font-weight: 800 !important;
   }
 
   .at-pane {
@@ -3371,14 +3382,14 @@
 
   /* Global Tactile Buttons & Pills */
   .btn-accent-solid {
-    background: var(--accent) !important;
+    background: #0F172A !important;
     color: #FFFFFF !important;
     font-weight: 700 !important;
     border-radius: var(--r-pill) !important;
     height: 46px;
     padding: 0 22px !important;
-    border: none !important;
-    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.28) !important;
+    border: 1px solid #0F172A !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18) !important;
     transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
     cursor: pointer;
     display: inline-flex;
@@ -3386,14 +3397,33 @@
     justify-content: center;
     gap: 8px;
     text-decoration: none;
+    white-space: nowrap !important;
+    flex-shrink: 0;
   }
   .btn-accent-solid:hover {
-    background: var(--accent-bright) !important;
+    background: #1E293B !important;
+    color: #FFFFFF !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.38) !important;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.25) !important;
   }
   .btn-accent-solid:active {
     transform: scale(0.97);
+  }
+
+  [data-theme="dark"] .btn-accent-solid,
+  body.dark .btn-accent-solid,
+  :root[data-theme="dark"] .btn-accent-solid {
+    background: #F8FAFC !important;
+    color: #0F172A !important;
+    border: 1px solid #E2E8F0 !important;
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.12) !important;
+    font-weight: 800 !important;
+  }
+  [data-theme="dark"] .btn-accent-solid:hover,
+  body.dark .btn-accent-solid:hover,
+  :root[data-theme="dark"] .btn-accent-solid:hover {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
   }
 
   .btn-outlined {
@@ -4336,13 +4366,34 @@ body.dark .speak-v6-card {
 }
 .speak-pill-btn:hover { opacity: 0.92; transform: translateY(-1px); }
 .speak-pill-btn.secondary {
-  background: rgba(245, 158, 11, 0.14);
-  color: #B45309;
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  font-weight: 700 !important;
+}
+.speak-pill-btn.secondary:hover {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
 }
 [data-theme="dark"] .speak-pill-btn.secondary,
 body.dark .speak-pill-btn.secondary {
-  background: rgba(251, 191, 36, 0.18);
-  color: #FDE68A;
+  background: #1E293B !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  font-weight: 700 !important;
+}
+[data-theme="dark"] .speak-pill-btn.secondary:hover,
+body.dark .speak-pill-btn.secondary:hover {
+  background: #334155 !important;
+  color: #FFFFFF !important;
+}
+[data-theme="dark"] .speak-pill-btn.active,
+[data-theme="dark"] .speak-pill-btn:not(.secondary),
+body.dark .speak-pill-btn.active,
+body.dark .speak-pill-btn:not(.secondary) {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
 }
 
 .speak-input-pill {
@@ -6287,7 +6338,7 @@ body.in-cbt-drill #backToTopBtn {
             <div id="ov-pod-meta" style="font-size:0.82rem; color:var(--text-secondary);">🎙️ IELTS Band 9 Speaking Simulation &bull; ⏱️ 15 min &bull; 📅 2026-10-20</div>
           </div>
           <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-            <button class="speak-pill-btn" onclick="switchFeaturedHomePodcast(0)" id="ov-chip-0" style="padding:4px 10px; font-size:0.75rem; font-weight:700; background:var(--accent); color:#FFFFFF;">IELTS Speaking (Real Test)</button>
+            <button class="speak-pill-btn active" onclick="switchFeaturedHomePodcast(0)" id="ov-chip-0" style="padding:4px 10px; font-size:0.75rem; font-weight:800;">IELTS Speaking (Real Test)</button>
             <button class="speak-pill-btn secondary" onclick="switchFeaturedHomePodcast(1)" id="ov-chip-1" style="padding:4px 10px; font-size:0.75rem;">BBC: Gold</button>
             <button class="speak-pill-btn secondary" onclick="switchFeaturedHomePodcast(2)" id="ov-chip-2" style="padding:4px 10px; font-size:0.75rem;">BBC: Mindful Drinking</button>
           </div>
@@ -6315,7 +6366,7 @@ body.in-cbt-drill #backToTopBtn {
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
           <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-            <button id="pod-mic-btn-home" onclick="window.togglePodcastSpeechRecognition('home')" class="btn-accent-solid" style="padding:5px 12px; font-size:0.75rem; font-weight:800; cursor:pointer;">🎙️ Start Live Transcribe</button>
+            <button id="pod-mic-btn-home" onclick="window.togglePodcastSpeechRecognition('home')" class="btn-accent-solid" style="padding:5px 12px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;">🎙️ Practice Shadowing (Mic)</button>
             <button onclick="window.copyCurrentPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">📋 Copy Spoken Text</button>
             <button onclick="window.clearPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">🗑️ Clear</button>
           </div>
@@ -6325,7 +6376,7 @@ body.in-cbt-drill #backToTopBtn {
         </div>
 
         <div id="pod-transcript-content-home" class="podcast-live-speech-box" style="min-height:120px; max-height:260px; overflow-y:auto; padding:14px 16px; font-size:0.92rem; line-height:1.75; color:var(--text); background:var(--bg); border-radius:10px; border:1.5px solid var(--border-accent); font-family:var(--font-sans); scroll-behavior:smooth;">
-          <div style="color:var(--text-secondary); font-style:italic; padding:10px 4px; font-size:0.88rem;">🎙️ Live speech recognition ready. Press ▶️ Play on the audio above and tap <strong>🎙️ Start Live Transcribe</strong> to transcribe speech in real time as words are spoken. (Zero pre-printed static text).</div>
+          <div style="color:var(--text-secondary); font-style:italic; padding:10px 4px; font-size:0.88rem;">🎙️ <strong>Shadowing Practice:</strong> Speak along with the podcast to transcribe your voice live and practice pronunciation. (To listen to native audio only, use player above).</div>
         </div>
 
         <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:10px; border-top:1px dashed var(--border);">
@@ -7768,7 +7819,7 @@ body.in-cbt-drill #backToTopBtn {
           </p>
           <div class="at-search-bar-wrap">
             <input type="text" id="at-collocations-input" class="at-input-box" placeholder="Enter academic noun or adjective (e.g. impact, policy, environment, evidence)..." onkeydown="if(event.key==='Enter') executeVipCollocationsSearch()">
-            <button class="btn-accent-solid" onclick="executeVipCollocationsSearch()" style="padding:10px 20px; font-weight:700; font-size:0.9rem;">Find Collocations</button>
+            <button class="btn-accent-solid" onclick="executeVipCollocationsSearch()" style="padding:10px 20px; font-weight:700; font-size:0.9rem; white-space:nowrap; flex-shrink:0;">Find Collocations</button>
           </div>
           <div class="at-quick-chips">
             <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center; margin-right:4px;">1-Tap Quick:</span>
@@ -7993,22 +8044,23 @@ body.in-cbt-drill #backToTopBtn {
           </div>
         </div>
 
-        <!-- Chat Input Bar -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <label for="aiChatModelSelect" style="font-size:0.75rem; color:var(--text-secondary); font-weight:700; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center;">AI MODEL:</label>
-            <select id="aiChatModelSelect" class="occ-input" style="padding:4px 8px; font-size:0.78rem; border-radius:4px;" onchange="updateAiChatModelBadge()">
-              <option value="@cf/meta/llama-3.1-8b-instruct" selected>Meta Llama 3.1 8B Instruct (High Precision)</option>
-              <option value="@cf/meta/llama-3.2-3b-instruct">Meta Llama 3.2 3B Instruct (Ultra Fast)</option>
-              <option value="@cf/mistral/mistral-7b-instruct-v0.2">Mistral 7B Instruct v0.2</option>
-              <option value="@cf/qwen/qwen1.5-7b-chat-awq">Qwen 1.5 7B Chat</option>
-            </select>
+        <!-- Unified Multimodal AI Bar (Zero Dropdown • Text + Visual Synthesis) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="brand-box" style="font-size:0.75rem; padding:3px 10px; background:var(--accent); color:var(--bg); border-radius:6px; font-weight:800;">🧠 CAMBRIDGE AI CORE</span>
+            <span style="font-size:0.78rem; font-weight:700; color:var(--text);">Unified Multimodal Copilot (Text Answers + AI Visual Generation) • 100% Free &amp; Keyless</span>
           </div>
-          <div id="aiChatStatus" style="font-size:0.75rem; color:var(--text-muted);">Status: Ready</div>
+          <div id="aiChatStatus" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Status: Ready (Text &amp; Visuals)</div>
+        </div>
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">🎙️ Speaking Band 9 Criteria</button>
+          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Write a Band 9 outline for: Some people think universities should focus on graduates for work, while others think education is about broader knowledge.')">📝 Essay Plan Outliner</button>
+          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Generate image: A serene academic library in Cambridge with sunlight, books, and students preparing for the IELTS exam')">🎨 Generate Study Visual</button>
         </div>
 
         <div class="ai-input-wrapper">
-          <textarea id="aiChatInput" class="ai-chat-textarea" rows="2" placeholder="Ask anything about IELTS or say 'Take me to Speaking cue cards'..." onkeydown="handleAiChatKeydown(event)"></textarea>
+          <textarea id="aiChatInput" class="ai-chat-textarea" rows="2" placeholder="Ask anything about IELTS or type 'Generate image: [description]' to create visual aids..." onkeydown="handleAiChatKeydown(event)"></textarea>
           <button id="aiChatSendBtn" class="btn-accent-solid" style="padding:12px 20px; font-weight:800; font-size:0.9rem; height:48px; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" onclick="sendAiChatMessage()">
             <span>Send</span> <span>➤</span>
           </button>
@@ -15458,21 +15510,101 @@ async function sendAiChatMessage() {
   const input = document.getElementById('aiChatInput');
   const sendBtn = document.getElementById('aiChatSendBtn');
   const status = document.getElementById('aiChatStatus');
-  const modelSelect = document.getElementById('aiChatModelSelect');
 
   if (!input) return;
   const promptText = input.value.trim();
   if (!promptText) return;
-
-  const selectedModel = (modelSelect && modelSelect.value) || '@cf/meta/llama-3.1-8b-instruct';
 
   // Append user message
   appendAiChatMessage('user', promptText);
   input.value = '';
   input.style.height = 'auto';
 
-  // Append typing indicator with kinetic orbital loader
+  const lowerPrompt = promptText.toLowerCase();
+  const isImageRequest = 
+    lowerPrompt.startsWith('/imagine') ||
+    lowerPrompt.startsWith('image:') ||
+    lowerPrompt.startsWith('draw ') ||
+    lowerPrompt.startsWith('paint ') ||
+    lowerPrompt.startsWith('generate image') ||
+    lowerPrompt.startsWith('generate an image') ||
+    lowerPrompt.startsWith('create image') ||
+    lowerPrompt.startsWith('picture of ') ||
+    lowerPrompt.includes('generate image:') ||
+    lowerPrompt.includes('create an image of');
+
   const stream = document.getElementById('aiChatStream');
+
+  if (isImageRequest) {
+    if (sendBtn) sendBtn.disabled = true;
+    if (status) status.textContent = `Status: Synthesizing AI Visual Asset...`;
+
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'ai-chat-msg assistant';
+    typingDiv.id = 'aiChatTyping';
+    typingDiv.innerHTML = `
+      <div class="ai-chat-avatar">🎨</div>
+      <div class="ai-chat-bubble" style="padding:10px 16px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">Cambridge AI is rendering visual artwork...</span>
+          <div class="uiv-kinetic-loader"></div>
+        </div>
+      </div>
+    `;
+    if (stream) {
+      stream.appendChild(typingDiv);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    let cleanPrompt = promptText
+      .replace(/^\/imagine\s+/i, '')
+      .replace(/^generate image:\s*/i, '')
+      .replace(/^generate image\s+/i, '')
+      .replace(/^generate an image of\s+/i, '')
+      .replace(/^generate an image:\s*/i, '')
+      .replace(/^create image:\s*/i, '')
+      .replace(/^create image\s+/i, '')
+      .replace(/^draw\s+/i, '')
+      .replace(/^paint\s+/i, '')
+      .replace(/^image:\s*/i, '')
+      .trim();
+    if (!cleanPrompt) cleanPrompt = promptText;
+
+    const seed = Math.floor(Math.random() * 999999);
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanPrompt)}?width=768&height=768&seed=${seed}&nologo=true`;
+
+    setTimeout(() => {
+      const typingEl = document.getElementById('aiChatTyping');
+      if (typingEl) typingEl.remove();
+
+      const imageBubble = document.createElement('div');
+      imageBubble.className = 'ai-chat-msg assistant';
+      imageBubble.innerHTML = `
+        <div class="ai-chat-avatar">🎨</div>
+        <div class="ai-chat-bubble" style="padding:14px; max-width:480px;">
+          <div style="font-size:0.82rem; font-weight:700; color:var(--accent); margin-bottom:6px;">🎨 AI Visual Synthesis Completed</div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px; font-style:italic;">"${escapeHtml(cleanPrompt)}"</div>
+          <div style="position:relative; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:var(--bg-card); min-height:200px; display:flex; align-items:center; justify-content:center;">
+            <img src="${imageUrl}" alt="${escapeHtml(cleanPrompt)}" loading="lazy" style="width:100%; height:auto; display:block; border-radius:10px;" onerror="this.parentElement.innerHTML='<div style=\'padding:20px; text-align:center; color:var(--text-secondary);\'>Image could not be loaded. Please check connection.</div>';">
+          </div>
+          <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+            <a href="${imageUrl}" target="_blank" rel="noopener" class="speak-pill-btn secondary" style="padding:4px 12px; font-size:0.75rem; text-decoration:none;">🔍 Open Full Resolution ↗</a>
+            <a href="${imageUrl}" download="ielts-ai-study-visual.png" class="speak-pill-btn" style="padding:4px 12px; font-size:0.75rem; text-decoration:none;">📥 Download Visual</a>
+          </div>
+        </div>
+      `;
+      if (stream) {
+        stream.appendChild(imageBubble);
+        stream.scrollTop = stream.scrollHeight;
+      }
+      if (status) status.textContent = 'Status: Ready (Visual Rendered)';
+      if (sendBtn) sendBtn.disabled = false;
+    }, 1500);
+
+    return;
+  }
+
+  // Append typing indicator with kinetic orbital loader
   const typingDiv = document.createElement('div');
   typingDiv.className = 'ai-chat-msg assistant';
   typingDiv.id = 'aiChatTyping';
@@ -15500,12 +15632,12 @@ async function sendAiChatMessage() {
   }
 
   let replyText = '';
-  let providerUsed = 'Cambridge Neural Core';
+  let providerUsed = 'Cambridge Neural Core (Llama 3.2 3B)';
 
-  // PRIMARY ATTEMPT: Cloudflare Workers AI with 8.5s timeout cap
+  // PRIMARY ATTEMPT: Cloudflare Workers AI with 25s timeout cap
   try {
     const primaryController = new AbortController();
-    const primaryTimeout = setTimeout(() => primaryController.abort(), 8500);
+    const primaryTimeout = setTimeout(() => primaryController.abort(), 25000);
 
     const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
     const messagesPayload = [
@@ -15518,8 +15650,8 @@ async function sendAiChatMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: messagesPayload,
-        model: selectedModel,
-        max_tokens: 600
+        model: '@cf/meta/llama-3.2-3b-instruct',
+        max_tokens: 700
       }),
       signal: primaryController.signal
     });
@@ -15529,7 +15661,7 @@ async function sendAiChatMessage() {
       const resData = await response.json();
       if (resData && resData.text && resData.text.trim().length > 0) {
         replyText = resData.text.trim();
-        providerUsed = (resData.modelUsed || 'Llama 3.1 8B').replace('@cf/meta/', '').replace('@cf/', '');
+        providerUsed = (resData.modelUsed || 'Llama 3.2 3B').replace('@cf/meta/', '').replace('@cf/', '');
       }
     }
   } catch (primaryErr) {
@@ -15541,7 +15673,7 @@ async function sendAiChatMessage() {
     if (status) status.textContent = `Status: Routing to High-Speed Neural Core...`;
     try {
       const secondaryController = new AbortController();
-      const secondaryTimeout = setTimeout(() => secondaryController.abort(), 18000);
+      const secondaryTimeout = setTimeout(() => secondaryController.abort(), 25000);
 
       const secondaryRes = await fetch("https://text.pollinations.ai/openai", {
         method: "POST",
@@ -15588,7 +15720,7 @@ async function sendAiChatMessage() {
         <div style="font-weight:700; color:var(--text); margin-bottom:4px;">Cambridge Mentor could not reach the neural network</div>
         <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px;">Network connection was interrupted. Please check your data or tap retry.</div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button type="button" class="speak-pill-btn" onclick="retryLastAiPrompt('${selectedModel}')" style="padding:6px 14px; font-size:0.78rem;">
+          <button type="button" class="speak-pill-btn" onclick="retryLastAiPrompt()" style="padding:6px 14px; font-size:0.78rem;">
             🔄 Retry Question
           </button>
         </div>
@@ -15604,7 +15736,7 @@ async function sendAiChatMessage() {
   if (sendBtn) sendBtn.disabled = false;
 }
 
-function retryLastAiPrompt(model) {
+function retryLastAiPrompt() {
   const lastUser = [...aiChatMessages].reverse().find(m => m.role === 'user');
   if (!lastUser) return;
   const input = document.getElementById('aiChatInput');
@@ -15803,9 +15935,9 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
       <!-- Tab 1: Collocations Pane -->
       <div id="vt-pane-collocations" class="vt-pane">
-        <div style="display:flex; gap:8px; margin-bottom:10px;">
-          <input type="text" id="vt-collocations-input" class="search-input" placeholder="Enter academic noun or adjective (e.g. impact, policy, environment)..." style="flex:1;" onkeydown="if(event.key==='Enter') executeVipCollocationsSearch()">
-          <button class="btn-accent-solid" onclick="executeVipCollocationsSearch()" style="padding:8px 16px; font-weight:700;">Find Collocations</button>
+        <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:nowrap;">
+          <input type="text" id="vt-collocations-input" class="search-input" placeholder="Enter academic noun or adjective (e.g. impact, policy, environment)..." style="flex:1; min-width:0;" onkeydown="if(event.key==='Enter') executeVipCollocationsSearch()">
+          <button class="btn-accent-solid" onclick="executeVipCollocationsSearch()" style="padding:8px 16px; font-weight:700; white-space:nowrap; flex-shrink:0;">Find Collocations</button>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
           <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>

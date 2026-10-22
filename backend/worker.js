@@ -5003,21 +5003,21 @@ async function handleAiChat(request, env) {
     const maxTokens = Math.min(body.max_tokens || 650, 800);
 
     const MODEL_MAP = {
-      "@cf/meta/llama-3.1-8b-instruct": "@cf/meta/llama-3.1-8b-instruct",
-      "llama-3.1-8b": "@cf/meta/llama-3.1-8b-instruct",
       "@cf/meta/llama-3.2-3b-instruct": "@cf/meta/llama-3.2-3b-instruct",
       "llama-3.2-3b": "@cf/meta/llama-3.2-3b-instruct",
+      "@cf/meta/llama-3.1-8b-instruct": "@cf/meta/llama-3.1-8b-instruct",
+      "llama-3.1-8b": "@cf/meta/llama-3.1-8b-instruct",
       "@cf/mistral/mistral-7b-instruct-v0.2": "@cf/mistral/mistral-7b-instruct-v0.2",
       "mistral-7b": "@cf/mistral/mistral-7b-instruct-v0.2",
       "@cf/qwen/qwen1.5-7b-chat-awq": "@cf/qwen/qwen1.5-7b-chat-awq",
       "qwen-7b": "@cf/qwen/qwen1.5-7b-chat-awq",
-      "gpt-4o-mini": "@cf/meta/llama-3.1-8b-instruct",
-      "claude-3-5-sonnet": "@cf/meta/llama-3.1-8b-instruct",
-      "gemini-1.5-flash": "@cf/meta/llama-3.1-8b-instruct",
-      "deepseek-chat": "@cf/meta/llama-3.1-8b-instruct"
+      "gpt-4o-mini": "@cf/meta/llama-3.2-3b-instruct",
+      "claude-3-5-sonnet": "@cf/meta/llama-3.2-3b-instruct",
+      "gemini-1.5-flash": "@cf/meta/llama-3.2-3b-instruct",
+      "deepseek-chat": "@cf/meta/llama-3.2-3b-instruct"
     };
 
-    const selectedModel = MODEL_MAP[body.model] || "@cf/meta/llama-3.1-8b-instruct";
+    const selectedModel = MODEL_MAP[body.model] || "@cf/meta/llama-3.2-3b-instruct";
 
     let messages = body.messages;
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
