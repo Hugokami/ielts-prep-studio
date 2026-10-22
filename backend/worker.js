@@ -2168,9 +2168,7 @@ async function registerBotCommands(botToken, studioUrl = "https://hugokami.githu
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         menu_button: {
-          type: "web_app",
-          text: "🗂️ Launch Studio",
-          web_app: { url: cleanUrl }
+          type: "commands"
         }
       })
     });

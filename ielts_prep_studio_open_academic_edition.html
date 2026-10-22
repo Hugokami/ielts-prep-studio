@@ -4435,6 +4435,555 @@ body, main {
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
+/* =========================================================
+   UIVERSE COMPONENT SUITE (PURE CSS CONVERSION)
+   ========================================================= */
+
+/* COMPONENT 1: WIFI LOADER FOR SEARCH PROCESSES */
+.wifi-loader-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  width: 100%;
+}
+#wifi-loader {
+  --background: #62abff;
+  --front-color: #0D55FE;
+  --back-color: rgba(255, 255, 255, 0.15);
+  --text-color: var(--text-secondary, #94A3B8);
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#wifi-loader svg {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#wifi-loader svg circle {
+  position: absolute;
+  fill: none;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(-100deg);
+  transform-origin: center;
+}
+#wifi-loader svg circle.back {
+  stroke: var(--back-color);
+}
+#wifi-loader svg circle.front {
+  stroke: var(--front-color);
+}
+#wifi-loader svg.circle-outer {
+  height: 86px;
+  width: 86px;
+}
+#wifi-loader svg.circle-outer circle {
+  stroke-dasharray: 62.75 188.25;
+}
+#wifi-loader svg.circle-outer circle.back {
+  animation: circle-outer135 1.8s ease infinite 0.3s;
+}
+#wifi-loader svg.circle-outer circle.front {
+  animation: circle-outer135 1.8s ease infinite 0.15s;
+}
+#wifi-loader svg.circle-middle {
+  height: 60px;
+  width: 60px;
+}
+#wifi-loader svg.circle-middle circle {
+  stroke-dasharray: 42.5 127.5;
+}
+#wifi-loader svg.circle-middle circle.back {
+  animation: circle-middle6123 1.8s ease infinite 0.25s;
+}
+#wifi-loader svg.circle-middle circle.front {
+  animation: circle-middle6123 1.8s ease infinite 0.1s;
+}
+#wifi-loader svg.circle-inner {
+  height: 34px;
+  width: 34px;
+}
+#wifi-loader svg.circle-inner circle {
+  stroke-dasharray: 22 66;
+}
+#wifi-loader svg.circle-inner circle.back {
+  animation: circle-inner162 1.8s ease infinite 0.2s;
+}
+#wifi-loader svg.circle-inner circle.front {
+  animation: circle-inner162 1.8s ease infinite 0.05s;
+}
+#wifi-loader .text {
+  position: absolute;
+  bottom: -40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+#wifi-loader .text::before, #wifi-loader .text::after {
+  content: attr(data-text);
+}
+#wifi-loader .text::before {
+  color: var(--text-color);
+}
+#wifi-loader .text::after {
+  color: var(--front-color);
+  animation: text-animation76 3.6s ease infinite;
+  position: absolute;
+  left: 0;
+}
+@keyframes circle-outer135 {
+  0% { stroke-dashoffset: 25; }
+  25% { stroke-dashoffset: 0; }
+  65% { stroke-dashoffset: 301; }
+  80% { stroke-dashoffset: 276; }
+  100% { stroke-dashoffset: 276; }
+}
+@keyframes circle-middle6123 {
+  0% { stroke-dashoffset: 17; }
+  25% { stroke-dashoffset: 0; }
+  65% { stroke-dashoffset: 204; }
+  80% { stroke-dashoffset: 187; }
+  100% { stroke-dashoffset: 187; }
+}
+@keyframes circle-inner162 {
+  0% { stroke-dashoffset: 9; }
+  25% { stroke-dashoffset: 0; }
+  65% { stroke-dashoffset: 106; }
+  80% { stroke-dashoffset: 97; }
+  100% { stroke-dashoffset: 97; }
+}
+@keyframes text-animation76 {
+  0% { clip-path: inset(0 100% 0 0); }
+  50% { clip-path: inset(0); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+/* COMPONENT 2: PENCIL LOADER INTRO ANIMATION */
+.pencil-loader-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pencil {
+  display: block;
+  width: 8.5rem;
+  height: 8.5rem;
+}
+.pencil__body1,
+.pencil__body2,
+.pencil__body3,
+.pencil__eraser,
+.pencil__eraser-skew,
+.pencil__point,
+.pencil__rotate,
+.pencil__stroke {
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.pencil__body1,
+.pencil__body2,
+.pencil__body3 {
+  transform: rotate(-90deg);
+}
+.pencil__body1 { animation-name: pencilBody1; }
+.pencil__body2 { animation-name: pencilBody2; }
+.pencil__body3 { animation-name: pencilBody3; }
+.pencil__eraser {
+  animation-name: pencilEraser;
+  transform: rotate(-90deg) translate(49px,0);
+}
+.pencil__eraser-skew {
+  animation-name: pencilEraserSkew;
+  animation-timing-function: ease-in-out;
+}
+.pencil__point {
+  animation-name: pencilPoint;
+  transform: rotate(-90deg) translate(49px,-30px);
+}
+.pencil__rotate { animation-name: pencilRotate; }
+.pencil__stroke {
+  animation-name: pencilStroke;
+  transform: translate(100px,100px) rotate(-113deg);
+}
+@keyframes pencilBody1 {
+  from, to { stroke-dashoffset: 351.86; transform: rotate(-90deg); }
+  50% { stroke-dashoffset: 150.8; transform: rotate(-225deg); }
+}
+@keyframes pencilBody2 {
+  from, to { stroke-dashoffset: 406.84; transform: rotate(-90deg); }
+  50% { stroke-dashoffset: 174.36; transform: rotate(-225deg); }
+}
+@keyframes pencilBody3 {
+  from, to { stroke-dashoffset: 296.88; transform: rotate(-90deg); }
+  50% { stroke-dashoffset: 127.23; transform: rotate(-225deg); }
+}
+@keyframes pencilEraser {
+  from, to { transform: rotate(-45deg) translate(49px,0); }
+  50% { transform: rotate(0deg) translate(49px,0); }
+}
+@keyframes pencilEraserSkew {
+  from, 32.5%, 67.5%, to { transform: skewX(0); }
+  35%, 65% { transform: skewX(-4deg); }
+  37.5%, 62.5% { transform: skewX(8deg); }
+  40%, 45%, 50%, 55%, 60% { transform: skewX(-15deg); }
+  42.5%, 47.5%, 52.5%, 57.5% { transform: skewX(15deg); }
+}
+@keyframes pencilPoint {
+  from, to { transform: rotate(-90deg) translate(49px,-30px); }
+  50% { transform: rotate(-225deg) translate(49px,-30px); }
+}
+@keyframes pencilRotate {
+  from { transform: translate(100px,100px) rotate(0); }
+  to { transform: translate(100px,100px) rotate(720deg); }
+}
+@keyframes pencilStroke {
+  from { stroke-dashoffset: 439.82; transform: translate(100px,100px) rotate(-113deg); }
+  50% { stroke-dashoffset: 164.93; transform: translate(100px,100px) rotate(-113deg); }
+  to { stroke-dashoffset: 439.82; transform: translate(100px,100px) rotate(247deg); }
+}
+.ips-pencil-brand-title {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFFFFF 0%, #BAE6FD 40%, #0D55FE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(13, 85, 254, 0.4));
+  margin-top: 8px;
+}
+.ips-pencil-brand-sub {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #F59E0B;
+  margin-top: 6px;
+}
+
+/* COMPONENT 3: BACK TO TOP BUTTON WITH TEXT SLIDE & ROTATING ARROW */
+#backToTopBtn, .btt-animated-btn {
+  width: 130px;
+  height: 48px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  padding-bottom: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  z-index: 250;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+  display: none;
+}
+#backToTopBtn > div,
+#backToTopBtn > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#backToTopBtn::before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  background: #0D55FE;
+  transition: transform 0.25s ease-out;
+}
+#backToTopBtn:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+#backToTopBtn .clone > *,
+#backToTopBtn .text > * {
+  opacity: 1;
+  font-size: 0.86rem;
+  font-weight: 800;
+  transition: 0.2s;
+  margin-left: 3px;
+  text-transform: uppercase;
+}
+#backToTopBtn .clone > * {
+  transform: translateY(40px);
+}
+#backToTopBtn:hover .clone > * {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+#backToTopBtn:hover .text > * {
+  opacity: 1;
+  transform: translateY(-40px);
+  transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+#backToTopBtn:hover .clone > :nth-child(1) { transition-delay: 0.05s; }
+#backToTopBtn:hover .clone > :nth-child(2) { transition-delay: 0.1s; }
+#backToTopBtn:hover .clone > :nth-child(3) { transition-delay: 0.15s; }
+#backToTopBtn svg {
+  width: 16px;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-50deg);
+  transition: 0.2s ease-out;
+}
+#backToTopBtn:hover svg {
+  transform: translateY(-50%) rotate(-90deg);
+  color: #0D55FE;
+}
+
+/* COMPONENT 4: UNLOCK PRO / VIP SHIFTING GRADIENT BUTTON */
+.vip-upgrade-btn-pro {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55em 1.15em;
+  gap: 0.45rem;
+  border: none;
+  font-weight: 800;
+  font-size: 0.82rem;
+  border-radius: 30px;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(136, 0, 136, 0.5);
+  background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
+  background-size: 300%;
+  background-position: left center;
+  transition: background 0.35s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(222, 111, 61, 0.3);
+}
+.vip-upgrade-btn-pro:hover {
+  background-size: 320%;
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(222, 111, 61, 0.5);
+}
+.vip-upgrade-btn-pro svg {
+  width: 18px;
+  height: 14px;
+  fill: #f09f33;
+  transition: 0.3s ease;
+}
+.vip-upgrade-btn-pro:hover svg {
+  fill: #fff;
+}
+
+/* COMPONENT 5: STANDARD BUTTON RIPPLE EXPANSION */
+.btn-accent-solid, .btn-primary {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
+  z-index: 1;
+}
+.btn-accent-solid:hover, .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 85, 254, 0.35);
+}
+.btn-accent-solid:active, .btn-primary:active {
+  transform: translateY(0);
+}
+.btn-accent-solid::after, .btn-primary::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s ease-out;
+  background-color: #0D55FE;
+  opacity: 0.35;
+}
+.btn-accent-solid:hover::after, .btn-primary:hover::after {
+  transform: scaleX(1.3) scaleY(1.5);
+  opacity: 0;
+}
+
+/* COMPONENT 6: FLOATING GLASSMORPHIC BOTTOM NAVIGATION MENU */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+  pointer-events: none;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+.mobile-bottom-nav .menu {
+  pointer-events: auto;
+  width: calc(100% - 16px);
+  max-width: 580px;
+  backdrop-filter: blur(14px) saturate(180%) contrast(200%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%) contrast(200%);
+  background: rgba(13, 24, 48, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  padding: 6px 4px;
+  border-radius: 99rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+}
+.mobile-bottom-nav .menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 5px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: -1;
+}
+.mobile-bottom-nav .mob-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  padding: 7px 2px;
+  border-radius: 99rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-bottom-nav .mob-nav-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+  stroke: none;
+}
+.mobile-bottom-nav .mob-nav-btn span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 3px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+.mobile-bottom-nav .mob-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.mobile-bottom-nav .mob-nav-btn.active {
+  background: rgba(13, 85, 254, 0.85);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(13, 85, 254, 0.4);
+}
+.mobile-bottom-nav .mob-nav-btn:active {
+  transform: scale(0.94);
+}
+
+/* COMPONENT 7: UI BOXES WITH GLOWING ROTATING CONIC BORDER & MULTI-RADIAL BACKGROUND */
+.speak-v6-card, .uiverse-card-box {
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(240, 15%, 9%);
+  --paragraph: hsl(0, 0%, 83%);
+  --line: hsl(240, 9%, 17%);
+  --primary: hsl(189, 92%, 58%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: hsla(240, 15%, 9%, 1);
+  background-image:
+    radial-gradient(at 88% 40%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+    radial-gradient(at 49% 30%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+    radial-gradient(at 14% 26%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+    radial-gradient(at 0% 64%, hsl(189, 99%, 26%) 0px, transparent 85%),
+    radial-gradient(at 41% 94%, hsl(189, 97%, 36%) 0px, transparent 85%),
+    radial-gradient(at 100% 99%, hsl(188, 94%, 13%) 0px, transparent 85%);
+  border-radius: 1.15rem;
+  box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.08) inset, 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.speak-v6-card > *, .uiverse-card-box > * {
+  position: relative;
+  z-index: 1;
+}
+.card__border {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+}
+.card__border::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: center;
+  width: 250%;
+  height: 250%;
+  background-image: linear-gradient(
+    0deg,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsl(189, 100%, 50%) 40%,
+    hsl(189, 100%, 50%) 60%,
+    hsla(0, 0%, 40%, 0) 100%
+  );
+  animation: cardConicRotate 8s linear infinite;
+  opacity: 0.45;
+}
+@keyframes cardConicRotate {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
 </style>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#F59E0B">
@@ -4446,11 +4995,43 @@ body, main {
 <!-- CINEMATIC MOTION INTRO OVERLAY: "IELTS-PREP-STUDIO" -->
 <div id="ips-intro-splash" role="dialog" aria-modal="true" aria-label="IELTS Prep Studio Intro">
   <div class="ips-intro-logo-wrap">
-    <div class="ips-intro-badge">CAMBRIDGE ACADEMIC SIMULATION SUITE</div>
-    <h1 class="ips-intro-title">IELTS-PREP-STUDIO</h1>
-    <div class="ips-intro-line"></div>
-    <div class="ips-intro-subtitle">ACTIVE SPEAKING &amp; WRITING ACCELERATOR • BAND 8.5+</div>
+    <div class="pencil-loader-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" height="140px" width="140px" viewBox="0 0 200 200" class="pencil">
+        <defs>
+          <clipPath id="pencil-eraser">
+            <rect height="30" width="30" ry="5" rx="5" />
+          </clipPath>
+        </defs>
+        <circle transform="rotate(-113,100,100)" stroke-linecap="round" stroke-dashoffset="439.82" stroke-dasharray="439.82 439.82" stroke-width="2" stroke="currentColor" fill="none" r="70" class="pencil__stroke" />
+        <g transform="translate(100,100)" class="pencil__rotate">
+          <g fill="none">
+            <circle transform="rotate(-90)" stroke-dashoffset="402" stroke-dasharray="402.12 402.12" stroke-width="30" stroke="hsl(223,90%,50%)" r="64" class="pencil__body1" />
+            <circle transform="rotate(-90)" stroke-dashoffset="465" stroke-dasharray="464.96 464.96" stroke-width="10" stroke="hsl(223,90%,60%)" r="74" class="pencil__body2" />
+            <circle transform="rotate(-90)" stroke-dashoffset="339" stroke-dasharray="339.29 339.29" stroke-width="10" stroke="hsl(223,90%,40%)" r="54" class="pencil__body3" />
+          </g>
+          <g transform="rotate(-90) translate(49,0)" class="pencil__eraser">
+            <g class="pencil__eraser-skew">
+              <rect height="30" width="30" ry="5" rx="5" fill="hsl(223,90%,70%)" />
+              <rect clip-path="url(#pencil-eraser)" height="30" width="5" fill="hsl(223,90%,60%)" />
+              <rect height="20" width="30" fill="hsl(223,10%,90%)" />
+              <rect height="20" width="15" fill="hsl(223,10%,70%)" />
+              <rect height="20" width="5" fill="hsl(223,10%,80%)" />
+              <rect height="2" width="30" y="6" fill="hsla(223,10%,10%,0.2)" />
+              <rect height="2" width="30" y="13" fill="hsla(223,10%,10%,0.2)" />
+            </g>
+          </g>
+          <g transform="rotate(-90) translate(49,-30)" class="pencil__point">
+            <polygon points="15 0,30 30,0 30" fill="hsl(33,90%,70%)" />
+            <polygon points="15 0,6 30,0 30" fill="hsl(33,90%,50%)" />
+            <polygon points="15 0,20 10,10 10" fill="hsl(223,10%,10%)" />
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="ips-pencil-brand-title">IELTS-PREP-STUDIO</div>
+    <div class="ips-pencil-brand-sub">CAMBRIDGE CBT &bull; ACTIVE ACCELERATOR</div>
   </div>
+</div>
 </div>
 
 
@@ -4532,8 +5113,11 @@ body, main {
         <span>Settings</span>
       </button>
 
-      <button class="vip-upgrade-btn" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
-        ⭐ <span id="vipBtnText">VIP Pass</span>
+      <button class="vip-upgrade-btn-pro" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+          <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
+        </svg>
+        <span id="vipBtnText">Unlock VIP</span>
       </button>
     </div>
   </div>
@@ -4618,34 +5202,53 @@ body, main {
 
 <!-- MOBILE BOTTOM NAVIGATION BAR (MINIMALIST 6 THUMB-FRIENDLY TABS) -->
 <nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile Section Navigation">
-  <button class="mob-nav-btn active" id="mob-overview" data-target-tab="overview" onclick="switchView('overview')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
-    <span>Home</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
-    <span>Lexicon</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-reading" data-target-tab="reading" onclick="switchView('reading')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-    <span>Reading</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-writing" data-target-tab="writing" onclick="switchView('writing')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
-    <span>Writing</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-speaking" data-target-tab="speaking" onclick="switchView('speaking')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
-    <span>Speaking</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-tools" data-target-tab="tools" onclick="switchView('tools')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-    <span>Tools</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-aichat" data-target-tab="aichat" onclick="switchView('aichat')">
-    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-    <span>AI Mentor</span>
-  </button>
+  <div class="menu">
+    <button class="mob-nav-btn active" id="mob-overview" data-target-tab="overview" onclick="switchView('overview')" aria-label="Home Dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+        <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')" aria-label="Academic Lexicon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
+      </svg>
+      <span>Lexicon</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-reading" data-target-tab="reading" onclick="switchView('reading')" aria-label="Reading Lab">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+      </svg>
+      <span>Reading</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-writing" data-target-tab="writing" onclick="switchView('writing')" aria-label="Writing Lab">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+      </svg>
+      <span>Writing</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-speaking" data-target-tab="speaking" onclick="switchView('speaking')" aria-label="Speaking Studio">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+        <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
+      </svg>
+      <span>Speaking</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-tools" data-target-tab="tools" onclick="switchView('tools')" aria-label="VIP Academic Tools">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z" clip-rule="evenodd" />
+      </svg>
+      <span>Tools</span>
+    </button>
+    <button class="mob-nav-btn" id="mob-aichat" data-target-tab="aichat" onclick="switchView('aichat')" aria-label="AI Mentor Copilot">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.46 3.997v2c-1.606-.576-3.056-1.467-4.307-2.617A2.25 2.25 0 0 1 4.5 17.009V7.085c0-1.848 1.34-3.44 3.413-3.692Z" />
+        <path d="M8.25 10.875a2.625 2.625 0 1 1 5.25 0 2.625 2.625 0 0 1-5.25 0Z" />
+      </svg>
+      <span>AI Mentor</span>
+    </button>
+  </div>
 </nav>
 
 <main id="main-content" class="page-wrap">
@@ -6470,6 +7073,7 @@ body, main {
             <option value="Academic English Listening">University Lecture Listening</option>
           </select>
           <button id="v6-podcast-btn" class="speak-pill-btn secondary">Load Episodes</button>
+          <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;">🔄 Refresh Live Feed</button>
         </div>
         <div id="v6-podcast-output"></div>
       </div>
@@ -6556,7 +7160,21 @@ body, main {
 
 </main>
 
-<button id="backToTopBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Scroll back to top">↑ Top</button>
+<button id="backToTopBtn" class="btt-animated-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Scroll back to top" aria-label="Back to top">
+  <div class="text">
+    <span>Back</span>
+    <span>to</span>
+    <span>top</span>
+  </div>
+  <div class="clone">
+    <span>Back</span>
+    <span>to</span>
+    <span>top</span>
+  </div>
+  <svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="20px">
+    <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path>
+  </svg>
+</button>
 
 <div id="word-inspector" role="dialog" aria-label="Word Inspector">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -13258,6 +13876,30 @@ function setVipToolInput(toolName, val) {
   if (vtInp) { vtInp.value = val; }
 }
 
+
+function getAcademicToolLoadingHtml(title = 'Searching') {
+  return `
+    <div class="wifi-loader-wrap">
+      <div id="wifi-loader">
+        <svg class="circle-outer" viewBox="0 0 86 86">
+          <circle class="back" cx="43" cy="43" r="40"></circle>
+          <circle class="front" cx="43" cy="43" r="40"></circle>
+          <circle class="new" cx="43" cy="43" r="40"></circle>
+        </svg>
+        <svg class="circle-middle" viewBox="0 0 60 60">
+          <circle class="back" cx="30" cy="30" r="27"></circle>
+          <circle class="front" cx="30" cy="30" r="27"></circle>
+        </svg>
+        <svg class="circle-inner" viewBox="0 0 34 34">
+          <circle class="back" cx="17" cy="17" r="14"></circle>
+          <circle class="front" cx="17" cy="17" r="14"></circle>
+        </svg>
+        <div class="text" data-text="${title}"></div>
+      </div>
+    </div>
+  `;
+}
+
 function renderAcademicToolResult(toolName, html) {
   const atDiv = document.getElementById(`at-${toolName}-results`);
   const vtDiv = document.getElementById(`vt-${toolName}-results`);
@@ -13276,7 +13918,7 @@ async function executeVipCollocationsSearch() {
   if (atInp) atInp.value = word;
   if (vtInp) vtInp.value = word;
 
-  renderAcademicToolResult('collocations', `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Collocations Engine...</div>`);
+  renderAcademicToolResult('collocations', getAcademicToolLoadingHtml('Collocations'));
 
   try {
     let d = null;
@@ -13390,7 +14032,7 @@ async function executeVipSynonymsSearch() {
   if (atInp) atInp.value = word;
   if (vtInp) vtInp.value = word;
 
-  renderAcademicToolResult('synonyms', `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Academic Synonyms Engine...</div>`);
+  renderAcademicToolResult('synonyms', getAcademicToolLoadingHtml('Synonyms'));
 
   try {
     let d = null;
@@ -13484,7 +14126,7 @@ async function executeVipTopicSearch() {
   if (atInp) atInp.value = topic;
   if (vtInp) vtInp.value = topic;
 
-  renderAcademicToolResult('topic', `<div style="text-align:center; padding:24px; color:var(--text-secondary);">⏳ Querying Full Academic Article &amp; Background Knowledge...</div>`);
+  renderAcademicToolResult('topic', getAcademicToolLoadingHtml('Extracting'));
 
   try {
     const res = await callVipToolApi('topic', { topic });

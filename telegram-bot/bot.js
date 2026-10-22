@@ -1725,12 +1725,10 @@ bot.start({
     try {
       await bot.api.setChatMenuButton({
         menu_button: {
-          type: 'web_app',
-          text: '🚀 Launch Studio',
-          web_app: { url: WEB_URL }
+          type: 'commands'
         }
       });
-      console.log('✅ Telegram Mini App Menu Button configured.');
+      console.log('✅ Telegram Bot Commands Menu Button restored.');
     } catch (btnErr) {
       console.warn('[Menu Button Notice]', btnErr.message);
     }

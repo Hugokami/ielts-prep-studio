@@ -1326,13 +1326,31 @@
 
       let extract = '';
       try {
-        const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${randomTopic.key}`);
+        // Multi-paragraph full academic extract directly from Wikipedia
+        const wikiSearchUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(randomTopic.title || randomTopic.key)}&gsrlimit=1&prop=extracts&explaintext=1&format=json&origin=*`;
+        const res = await fetch(wikiSearchUrl);
         if (res.ok) {
-          const data = await res.json();
-          extract = data.extract || '';
+          const json = await res.json();
+          const pages = (json.query && json.query.pages) ? json.query.pages : {};
+          const pageKey = Object.keys(pages)[0];
+          if (pageKey && pages[pageKey].extract) {
+            let raw = pages[pageKey].extract;
+            const cutoff = /\n==\s*(References|External links|See also|Notes)/i;
+            const match = raw.match(cutoff);
+            if (match && match.index) raw = raw.slice(0, match.index);
+            // Format into clean paragraphs
+            extract = raw.split(/\n\n+/).filter(p => p.trim().length > 60).slice(0, 4).join('\n\n');
+          }
+        }
+        if (!extract) {
+          const directRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${randomTopic.key}`);
+          if (directRes.ok) {
+            const data = await directRes.json();
+            extract = data.extract || '';
+          }
         }
       } catch (e) {
-        console.warn('[DailyPromptEngine] Wiki fetch error:', e);
+        console.warn('[DailyPromptEngine] Wiki multi-paragraph fetch error:', e);
       }
 
       if (loading) loading.style.display = 'none';
@@ -1751,30 +1769,37 @@
 
     // API 6: iTunes Search API for Native English Podcast Shadowing
 
-    async fetchShadowingPodcasts(query = 'BBC 6 Minute English IELTS') {
+        async fetchShadowingPodcasts(query = 'BBC 6 Minute English IELTS', forceRefresh = false) {
+      const cleanQ = (query || 'BBC 6 Minute English IELTS').trim();
+      const cacheKey = `itunes_pod_${cleanQ}`;
+      if (forceRefresh && typeof localStorage !== 'undefined') {
+        localStorage.removeItem(`ips_api_cache_${cacheKey}`);
+      }
+      const t = forceRefresh ? `&_t=${Date.now()}` : '';
+      const url = `https://itunes.apple.com/search?term=${encodeURIComponent(cleanQ)}&media=podcast&entity=podcastEpisode&limit=12${t}`;
 
-      const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=podcast&entity=podcastEpisode&limit=5`;
-
-      const data = await fetchWithCache(`itunes_pod_${query}`, url);
+      let data = null;
+      if (forceRefresh) {
+        try {
+          const res = await fetch(url);
+          if (res.ok) data = await res.json();
+        } catch (e) {
+          console.warn('[fetchShadowingPodcasts Refresh Fallback]', e);
+        }
+      }
+      if (!data) {
+        data = await fetchWithCache(cacheKey, url);
+      }
 
       return (data.results || [])
-
         .filter((ep) => ep.previewUrl || ep.episodeUrl)
-
         .map((ep) => ({
-
-          title: ep.trackName,
-
-          show: ep.collectionName,
-
+          title: ep.trackName || 'Podcast Episode',
+          show: ep.collectionName || 'Native Audio Stream',
           audioUrl: ep.previewUrl || ep.episodeUrl,
-
           durationMin: ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6,
-
           date: (ep.releaseDate || '').slice(0, 10)
-
         }));
-
     },
 
 
@@ -2104,47 +2129,74 @@
           if (!papers.length) throw new Error('No abstracts');
 
           const p = papers[0];
-
-          // Mask 4 academic words (>7 chars) to create an instant CBT Summary Completion Cloze
-
-          const words = p.abstract.split(' ');
-
+          // Distribute cloze targets throughout the entire academic passage across multiple sentences
+          const rawSentences = p.abstract.match(/[^.!?]+[.!?]+/g) || [p.abstract];
           const answerBank = [];
+          const targetIndexSet = new Set();
 
-          const clozeHtml = words.map((w) => {
-
-            const clean = w.replace(/[^a-zA-Z]/g, '');
-
-            if (clean.length >= 8 && answerBank.length < 4 && !answerBank.includes(clean.toLowerCase())) {
-
-              answerBank.push(clean.toLowerCase());
-
-              return `<input type="text" data-ans="${clean.toLowerCase()}" placeholder="[${answerBank.length}]" style="width:95px;padding:2px 6px;border-radius:6px;border:1px solid #F59E0B;font-weight:700;" />`;
-
+          // Pick 5-6 academic words (>= 6 chars) distributed evenly across early, middle, and late sentences
+          const candidateWords = [];
+          const allTokens = p.abstract.split(/\s+/);
+          
+          allTokens.forEach((token, idx) => {
+            const clean = token.replace(/[^a-zA-Z]/g, '').toLowerCase();
+            const stopWords = ['between', 'through', 'because', 'without', 'another', 'against', 'however', 'therefore', 'further', 'several', 'during', 'before', 'should'];
+            if (clean.length >= 6 && !stopWords.includes(clean) && !answerBank.includes(clean)) {
+              candidateWords.push({ idx, word: clean, orig: token });
             }
+          });
 
-            return w;
+          // Evenly sample 5 target positions across the whole passage
+          const totalCandidates = candidateWords.length;
+          const targetCount = Math.min(5, totalCandidates);
+          if (totalCandidates > 0) {
+            const step = Math.floor(totalCandidates / targetCount);
+            for (let i = 0; i < targetCount; i++) {
+              const cand = candidateWords[Math.min(i * step, totalCandidates - 1)];
+              if (cand && !answerBank.includes(cand.word)) {
+                answerBank.push(cand.word);
+                targetIndexSet.add(cand.idx);
+              }
+            }
+          }
 
+          let blankCounter = 0;
+          const clozeHtml = allTokens.map((token, idx) => {
+            if (targetIndexSet.has(idx)) {
+              blankCounter++;
+              const clean = token.replace(/[^a-zA-Z]/g, '').toLowerCase();
+              const punctuation = token.replace(/[a-zA-Z]/g, '');
+              return `<span style="display:inline-block; margin:2px 3px;"><input type="text" class="cloze-drill-input" data-ans="${clean}" placeholder="[${blankCounter}]" style="width:110px; padding:3px 8px; border-radius:6px; border:1px solid #0D55FE; font-weight:700; font-size:0.85rem; background:var(--bg-card, #fff); color:var(--text, #111); text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />${punctuation}</span>`;
+            }
+            return token;
           }).join(' ');
 
-
+          const shuffledBank = [...answerBank].sort(() => Math.random() - 0.5);
 
           out.innerHTML = `
-
-            <div style="padding:14px;border-radius:16px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);">
-
-              <div style="font-weight:800;margin-bottom:6px;">${p.title} (${p.year} &bull; Cited by ${p.citations})</div>
-
-              <div style="margin-bottom:10px;font-size:0.82rem;color:#F59E0B;font-weight:700;">
-
-                Word Bank: ${answerBank.slice().sort().join('  |  ')}
-
+            <div style="padding:18px; border-radius:16px; background:rgba(13,85,254,0.04); border:1px solid rgba(13,85,254,0.2);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                <div>
+                  <div style="font-weight:900; font-size:1.02rem; color:var(--text); line-height:1.4;">${p.title}</div>
+                  <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:3px;">📅 Published: ${p.year} &bull; 📚 Cited by ${p.citations} peer scholars &bull; Source: OpenAlex Corpus</div>
+                </div>
+                <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:800; background:rgba(13,85,254,0.1); color:#0D55FE;">Band 8.5+ Summary Cloze</span>
               </div>
-
-              <p style="line-height:1.7;">${clozeHtml}</p>
-
+              <div style="margin:12px 0; padding:10px 14px; background:rgba(245,158,11,0.08); border-left:3px solid #F59E0B; border-radius:6px;">
+                <span style="font-size:0.8rem; font-weight:800; color:#F59E0B; display:block; margin-bottom:4px;">🔑 Distributed Target Word Bank (Select to Fill Blanks):</span>
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                  ${shuffledBank.map(w => `<span class="occ-ver-pill" style="cursor:pointer; font-size:0.82rem; font-weight:800; background:rgba(245,158,11,0.15); color:#D97706;" onclick="navigator.clipboard && navigator.clipboard.writeText('${w}'); alert('Copied \"${w}\" to clipboard! Paste it into the matching blank.');">${w} 📋</span>`).join('')}
+                </div>
+              </div>
+              <div style="line-height:1.85; font-size:0.92rem; color:var(--text); margin-bottom:16px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px;">
+                ${clozeHtml}
+              </div>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; border-top:1px dashed var(--border, rgba(0,0,0,0.1)); padding-top:12px;">
+                <button class="btn-accent-solid" onclick="checkOpenAlexClozeAnswers()" style="padding:7px 18px; font-size:0.82rem; font-weight:800;">✅ Verify My Answers</button>
+                <button class="btn-outlined" onclick="revealOpenAlexClozeAnswers()" style="padding:7px 14px; font-size:0.82rem;">💡 Reveal Answers</button>
+                <span id="cloze-score-badge" style="font-size:0.85rem; font-weight:800; margin-left:auto;"></span>
+              </div>
             </div>
-
           `;
 
         } catch (e) {
@@ -2159,52 +2211,60 @@
 
 
 
+    function getPodcastListHtml(eps) {
+      if (!eps || !eps.length) {
+        return `<div style="padding:16px; text-align:center; color:var(--text-secondary);">No audio episodes returned for this channel. Try switching channels above.</div>`;
+      }
+      return eps.map((ep, idx) => `
+        <div style="padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+            <div style="font-weight:800; font-size:0.92rem; color:var(--text); line-height:1.4;">${ep.title}</div>
+            <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700;">⏱️ ${ep.durationMin}m</span>
+          </div>
+          <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">🎙️ ${ep.show} &bull; 📅 ${ep.date}</div>
+          <audio id="v6-pod-audio-${idx}" controls preload="none" src="${ep.audioUrl}" style="width:100%; height:36px; margin-bottom:8px;"></audio>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <span style="font-size:0.72rem; color:var(--text-secondary); font-weight:700;">Pacing / Speed:</span>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">0.75x Shadowing</button>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.0x Native</button>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.25x Exam Stress</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
     const podBtn = document.getElementById('v6-podcast-btn');
-
     if (podBtn) {
-
       podBtn.onclick = async () => {
-
         const q = document.getElementById('v6-podcast-query').value;
-
         const out = document.getElementById('v6-podcast-output');
-
-        out.innerHTML = `<p style="opacity:0.75;">Loading episodes from iTunes API...</p>`;
-
+        out.innerHTML = (typeof getAcademicToolLoadingHtml === 'function')
+          ? getAcademicToolLoadingHtml('Podcasts')
+          : `<div style="text-align:center; padding:24px;">Loading episodes from iTunes stream...</div>`;
         try {
-
-          const eps = await window.IELTSApiV6.fetchShadowingPodcasts(q);
-
-          out.innerHTML = eps.map((ep, idx) => `
-
-            <div style="padding:12px;border-radius:14px;border:1px solid var(--border-color,#E5EBF2);margin-bottom:8px;">
-
-              <div style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">${ep.title} <span style="opacity:0.6;font-size:0.78rem;">(${ep.durationMin}m)</span></div>
-
-              <audio id="v6-pod-audio-${idx}" controls preload="none" src="${ep.audioUrl}" style="width:100%;height:34px;margin-bottom:6px;"></audio>
-
-              <div style="display:flex;gap:6px;">
-
-                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">0.75x Slow</button>
-
-                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">1.0x Native</button>
-
-                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">1.25x Exam Stress</button>
-
-              </div>
-
-            </div>
-
-          `).join('');
-
+          const eps = await window.IELTSApiV6.fetchShadowingPodcasts(q, false);
+          out.innerHTML = getPodcastListHtml(eps);
         } catch (e) {
-
-          out.innerHTML = `<p style="color:#FF3B5C;">Podcast feed unavailable offline.</p>`;
-
+          out.innerHTML = `<p style="color:#FF3B5C; padding:12px;">Could not load podcast feed. Check internet connection.</p>`;
         }
-
       };
+    }
 
+    const podRefreshBtn = document.getElementById('v6-podcast-btn-refresh');
+    if (podRefreshBtn) {
+      podRefreshBtn.onclick = async () => {
+        const q = document.getElementById('v6-podcast-query').value;
+        const out = document.getElementById('v6-podcast-output');
+        out.innerHTML = (typeof getAcademicToolLoadingHtml === 'function')
+          ? getAcademicToolLoadingHtml('Refreshing')
+          : `<div style="text-align:center; padding:24px;">Refreshing live podcast feed...</div>`;
+        try {
+          const eps = await window.IELTSApiV6.fetchShadowingPodcasts(q, true);
+          out.innerHTML = getPodcastListHtml(eps);
+        } catch (e) {
+          out.innerHTML = `<p style="color:#FF3B5C; padding:12px;">Failed to refresh live episodes. Try again in a few moments.</p>`;
+        }
+      };
     }
 
   }
@@ -2502,3 +2562,41 @@
   document.addEventListener('DOMContentLoaded', wireSpeakingGeoAndLevels);
 
 })(window, document);
+
+  // Interactive CBT Cloze Answer Verifier
+  window.checkOpenAlexClozeAnswers = function() {
+    const inputs = document.querySelectorAll('.cloze-drill-input');
+    if (!inputs.length) return;
+    let correct = 0;
+    inputs.forEach(inp => {
+      const expected = (inp.getAttribute('data-ans') || '').trim().toLowerCase();
+      const val = (inp.value || '').trim().toLowerCase();
+      if (val === expected) {
+        inp.style.border = '2px solid #10B981';
+        inp.style.background = 'rgba(16, 185, 129, 0.15)';
+        inp.style.color = '#10B981';
+        correct++;
+      } else {
+        inp.style.border = '2px solid #EF4444';
+        inp.style.background = 'rgba(239, 68, 68, 0.12)';
+        inp.style.color = '#EF4444';
+      }
+    });
+    const scoreEl = document.getElementById('cloze-score-badge');
+    if (scoreEl) {
+      scoreEl.innerHTML = `<span style="color:${correct === inputs.length ? '#10B981' : '#F59E0B'}">Score: ${correct} / ${inputs.length} (${Math.round((correct/inputs.length)*100)}%)</span>`;
+    }
+  };
+
+  window.revealOpenAlexClozeAnswers = function() {
+    const inputs = document.querySelectorAll('.cloze-drill-input');
+    inputs.forEach(inp => {
+      const expected = inp.getAttribute('data-ans');
+      if (expected) {
+        inp.value = expected;
+        inp.style.border = '2px solid #0D55FE';
+        inp.style.background = 'rgba(13, 85, 254, 0.1)';
+        inp.style.color = '#0D55FE';
+      }
+    });
+  };
