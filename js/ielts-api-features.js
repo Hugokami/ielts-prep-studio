@@ -638,8 +638,11 @@
         background: #090d16;
         border: 1px solid #1e293b;
         border-radius: 12px;
-        padding: 18px;
+        padding: 16px;
         margin: 20px 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       `;
 
@@ -685,12 +688,9 @@
       `;
 
       // Insert right after hero or at top of container
-      const hero = container.querySelector('#ov-hero');
-      if (hero && hero.nextSibling) {
-        container.insertBefore(card, hero.nextSibling);
-      } else {
-        container.prepend(card);
-      }
+      // Mount into writing desk or append safely (never prepend to view-overview!)
+      const targetSlot = container.querySelector('.subtab-panel[data-subtab="desk"]') || container.querySelector('.writing-workspace') || container.querySelector('#ov-modules') || container;
+      targetSlot.appendChild(card);
 
       document.getElementById('refresh-chart-btn').onclick = () => {
         const selectedId = document.getElementById('indicator-select').value;
@@ -909,8 +909,11 @@
         background: #090d16;
         border: 1px solid #1e293b;
         border-radius: 12px;
-        padding: 18px;
+        padding: 16px;
         margin: 20px 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       `;
 
@@ -1233,8 +1236,11 @@
         background: #090d16;
         border: 1px solid #1e293b;
         border-radius: 12px;
-        padding: 18px;
+        padding: 16px;
         margin: 20px 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       `;
 
@@ -1269,12 +1275,9 @@
       `;
 
       // Insert right after hero or at top
-      const hero = container.querySelector('#ov-hero');
-      if (hero && hero.nextSibling) {
-        container.insertBefore(card, hero.nextSibling);
-      } else {
-        container.prepend(card);
-      }
+      // Mount into writing desk or append safely (never prepend to view-overview!)
+      const targetSlot = container.querySelector('.subtab-panel[data-subtab="desk"]') || container.querySelector('.writing-workspace') || container.querySelector('#ov-modules') || container;
+      targetSlot.appendChild(card);
 
       document.getElementById('spin-prompt-btn').onclick = () => this.spinTopic();
 
@@ -1357,21 +1360,21 @@
     // 2. Init Reading CBT Tooltip
     ReadingTooltipEngine.init();
 
-    // 3. Inject Dynamic World Bank Task 1 Chart Generator (into Overview tab)
-    const overviewSec = document.getElementById('view-overview') || document.querySelector('section');
-    if (overviewSec) {
-      Task1ChartEngine.renderChartCard(overviewSec.id || 'view-overview');
+    // 3. Inject Dynamic World Bank Task 1 Chart Generator (into Writing tab)
+    const writingSec = document.getElementById('view-writing');
+    if (writingSec) {
+      Task1ChartEngine.renderChartCard('view-writing');
     }
 
     // 4. Inject Speaking Fluency & Filler Voice Trainer (into Speaking tab)
     const speakingSec = document.getElementById('view-speaking');
     if (speakingSec) {
-      SpeakingFluencyEngine.renderRecorderCard(speakingSec.id || 'view-speaking');
+      SpeakingFluencyEngine.renderRecorderCard('view-speaking');
     }
 
-    // 5. Inject Daily Cambridge Prompt Generator (into Overview tab)
-    if (overviewSec) {
-      DailyPromptEngine.renderPromptCard(overviewSec.id || 'view-overview');
+    // 5. Inject Daily Cambridge Prompt Generator (into Writing tab)
+    if (writingSec) {
+      DailyPromptEngine.renderPromptCard('view-writing');
     }
   }
 
