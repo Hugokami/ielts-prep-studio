@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -39,23 +39,24 @@
      ========================================================= */
   :root,
   :root[data-theme="light"] {
-    --bg: #F5F7FA;
+    --bg: #F8FAFC;
     --bg-card: #FFFFFF;
-    --bg-card-hover: #F8FAFD;
+    --bg-card-hover: #F1F5F9;
     --bg-elevated: #EEF2F7;
     --bg-Elevated: #EEF2F7;
     --bg-subtle: #F1F4F9;
     --surface: #FFFFFF;
-    --border: #E5EBF2;
-    --border-mid: #D3DDEB;
-    --border-accent: #F59E0B;
-    --text: #11141A;
-    --text-secondary: #5B6476;
-    --text-muted: #8E99AB;
-    --accent: #F59E0B;
-    --accent-bright: #FBBF24;
-    --accent-dark: #D97706;
-    --accent-soft: rgba(245, 158, 11, 0.12);
+    --border: rgba(15, 23, 42, 0.08);
+    --border-mid: rgba(15, 23, 42, 0.14);
+    --border-accent: #0F172A;
+    --text: #0A0D14;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --accent: #0F172A;
+    --accent-bright: #1E293B;
+    --accent-dark: #020617;
+    --accent-soft: rgba(15, 23, 42, 0.05);
+    --accent-gold: #F59E0B;
     --teal: #0284c7;
     --teal-soft: rgba(2, 132, 199, 0.10);
     --green: #10B981;
@@ -64,51 +65,52 @@
     --crimson: #EF4444;
     --crimson-soft: rgba(239, 68, 68, 0.10);
     --danger: #EF4444;
-    --badge-bg: #EEF2F8;
-    --grid-line: rgba(245, 158, 11, 0.03);
+    --badge-bg: #F1F5F9;
+    --grid-line: rgba(15, 23, 42, 0.03);
 
     /* Speak Signature Pastel Icon Wells */
-    --well-blue: #EBF1FF;
-    --well-blue-icon: #D97706;
-    --well-purple: #F3EDFF;
-    --well-purple-icon: #7A35FF;
-    --well-green: #E9F8EF;
-    --well-green-icon: #199A46;
-    --well-orange: #FFF2EB;
-    --well-orange-icon: #F26722;
-    --well-peach: #FFF4ED;
-    --well-coral: #FFF0F3;
-    --well-coral-icon: #FF3B5C;
+    --well-blue: #EFF6FF;
+    --well-blue-icon: #0D55FE;
+    --well-purple: #F5F3FF;
+    --well-purple-icon: #7C3AED;
+    --well-green: #ECFDF5;
+    --well-green-icon: #059669;
+    --well-orange: #FFF7ED;
+    --well-orange-icon: #EA580C;
+    --well-peach: #FFF7ED;
+    --well-coral: #FFF1F2;
+    --well-coral-icon: #E11D48;
 
     --r-card: 20px;
     --r-bubble: 18px;
     --r-pill: 9999px;
-    --shadow-sm: 0 2px 8px rgba(245, 158, 11, 0.04);
-    --shadow-md: 0 8px 24px -4px rgba(245, 158, 11, 0.08);
-    --shadow-card: 0 4px 20px -2px rgba(245, 158, 11, 0.05), 0 2px 6px rgba(17, 20, 26, 0.03);
-    --shadow-hover: 0 10px 28px -4px rgba(245, 158, 11, 0.12), 0 4px 10px rgba(17, 20, 26, 0.04);
-    --shadow-float: 0 16px 40px -6px rgba(245, 158, 11, 0.18);
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.06);
+    --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+    --shadow-hover: 0 10px 28px -4px rgba(15, 23, 42, 0.08), 0 3px 8px rgba(15, 23, 42, 0.03);
+    --shadow-float: 0 16px 40px -6px rgba(15, 23, 42, 0.12);
   }
 
-  /* Speak-Calibrated Midnight Obsidian Dark Mode */
+  /* Linear / Cal.com Refined Obsidian Slate Dark Mode */
   :root[data-theme="dark"] {
-    --bg: #090D16;
-    --bg-card: #0F1726;
-    --bg-card-hover: #162034;
-    --bg-elevated: #1A253C;
-    --bg-Elevated: #1A253C;
-    --bg-subtle: #121C2F;
-    --surface: #0F1726;
+    --bg: #0B0F19;
+    --bg-card: #111827;
+    --bg-card-hover: #1F2937;
+    --bg-elevated: #1F2937;
+    --bg-Elevated: #1F2937;
+    --bg-subtle: #161F30;
+    --surface: #111827;
     --border: rgba(255, 255, 255, 0.08);
     --border-mid: rgba(255, 255, 255, 0.14);
-    --border-accent: #FBBF24;
+    --border-accent: #38BDF8;
     --text: #F8FAFC;
     --text-secondary: #94A3B8;
     --text-muted: #64748B;
-    --accent: #FBBF24;
-    --accent-bright: #FDE68A;
-    --accent-dark: #F59E0B;
-    --accent-soft: rgba(251, 191, 36, 0.16);
+    --accent: #F8FAFC;
+    --accent-bright: #FFFFFF;
+    --accent-dark: #E2E8F0;
+    --accent-soft: rgba(255, 255, 255, 0.08);
+    --accent-gold: #FBBF24;
     --teal: #38bdf8;
     --teal-soft: rgba(56, 189, 248, 0.14);
     --green: #34d399;
@@ -117,20 +119,20 @@
     --crimson: #f87171;
     --crimson-soft: rgba(248, 113, 113, 0.14);
     --danger: #f87171;
-    --badge-bg: #162034;
+    --badge-bg: #1F2937;
     --grid-line: rgba(255, 255, 255, 0.02);
 
     /* Speak Pastel Icon Wells (Dark Adapted) */
-    --well-blue: rgba(245, 158, 11, 0.2);
+    --well-blue: rgba(13, 85, 254, 0.18);
     --well-blue-icon: #60A5FA;
-    --well-purple: rgba(122, 53, 255, 0.2);
+    --well-purple: rgba(124, 58, 237, 0.18);
     --well-purple-icon: #C084FC;
-    --well-green: rgba(25, 154, 70, 0.2);
+    --well-green: rgba(5, 150, 105, 0.18);
     --well-green-icon: #4ADE80;
-    --well-orange: rgba(242, 103, 34, 0.2);
+    --well-orange: rgba(234, 88, 12, 0.18);
     --well-orange-icon: #FB923C;
-    --well-peach: rgba(255, 122, 0, 0.2);
-    --well-coral: rgba(255, 59, 92, 0.2);
+    --well-peach: rgba(234, 88, 12, 0.18);
+    --well-coral: rgba(225, 29, 72, 0.18);
     --well-coral-icon: #F43F5E;
 
     --r-card: 20px;
@@ -3337,57 +3339,126 @@
     letter-spacing: 0.02em;
   }
 
-  /* Speak Topbar Polish */
-  .topbar {
-    background: rgba(245, 247, 250, 0.92) !important;
-    border-bottom: 1px solid var(--border) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-  }
-  :root[data-theme="dark"] .topbar {
-    background: rgba(9, 13, 22, 0.92) !important;
+  /* Cirrus Floating Pill Navigation (Anti-AI-Slop Standard) */
+  @media (min-width: 769px) {
+    .topbar {
+      position: sticky !important;
+      top: 14px !important;
+      z-index: 1500 !important;
+      background: transparent !important;
+      border-bottom: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+      padding: 0 16px !important;
+      pointer-events: none !important;
+    }
+    .topbar-inner {
+      pointer-events: auto !important;
+      max-width: 1180px !important;
+      width: 100% !important;
+      margin: 0 auto !important;
+      padding: 0 12px 0 18px !important;
+      height: 52px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      background: rgba(255, 255, 255, 0.92) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid rgba(15, 23, 42, 0.08) !important;
+      border-radius: 9999px !important;
+      box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.02) !important;
+    }
+    :root[data-theme="dark"] .topbar-inner {
+      background: rgba(17, 24, 39, 0.9) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.4) !important;
+    }
   }
   .brand-box {
-    background: var(--accent) !important;
+    background: #0F172A !important;
     color: #FFFFFF !important;
     border-radius: 6px !important;
-    padding: 4px 8px !important;
+    padding: 3px 8px !important;
     font-weight: 800 !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em !important;
+  }
+  :root[data-theme="dark"] .brand-box {
+    background: #F8FAFC !important;
+    color: #0F172A !important;
+  }
+  .brand-text {
+    font-weight: 800 !important;
+    font-size: 0.98rem !important;
+    color: var(--text) !important;
+    letter-spacing: -0.02em !important;
   }
   .brand-badge {
-    border-radius: var(--r-pill) !important;
-    background: var(--accent-soft) !important;
-    border: 1px solid rgba(245, 158, 11, 0.2) !important;
-    color: var(--accent) !important;
+    border-radius: 9999px !important;
+    background: rgba(15, 23, 42, 0.05) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: var(--text-secondary) !important;
     font-weight: 700 !important;
+    font-size: 0.7rem !important;
+    padding: 2px 8px !important;
+  }
+  :root[data-theme="dark"] .brand-badge {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #94A3B8 !important;
   }
   .nav-link {
-    border-radius: var(--r-pill) !important;
-    padding: 8px 16px !important;
+    border-radius: 9999px !important;
+    padding: 6px 14px !important;
+    font-size: 0.82rem !important;
     font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    border: none !important;
+    background: transparent !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+  }
+  .nav-link:hover {
+    color: var(--text) !important;
+    background: rgba(15, 23, 42, 0.04) !important;
+  }
+  :root[data-theme="dark"] .nav-link:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
   }
   .nav-link.active, .nav-link.is-active {
-    background: var(--accent) !important;
+    background: #0F172A !important;
     color: #FFFFFF !important;
-    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3) !important;
-    border-color: transparent !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14) !important;
+  }
+  :root[data-theme="dark"] .nav-link.active,
+  :root[data-theme="dark"] .nav-link.is-active {
+    background: #F8FAFC !important;
+    color: #0F172A !important;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.14) !important;
   }
 
-  /* Speak Hero Action Lesson Card (Reference Image 4) */
+  /* Speak Hero Action Lesson Card (Tactile & Dignified) */
   .speak-hero-lesson-card {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 24px;
     padding: 24px;
-    color: #FFFFFF;
-    box-shadow: 0 12px 32px rgba(245, 158, 11, 0.28);
-    margin-bottom: 18px;
+    color: var(--text);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .speak-hero-lesson-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(245, 158, 11, 0.35);
+    border-color: var(--border-mid);
+    box-shadow: var(--shadow-hover);
   }
   .speak-hero-top {
     display: flex;
@@ -3396,61 +3467,67 @@
     margin-bottom: 12px;
   }
   .speak-hero-play-icon {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: #FFD13B;
+    background: rgba(245, 158, 11, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   .speak-hero-play-icon svg {
     margin-left: 2px;
+    fill: #D97706;
+  }
+  :root[data-theme="dark"] .speak-hero-play-icon svg {
+    fill: #FBBF24;
   }
   .speak-hero-badge {
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.85);
+    color: #D97706;
     margin-bottom: 2px;
   }
+  :root[data-theme="dark"] .speak-hero-badge {
+    color: #FBBF24;
+  }
   .speak-hero-title {
-    font-size: 1.25rem;
+    font-size: 1.18rem;
     font-weight: 800;
-    color: #FFFFFF;
+    color: var(--text);
     letter-spacing: -0.02em;
     line-height: 1.3;
   }
   .speak-hero-tag {
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(8px);
+    background: var(--bg-subtle);
     padding: 4px 12px;
     border-radius: var(--r-pill);
     font-size: 0.75rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: var(--text-secondary);
     white-space: nowrap;
+    border: 1px solid var(--border);
   }
   .speak-hero-desc {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.88rem;
+    color: var(--text-secondary);
     line-height: 1.5;
     margin: 0 0 18px 0;
   }
   .speak-hero-start-btn {
     width: 100%;
-    height: 50px;
-    background: #FFFFFF;
-    color: var(--accent);
-    font-weight: 800;
-    font-size: 1rem;
+    height: 48px;
+    background: #0F172A;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.92rem;
     border: none;
     border-radius: var(--r-pill);
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
     transition: all 0.15s ease;
     display: flex;
     align-items: center;
@@ -3458,11 +3535,13 @@
     gap: 8px;
   }
   .speak-hero-start-btn:hover {
-    background: #F8FAFD;
-    transform: scale(1.01);
+    background: #1E293B;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
   }
-  .speak-hero-start-btn:active {
-    transform: scale(0.98);
+  :root[data-theme="dark"] .speak-hero-start-btn {
+    background: #F8FAFC;
+    color: #0F172A;
   }
 
   /* Speak Progress Streak Banner (Reference Image 4) */
@@ -4896,73 +4975,47 @@ body.cbt-active #backToTopBtn,
 body.in-cbt-drill #backToTopBtn {
   display: none !important;
 }
-/* COMPONENT 4: UNLOCK PRO / VIP SHIFTING GRADIENT BUTTON */
+/* COMPONENT 4: UNLOCK PRO / VIP BADGE PILL (ANTI-AI-SLOP: LUXURY RESTRAINT) */
 .vip-upgrade-btn-pro {
   width: fit-content;
   display: inline-flex;
   align-items: center;
-  padding: 0.55em 1.15em;
-  gap: 0.45rem;
-  border: none;
-  font-weight: 800;
-  font-size: 0.82rem;
-  border-radius: 30px;
+  padding: 6px 15px;
+  gap: 6px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 9999px;
   cursor: pointer;
-  text-shadow: 1px 1px 2px rgba(136, 0, 136, 0.5);
-  background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
-  background-size: 300%;
-  background-position: left center;
-  transition: background 0.35s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(222, 111, 61, 0.3);
+  background: #0F172A;
+  color: #FBBF24;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+  transition: all 0.15s ease;
 }
 .vip-upgrade-btn-pro:hover {
-  background-size: 320%;
-  background-position: right center;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(222, 111, 61, 0.5);
+  background: #1E293B;
+  border-color: #FBBF24;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
 }
 .vip-upgrade-btn-pro svg {
-  width: 18px;
-  height: 14px;
-  fill: #f09f33;
-  transition: 0.3s ease;
-}
-.vip-upgrade-btn-pro:hover svg {
-  fill: #fff;
+  width: 14px;
+  height: 12px;
+  fill: #FBBF24;
 }
 
-/* COMPONENT 5: STANDARD BUTTON RIPPLE EXPANSION */
+/* COMPONENT 5: TACTILE BUTTONS (ANTI-AI-SLOP: ZERO VIBRATING PSEUDOS) */
 .btn-accent-solid, .btn-primary {
   position: relative;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: visible;
-  z-index: 1;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 .btn-accent-solid:hover, .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(13, 85, 254, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
 }
 .btn-accent-solid:active, .btn-primary:active {
-  transform: translateY(0);
-}
-.btn-accent-solid::after, .btn-primary::after {
-  content: "";
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  border-radius: inherit;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  transition: all 0.4s ease-out;
-  background-color: #0D55FE;
-  opacity: 0.35;
-}
-.btn-accent-solid:hover::after, .btn-primary:hover::after {
-  transform: scaleX(1.3) scaleY(1.5);
-  opacity: 0;
+  transform: translateY(1px) scale(0.99);
 }
 
 /* COMPONENT 6: FLOATING GLASSMORPHIC BOTTOM NAVIGATION MENU */
@@ -5068,68 +5121,228 @@ body.in-cbt-drill #backToTopBtn {
   transform: scale(0.94);
 }
 
-/* COMPONENT 7: UI BOXES WITH GLOWING ROTATING CONIC BORDER & MULTI-RADIAL BACKGROUND */
+/* COMPONENT 7: TACTILE PRODUCT CARDS (ANTI-AI-SLOP: ZERO ROTATING BORDERS) */
 .speak-v6-card, .uiverse-card-box {
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(240, 15%, 9%);
-  --paragraph: hsl(0, 0%, 83%);
-  --line: hsl(240, 9%, 17%);
-  --primary: hsl(189, 92%, 58%);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  padding: 1.25rem;
+  padding: 1.5rem;
   width: 100%;
   box-sizing: border-box;
-  background-color: hsla(240, 15%, 9%, 1);
-  background-image:
-    radial-gradient(at 88% 40%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
-    radial-gradient(at 49% 30%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
-    radial-gradient(at 14% 26%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
-    radial-gradient(at 0% 64%, hsl(189, 99%, 26%) 0px, transparent 85%),
-    radial-gradient(at 41% 94%, hsl(189, 97%, 36%) 0px, transparent 85%),
-    radial-gradient(at 100% 99%, hsl(188, 94%, 13%) 0px, transparent 85%);
-  border-radius: 1.15rem;
-  box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.08) inset, 0 8px 32px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-card);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.speak-v6-card:hover, .uiverse-card-box:hover {
+  border-color: var(--border-mid);
+  box-shadow: var(--shadow-hover);
 }
 .speak-v6-card > *, .uiverse-card-box > * {
   position: relative;
   z-index: 1;
 }
 .card__border {
+  display: none !important;
+}
+
+/* =========================================================
+   CIRRUS DAYLIGHT ATMOSPHERE & CRAFT DESIGN (ANTI-AI-SLOP)
+   ========================================================= */
+.cirrus-hero-stage {
+  position: relative;
+  padding: 44px 20px 32px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  border-radius: 32px;
+  background: radial-gradient(100% 70% at 50% 0%, #BAE6FD 0%, #E0F2FE 30%, #F8FAFC 75%, transparent 100%);
   overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  border-radius: inherit;
 }
-.card__border::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: center;
-  width: 250%;
-  height: 250%;
-  background-image: linear-gradient(
-    0deg,
-    hsla(0, 0%, 100%, 0) 0%,
-    hsl(189, 100%, 50%) 40%,
-    hsl(189, 100%, 50%) 60%,
-    hsla(0, 0%, 40%, 0) 100%
-  );
-  animation: cardConicRotate 8s linear infinite;
-  opacity: 0.45;
+:root[data-theme="dark"] .cirrus-hero-stage {
+  background: radial-gradient(100% 70% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, rgba(30, 41, 59, 0.35) 40%, transparent 100%);
 }
-@keyframes cardConicRotate {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+
+.cirrus-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0F172A;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+:root[data-theme="dark"] .cirrus-eyebrow-pill {
+  background: rgba(17, 24, 39, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #F8FAFC;
+}
+.cirrus-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0D55FE;
+}
+
+.cirrus-headline {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: #0A0D14;
+  max-width: 24ch;
+  margin: 0 auto 16px auto;
+}
+:root[data-theme="dark"] .cirrus-headline {
+  color: #F8FAFC;
+}
+
+.cirrus-subtext {
+  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  line-height: 1.6;
+  color: #475569;
+  max-width: 62ch;
+  margin: 0 auto 26px auto;
+}
+:root[data-theme="dark"] .cirrus-subtext {
+  color: #94A3B8;
+}
+
+.cirrus-action-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+
+.cirrus-btn-dark {
+  background: #0F172A;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.94rem;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  border: 1px solid #0F172A;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cirrus-btn-dark:hover {
+  background: #1E293B;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+}
+.cirrus-btn-dark:active {
+  transform: translateY(1px);
+}
+:root[data-theme="dark"] .cirrus-btn-dark {
+  background: #F8FAFC;
+  color: #0F172A;
+  border-color: #F8FAFC;
+}
+:root[data-theme="dark"] .cirrus-btn-dark:hover {
+  background: #FFFFFF;
+}
+
+.cirrus-btn-light {
+  background: #FFFFFF;
+  color: #0F172A;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.94rem;
+  padding: 13px 24px;
+  border-radius: 9999px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cirrus-btn-light:hover {
+  background: #F8FAFC;
+  border-color: rgba(15, 23, 42, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+.cirrus-btn-light:active {
+  transform: translateY(1px);
+}
+:root[data-theme="dark"] .cirrus-btn-light {
+  background: #111827;
+  color: #F8FAFC;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Docked Tangible Product Workspace Container */
+.cirrus-docked-stage {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.02);
+  padding: 22px;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 1180px;
+  position: relative;
+}
+.cirrus-stage-windowbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cirrus-window-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cirrus-window-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.cirrus-window-dots span.dot-red { background: #FF5F56; }
+.cirrus-window-dots span.dot-yellow { background: #FFBD2E; }
+.cirrus-window-dots span.dot-green { background: #27C93F; }
+
+.cirrus-window-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+.cirrus-status-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
 
 </style>
@@ -5275,7 +5488,7 @@ body.in-cbt-drill #backToTopBtn {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
           <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
         </svg>
-        <span id="vipBtnText">Unlock VIP</span>
+        <span id="vipBtnText">VIP Pass</span>
       </button>
     </div>
   </div>
@@ -5416,6 +5629,46 @@ body.in-cbt-drill #backToTopBtn {
        ========================================================= -->
   
     <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
+    <!-- CIRRUS INSPIRING DAYLIGHT HERO STAGE (ANTI-AI-SLOP CRAFT STANDARD) -->
+    <div class="cirrus-hero-stage uiv-animate-enter">
+      <div class="cirrus-eyebrow-pill">
+        <span class="cirrus-eyebrow-dot"></span>
+        CAMBRIDGE CBT ACADEMIC ACCELERATOR
+      </div>
+      <h1 class="cirrus-headline">
+        Master Cambridge IELTS on a quieter kind of preparation.
+      </h1>
+      <p class="cirrus-subtext">
+        23 Computer-Based Reading Mocks, 1,162 Academic Lexicon flashcards with 1-3-7 day Leitner SRS, and instant CEFR writing evaluation. Crafted for serious scholars aiming for Band 8.5+.
+      </p>
+      <div class="cirrus-action-pills">
+        <button class="cirrus-btn-dark" onclick="switchView('reading')">
+          <span>Begin Cambridge CBT</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+        </button>
+        <button class="cirrus-btn-light" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
+          <span>Explore 1,162 Lexicon</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+
+      <!-- DOCKED TANGIBLE PRODUCT WORKSPACE CARD (MATCHING REFERENCE IMAGE 2) -->
+      <div class="cirrus-docked-stage">
+        <div class="cirrus-stage-windowbar">
+          <div class="cirrus-window-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <div class="cirrus-window-status">
+            <span class="cirrus-status-pulse"></span>
+            <span>Cambridge AI Mentor Online &bull; Active Academic Session</span>
+          </div>
+          <button class="btn-outlined" onclick="openBandAssessmentModal()" style="height:32px; padding:0 14px; font-size:0.78rem; font-weight:700; border-radius:9999px;">
+            Target Band 8.5 ▾
+          </button>
+        </div>
+
     <!-- 1. TOP SCHOLAR WELCOME & TARGET BAND BAR -->
     <div class="speak-dashboard-header uiv-animate-enter uiv-delay-1" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:18px;">
       <div style="display:flex; align-items:center; gap:14px;">
@@ -5509,6 +5762,8 @@ body.in-cbt-drill #backToTopBtn {
           <div class="speak-jumpin-arrow">→</div>
         </div>
       </div>
+    </div> <!-- Close .cirrus-docked-stage -->
+  </div> <!-- Close .cirrus-hero-stage -->
 
     <!-- 5. COMPACT COLLAPSIBLE STUDY HUB GUIDE -->
     <details class="uiv-guide-collapsible">
@@ -5612,14 +5867,14 @@ body.in-cbt-drill #backToTopBtn {
           </div>
         </div>
       </div>
-        <button class="btn-outlined" onclick="switchView('reading')">
-          All 55 Practice Mocks ↗
-        </button>
       <div class="sec-block" id="ov-modules">
       <div class="sec-eyebrow">CORE PRACTICE MODULES</div>
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge Simulation Suite <span class="ver-muted">55 Interactive Tests &amp; Models</span></h2>
         <div class="sec-timestamp">Academic &amp; General Training Compatible</div>
+        <button class="btn-outlined" onclick="switchView('reading')" style="margin-left:auto;">
+          All 55 Practice Mocks ↗
+        </button>
       </div>
 
       <div class="occ-grid-3">
@@ -7774,7 +8029,7 @@ const SPEAKING_TOPICS_FREE_LIMIT = 5;
 const MISTAKE_LOG_FREE_LIMIT = 5;
 
 let appState = {
-  theme: "dark",
+  theme: "light",
   showBurmese: false, // Default to English Only for global accessibility
   fontScale: 1,
   mastered: [],
@@ -8738,6 +8993,10 @@ function loadAppState() {
   if (!appState.srsSchedule) appState.srsSchedule = {};
   if (!appState.errorLog) appState.errorLog = [];
   if (!appState.fontScale) appState.fontScale = 1;
+  if (typeof localStorage !== "undefined" && !localStorage.getItem("ips_theme_v7")) {
+    appState.theme = "light";
+    try { localStorage.setItem("ips_theme_v7", "light"); } catch (e) {}
+  }
   ensureUserProfileInitialized();
 
   // Entitlement Preservation Invariant:
