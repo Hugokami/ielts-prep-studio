@@ -2111,11 +2111,19 @@
         const out = document.getElementById('v6-openalex-output');
 
         if (!quota.allowed) {
-
-          out.innerHTML = `<p style="color:#FF3B5C;font-weight:700;">Daily Free Quota (10/10) reached. Unlock VIP Pass for unlimited lifetime searches.</p>`;
-
+          out.innerHTML = `
+            <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
+              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
+              <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
+                You have reached your daily limit for scholarly cloze drills. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, research abstracts, and exam tools.
+              </p>
+              <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
+                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+              </button>
+            </div>
+          `;
           return;
-
         }
 
         const topic = document.getElementById('v6-openalex-topic').value.trim() || 'urban sustainability';
@@ -2211,23 +2219,195 @@
 
 
 
+    // Live Podcast Shadowing Speech-to-Text Transcriber Engine
+    let activePodcastRecognition = null;
+    let activePodcastIndex = null;
+    let activePodcastStartTime = 0;
+    let podcastTranscripts = {};
+    const PODCAST_FILLER_REGEX = /\b(um+|uh+|er+|ah+|hmm+|like|you know|basically|actually|sort of|kind of)\b/gi;
+
+    window.togglePodcastShadowing = function(idx) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recBtn = document.getElementById(`pod-rec-btn-${idx}`);
+      const recTxt = document.getElementById(`pod-rec-txt-${idx}`);
+      const recDot = document.getElementById(`pod-rec-dot-${idx}`);
+      const transcriptBox = document.getElementById(`pod-transcript-${idx}`);
+      const timeEl = document.getElementById(`pod-time-${idx}`);
+      const wcEl = document.getElementById(`pod-wc-${idx}`);
+      const wpmEl = document.getElementById(`pod-wpm-${idx}`);
+
+      // If already recording this episode, stop it
+      if (activePodcastRecognition && activePodcastIndex === idx) {
+        try { activePodcastRecognition.stop(); } catch(e) {}
+        activePodcastRecognition = null;
+        activePodcastIndex = null;
+        if (recTxt) recTxt.textContent = '🎙️ Shadow & Transcribe';
+        if (recBtn) recBtn.style.background = '#0D55FE';
+        if (recDot) recDot.style.background = '#fff';
+        return;
+      }
+
+      // Stop any other active recording
+      if (activePodcastRecognition) {
+        try { activePodcastRecognition.stop(); } catch(e) {}
+        if (activePodcastIndex !== null) {
+          const prevBtn = document.getElementById(`pod-rec-btn-${activePodcastIndex}`);
+          const prevTxt = document.getElementById(`pod-rec-txt-${activePodcastIndex}`);
+          const prevDot = document.getElementById(`pod-rec-dot-${activePodcastIndex}`);
+          if (prevTxt) prevTxt.textContent = '🎙️ Shadow & Transcribe';
+          if (prevBtn) prevBtn.style.background = '#0D55FE';
+          if (prevDot) prevDot.style.background = '#fff';
+        }
+        activePodcastRecognition = null;
+        activePodcastIndex = null;
+      }
+
+      if (!SpeechRecognition) {
+        if (transcriptBox) {
+          transcriptBox.innerHTML = '<span style="color:#FF3B5C; font-weight:700;">Speech-to-text not supported in your browser engine. Use Chrome, Edge, or Safari with Web Speech enabled.</span>';
+        }
+        return;
+      }
+
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-GB';
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        activePodcastStartTime = Date.now();
+        activePodcastIndex = idx;
+        activePodcastRecognition = recognition;
+
+        if (!podcastTranscripts[idx]) podcastTranscripts[idx] = '';
+
+        if (recTxt) recTxt.textContent = '⏹️ Stop Shadowing';
+        if (recBtn) recBtn.style.background = '#FF3B5C';
+        if (recDot) recDot.style.background = '#FFD1D9';
+
+        recognition.onresult = (event) => {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const chunk = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              podcastTranscripts[idx] = (podcastTranscripts[idx] + ' ' + chunk).trim();
+            } else {
+              interim += chunk;
+            }
+          }
+
+          const combined = (podcastTranscripts[idx] + ' ' + interim).trim();
+          const words = combined.split(/\s+/).filter(Boolean);
+          const elapsedSec = Math.max(Math.round((Date.now() - activePodcastStartTime) / 1000), 1);
+          const elapsedMin = elapsedSec / 60;
+          const wpm = Math.round(words.length / elapsedMin);
+
+          if (timeEl) timeEl.textContent = `${elapsedSec}s`;
+          if (wcEl) wcEl.textContent = words.length;
+          if (wpmEl) wpmEl.textContent = `${wpm} WPM`;
+
+          if (transcriptBox) {
+            const escaped = combined
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(PODCAST_FILLER_REGEX, (m) => `<mark style="background:rgba(255,59,92,0.25);color:#FF3B5C;padding:1px 4px;border-radius:4px;font-weight:700;">${m}</mark>`);
+            transcriptBox.innerHTML = escaped || '<em style="color:var(--text-secondary);">Listening to your voice... Speak now while shadowing.</em>';
+          }
+        };
+
+        recognition.onerror = (err) => {
+          console.warn('[Podcast Shadowing Error]', err);
+          if (err.error === 'not-allowed') {
+            if (transcriptBox) transcriptBox.innerHTML = '<span style="color:#FF3B5C; font-weight:700;">Microphone access denied. Please allow microphone permissions.</span>';
+          }
+          if (recTxt) recTxt.textContent = '🎙️ Shadow & Transcribe';
+          if (recBtn) recBtn.style.background = '#0D55FE';
+          activePodcastRecognition = null;
+          activePodcastIndex = null;
+        };
+
+        recognition.onend = () => {
+          if (activePodcastIndex === idx) {
+            if (recTxt) recTxt.textContent = '🎙️ Shadow & Transcribe';
+            if (recBtn) recBtn.style.background = '#0D55FE';
+            if (recDot) recDot.style.background = '#fff';
+            activePodcastRecognition = null;
+            activePodcastIndex = null;
+          }
+        };
+
+        recognition.start();
+      } catch (err) {
+        console.error('[Podcast Recognition Start Error]', err);
+      }
+    };
+
+    window.clearPodcastShadowing = function(idx) {
+      if (activePodcastRecognition && activePodcastIndex === idx) {
+        try { activePodcastRecognition.stop(); } catch(e) {}
+        activePodcastRecognition = null;
+        activePodcastIndex = null;
+      }
+      podcastTranscripts[idx] = '';
+      const recBtn = document.getElementById(`pod-rec-btn-${idx}`);
+      const recTxt = document.getElementById(`pod-rec-txt-${idx}`);
+      const recDot = document.getElementById(`pod-rec-dot-${idx}`);
+      const transcriptBox = document.getElementById(`pod-transcript-${idx}`);
+      const timeEl = document.getElementById(`pod-time-${idx}`);
+      const wcEl = document.getElementById(`pod-wc-${idx}`);
+      const wpmEl = document.getElementById(`pod-wpm-${idx}`);
+
+      if (recTxt) recTxt.textContent = '🎙️ Shadow & Transcribe';
+      if (recBtn) recBtn.style.background = '#0D55FE';
+      if (recDot) recDot.style.background = '#fff';
+      if (timeEl) timeEl.textContent = '0s';
+      if (wcEl) wcEl.textContent = '0';
+      if (wpmEl) wpmEl.textContent = '0 WPM';
+      if (transcriptBox) {
+        transcriptBox.innerHTML = '<em style="color:var(--text-secondary); font-size:0.78rem;">Tap "🎙️ Shadow &amp; Transcribe" and speak into your microphone to record your shadowing practice with live speech-to-text.</em>';
+      }
+    };
+
     function getPodcastListHtml(eps) {
       if (!eps || !eps.length) {
         return `<div style="padding:16px; text-align:center; color:var(--text-secondary);">No audio episodes returned for this channel. Try switching channels above.</div>`;
       }
       return eps.map((ep, idx) => `
-        <div style="padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
-            <div style="font-weight:800; font-size:0.92rem; color:var(--text); line-height:1.4;">${ep.title}</div>
-            <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700;">⏱️ ${ep.durationMin}m</span>
+        <div style="padding:16px; border-radius:18px; border:1px solid var(--border); background:var(--bg-card); margin-bottom:14px; box-shadow:var(--shadow-card);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px;">
+            <div style="font-weight:800; font-size:0.95rem; color:var(--text); line-height:1.4;">${ep.title}</div>
+            <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; white-space:nowrap;">⏱️ ${ep.durationMin}m</span>
           </div>
-          <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">🎙️ ${ep.show} &bull; 📅 ${ep.date}</div>
-          <audio id="v6-pod-audio-${idx}" controls preload="none" src="${ep.audioUrl}" style="width:100%; height:36px; margin-bottom:8px;"></audio>
-          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-            <span style="font-size:0.72rem; color:var(--text-secondary); font-weight:700;">Pacing / Speed:</span>
-            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">0.75x Shadowing</button>
-            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.0x Native</button>
-            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.72rem;">1.25x Exam Stress</button>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">🎙️ ${ep.show} &bull; 📅 ${ep.date}</div>
+          <audio id="v6-pod-audio-${idx}" controls preload="none" src="${ep.audioUrl}" style="width:100%; height:40px; margin-bottom:10px; border-radius:8px;"></audio>
+          
+          <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:12px;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">Speed:</span>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">0.75x Shadowing</button>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">1.0x Native</button>
+            <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">1.25x Exam Stress</button>
+          </div>
+
+          <!-- LIVE SHADOWING SPEECH-TO-TEXT PANEL -->
+          <div class="podcast-shadowing-box" style="padding:12px; border-radius:12px; background:rgba(0,0,0,0.15); border:1px solid var(--border);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <button id="pod-rec-btn-${idx}" onclick="window.togglePodcastShadowing(${idx})" class="speak-pill-btn" style="background:#0D55FE; color:#fff; border:none; padding:5px 12px; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+                  <span id="pod-rec-dot-${idx}" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#fff;"></span>
+                  <span id="pod-rec-txt-${idx}">🎙️ Shadow &amp; Transcribe</span>
+                </button>
+                <button onclick="window.clearPodcastShadowing(${idx})" class="speak-pill-btn secondary" style="padding:5px 8px; font-size:0.72rem; cursor:pointer;">Clear</button>
+              </div>
+              <div style="font-size:0.72rem; color:var(--text-secondary); display:flex; gap:10px;">
+                <span>⏱️ <strong id="pod-time-${idx}" style="color:var(--text);">0s</strong></span>
+                <span>Words: <strong id="pod-wc-${idx}" style="color:var(--text);">0</strong></span>
+                <span>Pacing: <strong id="pod-wpm-${idx}" style="color:var(--text);">0 WPM</strong></span>
+              </div>
+            </div>
+            <div id="pod-transcript-${idx}" style="min-height:48px; max-height:120px; overflow-y:auto; padding:8px 10px; font-size:0.82rem; line-height:1.5; color:var(--text); background:rgba(255,255,255,0.03); border-radius:8px; border:1px dashed var(--border);">
+              <em style="color:var(--text-secondary); font-size:0.78rem;">Tap "🎙️ Shadow &amp; Transcribe" and speak into your microphone to record your shadowing practice with live speech-to-text.</em>
+            </div>
           </div>
         </div>
       `).join('');
@@ -2236,8 +2416,25 @@
     const podBtn = document.getElementById('v6-podcast-btn');
     if (podBtn) {
       podBtn.onclick = async () => {
-        const q = document.getElementById('v6-podcast-query').value;
+        const quota = window.IELTSApiV6.checkAndConsumeQuota(true);
         const out = document.getElementById('v6-podcast-output');
+        if (!quota.allowed) {
+          out.innerHTML = `
+            <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
+              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
+              <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
+                You have reached your daily limit for podcast streaming. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, live speech transcription, and exam tools.
+              </p>
+              <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
+                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        const q = document.getElementById('v6-podcast-query').value;
         out.innerHTML = (typeof getAcademicToolLoadingHtml === 'function')
           ? getAcademicToolLoadingHtml('Podcasts')
           : `<div style="text-align:center; padding:24px;">Loading episodes from iTunes stream...</div>`;
@@ -2253,8 +2450,25 @@
     const podRefreshBtn = document.getElementById('v6-podcast-btn-refresh');
     if (podRefreshBtn) {
       podRefreshBtn.onclick = async () => {
-        const q = document.getElementById('v6-podcast-query').value;
+        const quota = window.IELTSApiV6.checkAndConsumeQuota(true);
         const out = document.getElementById('v6-podcast-output');
+        if (!quota.allowed) {
+          out.innerHTML = `
+            <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
+              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
+              <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
+                You have reached your daily limit for podcast streaming. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, live speech transcription, and exam tools.
+              </p>
+              <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
+                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        const q = document.getElementById('v6-podcast-query').value;
         out.innerHTML = (typeof getAcademicToolLoadingHtml === 'function')
           ? getAcademicToolLoadingHtml('Refreshing')
           : `<div style="text-align:center; padding:24px;">Refreshing live podcast feed...</div>`;

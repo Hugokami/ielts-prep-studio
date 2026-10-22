@@ -812,11 +812,19 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
     if (text === "/quote" || text.startsWith("/quote ") || text === "Scholar Quote" || text === "🧠 Scholar Quote") {
       await handleQuoteCommand(chatId, userId, env, botToken);
       return jsonResponse({ ok: true });
+    }
 
     // 2.6a. /paper <topic>
     if (text === "/paper" || text.startsWith("/paper ")) {
       const topic = text.replace(/^\/paper\s*/i, "").trim() || "artificial intelligence education";
       await handlePaperCommand(chatId, userId, topic, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.6a2. /cloze <topic>
+    if (text === "/cloze" || text.startsWith("/cloze ")) {
+      const topic = text.replace(/^\/cloze\s*/i, "").trim() || "urban sustainability";
+      await handleClozeCommand(chatId, userId, topic, env, botToken);
       return jsonResponse({ ok: true });
     }
 
@@ -827,11 +835,11 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
       return jsonResponse({ ok: true });
     }
 
-    // 2.6c. /podcast
+    // 2.6c. /podcast [source]
     if (text === "/podcast" || text.startsWith("/podcast ")) {
-      await handlePodcastCommand(chatId, userId, env, botToken);
+      const query = text.replace(/^\/podcast\s*/i, "").trim() || "bbc";
+      await handlePodcastCommand(chatId, userId, query, env, botToken);
       return jsonResponse({ ok: true });
-    }
     }
 
     // 2.7. /quota or "📊 My Quota" or "Check Quota"
@@ -1489,6 +1497,24 @@ Have a lifetime voucher code (e.g. \`IPS-VIP-XXXX-YYYY\`)?
     if (data === "tool_quota") {
       await answerCallbackQuery(botToken, cb.id);
       await handleQuotaCheck(cbChatId, cbUserId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "tool_cloze") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handleClozeCommand(cbChatId, cbUserId, "urban sustainability", env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "tool_podcast" || data === "pod_bbc") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handlePodcastCommand(cbChatId, cbUserId, "bbc", env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "pod_cambridge") {
+      await answerCallbackQuery(botToken, cb.id);
+      await handlePodcastCommand(cbChatId, cbUserId, "cambridge", env, botToken);
       return jsonResponse({ ok: true });
     }
 
@@ -3806,6 +3832,10 @@ async function handleToolsMenu(chatId, userId, env, botToken) {
 
   const inlineKeyboard = [
     [
+      { text: "📖 Scholarly Cloze Drill", callback_data: "tool_cloze" },
+      { text: "🎙️ Cambridge & BBC Podcasts", callback_data: "tool_podcast" }
+    ],
+    [
       { text: "🔗 Academic Collocations", callback_data: "ask_tool:collocate" },
       { text: "💎 Band 8.5+ Synonyms", callback_data: "ask_tool:syn" }
     ],
@@ -4209,6 +4239,26 @@ async function handleQuoteCommand(chatId, userId, env, botToken) {
     return;
   }
 
+  const quote = await fetchScholarQuote();
+  const text = 
+`🧠 *SCHOLAR THOUGHT & RHETORIC*
+━━━━━━━━━━━━━━━━━━━━
+❝ *${quote.quote}* ❞
+— *${quote.author}*
+
+✍️ *IELTS Task 2 Application:*
+${quote.advice}
+
+${formatQuotaFooter(quota)}`;
+
+  await sendTelegramMessage(botToken, chatId, text, {
+    inline_keyboard: [
+      [{ text: "🔄 Another Quote ⏭️", callback_data: "tool_quote" }],
+      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+    ]
+  });
+}
+
 async function handlePaperCommand(chatId, userId, topic, env, botToken) {
   const isVip = (await resolveIsVip(env, userId));
   const quota = await checkAndConsumeQuota(env, userId, isVip);
@@ -4267,44 +4317,151 @@ async function handleChartCommand(chatId, userId, country, env, botToken) {
   }
 }
 
-async function handlePodcastCommand(chatId, userId, env, botToken) {
+async function handleClozeCommand(chatId, userId, topic, env, botToken) {
+  const isVip = (await resolveIsVip(env, userId));
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+    return;
+  }
+
+  const t = (topic || "urban sustainability").trim();
   try {
-    const res = await fetch("https://itunes.apple.com/search?term=BBC+6+Minute+English&media=podcast&entity=podcastEpisode&limit=3");
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&filter=has_abstract:true,language:en&per_page=3`);
     const data = await res.json();
-    const ep = data.results && data.results[0];
-    if (!ep) {
-      await sendTelegramMessage(botToken, chatId, "Podcast feed temporarily unavailable.");
+    const work = data.results && data.results.find((w) => w.abstract_inverted_index);
+    if (!work) {
+      await sendTelegramMessage(botToken, chatId, `⚠️ No scholarly works found for "${t}". Try \`/cloze climate policy\` or \`/cloze artificial intelligence\`.`);
       return;
     }
-    const text = `🎧 *Daily Shadowing Episode*\n*Show:* ${ep.collectionName}\n*Title:* ${ep.trackName}\n*Listen MP3:* ${ep.previewUrl || ep.episodeUrl}`;
-    await sendTelegramMessage(botToken, chatId, text, {
-      inline_keyboard: [
-        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
-      ]
+
+    const inv = work.abstract_inverted_index;
+    const words = [];
+    Object.keys(inv).forEach((w) => inv[w].forEach((pos) => { words[pos] = w; }));
+    const rawTokens = words.filter(Boolean);
+    const stopWords = ["between", "through", "because", "without", "another", "against", "however", "therefore", "further", "several", "during", "before", "should", "within", "across"];
+
+    const candidates = [];
+    rawTokens.forEach((tok, idx) => {
+      const clean = tok.replace(/[^a-zA-Z]/g, "").toLowerCase();
+      if (clean.length >= 6 && !stopWords.includes(clean) && !candidates.some((c) => c.clean === clean)) {
+        candidates.push({ idx, orig: tok, clean });
+      }
     });
-  } catch (e) {
-    await sendTelegramMessage(botToken, chatId, "Podcast feed temporarily unavailable.");
-  }
-}
 
-  const quote = await fetchScholarQuote();
-  const text = 
-`🧠 *SCHOLAR THOUGHT & RHETORIC*
+    if (candidates.length < 4) {
+      await sendTelegramMessage(botToken, chatId, `⚠️ Abstract for "${t}" has insufficient academic vocabulary for cloze masking. Please try another topic.`);
+      return;
+    }
+
+    const targetCount = Math.min(5, candidates.length);
+    const step = Math.max(1, Math.floor(candidates.length / targetCount));
+    const selected = [];
+    for (let i = 0; i < targetCount; i++) {
+      selected.push(candidates[Math.min(i * step, candidates.length - 1)]);
+    }
+
+    const maskedTokens = [...rawTokens];
+    selected.forEach((sel, i) => {
+      const punc = sel.orig.match(/[^a-zA-Z]+$/)?.[0] || "";
+      maskedTokens[sel.idx] = `[ ${i + 1} ]${punc}`;
+    });
+
+    const maskedText = maskedTokens.join(" ").slice(0, 950);
+    const wordBank = [...selected.map((s) => s.clean)].sort(() => Math.random() - 0.5);
+    const answerKey = selected.map((s, i) => `${i + 1}. *${s.clean}*`).join("\n");
+
+    const text =
+`📖 *PEER-REVIEWED CLOZE DRILL*
 ━━━━━━━━━━━━━━━━━━━━
-❝ *${quote.quote}* ❞
-— *${quote.author}*
+🔬 *Scholarly Study:* _${work.title}_
+📅 *Year:* ${work.publication_year || 2025} • *Citations:* ${work.cited_by_count || 0}
 
-✍️ *IELTS Task 2 Application:*
-${quote.advice}
+Fill in blanks *[ 1 ]* to *[ ${targetCount} ]* using the Academic Word Bank:
+
+"${maskedText}..."
+
+🔤 *Word Bank:*
+\`${wordBank.join("  •  ")}\`
+
+||🔍 *Answer Key:*
+${answerKey}||
 
 ${formatQuotaFooter(quota)}`;
 
-  await sendTelegramMessage(botToken, chatId, text, {
-    inline_keyboard: [
-      [{ text: "🔄 Another Quote ⏭️", callback_data: "tool_quote" }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
-    ]
-  });
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "🔄 Another Cloze Drill", callback_data: "tool_cloze" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      ]
+    });
+  } catch (err) {
+    await sendTelegramMessage(botToken, chatId, "⚠️ Scholarly cloze drill temporarily unavailable. Please try again.");
+  }
+}
+
+async function handlePodcastCommand(chatId, userId, query, env, botToken) {
+  const isVip = (await resolveIsVip(env, userId));
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+    return;
+  }
+
+  let rawQ = (query || "").trim().toLowerCase();
+  let searchTerm = "BBC 6 Minute English";
+  if (rawQ.includes("cambridge") || rawQ.includes("cam")) {
+    searchTerm = "Cambridge Assessment English Podcast";
+  } else if (rawQ.includes("bbc") || rawQ.includes("idiom") || rawQ.includes("speak")) {
+    searchTerm = "BBC The English We Speak";
+  } else if (rawQ.includes("ielts") || rawQ.includes("band9")) {
+    searchTerm = "IELTS Speaking Band 9";
+  } else if (rawQ.length > 2) {
+    searchTerm = query.trim();
+  }
+
+  try {
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=podcast&entity=podcastEpisode&limit=3`);
+    const data = await res.json();
+    const ep = data.results && data.results.find((e) => e.previewUrl || e.episodeUrl);
+    if (!ep) {
+      await sendTelegramMessage(botToken, chatId, `⚠️ No podcast episodes found for "${searchTerm}". Try \`/podcast bbc\` or \`/podcast cambridge\`.`);
+      return;
+    }
+
+    const durationMin = ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6;
+    const releaseDate = (ep.releaseDate || "").slice(0, 10);
+    const mp3Url = ep.previewUrl || ep.episodeUrl;
+
+    const text =
+`🎙️ *NATIVE PODCAST SHADOWING*
+━━━━━━━━━━━━━━━━━━━━
+📻 *Show:* ${ep.collectionName || "Native Audio Stream"}
+🎵 *Episode:* *${ep.trackName}*
+⏱️ *Duration:* ~${durationMin} min • 📅 *Date:* ${releaseDate}
+
+🎧 *Direct Audio Stream (MP3):*
+${mp3Url}
+
+💡 *Shadowing Protocol (3 Speeds):*
+• *0.75x:* Slow shadowing to master vowel length & weak forms
+• *1.0x:* Native speed imitation for natural rhythm & pauses
+• *1.25x:* Exam stress sprint for fast comprehension
+
+🎙️ _Tip: Launch our Web App to use the live Speech-to-Text Shadowing Transcriber!_
+
+${formatQuotaFooter(quota)}`;
+
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "🎙️ Launch Shadowing Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+        [{ text: "📻 Cambridge Feed", callback_data: "pod_cambridge" }, { text: "📻 BBC Feed", callback_data: "pod_bbc" }],
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+      ]
+    });
+  } catch (e) {
+    await sendTelegramMessage(botToken, chatId, "⚠️ Podcast feed temporarily unavailable. Please try again.");
+  }
 }
 
 async function handleQuotaCheck(chatId, userId, env, botToken) {

@@ -886,6 +886,44 @@ bot.on('callback_query:data', async (ctx) => {
     return ctx.answerCallbackQuery({ text: 'Use ⬅️ Prev / Next ➡️ to navigate pages.' });
   }
 
+  if (data === 'tool_cloze') {
+    return handleCloze(ctx, 'urban sustainability');
+  }
+
+  if (data === 'tool_podcast') {
+    return handlePodcast(ctx, 'bbc');
+  }
+
+  if (data === 'pod_cambridge') {
+    return handlePodcast(ctx, 'cambridge');
+  }
+
+  if (data === 'pod_bbc') {
+    return handlePodcast(ctx, 'bbc');
+  }
+
+  if (data.startsWith('cloze_ans:')) {
+    const clozeId = data.replace('cloze_ans:', '');
+    const session = activeClozeSessions.get(clozeId);
+    if (!session) {
+      return ctx.answerCallbackQuery({ text: 'Answer key expired. Run /cloze to start a new drill.', show_alert: true });
+    }
+    const answerText =
+      `✅ *CLOZE ANSWER KEY & VOCABULARY*\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `🔬 *Study:* _${session.title}_\n\n` +
+      session.answers.join('\n') +
+      `\n\n💡 *Tip:* Test your spelling and lexical precision by reviewing these collocations in the Web App!`;
+
+    await ctx.reply(answerText, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('🔄 Another Cloze Drill', 'tool_cloze')
+        .text('⚡ VIP Academic Menu', 'menu_tools')
+    });
+    return ctx.answerCallbackQuery({ text: 'Answer Key Revealed!' });
+  }
+
   if (data === 'tool_quote') {
     return handleQuote(ctx);
   }
@@ -1177,6 +1215,9 @@ async function handleToolsMenu(ctx) {
       `👇 Choose an academic tool below to begin:`;
 
   const keyboard = new InlineKeyboard()
+    .text('📖 Scholarly Cloze Drill', 'tool_cloze')
+    .text('🎙️ Cambridge & BBC Podcasts', 'tool_podcast')
+    .row()
     .text('🔗 Academic Collocations', 'ask_tool:collocate')
     .text('💎 Band 8.5+ Synonyms', 'ask_tool:syn')
     .row()
@@ -1475,6 +1516,8 @@ async function handleWikiPage(ctx, cacheId, pageIdx) {
   await ctx.answerCallbackQuery({ text: `Page ${pageIdx + 1} of ${article.totalPages}` });
 }
 
+const activeClozeSessions = new Map(); // id -> { answers, topic, title }
+
 async function handleQuote(ctx) {
   const userId = ctx.from.id;
   const quota = checkAndConsumeQuota(userId);
@@ -1484,6 +1527,24 @@ async function handleQuote(ctx) {
       reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
     });
   }
+
+  const quote = await fetchScholarQuote();
+  const text =
+    `🧠 **SCHOLAR THOUGHT & RHETORIC**\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `❝ *${quote.quote}* ❞\n` +
+    `— **${quote.author}**\n\n` +
+    `✍️ **IELTS Task 2 Application:**\n` +
+    `${quote.advice}\n\n` +
+    `${formatQuotaFooter(quota)}`;
+
+  await ctx.reply(text, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .text('🔄 Another Quote ⏭️', 'tool_quote')
+      .text('⚡ VIP Academic Menu', 'menu_tools')
+  });
+}
 
 async function handlePaper(ctx, topic) {
   const userId = ctx.from.id;
@@ -1549,40 +1610,157 @@ async function handleChart(ctx, country) {
   }
 }
 
-async function handlePodcast(ctx) {
+async function handleCloze(ctx, topic) {
+  const userId = ctx.from?.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+    });
+  }
+
+  const t = (topic || 'urban sustainability').trim();
   try {
-    const res = await fetch('https://itunes.apple.com/search?term=BBC+6+Minute+English&media=podcast&entity=podcastEpisode&limit=3');
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&filter=has_abstract:true,language:en&per_page=3`);
     const data = await res.json();
-    const ep = data.results && data.results[0];
-    if (!ep) return ctx.reply('Podcast feed temporarily unavailable.');
-    return ctx.reply(
-      `🎧 *Daily Shadowing Episode*\n` +
-      `*Show:* ${ep.collectionName}\n` +
-      `*Title:* ${ep.trackName}\n` +
-      `*Listen MP3:* ${ep.previewUrl || ep.episodeUrl}`,
-      { parse_mode: 'Markdown' }
-    );
-  } catch (e) {
-    return ctx.reply('Podcast feed temporarily unavailable.');
+    const work = data.results && data.results.find(w => w.abstract_inverted_index);
+    if (!work) {
+      return ctx.reply(`⚠️ No academic papers found for "${t}". Try \`/cloze climate policy\` or \`/cloze artificial intelligence\`.`);
+    }
+
+    const inv = work.abstract_inverted_index;
+    const words = [];
+    Object.keys(inv).forEach(w => inv[w].forEach(pos => { words[pos] = w; }));
+    const rawTokens = words.filter(Boolean);
+    const stopWords = ['between', 'through', 'because', 'without', 'another', 'against', 'however', 'therefore', 'further', 'several', 'during', 'before', 'should', 'within', 'across', 'under'];
+
+    // Identify candidate academic words (>= 6 chars)
+    const candidates = [];
+    rawTokens.forEach((tok, idx) => {
+      const clean = tok.replace(/[^a-zA-Z]/g, '').toLowerCase();
+      if (clean.length >= 6 && !stopWords.includes(clean) && !candidates.some(c => c.clean === clean)) {
+        candidates.push({ idx, orig: tok, clean });
+      }
+    });
+
+    if (candidates.length < 4) {
+      return ctx.reply(`⚠️ Passage for "${t}" has insufficient academic vocabulary for cloze masking. Please try another scholarly topic.`);
+    }
+
+    // Pick 4-5 evenly distributed words
+    const targetCount = Math.min(5, candidates.length);
+    const step = Math.max(1, Math.floor(candidates.length / targetCount));
+    const selected = [];
+    for (let i = 0; i < targetCount; i++) {
+      selected.push(candidates[Math.min(i * step, candidates.length - 1)]);
+    }
+
+    // Build masked passage and answer key
+    const answerKey = selected.map((s, i) => `${i + 1}. *${s.clean}*`);
+    const wordBank = [...selected.map(s => s.clean)].sort(() => Math.random() - 0.5);
+
+    const maskedTokens = [...rawTokens];
+    selected.forEach((sel, i) => {
+      const punc = sel.orig.match(/[^a-zA-Z]+$/)?.[0] || '';
+      maskedTokens[sel.idx] = `[ ${i + 1} ]${punc}`;
+    });
+
+    const maskedText = maskedTokens.join(' ').slice(0, 950);
+    const clozeId = `cloze_${Date.now()}_${userId}`;
+    activeClozeSessions.set(clozeId, {
+      title: work.title,
+      answers: answerKey,
+      topic: t
+    });
+
+    const messageText =
+      `📖 *PEER-REVIEWED CLOZE DRILL*\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `🔬 *Scholarly Study:* _${work.title}_\n` +
+      `📅 *Year:* ${work.publication_year || 2025} • *Citations:* ${work.cited_by_count || 0}\n\n` +
+      `Fill in blanks *[ 1 ]* to *[ ${targetCount} ]* from the Academic Word Bank below:\n\n` +
+      `"${maskedText}..."\n\n` +
+      `🔤 *Word Bank:*\n` +
+      `\`${wordBank.join('  •  ')}\`\n\n` +
+      `${formatQuotaFooter(quota)}`;
+
+    return ctx.reply(messageText, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .text('👁️ Reveal Answer Key', `cloze_ans:${clozeId}`)
+        .row()
+        .text('🔄 Another Cloze Drill', 'tool_cloze')
+        .text('⚡ VIP Academic Menu', 'menu_tools')
+    });
+  } catch (err) {
+    console.error('[handleCloze Error]', err);
+    return ctx.reply('⚠️ Scholarly cloze drill temporarily unavailable. Please try again.');
   }
 }
 
-  const quote = await fetchScholarQuote();
-  const text =
-    `🧠 **SCHOLAR THOUGHT & RHETORIC**\n` +
-    `━━━━━━━━━━━━━━━━━━━━\n` +
-    `❝ *${quote.quote}* ❞\n` +
-    `— **${quote.author}**\n\n` +
-    `✍️ **IELTS Task 2 Application:**\n` +
-    `${quote.advice}\n\n` +
-    `${formatQuotaFooter(quota)}`;
+async function handlePodcast(ctx, query) {
+  const userId = ctx.from?.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+    });
+  }
 
-  await ctx.reply(text, {
-    parse_mode: 'Markdown',
-    reply_markup: new InlineKeyboard()
-      .text('🔄 Another Quote ⏭️', 'tool_quote')
-      .text('⚡ VIP Academic Menu', 'menu_tools')
-  });
+  let rawQ = (query || '').trim().toLowerCase();
+  let searchTerm = 'BBC 6 Minute English';
+  if (rawQ.includes('cambridge') || rawQ.includes('cam')) {
+    searchTerm = 'Cambridge Assessment English Podcast';
+  } else if (rawQ.includes('bbc') || rawQ.includes('idiom') || rawQ.includes('speak')) {
+    searchTerm = 'BBC The English We Speak';
+  } else if (rawQ.includes('ielts') || rawQ.includes('band9')) {
+    searchTerm = 'IELTS Speaking Band 9';
+  } else if (rawQ.length > 2) {
+    searchTerm = query.trim();
+  }
+
+  try {
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=podcast&entity=podcastEpisode&limit=3`);
+    const data = await res.json();
+    const ep = data.results && data.results.find(e => e.previewUrl || e.episodeUrl);
+    if (!ep) {
+      return ctx.reply(`⚠️ No podcast episodes found for "${searchTerm}". Try \`/podcast bbc\` or \`/podcast cambridge\`.`);
+    }
+
+    const durationMin = ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6;
+    const releaseDate = (ep.releaseDate || '').slice(0, 10);
+    const mp3Url = ep.previewUrl || ep.episodeUrl;
+
+    const messageText =
+      `🎙️ *NATIVE PODCAST SHADOWING*\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `📻 *Show:* ${ep.collectionName || 'Native Audio Stream'}\n` +
+      `🎵 *Episode:* *${ep.trackName}*\n` +
+      `⏱️ *Duration:* ~${durationMin} min • 📅 *Date:* ${releaseDate}\n\n` +
+      `🎧 *Direct Audio Stream (MP3):*\n${mp3Url}\n\n` +
+      `💡 *Shadowing Protocol (3 Speeds):*\n` +
+      `• *0.75x:* Slow shadowing to master vowel length & weak forms\n` +
+      `• *1.0x:* Native speed imitation for natural rhythm & pauses\n` +
+      `• *1.25x:* Exam stress sprint for fast comprehension\n\n` +
+      `🎙️ _Tip: Launch our Web App to use the live Speech-to-Text Shadowing Transcriber!_\n\n` +
+      `${formatQuotaFooter(quota)}`;
+
+    return ctx.reply(messageText, {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard()
+        .webApp('🎙️ Launch Shadowing Studio', WEB_URL)
+        .row()
+        .text('📻 Cambridge Feed', 'pod_cambridge')
+        .text('📻 BBC Feed', 'pod_bbc')
+        .row()
+        .text('⚡ VIP Academic Menu', 'menu_tools')
+    });
+  } catch (e) {
+    console.error('[handlePodcast Error]', e);
+    return ctx.reply('⚠️ Podcast audio stream temporarily unavailable. Please try again.');
+  }
 }
 
 async function handleWotd(ctx) {
@@ -1802,11 +1980,18 @@ bot.command('paper', ctx => {
   const t = ctx.message?.text?.replace(/^\/paper/i, '').trim() || '';
   handlePaper(ctx, t);
 });
+bot.command('cloze', ctx => {
+  const t = ctx.message?.text?.replace(/^\/cloze/i, '').trim() || '';
+  handleCloze(ctx, t);
+});
 bot.command('chart', ctx => {
   const c = ctx.message?.text?.replace(/^\/chart/i, '').trim() || '';
   handleChart(ctx, c);
 });
-bot.command('podcast', handlePodcast);
+bot.command('podcast', ctx => {
+  const q = ctx.message?.text?.replace(/^\/podcast/i, '').trim() || '';
+  handlePodcast(ctx, q);
+});
 bot.command(['wotd', 'word'], handleWotd);
 bot.command('quota', handleQuota);
 bot.command(['bands', 'score'], handleBands);
@@ -1883,6 +2068,8 @@ bot.start({
         { command: 'syn', description: '💎 Band 8.5+ Academic Synonyms' },
         { command: 'dict', description: '📚 Academic Dictionary & Pronunciation' },
         { command: 'read', description: '📖 Essay Topic Briefs & Arguments' },
+        { command: 'cloze', description: '📖 Peer-Reviewed Scholarly Cloze Drill' },
+        { command: 'podcast', description: '🎙️ Cambridge & BBC Native Podcasts' },
         { command: 'quote', description: '🧠 Scholar Quotes for Task 2' },
         { command: 'wotd', description: '🌟 Band 8.5+ Word of the Day' },
         { command: 'quota', description: '📊 Check Daily AI Tool Usage (10/day)' },
