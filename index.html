@@ -9639,17 +9639,18 @@ function runManualWritingAudit() {
 // AI EXAMINER EVALUATION ENGINE (PUTER.JS ZERO-COST PRIMARY + GEMINI FALLBACK)
 // ==========================================
 async function callGeminiApi(promptText, systemInstruction, preferredModel = "gpt-4o-mini") {
-  // Check if running inside Telegram Mini App
-  if (typeof isTelegramMiniApp === "function" && isTelegramMiniApp()) {
-    const hasPuterToken = (typeof localStorage !== "undefined" && (localStorage.getItem("puter.auth.token") || localStorage.getItem("puter_token")));
-    if (!hasPuterToken) {
-      throw new Error("TMA_BROWSER_REQUIRED: Telegram Mini App blocks Puter.js authentication windows. Please tap 'Open in Browser' to evaluate your test for free!");
-    }
-  }
-
   // 1. Primary Zero-Cost Engine: Puter.js ($0 developer out-of-pocket cost)
   if (typeof window.puter !== "undefined" && window.puter.ai && typeof window.puter.ai.chat === "function") {
     try {
+      // If user is not yet signed in to Puter, attempt silent temp user onboarding
+      if (window.puter.auth && typeof window.puter.auth.isSignedIn === 'function' && !window.puter.auth.isSignedIn()) {
+        try {
+          await window.puter.auth.signIn({ attempt_temp_user_creation: true });
+        } catch (authErr) {
+          console.warn("[Puter auth notice]", authErr);
+        }
+      }
+
       const messages = [];
       if (systemInstruction) {
         messages.push({ role: "system", content: systemInstruction });
@@ -9676,7 +9677,7 @@ async function callGeminiApi(promptText, systemInstruction, preferredModel = "gp
       }
     } catch (puterErr) {
       console.warn("[Puter AI attempt error]", puterErr);
-      if (String(puterErr).includes("popup") || String(puterErr).includes("blocked") || (typeof isTelegramMiniApp === "function" && isTelegramMiniApp())) {
+      if (typeof isTelegramMiniApp === "function" && isTelegramMiniApp() && (String(puterErr).includes("popup") || String(puterErr).includes("blocked") || String(puterErr).includes("auth"))) {
         throw new Error("TMA_BROWSER_REQUIRED: External authentication popup was blocked. Please open in your external browser (Chrome/Safari) to use Puter.js AI.");
       }
       // If Puter fails for other reasons, fall through to Gemini fallback
@@ -12376,12 +12377,9 @@ let aiChatMessages = [];
 
 function isTelegramMiniApp() {
   if (typeof window === 'undefined') return false;
-  if (window.StorageManager && window.StorageManager.isTelegram) return true;
   const tg = window.Telegram && window.Telegram.WebApp;
-  if (tg && ((tg.initData && tg.initData.length > 0) || (tg.platform && tg.platform !== 'unknown'))) {
-    return true;
-  }
-  return false;
+  // Official Telegram WebApp specification: initData is non-empty ONLY when running inside Telegram
+  return !!(tg && typeof tg.initData === 'string' && tg.initData.trim().length > 0);
 }
 
 function openStudioInExternalBrowser(targetTab = 'aichat') {
@@ -12425,9 +12423,13 @@ function updateAiChatModelBadge() {
 
 function initAiMentorTab() {
   const notice = document.getElementById('aiChatTmaNotice');
-  if (notice && isTelegramMiniApp()) {
-    const dismissed = sessionStorage.getItem('ips_aichat_tma_dismissed') === '1';
-    notice.style.display = dismissed ? 'none' : 'flex';
+  if (notice) {
+    if (isTelegramMiniApp()) {
+      const dismissed = sessionStorage.getItem('ips_aichat_tma_dismissed') === '1';
+      notice.style.display = dismissed ? 'none' : 'flex';
+    } else {
+      notice.style.display = 'none';
+    }
   }
 }
 
@@ -12471,7 +12473,10 @@ function renderAiChatMarkdown(md) {
     .replace(/```([\s\S]*?)```/g, '<pre style="background:var(--bg-card); padding:10px; border-radius:4px; overflow-x:auto;"><code>$1</code></pre>')
     .replace(/`([^`]+)`/g, '<code style="background:var(--bg-card); padding:2px 5px; border-radius:3px; color:var(--accent); font-size:0.85em;">$1</code>')
     // Parse in-app action links: [Label](action:target) -> in-app action pill button
-    .replace(/\[([^\]]+)\]\(action:([^\)]+)\)/g, '<button class="ai-action-pill" onclick="handleAiNavAction(\'$2\')">🔗 $1 ↗</button>')
+    .replace(/\[([^\]]+)\]\(action:([^\)]+)\)/g, function(match, label, action) {
+      const cleanLabel = label.replace(/\s*↗\s*$/, '');
+      return '<button class="ai-action-pill" onclick="handleAiNavAction(\'' + action + '\')">🔗 ' + cleanLabel + ' ↗</button>';
+    })
     // Parse regular web links: [Label](http...) -> external anchor
     .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:700; text-decoration:underline;">$1 ↗</a>')
     .replace(/^\s*-\s+(.*$)/gim, '<li style="margin-bottom:4px; margin-left:18px;">$1</li>')
@@ -12555,19 +12560,6 @@ async function sendAiChatMessage() {
 
   const selectedModel = (modelSelect && modelSelect.value) || 'gpt-4o-mini';
 
-  // Check TMA restrictions
-  if (isTelegramMiniApp()) {
-    const hasPuterToken = (typeof localStorage !== 'undefined' && (localStorage.getItem('puter.auth.token') || localStorage.getItem('puter_token')));
-    if (!hasPuterToken) {
-      appendAiChatMessage('user', promptText);
-      input.value = '';
-      appendAiChatMessage('assistant', `⚠️ **Running inside Telegram Mini App**\n\nTelegram's in-app webview blocks Puter.js authentication popups. To chat with the AI Mentor for free with zero billing limits, please tap below to open IELTS Prep Studio in Chrome, Safari, or your default browser:\n\n[🌐 Open in External Browser ↗](action:external_browser)`);
-      const notice = document.getElementById('aiChatTmaNotice');
-      if (notice) notice.style.display = 'flex';
-      return;
-    }
-  }
-
   // Append user message
   appendAiChatMessage('user', promptText);
   input.value = '';
@@ -12607,6 +12599,15 @@ async function sendAiChatMessage() {
     // Check if Puter.js is loaded
     if (typeof window.puter === 'undefined' || !window.puter.ai || typeof window.puter.ai.chat !== 'function') {
       throw new Error('Puter.js SDK is not loaded. Please verify your internet connection or disable ad-blockers.');
+    }
+
+    // If user is not yet signed in to Puter, attempt silent temp user onboarding on this direct user click gesture
+    if (window.puter.auth && typeof window.puter.auth.isSignedIn === 'function' && !window.puter.auth.isSignedIn()) {
+      try {
+        await window.puter.auth.signIn({ attempt_temp_user_creation: true });
+      } catch (authErr) {
+        console.warn('[Puter auth notice]', authErr);
+      }
     }
 
     const messagesPayload = [
