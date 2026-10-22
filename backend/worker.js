@@ -4377,25 +4377,45 @@ const FALLBACK_CLOZE_BANK = [
 
 const FALLBACK_PODCAST_BANK = [
   {
+    searchTerm: "speaking",
+    show: "IELTS Band 9 Speaking Simulation",
+    title: "EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!",
+    date: "2026-10-20",
+    durationMin: 15,
+    audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111",
+    dialogue: [
+      "[01:23] Examiner: Now in this first part, I'd like to ask you some questions about yourself. Let's talk about where you're living now.",
+      "[01:30] Examiner: Tell me about the town or city where you're living at the moment.",
+      "[01:34] Candidate: At the moment, I am living in Oxford, which is a city that I absolutely love. It's so pretty.",
+      "[01:42] Examiner: And how long have you been living in this city?",
+      "[01:45] Candidate: I've been living in this city since September last year. So that's about five months, I'd say.",
+      "[01:53] Examiner: Do you think you will move to a different place in the near future?",
+      "[01:57] Candidate: In the near future, I don't think so. I'm quite happy where I am. I've got a nice job."
+    ],
+    vocab: [
+      "• Oxford: Historic university city in Oxfordshire, England celebrated for collegiate architecture",
+      "• Near future: An idiomatic temporal marker indicating the immediate upcoming period",
+      "• Fluency & Coherence: Band 9 criterion evaluating spontaneous, unhesitating delivery"
+    ]
+  },
+  {
     searchTerm: "bbc",
     show: "BBC 6 Minute English",
     title: "Why has gold got so expensive?",
     date: "2026-10-15",
-    durationMin: 6,
-    audioUrl: "https://open.live.bbc.co.uk/mediaselector/6/redir/allocate/cbbc/p0h72n0f/audio/mp3/p0h72lzs.mp3",
+    durationMin: 7,
+    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3",
     dialogue: [
-      "[00:00] Neil: Hello, this is 6 Minute English from BBC Learning English. I'm Neil.",
-      "[00:05] Beth: And I'm Beth.",
-      "[00:07] Neil: In recent months, the price of gold has soared to record highs over $2,700 per ounce. But why has gold got so expensive?",
-      "[00:20] Beth: Central banks have been accumulating huge gold reserves as a hedge against inflation and global market turbulence.",
-      "[00:35] Neil: Indeed. Gold is widely viewed as a 'safe haven' asset—retaining purchasing power during periods of economic volatility.",
-      "[00:50] Beth: Retail investors across Asia are also purchasing physical bars to safeguard long-term family savings."
+      "[01:06] Phil: Hello, welcome to 6 Minute English from BBC Learning English. I'm Phil.",
+      "[01:11] Georgie: And I'm Georgie.",
+      "[01:19] Phil: I've got a question for you. Do you own anything made of gold?",
+      "[01:29] Georgie: Well, at the moment, I'm wearing a lot of gold colour jewelry, but I'm not sure exactly how much of it is made of gold.",
+      "[01:42] Phil: In recent months, the price of gold has soared to record highs over $2,700 per ounce."
     ],
     vocab: [
-      "• Safe haven: An investment that retains or increases in value during turbulence",
-      "• Hedge against inflation: An asset bought to protect purchasing power",
-      "• Soar: To rise rapidly to an exceptionally high level",
-      "• Volatility: Rapid and unpredictable change in financial markets"
+      "• Jewelry: Decorative personal items such as rings, necklaces, and bracelets",
+      "• Safe haven: An investment asset retaining intrinsic value during economic turbulence",
+      "• Soar: To rise rapidly to an exceptionally elevated altitude or historic high"
     ]
   },
   {
@@ -4403,41 +4423,20 @@ const FALLBACK_PODCAST_BANK = [
     show: "BBC 6 Minute English",
     title: "Are people drinking less alcohol?",
     date: "2026-10-08",
-    durationMin: 6,
-    audioUrl: "https://open.live.bbc.co.uk/mediaselector/6/redir/allocate/cbbc/p0h67b3v/audio/mp3/p0h67b3w.mp3",
-    dialogue: [
-      "[00:00] Neil: Hello, this is 6 Minute English from BBC Learning English. I'm Neil.",
-      "[00:05] Beth: And I'm Beth.",
-      "[00:07] Neil: More and more people, especially Gen Z, are choosing to drink less alcohol or abstain completely.",
-      "[00:21] Beth: That's right, Neil. The rise of 'mindful drinking' and zero-alcohol beverages is transforming British hospitality.",
-      "[00:38] Neil: Many adults prioritize restorative sleep and mental wellness over peer pressure to consume alcohol.",
-      "[00:52] Beth: Brewers are investing heavily in dealcoholized beers that preserve traditional flavor profiles."
-    ],
-    vocab: [
-      "• Mindful drinking: Consciously managing consumption for personal health",
-      "• Abstain: To voluntarily refrain from consuming something",
-      "• Peer pressure: Social influence to conform to group behaviors",
-      "• Dealcoholized: Beverage with alcohol removed via cold distillation"
-    ]
-  },
-  {
-    searchTerm: "cambridge",
-    show: "Cambridge Assessment English",
-    title: "Developing C1/C2 Academic Fluency & Coherence",
-    date: "2026-09-20",
     durationMin: 7,
-    audioUrl: "https://ia800905.us.archive.org/19/items/ielts-speaking-c1-fluency/cambridge-c1-fluency.mp3",
+    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3",
     dialogue: [
-      "[00:00] Examiner: Good afternoon. How has urban infrastructure transformed your hometown over recent years?",
-      "[00:14] Candidate (Band 9): My hometown has undergone a remarkable metamorphosis, transitioning from quiet suburban quarters to a thriving commercial epicenter with rapid transit expansion.",
-      "[00:36] Examiner: And what environmental considerations should municipal planners balance?",
-      "[00:44] Candidate (Band 9): Sustainable zoning and carbon-neutral public transport are absolutely paramount to alleviate infrastructural bottlenecks and mitigate toxic emissions."
+      "[01:11] Georgie: Hello, welcome to 6 Minute English from BBC Learning English. I'm Georgie.",
+      "[01:17] Neil: And I'm Neil.",
+      "[01:24] Georgie: Do you want to hear something quite unusual for me?",
+      "[01:29] Neil: Yes!",
+      "[01:30] Georgie: I'm trying to drink less alcohol.",
+      "[01:35] Neil: That is unusual for you, Georgie. Mindful drinking has become a prominent wellness movement."
     ],
     vocab: [
-      "• Metamorphosis: A profound structural or aesthetic transformation",
-      "• Paramount: Supreme in importance, significance, or priority",
-      "• Infrastructural bottlenecks: Constraints that impede traffic or logistics",
-      "• Mitigate: To lessen the severity, impact, or gravity of a problem"
+      "• Mindful drinking: Consciously evaluating and moderating alcohol consumption",
+      "• Abstain: To deliberately refrain from indulging in an appetite or habit",
+      "• Dealcoholized: Beverages produced with alcohol removed through vacuum distillation"
     ]
   }
 ];
@@ -4640,7 +4639,7 @@ async function handlePodcastCommand(chatId, userId, query, env, botToken) {
   }
 
   if (!dialogueLines) {
-    dialogueLines = `[00:00] Presenter 1 (Neil): Welcome to 6 Minute English from BBC Learning English. Today we examine "${epTitle}".\n[00:25] Presenter 2 (Beth): We're discussing key academic arguments, idiomatic expressions, and natural conversational cadence.\n[01:10] Presenter 1 (Neil): Notice how speakers connect ideas seamlessly using discourse markers.`;
+    dialogueLines = `🎙️ [Authentic Audio Stream: "${epTitle}"]\nListen along with the live audio stream above. Launch our Web App for second-by-second interactive live captions with playhead sync.`;
     vocabLines = "• Coherence: Logical connection and consistency of ideas\n• Nuance: A subtle distinction in meaning or tone";
   }
 

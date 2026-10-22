@@ -1771,6 +1771,17 @@
 
         async fetchShadowingPodcasts(query = 'BBC 6 Minute English IELTS', forceRefresh = false) {
       const cleanQ = (query || 'BBC 6 Minute English IELTS').trim();
+      const qLow = cleanQ.toLowerCase();
+      const allVerified = window.VERIFIED_PODCAST_SESSIONS || [];
+      let topVerified = [];
+      if (qLow.includes('speaking') || qLow.includes('band 9') || qLow.includes('cambridge')) {
+        topVerified = allVerified.filter(v => v.id.includes('speaking') || (v.show && v.show.includes('Band 9')));
+      } else if (qLow.includes('bbc')) {
+        topVerified = allVerified.filter(v => v.show && v.show.includes('BBC'));
+      } else {
+        topVerified = allVerified;
+      }
+
       const cacheKey = `itunes_pod_${cleanQ}`;
       if (forceRefresh && typeof localStorage !== 'undefined') {
         localStorage.removeItem(`ips_api_cache_${cacheKey}`);
@@ -1791,15 +1802,30 @@
         data = await fetchWithCache(cacheKey, url);
       }
 
-      return (data.results || [])
+      const itunesEps = (data.results || [])
         .filter((ep) => ep.previewUrl || ep.episodeUrl)
-        .map((ep) => ({
-          title: ep.trackName || 'Podcast Episode',
-          show: ep.collectionName || 'Native Audio Stream',
-          audioUrl: ep.previewUrl || ep.episodeUrl,
-          durationMin: ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6,
-          date: (ep.releaseDate || '').slice(0, 10)
-        }));
+        .map((ep) => {
+          const matchedV = allVerified.find(v => (ep.trackName && ep.trackName.toLowerCase().includes(v.title.toLowerCase())) || (v.audioUrl === (ep.previewUrl || ep.episodeUrl)));
+          return {
+            title: ep.trackName || 'Podcast Episode',
+            show: ep.collectionName || 'Native Audio Stream',
+            audioUrl: ep.previewUrl || ep.episodeUrl,
+            durationMin: ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6,
+            date: (ep.releaseDate || '').slice(0, 10),
+            description: ep.description || '',
+            hasVerbatimCaptions: Boolean(matchedV),
+            segments: matchedV ? matchedV.segments : null,
+            vocab: matchedV ? matchedV.vocab : null
+          };
+        });
+
+      const finalEps = [...topVerified];
+      itunesEps.forEach(ie => {
+        if (!finalEps.some(fe => fe.audioUrl === ie.audioUrl || fe.title.toLowerCase() === ie.title.toLowerCase())) {
+          finalEps.push(ie);
+        }
+      });
+      return finalEps;
     },
 
 
@@ -2219,132 +2245,75 @@
 
 
 
-    // PRECISE PODCAST DIALOGUE TRANSCRIPT & CAPTIONS ENGINE
-    const VERIFIED_PODCAST_TRANSCRIPTS = {
-      gold: {
-        dialogue: [
-          { time: "00:00", speaker: "Neil", text: "Hello. This is 6 Minute English from BBC Learning English. I’m Neil." },
-          { time: "00:05", speaker: "Beth", text: "And I’m Beth." },
-          { time: "00:07", speaker: "Neil", text: "In recent months, the price of gold has soared to record highs, topping over $2,700 per ounce. But why has gold got so expensive, and who is buying it?" },
-          { time: "00:20", speaker: "Beth", text: "Central banks around the world have been accumulating huge gold reserves as a hedge against inflation and geopolitical turbulence." },
-          { time: "00:32", speaker: "Neil", text: "Indeed. Gold is often viewed as a 'safe haven' commodity—an asset that preserves its intrinsic purchasing power when currency values fluctuate." },
-          { time: "00:46", speaker: "Beth", text: "Retail investors in emerging economies like China and India are also purchasing physical gold bars and jewelry to protect household wealth." },
-          { time: "01:05", speaker: "Neil", text: "So global demand is consistently outstripping physical mine supply. Let's recap the core academic vocabulary from today's discussion:" }
-        ],
-        vocabulary: [
-          "Safe haven: An investment that is expected to retain or increase in value during market downturns",
-          "Hedge against inflation: An asset bought to protect against the erosion of currency purchasing power",
-          "Soar: To rise rapidly to an exceptionally high level or historic peak",
-          "Reserve asset: Foreign financial assets held by central monetary authorities",
-          "Turbulence: A state of conflict, economic instability, or sudden unpredictability"
-        ]
-      },
-      alcohol: {
-        dialogue: [
-          { time: "00:00", speaker: "Neil", text: "Hello. This is 6 Minute English from BBC Learning English. I’m Neil." },
-          { time: "00:05", speaker: "Beth", text: "And I’m Beth." },
-          { time: "00:07", speaker: "Neil", text: "More and more people, especially younger generations like Gen Z, are choosing to drink less alcohol or abstain completely." },
-          { time: "00:21", speaker: "Beth", text: "That's right, Neil. The rise of 'mindful drinking' and zero-alcohol beers, wines, and mocktails is radically transforming social hospitality." },
-          { time: "00:35", speaker: "Neil", text: "Many young adults cite mental well-being, improved sleep quality, and financial savings as primary drivers for living sober." },
-          { time: "00:50", speaker: "Beth", text: "Major beverage conglomerates are investing billions into dealcoholized beverages that mimic the complex flavor profiles of traditional drinks without the hangover." },
-          { time: "01:10", speaker: "Neil", text: "A genuine cultural pivot towards wellness over social peer pressure. Let's look at today's key vocabulary:" }
-        ],
-        vocabulary: [
-          "Mindful drinking: Being intentionally conscious of why and how much alcohol you consume",
-          "Abstain: To intentionally refrain or hold back from consuming something",
-          "Sober: Not under the influence of intoxicating alcohol; living free from alcohol",
-          "Peer pressure: Social influence from friends or colleagues to conform to group behaviors",
-          "Dealcoholized: Beverages with alcohol removed through vacuum distillation while preserving aroma"
-        ]
-      },
-      curiosity: {
-        dialogue: [
-          { time: "00:00", speaker: "Neil", text: "Hello. This is 6 Minute English from BBC Learning English. I’m Neil." },
-          { time: "00:05", speaker: "Georgina", text: "And I’m Georgina." },
-          { time: "00:08", speaker: "Neil", text: "What drives human beings to explore deep ocean trenches and distant galaxies? It's curiosity—our intrinsic appetite for novel knowledge." },
-          { time: "00:22", speaker: "Georgina", text: "Neuroscientists have demonstrated that curiosity stimulates the brain's dopamine pathways, creating a rewarding sensation when we resolve an ambiguity." },
-          { time: "00:38", speaker: "Neil", text: "In academic IELTS essays, showing intellectual curiosity and formulating nuanced probing arguments is key to Band 9 coherence." },
-          { time: "00:52", speaker: "Georgina", text: "Let's review the academic vocabulary related to curiosity and cognitive inquiry:" }
-        ],
-        vocabulary: [
-          "Intrinsic: Belonging naturally from within; essential and inherent",
-          "Cognitive: Connected with the mental processes of understanding, learning, and reasoning",
-          "Probing: Inquiring deeply and closely into complex underlying mechanisms",
-          "Ambiguity: The quality of being open to more than one interpretation; uncertainty"
-        ]
-      },
-      cambridge: {
-        dialogue: [
-          { time: "00:00", speaker: "Examiner", text: "Good afternoon. Could you tell me a little about the city you grew up in and how it has changed over recent years?" },
-          { time: "00:12", speaker: "Candidate (Band 9)", text: "Certainly. I was raised in Yangon, which was historically celebrated for its colonial architecture and tranquil lakeside vistas. Over the past decade, however, it has undergone a remarkable metamorphosis with rapid infrastructural modernization and tech proliferation." },
-          { time: "00:34", speaker: "Examiner", text: "And what role do you think municipal urban planning plays in mitigating the negative impacts of such growth?" },
-          { time: "00:42", speaker: "Candidate (Band 9)", text: "Urban planning is absolutely paramount. Without comprehensive zoning regulations and green transit networks, rapid urban migration inevitably leads to severe infrastructural bottlenecks, air pollution, and municipal gridlock." },
-          { time: "01:05", speaker: "Examiner", text: "Thank you. That demonstrates high-level syntactic variety, native discourse markers, and lexical cohesion." }
-        ],
-        vocabulary: [
-          "Metamorphosis: A profound and striking transformation in structure or character",
-          "Paramount: More important than anything else; supreme in significance",
-          "Infrastructural bottlenecks: Points of physical congestion that impede city functionality",
-          "Mitigate: To make something less severe, harmful, or damaging"
-        ]
+    // AUTHENTIC LIVE CAPTIONS & SYNCHRONIZED PODCAST ENGINE
+    window.podActiveCaptions = {};
+
+    window.initLivePodcastCaptions = function(idx, segments) {
+      const audio = document.getElementById(`v6-pod-audio-${idx}`);
+      const container = document.getElementById(`pod-transcript-content-${idx}`);
+      const statusEl = document.getElementById(`pod-live-status-${idx}`);
+      if (!audio || !container || !segments || !segments.length) return;
+
+      window[`podAutoScroll_${idx}`] = true;
+      let lastActiveIdx = -1;
+
+      // Ensure fresh listener
+      audio.ontimeupdate = function() {
+        const ct = audio.currentTime;
+        const curM = Math.floor(ct / 60);
+        const curS = Math.floor(ct % 60);
+        const timeStr = `${curM.toString().padStart(2, '0')}:${curS.toString().padStart(2, '0')}`;
+        if (statusEl) {
+          statusEl.innerHTML = `🔴 <strong>LIVE PLAYHEAD:</strong> ${timeStr}`;
+        }
+
+        // Binary/linear search for active segment
+        let activeIdx = -1;
+        for (let i = 0; i < segments.length; i++) {
+          if (segments[i].start <= ct) {
+            if (ct <= segments[i].end + 0.5) {
+              activeIdx = i;
+              break;
+            } else if (i === segments.length - 1 || ct < segments[i + 1].start) {
+              activeIdx = i;
+              break;
+            }
+          }
+        }
+
+        if (activeIdx !== -1 && activeIdx !== lastActiveIdx) {
+          if (lastActiveIdx !== -1) {
+            const prevEl = document.getElementById(`cap-${idx}-${lastActiveIdx}`);
+            if (prevEl) prevEl.classList.remove('active-caption');
+          }
+          const curEl = document.getElementById(`cap-${idx}-${activeIdx}`);
+          if (curEl) {
+            curEl.classList.add('active-caption');
+            if (window[`podAutoScroll_${idx}`]) {
+              curEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
+          lastActiveIdx = activeIdx;
+        }
+      };
+    };
+
+    window.seekPodcastAudio = function(idx, seconds) {
+      const audio = document.getElementById(`v6-pod-audio-${idx}`);
+      if (audio) {
+        audio.currentTime = Math.max(0, seconds - 0.2);
+        audio.play().catch(() => {});
       }
     };
 
-    function getFormattedTranscriptForEpisode(ep) {
-      const titleLow = (ep.title || '').toLowerCase();
-      const descLow = (ep.description || '').toLowerCase();
-      
-      let matchKey = null;
-      if (titleLow.includes('gold') || descLow.includes('gold')) matchKey = 'gold';
-      else if (titleLow.includes('alcohol') || titleLow.includes('drink') || descLow.includes('alcohol')) matchKey = 'alcohol';
-      else if (titleLow.includes('curiosity') || descLow.includes('curiosity')) matchKey = 'curiosity';
-      else if (titleLow.includes('cambridge') || titleLow.includes('speaking') || titleLow.includes('band 9') || (ep.show && ep.show.toLowerCase().includes('cambridge'))) matchKey = 'cambridge';
-
-      if (matchKey && VERIFIED_PODCAST_TRANSCRIPTS[matchKey]) {
-        const data = VERIFIED_PODCAST_TRANSCRIPTS[matchKey];
-        const turnsHtml = data.dialogue.map(d => `
-          <div style="margin-bottom:8px; line-height:1.65;">
-            <span style="display:inline-block; font-size:0.75rem; font-family:monospace; color:var(--text-secondary); margin-right:6px;">[${d.time}]</span>
-            <strong style="color:var(--accent); font-weight:800;">${d.speaker}:</strong> 
-            <span style="color:var(--text);">${d.text}</span>
-          </div>
-        `).join('');
-        
-        return {
-          turnsHtml,
-          vocabList: data.vocabulary
-        };
+    window.togglePodcastAutoScroll = function(idx) {
+      window[`podAutoScroll_${idx}`] = !window[`podAutoScroll_${idx}`];
+      const btn = document.getElementById(`pod-autoscroll-btn-${idx}`);
+      if (btn) {
+        btn.textContent = window[`podAutoScroll_${idx}`] ? 'Auto-Scroll: ON' : 'Auto-Scroll: OFF';
+        btn.style.opacity = window[`podAutoScroll_${idx}`] ? '1' : '0.6';
       }
-
-      // Dynamic precise dialogue transcript derived from title & description
-      const cleanTitle = ep.title.replace(/[^\w\s-]/g, '').trim();
-      const turnsHtml = `
-        <div style="margin-bottom:8px; line-height:1.65;">
-          <span style="display:inline-block; font-size:0.75rem; font-family:monospace; color:var(--text-secondary); margin-right:6px;">[00:00]</span>
-          <strong style="color:var(--accent); font-weight:800;">Presenter 1 (Neil):</strong> 
-          <span style="color:var(--text);">Welcome to 6 Minute English from BBC Learning English. Today we are examining <em>"${cleanTitle}"</em> and exploring the key arguments native speakers make.</span>
-        </div>
-        <div style="margin-bottom:8px; line-height:1.65;">
-          <span style="display:inline-block; font-size:0.75rem; font-family:monospace; color:var(--text-secondary); margin-right:6px;">[00:25]</span>
-          <strong style="color:var(--accent); font-weight:800;">Presenter 2 (Beth):</strong> 
-          <span style="color:var(--text);">${ep.description ? ep.description.slice(0, 320) + '...' : 'In this programme, we explore the underlying evidence, presenting balanced viewpoints and natural British idiomatic expressions.'}</span>
-        </div>
-        <div style="margin-bottom:8px; line-height:1.65;">
-          <span style="display:inline-block; font-size:0.75rem; font-family:monospace; color:var(--text-secondary); margin-right:6px;">[01:10]</span>
-          <strong style="color:var(--accent); font-weight:800;">Presenter 1 (Neil):</strong> 
-          <span style="color:var(--text);">Notice the natural rhythm, connected speech, and discourse markers—crucial for Band 8.5+ listening comprehension and speaking accuracy.</span>
-        </div>
-      `;
-      
-      return {
-        turnsHtml,
-        vocabList: [
-          `Nuance: A subtle distinction or variation in meaning or tone`,
-          `Syntactic variety: Employing a wide spectrum of simple, compound, and complex sentence structures`,
-          `Discourse markers: Words that organize discourse into cohesive units (furthermore, in contrast, consequently)`
-        ]
-      };
-    }
+    };
 
     window.copyPodcastTranscriptText = function(idx) {
       const box = document.getElementById(`pod-transcript-content-${idx}`);
@@ -2352,10 +2321,17 @@
       const raw = box.innerText || box.textContent || '';
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(raw).then(() => {
-          if (typeof showToast === 'function') showToast('✓ Podcast transcript copied to clipboard!');
-          else alert('✓ Podcast transcript copied to clipboard!');
+          if (typeof showToast === 'function') showToast('✓ Podcast captions copied to clipboard!');
+          else alert('✓ Podcast captions copied to clipboard!');
         }).catch(() => {});
       }
+    };
+
+    window.loadVerifiedPodcastSessions = function() {
+      const qSel = document.getElementById('v6-podcast-query');
+      if (qSel) qSel.value = 'IELTS Speaking Band 9';
+      const btn = document.getElementById('v6-podcast-btn');
+      if (btn) btn.click();
     };
 
     function getPodcastListHtml(eps) {
@@ -2363,7 +2339,24 @@
         return `<div style="padding:16px; text-align:center; color:var(--text-secondary);">No audio episodes returned for this channel. Try switching channels above.</div>`;
       }
       return eps.map((ep, idx) => {
-        const transcriptData = getFormattedTranscriptForEpisode(ep);
+        const hasCaptions = Boolean(ep.segments && ep.segments.length);
+
+        // Schedule live player sync
+        if (hasCaptions) {
+          setTimeout(() => {
+            window.initLivePodcastCaptions(idx, ep.segments);
+          }, 60);
+        }
+
+        const captionsHtml = hasCaptions
+          ? ep.segments.map((seg, cIdx) => `
+              <div class="pod-caption-line" id="cap-${idx}-${cIdx}" data-start="${seg.start}" data-end="${seg.end}" onclick="window.seekPodcastAudio(${idx}, ${seg.start})" title="Jump playhead to ${seg.time}">
+                <span style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary); margin-right:8px; opacity:0.85; flex-shrink:0;">[${seg.time}]</span>
+                <span class="cap-text" style="color:var(--text);">${seg.text}</span>
+              </div>
+            `).join('')
+          : '';
+
         return `
           <div style="padding:16px; border-radius:18px; border:1px solid var(--border); background:var(--bg-card); margin-bottom:14px; box-shadow:var(--shadow-card);">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px;">
@@ -2380,25 +2373,41 @@
               <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">1.25x Exam Pace</button>
             </div>
 
-            <!-- PRECISE TRANSCRIPTION & CAPTIONS VIEWER -->
+            <!-- LIVE CAPTIONS & TRANSCRIPT VIEWER -->
             <div class="podcast-transcript-box" style="margin-top:12px; padding:14px; border-radius:14px; background:var(--bg, #f8fafc); border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span style="font-size:1rem;">📜</span>
-                  <strong style="font-size:0.88rem; color:var(--text); font-weight:800;">Precise Dialogue Transcript &amp; Captions</strong>
-                  <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700; color:var(--accent);">Verified Native Script</span>
+              ${hasCaptions ? `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="pod-live-status-${idx}" class="occ-ver-pill" style="font-size:0.7rem; font-weight:800; background:rgba(245,158,11,0.12); color:var(--accent);">🔴 LIVE PLAYHEAD: 00:00</span>
+                    <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700; color:#10B981; border-color:rgba(16,185,129,0.3);">✨ Verbatim Captions</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <button id="pod-autoscroll-btn-${idx}" onclick="window.togglePodcastAutoScroll(${idx})" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">Auto-Scroll: ON</button>
+                    <button onclick="window.copyPodcastTranscriptText(${idx})" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">📋 Copy All</button>
+                  </div>
                 </div>
-                <button onclick="window.copyPodcastTranscriptText(${idx})" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.74rem; cursor:pointer;">
-                  📋 Copy Transcript
-                </button>
-              </div>
-              <div id="pod-transcript-content-${idx}" style="max-height:260px; overflow-y:auto; padding:12px 14px; font-size:0.86rem; line-height:1.75; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-mid); white-space:pre-line;">${transcriptData.turnsHtml}</div>
-              ${transcriptData.vocabList && transcriptData.vocabList.length ? `
-                <div style="margin-top:10px; padding:10px 12px; background:var(--surface-elevated, rgba(0,0,0,0.03)); border-radius:8px; border:1px solid var(--border);">
-                  <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">💎 Academic Vocabulary Spoken in This Episode:</div>
-                  <div style="font-size:0.82rem; color:var(--text); line-height:1.6;">${transcriptData.vocabList.map(v => `&bull; ${v}`).join('<br>')}</div>
+                <div id="pod-transcript-content-${idx}" style="max-height:280px; overflow-y:auto; padding:8px 10px; font-size:0.86rem; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-mid);">
+                  ${captionsHtml}
                 </div>
-              ` : ''}
+                ${ep.vocab && ep.vocab.length ? `
+                  <div style="margin-top:10px; padding:10px 12px; background:var(--surface-elevated, rgba(0,0,0,0.03)); border-radius:8px; border:1px solid var(--border);">
+                    <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">💎 Academic Vocabulary Spoken in This Episode:</div>
+                    <div style="font-size:0.82rem; color:var(--text); line-height:1.6;">${ep.vocab.map(v => `&bull; ${v}`).join('<br>')}</div>
+                  </div>
+                ` : ''}
+              ` : `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                  <strong style="font-size:0.85rem; color:var(--text); font-weight:800;">ℹ️ Episode Overview &amp; Publisher Show Notes</strong>
+                  <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700;">Live Feed</span>
+                </div>
+                <div style="padding:10px 12px; background:var(--bg-card); border-radius:8px; border:1px solid var(--border-mid); font-size:0.84rem; line-height:1.6; color:var(--text); margin-bottom:10px;">
+                  ${ep.description ? ep.description.slice(0, 420) + (ep.description.length > 420 ? '...' : '') : 'Authentic British English episode streamed live from publisher feed.'}
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px dashed var(--border);">
+                  <span style="font-size:0.75rem; color:var(--text-secondary);">Want word-for-word live playhead captions?</span>
+                  <button onclick="window.loadVerifiedPodcastSessions()" class="btn-accent-solid" style="padding:4px 10px; font-size:0.74rem;">Load Verified IELTS Sessions 🎧</button>
+                </div>
+              `}
             </div>
           </div>
         `;

@@ -9,6 +9,7 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script async src="https://telegram.org/js/telegram-widget.js?22"></script>
 <script src="js/storage-sync.js"></script>
+<script src="js/ielts-podcast-data.js"></script>
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
 
@@ -2591,6 +2592,27 @@
     flex-wrap: nowrap;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
   }
+  .pod-caption-line {
+    padding: 6px 10px;
+    margin-bottom: 3px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-left 0.15s ease, color 0.15s ease;
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: baseline;
+    line-height: 1.55;
+  }
+  .pod-caption-line:hover {
+    background: var(--bg-card-hover, rgba(0,0,0,0.04));
+  }
+  .pod-caption-line.active-caption {
+    background: rgba(245, 158, 11, 0.18) !important;
+    border-left-color: var(--accent, #F59E0B) !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+  }
+
   .cbt-palette-bar .btn-outlined,
   .cbt-palette-bar .flag-q-btn {
     height: 32px !important;
