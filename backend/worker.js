@@ -756,6 +756,26 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
     if (text === "/quote" || text.startsWith("/quote ") || text === "Scholar Quote" || text === "🧠 Scholar Quote") {
       await handleQuoteCommand(chatId, userId, env, botToken);
       return jsonResponse({ ok: true });
+
+    // 2.6a. /paper <topic>
+    if (text === "/paper" || text.startsWith("/paper ")) {
+      const topic = text.replace(/^\/paper\s*/i, "").trim() || "artificial intelligence education";
+      await handlePaperCommand(chatId, userId, topic, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.6b. /chart <country>
+    if (text === "/chart" || text.startsWith("/chart ")) {
+      const country = text.replace(/^\/chart\s*/i, "").trim() || "MMR";
+      await handleChartCommand(chatId, userId, country, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
+    // 2.6c. /podcast
+    if (text === "/podcast" || text.startsWith("/podcast ")) {
+      await handlePodcastCommand(chatId, userId, env, botToken);
+      return jsonResponse({ ok: true });
+    }
     }
 
     // 2.7. /quota or "📊 My Quota" or "Check Quota"
@@ -4097,6 +4117,84 @@ async function handleQuoteCommand(chatId, userId, env, botToken) {
     await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
     return;
   }
+
+async function handlePaperCommand(chatId, userId, topic, env, botToken) {
+  const isVip = (await resolveIsVip(env, userId));
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+    return;
+  }
+  try {
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(topic)}&filter=has_abstract:true,language:en&per_page=1`);
+    const data = await res.json();
+    const work = data.results && data.results[0];
+    if (!work || !work.abstract_inverted_index) {
+      await sendTelegramMessage(botToken, chatId, "No peer-reviewed paper found for that topic. Try `/paper climate policy`.");
+      return;
+    }
+    const inv = work.abstract_inverted_index;
+    const words = [];
+    Object.keys(inv).forEach((w) => inv[w].forEach((pos) => { words[pos] = w; }));
+    const abstract = words.join(" ").slice(0, 750);
+    const text = `🔬 *Peer-Reviewed Study (${work.publication_year || 2025})*\n*Title:* ${work.title}\n*Citations:* ${work.cited_by_count || 0}\n\n${abstract}...\n\n${formatQuotaFooter(quota)}`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      ]
+    });
+  } catch (e) {
+    await sendTelegramMessage(botToken, chatId, "Could not load academic paper. Please try again in a moment.");
+  }
+}
+
+async function handleChartCommand(chatId, userId, country, env, botToken) {
+  const isVip = (await resolveIsVip(env, userId));
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+    return;
+  }
+  const c = country.trim().toUpperCase().slice(0, 3) || "MMR";
+  try {
+    const res = await fetch(`https://api.worldbank.org/v2/country/${encodeURIComponent(c)}/indicator/IT.NET.USER.ZS?date=2019:2023&format=json`);
+    const data = await res.json();
+    const rows = (Array.isArray(data) && Array.isArray(data[1]) ? data[1] : []).filter((r) => r.value !== null);
+    if (!rows.length) {
+      await sendTelegramMessage(botToken, chatId, "Use a 3-letter ISO country code, e.g. `/chart MMR`, `/chart GBR`, `/chart SGP`.");
+      return;
+    }
+    const lines = rows.map((r) => `• *${r.date}*: ${Number(r.value).toFixed(1)}%`).join("\n");
+    const text = `📊 *Writing Task 1 Live Data (${rows[0].country.value})*\n*Indicator:* Internet Users (% of Population)\n\n${lines}\n\n_Write a 2-sentence overview comparing the trend from ${rows[rows.length - 1].date} to ${rows[0].date}._\n\n${formatQuotaFooter(quota)}`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      ]
+    });
+  } catch (e) {
+    await sendTelegramMessage(botToken, chatId, "Could not load World Bank statistics. Please try again.");
+  }
+}
+
+async function handlePodcastCommand(chatId, userId, env, botToken) {
+  try {
+    const res = await fetch("https://itunes.apple.com/search?term=BBC+6+Minute+English&media=podcast&entity=podcastEpisode&limit=3");
+    const data = await res.json();
+    const ep = data.results && data.results[0];
+    if (!ep) {
+      await sendTelegramMessage(botToken, chatId, "Podcast feed temporarily unavailable.");
+      return;
+    }
+    const text = `🎧 *Daily Shadowing Episode*\n*Show:* ${ep.collectionName}\n*Title:* ${ep.trackName}\n*Listen MP3:* ${ep.previewUrl || ep.episodeUrl}`;
+    await sendTelegramMessage(botToken, chatId, text, {
+      inline_keyboard: [
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      ]
+    });
+  } catch (e) {
+    await sendTelegramMessage(botToken, chatId, "Podcast feed temporarily unavailable.");
+  }
+}
 
   const quote = await fetchScholarQuote();
   const text = 

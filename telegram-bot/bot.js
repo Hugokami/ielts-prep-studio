@@ -1345,6 +1345,88 @@ async function handleQuote(ctx) {
     });
   }
 
+async function handlePaper(ctx, topic) {
+  const userId = ctx.from.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+    });
+  }
+  const t = topic || 'artificial intelligence education';
+  try {
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&filter=has_abstract:true,language:en&per_page=1`);
+    const data = await res.json();
+    const work = data.results && data.results[0];
+    if (!work || !work.abstract_inverted_index) {
+      return ctx.reply('No peer-reviewed paper found for that topic. Try `/paper climate policy`.');
+    }
+    const inv = work.abstract_inverted_index;
+    const words = [];
+    Object.keys(inv).forEach((w) => inv[w].forEach((pos) => { words[pos] = w; }));
+    const abstract = words.join(' ').slice(0, 750);
+    return ctx.reply(
+      `🔬 *Peer-Reviewed Study (${work.publication_year || 2025})*\n` +
+      `*Title:* ${work.title}\n` +
+      `*Citations:* ${work.cited_by_count || 0}\n\n` +
+      `${abstract}...\n\n` +
+      `${formatQuotaFooter(quota)}`,
+      { parse_mode: 'Markdown' }
+    );
+  } catch (e) {
+    return ctx.reply('Could not load academic paper. Please try again.');
+  }
+}
+
+async function handleChart(ctx, country) {
+  const userId = ctx.from.id;
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+    });
+  }
+  const c = (country || 'MMR').trim().toUpperCase().slice(0, 3);
+  try {
+    const res = await fetch(`https://api.worldbank.org/v2/country/${encodeURIComponent(c)}/indicator/IT.NET.USER.ZS?date=2019:2023&format=json`);
+    const data = await res.json();
+    const rows = (Array.isArray(data) && Array.isArray(data[1]) ? data[1] : []).filter((r) => r.value !== null);
+    if (!rows.length) {
+      return ctx.reply('Use a 3-letter ISO country code, e.g. `/chart MMR`, `/chart GBR`, `/chart SGP`.');
+    }
+    const lines = rows.map((r) => `• *${r.date}*: ${Number(r.value).toFixed(1)}%`).join('\n');
+    return ctx.reply(
+      `📊 *Writing Task 1 Live Data (${rows[0].country.value})*\n` +
+      `*Indicator:* Internet Users (% of Population)\n\n${lines}\n\n` +
+      `_Write a 2-sentence overview comparing the trend from ${rows[rows.length - 1].date} to ${rows[0].date}._\n\n` +
+      `${formatQuotaFooter(quota)}`,
+      { parse_mode: 'Markdown' }
+    );
+  } catch (e) {
+    return ctx.reply('Could not load World Bank statistics. Please try again.');
+  }
+}
+
+async function handlePodcast(ctx) {
+  try {
+    const res = await fetch('https://itunes.apple.com/search?term=BBC+6+Minute+English&media=podcast&entity=podcastEpisode&limit=3');
+    const data = await res.json();
+    const ep = data.results && data.results[0];
+    if (!ep) return ctx.reply('Podcast feed temporarily unavailable.');
+    return ctx.reply(
+      `🎧 *Daily Shadowing Episode*\n` +
+      `*Show:* ${ep.collectionName}\n` +
+      `*Title:* ${ep.trackName}\n` +
+      `*Listen MP3:* ${ep.previewUrl || ep.episodeUrl}`,
+      { parse_mode: 'Markdown' }
+    );
+  } catch (e) {
+    return ctx.reply('Podcast feed temporarily unavailable.');
+  }
+}
+
   const quote = await fetchScholarQuote();
   const text =
     `🧠 **SCHOLAR THOUGHT & RHETORIC**\n` +
@@ -1576,6 +1658,15 @@ bot.command(['read', 'topic'], ctx => {
   handleRead(ctx, t);
 });
 bot.command('quote', handleQuote);
+bot.command('paper', ctx => {
+  const t = ctx.message?.text?.replace(/^\/paper/i, '').trim() || '';
+  handlePaper(ctx, t);
+});
+bot.command('chart', ctx => {
+  const c = ctx.message?.text?.replace(/^\/chart/i, '').trim() || '';
+  handleChart(ctx, c);
+});
+bot.command('podcast', handlePodcast);
 bot.command(['wotd', 'word'], handleWotd);
 bot.command('quota', handleQuota);
 bot.command(['bands', 'score'], handleBands);

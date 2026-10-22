@@ -1391,3 +1391,1111 @@
     initializeAllFeatures();
   }
 })();
+
+
+
+/* ============================================================================
+
+   IELTS PREP STUDIO v6.0 — ZERO-KEY MULTI-API ENGINE & LEITNER SRS BRIDGE
+
+   File: js/ielts-api-features.js (Append at end of file)
+
+   ============================================================================ */
+
+
+
+(function (window, document) {
+
+  'use strict';
+
+
+
+  const CACHE_NS = 'ips_v6_api_';
+
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  const FREE_DAILY_LIMIT = 10;
+
+
+
+  // 1. Quota & VIP Status Checker (Matches v6.0 Tier Matrix)
+
+  function checkAndConsumeQuota(consume = true) {
+
+    const isVip =
+
+      localStorage.getItem('ips_vip_active') === 'true' ||
+
+      localStorage.getItem('tier') === 'vip' ||
+
+      window.IS_VIP_USER === true;
+
+    if (isVip) return { allowed: true, remaining: 'Unlimited', isVip: true };
+
+
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const quotaRaw = localStorage.getItem('ips_daily_tool_quota');
+
+    let state = { date: today, used: 0 };
+
+    if (quotaRaw) {
+
+      try {
+
+        const parsed = JSON.parse(quotaRaw);
+
+        if (parsed.date === today) state = parsed;
+
+      } catch (e) {}
+
+    }
+
+
+
+    if (state.used >= FREE_DAILY_LIMIT) {
+
+      return { allowed: false, remaining: 0, isVip: false };
+
+    }
+
+    if (consume) {
+
+      state.used += 1;
+
+      localStorage.setItem('ips_daily_tool_quota', JSON.stringify(state));
+
+    }
+
+    return { allowed: true, remaining: FREE_DAILY_LIMIT - state.used, isVip: false };
+
+  }
+
+
+
+  // 2. Offline-First LocalStorage Cache Wrapper
+
+  async function fetchWithCache(cacheKey, url, options = {}) {
+
+    const fullKey = CACHE_NS + cacheKey.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80);
+
+    try {
+
+      const raw = localStorage.getItem(fullKey);
+
+      if (raw) {
+
+        const parsed = JSON.parse(raw);
+
+        if (Date.now() - parsed.ts < CACHE_TTL) return parsed.payload;
+
+      }
+
+    } catch (e) {}
+
+
+
+    const response = await fetch(url, options);
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const payload = await response.json();
+
+
+
+    try {
+
+      localStorage.setItem(fullKey, JSON.stringify({ ts: Date.now(), payload }));
+
+    } catch (e) {
+
+      Object.keys(localStorage)
+
+        .filter((k) => k.startsWith(CACHE_NS))
+
+        .slice(0, 20)
+
+        .forEach((k) => localStorage.removeItem(k));
+
+    }
+
+    return payload;
+
+  }
+
+
+
+  // 3. Leitner Box 1 (1-3-7d SRS) Direct Bookmark Saver
+
+  function saveToLeitnerSRS(entry) {
+
+    const srsKey = 'ips_srs_deck_v6';
+
+    let deck = [];
+
+    try {
+
+      deck = JSON.parse(localStorage.getItem(srsKey) || '[]');
+
+    } catch (e) {}
+
+
+
+    const exists = deck.some((item) => (item.word || '').toLowerCase() === entry.word.toLowerCase());
+
+    if (!exists) {
+
+      deck.unshift({
+
+        word: entry.word,
+
+        pos: entry.pos || 'academic',
+
+        cefr: entry.cefr || 'C1',
+
+        ipa: entry.ipa || '',
+
+        audio: entry.audio || '',
+
+        definition: entry.definition || '',
+
+        burmese: entry.burmese || '',
+
+        collocations: entry.collocations || [],
+
+        box: 1, // Leitner Box 1 (1-Day interval)
+
+        intervalDays: 1,
+
+        nextReview: Date.now() + 86400000,
+
+        addedAt: Date.now()
+
+      });
+
+      localStorage.setItem(srsKey, JSON.stringify(deck));
+
+    }
+
+
+
+    // Also notify global StorageManager / Firebase Sync if present
+
+    if (window.StorageManager && typeof window.StorageManager.sync === 'function') {
+
+      window.StorageManager.sync();
+
+    }
+
+    return !exists;
+
+  }
+
+
+
+  // 4. Zero-Key API Endpoints (Spinov001-art List + Linguistics Suite)
+
+  const IELTSApiV6 = {
+
+    checkAndConsumeQuota,
+
+    saveToLeitnerSRS,
+
+
+
+    // API 1: OpenAlex Peer-Reviewed Abstracts + AWL Cloze Generator
+
+    async fetchAcademicPapers(topic = 'renewable energy transition', count = 3) {
+
+      const url = `https://api.openalex.org/works?search=${encodeURIComponent(topic)}&filter=has_abstract:true,language:en&per_page=${count}`;
+
+      const data = await fetchWithCache(`openalex_${topic}_${count}`, url);
+
+      return (data.results || []).map((work) => {
+
+        const inv = work.abstract_inverted_index || {};
+
+        const words = [];
+
+        Object.keys(inv).forEach((w) => {
+
+          inv[w].forEach((pos) => { words[pos] = w; });
+
+        });
+
+        const abstract = words.join(' ').trim();
+
+        return {
+
+          title: work.title || 'Academic Research Paper',
+
+          year: work.publication_year || 2025,
+
+          citations: work.cited_by_count || 0,
+
+          abstract
+
+        };
+
+      }).filter((p) => p.abstract.length > 160);
+
+    },
+
+
+
+    // API 2: Semantic Scholar Citation & Abstract Backup
+
+    async fetchSemanticScholar(topic = 'artificial intelligence urbanization', limit = 3) {
+
+      const url = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(topic)}&limit=${limit}&fields=title,year,abstract,citationCount`;
+
+      const data = await fetchWithCache(`semscholar_${topic}`, url);
+
+      return (data.data || []).filter((p) => p.abstract && p.abstract.length > 120);
+
+    },
+
+
+
+    // API 3: World Bank Live Economic/Demographic Data for Writing Task 1
+
+    async fetchWorldBankSeries(indicator = 'EG.FEC.RNEW.ZS', countries = 'GBR;USA;JPN;SGP;MMR') {
+
+      const url = `https://api.worldbank.org/v2/country/${countries}/indicator/${indicator}?date=2019:2023&format=json&per_page=80`;
+
+      const data = await fetchWithCache(`wb_${indicator}_${countries}`, url);
+
+      const list = Array.isArray(data) && Array.isArray(data[1]) ? data[1] : [];
+
+      return list
+
+        .filter((item) => item.value !== null)
+
+        .map((item) => ({
+
+          country: item.country.value,
+
+          iso: item.countryiso3code,
+
+          year: item.date,
+
+          value: Number(item.value.toFixed(1)),
+
+          indicatorName: item.indicator.value
+
+        }));
+
+    },
+
+
+
+    // API 4 & 5: RestCountries + Open-Meteo for Speaking Part 1/2 Cue Cards
+
+    async fetchSpeakingPlaceBrief(countryName = 'Myanmar') {
+
+      const countryUrl = `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}?fields=name,capital,population,languages,region,subregion,currencies,latlng`;
+
+      const countryData = await fetchWithCache(`rc_${countryName}`, countryUrl);
+
+      const c = Array.isArray(countryData) ? countryData[0] : null;
+
+      if (!c) return null;
+
+
+
+      let weather = null;
+
+      if (Array.isArray(c.latlng) && c.latlng.length === 2) {
+
+        const [lat, lon] = c.latlng;
+
+        const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+        const meteoData = await fetchWithCache(`meteo_${lat}_${lon}`, meteoUrl).catch(() => null);
+
+        weather = meteoData ? meteoData.current_weather : null;
+
+      }
+
+
+
+      return {
+
+        name: c.name?.common || countryName,
+
+        official: c.name?.official || '',
+
+        capital: (c.capital && c.capital[0]) || 'N/A',
+
+        population: (c.population || 0).toLocaleString(),
+
+        region: `${c.region || ''} (${c.subregion || ''})`,
+
+        languages: Object.values(c.languages || {}).join(', '),
+
+        currencies: Object.values(c.currencies || {}).map((x) => `${x.name} (${x.symbol || ''})`).join(', '),
+
+        tempC: weather ? `${weather.temperature}°C` : 'N/A',
+
+        windKmh: weather ? `${weather.windspeed} km/h` : 'N/A'
+
+      };
+
+    },
+
+
+
+    // API 6: iTunes Search API for Native English Podcast Shadowing
+
+    async fetchShadowingPodcasts(query = 'BBC 6 Minute English IELTS') {
+
+      const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=podcast&entity=podcastEpisode&limit=5`;
+
+      const data = await fetchWithCache(`itunes_pod_${query}`, url);
+
+      return (data.results || [])
+
+        .filter((ep) => ep.previewUrl || ep.episodeUrl)
+
+        .map((ep) => ({
+
+          title: ep.trackName,
+
+          show: ep.collectionName,
+
+          audioUrl: ep.previewUrl || ep.episodeUrl,
+
+          durationMin: ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6,
+
+          date: (ep.releaseDate || '').slice(0, 10)
+
+        }));
+
+    },
+
+
+
+    // API 7, 8 & 9: Free Dictionary + Datamuse Collocations + MyMemory Burmese
+
+    async inspectWordFull(rawWord) {
+
+      const word = (rawWord || '').trim().toLowerCase().replace(/[^a-z-]/g, '');
+
+      if (!word) return null;
+
+
+
+      // Check local 1,162 lexicon items first
+
+      const localList = window.LEXICON_DATA || window.ACADEMIC_LEXICON || [];
+
+      const localMatch = Array.isArray(localList)
+
+        ? localList.find((x) => (x.word || x.headword || '').toLowerCase() === word)
+
+        : null;
+
+
+
+      const [dictRes, dmAdj, dmSyn, mmTrans] = await Promise.all([
+
+        fetchWithCache(`dict_${word}`, `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`).catch(() => null),
+
+        fetchWithCache(`dm_adj_${word}`, `https://api.datamuse.com/words?rel_jjb=${encodeURIComponent(word)}&max=4`).catch(() => []),
+
+        fetchWithCache(`dm_syn_${word}`, `https://api.datamuse.com/words?ml=${encodeURIComponent(word)}&max=5`).catch(() => []),
+
+        localMatch && (localMatch.burmese || localMatch.myanmar)
+
+          ? Promise.resolve(localMatch.burmese || localMatch.myanmar)
+
+          : fetchWithCache(`mm_${word}`, `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|my`)
+
+              .then((r) => r?.responseData?.translatedText || '')
+
+              .catch(() => '')
+
+      ]);
+
+
+
+      const entry = Array.isArray(dictRes) ? dictRes[0] : null;
+
+      const phonetics = entry?.phonetics || [];
+
+      const audioObj = phonetics.find((p) => p.audio && p.audio.endsWith('.mp3')) || {};
+
+      const meaning = entry?.meanings?.[0] || {};
+
+      const defObj = meaning?.definitions?.[0] || {};
+
+
+
+      const collocations = [
+
+        ...(dmAdj || []).map((x) => `${x.word} ${word}`),
+
+        ...(dmSyn || []).slice(0, 3).map((x) => x.word)
+
+      ];
+
+
+
+      return {
+
+        word,
+
+        pos: localMatch?.pos || meaning.partOfSpeech || 'academic',
+
+        cefr: localMatch?.cefr || 'C1',
+
+        ipa: localMatch?.ipa || entry?.phonetic || (phonetics.find((p) => p.text) || {}).text || '',
+
+        audio: audioObj.audio || '',
+
+        definition: localMatch?.definition || defObj.definition || 'Academic term used in formal contexts.',
+
+        example: localMatch?.example || defObj.example || '',
+
+        burmese: mmTrans || '',
+
+        collocations: localMatch?.collocations || collocations
+
+      };
+
+    },
+
+
+
+    // API 10: LanguageTool Zero-Neuron Deterministic Grammar & Style Check
+
+    async checkEssayGrammar(text) {
+
+      const body = new URLSearchParams();
+
+      body.append('text', text);
+
+      body.append('language', 'en-GB');
+
+      const res = await fetch('https://api.languagetool.org/v2/check', {
+
+        method: 'POST',
+
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+
+        body: body.toString()
+
+      });
+
+      if (!res.ok) throw new Error('LanguageTool rate limit');
+
+      const data = await res.json();
+
+      return (data.matches || []).slice(0, 8).map((m) => ({
+
+        bad: text.substr(m.offset, m.length),
+
+        message: m.message,
+
+        fixes: (m.replacements || []).slice(0, 3).map((r) => r.value)
+
+      }));
+
+    }
+
+  };
+
+
+
+  window.IELTSApiV6 = IELTSApiV6;
+
+})(window, document);
+
+/* ============================================================================
+
+   EDIT 3B: UNIVERSAL WORD SHEET (🔖 SRS BOOKMARK) + HUB 6 TOOLS CONTROLLER
+
+   File: js/ielts-api-features.js (Append at bottom)
+
+   ============================================================================ */
+
+
+
+(function (window, document) {
+
+  'use strict';
+
+
+
+  function initSpeakWordSheet() {
+
+    if (document.getElementById('speak-word-sheet')) return;
+
+    const sheet = document.createElement('div');
+
+    sheet.id = 'speak-word-sheet';
+
+    sheet.innerHTML = `
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;">
+
+        <div>
+
+          <span id="sws-word" style="font-size:1.3rem;font-weight:800;color:#FBBF24;text-transform:capitalize;">Word</span>
+
+          <span id="sws-ipa" style="font-size:0.85rem;color:#94A3B8;margin-left:8px;font-family:monospace;"></span>
+
+          <span id="sws-cefr" style="font-size:0.72rem;background:#F59E0B;color:#FFF;padding:2px 8px;border-radius:9999px;margin-left:6px;font-weight:800;">C1</span>
+
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;">
+
+          <button id="sws-bookmark-btn" title="Save to Leitner SRS Box 1" style="background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:1rem;">🔖</button>
+
+          <button id="sws-close-btn" style="background:transparent;border:none;color:#94A3B8;font-size:1.3rem;cursor:pointer;">&times;</button>
+
+        </div>
+
+      </div>
+
+      <div id="sws-burmese" style="color:#FDE047;font-size:0.95rem;font-weight:600;margin-bottom:6px;"></div>
+
+      <div id="sws-def" style="color:#E2E8F0;font-size:0.88rem;line-height:1.45;margin-bottom:10px;"></div>
+
+      <div id="sws-collocations" style="margin-bottom:12px;"></div>
+
+      <div style="display:flex;gap:8px;">
+
+        <button id="sws-audio-btn" class="speak-pill-btn" style="flex:1;justify-content:center;">🔊 Listen UK/US</button>
+
+        <button id="sws-srs-pill" class="speak-pill-btn secondary" style="flex:1;justify-content:center;">🔖 Save to SRS (1d)</button>
+
+      </div>
+
+    `;
+
+    document.body.appendChild(sheet);
+
+
+
+    document.getElementById('sws-close-btn').onclick = () => sheet.classList.remove('open');
+
+
+
+    // Double-click any word inside #view-reading, #view-writing, #view-speaking, #view-tools, or #view-lexicon
+
+    document.addEventListener('dblclick', async (e) => {
+
+      const sel = (window.getSelection && window.getSelection().toString().trim()) || '';
+
+      if (!/^[a-zA-Z-]{3,24}$/.test(sel)) return;
+
+
+
+      sheet.classList.add('open');
+
+      document.getElementById('sws-word').textContent = sel;
+
+      document.getElementById('sws-burmese').textContent = 'Translating (မြန်မာ)...';
+
+      document.getElementById('sws-def').textContent = 'Loading Cambridge & Dictionary data...';
+
+      document.getElementById('sws-collocations').innerHTML = '';
+
+
+
+      const info = await window.IELTSApiV6.inspectWordFull(sel);
+
+      if (!info) return;
+
+
+
+      document.getElementById('sws-word').textContent = info.word;
+
+      document.getElementById('sws-ipa').textContent = info.ipa ? `/${info.ipa.replace(/\//g, '')}/` : '';
+
+      document.getElementById('sws-cefr').textContent = info.cefr || 'C1';
+
+      document.getElementById('sws-burmese').textContent = info.burmese || '';
+
+      document.getElementById('sws-def').textContent = info.definition;
+
+      document.getElementById('sws-collocations').innerHTML = (info.collocations || [])
+
+        .slice(0, 5)
+
+        .map((c) => `<span class="sws-chip">${c}</span>`)
+
+        .join('');
+
+
+
+      document.getElementById('sws-audio-btn').onclick = () => {
+
+        if (info.audio) {
+
+          new Audio(info.audio).play();
+
+        } else if ('speechSynthesis' in window) {
+
+          const u = new SpeechSynthesisUtterance(info.word);
+
+          u.lang = 'en-GB';
+
+          window.speechSynthesis.speak(u);
+
+        }
+
+      };
+
+
+
+      const saveHandler = () => {
+
+        window.IELTSApiV6.saveToLeitnerSRS(info);
+
+        document.getElementById('sws-srs-pill').textContent = '✓ In Leitner Box 1';
+
+      };
+
+      document.getElementById('sws-bookmark-btn').onclick = saveHandler;
+
+      document.getElementById('sws-srs-pill').onclick = saveHandler;
+
+    });
+
+  }
+
+
+
+  function wireHub6Tools() {
+
+    const oaBtn = document.getElementById('v6-openalex-btn');
+
+    if (oaBtn) {
+
+      oaBtn.onclick = async () => {
+
+        const quota = window.IELTSApiV6.checkAndConsumeQuota(true);
+
+        const out = document.getElementById('v6-openalex-output');
+
+        if (!quota.allowed) {
+
+          out.innerHTML = `<p style="color:#FF3B5C;font-weight:700;">Daily Free Quota (10/10) reached. Unlock VIP Pass for unlimited lifetime searches.</p>`;
+
+          return;
+
+        }
+
+        const topic = document.getElementById('v6-openalex-topic').value.trim() || 'urban sustainability';
+
+        out.innerHTML = `<p style="opacity:0.75;">Searching 250M+ OpenAlex scholarly works... (Remaining today: ${quota.remaining})</p>`;
+
+        try {
+
+          const papers = await window.IELTSApiV6.fetchAcademicPapers(topic, 2);
+
+          if (!papers.length) throw new Error('No abstracts');
+
+          const p = papers[0];
+
+          // Mask 4 academic words (>7 chars) to create an instant CBT Summary Completion Cloze
+
+          const words = p.abstract.split(' ');
+
+          const answerBank = [];
+
+          const clozeHtml = words.map((w) => {
+
+            const clean = w.replace(/[^a-zA-Z]/g, '');
+
+            if (clean.length >= 8 && answerBank.length < 4 && !answerBank.includes(clean.toLowerCase())) {
+
+              answerBank.push(clean.toLowerCase());
+
+              return `<input type="text" data-ans="${clean.toLowerCase()}" placeholder="[${answerBank.length}]" style="width:95px;padding:2px 6px;border-radius:6px;border:1px solid #F59E0B;font-weight:700;" />`;
+
+            }
+
+            return w;
+
+          }).join(' ');
+
+
+
+          out.innerHTML = `
+
+            <div style="padding:14px;border-radius:16px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);">
+
+              <div style="font-weight:800;margin-bottom:6px;">${p.title} (${p.year} &bull; Cited by ${p.citations})</div>
+
+              <div style="margin-bottom:10px;font-size:0.82rem;color:#F59E0B;font-weight:700;">
+
+                Word Bank: ${answerBank.slice().sort().join('  |  ')}
+
+              </div>
+
+              <p style="line-height:1.7;">${clozeHtml}</p>
+
+            </div>
+
+          `;
+
+        } catch (e) {
+
+          out.innerHTML = `<p style="color:#FF3B5C;">Could not load abstract. Try another academic keyword.</p>`;
+
+        }
+
+      };
+
+    }
+
+
+
+    const podBtn = document.getElementById('v6-podcast-btn');
+
+    if (podBtn) {
+
+      podBtn.onclick = async () => {
+
+        const q = document.getElementById('v6-podcast-query').value;
+
+        const out = document.getElementById('v6-podcast-output');
+
+        out.innerHTML = `<p style="opacity:0.75;">Loading episodes from iTunes API...</p>`;
+
+        try {
+
+          const eps = await window.IELTSApiV6.fetchShadowingPodcasts(q);
+
+          out.innerHTML = eps.map((ep, idx) => `
+
+            <div style="padding:12px;border-radius:14px;border:1px solid var(--border-color,#E5EBF2);margin-bottom:8px;">
+
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">${ep.title} <span style="opacity:0.6;font-size:0.78rem;">(${ep.durationMin}m)</span></div>
+
+              <audio id="v6-pod-audio-${idx}" controls preload="none" src="${ep.audioUrl}" style="width:100%;height:34px;margin-bottom:6px;"></audio>
+
+              <div style="display:flex;gap:6px;">
+
+                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=0.75" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">0.75x Slow</button>
+
+                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">1.0x Native</button>
+
+                <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:4px 10px;font-size:0.74rem;">1.25x Exam Stress</button>
+
+              </div>
+
+            </div>
+
+          `).join('');
+
+        } catch (e) {
+
+          out.innerHTML = `<p style="color:#FF3B5C;">Podcast feed unavailable offline.</p>`;
+
+        }
+
+      };
+
+    }
+
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    initSpeakWordSheet();
+
+    wireHub6Tools();
+
+  });
+
+})(window, document);
+
+/* ============================================================================
+
+   EDIT 4B: HUB 4 WRITING LAB — WORLD BANK SVG CHART & LANGUAGETOOL CONTROLLER
+
+   File: js/ielts-api-features.js (Append at bottom)
+
+   ============================================================================ */
+
+
+
+(function (window, document) {
+
+  'use strict';
+
+
+
+  function wireWritingV6Tools() {
+
+    const wbBtn = document.getElementById('v6-wb-load-btn');
+
+    const ltBtn = document.getElementById('v6-lt-grammar-btn');
+
+    const out = document.getElementById('v6-writing-live-output');
+
+
+
+    if (wbBtn && out) {
+
+      wbBtn.onclick = async () => {
+
+        const indicator = document.getElementById('v6-wb-indicator').value;
+
+        out.innerHTML = `<p style="font-size:0.85rem;opacity:0.75;">Fetching live World Bank statistics...</p>`;
+
+        try {
+
+          const rows = await window.IELTSApiV6.fetchWorldBankSeries(indicator);
+
+          const latestYear = rows[0]?.year || '2023';
+
+          const topRows = rows.filter((r) => r.year === latestYear).slice(0, 5);
+
+          const maxVal = Math.max(...topRows.map((r) => r.value), 1);
+
+
+
+          const bars = topRows.map((r, i) => {
+
+            const h = Math.max(14, Math.round((r.value / maxVal) * 120));
+
+            const x = 40 + i * 88;
+
+            const y = 145 - h;
+
+            return `
+
+              <g>
+
+                <rect x="${x}" y="${y}" width="48" height="${h}" rx="8" fill="#F59E0B" />
+
+                <text x="${x + 24}" y="${y - 6}" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="800">${r.value}%</text>
+
+                <text x="${x + 24}" y="164" text-anchor="middle" fill="#64748B" font-size="11" font-weight="700">${r.iso}</text>
+
+              </g>
+
+            `;
+
+          }).join('');
+
+
+
+          out.innerHTML = `
+
+            <div style="padding:14px;border-radius:16px;border:1px solid var(--border-color,#E5EBF2);">
+
+              <div style="font-weight:800;font-size:0.9rem;margin-bottom:8px;">
+
+                Task 1 Prompt: The chart below illustrates ${rows[0]?.indicatorName || 'global indicators'} across 5 nations in ${latestYear}. Summarize the main features and make comparisons where relevant.
+
+              </div>
+
+              <svg viewBox="0 0 480 175" style="width:100%;max-width:560px;height:auto;">
+
+                <line x1="25" y1="145" x2="460" y2="145" stroke="#CBD5E1" stroke-width="1.5" />
+
+                ${bars}
+
+              </svg>
+
+            </div>
+
+          `;
+
+        } catch (e) {
+
+          out.innerHTML = `<p style="color:#FF3B5C;">Unable to fetch World Bank chart offline.</p>`;
+
+        }
+
+      };
+
+    }
+
+
+
+    if (ltBtn && out) {
+
+      ltBtn.onclick = async () => {
+
+        const textarea = document.querySelector('#view-writing textarea');
+
+        const text = textarea ? textarea.value.trim() : '';
+
+        if (text.length < 20) {
+
+          out.innerHTML = `<p style="color:#FF7A00;font-weight:700;">Type at least one sentence in the Writing Lab textarea first.</p>`;
+
+          return;
+
+        }
+
+        out.innerHTML = `<p style="font-size:0.85rem;opacity:0.75;">Auditing grammar &amp; punctuation via LanguageTool...</p>`;
+
+        try {
+
+          const issues = await window.IELTSApiV6.checkEssayGrammar(text);
+
+          if (!issues.length) {
+
+            out.innerHTML = `<div style="color:#199A46;font-weight:800;font-size:0.9rem;">✓ Zero surface grammar or punctuation errors detected! Ready for Cambridge AI Examiner grading.</div>`;
+
+            return;
+
+          }
+
+          out.innerHTML = `
+
+            <div style="padding:12px;border-radius:16px;background:rgba(255,59,92,0.06);border:1px solid rgba(255,59,92,0.2);">
+
+              <div style="font-weight:800;color:#FF3B5C;margin-bottom:6px;">GRA Diagnostic (${issues.length} potential issues):</div>
+
+              <ul style="margin:0;padding-left:18px;font-size:0.85rem;line-height:1.55;">
+
+                ${issues.map((i) => `<li><strong>"${i.bad}"</strong>: ${i.message}${i.fixes.length ? `<span style="color:#199A46;font-weight:700;">&rarr; ${i.fixes.join(', ')}</span>` : ''}</li>`).join('')}
+
+              </ul>
+
+            </div>
+
+          `;
+
+        } catch (e) {
+
+          out.innerHTML = `<p style="color:#FF3B5C;">Grammar check service busy. Use Cambridge AI Examiner below.</p>`;
+
+        }
+
+      };
+
+    }
+
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', wireWritingV6Tools);
+
+})(window, document);
+
+/* ============================================================================
+
+   EDIT 5B: SPEAKING COUNTRY/CLIMATE CARD + 5-LEVEL LEARNER TRACK ADAPTER
+
+   File: js/ielts-api-features.js (Append at bottom)
+
+   ============================================================================ */
+
+
+
+(function (window, document) {
+
+  'use strict';
+
+
+
+  function wireSpeakingGeoAndLevels() {
+
+    const geoBtn = document.getElementById('v6-speaking-geo-btn');
+
+    const geoOut = document.getElementById('v6-speaking-geo-output');
+
+
+
+    if (geoBtn && geoOut) {
+
+      geoBtn.onclick = async () => {
+
+        const country = document.getElementById('v6-speaking-country').value.trim() || 'Myanmar';
+
+        geoOut.innerHTML = `<span style="opacity:0.75;">Loading RestCountries &amp; Open-Meteo data...</span>`;
+
+        try {
+
+          const info = await window.IELTSApiV6.fetchSpeakingPlaceBrief(country);
+
+          if (!info) throw new Error('Not found');
+
+          geoOut.innerHTML = `
+
+            <div style="padding:12px;border-radius:14px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);display:flex;flex-wrap:wrap;gap:14px;">
+
+              <div><strong>Nation:</strong> ${info.name} (${info.official})</div>
+
+              <div><strong>Capital:</strong> ${info.capital}</div>
+
+              <div><strong>Population:</strong> ${info.population}</div>
+
+              <div><strong>Region:</strong> ${info.region}</div>
+
+              <div><strong>Live Weather:</strong> ${info.tempC} (Wind: ${info.windKmh})</div>
+
+              <div><strong>Currency:</strong> ${info.currencies}</div>
+
+            </div>
+
+          `;
+
+        } catch (e) {
+
+          geoOut.innerHTML = `<span style="color:#FF3B5C;">Could not load country data.</span>`;
+
+        }
+
+      };
+
+    }
+
+
+
+    // Bridge #bandAssessmentModal (Levels 1-5) to calibrate Lexicon & Speaking WPM for all learners
+
+    const modal = document.getElementById('bandAssessmentModal');
+
+    if (modal) {
+
+      modal.addEventListener('click', (e) => {
+
+        const text = (e.target.innerText || '').toLowerCase();
+
+        let track = null;
+
+        if (text.includes('5.5') || text.includes('6.0')) track = { band: '6.0', cefr: 'B2', targetWpm: '110-130 WPM' };
+
+        else if (text.includes('6.5')) track = { band: '6.5', cefr: 'B2+', targetWpm: '115-135 WPM' };
+
+        else if (text.includes('7.0') || text.includes('7.5')) track = { band: '7.5', cefr: 'C1', targetWpm: '120-145 WPM' };
+
+        else if (text.includes('8.0') || text.includes('8.5')) track = { band: '8.5', cefr: 'C1/C2', targetWpm: '125-150 WPM' };
+
+        else if (text.includes('9.0')) track = { band: '9.0', cefr: 'C2', targetWpm: '130-155 WPM' };
+
+
+
+        if (track) {
+
+          localStorage.setItem('ips_learner_track', JSON.stringify(track));
+
+        }
+
+      });
+
+    }
+
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', wireSpeakingGeoAndLevels);
+
+})(window, document);

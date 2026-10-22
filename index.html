@@ -34,7 +34,7 @@
 
   /* =========================================================
      SPEAK-INSPIRED VIBRANT & TACTILE DESIGN TOKENS
-     Primary: Electric Royal Cobalt Blue (#0D55FE)
+     Primary: Warm Amber & Royal Gold (#F59E0B / #D97706)
      Surfaces: Crisp Porcelain (#F5F7FA) & Pure White (#FFFFFF)
      ========================================================= */
   :root,
@@ -48,14 +48,14 @@
     --surface: #FFFFFF;
     --border: #E5EBF2;
     --border-mid: #D3DDEB;
-    --border-accent: #0D55FE;
+    --border-accent: #F59E0B;
     --text: #11141A;
     --text-secondary: #5B6476;
     --text-muted: #8E99AB;
-    --accent: #0D55FE;
-    --accent-bright: #1E66FF;
-    --accent-dark: #0043D6;
-    --accent-soft: rgba(13, 85, 254, 0.08);
+    --accent: #F59E0B;
+    --accent-bright: #FBBF24;
+    --accent-dark: #D97706;
+    --accent-soft: rgba(245, 158, 11, 0.12);
     --teal: #0284c7;
     --teal-soft: rgba(2, 132, 199, 0.10);
     --green: #10B981;
@@ -65,11 +65,11 @@
     --crimson-soft: rgba(239, 68, 68, 0.10);
     --danger: #EF4444;
     --badge-bg: #EEF2F8;
-    --grid-line: rgba(13, 85, 254, 0.03);
+    --grid-line: rgba(245, 158, 11, 0.03);
 
     /* Speak Signature Pastel Icon Wells */
     --well-blue: #EBF1FF;
-    --well-blue-icon: #0D55FE;
+    --well-blue-icon: #D97706;
     --well-purple: #F3EDFF;
     --well-purple-icon: #7A35FF;
     --well-green: #E9F8EF;
@@ -83,11 +83,11 @@
     --r-card: 20px;
     --r-bubble: 18px;
     --r-pill: 9999px;
-    --shadow-sm: 0 2px 8px rgba(13, 85, 254, 0.04);
-    --shadow-md: 0 8px 24px -4px rgba(13, 85, 254, 0.08);
-    --shadow-card: 0 4px 20px -2px rgba(13, 85, 254, 0.05), 0 2px 6px rgba(17, 20, 26, 0.03);
-    --shadow-hover: 0 10px 28px -4px rgba(13, 85, 254, 0.12), 0 4px 10px rgba(17, 20, 26, 0.04);
-    --shadow-float: 0 16px 40px -6px rgba(13, 85, 254, 0.18);
+    --shadow-sm: 0 2px 8px rgba(245, 158, 11, 0.04);
+    --shadow-md: 0 8px 24px -4px rgba(245, 158, 11, 0.08);
+    --shadow-card: 0 4px 20px -2px rgba(245, 158, 11, 0.05), 0 2px 6px rgba(17, 20, 26, 0.03);
+    --shadow-hover: 0 10px 28px -4px rgba(245, 158, 11, 0.12), 0 4px 10px rgba(17, 20, 26, 0.04);
+    --shadow-float: 0 16px 40px -6px rgba(245, 158, 11, 0.18);
   }
 
   /* Speak-Calibrated Midnight Obsidian Dark Mode */
@@ -101,14 +101,14 @@
     --surface: #0F1726;
     --border: rgba(255, 255, 255, 0.08);
     --border-mid: rgba(255, 255, 255, 0.14);
-    --border-accent: #1E66FF;
+    --border-accent: #FBBF24;
     --text: #F8FAFC;
     --text-secondary: #94A3B8;
     --text-muted: #64748B;
-    --accent: #1E66FF;
-    --accent-bright: #3B82F6;
-    --accent-dark: #0D55FE;
-    --accent-soft: rgba(30, 102, 255, 0.16);
+    --accent: #FBBF24;
+    --accent-bright: #FDE68A;
+    --accent-dark: #F59E0B;
+    --accent-soft: rgba(251, 191, 36, 0.16);
     --teal: #38bdf8;
     --teal-soft: rgba(56, 189, 248, 0.14);
     --green: #34d399;
@@ -121,7 +121,7 @@
     --grid-line: rgba(255, 255, 255, 0.02);
 
     /* Speak Pastel Icon Wells (Dark Adapted) */
-    --well-blue: rgba(13, 85, 254, 0.2);
+    --well-blue: rgba(245, 158, 11, 0.2);
     --well-blue-icon: #60A5FA;
     --well-purple: rgba(122, 53, 255, 0.2);
     --well-purple-icon: #C084FC;
@@ -3273,7 +3273,7 @@
     height: 46px;
     padding: 0 22px !important;
     border: none !important;
-    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.28) !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.28) !important;
     transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
     cursor: pointer;
     display: inline-flex;
@@ -3285,7 +3285,7 @@
   .btn-accent-solid:hover {
     background: var(--accent-bright) !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(13, 85, 254, 0.38) !important;
+    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.38) !important;
   }
   .btn-accent-solid:active {
     transform: scale(0.97);
@@ -3343,7 +3343,7 @@
   .brand-badge {
     border-radius: var(--r-pill) !important;
     background: var(--accent-soft) !important;
-    border: 1px solid rgba(13, 85, 254, 0.2) !important;
+    border: 1px solid rgba(245, 158, 11, 0.2) !important;
     color: var(--accent) !important;
     font-weight: 700 !important;
   }
@@ -3355,17 +3355,17 @@
   .nav-link.active, .nav-link.is-active {
     background: var(--accent) !important;
     color: #FFFFFF !important;
-    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.3) !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3) !important;
     border-color: transparent !important;
   }
 
   /* Speak Hero Action Lesson Card (Reference Image 4) */
   .speak-hero-lesson-card {
-    background: linear-gradient(135deg, #0D55FE 0%, #1A62FF 100%);
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
     border-radius: 24px;
     padding: 24px;
     color: #FFFFFF;
-    box-shadow: 0 12px 32px rgba(13, 85, 254, 0.28);
+    box-shadow: 0 12px 32px rgba(245, 158, 11, 0.28);
     margin-bottom: 18px;
     position: relative;
     overflow: hidden;
@@ -3373,7 +3373,7 @@
   }
   .speak-hero-lesson-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(13, 85, 254, 0.35);
+    box-shadow: 0 16px 40px rgba(245, 158, 11, 0.35);
   }
   .speak-hero-top {
     display: flex;
@@ -3430,7 +3430,7 @@
     width: 100%;
     height: 50px;
     background: #FFFFFF;
-    color: #0D55FE;
+    color: var(--accent);
     font-weight: 800;
     font-size: 1rem;
     border: none;
@@ -3608,14 +3608,14 @@
   .speak-chart-num {
     font-size: 2.4rem;
     font-weight: 800;
-    color: #0D55FE;
+    color: var(--accent);
     line-height: 1;
     display: block;
   }
   .speak-chart-unit {
     font-size: 0.85rem;
     font-weight: 700;
-    color: #0D55FE;
+    color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -3643,7 +3643,7 @@
     margin-bottom: 6px;
   }
   .speak-bar-val.highlight {
-    color: #0D55FE;
+    color: var(--accent);
     font-weight: 800;
     font-size: 0.9rem;
   }
@@ -3655,8 +3655,8 @@
     transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .speak-bar.highlight {
-    background: #0D55FE;
-    box-shadow: 0 6px 18px rgba(13, 85, 254, 0.35);
+    background: var(--accent);
+    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -3690,7 +3690,7 @@
     white-space: nowrap;
   }
   .speak-bar-label.highlight {
-    color: #0D55FE;
+    color: var(--accent);
     font-weight: 800;
   }
   .speak-value-title {
@@ -3770,10 +3770,10 @@
     transform: translateY(-1px);
   }
   .speak-level-item.active {
-    background: #0D55FE !important;
-    border-color: #0D55FE !important;
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
     color: #FFFFFF !important;
-    box-shadow: 0 8px 24px rgba(13, 85, 254, 0.3) !important;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3) !important;
   }
   .speak-level-badge {
     width: 44px;
@@ -3818,7 +3818,7 @@
   .speak-level-item.active .speak-level-radio {
     border-color: #FFFFFF;
     background: #FFFFFF;
-    color: #0D55FE;
+    color: var(--accent);
   }
 
   /* Speak Luminous Floating Copilot Bar (Reference Image 4) */
@@ -3833,8 +3833,8 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: var(--r-pill);
-    box-shadow: 0 12px 36px rgba(13, 85, 254, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
-    border: 1.5px solid rgba(13, 85, 254, 0.35);
+    box-shadow: 0 12px 36px rgba(245, 158, 11, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: 1.5px solid rgba(245, 158, 11, 0.35);
     display: flex;
     align-items: center;
     padding: 6px 8px 6px 16px;
@@ -3843,12 +3843,12 @@
   }
   :root[data-theme="dark"] .speak-floating-copilot {
     background: rgba(15, 23, 38, 0.96);
-    border-color: rgba(30, 102, 255, 0.4);
+    border-color: rgba(251, 191, 36, 0.4);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
   }
   .speak-floating-copilot:focus-within {
-    border-color: #0D55FE;
-    box-shadow: 0 16px 44px rgba(13, 85, 254, 0.28);
+    border-color: var(--accent);
+    box-shadow: 0 16px 44px rgba(245, 158, 11, 0.28);
     transform: translateX(-50%) translateY(-2px);
   }
   .speak-copilot-icon {
@@ -3878,12 +3878,12 @@
     transition: color 0.15s ease;
   }
   .speak-copilot-mic-btn:hover {
-    color: #0D55FE;
+    color: var(--accent);
   }
   .speak-copilot-send-btn {
     width: 38px;
     height: 38px;
-    background: #0D55FE;
+    background: var(--accent);
     border: none;
     border-radius: 50%;
     color: #FFFFFF;
@@ -3891,7 +3891,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(13, 85, 254, 0.35);
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
     transition: transform 0.15s ease;
   }
   .speak-copilot-send-btn:hover {
@@ -3920,11 +3920,11 @@
     background: #151E32 !important;
   }
   .ai-chat-msg.user .ai-chat-bubble {
-    background: #0D55FE !important;
+    background: var(--accent) !important;
     color: #FFFFFF !important;
     border-radius: 20px 20px 6px 20px !important;
     border: none !important;
-    box-shadow: 0 4px 14px rgba(13, 85, 254, 0.25) !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25) !important;
   }
   .ai-chat-bookmark-btn {
     position: absolute;
@@ -3942,11 +3942,11 @@
     transition: all 0.15s ease;
   }
   .ai-chat-bookmark-btn:hover {
-    color: #0D55FE;
+    color: var(--accent);
     transform: scale(1.1);
   }
   .ai-chat-bookmark-btn.saved {
-    color: #0D55FE;
+    color: var(--accent);
   }
 
   /* Mobile Bottom Nav Dock (Reference Image 4) */
@@ -3961,14 +3961,175 @@
     background: rgba(15, 23, 38, 0.94) !important;
   }
   .mob-nav-btn.active, .mob-nav-btn.is-active {
-    color: #0D55FE !important;
+    color: var(--accent) !important;
     background: var(--accent-soft) !important;
     border-radius: var(--r-pill) !important;
   }
 
+
+/* ============================================================================
+   SPEAK UI v6.0 EXPANSION: ZERO-KEY API WIDGETS & UNIVERSAL WORD SHEET (AMBER PALETTE)
+   ============================================================================ */
+:root {
+  --speak-bg-light: #F5F7FA;
+  --speak-card-light: #FFFFFF;
+  --speak-border-light: #E5EBF2;
+  --speak-bg-dark: #090D16;
+  --speak-card-dark: #0F1726;
+  --speak-border-dark: rgba(255, 255, 255, 0.08);
+  --speak-cobalt: #F59E0B;
+  --speak-accent: #F59E0B;
+  --speak-accent-hover: #D97706;
+  --speak-well-peach-bg: #FFF4ED;
+  --speak-well-peach-fg: #FF7A00;
+  --speak-well-purple-bg: #F3EDFF;
+  --speak-well-purple-fg: #7A35FF;
+  --speak-well-blue-bg: #FEF3C7;
+  --speak-well-blue-fg: #D97706;
+  --speak-well-mint-bg: #E9F8EF;
+  --speak-well-mint-fg: #199A46;
+  --speak-well-coral-bg: #FFF0F3;
+  --speak-well-coral-fg: #FF3B5C;
+}
+
+.speak-v6-card {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--card-bg, #FFFFFF);
+  border: 1px solid var(--border-color, #E5EBF2);
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(9, 13, 22, 0.04);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+[data-theme="dark"] .speak-v6-card,
+body.dark .speak-v6-card {
+  background: #0F1726;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #F5F7FA;
+}
+
+.speak-v6-title {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-size: 1.15rem;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.speak-icon-well {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.speak-icon-well.peach  { background: #FFF4ED; color: #FF7A00; }
+.speak-icon-well.purple { background: #F3EDFF; color: #7A35FF; }
+.speak-icon-well.blue   { background: #FEF3C7; color: #D97706; }
+.speak-icon-well.mint   { background: #E9F8EF; color: #199A46; }
+.speak-icon-well.coral  { background: #FFF0F3; color: #FF3B5C; }
+
+.speak-pill-btn {
+  background: var(--accent, #F59E0B);
+  color: #11141A;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 0.86rem;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.15s ease, transform 0.12s ease;
+}
+.speak-pill-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+.speak-pill-btn.secondary {
+  background: rgba(245, 158, 11, 0.14);
+  color: #B45309;
+}
+[data-theme="dark"] .speak-pill-btn.secondary,
+body.dark .speak-pill-btn.secondary {
+  background: rgba(251, 191, 36, 0.18);
+  color: #FDE68A;
+}
+
+.speak-input-pill {
+  padding: 10px 16px;
+  border-radius: 9999px;
+  border: 1px solid #E5EBF2;
+  background: #F5F7FA;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.88rem;
+  color: inherit;
+  outline: none;
+}
+[data-theme="dark"] .speak-input-pill,
+body.dark .speak-input-pill {
+  background: #090D16;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F5F7FA;
+}
+.speak-input-pill:focus { border-color: var(--accent, #F59E0B); }
+
+/* Universal Click-Any-Word Bottom Sheet / Floating Card */
+#speak-word-sheet {
+  position: fixed;
+  bottom: calc(20px + var(--app-safe-bottom, 0px));
+  right: 20px;
+  width: min(400px, calc(100vw - 32px));
+  background: #0F1726;
+  color: #F5F7FA;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 24px 48px rgba(9, 13, 22, 0.55);
+  z-index: 99999;
+  display: none;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+#speak-word-sheet.open {
+  display: block;
+  animation: speakSheetUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes speakSheetUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.sws-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.18);
+  color: #FDE68A;
+  font-size: 0.76rem;
+  font-weight: 600;
+  margin: 3px 4px 3px 0;
+}
+
+/* ZERO-OBSTRUCTION MOBILE RULES: HIDE FLOATING BAR FROM OVERLAYING BOTTOM NAV & INPUTS */
+@media (max-width: 768px) {
+  #speakFloatingCopilot,
+  .speak-floating-copilot {
+    display: none !important;
+  }
+}
+body.tab-aichat-active #speakFloatingCopilot,
+body[data-active-tab="aichat"] #speakFloatingCopilot {
+  display: none !important;
+}
+
 </style>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#e06c35">
+  <meta name="theme-color" content="#F59E0B">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
@@ -4215,7 +4376,7 @@
       <!-- SPEAK APP SIGNATURE DASHBOARD SUITE -->
       <div class="speak-dashboard-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
         <div style="display:flex; align-items:center; gap:12px;">
-          <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, #0D55FE, #3B82F6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.2rem; box-shadow:0 4px 14px rgba(13,85,254,0.3);">
+          <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, #F59E0B, #D97706); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.2rem; box-shadow:0 4px 14px rgba(245,158,11,0.25);">
             👤
           </div>
           <div>
@@ -4234,7 +4395,7 @@
       <div class="speak-hero-lesson-card">
         <div class="speak-hero-top">
           <div class="speak-hero-play-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0D55FE"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="6 3 20 12 6 21 6 3"/></svg>
           </div>
           <div style="flex:1;">
             <div class="speak-hero-badge">DAILY CAMBRIDGE TARGET DRILL • 5 MIN</div>
@@ -5446,6 +5607,28 @@
             </div>
             <div id="bounty-pills" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
           </div>
+
+          <!-- HUB 4 UPGRADE: WORLD BANK LIVE TASK 1 GENERATOR & LANGUAGETOOL INSTANT CHECK -->
+          <div class="speak-v6-card" id="writing-v6-live-bar" style="margin-bottom:14px;">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;">
+              <div class="speak-v6-title" style="margin:0;">
+                <span class="speak-icon-well mint">📊</span>
+                <span>Live World Bank Task 1 Chart Generator &amp; Instant Grammar Audit</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <select id="v6-wb-indicator" class="speak-input-pill">
+                  <option value="EG.FEC.RNEW.ZS">Renewable Energy Share (%)</option>
+                  <option value="IT.NET.USER.ZS">Internet Penetration (% of Pop)</option>
+                  <option value="SP.URB.TOTL.IN.ZS">Urbanization Rate (%)</option>
+                  <option value="SE.TER.ENRR">Tertiary Education Enrollment (%)</option>
+                </select>
+                <button id="v6-wb-load-btn" class="speak-pill-btn secondary">Generate Task 1 Chart</button>
+                <button id="v6-lt-grammar-btn" class="speak-pill-btn">Instant Grammar Audit (0 Neurons)</button>
+              </div>
+            </div>
+            <div id="v6-writing-live-output" style="margin-top:12px;"></div>
+          </div>
+
           <!-- Paragraph Structure Radar & Autosave Indicator -->
           <div class="writing-paragraph-radar" id="writingParagraphRadar">
             <span>📊 Paragraph Radar:</span>
@@ -5709,6 +5892,22 @@
               </button>
             </div>
             <select id="fwPracticePromptSelect" class="occ-select" style="width:100%;" onchange="handleSpeakingPracticePromptChange(this.value)" aria-label="Select Speaking Practice Question"></select>
+          </div>
+
+
+          <!-- HUB 5 UPGRADE: PART 1 & 2 COUNTRY/CLIMATE BRIEFING CARD -->
+          <div class="speak-v6-card" id="speaking-v6-geo-brief" style="margin-bottom:14px;">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;">
+              <div class="speak-v6-title" style="margin:0;">
+                <span class="speak-icon-well blue">🌍</span>
+                <span>Part 1 &amp; 2 Hometown / Destination Live Fact Card</span>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input id="v6-speaking-country" class="speak-input-pill" type="text" value="Myanmar" placeholder="Country (e.g. Myanmar, Singapore, UK)" />
+                <button id="v6-speaking-geo-btn" class="speak-pill-btn secondary">Load Speaking Facts</button>
+              </div>
+            </div>
+            <div id="v6-speaking-geo-output" style="margin-top:10px;font-size:0.88rem;"></div>
           </div>
 
           <!-- Dynamic Band 9.0 Mock Example & Criterion Breakdown Panel -->
@@ -5990,6 +6189,43 @@
           </div>
         </div>
       </div>
+
+      <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
+      <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
+        <div class="speak-v6-title">
+          <span class="speak-icon-well purple">🔬</span>
+          <span>Peer-Reviewed Abstract &amp; Cloze Drill (OpenAlex API)</span>
+        </div>
+        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
+          Fetch authentic academic research abstracts and generate instant Band 8.5+ summary completion cloze drills. Double-click any word for Burmese &amp; SRS save.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <input id="v6-openalex-topic" class="speak-input-pill" style="flex:1;min-width:200px;" type="text" placeholder="Topic (e.g. urban ecology, artificial intelligence, public health)" />
+          <button id="v6-openalex-btn" class="speak-pill-btn">Generate Cloze Passage &rarr;</button>
+        </div>
+        <div id="v6-openalex-output" style="font-size:0.9rem;line-height:1.6;"></div>
+      </div>
+
+      <!-- TOOL 7: NATIVE PODCAST SHADOWING STUDIO (ITUNES API) -->
+      <div class="speak-v6-card" id="tool-card-podcasts">
+        <div class="speak-v6-title">
+          <span class="speak-icon-well peach">🎧</span>
+          <span>Cambridge &amp; BBC Native Podcast Shadowing Deck</span>
+        </div>
+        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
+          Stream real English learning episodes with variable playback speed (0.75x / 1.0x / 1.25x) for active pronunciation shadowing.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <select id="v6-podcast-query" class="speak-input-pill">
+            <option value="BBC 6 Minute English">BBC 6 Minute English</option>
+            <option value="IELTS Speaking Band 9">IELTS Speaking &amp; Academic English</option>
+            <option value="Academic English Listening">University Lecture Listening</option>
+          </select>
+          <button id="v6-podcast-btn" class="speak-pill-btn secondary">Load Episodes</button>
+        </div>
+        <div id="v6-podcast-output"></div>
+      </div>
+
     </div>
   </section>
 
@@ -6049,7 +6285,7 @@
         <!-- Chat Input Bar -->
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <label for="aiChatModelSelect" style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">AI MODEL:</label>
+            <label for="aiChatModelSelect" style="font-size:0.75rem; color:var(--text-secondary); font-weight:700; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center;">AI MODEL:</label>
             <select id="aiChatModelSelect" class="occ-input" style="padding:4px 8px; font-size:0.78rem; border-radius:4px;" onchange="updateAiChatModelBadge()">
               <option value="@cf/meta/llama-3.1-8b-instruct" selected>Meta Llama 3.1 8B Instruct (High Precision)</option>
               <option value="@cf/meta/llama-3.2-3b-instruct">Meta Llama 3.2 3B Instruct (Ultra Fast)</option>
@@ -11917,6 +12153,17 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
 // =========================================================
 (function initStudioTabController() {
   function activateStudioTab(rawTarget, scrollTargetEl = null) {
+    // Mobile / AI Chat copilot guard:
+    const targetCheck = String(rawTarget || '').trim().toLowerCase();
+    const copilotEl = document.getElementById('speakFloatingCopilot');
+    if (copilotEl) {
+      if (targetCheck === 'aichat' || targetCheck === 'mentor' || window.innerWidth <= 768) {
+        copilotEl.style.display = 'none';
+      } else {
+        copilotEl.style.display = 'flex';
+      }
+    }
+    document.body.setAttribute('data-active-tab', targetCheck);
     if (!rawTarget) rawTarget = 'overview';
     let target = String(rawTarget).trim().toLowerCase();
 
@@ -13438,6 +13685,9 @@ async function sendAiChatMessage() {
     aiChatMessages = aiChatMessages.slice(-8);
   }
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 18000);
+
   try {
     const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
     const messagesPayload = [
@@ -13452,8 +13702,10 @@ async function sendAiChatMessage() {
         messages: messagesPayload,
         model: selectedModel,
         max_tokens: 1400
-      })
+      }),
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errJson = await response.json().catch(() => ({}));
@@ -13467,7 +13719,7 @@ async function sendAiChatMessage() {
       throw new Error('Empty response received from AI model.');
     }
 
-    // Remove typing indicator
+    // Remove typing indicator safely
     const typingEl = document.getElementById('aiChatTyping');
     if (typingEl) typingEl.remove();
 
@@ -13476,16 +13728,56 @@ async function sendAiChatMessage() {
     const cleanModelName = (resData.modelUsed || 'Llama 3.1 8B').replace('@cf/meta/', '').replace('@cf/', '');
     if (status) status.textContent = `Status: Ready (${cleanModelName})`;
   } catch (err) {
+    clearTimeout(timeoutId);
     console.error('[AI Mentor Error]', err);
     const typingEl = document.getElementById('aiChatTyping');
     if (typingEl) typingEl.remove();
 
-    const errFeedback = `⚠️ **Error connecting to AI Mentor**: ${err.message || 'Unknown network error'}\n\nPlease verify your internet connection or try again in a moment.`;
-    appendAiChatMessage('assistant', errFeedback);
-    if (status) status.textContent = 'Status: Error';
+    const isTimeout = err.name === 'AbortError';
+    const errReason = isTimeout ? 'Response timed out (18s limit)' : (err.message || 'Network error');
+    
+    const fallbackBubble = document.createElement('div');
+    fallbackBubble.className = 'ai-chat-msg assistant';
+    fallbackBubble.innerHTML = `
+      <div class="ai-chat-avatar">⚠️</div>
+      <div class="ai-chat-bubble" style="border-left: 3px solid var(--accent); padding:10px 14px;">
+        <div style="font-weight:700; color:var(--text); margin-bottom:4px;">Cambridge Mentor could not reach the model</div>
+        <div style="font-size:0.83rem; color:var(--text-secondary); margin-bottom:10px;">${errReason}. Tap below to instantly retry with high speed.</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="speak-pill-btn" onclick="retryLastAiPrompt('${selectedModel}')" style="padding:6px 14px; font-size:0.78rem;">
+            🔄 Retry Question
+          </button>
+          <button type="button" class="speak-pill-btn secondary" onclick="retryWithFastLlama()" style="padding:6px 14px; font-size:0.78rem;">
+            ⚡ Fast Mode (Llama 3.2 3B)
+          </button>
+        </div>
+      </div>
+    `;
+    if (stream) {
+      stream.appendChild(fallbackBubble);
+      stream.scrollTop = stream.scrollHeight;
+    }
+    if (status) status.textContent = 'Status: Connection Issue (Tap Retry)';
   } finally {
     if (sendBtn) sendBtn.disabled = false;
   }
+}
+
+function retryLastAiPrompt(model) {
+  const lastUser = [...aiChatMessages].reverse().find(m => m.role === 'user');
+  if (!lastUser) return;
+  const input = document.getElementById('aiChatInput');
+  if (input) input.value = lastUser.content;
+  const modelSelect = document.getElementById('aiChatModelSelect');
+  if (modelSelect && model) modelSelect.value = model;
+  sendAiChatMessage();
+}
+
+function retryWithFastLlama() {
+  const modelSelect = document.getElementById('aiChatModelSelect');
+  if (modelSelect) modelSelect.value = '@cf/meta/llama-3.2-3b-instruct';
+  updateAiChatModelBadge();
+  retryLastAiPrompt('@cf/meta/llama-3.2-3b-instruct');
 }
 
 
@@ -13560,7 +13852,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
     btnEl.classList.toggle('saved');
     const isSaved = btnEl.classList.contains('saved');
     if (isSaved) {
-      btnEl.style.color = '#0D55FE';
+      btnEl.style.color = 'var(--accent)';
       if (typeof showStudioNotification === 'function') {
         const snippet = phraseText.replace(/[\n\r]+/g, ' ').slice(0, 32);
         showStudioNotification(`🔖 "${snippet}..." bookmarked to SRS Flashcards!`);
