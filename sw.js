@@ -1,5 +1,5 @@
 // IELTS Prep Studio Service Worker (Network-First with Cache Fallback)
-const CACHE_NAME = 'ielts-prep-studio-v8.2';
+const CACHE_NAME = 'ielts-prep-studio-v8.3';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -11,7 +11,9 @@ const STATIC_ASSETS = [
   './data/lexicon.json',
   './data/reading.json',
   './data/writing.json',
-  './data/speaking.json'
+  './data/speaking.json',
+  './data/free-bundle.json',
+  './data/vip-bundle.json'
 ];
 
 self.addEventListener('install', (event) => {

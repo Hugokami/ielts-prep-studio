@@ -5720,6 +5720,131 @@ body.in-cbt-drill #backToTopBtn {
   }
 }
 
+
+/* ============================================================================
+   MOTION-ANYTHING KINETIC RECIPES (nexu-io/open-design motion layer)
+   Recipes: shiny-text, star-border, rotating-text, typewriter-multi
+   ============================================================================ */
+
+/* 1. shiny-text (text-kinetic) */
+.shiny-text {
+  --shiny-base: var(--text, #1e293b);
+  --shiny-hi: var(--accent, #d97706);
+  background: linear-gradient(100deg, var(--shiny-base) 35%, var(--shiny-hi) 50%, var(--shiny-base) 65%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  animation: shinySweep 3.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes shinySweep {
+  0% { background-position: 150% 0; }
+  100% { background-position: -60% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--text);
+  }
+}
+
+/* 2. star-border (ambient CTA rotating aura) */
+@property --star-a {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.star-btn {
+  --star-color: var(--accent, #d97706);
+  --star-w: 2px;
+  --star-a: 0deg;
+  position: relative !important;
+  isolation: isolate;
+}
+.star-btn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: var(--star-w);
+  background: conic-gradient(from var(--star-a), transparent 0 60%, var(--star-color) 78%, #ffffff 82%, var(--star-color) 86%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: starSpin 3.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes starSpin {
+  to { --star-a: 360deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-btn::before {
+    animation: none;
+    background: none;
+    border: var(--star-w) solid var(--accent);
+  }
+}
+
+/* 3. rotating-text (kinetic word cycles) */
+.rot {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  position: relative;
+}
+.rot > .rot-w {
+  display: inline-block;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.42s;
+  color: var(--accent);
+  font-weight: 700;
+}
+.rot.swap > .rot-w {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rot > .rot-w {
+    transition: none;
+  }
+}
+
+/* 4. typewriter-multi (terminal stream) */
+.hpx-typewriter-container {
+  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.hpx-typewriter-terminal {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 64px;
+}
+.hpx-tw-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.hpx-tw-cur {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--accent);
+  font-weight: 900;
+  animation: hpxBlink 0.9s steps(2) infinite;
+}
+@keyframes hpxBlink {
+  50% { opacity: 0; }
+}
+
 </style>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#F59E0B">
@@ -6074,7 +6199,7 @@ body.in-cbt-drill #backToTopBtn {
         <p class="speak-hero-desc">
           Practice 1-minute cue card note framing &amp; Part 3 inversion hedging ("Seldom do we consider...") with instant Cambridge AI pronunciation &amp; lexical resource scoring.
         </p>
-        <button class="speak-hero-start-btn uiv-btn-shine" onclick="switchView('speaking')">
+        <button class="speak-hero-start-btn uiv-btn-shine star-btn" onclick="switchView('speaking')">
           <span>Start Daily Lesson</span> <span>→</span>
         </button>
       </div>
@@ -6083,13 +6208,26 @@ body.in-cbt-drill #backToTopBtn {
     <div class="speak-progress-banner uiv-animate-enter uiv-delay-3">
         <div class="speak-streak-flame">🔥</div>
         <div style="flex:1;">
-          <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> Study Streak</div>
-          <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> academic collocations. Paraphrase accuracy on track.</div>
+          <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> <span class="shiny-text">Study Streak</span></div>
+          <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> <span class="rot" data-words="academic collocations | high-yield IELTS traps | C1/C2 CEFR vocabulary | Band 8.5–9.0 expressions">academic collocations</span>. Paraphrase accuracy on track.</div>
         </div>
-        <button class="speak-streak-btn uiv-btn-shine" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
+        <button class="speak-streak-btn uiv-btn-shine star-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
           Review SRS Flashcards ↗
         </button>
       </div>
+
+    
+    <!-- MOTION-ANYTHING: typewriter-multi LIVE ACADEMIC TELEMETRY -->
+    <div class="hpx-typewriter-container speak-v6-card" style="margin-bottom:18px; padding:16px 20px; background:var(--bg-elevated); border:1px solid var(--border); border-radius:16px;">
+      <div style="font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span>⚡ CAMBRIDGE TELEMETRY STREAM</span>
+          <span class="occ-ver-pill" style="font-size:0.68rem; padding:2px 8px; color:var(--accent);">VIP ACTIVE</span>
+        </div>
+        <span style="font-size:0.72rem; color:var(--text-secondary); font-family:var(--font-mono, monospace);">1-3-7 LEITNER • C1/C2</span>
+      </div>
+      <div class="hpx-typewriter-terminal" data-fx-line1="> loading 1,162 academic lexicon items &amp; Cambridge traps..." data-fx-line2="> syncing 23 computer-based reading simulations &amp; 40 writing drafts..." data-fx-line3="> VIP study suite unlocked. Target Band 8.5+ active_"></div>
+    </div>
 
     <!-- 4. JUMP-IN LESSONS BENTO GRID -->
     <div class="speak-section-header uiv-animate-enter uiv-delay-4">
@@ -6241,9 +6379,9 @@ body.in-cbt-drill #backToTopBtn {
       <div class="sec-block" id="ov-modules">
       <div class="sec-eyebrow">CORE PRACTICE MODULES</div>
       <div class="sec-header-row">
-        <h2 class="sec-title">Cambridge Simulation Suite <span class="ver-muted">55 Interactive Tests &amp; Models</span></h2>
+        <h2 class="sec-title"><span class="shiny-text">Cambridge Simulation Suite</span> <span class="ver-muted">55 Interactive Tests &amp; Models</span></h2>
         <div class="sec-timestamp">Academic &amp; General Training Compatible</div>
-        <button class="btn-outlined" onclick="switchView('reading')" style="margin-left:auto;">
+        <button class="btn-outlined star-btn" onclick="switchView('reading')" style="margin-left:auto;">
           All 55 Practice Mocks ↗
         </button>
       </div>
@@ -6256,7 +6394,7 @@ body.in-cbt-drill #backToTopBtn {
               <div class="occ-card-identity">
                 <div class="occ-icon-box" onclick="switchView('lexicon')">LX</div>
                 <div>
-                  <div class="occ-word-title">1,162-Entry Lexicon &amp; Traps + 1-3-7 Day SRS</div>
+                  <div class="occ-word-title"><span class="shiny-text">1,162-Entry Lexicon &amp; Traps</span> + 1-3-7 Day SRS</div>
                   <div class="occ-word-sub">26 Varieties &amp; Trap Banks • 16 Word Families • 30 Synonym Sets</div>
                 </div>
               </div>
@@ -8201,10 +8339,43 @@ async function loadStudioData() {
   if (typeof window !== "undefined" && window.location.protocol === "file:") {
     showLocalFileProtocolWarning();
   }
+  const isVip = typeof isVipActive === "function" && isVipActive();
+
+  // If user is VIP, immediately load full 1,162 dataset
+  if (isVip) {
+    try {
+      const [lexRes, readRes, writeRes, spkRes] = await Promise.all([
+        fetch("data/lexicon.json"),
+        fetch("data/reading.json"),
+        fetch("data/writing.json"),
+        fetch("data/speaking.json")
+      ]);
+      if (lexRes.ok && readRes.ok && writeRes.ok && spkRes.ok) {
+        VOCAB_DATA = await lexRes.json();
+        READING_MOCKS = await readRes.json();
+        WRITING_MOCKS = await writeRes.json();
+        const spkBundle = await spkRes.json();
+        SPEAKING_FRAMEWORKS = spkBundle.frameworks || [];
+        SPEAKING_VIDEO_SCRIPTS = spkBundle.video_scripts || [];
+        SENTENCE_PATTERNS_BANK = spkBundle.sentence_patterns || [];
+        IDIOM_QA_SAMPLES = spkBundle.idioms || [];
+        WORD_FAMILIES_16 = spkBundle.word_families || [];
+        VOCAB_UPGRADES_14 = spkBundle.vocab_upgrades || [];
+        SYNONYM_SETS_30 = spkBundle.synonym_sets || [];
+        SPEAKING_TOPIC_BANK_DATA = spkBundle.topic_bank || [];
+        window._vipBundleMerged = true;
+        refreshAnalytics();
+        return true;
+      }
+    } catch (e) {
+      console.warn("[VIP Full Data Load direct fallback]", e);
+    }
+  }
+
   try {
     // 1. Prioritize free curriculum bundle (250 Lexicon, 3 Reading CBTs, 5 Writing Models, 50 Speaking Topics)
     let bundle = null;
-    const bundlePaths = ["public/data/free-bundle.json", "data/free-bundle.json"];
+    const bundlePaths = ["data/free-bundle.json", "public/data/free-bundle.json"];
     for (const p of bundlePaths) {
       try {
         const res = await fetch(p);
@@ -8352,6 +8523,7 @@ window.mergeVipBundle = function(vipData) {
     if (typeof initWritingMocks === "function") initWritingMocks();
     if (typeof initSpeakingStudio === "function") initSpeakingStudio();
     if (typeof updateAuthUI === "function") updateAuthUI();
+    if (typeof refreshAnalytics === "function") refreshAnalytics();
     if (typeof showToast === "function") showToast("👑 Full Lifetime VIP Pass Unlocked! 1,162 Lexicon Items & All CBT Passages Available.");
   } catch (err) {
     console.warn("[VIP UI Refresh Error]", err);
@@ -8580,10 +8752,14 @@ function isVipActive() {
   } catch (e) {}
   try {
     if (typeof localStorage !== "undefined") {
-      if (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher")) {
+      if (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_tier") === "vip") {
         window.isVipUser = true;
         return true;
       }
+    }
+    if (typeof sessionStorage !== "undefined" && (sessionStorage.getItem("ips_vip_active") === "true" || sessionStorage.getItem("ielts_pending_voucher"))) {
+      window.isVipUser = true;
+      return true;
     }
   } catch (e) {}
 
@@ -10050,23 +10226,27 @@ function getDueSRSWordIds() {
 }
 
 function refreshAnalytics() {
-  const mCount = appState.mastered.length;
-  const rCount = appState.readingDone.length;
-  const wCount = Object.keys(appState.writingDrafts).length;
+  const mCount = (appState.mastered || []).length;
+  const isVip = typeof isVipActive === "function" && isVipActive();
+  const totalVocab = (isVip || (VOCAB_DATA && VOCAB_DATA.length >= 1000)) ? 1162 : ((VOCAB_DATA && VOCAB_DATA.length) ? VOCAB_DATA.length : (isVip ? 1162 : 250));
+  const rCount = (appState.readingDone || []).length;
+  const totalReading = (isVip || (READING_MOCKS && READING_MOCKS.length >= 20)) ? 23 : ((READING_MOCKS && READING_MOCKS.length) ? READING_MOCKS.length : 3);
+  const wCount = Object.keys(appState.writingDrafts || {}).length;
+  const totalWriting = (isVip || (WRITING_MOCKS && WRITING_MOCKS.length >= 30)) ? 40 : ((WRITING_MOCKS && WRITING_MOCKS.length) ? WRITING_MOCKS.length : 5);
   const dueIds = getDueSRSWordIds();
   const errCount = (appState.errorLog || []).length;
 
   const hpVal = document.getElementById("hero-progress-val");
-  if (hpVal) hpVal.textContent = `${mCount} / ${VOCAB_DATA.length} Mastered`;
+  if (hpVal) hpVal.textContent = `${mCount} / ${totalVocab.toLocaleString()}`;
   const hqSub = document.getElementById("hero-quiz-sub");
-  if (hqSub) hqSub.textContent = `Paraphrase Accuracy: ${appState.drillBest}% • Mocks: ${rCount + wCount}/${READING_MOCKS.length + WRITING_MOCKS.length}`;
+  if (hqSub) hqSub.textContent = `Paraphrase Accuracy: ${appState.drillBest || 0}% • Mocks: ${rCount + wCount}/${totalReading + totalWriting}`;
 
   const kv = document.getElementById("card-kpi-vocab");
-  if (kv) kv.textContent = `${mCount} / ${VOCAB_DATA.length} Mastered`;
+  if (kv) kv.textContent = `${mCount} / ${totalVocab.toLocaleString()} Mastered`;
   const kr = document.getElementById("card-kpi-read");
-  if (kr) kr.textContent = `${rCount} / ${READING_MOCKS.length} Solved`;
+  if (kr) kr.textContent = `${rCount} / ${totalReading} Solved`;
   const kw = document.getElementById("card-kpi-write");
-  if (kw) kw.textContent = `${wCount} / ${WRITING_MOCKS.length} Saved`;
+  if (kw) kw.textContent = `${wCount} / ${totalWriting} Saved`;
 
   const srsBadge = document.getElementById("srsDueCountBadge");
   if (srsBadge) srsBadge.textContent = dueIds.length;
@@ -16543,5 +16723,104 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 })();
 </script>
 
+<script>
+
+/* ============================================================================
+   MOTION-ANYTHING RUNTIMES (rotating-text & typewriter-multi)
+   ============================================================================ */
+(function initMotionAnything() {
+  function isReduced() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  // 1. rotating-text runner
+  function attachRotatingText() {
+    const els = document.querySelectorAll('.rot');
+    els.forEach(el => {
+      if (el.__rot) return;
+      el.__rot = 1;
+      const rawWords = el.getAttribute('data-words') || el.textContent;
+      const words = rawWords.split('|').map(w => w.trim()).filter(Boolean);
+      if (words.length <= 1) return;
+      let idx = 0;
+      el.textContent = '';
+      const wSpan = document.createElement('span');
+      wSpan.className = 'rot-w';
+      wSpan.textContent = words[0];
+      el.appendChild(wSpan);
+
+      setInterval(() => {
+        idx = (idx + 1) % words.length;
+        if (isReduced()) {
+          wSpan.textContent = words[idx];
+          return;
+        }
+        el.classList.add('swap');
+        setTimeout(() => {
+          wSpan.textContent = words[idx];
+          el.classList.remove('swap');
+        }, 420);
+      }, 2800);
+    });
+  }
+
+  // 2. typewriter-multi runner
+  function attachTypewriterMulti() {
+    const terminals = document.querySelectorAll('.hpx-typewriter-terminal');
+    terminals.forEach(el => {
+      if (el.__tw) return;
+      el.__tw = 1;
+      const lines = [
+        el.getAttribute('data-fx-line1') || '> loading 1,162 academic lexicon items...',
+        el.getAttribute('data-fx-line2') || '> syncing 1-3-7 Leitner spaced repetition...',
+        el.getAttribute('data-fx-line3') || '> VIP study studio ready. Band 8.5 active_'
+      ];
+      el.innerHTML = '';
+      const rows = lines.map(txt => {
+        const row = document.createElement('div');
+        row.className = 'hpx-tw-row';
+        const span = document.createElement('span');
+        span.textContent = '';
+        const cur = document.createElement('span');
+        cur.className = 'hpx-tw-cur';
+        cur.textContent = '█';
+        row.appendChild(span);
+        row.appendChild(cur);
+        el.appendChild(row);
+        return { row, span, cur, txt, i: 0 };
+      });
+
+      const speeds = [40, 32, 28];
+      rows.forEach((r, idx) => {
+        const tick = () => {
+          if (r.i < r.txt.length) {
+            r.span.textContent += r.txt[r.i++];
+            setTimeout(tick, speeds[idx]);
+          } else {
+            setTimeout(() => {
+              r.i = 0;
+              r.span.textContent = '';
+              tick();
+            }, 5000);
+          }
+        };
+        setTimeout(tick, idx * 550);
+      });
+    });
+  }
+
+  function runAll() {
+    attachRotatingText();
+    attachTypewriterMulti();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runAll);
+  } else {
+    runAll();
+  }
+})();
+
+</script>
 </body>
 </html>
