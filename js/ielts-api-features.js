@@ -2249,75 +2249,198 @@
     window.podActiveCaptions = {};
 
     
-    // DYNAMIC REAL-TIME SPEECH RECOGNITION & FASTER-WHISPER PODCAST ENGINE
-    window.podSpeechModes = window.podSpeechModes || {};
-    window.podSpeechEngines = window.podSpeechEngines || {};
-
-    window.setPodcastDisplayMode = function(idx, mode) {
-      window.podSpeechModes[idx] = mode;
-      const btnLive = document.getElementById(`pod-mode-realtime-${idx}`);
-      const btnFull = document.getElementById(`pod-mode-full-${idx}`);
-      if (btnLive && btnFull) {
-        if (mode === 'live') {
-          btnLive.classList.remove('secondary');
-          btnLive.style.background = 'var(--accent, #0F172A)';
-          btnLive.style.color = '#FFFFFF';
-          btnLive.style.fontWeight = '800';
-          btnFull.classList.add('secondary');
-          btnFull.style.background = '';
-          btnFull.style.color = '';
-          btnFull.style.fontWeight = 'normal';
-        } else {
-          btnFull.classList.remove('secondary');
-          btnFull.style.background = 'var(--accent, #0F172A)';
-          btnFull.style.color = '#FFFFFF';
-          btnFull.style.fontWeight = '800';
-          btnLive.classList.add('secondary');
-          btnLive.style.background = '';
-          btnLive.style.color = '';
-          btnLive.style.fontWeight = 'normal';
-        }
+    // AUTHENTIC BROWSER LIVE SPEECH RECOGNITION ENGINE (ZERO PRE-PRINTED TEXT)
+    const FEATURED_HOME_PODCASTS = [
+      {
+        title: "EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!",
+        show: "IELTS Band 9 Speaking Simulation",
+        date: "2026-10-20",
+        durationMin: 15,
+        audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111"
+      },
+      {
+        title: "Why has gold got so expensive?",
+        show: "BBC 6 Minute English",
+        date: "2026-10-15",
+        durationMin: 7,
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3"
+      },
+      {
+        title: "Are people drinking less alcohol?",
+        show: "BBC 6 Minute English",
+        date: "2026-10-08",
+        durationMin: 7,
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3"
       }
-      if (typeof window[`podRenderSpeech_${idx}`] === 'function') {
-        window[`podRenderSpeech_${idx}`]();
+    ];
+
+    window.activeSpeechRecognizers = window.activeSpeechRecognizers || {};
+    window.podcastTranscripts = window.podcastTranscripts || {};
+
+    window.togglePodcastSpeechRecognition = function(idx) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const btn = document.getElementById(`pod-mic-btn-${idx}`);
+      const box = document.getElementById(`pod-transcript-content-${idx}`);
+      const statusEl = document.getElementById(`pod-live-status-${idx}`);
+      const wpmEl = document.getElementById(`pod-wpm-${idx}`);
+      const wordsEl = document.getElementById(`pod-words-${idx}`);
+
+      if (!SpeechRecognition) {
+        alert("Speech Recognition API is not supported by your current browser engine. Please open this app in Google Chrome or Android/PC Telegram for real-time speech-to-text.");
+        return;
+      }
+
+      // If active, stop session
+      if (window.activeSpeechRecognizers[idx]) {
+        try {
+          window.activeSpeechRecognizers[idx].stop();
+        } catch (e) {}
+        window.activeSpeechRecognizers[idx] = null;
+        if (btn) {
+          btn.innerHTML = '🎙️ Start Live Transcribe';
+          btn.style.background = 'var(--accent, #0F172A)';
+        }
+        if (statusEl) {
+          statusEl.innerHTML = '⏸️ TRANSCRIBE PAUSED';
+          statusEl.style.color = 'var(--text-secondary)';
+        }
+        return;
+      }
+
+      // Start fresh session
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-GB';
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        window.podcastTranscripts[idx] = window.podcastTranscripts[idx] || '';
+        let sessionFinalText = window.podcastTranscripts[idx];
+        const startTimeMs = Date.now();
+
+        function updateTelemetry(totalWords) {
+          const elapsedMin = Math.max((Date.now() - startTimeMs) / 60000, 0.05);
+          const wpm = Math.round(totalWords / elapsedMin);
+          if (wpmEl) wpmEl.textContent = String(wpm);
+          if (wordsEl) wordsEl.textContent = String(totalWords);
+        }
+
+        recognition.onstart = () => {
+          window.activeSpeechRecognizers[idx] = recognition;
+          if (btn) {
+            btn.innerHTML = '⏹️ Stop Transcribe';
+            btn.style.background = '#EF4444';
+          }
+          if (statusEl) {
+            statusEl.innerHTML = '🔴 <strong>LISTENING LIVE SPEECH...</strong>';
+            statusEl.style.color = '#EF4444';
+          }
+          if (!sessionFinalText && box) {
+            box.innerHTML = '<span style="color:var(--text-secondary); font-style:italic;">Listening... speak or play audio now. Words will appear live.</span>';
+          }
+        };
+
+        recognition.onresult = (event) => {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              sessionFinalText += transcript + ' ';
+              window.podcastTranscripts[idx] = sessionFinalText;
+            } else {
+              interim += transcript;
+            }
+          }
+
+          const combined = (sessionFinalText + ' ' + interim).trim();
+          const words = combined ? combined.split(/\s+/).filter(Boolean) : [];
+          updateTelemetry(words.length);
+
+          const escapedFinal = sessionFinalText
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+          const escapedInterim = interim
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+          if (box) {
+            box.innerHTML = `
+              <div style="line-height:1.75; font-size:0.94rem; color:var(--text); word-break:break-word;">
+                ${escapedFinal ? `<span>${escapedFinal}</span> ` : ''}
+                ${escapedInterim ? `<span class="pod-active-word" style="color:var(--accent); font-weight:800; background:rgba(245,158,11,0.22); padding:2px 6px; border-radius:4px;">${escapedInterim}</span>` : ''}
+                <span class="pod-speech-cursor" style="display:inline-block; width:2.5px; height:1.15em; background:var(--accent); margin-left:3px; animation:ipsBlink 0.8s infinite; vertical-align:middle;"></span>
+              </div>
+            `;
+            if (window[`podAutoScroll_${idx}`] !== false) {
+              box.scrollTop = box.scrollHeight;
+            }
+          }
+        };
+
+        recognition.onerror = (err) => {
+          console.warn('[Podcast Speech Recognition Notice]', err);
+          if (err.error === 'not-allowed') {
+            alert("Microphone/Speech permission was denied. Please grant microphone access in your browser or Telegram settings to allow real-time speech transcription.");
+          }
+        };
+
+        recognition.onend = () => {
+          if (window.activeSpeechRecognizers[idx]) {
+            try {
+              recognition.start();
+            } catch (e) {
+              window.activeSpeechRecognizers[idx] = null;
+              if (btn) {
+                btn.innerHTML = '🎙️ Start Live Transcribe';
+                btn.style.background = 'var(--accent, #0F172A)';
+              }
+              if (statusEl) {
+                statusEl.innerHTML = '⏸️ TRANSCRIBE READY';
+                statusEl.style.color = 'var(--text-secondary)';
+              }
+            }
+          }
+        };
+
+        recognition.start();
+      } catch (err) {
+        console.error('[Speech Recognition Start Error]', err);
+        alert('Could not start speech recognition: ' + err.message);
+      }
+    };
+
+    window.clearPodcastTranscript = function(idx) {
+      window.podcastTranscripts[idx] = '';
+      const box = document.getElementById(`pod-transcript-content-${idx}`);
+      const wpmEl = document.getElementById(`pod-wpm-${idx}`);
+      const wordsEl = document.getElementById(`pod-words-${idx}`);
+      const statusEl = document.getElementById(`pod-live-status-${idx}`);
+
+      if (wpmEl) wpmEl.textContent = '0';
+      if (wordsEl) wordsEl.textContent = '0';
+      if (statusEl) {
+        statusEl.innerHTML = '🔴 LIVE SPEECH ENGINE READY';
+        statusEl.style.color = 'var(--text-secondary)';
+      }
+      if (box) {
+        box.innerHTML = `<div style="color:var(--text-secondary); font-style:italic; padding:10px 4px; font-size:0.88rem;">🎙️ Live speech recognition ready. Press ▶️ Play on the audio above and tap <strong>🎙️ Start Live Transcribe</strong> to transcribe speech in real time as words are spoken. (Zero pre-printed static text).</div>`;
       }
     };
 
     window.copyCurrentPodcastTranscript = function(idx) {
-      const mode = window.podSpeechModes[idx] || 'live';
-      const audio = document.getElementById(`v6-pod-audio-${idx}`);
-      const segments = window[`podSegments_${idx}`] || [];
-      let textToCopy = '';
-
-      if (mode === 'live' && audio) {
-        const ct = audio.currentTime;
-        const spoken = [];
-        for (let i = 0; i < segments.length; i++) {
-          const s = segments[i];
-          if (s.end <= ct) {
-            spoken.push(s.text);
-          } else if (s.start <= ct && ct < s.end) {
-            const words = s.text.split(/\s+/).filter(Boolean);
-            const dur = Math.max(s.end - s.start, 0.4);
-            const wIdx = Math.min(words.length - 1, Math.max(0, Math.floor(((ct - s.start) / dur) * words.length)));
-            spoken.push(words.slice(0, wIdx + 1).join(' '));
-            break;
-          }
-        }
-        textToCopy = spoken.join(' ').trim();
-      } else {
-        textToCopy = segments.map(s => `[${s.time}] ${s.text}`).join('\n');
+      const text = (window.podcastTranscripts[idx] || '').trim();
+      if (!text) {
+        if (typeof showToast === 'function') showToast('No speech transcribed yet. Tap Start Live Transcribe first.');
+        else alert('No speech transcribed yet.');
+        return;
       }
-
-      if (!textToCopy) {
-        const box = document.getElementById(`pod-transcript-content-${idx}`);
-        textToCopy = box ? (box.innerText || box.textContent || '').trim() : '';
-      }
-
-      if (textToCopy && navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          if (typeof showToast === 'function') showToast('📋 Spoken speech transcript copied to clipboard!');
-          else alert('📋 Spoken speech transcript copied to clipboard!');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (typeof showToast === 'function') showToast('📋 Live speech transcript copied to clipboard!');
+          else alert('📋 Live speech transcript copied to clipboard!');
         }).catch(() => {});
       }
     };
@@ -2331,239 +2454,14 @@
       }
     };
 
-    window.seekPodcastAudio = function(idx, seconds) {
-      const audio = document.getElementById(`v6-pod-audio-${idx}`);
-      if (audio) {
-        audio.currentTime = Math.max(0, seconds - 0.2);
-        audio.play().catch(() => {});
-      }
-    };
-
-    // CORE REAL-TIME SPEECH RECOGNITION TRANSCRIBER FOR PODCASTS (0-MIC REQUIRED)
-    window.initLivePodcastCaptions = function(idx, segments) {
-      const audio = document.getElementById(`v6-pod-audio-${idx}`);
-      const container = document.getElementById(`pod-transcript-content-${idx}`);
-      const statusEl = document.getElementById(`pod-live-status-${idx}`);
-      const wpmEl = document.getElementById(`pod-wpm-${idx}`);
-      const wordsEl = document.getElementById(`pod-words-${idx}`);
-
-      if (!audio || !container || !segments || !segments.length) return;
-
-      window.podSpeechModes[idx] = window.podSpeechModes[idx] || 'live';
-      window[`podSegments_${idx}`] = segments;
-      if (window[`podAutoScroll_${idx}`] === undefined) {
-        window[`podAutoScroll_${idx}`] = true;
-      }
-
-      let lastActiveIdx = -1;
-
-      function renderSpeechFrame() {
-        const ct = audio.currentTime;
-        const isPaused = audio.paused;
-        const mode = window.podSpeechModes[idx] || 'live';
-
-        const curM = Math.floor(ct / 60);
-        const curS = Math.floor(ct % 60);
-        const timeStr = `${curM.toString().padStart(2, '0')}:${curS.toString().padStart(2, '0')}`;
-
-        if (mode === 'live') {
-          // If audio is at zero or just started and paused: show active listening standby
-          if (ct <= 0.1 && isPaused) {
-            container.innerHTML = `
-              <div style="display:flex; align-items:center; gap:12px; color:var(--text-secondary); font-style:italic; padding:12px 6px;">
-                <span style="font-size:1.4rem; flex-shrink:0;">🎙️</span>
-                <div>
-                  <strong style="color:var(--text); font-style:normal; font-size:0.92rem;">Real-Time Speech Engine Standing By (0-Mic Audio Stream)</strong>
-                  <div style="font-size:0.82rem; margin-top:3px; line-height:1.5;">
-                    Press <strong>▶️ Play</strong> above. The engine will listen directly to the recording and transcribe each spoken word live as it is uttered without showing future text.
-                  </div>
-                </div>
-              </div>
-            `;
-            if (statusEl) statusEl.innerHTML = `🔴 <strong>SPEECH ENGINE:</strong> STANDBY`;
-            if (wpmEl) wpmEl.textContent = '0';
-            if (wordsEl) wordsEl.textContent = '0';
-            return;
-          }
-
-          // Real-time progressive speech reveal
-          const confirmedParts = [];
-          let activeWord = '';
-          let activeLeadingWords = '';
-          let totalWordCount = 0;
-
-          for (let i = 0; i < segments.length; i++) {
-            const s = segments[i];
-            if (s.end <= ct) {
-              confirmedParts.push(s.text);
-              const w = s.text.split(/\s+/).filter(Boolean);
-              totalWordCount += w.length;
-            } else if (s.start <= ct && ct < s.end) {
-              const words = s.text.split(/\s+/).filter(Boolean);
-              const dur = Math.max(s.end - s.start, 0.4);
-              const wIdx = Math.min(words.length - 1, Math.max(0, Math.floor(((ct - s.start) / dur) * words.length)));
-              activeLeadingWords = words.slice(0, wIdx).join(' ');
-              activeWord = words[wIdx] || '';
-              totalWordCount += (wIdx + 1);
-              break;
-            }
-          }
-
-          // Calculate speech telemetry
-          const elapsedMinutes = Math.max(ct / 60, 0.08);
-          const wpm = Math.round(totalWordCount / elapsedMinutes);
-
-          if (wpmEl) wpmEl.textContent = String(wpm);
-          if (wordsEl) wordsEl.textContent = String(totalWordCount);
-
-          if (statusEl) {
-            statusEl.innerHTML = isPaused
-              ? `⏸️ <strong>AUDIO PAUSED:</strong> ${timeStr}`
-              : `🔴 <strong>LIVE TRANSCRIBING AUDIO:</strong> ${timeStr}`;
-          }
-
-          let confirmedFull = confirmedParts.join(' ');
-          if (activeLeadingWords) {
-            confirmedFull = confirmedFull ? (confirmedFull + ' ' + activeLeadingWords) : activeLeadingWords;
-          }
-
-          const escapedConfirmed = confirmedFull
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-          const escapedActiveWord = activeWord
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-          container.innerHTML = `
-            <div style="line-height:1.75; font-size:0.94rem; color:var(--text); word-break:break-word;">
-              ${escapedConfirmed ? `<span>${escapedConfirmed}</span> ` : ''}
-              ${escapedActiveWord ? `<span class="pod-active-word" style="color:var(--accent); font-weight:800; background:rgba(245,158,11,0.22); padding:2px 6px; border-radius:4px; box-shadow:0 0 8px rgba(245,158,11,0.3);">${escapedActiveWord}</span>` : ''}
-              <span class="pod-speech-cursor" style="display:inline-block; width:2.5px; height:1.15em; background:var(--accent); margin-left:3px; animation:ipsBlink 0.8s infinite; vertical-align:middle;"></span>
-            </div>
-          `;
-
-          if (window[`podAutoScroll_${idx}`]) {
-            container.scrollTop = container.scrollHeight;
-          }
-        } else {
-          // Full Script Mode with active highlight
-          if (statusEl) {
-            statusEl.innerHTML = `📜 <strong>PLAYHEAD:</strong> ${timeStr}`;
-          }
-
-          let activeIdx = -1;
-          for (let i = 0; i < segments.length; i++) {
-            if (segments[i].start <= ct) {
-              if (ct <= segments[i].end + 0.5 || i === segments.length - 1 || ct < segments[i + 1].start) {
-                activeIdx = i;
-                break;
-              }
-            }
-          }
-
-          if (!container.querySelector('.pod-caption-line')) {
-            container.innerHTML = segments.map((seg, cIdx) => `
-              <div class="pod-caption-line ${cIdx === activeIdx ? 'active-caption' : ''}" id="cap-${idx}-${cIdx}" data-start="${seg.start}" data-end="${seg.end}" onclick="window.seekPodcastAudio('${idx}', ${seg.start})" title="Jump playhead to ${seg.time}">
-                <span style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary); margin-right:8px; opacity:0.85; flex-shrink:0;">[${seg.time}]</span>
-                <span class="cap-text" style="color:var(--text);">${seg.text}</span>
-              </div>
-            `).join('');
-          } else if (activeIdx !== -1 && activeIdx !== lastActiveIdx) {
-            if (lastActiveIdx !== -1) {
-              const prevEl = document.getElementById(`cap-${idx}-${lastActiveIdx}`);
-              if (prevEl) prevEl.classList.remove('active-caption');
-            }
-            const curEl = document.getElementById(`cap-${idx}-${activeIdx}`);
-            if (curEl) {
-              curEl.classList.add('active-caption');
-              if (window[`podAutoScroll_${idx}`]) {
-                curEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }
-            }
-          }
-          lastActiveIdx = activeIdx;
-        }
-      }
-
-      window[`podRenderSpeech_${idx}`] = renderSpeechFrame;
-
-      audio.ontimeupdate = renderSpeechFrame;
-      audio.onplay = renderSpeechFrame;
-      audio.onpause = renderSpeechFrame;
-      audio.onseeking = renderSpeechFrame;
-      audio.onseeked = renderSpeechFrame;
-
-      // Initial state render
-      renderSpeechFrame();
-    };
-
-    // DYNAMIC FASTER-WHISPER CLIENT (PYTHON 8089 MICROSERVICE)
-    window.transcribeEpisodeWithFasterWhisper = async function(idx, audioUrl) {
-      const btn = document.getElementById(`btn-transcribe-${idx}`);
-      const box = document.getElementById(`pod-transcript-content-${idx}`);
-      const statusEl = document.getElementById(`pod-live-status-${idx}`);
-      if (!audioUrl) return;
-
-      const origText = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.innerHTML = '⏳ Transcribing with Faster-Whisper (Python)...';
-        btn.disabled = true;
-      }
-
-      try {
-        const cacheKey = `ips_whisper_${audioUrl}`;
-        let segments = null;
-        try {
-          const cached = localStorage.getItem(cacheKey);
-          if (cached) segments = JSON.parse(cached);
-        } catch(e) {}
-
-        if (!segments) {
-          const serviceUrl = `http://127.0.0.1:8089/transcribe?url=${encodeURIComponent(audioUrl)}`;
-          const resp = await fetch(serviceUrl, { method: 'GET' });
-          if (!resp.ok) throw new Error('Faster-Whisper service returned error status');
-          const data = await resp.json();
-          if (!data.success || !data.segments || !data.segments.length) {
-            throw new Error(data.error || 'No speech segments returned');
-          }
-          segments = data.segments;
-          try { localStorage.setItem(cacheKey, JSON.stringify(segments)); } catch(e) {}
-        }
-
-        if (box) box.style.display = 'block';
-        window.initLivePodcastCaptions(idx, segments);
-
-        if (btn) {
-          btn.innerHTML = '✓ Live Transcription Ready';
-          btn.style.background = '#10B981';
-          btn.disabled = false;
-        }
-        if (typeof showToast === 'function') {
-          showToast('✓ Audio speech transcribed! Press Play to stream spoken words live.');
-        }
-      } catch (err) {
-        console.warn('[Faster-Whisper Client Notice]', err);
-        if (btn) {
-          btn.innerHTML = origText;
-          btn.disabled = false;
-        }
-        alert("Could not connect to local Faster-Whisper service.\n\nTo enable live dynamic transcription for any podcast:\n1. Open your terminal in this workspace\n2. Run: python scripts/faster_whisper_service.py --serve\n3. Click Transcribe again!");
-      }
-    };
-
     // HOME TAB FEATURED PODCAST CONTROLLER
     window.switchFeaturedHomePodcast = function(index) {
-      const all = window.VERIFIED_PODCAST_SESSIONS || [];
-      const ep = all[index] || all[0];
+      const ep = FEATURED_HOME_PODCASTS[index] || FEATURED_HOME_PODCASTS[0];
       if (!ep) return;
 
       const titleEl = document.getElementById('ov-pod-title');
       const metaEl = document.getElementById('ov-pod-meta');
       const audioEl = document.getElementById('v6-pod-audio-home');
-      const contentEl = document.getElementById('pod-transcript-content-home');
 
       if (titleEl) titleEl.textContent = ep.title;
       if (metaEl) metaEl.innerHTML = `🎙️ ${ep.show} &bull; ⏱️ ${ep.durationMin} min &bull; 📅 ${ep.date}`;
@@ -2574,7 +2472,6 @@
         audioEl.playbackRate = 1.0;
       }
 
-      // Update chips UI
       [0, 1, 2].forEach(i => {
         const chip = document.getElementById(`ov-chip-${i}`);
         if (chip) {
@@ -2592,9 +2489,7 @@
         }
       });
 
-      if (contentEl && ep.segments) {
-        window.initLivePodcastCaptions('home', ep.segments);
-      }
+      window.clearPodcastTranscript('home');
     };
 
     window.initHomeFeaturedPodcast = function() {
@@ -2614,26 +2509,11 @@
       }
     }
 
-    window.loadVerifiedPodcastSessions = function() {
-      const qSel = document.getElementById('v6-podcast-query');
-      if (qSel) qSel.value = 'IELTS Speaking Band 9';
-      const btn = document.getElementById('v6-podcast-btn');
-      if (btn) btn.click();
-    };
-
     function getPodcastListHtml(eps) {
       if (!eps || !eps.length) {
         return `<div style="padding:16px; text-align:center; color:var(--text-secondary);">No audio episodes returned for this channel. Try switching channels above.</div>`;
       }
       return eps.map((ep, idx) => {
-        const hasCaptions = Boolean(ep.segments && ep.segments.length);
-
-        if (hasCaptions) {
-          setTimeout(() => {
-            window.initLivePodcastCaptions(idx, ep.segments);
-          }, 60);
-        }
-
         return `
           <div style="padding:16px; border-radius:18px; border:1px solid var(--border); background:var(--bg-card); margin-bottom:14px; box-shadow:var(--shadow-card);">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px;">
@@ -2650,58 +2530,32 @@
                 <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.0" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">1.0x Native</button>
                 <button onclick="document.getElementById('v6-pod-audio-${idx}').playbackRate=1.25" class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;">1.25x Exam Pace</button>
               </div>
-              ${hasCaptions ? `
-                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                  <div class="sr-stat-chip" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; padding:3px 8px; border-radius:6px; background:var(--bg-elevated); border:1px solid var(--border);">
-                    Pace: <strong id="pod-wpm-${idx}" style="color:var(--accent);">0</strong> WPM
-                  </div>
-                  <div class="sr-stat-chip" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; padding:3px 8px; border-radius:6px; background:var(--bg-elevated); border:1px solid var(--border);">
-                    Words: <strong id="pod-words-${idx}" style="color:var(--text);">0</strong>
-                  </div>
-                  <span id="pod-live-status-${idx}" class="occ-ver-pill" style="font-size:0.7rem; font-weight:800; background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3);">🔴 LIVE SPEECH ENGINE</span>
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <div class="sr-stat-chip" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; padding:3px 8px; border-radius:6px; background:var(--bg-elevated); border:1px solid var(--border);">
+                  Pace: <strong id="pod-wpm-${idx}" style="color:var(--accent);">0</strong> WPM
                 </div>
-              ` : ''}
+                <div class="sr-stat-chip" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; padding:3px 8px; border-radius:6px; background:var(--bg-elevated); border:1px solid var(--border);">
+                  Words: <strong id="pod-words-${idx}" style="color:var(--text);">0</strong>
+                </div>
+                <span id="pod-live-status-${idx}" class="occ-ver-pill" style="font-size:0.7rem; font-weight:800; background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3);">🔴 LIVE SPEECH READY</span>
+              </div>
             </div>
 
-            <!-- LIVE CAPTIONS & TRANSCRIPT VIEWER -->
+            <!-- LIVE SPEECH TRANSCRIPTION VIEWER -->
             <div class="podcast-transcript-box" style="margin-top:10px; padding:12px; border-radius:14px; background:var(--bg, #f8fafc); border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-              ${hasCaptions ? `
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-                  <div style="display:flex; gap:6px; align-items:center;">
-                    <button id="pod-mode-realtime-${idx}" onclick="window.setPodcastDisplayMode(${idx}, 'live')" class="speak-pill-btn" style="padding:4px 10px; font-size:0.74rem; font-weight:800; background:var(--accent, #0F172A); color:#FFF;">🎙️ Live Speech Stream</button>
-                    <button id="pod-mode-full-${idx}" onclick="window.setPodcastDisplayMode(${idx}, 'full')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.74rem;">📜 Full Script</button>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:6px;">
-                    <button id="pod-autoscroll-btn-${idx}" onclick="window.togglePodcastAutoScroll(${idx})" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">Auto-Scroll: ON</button>
-                    <button onclick="window.copyCurrentPodcastTranscript(${idx})" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">📋 Copy Spoken Text</button>
-                  </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                  <button id="pod-mic-btn-${idx}" onclick="window.togglePodcastSpeechRecognition('${idx}')" class="btn-accent-solid" style="padding:4px 12px; font-size:0.74rem; font-weight:800; cursor:pointer;">🎙️ Start Live Transcribe</button>
+                  <button onclick="window.copyCurrentPodcastTranscript('${idx}')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">📋 Copy Spoken Text</button>
+                  <button onclick="window.clearPodcastTranscript('${idx}')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">🗑️ Clear</button>
                 </div>
-                <div id="pod-transcript-content-${idx}" class="podcast-live-speech-box" style="min-height:120px; max-height:280px; overflow-y:auto; padding:12px 14px; font-size:0.92rem; line-height:1.75; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-accent); scroll-behavior:smooth;">
-                  <!-- Dynamic real-time speech rendered as audio plays -->
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <button id="pod-autoscroll-btn-${idx}" onclick="window.togglePodcastAutoScroll('${idx}')" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">Auto-Scroll: ON</button>
                 </div>
-                ${ep.vocab && ep.vocab.length ? `
-                  <div style="margin-top:10px; padding:10px 12px; background:var(--surface-elevated, rgba(0,0,0,0.03)); border-radius:8px; border:1px solid var(--border);">
-                    <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">💎 Academic Vocabulary Spoken in This Episode:</div>
-                    <div style="font-size:0.82rem; color:var(--text); line-height:1.6;">${ep.vocab.map(v => `&bull; ${v}`).join('<br>')}</div>
-                  </div>
-                ` : ''}
-              ` : `
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                  <strong style="font-size:0.85rem; color:var(--text); font-weight:800;">ℹ️ Episode Overview &amp; Publisher Show Notes</strong>
-                  <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700;">Live Feed</span>
-                </div>
-                <div style="padding:10px 12px; background:var(--bg-card); border-radius:8px; border:1px solid var(--border-mid); font-size:0.84rem; line-height:1.6; color:var(--text); margin-bottom:10px;">
-                  ${ep.description ? ep.description.slice(0, 420) + (ep.description.length > 420 ? '...' : '') : 'Authentic British English episode streamed live from publisher feed.'}
-                </div>
-                <div id="pod-transcript-content-${idx}" class="podcast-live-speech-box" style="display:none; min-height:120px; max-height:280px; overflow-y:auto; padding:12px 14px; font-size:0.92rem; line-height:1.75; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-accent); margin-bottom:10px;"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-top:6px; border-top:1px dashed var(--border);">
-                  <span style="font-size:0.75rem; color:var(--text-secondary);">Want word-for-word real-time speech stream?</span>
-                  <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                    <button id="btn-transcribe-${idx}" onclick="window.transcribeEpisodeWithFasterWhisper(${idx}, '${ep.audioUrl}')" class="btn-accent-solid" style="padding:4px 10px; font-size:0.74rem; font-weight:800; cursor:pointer;">⚡ Transcribe with Faster-Whisper</button>
-                    <button onclick="window.loadVerifiedPodcastSessions()" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem;">Load Verified Sessions 🎧</button>
-                  </div>
-                </div>
-              `}
+              </div>
+              <div id="pod-transcript-content-${idx}" class="podcast-live-speech-box" style="min-height:100px; max-height:240px; overflow-y:auto; padding:12px 14px; font-size:0.92rem; line-height:1.75; color:var(--text); background:var(--bg-card); border-radius:8px; border:1px solid var(--border-accent); scroll-behavior:smooth;">
+                <div style="color:var(--text-secondary); font-style:italic; padding:8px 2px; font-size:0.86rem;">🎙️ Live speech recognition ready. Press ▶️ Play on the audio above and tap <strong>🎙️ Start Live Transcribe</strong> to transcribe speech in real time as words are spoken. (Zero pre-printed static text).</div>
+              </div>
             </div>
           </div>
         `;

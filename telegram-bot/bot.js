@@ -1673,21 +1673,7 @@ const FALLBACK_PODCAST_BANK = [
     title: "EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!",
     date: "2026-10-20",
     durationMin: 15,
-    audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111",
-    dialogue: [
-      "[01:23] Examiner: Now in this first part, I'd like to ask you some questions about yourself. Let's talk about where you're living now.",
-      "[01:30] Examiner: Tell me about the town or city where you're living at the moment.",
-      "[01:34] Candidate: At the moment, I am living in Oxford, which is a city that I absolutely love. It's so pretty.",
-      "[01:42] Examiner: And how long have you been living in this city?",
-      "[01:45] Candidate: I've been living in this city since September last year. So that's about five months, I'd say.",
-      "[01:53] Examiner: Do you think you will move to a different place in the near future?",
-      "[01:57] Candidate: In the near future, I don't think so. I'm quite happy where I am. I've got a nice job."
-    ],
-    vocab: [
-      "• Oxford: Historic university city in Oxfordshire, England celebrated for collegiate architecture",
-      "• Near future: An idiomatic temporal marker indicating the immediate upcoming period",
-      "• Fluency & Coherence: Band 9 criterion evaluating spontaneous, unhesitating delivery"
-    ]
+    audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111"
   },
   {
     searchTerm: "bbc",
@@ -1695,19 +1681,7 @@ const FALLBACK_PODCAST_BANK = [
     title: "Why has gold got so expensive?",
     date: "2026-10-15",
     durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3",
-    dialogue: [
-      "[01:06] Phil: Hello, welcome to 6 Minute English from BBC Learning English. I'm Phil.",
-      "[01:11] Georgie: And I'm Georgie.",
-      "[01:19] Phil: I've got a question for you. Do you own anything made of gold?",
-      "[01:29] Georgie: Well, at the moment, I'm wearing a lot of gold colour jewelry, but I'm not sure exactly how much of it is made of gold.",
-      "[01:42] Phil: In recent months, the price of gold has soared to record highs over $2,700 per ounce."
-    ],
-    vocab: [
-      "• Jewelry: Decorative personal items such as rings, necklaces, and bracelets",
-      "• Safe haven: An investment asset retaining intrinsic value during economic turbulence",
-      "• Soar: To rise rapidly to an exceptionally elevated altitude or historic high"
-    ]
+    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3"
   },
   {
     searchTerm: "alcohol",
@@ -1715,20 +1689,7 @@ const FALLBACK_PODCAST_BANK = [
     title: "Are people drinking less alcohol?",
     date: "2026-10-08",
     durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3",
-    dialogue: [
-      "[01:11] Georgie: Hello, welcome to 6 Minute English from BBC Learning English. I'm Georgie.",
-      "[01:17] Neil: And I'm Neil.",
-      "[01:24] Georgie: Do you want to hear something quite unusual for me?",
-      "[01:29] Neil: Yes!",
-      "[01:30] Georgie: I'm trying to drink less alcohol.",
-      "[01:35] Neil: That is unusual for you, Georgie. Mindful drinking has become a prominent wellness movement."
-    ],
-    vocab: [
-      "• Mindful drinking: Consciously evaluating and moderating alcohol consumption",
-      "• Abstain: To deliberately refrain from indulging in an appetite or habit",
-      "• Dealcoholized: Beverages produced with alcohol removed through vacuum distillation"
-    ]
+    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3"
   }
 ];
 
