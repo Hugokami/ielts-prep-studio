@@ -239,11 +239,14 @@
         const match = raw.match(cutoff);
         if (match && match.index) raw = raw.slice(0, match.index);
         const wordCount = raw.split(/\s+/).filter(Boolean).length;
+        const articleTitle = page.title || searchTopic;
         return {
           success: true,
           quota: { allowed: true, count: 1, limit: 10, remaining: 9 },
           data: {
-            topic: page.title || searchTopic,
+            title: articleTitle,
+            topic: articleTitle,
+            url: `https://en.wikipedia.org/wiki/${encodeURIComponent(articleTitle.replace(/\s+/g, '_'))}`,
             extract: raw,
             fullText: raw,
             wordCount,

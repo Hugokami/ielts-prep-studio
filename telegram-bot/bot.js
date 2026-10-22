@@ -364,53 +364,94 @@ bot.command('start', async (ctx) => {
   const userLang = getUserLang(user?.id);
   const isBurmese = userLang === 'my';
 
-  const welcomeText = isBurmese
-    ? `🎓 **IELTS Prep Studio — Lifetime VIP Pass**\n` +
-      `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Lexicon & Traps\n\n` +
-      `🇲🇲 **မြန်မာကျောင်းသားများအတွက် Lifetime VIP Pass ဝယ်ယူခြင်း**\n\n` +
-      `📌 **Payment Details (ငွေပေးချေရန် နည်းလမ်းများ):**\n` +
-      `• ⭐️ **Telegram Stars:** \`750 ★ Stars\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
-      `• 🇲🇲 **KBZPay / WavePay:** \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME}) — \`${PRICE_MMK}\`\n\n` +
-      `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
-      `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
-      `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
-      `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
-      `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
-      `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
-      `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
-      `7. Multi-Device Cloud Sync via Google Account\n` +
-      `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
-      `👇 **အောက်ပါ ခလုတ်များမှ မိမိနှစ်သက်ရာ ငွေပေးချေမှုစနစ်ကို ရွေးချယ်ပါ:**`
-    : `🎓 *IELTS Prep Studio — Band 7.5+ VIP Studio Pass*\n` +
-      `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon\n\n` +
-      `✨ *Welcome International Scholar! Studio VIP Pass is available worldwide.*\n\n` +
-      `📌 *Available Payment Rails:*\n` +
-      `• ⭐️ *Telegram Stars:* *750 ★ Stars* (Instant 1-Click Global Automated Activation)\n` +
-      `• 🇲🇲 *Myanmar Mobile Wallets:* *${PRICE_MMK}* (KBZPay / WavePay: \`${PAYMENT_PHONE}\`)\n\n` +
-      `✨ *VIP Pass Deliverables (All 8 Full Modules):*\n` +
-      `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions)\n` +
-      `2. ✍️ Writing Band 8.5/9.0 Models — All 40 Tasks + High-Scoring Skeletons\n` +
-      `3. 🤖 Gemini AI Examiner — 60 Automated Band 9 Assessments / Month\n` +
-      `4. 🎙️ Speaking Forecast Topics — All 30 Topics + 5 Strategic Frameworks & Audio\n` +
-      `5. 📚 Curated Lexicon & Trap Bank — 1,162 Vocabulary items, 538 Traps & Distractors\n` +
-      `6. 🎙️ Live Mic Voice Analyzer — Speech Pace & Pronunciation Metrics\n` +
-      `7. 🔄 Multi-Device Cloud Sync — Google Account & Telegram Mini App\n` +
-      `8. ⚡ VIP Academic AI Tools — Unlimited Collocations, Synonyms, Topic Briefs & Dictionary\n\n` +
-      `👇 *Choose your preferred checkout method below:*`;
+  const isVip = isUserVip(user?.id);
+  
+  let welcomeText = "";
+  let inlineKeyboard = new InlineKeyboard();
 
-  const keyboard = new InlineKeyboard()
-    .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
-    .row()
-    .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
-    .row()
-    .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
-    .text('🌐 Language', 'menu_lang')
-    .row()
-    .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
+  if (isVip) {
+    welcomeText = isBurmese
+      ? `🎓 **IELTS Prep Studio (@IELTSPrepStudioBot)**\n\n` +
+        `👑 **VIP LIFETIME MEMBER (ACTIVE)**\n` +
+        `သင်သည် Lifetime VIP Pass အသုံးပြုသူဖြစ်ပြီး ဖြစ်ပါသည်။ Premium Features အားလုံး အပြည့်အစုံ ဖွင့်လှစ်ထားပြီး ဖြစ်ပါသည်!\n\n` +
+        `• 🔤 1,162 Academic Lexicon & 1-3-7 Spaced Repetition Flashcards\n` +
+        `• 📖 23 Cambridge Reading CBT Passages (231 Questions) & Burmese Citations\n` +
+        `• ✍️ 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator\n` +
+        `• 🎙️ 30 Speaking Forecast Topics & 5 Strategic Frameworks\n` +
+        `• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read, /quote)\n\n` +
+        `👇 **အောက်ပါ Start Menu ကို နှိပ်၍ Study Menu အား ဖွင့်ပါ:**`
+      : `🎓 *Welcome back to IELTS Prep Studio (@IELTSPrepStudioBot)!*\n\n` +
+        `👑 *YOU ARE ALREADY A VIP USER!*\n` +
+        `Your account has full Lifetime VIP Access permanently active!\n\n` +
+        `• 🔤 All 1,162 Academic Lexicon items with Native Pronunciation & 1-3-7 SRS\n` +
+        `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)\n` +
+        `• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Scorer\n` +
+        `• 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks\n` +
+        `• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read)\n\n` +
+        `👇 *Tap 🚀 Start Menu below to explore:*`;
 
+    inlineKeyboard
+      .webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+      .row()
+      .text('⚡ VIP Academic Tools', 'menu_tools')
+      .text('🌐 Language', 'menu_lang')
+      .row()
+      .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
+  } else {
+    welcomeText = isBurmese
+      ? `🎓 **IELTS Prep Studio — Lifetime VIP Pass**\n` +
+        `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Lexicon & Traps\n\n` +
+        `🇲🇲 **မြန်မာကျောင်းသားများအတွက် Lifetime VIP Pass ဝယ်ယူခြင်း**\n\n` +
+        `📌 **Payment Details (ငွေပေးချေရန် နည်းလမ်းများ):**\n` +
+        `• ⭐️ **Telegram Stars:** \`750 ★ Stars\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
+        `• 🇲🇲 **KBZPay / WavePay:** \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME}) — \`${PRICE_MMK}\`\n\n` +
+        `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
+        `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
+        `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
+        `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
+        `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
+        `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
+        `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
+        `7. Multi-Device Cloud Sync via Google Account\n` +
+        `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
+        `👇 **Tap 🚀 Start Menu below to explore:**`
+      : `🎓 *IELTS Prep Studio — Band 7.5+ VIP Studio Pass*\n` +
+        `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon\n\n` +
+        `✨ *Welcome International Scholar! Studio VIP Pass is available worldwide.*\n\n` +
+        `📌 *Available Payment Rails:*\n` +
+        `• ⭐️ *Telegram Stars:* *750 ★ Stars* (Instant 1-Click Global Automated Activation)\n` +
+        `• 🇲🇲 *Myanmar Mobile Wallets:* *${PRICE_MMK}* (KBZPay / WavePay: \`${PAYMENT_PHONE}\`)\n\n` +
+        `✨ *VIP Pass Deliverables (All 8 Full Modules):*\n` +
+        `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions)\n` +
+        `2. ✍️ Writing Band 8.5/9.0 Models — All 40 Tasks + High-Scoring Skeletons\n` +
+        `3. 🤖 Gemini AI Examiner — 60 Automated Band 9 Assessments / Month\n` +
+        `4. 🎙️ Speaking Forecast Topics — All 30 Topics + 5 Strategic Frameworks & Audio\n` +
+        `5. 📚 Curated Lexicon & Trap Bank — 1,162 Vocabulary items, 538 Traps & Distractors\n` +
+        `6. 🎙️ Live Mic Voice Analyzer — Speech Pace & Pronunciation Metrics\n` +
+        `7. 🔄 Multi-Device Cloud Sync — Google Account & Telegram Mini App\n` +
+        `8. ⚡ VIP Academic AI Tools — Unlimited Collocations, Synonyms, Topic Briefs & Dictionary\n\n` +
+        `👇 *Tap 🚀 Start Menu below to explore:*`;
+
+    inlineKeyboard
+      .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+      .row()
+      .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
+      .row()
+      .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
+      .text('🌐 Language', 'menu_lang')
+      .row()
+      .url('💬 Contact Support (@hyuguo)', 'https://t.me/hyuguo');
+  }
+
+  // Send single-button collapsed keyboard to save screen space
   await ctx.reply(welcomeText, {
     parse_mode: 'Markdown',
-    reply_markup: keyboard
+    reply_markup: {
+      keyboard: [[{ text: '🚀 Start Menu' }]],
+      resize_keyboard: true,
+      is_persistent: true,
+      input_field_placeholder: 'Tap 🚀 Start Menu to explore'
+    }
   });
 });
 
@@ -875,6 +916,20 @@ bot.on('callback_query:data', async (ctx) => {
   }
 
   if (data === 'pay_stars') {
+    const isVip = isUserVip(ctx.from?.id);
+    if (isVip) {
+      await ctx.answerCallbackQuery({ text: '👑 You are already a VIP user!' }).catch(() => {});
+      return ctx.reply(
+        `👑 *YOU ARE ALREADY A VIP USER!*\r\n━━━━━━━━━━━━━━━━━━━━\r\n` +
+        `✅ Your account has full Lifetime VIP Access permanently active. All Cambridge CBT tests, 1,162 AWL flashcards, Academic AI tools, and Speaking mocks are completely unlocked!\r\n\r\n` +
+        `No payment is required. Practice anytime!`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+        }
+      );
+    }
     return sendStarsInvoice(ctx);
   }
 
@@ -895,6 +950,22 @@ bot.on('callback_query:data', async (ctx) => {
   }
 
   if (data === 'info_payment') {
+    const isVip = isUserVip(ctx.from?.id);
+    if (isVip) {
+      await ctx.answerCallbackQuery({ text: '👑 You are already a VIP user!' }).catch(() => {});
+      return ctx.reply(
+        `👑 *YOU ARE ALREADY A VIP USER!*\n━━━━━━━━━━━━━━━━━━━━\n` +
+        `✅ You are already a Lifetime VIP user! All 55 CBT Mocks, 1,162 Lexicon SRS, and VIP Academic Tools are permanently unlocked.\n\n` +
+        `No payment is required.`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: new InlineKeyboard()
+            .webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+            .row()
+            .text('⚡ VIP Academic Tools', 'menu_tools')
+        }
+      );
+    }
     return ctx.reply(
       `💳 **Myanmar Mobile Wallet Payment (55,000 MMK — Lifetime VIP Pass)**\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
@@ -922,6 +993,75 @@ bot.on('callback_query:data', async (ctx) => {
 bot.on('message:text', async (ctx, next) => {
   const text = (ctx.message?.text || '').trim();
   const userId = ctx.from?.id;
+  const isVip = isUserVip(userId);
+
+  // 1. Collapsed & Expanded Keyboard Menu Handlers
+  if (text === '🚀 Start Menu' || text === 'Start Menu' || text === 'Start' || text === 'start' || text === '/menu' || text === '🚀 Start') {
+    const isBurmese = getUserLang(userId) === 'my';
+    const menuTitle = isVip
+      ? (isBurmese ? `👑 **IELTS Prep Studio — VIP Study Menu**\r\n━━━━━━━━━━━━━━━━━━━━\r\nသင်သည် Lifetime VIP Pass အသုံးပြုခွင့် ရရှိပြီးဖြစ်ပါသည်။` : `👑 *IELTS PREP STUDIO — VIP STUDY MENU*\r\n━━━━━━━━━━━━━━━━━━━━\r\nYou are already a VIP user with full Lifetime Access permanently active!`)
+      : (isBurmese ? `🎓 **IELTS Prep Studio — Main Study Menu**\r\n━━━━━━━━━━━━━━━━━━━━\r\nလေ့လာလိုသည့် အပိုင်းကို အောက်ပါ Menu မှ ရွေးချယ်ပါ:` : `🎓 *IELTS PREP STUDIO — MAIN STUDY MENU*\r\n━━━━━━━━━━━━━━━━━━━━\r\nChoose an option below to continue studying:`);
+
+    const expandedKeyboard = isVip
+      ? [
+          [{ text: '🚀 Launch IELTS Prep Studio', web_app: { url: WEB_URL } }],
+          [{ text: '⚡ VIP Academic Tools' }, { text: '👑 VIP Status: Active' }],
+          [{ text: '📚 Curriculum & Features' }, { text: '📊 My Study & VIP Status' }],
+          [{ text: '💬 Chat with Instructor' }, { text: '📅 Exam Countdown' }],
+          [{ text: '💡 Band 9 Tip of the Day' }, { text: '👨‍🏫 Contact Support' }],
+          [{ text: '🌐 Language (EN/မြန်မာ)' }, { text: '📕 How To Use & Guide' }],
+          [{ text: '🔽 Collapse Menu' }]
+        ]
+      : [
+          [{ text: '🚀 Launch IELTS Prep Studio', web_app: { url: WEB_URL } }],
+          [{ text: '⚡ VIP Academic Tools' }, { text: '👑 Buy VIP (750 ★ / 55k)' }],
+          [{ text: '📚 Curriculum & Features' }, { text: '📊 My Study & VIP Status' }],
+          [{ text: '💳 Payment Info' }, { text: '📅 Exam Countdown' }],
+          [{ text: '💡 Band 9 Tip of the Day' }, { text: '👨‍🏫 Contact Support' }],
+          [{ text: '🌐 Language (EN/မြန်မာ)' }, { text: '📕 How To Use & Guide' }],
+          [{ text: '🔽 Collapse Menu' }]
+        ];
+
+    return ctx.reply(menuTitle + `\r\n\r\n👇 *Select an option, or tap 🔽 Collapse Menu to minimize:*`, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        keyboard: expandedKeyboard,
+        resize_keyboard: true,
+        input_field_placeholder: 'Choose an option or tap 🔽 Collapse'
+      }
+    });
+  }
+
+  if (text === '🔽 Collapse Menu' || text === 'Collapse Menu' || text === 'Collapse' || text === 'collapse' || text === '/collapse') {
+    return ctx.reply(`🔽 *Menu collapsed.* Tap *🚀 Start Menu* whenever you want to reopen the full study menu.`, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        keyboard: [[{ text: '🚀 Start Menu' }]],
+        resize_keyboard: true,
+        input_field_placeholder: 'Tap 🚀 Start Menu to explore'
+      }
+    });
+  }
+
+  if (text === '👑 VIP Status: Active') {
+    return ctx.reply(
+      `👑 *YOU ARE ALREADY A VIP USER!*\r\n━━━━━━━━━━━━━━━━━━━━\r\n` +
+      `✅ Your account has full Lifetime VIP Access permanently active.\r\n` +
+      `• All 23 Cambridge Reading CBT Passages (231 Questions)\r\n` +
+      `• All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Scorer\r\n` +
+      `• All 1,162 Academic Lexicon items & Spaced Repetition Flashcards\r\n` +
+      `• All 30 Speaking Forecast Topics & 5 Strategic Frameworks\r\n` +
+      `• Unlimited Live Academic AI Quota\r\n\r\n` +
+      `No further payment is required. Practice anytime below:`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard()
+          .webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
+          .row()
+          .text('⚡ VIP Academic Tools', 'menu_tools')
+      }
+    );
+  }
 
   if (text.startsWith('/')) {
     return next();
@@ -946,9 +1086,9 @@ async function handleBuy(ctx) {
   const isVip = isUserVip(ctx.from?.id);
   if (isVip) {
     return ctx.reply(
-      `👑 *VIP Lifetime Studio Pass Active*\n\n` +
-      `Your account has unlimited access to all 8 modules and VIP academic tools.\n` +
-      `Launch the Studio below to start practicing:`,
+      `👑 *YOU ARE ALREADY A VIP USER!*\n━━━━━━━━━━━━━━━━━━━━\n` +
+      `✅ Your account has full Lifetime VIP Access permanently active. All Cambridge CBT tests, 1,162 AWL flashcards, Academic AI tools, and Speaking mocks are completely unlocked!\n\n` +
+      `No further payment is required. Launch the Studio below to continue practicing:`,
       {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
