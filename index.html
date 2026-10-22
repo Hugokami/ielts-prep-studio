@@ -4420,15 +4420,22 @@ body.dark .speak-input-pill {
   bottom: calc(20px + var(--app-safe-bottom, 0px));
   right: 20px;
   width: min(400px, calc(100vw - 32px));
-  background: #0F1726;
-  color: #F5F7FA;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--bg-card, #FFFFFF);
+  color: var(--text, #0F172A);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
   border-radius: 24px;
   padding: 20px;
-  box-shadow: 0 24px 48px rgba(9, 13, 22, 0.55);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
   z-index: 99999;
   display: none;
   font-family: "Plus Jakarta Sans", sans-serif;
+}
+[data-theme="dark"] #speak-word-sheet,
+body.dark #speak-word-sheet {
+  background: #0F1726;
+  color: #F5F7FA;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 48px rgba(9, 13, 22, 0.55);
 }
 #speak-word-sheet.open {
   display: block;
@@ -4442,8 +4449,9 @@ body.dark .speak-input-pill {
   display: inline-block;
   padding: 4px 10px;
   border-radius: 9999px;
-  background: rgba(245, 158, 11, 0.18);
-  color: #FDE68A;
+  background: rgba(245, 158, 11, 0.14);
+  color: var(--accent, #D97706);
+  border: 1px solid var(--border, rgba(245, 158, 11, 0.2));
   font-size: 0.76rem;
   font-weight: 600;
   margin: 3px 4px 3px 0;
@@ -7591,27 +7599,57 @@ body.in-cbt-drill #backToTopBtn {
             </div>
           </div>
 
-          <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent); border-radius:3px; margin-bottom:14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-              <span style="font-family:monospace; font-size:0.74rem; font-weight:700; color:var(--accent);">🎙️ LIVE MICROPHONE RECORDER (SELF-EVALUATION)</span>
+          <div class="speak-v6-card" style="padding:16px 18px; margin-bottom:14px;">
+            <!-- Header -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.85rem; font-weight:800; color:var(--text);">🎙️ Speaking Part 2 Simulator &amp; Fluency Evaluator</span>
+                <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700; color:var(--accent);">REAL-TIME SPEECH AI</span>
+              </div>
               <span id="micStatusBadge" class="occ-ver-pill">Ready to Record</span>
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-              <button class="btn-accent-solid" id="micRecBtn" onclick="toggleMicRecording()">🎙️ Record My Voice</button>
-              <button class="btn-outlined" id="micStopBtn" onclick="stopMicRecording()" disabled>⏹ Stop</button>
-              <a id="micDownloadLink" class="btn-outlined" style="display:none; text-decoration:none;" download="ielts_speaking_practice.webm">⬇ Save Audio</a>
+
+            <!-- IELTS Part 2 Candidate Task Card (Interactive) -->
+            <div id="spkCueCardBox" style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                <span style="font-size:0.72rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;">IELTS PART 2 CANDIDATE TASK CARD:</span>
+                <button type="button" class="accent-link" onclick="spinNativeSpeakingCueCard()" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer;">
+                  🎲 Random Cue Card
+                </button>
+              </div>
+              <div id="spkCueTopic" style="font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">
+                Describe: A technological device you use daily
+              </div>
+              <ul id="spkCuePromptsList" style="margin:0 0 0 18px; padding:0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
+                <li>What it is and when you acquired it</li>
+                <li>What you primarily use it for</li>
+                <li>How often you rely on it throughout the day</li>
+                <li>And explain whether it has made your life easier or more complicated.</li>
+              </ul>
             </div>
-            <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector) -->
-            <div id="speaking-analytics-panel" style="margin-top: 1rem; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card);">
+
+            <!-- Controls Row: Record, Stop, Save, VU meter -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+              <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                <button class="btn-accent-solid" id="micRecBtn" onclick="toggleMicRecording()">🎙️ Record My Voice</button>
+                <button class="btn-outlined" id="micStopBtn" onclick="stopMicRecording()" disabled>⏹ Stop</button>
+                <a id="micDownloadLink" class="btn-outlined" style="display:none; text-decoration:none;" download="ielts_speaking_practice.webm">⬇ Save Audio</a>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.72rem; color:var(--text-secondary); font-weight:600;">Mic VU:</span>
+                <canvas id="micVuCanvas" width="100" height="16" style="border-radius:3px; background:rgba(0,0,0,0.15); vertical-align:middle;" title="Real-time Microphone Audio Input"></canvas>
+              </div>
+            </div>
+
+            <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector & Diversity) -->
+            <div id="speaking-analytics-panel" style="padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elevated);">
               <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                  <div><strong style="color:var(--text);">📊 Live Speaking Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.8rem; opacity: 0.75; color:var(--text-secondary);">(Idle)</span></div>
-                  <canvas id="micVuCanvas" width="120" height="18" style="border-radius:3px; background:rgba(0,0,0,0.3); vertical-align:middle;" title="Real-time Microphone Audio Input"></canvas>
-                </div>
-                <div style="display: flex; gap: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; align-items: center;">
+                <div><strong style="color:var(--text); font-size:0.84rem;">📊 Live Speech Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.76rem; color:var(--text-secondary);">(Idle)</span></div>
+                <div style="display: flex; gap: 1rem; font-size: 0.82rem; flex-wrap: wrap; align-items: center;">
                   <span>⏱ Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
                   <span>💬 Words: <strong id="sr-word-count">0</strong></span>
                   <span>⚠️ Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
+                  <span>💎 Diversity: <strong id="sr-diversity-val" style="color: var(--teal, #38bdf8);">0%</strong></span>
                 </div>
               </div>
               <div class="sr-pace-gauge">
@@ -7622,10 +7660,10 @@ body.in-cbt-drill #backToTopBtn {
                 <span id="sr-pace-status" style="color:var(--green); font-weight:700;">Target: 120–150 WPM</span>
                 <span>Fast (&gt;165 WPM)</span>
               </div>
-              <div id="sr-transcript-output" style="min-height: 64px; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg-elevated); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border);">
-                <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and speak your response. Your live speech transcript, speaking pace (WPM), and highlighted filler words will appear here automatically.</em>
+              <div id="sr-transcript-output" style="min-height: 64px; max-height: 180px; overflow-y:auto; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border-mid);">
+                <em style="color:var(--text-secondary);">Click <strong>🎙️ Record My Voice</strong> and deliver your cue card response. Your live speech transcript, pace (WPM), lexical diversity, and highlighted filler words will appear here automatically.</em>
               </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px;">
                 <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                   <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
@@ -7634,10 +7672,11 @@ body.in-cbt-drill #backToTopBtn {
                 </div>
               </div>
             </div>
+
             <!-- Speaking AI Evaluation Result Container -->
             <div id="geminiSpeakingAuditResult" style="display:none; margin-top:1rem; padding:1.2rem; border-radius:10px; border:1px solid var(--border-accent); background:var(--bg-card);"></div>
             <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
-            <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">
+            <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:8px;">
               မိမိပြောဆိုသည့် အသံကို ဖမ်းယူပြီး ပြန်နားထောင်ခြင်းဖြင့် 'um / uh' အသံများ၊ Grammar အမှားများနှင့် အသံအနိမ့်အမြင့်ကို ချက်ချင်း စစ်ဆေးပြုပြင်နိုင်ပါသည်။
             </div>
           </div>
@@ -14244,6 +14283,12 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     if (wordCountEl) wordCountEl.textContent = String(words.length);
     if (fillerCountEl) fillerCountEl.textContent = String(fillerMatches.length);
 
+    const cleanWordTokens = combined.toLowerCase().match(/\b[a-z]{2,}\b/g) || [];
+    const uniqueTokens = new Set(cleanWordTokens);
+    const diversityPct = cleanWordTokens.length > 0 ? Math.round((uniqueTokens.size / cleanWordTokens.length) * 100) : 0;
+    const diversityEl = document.getElementById('sr-diversity-val');
+    if (diversityEl) diversityEl.textContent = `${diversityPct}%`;
+
     // Escape HTML and highlight filler words in red badges
     const escapedHtml = combined
       .replace(/&/g, '&amp;')
@@ -14255,6 +14300,64 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       transcriptBox.innerHTML = escapedHtml;
     }
   }
+
+  const NATIVE_CUE_CARDS = [
+    {
+      topic: 'A technological device you use daily',
+      prompts: [
+        'What it is and when you acquired it',
+        'What you primarily use it for',
+        'How often you rely on it throughout the day',
+        'And explain whether it has made your life easier or more complicated.'
+      ]
+    },
+    {
+      topic: 'A memorable journey that taught you something',
+      prompts: [
+        'Where you travelled to and with whom',
+        'How you travelled to that destination',
+        'What unexpected events took place',
+        'And explain what meaningful lesson you learned from that trip.'
+      ]
+    },
+    {
+      topic: 'An environmental challenge facing your city or country',
+      prompts: [
+        'What the environmental problem is',
+        'What causes this issue in your local area',
+        'How it affects people’s daily lives and health',
+        'And explain what measures could be taken to resolve it.'
+      ]
+    },
+    {
+      topic: 'An ambitious personal or academic goal you achieved',
+      prompts: [
+        'What the goal was and why it was important',
+        'What challenges or obstacles you encountered',
+        'What steps you took to overcome them',
+        'And explain how you felt once you achieved it.'
+      ]
+    },
+    {
+      topic: 'A traditional festival or cultural celebration',
+      prompts: [
+        'What the festival is and where it is celebrated',
+        'What specific traditions and rituals take place',
+        'What traditional foods or clothing are involved',
+        'And explain why this festival remains culturally significant today.'
+      ]
+    }
+  ];
+
+  let nativeCueCardIdx = 0;
+  window.spinNativeSpeakingCueCard = function() {
+    nativeCueCardIdx = (nativeCueCardIdx + 1) % NATIVE_CUE_CARDS.length;
+    const card = NATIVE_CUE_CARDS[nativeCueCardIdx];
+    const topicEl = document.getElementById('spkCueTopic');
+    const promptsEl = document.getElementById('spkCuePromptsList');
+    if (topicEl) topicEl.textContent = `Describe: ${card.topic}`;
+    if (promptsEl) promptsEl.innerHTML = card.prompts.map(p => `<li>${p}</li>`).join('');
+  };
 
   window.startSpeakingDiagnostics = function () {
     finalTranscriptText = '';
@@ -14268,6 +14371,8 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     if (wpmEl) wpmEl.textContent = '0';
     if (wordCountEl) wordCountEl.textContent = '0';
     if (fillerCountEl) fillerCountEl.textContent = '0';
+    const diversityEl = document.getElementById('sr-diversity-val');
+    if (diversityEl) diversityEl.textContent = '0%';
 
     if (!SpeechRecognition) {
       if (statusBadge) statusBadge.textContent = '(Browser Speech-to-Text unavailable — Recording audio only)';

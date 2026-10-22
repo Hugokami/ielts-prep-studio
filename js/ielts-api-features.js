@@ -78,23 +78,23 @@
         left: ${Math.min(window.innerWidth - 340, Math.max(10, x - 160))}px;
         top: ${y + 15}px;
         width: 320px;
-        background: #090d16;
-        border: 1px solid #38bdf8;
+        background: var(--bg-card);
+        border: 1.5px solid var(--border-accent);
         border-radius: 12px;
         padding: 14px;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(56, 189, 248, 0.25);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
         z-index: 100000;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #f8fafc;
+        font-family: var(--font-sans);
+        color: var(--text);
         font-size: 13px;
         animation: fadeIn 0.15s ease-out;
       `;
 
       popover.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:8px; margin-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:10px;">
           <div style="font-weight:700; color:#38bdf8; font-size:14px; display:flex; align-items:center; gap:6px;">
             <span>✨ Lexical Booster</span>
-            <span style="font-size:11px; background:#1e293b; color:#94a3b8; padding:2px 8px; border-radius:4px; font-weight:600;">"${selectedWord}"</span>
+            <span style="font-size:11px; background:var(--bg-elevated); color:var(--text-muted); border:1px solid var(--border); padding:2px 8px; border-radius:4px; font-weight:600;">"${selectedWord}"</span>
           </div>
           <button id="close-colloc-popover" style="background:none; border:none; color:#64748b; font-size:18px; cursor:pointer; padding:0 4px; line-height:1;">&times;</button>
         </div>
@@ -134,7 +134,7 @@
         const synContainer = document.getElementById('colloc-synonyms');
         if (syns && syns.length > 0) {
           synContainer.innerHTML = syns.map(s => `
-            <button class="colloc-pill-syn" data-word="${s.word}" style="background:#1e293b; color:#38bdf8; border:1px solid #334155; border-radius:6px; padding:3px 9px; font-size:12px; cursor:pointer; font-weight:600; transition:all 0.15s;" title="Click to replace selected text">
+            <button class="colloc-pill-syn" data-word="${s.word}" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); border-radius:6px; padding:3px 9px; font-size:12px; cursor:pointer; font-weight:600; transition:all 0.15s;" title="Click to replace selected text">
               ${s.word}
             </button>
           `).join('');
@@ -170,7 +170,7 @@
 
         if (allColls.length > 0) {
           collContainer.innerHTML = allColls.slice(0, 8).map(c => `
-            <button class="colloc-pill-phrase" data-phrase="${c.text}" style="background:#1e293b; color:#fcd34d; border:1px solid #334155; border-radius:6px; padding:3px 8px; font-size:11px; cursor:pointer;" title="Click to insert collocation">
+            <button class="colloc-pill-phrase" data-phrase="${c.text}" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); border-radius:6px; padding:3px 8px; font-size:11px; cursor:pointer;" title="Click to insert collocation">
               ${c.text}
             </button>
           `).join('');
@@ -214,29 +214,31 @@
       const bar = document.createElement('div');
       bar.id = 'lexical-booster-bar';
       bar.style.cssText = `
-        background: #0f172a;
-        border: 1px solid #1e293b;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
         border-radius: 8px;
-        padding: 10px 14px;
+        padding: 12px 14px;
         margin-bottom: 12px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+        font-family: var(--font-sans);
+        box-shadow: var(--shadow-card);
       `;
 
       bar.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
           <div style="font-size:12px; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:6px;">
             <span>✨ Academic Collocation & Synonym Finder</span>
-            <span style="font-size:10px; background:#1e293b; color:#94a3b8; padding:1px 6px; border-radius:4px; font-weight:600;">DATAMUSE API</span>
+            <span style="font-size:10px; background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); padding:1px 6px; border-radius:4px; font-weight:700;">DATAMUSE API</span>
           </div>
           <span style="font-size:11px; color:#64748b;">Highlight any word in your essay or search directly:</span>
         </div>
         <div style="display:flex; gap:8px;">
-          <input type="text" id="lexical-search-input" placeholder="e.g. trend, increase, decrease, proportion, crucial, problem..." style="flex:1; min-width:200px; background:#1e293b; border:1px solid #334155; border-radius:6px; padding:6px 10px; color:#f8fafc; font-size:12px; outline:none;" />
-          <button id="lexical-search-btn" style="background:#38bdf8; color:#0f172a; font-weight:700; border:none; border-radius:6px; padding:6px 14px; font-size:12px; cursor:pointer;">
+          <input type="text" id="lexical-search-input" placeholder="e.g. trend, increase, decrease, proportion, crucial, problem..." style="flex:1; min-width:200px; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:6px 10px; color:var(--text); font-size:12px; outline:none;" />
+          <button id="lexical-search-btn" class="btn-accent-solid" style="padding:6px 14px; font-size:12px; cursor:pointer;">
             Search
           </button>
         </div>
-        <div id="lexical-search-results" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed #334155; font-size:12px;"></div>
+        <div id="lexical-search-results" style="display:none; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); font-size:12px;"></div>
       `;
 
       if (promptBox && promptBox.parentNode) {
@@ -266,7 +268,7 @@
           synHtml = `
             <div style="margin-bottom:6px;">
               <strong style="color:#10b981; font-size:11px;">BAND 7+ SYNONYMS:</strong> 
-              ${syns.map(s => `<button class="inline-lex-pill" data-word="${s.word}" style="background:#1e293b; color:#38bdf8; border:1px solid #334155; border-radius:4px; padding:2px 7px; margin:2px; font-size:11px; cursor:pointer;">${s.word}</button>`).join('')}
+              ${syns.map(s => `<button class="inline-lex-pill" data-word="${s.word}" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); border-radius:4px; padding:2px 7px; margin:2px; font-size:11px; cursor:pointer;">${s.word}</button>`).join('')}
             </div>
           `;
         }
@@ -280,7 +282,7 @@
           collHtml = `
             <div>
               <strong style="color:#f59e0b; font-size:11px;">ACADEMIC COLLOCATIONS:</strong> 
-              ${allColls.slice(0, 8).map(c => `<button class="inline-lex-pill" data-word="${c}" style="background:#1e293b; color:#fcd34d; border:1px solid #334155; border-radius:4px; padding:2px 7px; margin:2px; font-size:11px; cursor:pointer;">${c}</button>`).join('')}
+              ${allColls.slice(0, 8).map(c => `<button class="inline-lex-pill" data-word="${c}" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); border-radius:4px; padding:2px 7px; margin:2px; font-size:11px; cursor:pointer;">${c}</button>`).join('')}
             </div>
           `;
         }
@@ -456,23 +458,23 @@
         left: ${Math.min(window.innerWidth - 320, Math.max(10, x - 150))}px;
         top: ${y + 12}px;
         width: 300px;
-        background: #090d16;
-        border: 1px solid #38bdf8;
+        background: var(--bg-card);
+        border: 1.5px solid var(--border-accent);
         border-radius: 12px;
         padding: 14px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.85), 0 0 20px rgba(56, 189, 248, 0.25);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
         z-index: 100000;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: #f8fafc;
+        font-family: var(--font-sans);
+        color: var(--text);
         font-size: 13px;
         animation: fadeIn 0.12s ease-out;
       `;
 
       tooltip.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #1e293b; padding-bottom:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid var(--border); padding-bottom:6px;">
           <div style="font-weight:700; color:#38bdf8; font-size:15px; display:flex; align-items:center; gap:8px;">
             <span>${word}</span>
-            <button id="tts-btn" style="background:#1e293b; border:1px solid #334155; border-radius:50%; width:26px; height:26px; cursor:pointer; color:#38bdf8; display:flex; align-items:center; justify-content:center; font-size:12px;" title="Listen to Official UK Pronunciation">
+            <button id="tts-btn" style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:50%; width:26px; height:26px; cursor:pointer; color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:12px;" title="Listen to Official UK Pronunciation">
               🔊
             </button>
           </div>
@@ -481,8 +483,8 @@
         <div id="def-body" style="font-size:12px; color:#cbd5e1; line-height:1.45;">
           Loading definition...
         </div>
-        <div style="margin-top:10px; padding-top:8px; border-top:1px solid #1e293b; display:flex; justify-content:flex-end;">
-          <button id="save-vocab-btn" style="background:#1e293b; color:#38bdf8; border:1px solid #334155; border-radius:6px; padding:3px 9px; font-size:11px; cursor:pointer; font-weight:600;">
+        <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--border); display:flex; justify-content:flex-end;">
+          <button id="save-vocab-btn" style="background:var(--bg-elevated); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:3px 9px; font-size:11px; cursor:pointer; font-weight:600;">
             ➕ Save to My Lexicon
           </button>
         </div>
@@ -547,7 +549,7 @@
         } else {
           body.innerHTML = `
             <div style="color:#94a3b8; margin-bottom:6px;">Academic vocabulary entry.</div>
-            <button id="tts-fallback" style="background:#1e293b; color:#38bdf8; border:1px solid #334155; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;">
+            <button id="tts-fallback" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border); border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;">
               🔊 Speak "${word}"
             </button>
           `;
@@ -633,37 +635,39 @@
       if (!container) return;
 
       const card = document.createElement('div');
-      card.className = 'ielts-live-chart-panel';
+      card.className = 'ielts-live-chart-panel speak-v6-card';
       card.style.cssText = `
-        background: #090d16;
-        border: 1px solid #1e293b;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
         border-radius: 12px;
-        padding: 16px;
+        padding: 18px 20px;
         margin: 20px 0;
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+        font-family: var(--font-sans);
+        box-shadow: var(--shadow-card);
       `;
 
       card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
           <div>
             <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:16px; font-weight:800; color:#f8fafc;">📊 Dynamic Task 1 Academic Chart Generator</span>
-              <span style="background:#10b981/20; color:#34d399; font-size:10px; font-weight:700; padding:2px 8px; border-radius:999px; border:1px solid rgba(16,185,129,0.3);">
+              <span style="font-size:16px; font-weight:800; color:var(--text);">📊 Dynamic Task 1 Academic Chart Generator</span>
+              <span class="occ-ver-pill" style="font-size:10px; font-weight:700; color:var(--green); border:1px solid rgba(16,185,129,0.3);">
                 LIVE WORLD BANK DATA
               </span>
             </div>
-            <div style="font-size:12px; color:#94a3b8; margin-top:2px;">
+            <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">
               Generates authentic real-world statistical graphs to practice writing Band 8+ Academic Overviews and Comparisons.
             </div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <select id="indicator-select" style="background:#1e293b; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:6px 10px; font-size:12px; cursor:pointer;">
+            <select id="indicator-select" class="occ-select" style="background:var(--bg-elevated); color:var(--text); border:1px solid var(--border-mid); border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer;">
               ${this.indicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
             </select>
-            <button id="refresh-chart-btn" style="background:#38bdf8; color:#0f172a; font-weight:700; border:none; border-radius:8px; padding:6px 14px; font-size:12px; cursor:pointer;">
+            <button id="refresh-chart-btn" class="btn-accent-solid" style="padding:6px 14px; font-size:12px; cursor:pointer;">
               Generate Chart
             </button>
           </div>
@@ -674,13 +678,13 @@
         </div>
 
         <div id="chart-display-area">
-          <div id="task1-prompt" style="background:#1e293b/60; border-left:4px solid #38bdf8; padding:12px 14px; border-radius:4px; font-size:13px; color:#e2e8f0; margin-bottom:14px; line-height:1.5;">
+          <div id="task1-prompt" style="background:var(--bg-elevated); border:1px solid var(--border); border-left:4px solid var(--accent); padding:12px 14px; border-radius:6px; font-size:13px; color:var(--text); margin-bottom:14px; line-height:1.5;">
             Select an indicator above and click "Generate Chart" to fetch genuine World Bank statistical data!
           </div>
           <div id="chart-svg-container" style="width:100%; overflow-x:auto;"></div>
-          <div id="chart-overview-hints" style="margin-top:14px; display:none; background:#1e293b; border-radius:8px; padding:12px; font-size:12px; color:#cbd5e1;"></div>
+          <div id="chart-overview-hints" style="margin-top:14px; display:none; background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:12px; font-size:12px; color:var(--text-secondary);"></div>
           <div style="margin-top:14px; display:flex; justify-content:flex-end; gap:10px;">
-            <button id="practice-chart-in-writing-btn" style="display:none; background:#10b981; color:#0f172a; font-weight:800; border:none; border-radius:8px; padding:8px 16px; font-size:13px; cursor:pointer;">
+            <button id="practice-chart-in-writing-btn" class="btn-accent-solid" style="display:none; padding:8px 16px; font-size:13px; cursor:pointer;">
               ✍️ Practice This Chart in Writing Lab
             </button>
           </div>
@@ -784,7 +788,7 @@
         const val = minVal + ((maxVal - minVal) / 4) * i;
         const yPos = getY(val);
         gridSvg += `
-          <line x1="${padding.left}" y1="${yPos}" x2="${width - padding.right}" y2="${yPos}" stroke="#1e293b" stroke-dasharray="3 3" />
+          <line x1="${padding.left}" y1="${yPos}" x2="${width - padding.right}" y2="${yPos}" stroke="var(--border)" stroke-opacity="0.6" stroke-dasharray="3 3" />
           <text x="${padding.left - 8}" y="${yPos + 4}" fill="#94a3b8" font-size="10" text-anchor="end">${val.toFixed(0)}${indicator.unit}</text>
         `;
       }
@@ -799,7 +803,7 @@
       const legendHtml = `
         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-top:12px;">
           ${this.countries.map(c => `
-            <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#cbd5e1;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text);">
               <span style="width:14px; height:4px; background:${c.color}; border-radius:2px;"></span>
               <span style="font-weight:600;">${c.name}</span>
             </div>
@@ -808,7 +812,7 @@
       `;
 
       const fullSvgHtml = `
-        <svg viewBox="0 0 ${width} ${height}" style="width:100%; max-width:${width}px; background:#0b1120; border-radius:8px; border:1px solid #1e293b; display:block; margin:0 auto;">
+        <svg viewBox="0 0 ${width} ${height}" style="width:100%; max-width:${width}px; background:var(--bg-elevated); border-radius:8px; border:1px solid var(--border); display:block; margin:0 auto;">
           ${gridSvg}
           ${pathsSvg}
         </svg>
@@ -906,8 +910,8 @@
       const card = document.createElement('div');
       card.id = 'ielts-speaking-fluency-card';
       card.style.cssText = `
-        background: #090d16;
-        border: 1px solid #1e293b;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
         border-radius: 12px;
         padding: 16px;
         margin: 20px 0;
@@ -918,7 +922,7 @@
       `;
 
       card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
           <div>
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:16px; font-weight:800; color:#f8fafc;">🎙️ Speaking Part 2 Fluency & Filler Voice Trainer</span>
@@ -936,7 +940,7 @@
         </div>
 
         <!-- Cue Card Box -->
-        <div style="background:#1e293b; border-radius:8px; padding:12px 14px; margin-bottom:14px;">
+        <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-bottom:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <span style="font-size:11px; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.5px;">IELTS Part 2 Candidate Task Card:</span>
             <button id="random-cue-btn" style="background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; text-decoration:underline;">
@@ -953,23 +957,23 @@
 
         <!-- Telemetry Stats Grid -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:14px;">
-          <div style="background:#1e293b; border-radius:8px; padding:10px; text-align:center;">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
             <div style="font-size:11px; color:#94a3b8;">Timer (2m Limit)</div>
             <div id="spk-timer" style="font-size:20px; font-weight:800; color:#f8fafc;">00:00</div>
           </div>
-          <div style="background:#1e293b; border-radius:8px; padding:10px; text-align:center;">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
             <div style="font-size:11px; color:#94a3b8;">Speaking Rate</div>
             <div id="spk-wpm" style="font-size:20px; font-weight:800; color:#38bdf8;">0 <span style="font-size:11px;">WPM</span></div>
           </div>
-          <div style="background:#1e293b; border-radius:8px; padding:10px; text-align:center;">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
             <div style="font-size:11px; color:#94a3b8;">Filler Words ("um/like")</div>
             <div id="spk-fillers" style="font-size:20px; font-weight:800; color:#f59e0b;">0</div>
           </div>
-          <div style="background:#1e293b; border-radius:8px; padding:10px; text-align:center;">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
             <div style="font-size:11px; color:#94a3b8;">Lexical Diversity</div>
             <div id="spk-diversity" style="font-size:20px; font-weight:800; color:#a855f7;">0%</div>
           </div>
-          <div style="background:#1e293b; border-radius:8px; padding:10px; text-align:center;">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;">
             <div style="font-size:11px; color:#94a3b8;">Total Words</div>
             <div id="spk-words" style="font-size:20px; font-weight:800; color:#34d399;">0</div>
           </div>
@@ -981,7 +985,7 @@
             <span>Real-time Speech Recognition Transcript:</span>
             <span>Double-click any word for 1-click UK pronunciation</span>
           </div>
-          <div style="background:#05070d; border:1px solid #1e293b; border-radius:8px; padding:12px; min-height:85px; max-height:180px; overflow-y:auto; font-size:13px; color:#e2e8f0; line-height:1.6;" id="spk-transcript">
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:12px; min-height:85px; max-height:180px; overflow-y:auto; font-size:13px; color:var(--text); line-height:1.6;" id="spk-transcript">
             <span style="color:#64748b;">Your live speech transcript will stream here in real time. Click "Start 2-Min Practice" and deliver your response...</span>
           </div>
         </div>
@@ -992,10 +996,10 @@
             Target pace: 120–150 words per minute.
           </div>
           <div style="display:flex; gap:8px;">
-            <button id="copy-spk-transcript-btn" style="background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:5px 12px; font-size:12px; cursor:pointer;">
+            <button id="copy-spk-transcript-btn" style="background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:5px 12px; font-size:12px; cursor:pointer;">
               📋 Copy Transcript
             </button>
-            <button id="send-spk-to-writing-btn" style="background:#38bdf8; color:#0f172a; font-weight:700; border:none; border-radius:6px; padding:5px 12px; font-size:12px; cursor:pointer;">
+            <button id="send-spk-to-writing-btn" class="btn-accent-solid" style="padding:5px 12px; font-size:12px; cursor:pointer;">
               ✍️ Send to Writing Editor
             </button>
           </div>
@@ -1232,43 +1236,46 @@
 
       const card = document.createElement('div');
       card.id = 'ielts-daily-prompt-card';
+      card.className = 'speak-v6-card';
       card.style.cssText = `
-        background: #090d16;
-        border: 1px solid #1e293b;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
         border-radius: 12px;
-        padding: 16px;
+        padding: 18px 20px;
         margin: 20px 0;
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text);
+        font-family: var(--font-sans);
+        box-shadow: var(--shadow-card);
       `;
 
       card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
-          <div style="font-weight:800; color:#f8fafc; font-size:15px; display:flex; align-items:center; gap:8px;">
-            <span>🎲 Daily Cambridge Academic Topic & Background Brief</span>
-            <span style="background:#8b5cf6/20; color:#c084fc; font-size:10px; font-weight:700; padding:2px 8px; border-radius:999px; border:1px solid rgba(139,92,246,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+          <div style="font-weight:800; color:var(--text); font-size:15px; display:flex; align-items:center; gap:8px;">
+            <span>🎲 Daily Cambridge Academic Topic &amp; Background Brief</span>
+            <span class="occ-ver-pill" style="font-size:10px; font-weight:700; color:var(--accent);">
               WIKIPEDIA API
             </span>
           </div>
-          <button id="spin-prompt-btn" style="background:#8b5cf6; color:white; font-weight:700; border:none; border-radius:6px; padding:6px 14px; font-size:12px; cursor:pointer;">
+          <button id="spin-prompt-btn" class="btn-accent-solid" style="padding:6px 14px; font-size:12px; cursor:pointer;">
             🎲 Spin New Topic
           </button>
         </div>
 
-        <div id="wiki-loading" style="display:none; color:#94a3b8; font-size:12px; padding:12px 0;">
+        <div id="wiki-loading" style="display:none; color:var(--text-secondary); font-size:12px; padding:12px 0;">
           Fetching verified academic context from Wikipedia...
         </div>
 
         <div id="wiki-prompt-content">
-          <div id="task2-topic-title" style="font-weight:700; color:#38bdf8; font-size:14px; margin-bottom:6px;"></div>
-          <div id="task2-wiki-extract" style="font-size:12px; color:#cbd5e1; line-height:1.6; margin-bottom:12px; background:#1e293b/50; padding:12px; border-radius:6px; border-left:3px solid #8b5cf6;"></div>
-          <div style="background:#1e293b; border-radius:8px; padding:12px; margin-bottom:14px;">
-            <div style="font-size:11px; font-weight:700; color:#a855f7; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Official Cambridge Task 2 Prompt:</div>
-            <div id="task2-official-prompt" style="font-size:13px; font-weight:600; color:#f8fafc; line-height:1.5;"></div>
+          <div id="task2-topic-title" style="font-weight:700; color:var(--accent); font-size:14px; margin-bottom:6px;"></div>
+          <div id="task2-wiki-extract" style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px; background:var(--bg-elevated); padding:12px; border-radius:6px; border:1px solid var(--border); border-left:3px solid var(--accent);"></div>
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:14px;">
+            <div style="font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">Official Cambridge Task 2 Prompt:</div>
+            <div id="task2-official-prompt" style="font-size:13px; font-weight:600; color:var(--text); line-height:1.5;"></div>
           </div>
-          <button id="apply-to-writing-btn" style="background:#38bdf8; color:#0f172a; font-weight:800; border:none; border-radius:6px; padding:8px 16px; font-size:13px; cursor:pointer;">
+          <button id="apply-to-writing-btn" class="btn-accent-solid" style="padding:8px 16px; font-size:13px; cursor:pointer;">
             ✍️ Load into Writing Lab
           </button>
         </div>
@@ -1384,11 +1391,8 @@
       Task1ChartEngine.renderChartCard('view-writing');
     }
 
-    // 4. Inject Speaking Fluency & Filler Voice Trainer (into Speaking tab)
+    // 4. Native Speaking Studio seamlessly handles Cue Cards and Diagnostics without duplicate widget injection
     const speakingSec = document.getElementById('view-speaking');
-    if (speakingSec) {
-      SpeakingFluencyEngine.renderRecorderCard('view-speaking');
-    }
 
     // 5. Inject Daily Cambridge Prompt Generator (into Writing tab)
     if (writingSec) {
