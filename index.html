@@ -12,6 +12,9 @@
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
 
+<!-- Puter.js Zero-Cost AI SDK (Client-Side Serverless AI for Web App) -->
+<script src="https://js.puter.com/v2/"></script>
+
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
@@ -2964,6 +2967,234 @@
     background: var(--accent-soft);
   }
 
+  /* =========================================================
+     HUB 7: AI MENTOR & IN-APP COPILOT (PUTER.JS ENGINE)
+     ========================================================= */
+  .ai-chat-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 14px;
+  }
+
+  .ai-chat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-chat-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 420px;
+    max-height: 64vh;
+    overflow-y: auto;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    scroll-behavior: smooth;
+  }
+
+  .ai-chat-msg {
+    display: flex;
+    gap: 12px;
+    max-width: 88%;
+    animation: fadeInMsg 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ai-chat-msg.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .ai-chat-msg.assistant {
+    align-self: flex-start;
+  }
+
+  .ai-chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-mid);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  .ai-chat-msg.user .ai-chat-avatar {
+    background: rgba(224, 108, 53, 0.2);
+    border-color: var(--border-accent);
+  }
+
+  .ai-chat-bubble {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+    word-break: break-word;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  .ai-chat-msg.user .ai-chat-bubble {
+    background: rgba(224, 108, 53, 0.12);
+    border-color: var(--border-accent);
+    color: var(--text);
+  }
+
+  .ai-chat-bubble h3, .ai-chat-bubble h4 {
+    margin: 12px 0 6px 0;
+    color: var(--accent);
+  }
+
+  .ai-chat-bubble p {
+    margin: 0 0 10px 0;
+  }
+
+  .ai-chat-bubble p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-chat-bubble ul, .ai-chat-bubble ol {
+    margin: 6px 0 10px 18px;
+    padding: 0;
+  }
+
+  .ai-chat-bubble li {
+    margin-bottom: 4px;
+  }
+
+  .ai-action-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(224, 108, 53, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 4px 6px 4px 0;
+    transition: all 0.18s ease;
+    text-decoration: none;
+    vertical-align: middle;
+  }
+
+  .ai-action-pill:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(224, 108, 53, 0.35);
+  }
+
+  .ai-quick-prompts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .ai-prompt-btn {
+    padding: 5px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .ai-prompt-btn:hover {
+    color: var(--accent);
+    border-color: var(--border-accent);
+    background: var(--accent-soft);
+  }
+
+  .ai-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .ai-chat-textarea {
+    flex: 1;
+    min-height: 48px;
+    max-height: 140px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.88rem;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: none;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .ai-chat-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .ai-typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+  }
+
+  .ai-typing-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: aiPulse 1.3s infinite both;
+  }
+
+  .ai-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .ai-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes aiPulse {
+    0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+    40% { opacity: 1; transform: scale(1.15); }
+  }
+
+  .tma-bridge-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(224, 108, 53, 0.12);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+
   .at-results-card {
     background: var(--bg-card);
     border: 1px solid var(--border-accent);
@@ -3022,6 +3253,9 @@
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-tools" data-target-tab="tools" onclick="switchView('tools')">
         ⚡ Academic Tools
+      </button>
+      <button class="nav-link" role="tab" aria-selected="false" id="tab-aichat" data-target-tab="aichat" onclick="switchView('aichat')">
+        🤖 AI Mentor
       </button>
     </nav>
 
@@ -3164,6 +3398,10 @@
   <button class="mob-nav-btn" id="mob-tools" data-target-tab="tools" onclick="switchView('tools')">
     <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
     <span>Tools</span>
+  </button>
+  <button class="mob-nav-btn" id="mob-aichat" data-target-tab="aichat" onclick="switchView('aichat')">
+    <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+    <span>AI Mentor</span>
   </button>
 </nav>
 
@@ -4851,6 +5089,102 @@
           <div id="at-quote-results" class="at-results-card">
             <!-- Populated dynamically -->
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       HUB 7: AI MENTOR // PUTER.JS ZERO-COST COPILOT & IN-APP NAVIGATOR
+       ========================================================= -->
+  <section id="view-aichat" class="view-section studio-tab-section" data-tab-index="aichat" aria-labelledby="tab-aichat">
+    <div class="section-guide-banner">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px; flex-wrap:wrap;">
+          <h2 class="section-guide-title" style="margin:0;">🤖 Cambridge AI Mentor &amp; In-App Copilot</h2>
+          <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; font-size:0.75rem;">100% Free // Puter.js Zero-Cost AI</span>
+          <span id="aiChatModelBadge" class="occ-ver-pill" style="color:var(--text); font-weight:700; font-size:0.75rem;">gpt-4o-mini</span>
+        </div>
+        <p class="section-guide-sub">
+          Your personal Band 8.5+ IELTS Tutor powered by client-side Puter.js ($0 out-of-pocket developer cost). Ask exam questions, request Band 9 essay outlines, practice mock speaking scenarios, or ask the AI to navigate directly to any test, cue card, or vocabulary drill across IELTS Prep Studio!
+        </p>
+      </div>
+      <div class="section-guide-actions">
+        <button class="btn-outlined" style="padding:6px 12px; font-size:0.8rem; font-weight:700;" onclick="clearAiChatHistory()">🗑️ Clear Chat</button>
+        <button class="btn-outlined" style="padding:6px 12px; font-size:0.8rem; font-weight:700;" onclick="openVipPassModal()">👑 VIP Pass Info</button>
+      </div>
+    </div>
+
+    <!-- Telegram Mini App Notice (Shows automatically when inside TMA) -->
+    <div id="aiChatTmaNotice" class="tma-bridge-banner" style="display:none;">
+      <div style="font-size:1.6rem; line-height:1;">🌐</div>
+      <div style="flex:1; min-width:240px;">
+        <strong style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:4px;">Telegram Mini App Notice: Open in External Browser</strong>
+        <p style="margin:0; font-size:0.84rem; color:var(--text); line-height:1.5;">
+          Telegram's in-app webview restricts authentication popups required by Puter.js. To access the 100% free AI Mentor and Examiners with zero limits, tap below to open in your system browser (Chrome/Safari). Your VIP status &amp; study history will sync automatically.
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="btn-accent-solid" onclick="openStudioInExternalBrowser('aichat')" style="padding:8px 16px; font-weight:800; font-size:0.84rem; cursor:pointer;">
+          🌐 Open in Browser ↗
+        </button>
+        <button class="btn-outlined" onclick="dismissAiChatTmaNotice()" style="padding:6px 10px; font-size:0.78rem; cursor:pointer;">
+          Dismiss
+        </button>
+      </div>
+    </div>
+
+    <div class="ai-chat-workspace">
+      <div class="ai-chat-card">
+        <!-- Quick Starter Prompts -->
+        <div class="ai-quick-prompts">
+          <span style="font-size:0.75rem; color:var(--text-secondary); margin-right:4px; font-weight:700;">1-Tap Starters:</span>
+          <button class="ai-prompt-btn" onclick="setAiChatPrompt('How do I score Band 8.0 in Speaking Part 2? Give me the best framework and take me to the practice cue cards.')">🎙️ Speaking Part 2 Framework &amp; Cue Cards</button>
+          <button class="ai-prompt-btn" onclick="setAiChatPrompt('Give me a high-scoring Band 9 structure for Task 2 Discussion essays and show me the model essays.')">📝 Task 2 Essay Structure &amp; Models</button>
+          <button class="ai-prompt-btn" onclick="setAiChatPrompt('How does Spaced Repetition (SRS) work in this app? Take me to vocabulary flashcards.')">📚 SRS Vocabulary &amp; Flashcards</button>
+          <button class="ai-prompt-btn" onclick="setAiChatPrompt('What are the top tactics for True / False / Not Given in Reading? Take me to the reading tests.')">📖 True/False/Not Given Tactics</button>
+          <button class="ai-prompt-btn" onclick="setAiChatPrompt('Where can I find academic collocations for environmental and technology topics?')">⚡ Academic Collocations</button>
+        </div>
+
+        <!-- Chat Stream -->
+        <div id="aiChatStream" class="ai-chat-stream" role="log" aria-live="polite">
+          <!-- Initial Assistant Welcome Message -->
+          <div class="ai-chat-msg assistant">
+            <div class="ai-chat-avatar">🤖</div>
+            <div class="ai-chat-bubble">
+              <h4 style="margin:0 0 8px 0; font-size:1.02rem; color:var(--accent); font-weight:800;">Welcome to your Cambridge AI Mentor &amp; Copilot!</h4>
+              <p>I am your dedicated IELTS preparation assistant, powered by <strong>Puter.js</strong> ($0 out-of-pocket developer cost). I know everything about this studio and can teach you Band 9 strategies, evaluate answers, or teleport you anywhere in the app with clickable shortcuts:</p>
+              <div style="margin:10px 0; display:flex; flex-wrap:wrap; gap:6px;">
+                <button class="ai-action-pill" onclick="handleAiNavAction('speaking:forecast')">🎙️ 50 Speaking Topics &amp; 160 Questions ↗</button>
+                <button class="ai-action-pill" onclick="handleAiNavAction('writing:models')">🏆 40 Band 9 Model Essays ↗</button>
+                <button class="ai-action-pill" onclick="handleAiNavAction('reading')">📖 23 Reading CBT Tests ↗</button>
+                <button class="ai-action-pill" onclick="handleAiNavAction('lexicon:vocab')">📚 1,162 Academic Vocabulary ↗</button>
+                <button class="ai-action-pill" onclick="handleAiNavAction('tools')">⚡ VIP Academic AI Tools ↗</button>
+              </div>
+              <p style="margin-top:8px; font-size:0.82rem; color:var(--text-secondary);">Ask any question below in <strong>English</strong> or <strong>Burmese (မြန်မာဘာသာ)</strong>!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label for="aiChatModelSelect" style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">AI MODEL:</label>
+            <select id="aiChatModelSelect" class="occ-input" style="padding:4px 8px; font-size:0.78rem; border-radius:4px;" onchange="updateAiChatModelBadge()">
+              <option value="gpt-4o-mini" selected>OpenAI GPT-4o-mini (Fast &amp; Free)</option>
+              <option value="claude-3-5-sonnet">Anthropic Claude 3.5 Sonnet</option>
+              <option value="gemini-1.5-flash">Google Gemini 1.5 Flash</option>
+              <option value="deepseek-chat">DeepSeek Chat</option>
+            </select>
+          </div>
+          <div id="aiChatStatus" style="font-size:0.75rem; color:var(--text-muted);">Status: Ready</div>
+        </div>
+
+        <div class="ai-input-wrapper">
+          <textarea id="aiChatInput" class="ai-chat-textarea" rows="2" placeholder="Ask anything about IELTS or say 'Take me to Speaking cue cards'..." onkeydown="handleAiChatKeydown(event)"></textarea>
+          <button id="aiChatSendBtn" class="btn-accent-solid" style="padding:12px 20px; font-weight:800; font-size:0.9rem; height:48px; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" onclick="sendAiChatMessage()">
+            <span>Send</span> <span>➤</span>
+          </button>
         </div>
       </div>
     </div>
@@ -9302,9 +9636,52 @@ function runManualWritingAudit() {
 }
 
 // ==========================================
-// AI EXAMINER EVALUATION ENGINE
+// AI EXAMINER EVALUATION ENGINE (PUTER.JS ZERO-COST PRIMARY + GEMINI FALLBACK)
 // ==========================================
-async function callGeminiApi(promptText, systemInstruction) {
+async function callGeminiApi(promptText, systemInstruction, preferredModel = "gpt-4o-mini") {
+  // Check if running inside Telegram Mini App
+  if (typeof isTelegramMiniApp === "function" && isTelegramMiniApp()) {
+    const hasPuterToken = (typeof localStorage !== "undefined" && (localStorage.getItem("puter.auth.token") || localStorage.getItem("puter_token")));
+    if (!hasPuterToken) {
+      throw new Error("TMA_BROWSER_REQUIRED: Telegram Mini App blocks Puter.js authentication windows. Please tap 'Open in Browser' to evaluate your test for free!");
+    }
+  }
+
+  // 1. Primary Zero-Cost Engine: Puter.js ($0 developer out-of-pocket cost)
+  if (typeof window.puter !== "undefined" && window.puter.ai && typeof window.puter.ai.chat === "function") {
+    try {
+      const messages = [];
+      if (systemInstruction) {
+        messages.push({ role: "system", content: systemInstruction });
+      }
+      messages.push({ role: "user", content: promptText });
+
+      const res = await window.puter.ai.chat(messages, false, { model: preferredModel || "gpt-4o-mini" });
+      let outputText = "";
+      if (typeof res === "string") {
+        outputText = res;
+      } else if (res && res.message && res.message.content) {
+        outputText = res.message.content;
+      } else if (res && res.text) {
+        outputText = res.text;
+      } else if (res && typeof res.toString === "function") {
+        outputText = res.toString();
+      }
+
+      if (outputText && outputText.trim().length > 0) {
+        return {
+          text: outputText,
+          modelUsed: `Puter.js (${preferredModel || "gpt-4o-mini"})`
+        };
+      }
+    } catch (puterErr) {
+      console.warn("[Puter AI attempt error]", puterErr);
+      if (String(puterErr).includes("popup") || String(puterErr).includes("blocked") || (typeof isTelegramMiniApp === "function" && isTelegramMiniApp())) {
+        throw new Error("TMA_BROWSER_REQUIRED: External authentication popup was blocked. Please open in your external browser (Chrome/Safari) to use Puter.js AI.");
+      }
+      // If Puter fails for other reasons, fall through to Gemini fallback
+    }
+  }
   const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
   const config = window.GEMINI_CONFIG || {
     apiKey: (typeof localStorage !== "undefined" && localStorage.getItem("ielts_gemini_api_key")) || _DEFAULT_GEMINI_KEY,
@@ -9596,6 +9973,23 @@ Please provide your evaluation in this exact structured format:
     showStudioNotification("✨ AI Examiner Evaluation Completed!");
   } catch (err) {
     console.error("Gemini Evaluation Failed:", err);
+    if (String(err.message).includes("TMA_BROWSER_REQUIRED") || String(err.message).includes("Telegram")) {
+      resultBox.innerHTML = `
+        <div style="padding:16px; background:rgba(224,108,53,0.12); border:1px solid var(--accent); border-radius:6px; color:var(--text);">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:1.3rem;">🌐</span>
+            <strong style="color:var(--accent); font-size:1rem;">External Browser Required for Puter AI</strong>
+          </div>
+          <p style="font-size:0.85rem; line-height:1.5; margin:0 0 12px 0;">
+            Telegram Mini App restricts authentication popups used by Puter.js. To grade your essay with our 100% free AI Examiner without billing fees, tap below to open in your system browser (Chrome/Safari). Your essay and VIP Pass are preserved!
+          </p>
+          <button class="btn-accent-solid" onclick="openStudioInExternalBrowser('writing')" style="padding:10px 18px; font-weight:800; font-size:0.88rem; cursor:pointer;">
+            🌐 Open in External Browser ↗
+          </button>
+        </div>
+      `;
+      return;
+    }
     resultBox.innerHTML = `
       <div style="padding:12px; background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.4); border-radius:4px; color:var(--text);">
         <div style="font-weight:700; color:var(--crimson); margin-bottom:4px;">⚠️ AI Examiner Evaluation Error</div>
@@ -9788,6 +10182,23 @@ Please provide your evaluation in this exact structured format:
     showStudioNotification("✨ AI Speaking Evaluation & Part 3 Challenge Ready!");
   } catch (err) {
     console.error("Gemini Speaking Evaluation Failed:", err);
+    if (String(err.message).includes("TMA_BROWSER_REQUIRED") || String(err.message).includes("Telegram")) {
+      resultBox.innerHTML = `
+        <div style="padding:16px; background:rgba(224,108,53,0.12); border:1px solid var(--accent); border-radius:6px; color:var(--text);">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:1.3rem;">🌐</span>
+            <strong style="color:var(--accent); font-size:1rem;">External Browser Required for Puter AI</strong>
+          </div>
+          <p style="font-size:0.85rem; line-height:1.5; margin:0 0 12px 0;">
+            Telegram Mini App restricts authentication popups used by Puter.js. To evaluate your speaking test with our 100% free AI Examiner without billing fees, tap below to open in your system browser (Chrome/Safari). Your speaking answers and VIP Pass are preserved!
+          </p>
+          <button class="btn-accent-solid" onclick="openStudioInExternalBrowser('speaking')" style="padding:10px 18px; font-weight:800; font-size:0.88rem; cursor:pointer;">
+            🌐 Open in External Browser ↗
+          </button>
+        </div>
+      `;
+      return;
+    }
     resultBox.innerHTML = `
       <div style="padding:12px; background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.4); border-radius:4px; color:var(--text);">
         <div style="font-weight:700; color:var(--crimson); margin-bottom:4px;">⚠️ AI Examiner Evaluation Error</div>
@@ -10732,13 +11143,16 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     } else if (target === 'tools' || target === 'academic-tools' || target === 'viptools' || target === 'academic_tools') {
       hubId = 'tools';
       subTabId = 'tools';
+    } else if (target === 'aichat' || target === 'ai-chat' || target === 'chat' || target === 'mentor' || target === 'copilot' || target === 'ai') {
+      hubId = 'aichat';
+      subTabId = 'aichat';
     } else {
       if (target.startsWith('view-')) target = target.replace('view-', '');
       hubId = target;
     }
 
     // 1. Toggle Hub sections (including Dedicated VIP Academic Tools View)
-    const hubSections = ['view-overview', 'view-lexicon', 'view-reading', 'view-writing', 'view-speaking', 'view-tools'];
+    const hubSections = ['view-overview', 'view-lexicon', 'view-reading', 'view-writing', 'view-speaking', 'view-tools', 'view-aichat'];
     hubSections.forEach(secId => {
       const sec = document.getElementById(secId);
       if (sec) {
@@ -10790,6 +11204,8 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
         if (typeof renderLexiconGrid === 'function') renderLexiconGrid();
       } else if (hubId === 'tools') {
         if (typeof fetchVipToolsQuota === 'function') fetchVipToolsQuota();
+      } else if (hubId === 'aichat') {
+        if (typeof initAiMentorTab === 'function') initAiMentorTab();
       }
     } catch (hydrateErr) {
       console.warn('[Tab Hydration Notice]', hydrateErr);
@@ -10845,6 +11261,14 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
 
   // Restore last active tab or hash target on page load
   window.addEventListener('DOMContentLoaded', () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const deepTab = urlParams.get('tab') || urlParams.get('view');
+      if (deepTab) {
+        activateStudioTab(deepTab);
+        return;
+      }
+    } catch (e) {}
     const initialHash = window.location.hash;
     if (initialHash) {
       try {
@@ -11910,6 +12334,326 @@ async function executeVipQuoteSearch() {
   }
 }
 
+// =========================================================
+// HUB 7: CAMBRIDGE AI MENTOR & IN-APP COPILOT (PUTER.JS ENGINE)
+// =========================================================
+const AI_MENTOR_SYSTEM_PROMPT = `You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio (Open Academic Edition), the premier comprehensive preparation platform for IELTS Academic & General candidates.
+
+YOUR MISSION:
+1. Provide authoritative, concise, and pedagogical IELTS guidance (Band 7.0 - 9.0 standards) for Writing, Speaking, Reading, and Academic Lexicon.
+2. Guide users effortlessly through the application by providing direct, clickable in-app action links. Whenever you mention or recommend an app feature, ALWAYS include an action link in the exact format: [Link Label](action:target).
+3. Support both English and Myanmar/Burmese queries (respond in the language requested by the user, or provide bilingual explanations when helpful).
+
+STUDIO NAVIGATION SHORTCUTS MATRIX:
+Always format these as [Label](action:target):
+- [🏠 Home Dashboard](action:overview) -> Overview of all hubs, readiness score, and quick launch.
+- [📖 Exam Strategy Playbook](action:playbook) -> Complete exam architecture, timing protocols, and official band descriptors (TR, CC, LR, GRA).
+- [📅 Study Plans](action:plans) -> 7-Day Sprint, 30-Day Intensive, and 90-Day Foundation schedules.
+- [📚 Academic Lexicon](action:lexicon) -> 1,162 Academic words with CEFR tags (C1/C2), AWL Sublists 1-10, definitions, collocations, and Burmese glosses.
+- [🗂️ SRS Flashcards](action:flashcards) -> Spaced Repetition System with Leitner intervals (1-day, 3-day, 7-day).
+- [✏️ Paraphrase Drills](action:drills) -> Contextual Synonym Drills and Collocation Cloze Gates.
+- [📝 Grammar Master](action:grammar) -> Complex sentence architecture, inversions, conditionals, and nominalization.
+- [📖 CBT Reading Studio](action:reading) -> 23 Authentic Cambridge-style Reading tests (Tests 1–23, 231 total questions) with timer, instant scoring, and Burmese evidence notes.
+- [🎯 Reading Tactics](action:tactics) -> Proven scanning and keyword mapping strategies for True/False/Not Given, Headings, and Summary Completion.
+- [✍️ Writing Lab](action:writing) -> Task 1 & Task 2 live composition desk with real-time word counter, CEFR analyzer, and AI Examiner.
+- [🏆 Band 9 Model Essays](action:models) -> 40 Band 9 Model Essays with detailed examiner breakdown.
+- [🔗 Academic Collocations & Phrases](action:phrases) -> Academic linking phrases, signposting language, and cohesive devices.
+- [🎙️ Speaking Studio](action:speaking) -> Full Speaking test simulator with live microphone recording, WPM tracking, and AI Examiner.
+- [📋 Speaking Forecast & Cue Cards](action:forecast) -> 50 Speaking Topics, 160 specific questions (Parts 1, 2, and 3) with full Band 9 answers and 1-minute prep notes.
+- [💡 Speaking Frameworks](action:frameworks) -> 5 Band 9 Master Frameworks: PEEL, PAST-PRESENT-FUTURE, OREO, 5W1H, DIRECT-EXTEND.
+- [⚡ VIP Academic Tools](action:tools) -> VIP Collocations, Band 8.5+ Synonyms, Comprehensive Multi-Paragraph Academic Topic Briefs, Live Dictionary, and Scholar Rhetoric.
+- [👑 VIP Pass Info](action:vip) -> Lifetime VIP Pass, Telegram Stars (750 XTR) instant checkout, KBZPay/WavePay (55,000 MMK).
+- [🔍 Quick Search](action:search) -> Global instant search across all 1,162 words, 23 reading tests, 40 writing models, and 50 speaking topics.
+
+PEDAGOGICAL & CRITERIA RULES:
+- Writing Task 2: Recommend 4 distinct paragraphs: Introduction with clear stance, Body 1 (PEEL), Body 2 (PEEL), Conclusion. Ban mechanical linker stuffing ("First and foremost", "In a nutshell"). Encourage thematic flow and modal hedging.
+- Writing Task 1: Overview paragraph is strictly mandatory. Mention overall trends and major contrasts without quoting specific numbers in the overview.
+- Speaking: Discourage memorized scripts. In Part 1 use Direct Answer + 1-2 Extensions. In Part 2 use 1-minute notes with PEEL or Past-Present-Future. In Part 3 use OREO (Opinion, Reason, Example, Opinion restated) or 5W1H.
+- Reading: Highlight that 'False' contradicts the text, while 'Not Given' means the claim is neither confirmed nor contradicted.
+- Tone: Encouraging, analytical, highly knowledgeable, and practical. Always provide clear examples and relevant in-app action links!`;
+
+let aiChatMessages = [];
+
+function isTelegramMiniApp() {
+  if (typeof window === 'undefined') return false;
+  if (window.StorageManager && window.StorageManager.isTelegram) return true;
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (tg && ((tg.initData && tg.initData.length > 0) || (tg.platform && tg.platform !== 'unknown'))) {
+    return true;
+  }
+  return false;
+}
+
+function openStudioInExternalBrowser(targetTab = 'aichat') {
+  let base = 'https://hugokami.github.io/ielts-prep-studio/';
+  const params = new URLSearchParams();
+  if (targetTab) params.set('tab', targetTab);
+
+  const voucher = (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
+                  (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) || '';
+  if (voucher) params.set('voucher', voucher);
+
+  const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser;
+  if (tgUser && tgUser.id) params.set('tg_user', tgUser.id);
+
+  const fullUrl = base + '?' + params.toString();
+
+  if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openLink === 'function') {
+    try {
+      window.Telegram.WebApp.openLink(fullUrl);
+      return;
+    } catch (e) {
+      console.warn('[Telegram openLink fallback]', e);
+    }
+  }
+  window.open(fullUrl, '_blank');
+}
+
+function dismissAiChatTmaNotice() {
+  const notice = document.getElementById('aiChatTmaNotice');
+  if (notice) notice.style.display = 'none';
+  try { sessionStorage.setItem('ips_aichat_tma_dismissed', '1'); } catch (e) {}
+}
+
+function updateAiChatModelBadge() {
+  const select = document.getElementById('aiChatModelSelect');
+  const badge = document.getElementById('aiChatModelBadge');
+  if (select && badge) {
+    badge.textContent = select.value;
+  }
+}
+
+function initAiMentorTab() {
+  const notice = document.getElementById('aiChatTmaNotice');
+  if (notice && isTelegramMiniApp()) {
+    const dismissed = sessionStorage.getItem('ips_aichat_tma_dismissed') === '1';
+    notice.style.display = dismissed ? 'none' : 'flex';
+  }
+}
+
+function handleAiNavAction(actionStr) {
+  if (!actionStr) return;
+  const parts = String(actionStr).trim().split(':');
+  const hub = parts[0].toLowerCase();
+  const sub = parts[1] ? parts[1].toLowerCase() : null;
+
+  if (hub === 'vip') {
+    if (typeof openVipPassModal === 'function') openVipPassModal();
+    return;
+  }
+  if (hub === 'search') {
+    if (typeof openQuickSearchModal === 'function') openQuickSearchModal();
+    return;
+  }
+  if (hub === 'external_browser' || hub === 'browser') {
+    openStudioInExternalBrowser('aichat');
+    return;
+  }
+
+  if (typeof activateStudioTab === 'function') {
+    activateStudioTab(hub);
+    if (sub && typeof window.switchSubTab === 'function') {
+      setTimeout(() => window.switchSubTab(hub, sub), 50);
+    }
+  } else if (typeof switchView === 'function') {
+    switchView(hub);
+  }
+}
+
+function renderAiChatMarkdown(md) {
+  if (!md) return '';
+  return md
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.*$)/gim, '<h4 style="font-size:0.98rem; font-weight:800; color:var(--accent); margin:12px 0 4px 0;">$1</h4>')
+    .replace(/^## (.*$)/gim, '<h3 style="font-size:1.08rem; font-weight:900; color:var(--text); margin:14px 0 6px 0;">$1</h3>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/```([\s\S]*?)```/g, '<pre style="background:var(--bg-card); padding:10px; border-radius:4px; overflow-x:auto;"><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g, '<code style="background:var(--bg-card); padding:2px 5px; border-radius:3px; color:var(--accent); font-size:0.85em;">$1</code>')
+    // Parse in-app action links: [Label](action:target) -> in-app action pill button
+    .replace(/\[([^\]]+)\]\(action:([^\)]+)\)/g, '<button class="ai-action-pill" onclick="handleAiNavAction(\'$2\')">🔗 $1 ↗</button>')
+    // Parse regular web links: [Label](http...) -> external anchor
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:700; text-decoration:underline;">$1 ↗</a>')
+    .replace(/^\s*-\s+(.*$)/gim, '<li style="margin-bottom:4px; margin-left:18px;">$1</li>')
+    .replace(/^\s*\d+\.\s+(.*$)/gim, '<li style="margin-bottom:4px; margin-left:18px;">$1</li>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
+
+function appendAiChatMessage(role, text) {
+  const stream = document.getElementById('aiChatStream');
+  if (!stream) return;
+
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `ai-chat-msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'ai-chat-avatar';
+  avatar.textContent = (role === 'user') ? '👤' : '🤖';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'ai-chat-bubble';
+  bubble.innerHTML = (role === 'user') 
+    ? String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
+    : renderAiChatMarkdown(text);
+
+  msgDiv.appendChild(avatar);
+  msgDiv.appendChild(bubble);
+  stream.appendChild(msgDiv);
+
+  stream.scrollTop = stream.scrollHeight;
+}
+
+function setAiChatPrompt(promptText) {
+  const input = document.getElementById('aiChatInput');
+  if (input) {
+    input.value = promptText;
+    input.focus();
+    sendAiChatMessage();
+  }
+}
+
+function handleAiChatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendAiChatMessage();
+  }
+}
+
+function clearAiChatHistory() {
+  aiChatMessages = [];
+  const stream = document.getElementById('aiChatStream');
+  if (stream) {
+    stream.innerHTML = `
+      <div class="ai-chat-msg assistant">
+        <div class="ai-chat-avatar">🤖</div>
+        <div class="ai-chat-bubble">
+          <h4 style="margin:0 0 8px 0; font-size:1.02rem; color:var(--accent); font-weight:800;">Chat Cleared // Ready for New Questions</h4>
+          <p>Ask anything about IELTS or ask me to teleport you to any part of the app!</p>
+          <div style="margin:8px 0; display:flex; flex-wrap:wrap; gap:6px;">
+            <button class="ai-action-pill" onclick="handleAiNavAction('speaking:forecast')">🎙️ Speaking Cue Cards ↗</button>
+            <button class="ai-action-pill" onclick="handleAiNavAction('writing:models')">🏆 Band 9 Model Essays ↗</button>
+            <button class="ai-action-pill" onclick="handleAiNavAction('reading')">📖 Reading Tests ↗</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  const status = document.getElementById('aiChatStatus');
+  if (status) status.textContent = 'Status: Ready';
+}
+
+async function sendAiChatMessage() {
+  const input = document.getElementById('aiChatInput');
+  const sendBtn = document.getElementById('aiChatSendBtn');
+  const status = document.getElementById('aiChatStatus');
+  const modelSelect = document.getElementById('aiChatModelSelect');
+
+  if (!input) return;
+  const promptText = input.value.trim();
+  if (!promptText) return;
+
+  const selectedModel = (modelSelect && modelSelect.value) || 'gpt-4o-mini';
+
+  // Check TMA restrictions
+  if (isTelegramMiniApp()) {
+    const hasPuterToken = (typeof localStorage !== 'undefined' && (localStorage.getItem('puter.auth.token') || localStorage.getItem('puter_token')));
+    if (!hasPuterToken) {
+      appendAiChatMessage('user', promptText);
+      input.value = '';
+      appendAiChatMessage('assistant', `⚠️ **Running inside Telegram Mini App**\n\nTelegram's in-app webview blocks Puter.js authentication popups. To chat with the AI Mentor for free with zero billing limits, please tap below to open IELTS Prep Studio in Chrome, Safari, or your default browser:\n\n[🌐 Open in External Browser ↗](action:external_browser)`);
+      const notice = document.getElementById('aiChatTmaNotice');
+      if (notice) notice.style.display = 'flex';
+      return;
+    }
+  }
+
+  // Append user message
+  appendAiChatMessage('user', promptText);
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Append typing indicator
+  const stream = document.getElementById('aiChatStream');
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'ai-chat-msg assistant';
+  typingDiv.id = 'aiChatTyping';
+  typingDiv.innerHTML = `
+    <div class="ai-chat-avatar">🤖</div>
+    <div class="ai-chat-bubble" style="padding:8px 14px;">
+      <div class="ai-typing-indicator">
+        <span style="font-size:0.78rem; color:var(--text-secondary); margin-right:4px;">Cambridge Mentor is thinking...</span>
+        <span class="ai-typing-dot"></span>
+        <span class="ai-typing-dot"></span>
+        <span class="ai-typing-dot"></span>
+      </div>
+    </div>
+  `;
+  if (stream) {
+    stream.appendChild(typingDiv);
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  if (sendBtn) sendBtn.disabled = true;
+  if (status) status.textContent = `Status: Synthesizing with ${selectedModel}...`;
+
+  // Maintain sliding window conversation history (last 8 turns)
+  aiChatMessages.push({ role: 'user', content: promptText });
+  if (aiChatMessages.length > 8) {
+    aiChatMessages = aiChatMessages.slice(-8);
+  }
+
+  try {
+    // Check if Puter.js is loaded
+    if (typeof window.puter === 'undefined' || !window.puter.ai || typeof window.puter.ai.chat !== 'function') {
+      throw new Error('Puter.js SDK is not loaded. Please verify your internet connection or disable ad-blockers.');
+    }
+
+    const messagesPayload = [
+      { role: 'system', content: AI_MENTOR_SYSTEM_PROMPT },
+      ...aiChatMessages
+    ];
+
+    const response = await window.puter.ai.chat(messagesPayload, false, { model: selectedModel });
+
+    let replyText = '';
+    if (typeof response === 'string') {
+      replyText = response;
+    } else if (response && response.message && response.message.content) {
+      replyText = response.message.content;
+    } else if (response && response.text) {
+      replyText = response.text;
+    } else if (response && typeof response.toString === 'function') {
+      replyText = response.toString();
+    }
+
+    if (!replyText || replyText.trim().length === 0) {
+      throw new Error('Empty response received from AI model.');
+    }
+
+    // Remove typing indicator
+    const typingEl = document.getElementById('aiChatTyping');
+    if (typingEl) typingEl.remove();
+
+    aiChatMessages.push({ role: 'assistant', content: replyText });
+    appendAiChatMessage('assistant', replyText);
+    if (status) status.textContent = `Status: Ready (${selectedModel})`;
+  } catch (err) {
+    console.error('[AI Mentor Error]', err);
+    const typingEl = document.getElementById('aiChatTyping');
+    if (typingEl) typingEl.remove();
+
+    let errFeedback = `⚠️ **Error connecting to AI Mentor**: ${err.message || 'Unknown network error'}`;
+    if (String(err).includes('popup') || String(err).includes('blocked') || isTelegramMiniApp()) {
+      errFeedback = `⚠️ **Browser Popup Required**\n\nTelegram's in-app webview blocked the Puter.js authorization window. Tap below to launch IELTS Prep Studio in Chrome, Safari, or your default browser with your full VIP Pass & history preserved:\n\n[🌐 Open in External Browser ↗](action:external_browser)`;
+    }
+    appendAiChatMessage('assistant', errFeedback);
+    if (status) status.textContent = 'Status: Error';
+  } finally {
+    if (sendBtn) sendBtn.disabled = false;
+  }
+}
+
 </script>
 
   <!-- Tab 4 Upgrade: Active Collocation Cloze Gate Modal (Lexicon 2.0) -->
@@ -12394,6 +13138,7 @@ async function executeVipQuoteSearch() {
 <!-- Mobile Floating Action Button (FAB) -->
 <div id="mobileFabContainer">
   <div class="mobile-fab-menu" id="mobileFabMenu">
+    <button class="mobile-fab-item" onclick="switchView('aichat'); toggleMobileFab();">🤖 AI Mentor</button>
     <button class="mobile-fab-item" onclick="switchView('tools'); toggleMobileFab();">⚡ VIP Academic Tools</button>
     <button class="mobile-fab-item" onclick="switchView('speaking'); toggleMobileFab();">🎙️ Speaking Studio</button>
     <button class="mobile-fab-item" onclick="switchView('lexicon'); toggleMobileFab();">🔤 Vocab Flashcards</button>
