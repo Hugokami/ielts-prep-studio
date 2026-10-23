@@ -17,6 +17,25 @@
 
 ---
 
+## 👑 Free Plan vs. Lifetime VIP Studio Pass
+
+| Feature / Resource | Free Plan (Default Scholar) | Lifetime VIP Studio Pass (👑) |
+| :--- | :--- | :--- |
+| **Pricing** | **0 MMK / $0 Free Forever** | **55,000 MMK** (one-time) or **750 ★ Telegram Stars** |
+| **Access Scope** | Single browser (local storage) | **Multi-device cloud sync** (Telegram Mini App + Desktop PC/Mac) |
+| **Desktop Activation** | Not available | **Unique Cryptographic Voucher** (`IPS-VIP-XXXX-YYYY`) for PC/Mac |
+| **Academic Lexicon** | 250 Core Words | **1,162 Academic Items** + full Leitner 1-3-7 Spaced Repetition |
+| **Reading CBT Tests** | 3 Passages (30 Questions) | **23 Complete Cambridge Passages (231 Questions)** with split-pane CBT |
+| **Writing Model Essays**| 5 Models | **40 Band 9 Models** (Task 1 charts/maps/processes + Task 2 arguments) |
+| **AI Writing Evaluations**| **5 checks / month** | **60 checks / month** (CEFR 90/10 analytical criteria + sentence rewrites) |
+| **AI Speaking Assistant**| **10 checks / month** | **Unlimited AI Speech Evaluations** + 30 seasonal forecast topics |
+| **Speaking Frameworks** | PREP only | **All 5 Frameworks** (PREP, STAR, PEEP, Cause-Effect, Past-Present-Future) |
+| **Paraphrasing Drills** | **10 drills / day** | **Unlimited Daily Drills** + Part 17 Academic Cloze + Mistake History Log |
+| **Cambridge AI Mentor** | **10 daily queries** (Edge tools) | **Unlimited AI Mentor Queries** (4-tier zero-cost serverless failover) |
+| **Future Cambridge Books**| Base content | **Lifetime updates** (all upcoming Cambridge tests & forecasts included) |
+
+---
+
 ## 🚀 Key Features
 
 * **7 Core Study Hubs**:
@@ -56,7 +75,7 @@ python -m http.server 8080
 
 ### 2. Telegram Mini App
 Open Telegram and start the official bot:
-**[@IELTSPrepStudioBot](https://t.me/IELTSPrepStudioBot)** or tap the bottom-left **`[ ▭ Open App ]`** button.
+**[@IELTSPrepStudioBot](https://t.me/IELTSPrepStudioBot)** or tap the bottom-left **`[ 🚀 Open App ]`** button.
 
 ---
 
