@@ -594,6 +594,36 @@ _Need assistance? Lead Instructor: @hyuguo_`;
     }
 
     // Direct Telegram Stars Checkout Shortcut
+    
+    // 🤖 Cambridge AI Mentor Commands (/mentor, /ai, /ask, or menu tap)
+    if (text.startsWith("/mentor") || text.startsWith("/ai") || text.startsWith("/ask") || text === "🤖 Cambridge AI Mentor" || text === "🤖 AI Mentor") {
+      let query = text.replace(/^\/(mentor|ai|ask)(@\w+)?\s*/i, "").replace(/^🤖\s*(Cambridge\s*)?AI\s*Mentor/i, "").trim();
+      if (!query) {
+        await sendTelegramMessage(botToken, chatId,
+`🤖 *CAMBRIDGE AI MENTOR & IN-APP COPILOT*
+━━━━━━━━━━━━━━━━━━━━
+Your personal Cambridge Band 8.5+ IELTS Tutor powered by Cloudflare Serverless AI.
+
+*Ask any IELTS question:*
+• \`/ai How do I score Band 8.0 in Speaking Part 2?\`
+• \`/ai Write a Band 9 outline for: Should university education be free?\`
+• \`/ai Explain the 4 scoring criteria of Writing Task 2 with examples\`
+• \`/ai What are the best tactics for True / False / Not Given?\`
+
+_Or simply reply directly with any IELTS question below!_`,
+          {
+            inline_keyboard: [
+              [{ text: "🚀 Open AI Mentor in Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+            ]
+          }
+        );
+        return jsonResponse({ ok: true });
+      }
+
+      await handleTelegramAiMentorQuery(env, botToken, chatId, userId, query);
+      return jsonResponse({ ok: true });
+    }
+
     if (text === "/buy_stars" || text.startsWith("/start buy_stars")) {
       await sendStarsInvoice(botToken, chatId, userId);
       return jsonResponse({ ok: true });
@@ -1386,6 +1416,12 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
         return jsonResponse({ ok: true });
       }
 
+      // Conversational Fallback: Route natural questions directly to Cambridge AI Mentor!
+      if (text && text.length >= 3 && !text.startsWith("/")) {
+        await handleTelegramAiMentorQuery(env, botToken, chatId, userId, text);
+        return jsonResponse({ ok: true });
+      }
+
       // Default fallback
       await sendTelegramMessage(botToken, chatId,
 `🇲🇲 *မင်္ဂလာပါ! IELTS Prep Studio Bot မှ ကြိုဆိုပါသည်။*
@@ -2027,6 +2063,117 @@ ${tipData.tip.explanation}`;
 // ==========================================
 // 7. TELEGRAM BOT API CALLS
 // ==========================================
+
+async function sendTelegramChatAction(botToken, chatId, action = "typing") {
+  try {
+    await fetch(`https://api.telegram.org/bot${botToken}/sendChatAction`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, action: action })
+    });
+  } catch (e) {}
+}
+
+async function handleTelegramAiMentorQuery(env, botToken, chatId, userId, promptText) {
+  if (!promptText || promptText.trim().length === 0) return;
+  const cleanPrompt = promptText.trim();
+
+  await sendTelegramChatAction(botToken, chatId, "typing");
+
+  const isVip = await resolveIsVip(env, userId);
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  if (!quota.allowed) {
+    await sendTelegramMessage(botToken, chatId,
+`⚠️ *DAILY AI MENTOR QUOTA REACHED (10/10)*
+━━━━━━━━━━━━━━━━━━━━
+You have reached your daily free limit of 10 AI queries today.
+
+👑 *Upgrade to Lifetime VIP Pass (55,000 MMK)* for unlimited 24/7 access to Cambridge AI Mentor, all CBT tests, and Band 9 model answers!`,
+      {
+        inline_keyboard: [
+          [{ text: "👑 Get VIP Pass (55,000 MMK)", callback_data: "pay_manual" }],
+          [{ text: "⭐ Pay with Telegram Stars (750 Stars)", callback_data: "pay_stars" }],
+          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+        ]
+      }
+    );
+    return;
+  }
+
+  const systemPrompt = `You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.
+You provide Band 8.5+ IELTS preparation advice, essay evaluations, speaking frameworks, and vocabulary.
+Keep explanations structured, concise, and highly actionable. Format with clean bullet points and clear headings.
+Support both English and Burmese (မြန်မာဘာသာ) when appropriate.`;
+
+  let replyText = "";
+  let modelUsed = "Llama 3.2 3B";
+
+  if (env.AI) {
+    try {
+      const aiRes = await env.AI.run("@cf/meta/llama-3.2-3b-instruct", {
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: cleanPrompt }
+        ],
+        max_tokens: 700
+      });
+      replyText = (aiRes && (aiRes.response || aiRes.text)) || (typeof aiRes === "string" ? aiRes : "");
+    } catch (e) {
+      console.warn("[Telegram AI Mentor] Primary Workers AI busy:", e);
+    }
+  }
+
+  if (!replyText) {
+    try {
+      const pRes = await fetch("https://text.pollinations.ai/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "openai",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: cleanPrompt }
+          ],
+          seed: 42
+        })
+      });
+      if (pRes.ok) {
+        const pData = await pRes.json();
+        if (pData && pData.choices && pData.choices[0] && pData.choices[0].message) {
+          replyText = pData.choices[0].message.content.trim();
+          modelUsed = "High-Speed Neural Core";
+        }
+      }
+    } catch (e2) {
+      console.error("[Telegram AI Mentor] Secondary failover error:", e2);
+    }
+  }
+
+  if (!replyText) {
+    await sendTelegramMessage(botToken, chatId,
+`⚠️ *AI MENTOR CONNECTION NOTICE*
+━━━━━━━━━━━━━━━━━━━━
+The Cambridge AI Mentor is experiencing high traffic. Please try asking again in a few moments or open the web app to chat live!`,
+      {
+        inline_keyboard: [
+          [{ text: "🚀 Open Web App AI Mentor", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+        ]
+      }
+    );
+    return;
+  }
+
+  const quotaNote = isVip ? "👑 VIP Unlimited" : `📊 Quota: ${quota.remaining} queries left today`;
+  const formattedMsg = `🤖 *CAMBRIDGE AI MENTOR*\n━━━━━━━━━━━━━━━━━━━━\n${replyText}\n\n_${quotaNote} • Cambridge AI Core_`;
+
+  await sendTelegramMessage(botToken, chatId, formattedMsg, {
+    inline_keyboard: [
+      [{ text: "🚀 Continue in Studio Web App", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }],
+      [{ text: "👑 VIP Pass Info", callback_data: "pricing" }]
+    ]
+  });
+}
+
 async function sendTelegramMessage(botToken, chatId, text, replyMarkup = null) {
   const payload = {
     chat_id: chatId,
@@ -2305,7 +2452,8 @@ function getMainMenuKeyboard(env, isVip = false, userId = null, voucher = null) 
     return {
       keyboard: [
         [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }],
-        [{ text: "⚡ VIP Academic Tools" }, { text: "👑 VIP Status: Active" }],
+        [{ text: "🤖 Cambridge AI Mentor" }, { text: "⚡ VIP Academic Tools" }],
+        [{ text: "👑 VIP Status: Active" }],
         [{ text: "📖 Scholarly Cloze Drill" }, { text: "🎙️ Native Podcasts" }],
         [{ text: "📚 Curriculum & Features" }, { text: "📊 My Study & VIP Status" }],
         [{ text: "💬 Chat with Lead Instructor" }, { text: "📅 Exam Countdown" }],
@@ -2322,7 +2470,8 @@ function getMainMenuKeyboard(env, isVip = false, userId = null, voucher = null) 
   return {
     keyboard: [
       [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }],
-      [{ text: "⚡ VIP Academic Tools" }, { text: "👑 Buy VIP (750 ★ / 55k)" }],
+      [{ text: "🤖 Cambridge AI Mentor" }, { text: "⚡ VIP Academic Tools" }],
+      [{ text: "👑 Buy VIP (750 ★ / 55k)" }],
       [{ text: "📚 Curriculum & Features" }, { text: "📊 My Study & VIP Status" }],
       [{ text: "💳 Payment Info" }, { text: "📅 Exam Countdown" }],
       [{ text: "💡 Band 9 Tip of the Day" }, { text: "👨‍🏫 Contact Support" }],

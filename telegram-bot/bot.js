@@ -340,6 +340,12 @@ const ACADEMIC_WOTD_BANK = [
 // ==========================================
 // 1. STUDENT ONBOARDING & PAYMENT DETAILS
 // ==========================================
+
+bot.command(['ai', 'mentor', 'ask'], async (ctx) => {
+  const text = ctx.message.text.replace(/^\/(ai|mentor|ask)(@\w+)?\s*/i, '').trim();
+  await handleAiMentor(ctx, text);
+});
+
 bot.command('start', async (ctx) => {
   const user = ctx.from;
   const isUserAdmin = isAdmin(ctx);
@@ -1031,6 +1037,10 @@ bot.on('callback_query:data', async (ctx) => {
 // 4. STUDENT TEXT INTAKE (PENDING TOOLS)
 // ==========================================
 bot.on('message:text', async (ctx, next) => {
+  if (text === '🤖 Cambridge AI Mentor' || text === '🤖 AI Mentor') {
+    return handleAiMentor(ctx, '');
+  }
+
   const text = (ctx.message?.text || '').trim();
   const userId = ctx.from?.id;
   const isVip = isUserVip(userId);
@@ -1257,6 +1267,100 @@ async function handleToolsMenu(ctx) {
   await ctx.reply(menuMsg, {
     parse_mode: 'Markdown',
     reply_markup: keyboard
+  });
+}
+
+
+async function handleAiMentor(ctx, rawPrompt) {
+  const userId = ctx.from.id;
+  const prompt = (rawPrompt || '').trim();
+
+  if (!prompt) {
+    userPendingActions.set(userId, 'aimentor');
+    return ctx.reply(
+`🤖 *CAMBRIDGE AI MENTOR & IN-APP COPILOT*
+━━━━━━━━━━━━━━━━━━━━
+Your personal Band 8.5+ IELTS Tutor powered by Cambridge AI Core.
+
+*Ask any IELTS question:*
+• \`/ai How do I score Band 8.0 in Speaking Part 2?\`
+• \`/ai Write a Band 9 outline for: Should university education be free?\`
+• \`/ai Explain the 4 scoring criteria of Writing Task 2 with examples\`
+• \`/ai What are the best tactics for True / False / Not Given?\`
+
+✍️ *Type your IELTS question now:*`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard().webApp('🚀 Open Studio AI Mentor', WEB_URL)
+      }
+    );
+  }
+
+  const isVip = isUserVip(userId);
+  const quota = checkAndConsumeQuota(userId);
+  if (!quota.allowed) {
+    return ctx.reply(getQuotaExceededMessage(), {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+    });
+  }
+
+  // Send typing indicator
+  try { await ctx.replyWithChatAction('typing'); } catch (e) {}
+
+  const systemPrompt = `You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.
+You provide Band 8.5+ IELTS preparation advice, essay evaluations, speaking frameworks, and vocabulary.
+Keep explanations structured, concise, and highly actionable. Format with clean bullet points and clear headings.
+Support both English and Burmese (မြန်မာဘာသာ) when appropriate.`;
+
+  let replyText = '';
+  let modelUsed = 'Cambridge Neural Core';
+
+  // Attempt High-Speed Zero-Key Neural Core (Pollinations OpenAI)
+  try {
+    const res = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'openai',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: prompt }
+        ],
+        seed: 42
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.choices && data.choices[0] && data.choices[0].message) {
+        replyText = data.choices[0].message.content.trim();
+      }
+    }
+  } catch (err) {
+    console.error('[Bot AI Mentor Error]', err);
+  }
+
+  if (!replyText) {
+    return ctx.reply(
+`⚠️ *AI MENTOR NOTICE*
+━━━━━━━━━━━━━━━━━━━━
+The Cambridge AI Mentor is experiencing high traffic. Please try asking again in a few moments or open the live Web App!`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard().webApp('🚀 Open Studio AI Mentor', WEB_URL)
+      }
+    );
+  }
+
+  const quotaNote = isVip ? '👑 VIP Unlimited' : `📊 Quota: ${quota.remaining} queries left today`;
+  const formattedMsg = `🤖 *CAMBRIDGE AI MENTOR*\n━━━━━━━━━━━━━━━━━━━━\n${replyText}\n\n_${quotaNote} • Cambridge AI Core_`;
+
+  await ctx.reply(formattedMsg, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .webApp('🚀 Continue in Studio Web App', WEB_URL).row()
+      .text('✍️ Ask Another Question', 'ask_tool:aimentor')
+      .text('⚡ VIP Tools', 'menu_tools')
   });
 }
 
