@@ -5325,6 +5325,18 @@ body[data-active-tab="aichat"] #speakFloatingCopilot {
   font-size: 1.25rem;
   box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
   flex-shrink: 0;
+  overflow: visible;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+.uiv-avatar-wrap:hover {
+  transform: scale(1.05);
+}
+.uiv-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 .uiv-avatar-pulse {
   position: absolute;
@@ -7090,8 +7102,8 @@ body.dark .speak-streak-btn.star-btn {
     <!-- 1. TOP SCHOLAR WELCOME & TARGET BAND BAR -->
     <div class="speak-dashboard-header uiv-animate-enter uiv-delay-1" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:18px;">
       <div style="display:flex; align-items:center; gap:14px;">
-        <div class="uiv-avatar-wrap">
-          <span>👤</span>
+        <div class="uiv-avatar-wrap" id="scholarAvatarWrap" onclick="handleAuthAction()" title="Scholar Profile &amp; Cloud Sync" style="cursor:pointer;">
+          <span id="scholarAvatarInner" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; border-radius:50%; overflow:hidden;">👤</span>
           <div class="uiv-avatar-pulse" title="Cambridge AI Mentor Online &amp; Ready"></div>
         </div>
         <div>
@@ -10467,6 +10479,48 @@ function triggerCloudSync() {
   if (modal) modal.style.display = "flex";
 }
 
+function updateScholarAvatar(photoUrl, displayName) {
+  const avatarWrap = document.getElementById("scholarAvatarWrap");
+  const avatarInner = document.getElementById("scholarAvatarInner");
+  const welcomeEl = document.getElementById("speakWelcomeUser");
+
+  if (welcomeEl) {
+    const rawName = displayName ? (displayName.trim().split(' ')[0] || displayName.trim()) : 'Scholar';
+    const cleanName = rawName.replace(/[<>]/g, '');
+    const welcomeText = `Welcome back, ${cleanName}`;
+    if (welcomeEl.getAttribute('data-text') !== welcomeText) {
+      welcomeEl.setAttribute('data-text', welcomeText);
+      welcomeEl.textContent = welcomeText;
+      if (typeof window.decryptEl === 'function') {
+        window.decryptEl(welcomeEl);
+      }
+    }
+  }
+
+  if (!avatarInner) return;
+  if (photoUrl) {
+    avatarInner.innerHTML = `<img src="${photoUrl}" alt="Scholar Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;">`;
+    if (avatarWrap) {
+      avatarWrap.style.background = 'transparent';
+      avatarWrap.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
+    }
+  } else if (displayName) {
+    const initial = (displayName.trim()[0] || 'S').toUpperCase();
+    avatarInner.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${initial}</span>`;
+    if (avatarWrap) {
+      avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+      avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
+    }
+  } else {
+    avatarInner.innerHTML = `<span>👤</span>`;
+    if (avatarWrap) {
+      avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+      avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
+    }
+  }
+}
+window.updateScholarAvatar = updateScholarAvatar;
+
 function updateAuthUI() {
   ensureUserProfileInitialized();
   if (typeof window.updateTmaFullscreenUI === 'function') {
@@ -10511,6 +10565,7 @@ function updateAuthUI() {
         authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${(displayName || 'T')[0].toUpperCase()}</span>`;
       }
     }
+    updateScholarAvatar(tgUser.photo_url, displayName);
     if (dd) {
       dd.innerHTML = `
         <div class="account-dropdown-header">
@@ -10571,6 +10626,7 @@ function updateAuthUI() {
     if (authIcon) {
       authIcon.innerHTML = `<img src="${window.currentUser.photoURL}" class="auth-avatar" alt="Avatar">`;
     }
+    updateScholarAvatar(window.currentUser.photoURL, window.currentUser.displayName);
     if (dd) {
       const spkQuota = canUseSpeakingEvaluation();
       const wrtQuota = canUseWritingCheck();
@@ -10624,6 +10680,7 @@ function updateAuthUI() {
   } else {
     if (authLabel) authLabel.textContent = "Sign In";
     if (authIcon) authIcon.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>`;
+    updateScholarAvatar(null, null);
     closeAccountModal();
   }
   updateLexiconCounters();
@@ -18049,17 +18106,23 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
 </script>
 
-<!-- Motion-Anything: decrypted-text kinetic typography runner (/open-design) -->
+<!-- Motion-Anything: decrypted-text kinetic typography runner with slow organic loop (/open-design) -->
 <script>
 (function(g){
   'use strict';
   var CH = '!<>-_\\/[]{}=+*^?#';
   function red(){ return g.matchMedia && g.matchMedia('(prefers-reduced-motion: reduce)').matches; }
-  function run(el){
+
+  function run(el, onComplete){
     var target = el.getAttribute('data-text') || el.textContent.trim();
-    if (red() || !target) { el.textContent = target; return; }
+    if (red() || !target) {
+      el.textContent = target;
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
     var frame = 0;
     clearInterval(el.__d);
+    // Smooth cinematic glyph resolving cadence (38ms)
     el.__d = setInterval(function(){
       var out = '';
       for (var i = 0; i < target.length; i++) {
@@ -18076,23 +18139,74 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       if (frame / 2 >= target.length) {
         clearInterval(el.__d);
         el.textContent = target;
+        if (typeof onComplete === 'function') onComplete();
       }
-    }, 28);
+    }, 38);
   }
-  function attach(el){
+
+  function startSlowLoop(el, delayMs){
+    if (red()) return;
+    clearTimeout(el.__loopTimer);
+
+    function scheduleNext(){
+      clearTimeout(el.__loopTimer);
+      el.__loopTimer = setTimeout(function(){
+        // Only run when browser tab is active and element is currently rendered in DOM
+        if (document.hidden || el.offsetParent === null) {
+          scheduleNext();
+          return;
+        }
+        run(el, function(){
+          scheduleNext();
+        });
+      }, delayMs || 8000);
+    }
+
+    run(el, function(){
+      scheduleNext();
+    });
+  }
+
+  function attach(el, idx){
     if (el.__dec) return;
     el.__dec = 1;
     var initialText = el.getAttribute('data-text') || el.textContent.trim();
     el.setAttribute('data-text', initialText);
-    el.addEventListener('mouseenter', function(){ run(el); });
-    el.addEventListener('touchstart', function(){ run(el); }, {passive: true});
-    run(el);
+
+    // Stagger loop intervals (7.5s for hero headline, 9.5s for greeting)
+    var loopInterval = 7500 + (idx * 2000);
+
+    el.addEventListener('mouseenter', function(){
+      clearTimeout(el.__loopTimer);
+      run(el, function(){
+        startSlowLoop(el, loopInterval);
+      });
+    });
+    el.addEventListener('touchstart', function(){
+      clearTimeout(el.__loopTimer);
+      run(el, function(){
+        startSlowLoop(el, loopInterval);
+      });
+    }, {passive: true});
+
+    startSlowLoop(el, loopInterval);
   }
+
   function init(){
     var els = document.querySelectorAll('.decrypt');
-    for (var i = 0; i < els.length; i++) attach(els[i]);
+    for (var i = 0; i < els.length; i++) attach(els[i], i);
   }
-  g.decryptEl = run;
+
+  g.decryptEl = function(el){
+    if (!el) return;
+    var target = el.getAttribute('data-text') || el.textContent.trim();
+    el.setAttribute('data-text', target);
+    clearTimeout(el.__loopTimer);
+    run(el, function(){
+      startSlowLoop(el, 8500);
+    });
+  };
+
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })(window);
