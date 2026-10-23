@@ -1313,6 +1313,37 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 
     // Student Photo Submission (Payment Receipt Slip)
     if (msg.photo && msg.photo.length > 0) {
+      // Security & Mistake Prevention: Only forward slip and alert admin if user clicked Buy VIP
+      let isAwaitingSlip = false;
+      try {
+        const userRec = await env.DB.prepare("SELECT pending_tool FROM users WHERE telegram_id = ?").bind(userId).first();
+        if (userRec && userRec.pending_tool === 'vip_slip') {
+          isAwaitingSlip = true;
+          // Clear pending tool
+          await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(userId).run();
+        }
+      } catch (err) {
+        console.error("[Check VIP Slip State Error]", err);
+      }
+
+      if (!isAwaitingSlip) {
+        // User sent a photo without clicking Buy VIP
+        await sendTelegramMessage(botToken, chatId,
+`📸 *ဓာတ်ပုံ လက်ခံရရှိပါသည်!*
+━━━━━━━━━━━━━━━━━━━━
+သင်သည် **Lifetime VIP Pass (55,000 MMK)** ဝယ်ယူရန် ငွေလွှဲစလစ် (Screenshot) ပေးပို့လိုခြင်း ဖြစ်ပါက အောက်ပါ **"👑 Buy Lifetime VIP"** ခလုတ်ကို အရင်နှိပ်ပြီးမှ စလစ်ပေးပို့ပေးပါ ခင်ဗျာ။
+
+_(To avoid mistakes, approval requests are only sent to Admin after clicking the Buy VIP button below.)_`,
+          {
+            inline_keyboard: [
+              [{ text: "👑 Buy Lifetime VIP (55,000 MMK)", callback_data: "info_payment" }],
+              [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            ]
+          }
+        );
+        return jsonResponse({ ok: true });
+      }
+
       const highestPhoto = msg.photo[msg.photo.length - 1];
       const fileId = highestPhoto.file_id;
       const caption = msg.caption || "";
@@ -1644,6 +1675,47 @@ Have a lifetime voucher code (e.g. \`IPS-VIP-XXXX-YYYY\`)?
       return jsonResponse({ ok: true });
     }
 
+    // 1.05 Pricing & Cancel VIP Slip Handlers
+    if (data === "pricing") {
+      await answerCallbackQuery(botToken, cb.id);
+      const pricingMsg = 
+`👑 *IELTS PREP STUDIO — LIFETIME VIP PASS*
+━━━━━━━━━━━━━━━━━━━━
+Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps
+
+⭐ *Worldwide Investment:* *750 ★ Telegram Stars (~$15 USD)*
+🇲🇲 *Myanmar Local Price:* *55,000 MMK* (KBZPay / WavePay)
+_One-Time Investment • Lifetime Access • Zero Subscriptions_
+
+🎁 *Everything You Unlock Forever:*
+• 🔤 All 1,162 Vocabulary Items, Native Audio & 1-3-7 SRS
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Analyzer
+• 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• ☁️ Multi-Device Cloud Sync + Desktop PC VIP Voucher Code
+
+👇 *ငွေပေးချေမှု စနစ်ကို အောက်ပါ Menu မှ ရွေးချယ်နိုင်ပါသည်:*`;
+
+      await sendTelegramMessage(botToken, cbChatId, pricingMsg, {
+        inline_keyboard: [
+          [{ text: "🇲🇲 KBZPay / WavePay Slip (55,000 MMK — Myanmar)", callback_data: "info_payment" }],
+          [{ text: "⭐️ Pay with Telegram Stars (750 ★ Instant Worldwide)", callback_data: "pay_stars" }],
+          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+        ]
+      });
+      return jsonResponse({ ok: true });
+    }
+
+    if (data === "cancel_vip_slip") {
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = NULL WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {}
+      await answerCallbackQuery(botToken, cb.id, "VIP purchase cancelled.");
+      await sendTelegramMessage(botToken, cbChatId, "ℹ️ VIP ဝယ်ယူမှုအား ပယ်ဖျက်လိုက်ပါပြီ။ လိုအပ်ပါက အချိန်မရွေး ပြန်လည် ဝယ်ယူနိုင်ပါသည်။");
+      return jsonResponse({ ok: true });
+    }
+
     // 1. Info payment button
     if (data === "info_payment") {
       if (isVip) {
@@ -1668,6 +1740,13 @@ No payment is required.
         return jsonResponse({ ok: true });
       }
 
+      // Flag user as actively awaiting slip submission
+      try {
+        await env.DB.prepare("UPDATE users SET pending_tool = 'vip_slip' WHERE telegram_id = ?").bind(cbUserId).run();
+      } catch (e) {
+        console.error("[Set pending_tool vip_slip Error]", e);
+      }
+
       await answerCallbackQuery(botToken, cb.id, "KBZPay / WavePay: 09-768691939 (Lyan Htet)");
       const payMsg = 
 `💳 *LIFETIME STUDIO VIP PASS — 55,000 MMK*
@@ -1676,9 +1755,11 @@ No payment is required.
 👤 *Account Name:* *${env.ACCOUNT_NAME || "Lyan Htet"}*
 💰 *Amount:* *55,000 MMK* (Lifetime Access)
 
-ငွေလွှဲပြီးပါက စလစ် Screenshot ကို ဤ Chat သို့ ပို့ပေးပါ ခင်ဗျာ!`;
+📸 *ငွေလွှဲပြီးပါက:*
+ငွေလွှဲပြေစာ Screenshot (Slip) ကို ဤ Chat သို့ ချက်ချင်း ပေးပို့ပေးပါ ခင်ဗျာ။ Admin ထံသို့ စစ်ဆေးအတည်ပြုရန် ချက်ချင်း တင်ပြပေးပါမည်!`;
       await sendTelegramMessage(botToken, cbChatId, payMsg, {
         inline_keyboard: [
+          [{ text: "❌ Cancel / မဝယ်တော့ပါ", callback_data: "cancel_vip_slip" }],
           [{ text: "💬 Contact Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });

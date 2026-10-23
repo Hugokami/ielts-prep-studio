@@ -480,6 +480,24 @@ bot.on('message:photo', async (ctx) => {
     return ctx.reply('ℹ️ Admin upload detected. To test approval flow, send photo from a student account.');
   }
 
+  // Security & Mistake Prevention: Only forward slip to Admin if user clicked Buy VIP
+  const isAwaitingSlip = userPendingActions.get(user.id) === 'vip_slip';
+  if (!isAwaitingSlip) {
+    return ctx.reply(
+      `📸 **ဓာတ်ပုံ လက်ခံရရှိပါသည်!**\n━━━━━━━━━━━━━━━━━━━━\n` +
+      `သင်သည် **Lifetime VIP Pass (55,000 MMK)** ဝယ်ယူရန် ငွေလွှဲစလစ် (Screenshot) ပေးပို့လိုခြင်း ဖြစ်ပါက အောက်ပါ **"👑 Buy Lifetime VIP"** ခလုတ်ကို အရင်နှိပ်ပြီးမှ စလစ်ပေးပို့ပေးပါ ခင်ဗျာ။\n\n` +
+      `_(To avoid mistakes, approval requests are only sent to Admin after clicking the Buy VIP button below.)_`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard()
+          .text('👑 Buy Lifetime VIP (55,000 MMK)', 'info_payment')
+          .row()
+          .webApp('🚀 Open Studio Web App', WEB_URL)
+      }
+    );
+  }
+  userPendingActions.delete(user.id);
+
   // Anti-Fraud Check: Slip Replay Detection
   const fileUniqueId = photo.file_unique_id;
   const isDuplicateSlip = voucherPool.hasSlip(fileUniqueId);
@@ -794,6 +812,35 @@ bot.on('callback_query:data', async (ctx) => {
   // ==========================================
   await ctx.answerCallbackQuery().catch(() => {});
 
+  if (data === 'pricing') {
+    return ctx.reply(
+      `👑 **IELTS PREP STUDIO — LIFETIME VIP PASS**\n━━━━━━━━━━━━━━━━━━━━\n` +
+      `Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps\n\n` +
+      `⭐ **Worldwide Investment:** **750 ★ Telegram Stars (~$15 USD)**\n` +
+      `🇲🇲 **Myanmar Local Price:** **55,000 MMK** (KBZPay / WavePay)\n` +
+      `_One-Time Investment • Lifetime Access • Zero Subscriptions_\n\n` +
+      `👇 **Choose your checkout method below:**`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard()
+          .text('🇲🇲 KBZPay / WavePay (55,000 MMK)', 'info_payment')
+          .row()
+          .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+          .row()
+          .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
+      }
+    );
+  }
+
+  if (data === 'cancel_vip_slip') {
+    userPendingActions.delete(ctx.from?.id);
+    await ctx.answerCallbackQuery({ text: 'VIP purchase cancelled.' }).catch(() => {});
+    return ctx.reply(
+      `ℹ️ VIP ဝယ်ယူမှုအား ပယ်ဖျက်လိုက်ပါပြီ။ လိုအပ်ပါက အချိန်မရွေး ပြန်လည် ဝယ်ယူနိုင်ပါသည်။`,
+      { parse_mode: 'Markdown' }
+    );
+  }
+
   if (data === 'menu_tools') {
     return handleToolsMenu(ctx);
   }
@@ -997,6 +1044,9 @@ bot.on('callback_query:data', async (ctx) => {
 
   if (data === 'info_payment') {
     const isVip = isUserVip(ctx.from?.id);
+    if (!isVip) {
+      userPendingActions.set(ctx.from?.id, 'vip_slip');
+    }
     if (isVip) {
       await ctx.answerCallbackQuery({ text: '👑 You are already a VIP user!' }).catch(() => {});
       return ctx.reply(
