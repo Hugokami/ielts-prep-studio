@@ -147,7 +147,8 @@
     "mmMeaning": "အလျင်အမြန် ပွားများလာသည်",
     "mmNote": "ပလတ်စတစ်အမှိုက်များ သို့မဟုတ် နည်းပညာအသစ်များ အလျင်အမြန် ပျံ့နှံ့ပွားများလာခြင်းကို ဖော်ပြရာတွင် သုံးသည်။",
     "exEn": "Single-use plastics have proliferated across global supply chains over the past half-century.",
-    "exMm": "တစ်ခါသုံးပလတ်စတစ်များသည် လွန်ခဲ့သည့် ရာစုနှစ်ဝက်အတွင်း ကမ္ဘာ့ကုန်သွယ်ရေးကွင်းဆက်တစ်လျှောက် အလျင်အမြန် ပွားများလာခဲ့သည်။"
+    "exMm": "တစ်ခါသုံးပလတ်စတစ်များသည် လွန်ခဲ့သည့် ရာစုနှစ်ဝက်အတွင်း ကမ္ဘာ့ကုန်သွယ်ရေးကွင်းဆက်တစ်လျှောက် အလျင်အမြန် ပွားများလာခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v7",
@@ -221,7 +222,8 @@
     "mmMeaning": "နောက်ကြောင်းပြန်လှည့်၍ မရနိုင်သော၊ ပြန်လည်ပြုပြင်၍မရသော",
     "mmNote": "မျိုးသုဉ်းပျောက်ကွယ်မှုနှင့် ရာသီဥတုပျက်စီးမှုများအတွက် 'irreversible ecological damage' ဟု သုံးသည်။",
     "exEn": "Delaying carbon reduction targets may push global ecosystems past an irreversible tipping point.",
-    "exMm": "ကာဗွန်လျှော့ချရေး ရည်မှန်းချက်များကို ဆိုင်းငံ့ထားခြင်းသည် ကမ္ဘာ့ဂေဟစနစ်များကို နောက်ကြောင်းပြန်လှည့်မရနိုင်သော အဆင့်သို့ ရောက်ရှိစေနိုင်သည်။"
+    "exMm": "ကာဗွန်လျှော့ချရေး ရည်မှန်းချက်များကို ဆိုင်းငံ့ထားခြင်းသည် ကမ္ဘာ့ဂေဟစနစ်များကို နောက်ကြောင်းပြန်လှည့်မရနိုင်သော အဆင့်သို့ ရောက်ရှိစေနိုင်သည်။",
+    "collocations": []
   },
   {
     "id": "v10",
@@ -261,7 +263,8 @@
     "synonyms": [
       "syllabus",
       "coursework",
-      "educational program"
+      "educational program",
+      "academic program"
     ],
     "antonyms": [
       "extracurricular activities"
@@ -270,7 +273,8 @@
     "mmMeaning": "သင်ရိုးညွှန်းတမ်း (ဗဟုဝုစ် - Curricula)",
     "mmNote": "ပညာရေးဆိုင်ရာ Writing Task 2 တွင် 'what schools teach' အစား 'the academic curriculum' ဟု သုံးပါ။",
     "exEn": "Modernizing the secondary school curriculum is essential to prepare students for digital careers.",
-    "exMm": "ကျောင်းသားများကို ဒီဂျစ်တယ်အလုပ်အကိုင်များအတွက် ပြင်ဆင်ပေးရန် အထက်တန်းသင်ရိုးညွှန်းတမ်းကို ခေတ်မီအောင် ပြုပြင်ခြင်းသည် မရှိမဖြစ်လိုအပ်သည်။"
+    "exMm": "ကျောင်းသားများကို ဒီဂျစ်တယ်အလုပ်အကိုင်များအတွက် ပြင်ဆင်ပေးရန် အထက်တန်းသင်ရိုးညွှန်းတမ်းကို ခေတ်မီအောင် ပြုပြင်ခြင်းသည် မရှိမဖြစ်လိုအပ်သည်။",
+    "collocations": []
   },
   {
     "id": "v12",
@@ -284,7 +288,9 @@
     "synonyms": [
       "instructional methodology",
       "teaching approach",
-      "didactics"
+      "didactics",
+      "teaching methodology",
+      "instructional approach"
     ],
     "antonyms": [
       "rote learning"
@@ -293,7 +299,8 @@
     "mmMeaning": "သင်ကြားနည်းပညာ၊ ဆရာအတတ်ပညာ",
     "mmNote": "'Teaching ways' အစား 'student-centered pedagogy' ဟု သုံးလျှင် Band 8+ အမှတ်ရစေသည်။",
     "exEn": "Interactive pedagogy encourages critical thinking rather than rote memorization.",
-    "exMm": "အပြန်အလှန်ဆွေးနွေးသင်ကြားသော သင်ကြားနည်းစနစ်သည် အလွတ်ကျက်မှတ်ခြင်းထက် ဝေဖန်ပိုင်းခြားတွေးခေါ်မှုကို အားပေးသည်။"
+    "exMm": "အပြန်အလှန်ဆွေးနွေးသင်ကြားသော သင်ကြားနည်းစနစ်သည် အလွတ်ကျက်မှတ်ခြင်းထက် ဝေဖန်ပိုင်းခြားတွေးခေါ်မှုကို အားပေးသည်။",
+    "collocations": []
   },
   {
     "id": "v13",
@@ -333,7 +340,8 @@
       "observational",
       "experimental",
       "evidence-based",
-      "verifiable"
+      "verifiable",
+      "factual"
     ],
     "antonyms": [
       "theoretical",
@@ -344,7 +352,8 @@
     "mmMeaning": "လက်တွေ့စမ်းသပ်ချက်နှင့် အထောက်အထားပေါ် အခြေခံသော",
     "mmNote": "Reading တွင် 'experiments and real observations' ကို 'empirical evidence' ဟု Paraphrase လုပ်လေ့ရှိသည်။",
     "exEn": "Policy decisions should be grounded in empirical research rather than political ideology.",
-    "exMm": "မူဝါဒဆိုင်ရာ ဆုံးဖြတ်ချက်များသည် နိုင်ငံရေးအယူဝါဒထက် လက်တွေ့သုတေသန အထောက်အထားအပေါ်တွင်သာ အခြေခံသင့်သည်။"
+    "exMm": "မူဝါဒဆိုင်ရာ ဆုံးဖြတ်ချက်များသည် နိုင်ငံရေးအယူဝါဒထက် လက်တွေ့သုတေသန အထောက်အထားအပေါ်တွင်သာ အခြေခံသင့်သည်။",
+    "collocations": []
   },
   {
     "id": "v15",
@@ -359,7 +368,9 @@
       "absorb",
       "comprehend",
       "integrate",
-      "internalize"
+      "internalize",
+      "adapt to",
+      "blend into"
     ],
     "antonyms": [
       "reject",
@@ -369,7 +380,8 @@
     "mmMeaning": "(ဗဟုသုတကို) စုပ်ယူနားလည်သည်၊ ပေါင်းစည်းဝင်ဆံ့သည်",
     "mmNote": "အချက်အလက်အသစ်များကို နားလည်သဘောပေါက်ခြင်း ('assimilate complex information') တွင် သုံးနိုင်သည်။",
     "exEn": "Students need adequate reflection time to assimilate abstract mathematical concepts.",
-    "exMm": "ကျောင်းသားများသည် နက်နဲသော သင်္ချာသဘောတရားများကို စုပ်ယူနားလည်ရန် လုံလောက်သော စဉ်းစားချိန် လိုအပ်သည်။"
+    "exMm": "ကျောင်းသားများသည် နက်နဲသော သင်္ချာသဘောတရားများကို စုပ်ယူနားလည်ရန် လုံလောက်သော စဉ်းစားချိန် လိုအပ်သည်။",
+    "collocations": []
   },
   {
     "id": "v16",
@@ -384,7 +396,8 @@
       "inborn",
       "inherent",
       "intrinsic",
-      "congenital"
+      "congenital",
+      "instinctive"
     ],
     "antonyms": [
       "acquired",
@@ -395,7 +408,8 @@
     "mmMeaning": "မွေးရာပါဖြစ်သော၊ ပင်ကိုသဘာဝဖြစ်သော",
     "mmNote": "Cambridge IELTS 'Nature vs. Nurture' မေးခွန်းများတွင် မွေးရာပါအရည်အချင်းကို 'innate aptitude' ဟု သုံးသည်။",
     "exEn": "Psychologists continue to debate whether leadership is an innate trait or an acquired skill.",
-    "exMm": "ခေါင်းဆောင်မှုစွမ်းရည်သည် မွေးရာပါဗီဇလော သို့မဟုတ် လေ့ကျင့်သင်ယူရသော စွမ်းရည်လောဆိုသည်ကို စိတ်ပညာရှင်များ အခြေအတင် ဆွေးနွေးနေကြဆဲဖြစ်သည်။"
+    "exMm": "ခေါင်းဆောင်မှုစွမ်းရည်သည် မွေးရာပါဗီဇလော သို့မဟုတ် လေ့ကျင့်သင်ယူရသော စွမ်းရည်လောဆိုသည်ကို စိတ်ပညာရှင်များ အခြေအတင် ဆွေးနွေးနေကြဆဲဖြစ်သည်။",
+    "collocations": []
   },
   {
     "id": "v17",
@@ -469,7 +483,8 @@
     "mmMeaning": "ကိုယ်ပိုင်ဆုံးဖြတ်လုပ်ပိုင်ခွင့်ရှိသော၊ အမှီအခိုကင်းသော",
     "mmNote": "ကိုယ်တိုင်လေ့လာသင်ယူသူကို 'autonomous learner' ဟု ခေါ်ပြီး မောင်းသူမဲ့ယာဉ်ကို 'autonomous vehicle' ဟု သုံးသည်။",
     "exEn": "Online platforms empower adults to become autonomous learners at their own pace.",
-    "exMm": "အွန်လိုင်းပလက်ဖောင်းများသည် လူကြီးများကို မိမိတို့၏ အရှိန်အဟုန်ဖြင့် ကိုယ်တိုင်လေ့လာသင်ယူသူများ ဖြစ်လာစေရန် စွမ်းဆောင်ပေးသည်။"
+    "exMm": "အွန်လိုင်းပလက်ဖောင်းများသည် လူကြီးများကို မိမိတို့၏ အရှိန်အဟုန်ဖြင့် ကိုယ်တိုင်လေ့လာသင်ယူသူများ ဖြစ်လာစေရန် စွမ်းဆောင်ပေးသည်။",
+    "collocations": []
   },
   {
     "id": "v20",
@@ -520,7 +535,8 @@
     "mmMeaning": "နေရာတိုင်းတွင် တွေ့ရှိရသော",
     "mmNote": "စမတ်ဖုန်းနှင့် အင်တာနက်သည် နေရာတိုင်းတွင် ရှိနေပြီဟု ရေးလိုလျှင် 'are everywhere' အစား 'have become ubiquitous' ဟု သုံးပါ။",
     "exEn": "Smartphones have become ubiquitous in modern society, transforming interpersonal communication.",
-    "exMm": "စမတ်ဖုန်းများသည် ခေတ်သစ်လူ့အဖွဲ့အစည်းတွင် နေရာတိုင်း၌ ရှိနေပြီဖြစ်ရာ လူအချင်းချင်း ဆက်သွယ်ရေးကို ပြောင်းလဲပစ်ခဲ့သည်။"
+    "exMm": "စမတ်ဖုန်းများသည် ခေတ်သစ်လူ့အဖွဲ့အစည်းတွင် နေရာတိုင်း၌ ရှိနေပြီဖြစ်ရာ လူအချင်းချင်း ဆက်သွယ်ရေးကို ပြောင်းလဲပစ်ခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v22",
@@ -571,7 +587,8 @@
     "mmMeaning": "အပြောင်းအလဲကို အရှိန်မြှင့်ပေးသော အဓိကတွန်းအား",
     "mmNote": "'act as a catalyst for...' ဟု တွဲသုံးပါ။",
     "exEn": "High-speed internet infrastructure acted as a catalyst for rural e-commerce growth.",
-    "exMm": "မြန်နှုန်းမြင့် အင်တာနက် အခြေခံအဆောက်အအုံသည် ကျေးလက် အွန်လိုင်းစီးပွားရေး ဖွံ့ဖြိုးတိုးတက်မှုအတွက် အဓိကတွန်းအား ဖြစ်ခဲ့သည်။"
+    "exMm": "မြန်နှုန်းမြင့် အင်တာနက် အခြေခံအဆောက်အအုံသည် ကျေးလက် အွန်လိုင်းစီးပွားရေး ဖွံ့ဖြိုးတိုးတက်မှုအတွက် အဓိကတွန်းအား ဖြစ်ခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v24",
@@ -597,7 +614,8 @@
     "mmMeaning": "ယခင်က တစ်ခါမျှ မကြုံဖူးသော",
     "mmNote": "နည်းပညာတိုးတက်မှု အရှိန်အဟုန်ကို ဖော်ပြရာတွင် 'at an unprecedented pace' ဟု သုံးပါ။",
     "exEn": "Scientific collaboration occurred on an unprecedented scale during the global health crisis.",
-    "exMm": "ကမ္ဘာ့ကျန်းမာရေး အကျပ်အတည်းကာလအတွင်း သိပ္ပံပညာရှင်များ ပူးပေါင်းဆောင်ရွက်မှုသည် ယခင်က မကြုံဖူးသော အတိုင်းအတာဖြင့် ဖြစ်ပေါ်ခဲ့သည်။"
+    "exMm": "ကမ္ဘာ့ကျန်းမာရေး အကျပ်အတည်းကာလအတွင်း သိပ္ပံပညာရှင်များ ပူးပေါင်းဆောင်ရွက်မှုသည် ယခင်က မကြုံဖူးသော အတိုင်းအတာဖြင့် ဖြစ်ပေါ်ခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v25",
@@ -636,7 +654,8 @@
       "monitoring",
       "scrutiny",
       "observation",
-      "supervision"
+      "supervision",
+      "close observation"
     ],
     "antonyms": [
       "privacy",
@@ -646,7 +665,8 @@
     "mmMeaning": "အနီးကပ် စောင့်ကြည့်စစ်ဆေးခြင်း",
     "mmNote": "နည်းပညာနှင့် ပုဂ္ဂိုလ်ရေးလွတ်လပ်ခွင့် (Privacy) ဆိုင်ရာ Essay များတွင် မသုံးမဖြစ် သုံးရသော စကားလုံးဖြစ်သည်။",
     "exEn": "The expansion of facial recognition surveillance raises profound ethical concerns about privacy.",
-    "exMm": "မျက်နှာမှတ်သားစနစ်ဖြင့် စောင့်ကြည့်မှုများ ချဲ့ထွင်လာခြင်းသည် ပုဂ္ဂိုလ်ရေးလွတ်လပ်ခွင့်ဆိုင်ရာ ကျင့်ဝတ်မေးခွန်းများကို ပေါ်ပေါက်စေသည်။"
+    "exMm": "မျက်နှာမှတ်သားစနစ်ဖြင့် စောင့်ကြည့်မှုများ ချဲ့ထွင်လာခြင်းသည် ပုဂ္ဂိုလ်ရေးလွတ်လပ်ခွင့်ဆိုင်ရာ ကျင့်ဝတ်မေးခွန်းများကို ပေါ်ပေါက်စေသည်။",
+    "collocations": []
   },
   {
     "id": "v27",
@@ -661,7 +681,8 @@
       "primitive",
       "elementary",
       "embryonic",
-      "undeveloped"
+      "undeveloped",
+      "basic"
     ],
     "antonyms": [
       "sophisticated",
@@ -672,7 +693,8 @@
     "mmMeaning": "အခြေခံအကျဆုံး အဆင့်သာရှိသေးသော၊ ရှေးကျရိုးရှင်းသော",
     "mmNote": "Cambridge Reading သမိုင်းနှင့် နည်းပညာစာပိုဒ်များတွင် ရှေးဦးကိရိယာများကို 'rudimentary instruments' ဟု သုံးလေ့ရှိသည်။",
     "exEn": "Early agricultural societies relied on rudimentary irrigation channels carved into riverbanks.",
-    "exMm": "ရှေးဦးစိုက်ပျိုးရေး လူ့အဖွဲ့အစည်းများသည် မြစ်ကမ်းပါးများတွင် တူးဖော်ထားသော အခြေခံရေသွယ်မြောင်းများအပေါ် မှီခိုခဲ့ကြသည်။"
+    "exMm": "ရှေးဦးစိုက်ပျိုးရေး လူ့အဖွဲ့အစည်းများသည် မြစ်ကမ်းပါးများတွင် တူးဖော်ထားသော အခြေခံရေသွယ်မြောင်းများအပေါ် မှီခိုခဲ့ကြသည်။",
+    "collocations": []
   },
   {
     "id": "v28",
@@ -713,7 +735,8 @@
       "inequality",
       "discrepancy",
       "imbalance",
-      "divergence"
+      "divergence",
+      "gap"
     ],
     "antonyms": [
       "parity",
@@ -724,7 +747,8 @@
     "mmMeaning": "ကွာဟချက်ကြီးမားမှု၊ မညီမျှမှု",
     "mmNote": "ဆင်းရဲချမ်းသာ ကွာဟချက်အတွက် 'the gap between rich and poor' အစား 'socioeconomic disparity' ဟု သုံးပါ။",
     "exEn": "Targeted educational funding can narrow the disparity between urban and rural schools.",
-    "exMm": "ပစ်မှတ်ထားသော ပညာရေးရန်ပုံငွေ ထောက်ပံ့မှုသည် မြို့ပြနှင့် ကျေးလက်ကျောင်းများအကြား ကွာဟချက်ကို ကျဉ်းမြောင်းစေနိုင်သည်။"
+    "exMm": "ပစ်မှတ်ထားသော ပညာရေးရန်ပုံငွေ ထောက်ပံ့မှုသည် မြို့ပြနှင့် ကျေးလက်ကျောင်းများအကြား ကွာဟချက်ကို ကျဉ်းမြောင်းစေနိုင်သည်။",
+    "collocations": []
   },
   {
     "id": "v30",
@@ -750,7 +774,8 @@
     "mmMeaning": "ချမ်းသာကြွယ်ဝသော",
     "mmNote": "Writing Task 2 တွင် 'rich countries / rich people' အစား 'affluent nations / affluent individuals' ဟု သုံးပါ။",
     "exEn": "Affluent nations bear a moral responsibility to assist countries affected by climate disasters.",
-    "exMm": "ချမ်းသာကြွယ်ဝသော နိုင်ငံများသည် ရာသီဥတုဘေးအန္တရာယ် ခံစားရသော နိုင်ငံများကို ကူညီရန် ကျင့်ဝတ်ဆိုင်ရာ တာဝန်ရှိသည်။"
+    "exMm": "ချမ်းသာကြွယ်ဝသော နိုင်ငံများသည် ရာသီဥတုဘေးအန္တရာယ် ခံစားရသော နိုင်ငံများကို ကူညီရန် ကျင့်ဝတ်ဆိုင်ရာ တာဝန်ရှိသည်။",
+    "collocations": []
   },
   {
     "id": "v31",
@@ -775,7 +800,8 @@
     "mmMeaning": "ဆင်းရဲနွမ်းပါးသော၊ ချို့တဲ့သော",
     "mmNote": "'Poor people' အစား 'impoverished communities' သို့မဟုတ် 'underprivileged citizens' ဟု သုံးပါ။",
     "exEn": "Microfinance initiatives provide small loans to entrepreneurs in impoverished regions.",
-    "exMm": "အသေးစားချေးငွေ အစီအစဉ်များသည် ဆင်းရဲနွမ်းပါးသော ဒေသများရှိ စွန့်ဦးတီထွင်သူများကို ချေးငွေငယ်များ ထုတ်ချေးပေးသည်။"
+    "exMm": "အသေးစားချေးငွေ အစီအစဉ်များသည် ဆင်းရဲနွမ်းပါးသော ဒေသများရှိ စွန့်ဦးတီထွင်သူများကို ချေးငွေငယ်များ ထုတ်ချေးပေးသည်။",
+    "collocations": []
   },
   {
     "id": "v32",
@@ -789,7 +815,8 @@
     "synonyms": [
       "population segment",
       "cohort",
-      "statistical population"
+      "statistical population",
+      "age group"
     ],
     "antonyms": [
       "individual"
@@ -798,7 +825,8 @@
     "mmMeaning": "လူဦးရေဆိုင်ရာ အချက်အလက် / လူဦးရေအုပ်စု",
     "mmNote": "သက်ကြီးရွယ်အို လူဦးရေများလာခြင်းကို 'an aging demographic' သို့မဟုတ် 'demographic shift' ဟု သုံးပါ။",
     "exEn": "Declining birth rates are causing a profound demographic shift across East Asia.",
-    "exMm": "ကလေးမွေးဖွားနှုန်း ကျဆင်းလာခြင်းသည် အရှေ့အာရှတစ်ဝန်းတွင် လူဦးရေဖွဲ့စည်းပုံ အပြောင်းအလဲကြီးကို ဖြစ်ပေါ်စေသည်။"
+    "exMm": "ကလေးမွေးဖွားနှုန်း ကျဆင်းလာခြင်းသည် အရှေ့အာရှတစ်ဝန်းတွင် လူဦးရေဖွဲ့စည်းပုံ အပြောင်းအလဲကြီးကို ဖြစ်ပေါ်စေသည်။",
+    "collocations": []
   },
   {
     "id": "v33",
@@ -864,7 +892,9 @@
       "equitable",
       "classless",
       "democratic",
-      "even-handed"
+      "even-handed",
+      "equal",
+      "fair-minded"
     ],
     "antonyms": [
       "elitist",
@@ -875,7 +905,8 @@
     "mmMeaning": "လူတိုင်း တန်းတူအခွင့်အရေးရှိသော",
     "mmNote": "ပညာရေးနှင့် ကျန်းမာရေးကို လူတန်းစားမရွေး ရရှိနိုင်သော လူ့အဖွဲ့အစည်းအတွက် 'an egalitarian society' ဟု သုံးသည်။",
     "exEn": "Universal free healthcare is a cornerstone of an egalitarian society.",
-    "exMm": "လူတိုင်း အခမဲ့ကျန်းမာရေးစောင့်ရှောက်မှု ရရှိခြင်းသည် တန်းတူညီမျှသော လူ့အဖွဲ့အစည်းတစ်ခု၏ အုတ်မြစ်ဖြစ်သည်။"
+    "exMm": "လူတိုင်း အခမဲ့ကျန်းမာရေးစောင့်ရှောက်မှု ရရှိခြင်းသည် တန်းတူညီမျှသော လူ့အဖွဲ့အစည်းတစ်ခု၏ အုတ်မြစ်ဖြစ်သည်။",
+    "collocations": []
   },
   {
     "id": "v36",
@@ -976,7 +1007,8 @@
     "mmMeaning": "နာတာရှည်ဖြစ်သော၊ ကာလရှည်ကြာ စွဲမြဲနေသော",
     "mmNote": "ရောဂါများအတွက် 'chronic diseases' ဟု သုံးသကဲ့သို့ ပြဿနာများအတွက်လည်း 'chronic housing shortage' ဟု သုံးနိုင်သည်။",
     "exEn": "Preventative healthcare lowers the financial burden of treating chronic illnesses.",
-    "exMm": "ကြိုတင်ကာကွယ်ရေး ကျန်းမာရေးစောင့်ရှောက်မှုသည် နာတာရှည်ရောဂါများ ကုသရသည့် ငွေကြေးဝန်ထုပ်ဝန်ပိုးကို လျှော့ချပေးသည်။"
+    "exMm": "ကြိုတင်ကာကွယ်ရေး ကျန်းမာရေးစောင့်ရှောက်မှုသည် နာတာရှည်ရောဂါများ ကုသရသည့် ငွေကြေးဝန်ထုပ်ဝန်ပိုးကို လျှော့ချပေးသည်။",
+    "collocations": []
   },
   {
     "id": "v40",
@@ -1050,7 +1082,8 @@
     "mmMeaning": "(ရောဂါ/ဆိုးကျိုးကို) အလွယ်တကူ ခံစားရလွယ်သော",
     "mmNote": "'susceptible to...' (to နှင့် တွဲသုံးရသည်)။",
     "exEn": "Unvaccinated populations remain highly susceptible to contagious respiratory diseases.",
-    "exMm": "ကာကွယ်ဆေး မထိုးနှံထားသော လူဦးရေသည် ကူးစက်တတ်သော အသက်ရှူလမ်းကြောင်းဆိုင်ရာ ရောဂါများကို ခံစားရလွယ်ဆဲ ဖြစ်သည်။"
+    "exMm": "ကာကွယ်ဆေး မထိုးနှံထားသော လူဦးရေသည် ကူးစက်တတ်သော အသက်ရှူလမ်းကြောင်းဆိုင်ရာ ရောဂါများကို ခံစားရလွယ်ဆဲ ဖြစ်သည်။",
+    "collocations": []
   },
   {
     "id": "v43",
@@ -1175,7 +1208,8 @@
     "mmMeaning": "အလွန်တင်းကျပ်သော (ဥပဒေ/စည်းမျဉ်း)",
     "mmNote": "'strict laws' အစား 'stringent legislation / stringent regulatory frameworks' ဟု သုံးပါ။",
     "exEn": "Governments must enforce stringent safety regulations on autonomous vehicle manufacturers.",
-    "exMm": "အစိုးရများသည် မောင်းသူမဲ့ယာဉ် ထုတ်လုပ်သူများအပေါ် တင်းကျပ်သော ဘေးအန္တရာယ်ကင်းရှင်းရေး စည်းမျဉ်းများ ချမှတ်အရေးယူရမည်။"
+    "exMm": "အစိုးရများသည် မောင်းသူမဲ့ယာဉ် ထုတ်လုပ်သူများအပေါ် တင်းကျပ်သော ဘေးအန္တရာယ်ကင်းရှင်းရေး စည်းမျဉ်းများ ချမှတ်အရေးယူရမည်။",
+    "collocations": []
   },
   {
     "id": "v48",
@@ -1198,7 +1232,8 @@
     "mmMeaning": "ထောင်မှလွတ်ပြီးနောက် ပြစ်မှုထပ်မံကျူးလွန်ခြင်း",
     "mmNote": "Crime & Punishment Essay တွင် 'criminals doing crime again' အစား 'recidivism' တစ်လုံးတည်း သုံးရုံဖြင့် Lexical Resource အမှတ် မြင့်တက်စေသည်။",
     "exEn": "Countries that prioritize prisoner education consistently report lower rates of recidivism.",
-    "exMm": "အကျဉ်းသားပညာရေးကို ဦးစားပေးသော နိုင်ငံများသည် ပြစ်မှုထပ်မံကျူးလွန်နှုန်း ပိုမိုနည်းပါးကြောင်း အစဉ်အမြဲ တွေ့ရှိရသည်။"
+    "exMm": "အကျဉ်းသားပညာရေးကို ဦးစားပေးသော နိုင်ငံများသည် ပြစ်မှုထပ်မံကျူးလွန်နှုန်း ပိုမိုနည်းပါးကြောင်း အစဉ်အမြဲ တွေ့ရှိရသည်။",
+    "collocations": []
   },
   {
     "id": "v49",
@@ -1263,7 +1298,8 @@
       "plunge",
       "nosedive",
       "drop precipitously",
-      "slump"
+      "slump",
+      "collapse"
     ],
     "antonyms": [
       "surge",
@@ -1274,7 +1310,8 @@
     "mmMeaning": "(ကိန်းဂဏန်း/ပမာဏ) ထိုးကျသွားသည်",
     "mmNote": "Plummet တွင် 'very fast' အဓိပ္ပာယ် ပါဝင်ပြီးဖြစ်သောကြောင့် 'plummet rapidly' ဟု Adverb ထပ်မထည့်ရပါ။",
     "exEn": "Following the regulatory ban, coal imports plummeted from 45 million tons to 12 million tons.",
-    "exMm": "စည်းမျဉ်းဖြင့် ပိတ်ပင်ပြီးနောက် ကျောက်မီးသွေး တင်သွင်းမှုသည် တန်ချိန် ၄၅ သန်းမှ ၁၂ သန်းသို့ ထိုးကျသွားခဲ့သည်။"
+    "exMm": "စည်းမျဉ်းဖြင့် ပိတ်ပင်ပြီးနောက် ကျောက်မီးသွေး တင်သွင်းမှုသည် တန်ချိန် ၄၅ သန်းမှ ၁၂ သန်းသို့ ထိုးကျသွားခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v52",
@@ -1289,7 +1326,9 @@
       "soar",
       "escalate",
       "upsurge",
-      "spike"
+      "spike",
+      "skyrocket",
+      "jump sharply"
     ],
     "antonyms": [
       "plummet",
@@ -1300,7 +1339,8 @@
     "mmMeaning": "(ကိန်းဂဏန်း/ပမာဏ) ရုတ်တရက် တဟုန်ထိုး မြင့်တက်လာသည်",
     "mmNote": "Writing Task 1 တွင် ကိန်းဂဏန်း သိသာစွာ မြင့်တက်လာမှုကို 'went up fast' အစား 'surged' ဟု သုံးပါ။",
     "exEn": "Subscription numbers for streaming services surged by 65% between 2019 and 2023.",
-    "exMm": "၂၀၁၉ နှင့် ၂၀၂၃ ခုနှစ်အကြားတွင် ရုပ်သံထုတ်လွှင့်မှု ဝန်ဆောင်မှုများအတွက် စာရင်းသွင်းသူအရေအတွက်သည် ၆၅ ရာခိုင်နှုန်းအထိ တဟုန်ထိုး မြင့်တက်ခဲ့သည်။"
+    "exMm": "၂၀၁၉ နှင့် ၂၀၂၃ ခုနှစ်အကြားတွင် ရုပ်သံထုတ်လွှင့်မှု ဝန်ဆောင်မှုများအတွက် စာရင်းသွင်းသူအရေအတွက်သည် ၆၅ ရာခိုင်နှုန်းအထိ တဟုန်ထိုး မြင့်တက်ခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v53",
@@ -1315,7 +1355,8 @@
       "oscillate",
       "vacillate",
       "vary",
-      "undulate"
+      "undulate",
+      "go up and down"
     ],
     "antonyms": [
       "plateau",
@@ -1326,7 +1367,8 @@
     "mmMeaning": "အတက်အကျ မငြိမ်မသက် ဖြစ်နေသည်",
     "mmNote": "Task 1 Line Graph တွင် အတက်အကျ ဆက်တိုက်ဖြစ်နေသော ကာလကို 'fluctuated between 20% and 35%' ဟု သုံးပါ။",
     "exEn": "Crude oil prices fluctuated wildly throughout the decade before stabilizing in 2024.",
-    "exMm": "စိမ်းရေနံဈေးနှုန်းများသည် ဆယ်စုနှစ်တစ်လျှောက်လုံး အတက်အကျ မငြိမ်မသက်ဖြစ်ခဲ့ပြီး ၂၀၂၄ ခုနှစ်တွင်မှ ပြန်လည်တည်ငြိမ်သွားခဲ့သည်။"
+    "exMm": "စိမ်းရေနံဈေးနှုန်းများသည် ဆယ်စုနှစ်တစ်လျှောက်လုံး အတက်အကျ မငြိမ်မသက်ဖြစ်ခဲ့ပြီး ၂၀၂၄ ခုနှစ်တွင်မှ ပြန်လည်တည်ငြိမ်သွားခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v54",
@@ -1340,7 +1382,8 @@
     "synonyms": [
       "level off",
       "stabilize",
-      "flatten out"
+      "flatten out",
+      "remain flat"
     ],
     "antonyms": [
       "fluctuate",
@@ -1351,7 +1394,8 @@
     "mmMeaning": "မြင့်တက်လာပြီးနောက် တန်းသွားသည် (ဆက်မတက်တော့ဘဲ တည်ငြိမ်နေသည်)",
     "mmNote": "ဂရပ်မျဉ်းသည် တက်လာပြီးနောက် အပြားလိုက် တန်းသွားသည့်အခါ 'reached a plateau at 60%' သို့မဟုတ် 'plateaued' ဟု သုံးပါ။",
     "exEn": "After rising steeply for five years, smartphone penetration plateaued at 88% in 2022.",
-    "exMm": "ငါးနှစ်ကြာ မတ်စောက်စွာ မြင့်တက်ခဲ့ပြီးနောက် စမတ်ဖုန်းသုံးစွဲမှုနှုန်းသည် ၂၀၂၂ ခုနှစ်တွင် ၈၈ ရာခိုင်နှုန်း၌ တန်းသွားခဲ့သည်။"
+    "exMm": "ငါးနှစ်ကြာ မတ်စောက်စွာ မြင့်တက်ခဲ့ပြီးနောက် စမတ်ဖုန်းသုံးစွဲမှုနှုန်းသည် ၂၀၂၂ ခုနှစ်တွင် ၈၈ ရာခိုင်နှုန်း၌ တန်းသွားခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v55",
@@ -1366,7 +1410,8 @@
       "marginal",
       "insignificant",
       "miniscule",
-      "fractional"
+      "fractional",
+      "minimal"
     ],
     "antonyms": [
       "substantial",
@@ -1377,7 +1422,8 @@
     "mmMeaning": "မပြောပလောက်အောင် အလွန်နည်းပါးသော",
     "mmNote": "Pie chart သို့မဟုတ် Table တွင် 1% သို့မဟုတ် 2% ကဲ့သို့ အလွန်သေးငယ်သော ပမာဏကို 'a negligible fraction (1.5%)' ဟု သုံးပါ။",
     "exEn": "Hydropower accounted for a negligible 1.2% of total energy output in the desert region.",
-    "exMm": "သဲကန္တာရဒေသတွင် ရေအားလျှပ်စစ်ထုတ်လုပ်မှုသည် စုစုပေါင်းစွမ်းအင်၏ မပြောပလောက်သော ၁.၂ ရာခိုင်နှုန်းသာ ရှိခဲ့သည်။"
+    "exMm": "သဲကန္တာရဒေသတွင် ရေအားလျှပ်စစ်ထုတ်လုပ်မှုသည် စုစုပေါင်းစွမ်းအင်၏ မပြောပလောက်သော ၁.၂ ရာခိုင်နှုန်းသာ ရှိခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v56",
@@ -1544,7 +1590,8 @@
     "basic": "turn a road into a walking-only street",
     "synonyms": [
       "convert into a foot-traffic zone",
-      "ban vehicles from"
+      "ban vehicles from",
+      "make car-free"
     ],
     "antonyms": [
       "open to vehicular traffic"
@@ -1553,7 +1600,8 @@
     "mmMeaning": "ကားမဝင်ရဘဲ လူသွားလမ်းသီးသန့်အဖြစ် ပြောင်းလဲသည်",
     "mmNote": "Cambridge IELTS Map မေးခွန်းများတွင် မြို့လယ်လမ်းမကို ကားပိတ်ပြီး လူသွားလမ်းလုပ်ခြင်းအတွက် 'The central street was pedestrianized' ဟု သုံးလျှင် Band 8.5 အမှတ်ရသည်။",
     "exEn": "To reduce noise and pollution, the town council pedestrianized the historic market square.",
-    "exMm": "ဆူညံသံနှင့် လေထုညစ်ညမ်းမှုကို လျှော့ချရန် မြို့နယ်ကောင်စီသည် သမိုင်းဝင်ဈေးရင်ပြင်ကို လူသွားလမ်းသီးသန့်အဖြစ် ပြောင်းလဲခဲ့သည်။"
+    "exMm": "ဆူညံသံနှင့် လေထုညစ်ညမ်းမှုကို လျှော့ချရန် မြို့နယ်ကောင်စီသည် သမိုင်းဝင်ဈေးရင်ပြင်ကို လူသွားလမ်းသီးသန့်အဖြစ် ပြောင်းလဲခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v63",
@@ -1668,7 +1716,8 @@
       "corroborate",
       "validate",
       "verify",
-      "vindicate"
+      "vindicate",
+      "back up"
     ],
     "antonyms": [
       "refute",
@@ -1679,7 +1728,8 @@
     "mmMeaning": "ခိုင်လုံသော သက်သေအထောက်အထားဖြင့် အတည်ပြုပြသသည်",
     "mmNote": "Reading နှင့် Writing တွင် အဆိုတစ်ခုကို သက်သေပြသည်ဟု ပြောလိုလျှင် 'prove the claim' အစား 'substantiate the assertion' ဟု သုံးပါ။",
     "exEn": "The author fails to substantiate this claim with credible statistical data.",
-    "exMm": "စာရေးသူသည် ဤအဆိုပြုချက်ကို ယုံကြည်စိတ်ချရသော စာရင်းအင်းအချက်အလက်များဖြင့် ခိုင်လုံအောင် သက်သေမပြနိုင်ခဲ့ပါ။"
+    "exMm": "စာရေးသူသည် ဤအဆိုပြုချက်ကို ယုံကြည်စိတ်ချရသော စာရင်းအင်းအချက်အလက်များဖြင့် ခိုင်လုံအောင် သက်သေမပြနိုင်ခဲ့ပါ။",
+    "collocations": []
   },
   {
     "id": "v68",
@@ -1833,7 +1883,8 @@
     "mmMeaning": "မရည်ရွယ်ဘဲ၊ အမှတ်တမဲ့",
     "mmNote": "Reading TFNG တွင် 'deliberately' (တမင်သက်သက်) နှင့် 'inadvertently / unintentionally' (မရည်ရွယ်ဘဲ) ကို လှည့်စားမေးလေ့ရှိသည်။",
     "exEn": "Introducing non-native predators to control pests can inadvertently devastate local bird species.",
-    "exMm": "ပိုးမွှားနှိမ်နင်းရန် ပြင်ပမှ သားရဲတိရစ္ဆာန်များ သွင်းလာခြင်းသည် ဒေသခံငှက်မျိုးစိတ်များကို မရည်ရွယ်ဘဲ ပျက်စီးသွားစေနိုင်သည်။"
+    "exMm": "ပိုးမွှားနှိမ်နင်းရန် ပြင်ပမှ သားရဲတိရစ္ဆာန်များ သွင်းလာခြင်းသည် ဒေသခံငှက်မျိုးစိတ်များကို မရည်ရွယ်ဘဲ ပျက်စီးသွားစေနိုင်သည်။",
+    "collocations": []
   },
   {
     "id": "v74",
@@ -1860,7 +1911,8 @@
     "mmMeaning": "တစ်ခါတစ်ရံမှ ပေါ်ပေါက်တတ်သော၊ အချိန်မှန်မဟုတ်သော",
     "mmNote": "Reading တွင် 'continuous / regular' နှင့် ဆန့်ကျင်ဘက်အဖြစ် 'sporadic / intermittent' ကို သုံးလေ့ရှိသည်။",
     "exEn": "Prior to the nineteenth century, archaeological excavations in the region were sporadic and uncoordinated.",
-    "exMm": "၁၉ ရာစုမတိုင်မီက ထိုဒေသရှိ ရှေးဟောင်းသုတေသန တူးဖော်မှုများသည် တစ်ခါတစ်ရံမှသာ ပေါ်ပေါက်ပြီး စနစ်တကျ ပူးပေါင်းဆောင်ရွက်မှု မရှိခဲ့ပါ။"
+    "exMm": "၁၉ ရာစုမတိုင်မီက ထိုဒေသရှိ ရှေးဟောင်းသုတေသန တူးဖော်မှုများသည် တစ်ခါတစ်ရံမှသာ ပေါ်ပေါက်ပြီး စနစ်တကျ ပူးပေါင်းဆောင်ရွက်မှု မရှိခဲ့ပါ။",
+    "collocations": []
   },
   {
     "id": "v75",
@@ -1924,7 +1976,8 @@
     "synonyms": [
       "gradually eliminate",
       "withdraw step by step",
-      "discontinue"
+      "discontinue",
+      "gradually discontinue"
     ],
     "antonyms": [
       "phase in",
@@ -1935,7 +1988,8 @@
     "mmMeaning": "တဖြည်းဖြည်း အဆင့်လိုက် ရပ်ဆိုင်းပယ်ဖျက်သည်",
     "mmNote": "ချက်ချင်းပိတ်ပင်ခြင်း (ban outright) မဟုတ်ဘဲ အချိန်ယူ၍ အဆင့်လိုက် လျှော့ချဖျက်သိမ်းခြင်းကို 'phase out' ဟု သုံးသည်။",
     "exEn": "Several European nations have pledged to phase out internal combustion vehicles by 2035.",
-    "exMm": "ဥရောပနိုင်ငံ အများအပြားသည် ၂၀၃၅ ခုနှစ်အရောက်တွင် အတွင်းမီးလောင်အင်ဂျင်သုံး ကားများကို အဆင့်လိုက် ရပ်ဆိုင်းသွားရန် ကတိပြုထားကြသည်။"
+    "exMm": "ဥရောပနိုင်ငံ အများအပြားသည် ၂၀၃၅ ခုနှစ်အရောက်တွင် အတွင်းမီးလောင်အင်ဂျင်သုံး ကားများကို အဆင့်လိုက် ရပ်ဆိုင်းသွားရန် ကတိပြုထားကြသည်။",
+    "collocations": []
   },
   {
     "id": "v78",
@@ -1950,7 +2004,8 @@
       "constitute",
       "comprise",
       "represent",
-      "explain"
+      "explain",
+      "make up"
     ],
     "antonyms": [
       "exclude"
@@ -1959,7 +2014,8 @@
     "mmMeaning": "(ပမာဏ/ရာခိုင်နှုန်းအားဖြင့်) ပါဝင်သည် / အကြောင်းရင်းကို ရှင်းပြသည်",
     "mmNote": "Task 1 Pie Chart နှင့် Table တွင် 'makes up 40%' အစား 'accounted for 40% of total expenditure' ဟု သုံးပါ။",
     "exEn": "Housing and utility bills accounted for over half of average household expenditure in 2024.",
-    "exMm": "၂၀၂၄ ခုနှစ်တွင် အိမ်ရာနှင့် မီတာခကုန်ကျစရိတ်များသည် ပျမ်းမျှအိမ်ထောင်စု အသုံးစရိတ်၏ ထက်ဝက်ကျော် ပါဝင်ခဲ့သည်။"
+    "exMm": "၂၀၂၄ ခုနှစ်တွင် အိမ်ရာနှင့် မီတာခကုန်ကျစရိတ်များသည် ပျမ်းမျှအိမ်ထောင်စု အသုံးစရိတ်၏ ထက်ဝက်ကျော် ပါဝင်ခဲ့သည်။",
+    "collocations": []
   },
   {
     "id": "v79",
@@ -2158,7 +2214,8 @@
     "mmMeaning": "ခဏတာမျှသာ တည်မြဲသော၊ သက်တမ်းတိုတောင်းသော",
     "mmNote": "Fast fashion သို့မဟုတ် အွန်လိုင်းပေါ်မှ ခဏတာ ရေပန်းစားမှုများအတွက် 'short-lived trends' အစား 'ephemeral trends' ဟု သုံးပါ။",
     "exEn": "Fast fashion relies on ephemeral trends that encourage consumers to discard garments after only a few wears.",
-    "exMm": "Fast fashion လုပ်ငန်းသည် စားသုံးသူများကို အဝတ်အထည်များ အနည်းငယ်ဝတ်ပြီးရုံဖြင့် စွန့်ပစ်ရန် တွန်းအားပေးသည့် ခဏတာခေတ်စားသော ဒီဇိုင်းများအပေါ် မှီခိုနေသည်။"
+    "exMm": "Fast fashion လုပ်ငန်းသည် စားသုံးသူများကို အဝတ်အထည်များ အနည်းငယ်ဝတ်ပြီးရုံဖြင့် စွန့်ပစ်ရန် တွန်းအားပေးသည့် ခဏတာခေတ်စားသော ဒီဇိုင်းများအပေါ် မှီခိုနေသည်။",
+    "collocations": []
   },
   {
     "id": "v87",
@@ -2184,7 +2241,8 @@
     "mmMeaning": "ဌာနေတိုင်းရင်းသားဖြစ်သော၊ ဒေသရင်းဖြစ်သော",
     "mmNote": "Cambridge Reading တွင် လူမျိုးစုများသာမက ဒေသရင်း အပင်နှင့် သတ္တဝါများအတွက်ပါ 'indigenous species' ဟု သုံးလေ့ရှိသည်။",
     "exEn": "Preserving indigenous languages is vital for safeguarding humanity's intangible cultural heritage.",
-    "exMm": "ဌာနေတိုင်းရင်းသား ဘာသာစကားများကို ထိန်းသိမ်းခြင်းသည် လူသားထု၏ ဒြပ်မဲ့ယဉ်ကျေးမှု အမွေအနှစ်ကို ကာကွယ်ရန်အတွက် အလွန်အရေးကြီးသည်။"
+    "exMm": "ဌာနေတိုင်းရင်းသား ဘာသာစကားများကို ထိန်းသိမ်းခြင်းသည် လူသားထု၏ ဒြပ်မဲ့ယဉ်ကျေးမှု အမွေအနှစ်ကို ကာကွယ်ရန်အတွက် အလွန်အရေးကြီးသည်။",
+    "collocations": []
   },
   {
     "id": "v88",
@@ -2922,7 +2980,8 @@
       "income",
       "tax receipts",
       "proceeds",
-      "yield"
+      "yield",
+      "earnings"
     ],
     "antonyms": [
       "expenditure",
@@ -2932,7 +2991,8 @@
     "mmMeaning": "အခွန်ဘဏ္ဍာငွေ၊ လုပ်ငန်းဝင်ငွေ",
     "mmNote": "အစိုးရက အခွန်မှရသော ဝင်ငွေကို 'government money' အစား 'tax revenue / state revenue' ဟု သုံးပါ။",
     "exEn": "Governments can generate substantial tax revenue by imposing duties on tobacco and sugary beverages.",
-    "exMm": "အစိုးရများသည် ဆေးလိပ်နှင့် အချိုရည်များအပေါ် အခွန်စည်းကြပ်ခြင်းဖြင့် အခွန်ဘဏ္ဍာငွေ အမြောက်အမြား ရှာဖွေနိုင်သည်။"
+    "exMm": "အစိုးရများသည် ဆေးလိပ်နှင့် အချိုရည်များအပေါ် အခွန်စည်းကြပ်ခြင်းဖြင့် အခွန်ဘဏ္ဍာငွေ အမြောက်အမြား ရှာဖွေနိုင်သည်။",
+    "collocations": []
   },
   {
     "id": "v118",
@@ -3193,7 +3253,8 @@
       "enhance",
       "mitigate",
       "alleviate",
-      "rectify"
+      "rectify",
+      "improve"
     ],
     "antonyms": [
       "exacerbate",
@@ -3204,7 +3265,8 @@
     "mmMeaning": "(ဆိုးရွားသော အခြေအနေတစ်ရပ်ကို) ပိုမိုကောင်းမွန်အောင် ပြုပြင်ပေးသည်",
     "mmNote": "Academic Playbook 100% Rule သတိပေးချက် - 'a-m-e-l-i-o-r-a-t-e' စာလုံးပေါင်း ၁၀၀% သေချာမှ သုံးပါ။ မသေချာလျှင် 'enhance' သို့မဟုတ် 'improve' ကို မှန်ကန်စွာ သုံးခြင်းက အမှတ်ပိုရစေသည်။",
     "exEn": "Targeted infrastructure investment can ameliorate living conditions in impoverished rural districts.",
-    "exMm": "ပစ်မှတ်ထားသော အခြေခံအဆောက်အအုံ ရင်းနှီးမြှုပ်နှံမှုသည် ဆင်းရဲနွမ်းပါးသော ကျေးလက်ဒေသများရှိ လူနေမှုအဆင့်အတန်းကို ပိုမိုကောင်းမွန်လာစေနိုင်သည်။"
+    "exMm": "ပစ်မှတ်ထားသော အခြေခံအဆောက်အအုံ ရင်းနှီးမြှုပ်နှံမှုသည် ဆင်းရဲနွမ်းပါးသော ကျေးလက်ဒေသများရှိ လူနေမှုအဆင့်အတန်းကို ပိုမိုကောင်းမွန်လာစေနိုင်သည်။",
+    "collocations": []
   },
   {
     "id": "v129",
@@ -3255,7 +3317,8 @@
     "mmMeaning": "ခိုင်မာစွာ အဆိုပြုငြင်းဆိုသည်၊ ယူဆသည်",
     "mmNote": "Task 2 တွင် 'Some people believe/think that...' အစား 'Proponents contend that...' သို့မဟုတ် 'I would contend that...' ဟု သုံးခြင်းဖြင့် Academic tone ပိုမိုလေးနက်စေသည်။",
     "exEn": "Many economists contend that automation will ultimately generate more specialized jobs than it destroys.",
-    "exMm": "စက်ယန္တရားအလိုအလျောက်စနစ်သည် ပျက်စီးသွားသော အလုပ်များထက် ပိုမိုများပြားသည့် အထူးပြုအလုပ်အကိုင်များကို ဖန်တီးပေးလိမ့်မည်ဟု စီးပွားရေးပညာရှင် အများအပြားက ခိုင်မာစွာ ဆိုကြသည်။"
+    "exMm": "စက်ယန္တရားအလိုအလျောက်စနစ်သည် ပျက်စီးသွားသော အလုပ်များထက် ပိုမိုများပြားသည့် အထူးပြုအလုပ်အကိုင်များကို ဖန်တီးပေးလိမ့်မည်ဟု စီးပွားရေးပညာရှင် အများအပြားက ခိုင်မာစွာ ဆိုကြသည်။",
+    "collocations": []
   },
   {
     "id": "v131",
@@ -4884,29 +4947,6 @@
     "exMm": "ဒစ်ဂျစ်တယ် ဆေးမှတ်တမ်းစနစ်သို့ ကူးပြောင်းရာတွင် ဝန်ထမ်းလေ့ကျင့်ပေးမှု လိုအပ်သော်လည်း ရိုးရိုးရှင်းရှင်း ပြောရလျှင် ရေရှည်အကျိုးကျေးဇူးက အစပိုင်း အခက်အခဲများထက် သာလွန်ပါသည်။"
   },
   {
-    "id": "v201",
-    "word": "Curriculum",
-    "pos": "Noun",
-    "ipa": "/kəˈrɪk.jə.ləm/",
-    "band": "Band 8.0",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Education & Psychology",
-    "basic": "syllabus, course of study",
-    "synonyms": [
-      "syllabus",
-      "academic program",
-      "coursework"
-    ],
-    "antonyms": [
-      "extracurricular activity"
-    ],
-    "collocation": "the new curriculum places emphasis on",
-    "mmMeaning": "သင်ရိုးညွှန်းတမ်း",
-    "mmNote": "Education အက်ဆေးများတွင် 'school subjects' အစား 'national curriculum' ဟု သုံးပါ။",
-    "exEn": "The new curriculum places more emphasis on critical thinking.",
-    "exMm": "သင်ရိုးညွှန်းတမ်းအသစ်သည် ဝေဖန်ပိုင်းခြား တွေးခေါ်မှုအပိုင်းကို ပိုမိုအလေးပေးထားသည်။"
-  },
-  {
     "id": "v202",
     "word": "Tuition",
     "pos": "Noun (Uncountable)",
@@ -5283,30 +5323,6 @@
     "exMm": "ဆိုက်ဘာလုံခြုံရေးသည် ဘဏ်များအတွက် ပိုမိုကြီးထွားလာသော စိုးရိမ်စရာကိစ္စ ဖြစ်သည်။"
   },
   {
-    "id": "v218",
-    "word": "Surveillance",
-    "pos": "Noun (Uncountable)",
-    "ipa": "/səˈveɪ.ləns/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Technology & AI",
-    "basic": "close observation, especially by cameras or authorities",
-    "synonyms": [
-      "monitoring",
-      "close observation",
-      "scrutiny"
-    ],
-    "antonyms": [
-      "privacy",
-      "anonymity"
-    ],
-    "collocation": "public surveillance cameras / mass digital surveillance",
-    "mmMeaning": "အနီးကပ် စောင့်ကြည့်ထောက်လှမ်းခြင်း",
-    "mmNote": "Privacy နှင့် လုံခြုံရေး ကင်မရာများအကြောင်း ဆွေးနွေးရာတွင် မသိမဖြစ် စာလုံးဖြစ်သည်။",
-    "exEn": "Public surveillance cameras raise privacy concerns.",
-    "exMm": "အများပြည်သူဆိုင်ရာ စောင့်ကြည့်ကင်မရာများသည် ပုဂ္ဂိုလ်ရေးလုံခြုံမှုဆိုင်ရာ စိုးရိမ်ပူပန်မှုများကို မြင့်တက်စေသည်။"
-  },
-  {
     "id": "v219",
     "word": "Breakthrough",
     "pos": "Noun",
@@ -5355,29 +5371,6 @@
     "exMm": "ပိုမိုကောင်းမွန်လာသော အင်တာနက် ချိတ်ဆက်နိုင်မှုက အဝေးမှ အလုပ်လုပ်ကိုင်ခြင်းကို ဖြစ်မြောက်စေခဲ့သည်။"
   },
   {
-    "id": "v221",
-    "word": "Demographic",
-    "pos": "Noun / Adjective",
-    "ipa": "/ˌdem.əˈɡræf.ɪk/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Health & Urban Life",
-    "basic": "a particular sector of a population",
-    "synonyms": [
-      "population segment",
-      "age group",
-      "cohort"
-    ],
-    "antonyms": [
-      "individual"
-    ],
-    "collocation": "target a younger demographic / demographic shift",
-    "mmMeaning": "လူဦးရေ အုပ်စုအလွှာ / လူဦးရေဆိုင်ရာ",
-    "mmNote": "Task 1 နှင့် Task 2 နှစ်ခုလုံးတွင် 'young people' အစား 'a younger demographic' ဟု အဆင့်မြှင့်သုံးနိုင်သည်။",
-    "exEn": "The company is targeting a younger demographic.",
-    "exMm": "ကုမ္ပဏီသည် လူငယ်လူဦးရေ အလွှာကို ပစ်မှတ်ထားနေသည်။"
-  },
-  {
     "id": "v222",
     "word": "Ageing population",
     "pos": "Noun Phrase",
@@ -5398,30 +5391,6 @@
     "mmNote": "IELTS Task 2 တွင် မကြာခဏ မေးလေ့ရှိသော အဓိက ခေါင်းစဉ်တစ်ခု ဖြစ်သည်။",
     "exEn": "An ageing population puts pressure on pension systems.",
     "exMm": "သက်ကြီးရွယ်အိုဦးရေ များပြားလာခြင်းသည် ပင်စင်စနစ်များအပေါ် ဖိအားသက်ရောက်စေသည်။"
-  },
-  {
-    "id": "v223",
-    "word": "Assimilate",
-    "pos": "Verb",
-    "ipa": "/əˈsɪm.ɪ.leɪt/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Education & Psychology",
-    "basic": "fit into and become part of a new culture",
-    "synonyms": [
-      "integrate",
-      "adapt to",
-      "blend into"
-    ],
-    "antonyms": [
-      "marginalize",
-      "segregate"
-    ],
-    "collocation": "assimilate into a new culture / assimilate information",
-    "mmMeaning": "ယဉ်ကျေးမှုအသစ်ထဲသို့ အံဝင်ခွင်ကျ ပေါင်းစည်းဝင်ရောက်သည်",
-    "mmNote": "ပြောင်းရွှေ့နေထိုင်သူများ (immigrants) နှင့် ယဉ်ကျေးမှုဆိုင်ရာ မေးခွန်းများတွင် သုံးပါ။",
-    "exEn": "Immigrants often find it easier to assimilate when they learn the language.",
-    "exMm": "ရွှေ့ပြောင်းနေထိုင်သူများသည် ဒေသခံဘာသာစကားကို သင်ယူသောအခါ ယဉ်ကျေးမှုအသစ်ထဲ ပေါင်းစည်းဝင်ရောက်ရန် ပိုမိုလွယ်ကူကြောင်း တွေ့ရသည်။"
   },
   {
     "id": "v224",
@@ -5447,31 +5416,6 @@
     "mmNote": "လုပ်ငန်းခွင်နှင့် လူမှုရေး တန်းတူညီမျှမှု အက်ဆေးများတွင် သုံးသည်။",
     "exEn": "Laws were introduced to fight workplace discrimination.",
     "exMm": "လုပ်ငန်းခွင်အတွင်း ခွဲခြားဆက်ဆံမှုများကို တိုက်ဖျက်ရန် ဥပဒေများ ပြဋ္ဌာန်းခဲ့သည်။"
-  },
-  {
-    "id": "v225",
-    "word": "Revenue",
-    "pos": "Noun",
-    "ipa": "/ˈrev.ən.juː/",
-    "band": "Band 8.0",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Business & Economics",
-    "basic": "income generated from sales or taxes",
-    "synonyms": [
-      "income",
-      "earnings",
-      "proceeds",
-      "tax receipts"
-    ],
-    "antonyms": [
-      "expenditure",
-      "outgoings"
-    ],
-    "collocation": "annual revenue rose by 15 percent / generate tax revenue",
-    "mmMeaning": "(ကုမ္ပဏီ သို့မဟုတ် အစိုးရ၏) ဝင်ငွေ၊ အခွန်ဘဏ္ဍာ",
-    "mmNote": "Task 1 Chart များနှင့် Task 2 စီးပွားရေးအက်ဆေးများတွင် 'money' အစား 'revenue' ဟု သုံးပါ။",
-    "exEn": "Annual revenue rose by 15 percent.",
-    "exMm": "နှစ်စဉ်ဝင်ငွေ ၁၅ ရာခိုင်နှုန်း မြင့်တက်ခဲ့သည်။"
   },
   {
     "id": "v226",
@@ -5545,79 +5489,6 @@
     "mmNote": "Task 1 Line Graph များတွင် 'peaked at + ကိန်းဂဏန်း' သို့မဟုတ် 'reached a peak of + ကိန်းဂဏန်း' ဟု သုံးပါ။",
     "exEn": "Sales peaked in July before falling sharply.",
     "exMm": "ရောင်းအားသည် ဇူလိုင်လတွင် အမြင့်ဆုံးသို့ ရောက်ရှိခဲ့ပြီးနောက် သိသိသာသာ ပြန်လည်ကျဆင်းသွားခဲ့သည်။"
-  },
-  {
-    "id": "v229",
-    "word": "Plateau",
-    "pos": "Verb / Noun",
-    "ipa": "/ˈplæt.əʊ/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Task 1 Data & Trends",
-    "basic": "level off after rising",
-    "synonyms": [
-      "level off",
-      "stabilize",
-      "remain flat"
-    ],
-    "antonyms": [
-      "fluctuate wildly",
-      "soar"
-    ],
-    "collocation": "prices plateaued after two years / reached a plateau",
-    "mmMeaning": "မြင့်တက်ပြီးနောက် တန်းသွားသည်၊ တည်ငြိမ်သွားသည်",
-    "mmNote": "Task 1 တွင် ကိန်းဂဏန်းတစ်ခု တက်လာပြီးနောက် ဆက်မတက်တော့ဘဲ တန်းသွားသည့်အခါ 'plateaued at...' ဟု သုံးပါ။",
-    "exEn": "Prices plateaued after two years of growth.",
-    "exMm": "နှစ်နှစ်ကြာ မြင့်တက်ခဲ့ပြီးနောက် ဈေးနှုန်းများ တည်ငြိမ်တန်းသွားခဲ့သည်။"
-  },
-  {
-    "id": "v230",
-    "word": "Surge",
-    "pos": "Verb / Noun",
-    "ipa": "/sɜːdʒ/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Task 1 Data & Trends",
-    "basic": "sudden and large upward movement",
-    "synonyms": [
-      "soar",
-      "skyrocket",
-      "jump sharply"
-    ],
-    "antonyms": [
-      "plunge",
-      "plummet",
-      "slump"
-    ],
-    "collocation": "demand surged after the launch / a sudden surge in",
-    "mmMeaning": "ရုတ်တရက် အရှိန်အဟုန်ဖြင့် ထိုးတက်သွားသည်",
-    "mmNote": "Task 1 တွင် 'increased a lot' အစား 'surged' သို့မဟုတ် 'experienced a sharp surge' ဟု သုံးပါ။",
-    "exEn": "Demand surged after the new product launched.",
-    "exMm": "ထုတ်ကုန်အသစ် စတင်ဖြန့်ချိပြီးနောက် ဝယ်လိုအား ရုတ်တရက် ထိုးတက်သွားခဲ့သည်။"
-  },
-  {
-    "id": "v231",
-    "word": "Account for",
-    "pos": "Phrasal Verb (Data)",
-    "ipa": "/əˈkaʊnt fɔːr/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Core 8 Topics",
-    "category": "Task 1 Data & Trends",
-    "basic": "make up a specific share or percentage",
-    "synonyms": [
-      "make up",
-      "comprise",
-      "constitute",
-      "represent"
-    ],
-    "antonyms": [
-      "exclude"
-    ],
-    "collocation": "accounted for 60 percent of the workforce",
-    "mmMeaning": "(ရာခိုင်နှုန်း/ဝေစုအားဖြင့်) ပါဝင်ဖွဲ့စည်းထားသည်",
-    "mmNote": "Task 1 Pie Chart, Bar Chart နှင့် Table တိုင်းတွင် မသုံးမဖြစ် သုံးရသော Data Verb ဖြစ်သည်။",
-    "exEn": "Men accounted for 60 percent of the workforce.",
-    "exMm": "အလုပ်သမားထု၏ ၆၀ ရာခိုင်နှုန်းမှာ အမျိုးသားများ ဖြစ်ကြသည်။"
   },
   {
     "id": "v232",
@@ -5804,31 +5675,6 @@
     "mmNote": "ဆေးပညာသာမက လူမှုရေးပြဿနာများတွင်လည်း 'Crime is often a symptom of deeper poverty' ဟု သုံးနိုင်သည်။",
     "exEn": "Fatigue is a common symptom of anemia.",
     "exMm": "မောပန်းနွမ်းနယ်ခြင်းသည် သွေးအားနည်းရောဂါ၏ အဖြစ်များသော လက္ခဏာတစ်ခု ဖြစ်သည်။"
-  },
-  {
-    "id": "v240",
-    "word": "Chronic",
-    "pos": "Adjective",
-    "ipa": "/ˈkrɒn.ɪk/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Extended 10 Topics",
-    "category": "Health & Urban Life",
-    "basic": "long-lasting and difficult to cure",
-    "synonyms": [
-      "persistent",
-      "long-standing",
-      "deep-rooted"
-    ],
-    "antonyms": [
-      "acute",
-      "temporary",
-      "short-lived"
-    ],
-    "collocation": "chronic back pain / chronic illness / chronic traffic congestion",
-    "mmMeaning": "နာတာရှည်ဖြစ်သော၊ ကာလရှည်ကြာ စွဲမြဲနေသော",
-    "mmNote": "ရောဂါ (chronic disease) သာမက မြို့ပြပြဿနာများ (chronic housing shortage) တွင်လည်း သုံးနိုင်သည်။",
-    "exEn": "Chronic back pain can affect daily work.",
-    "exMm": "နာတာရှည် ခါးနာခြင်းသည် နေ့စဉ်အလုပ်အကိုင်ကို ထိခိုက်စေနိုင်သည်။"
   },
   {
     "id": "v241",
@@ -6670,30 +6516,6 @@
     "exMm": "ကျောင်းသားအများအပြားသည် နိုင်ငံခြားတွင် ပညာသင်ယူရန် ချေးငွေများ ရယူကြသည်။"
   },
   {
-    "id": "v277",
-    "word": "Contend",
-    "pos": "Verb",
-    "ipa": "/kənˈtend/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Band 7+ Upgrades",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "argue or state a position strongly",
-    "synonyms": [
-      "argue",
-      "maintain",
-      "assert"
-    ],
-    "antonyms": [
-      "concede",
-      "agree"
-    ],
-    "collocation": "critics contend that the plan is too costly",
-    "mmMeaning": "အခိုင်အမာ အဆိုပြု ငြင်းခုံသည်",
-    "mmNote": "Task 2 Discussion အက်ဆေးများတွင် 'some people think' အစား 'critics contend that...' ဟု သုံးပါ။",
-    "exEn": "Critics contend that the plan is too costly.",
-    "exMm": "ဝေဖန်သူများက ထိုအစီအစဉ်သည် ကုန်ကျစရိတ် အလွန်များပြားသည်ဟု အခိုင်အမာ ထောက်ပြကြသည်။"
-  },
-  {
     "id": "v278",
     "word": "Facilitate",
     "pos": "Verb",
@@ -6741,56 +6563,6 @@
     "mmNote": "Formal Writing တွင် 'try to' အစား 'attempt to / endeavour to' ဟု အဆင့်မြှင့်သုံးနိုင်သည်။",
     "exEn": "The government endeavoured to reduce inflation.",
     "exMm": "အစိုးရသည် ငွေကြေးဖောင်းပွမှုကို လျှော့ချရန် အားထုတ်ကြိုးပမ်းခဲ့သည်။"
-  },
-  {
-    "id": "v280",
-    "word": "Plummet",
-    "pos": "Verb",
-    "ipa": "/ˈplʌm.ɪt/",
-    "band": "Band 8.5",
-    "variety": "Exam Essentials: Band 7+ Upgrades",
-    "category": "Task 1 Data & Trends",
-    "basic": "fall or drop straight down at high speed",
-    "synonyms": [
-      "plunge",
-      "collapse",
-      "nosedive"
-    ],
-    "antonyms": [
-      "soar",
-      "surge",
-      "skyrocket"
-    ],
-    "collocation": "coal consumption plummeted between 2010 and 2020",
-    "mmMeaning": "ရုတ်တရက် မတ်စောက်စွာ ထိုးကျသွားသည်",
-    "mmNote": "Task 1 တွင် ရုတ်တရက် အကြီးအကျယ် ထိုးကျသွားသော ကိန်းဂဏန်းများအတွက် သုံးသည် ('plummeted drastically' ဟု Adverb ထပ်ထည့်ရန် မလိုပါ)။",
-    "exEn": "Smartphone landline usage plummeted over the twenty-year period.",
-    "exMm": "နှစ်နှစ်ဆယ်ကာလအတွင်း ကြိုးဖုန်းသုံးစွဲမှုသည် မတ်စောက်စွာ ထိုးကျသွားခဲ့သည်။"
-  },
-  {
-    "id": "v281",
-    "word": "Fluctuate",
-    "pos": "Verb",
-    "ipa": "/ˈflʌk.tʃu.eɪt/",
-    "band": "Band 8.0",
-    "variety": "Exam Essentials: Band 7+ Upgrades",
-    "category": "Task 1 Data & Trends",
-    "basic": "rise and fall irregularly",
-    "synonyms": [
-      "vary",
-      "oscillate",
-      "go up and down"
-    ],
-    "antonyms": [
-      "remain stable",
-      "plateau",
-      "hold steady"
-    ],
-    "collocation": "fluctuated between 20 and 30 percent / wild fluctuations",
-    "mmMeaning": "အတက်အကျ မတည်မငြိမ် ပြောင်းလဲနေသည်",
-    "mmNote": "Task 1 Line Graph တွင် အတက်အကျ များသော လိုင်းများအတွက် 'fluctuated between X and Y' ဟု သုံးပါ။",
-    "exEn": "Gold prices fluctuated noticeably throughout the decade.",
-    "exMm": "ဆယ်စုနှစ်တစ်လျှောက်လုံး ရွှေဈေးနှုန်းများ သိသာစွာ အတက်အကျ ဖြစ်ပေါ်ခဲ့သည်။"
   },
   {
     "id": "v282",
@@ -7027,54 +6799,6 @@
     "exMm": "ကာလရှည် သုတေသနများက ငယ်စဉ်စာဖတ်သည့် အလေ့အထနှင့် ပညာရေးအောင်မြင်မှုကြား ဆက်စပ်မှုကို အတည်ပြုပေးသည်။"
   },
   {
-    "id": "v292",
-    "word": "Substantiate",
-    "pos": "Verb",
-    "ipa": "/səbˈstæn.ʃi.eɪt/",
-    "band": "Band 9.0",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "prove with facts",
-    "synonyms": [
-      "corroborate",
-      "back up",
-      "vindicate"
-    ],
-    "antonyms": [
-      "discredit",
-      "invalidate"
-    ],
-    "collocation": "substantiate a claim with data",
-    "mmMeaning": "ခိုင်လုံသော အထောက်အထားဖြင့် သက်သေပြသည်",
-    "mmNote": "Task Response အမှတ်မြင့်ရန် မိမိအဆိုကို သက်သေပြကြောင်း ရေးရာတွင် သုံးသည်။",
-    "exEn": "Critics often fail to substantiate their claims with reliable economic data.",
-    "exMm": "ဝေဖန်သူများသည် ၎င်းတို့၏ အဆိုပြုချက်များကို ခိုင်လုံသော စီးပွားရေးဒေတာဖြင့် သက်သေပြနိုင်ခြင်း မရှိတတ်ကြပါ။"
-  },
-  {
-    "id": "v293",
-    "word": "Ameliorate",
-    "pos": "Verb",
-    "ipa": "/əˈmiː.li.ə.reɪt/",
-    "band": "Band 9.0",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Problem & Solution Lexicon",
-    "basic": "make a bad situation better",
-    "synonyms": [
-      "alleviate",
-      "mitigate",
-      "improve"
-    ],
-    "antonyms": [
-      "exacerbate",
-      "aggravate"
-    ],
-    "collocation": "ameliorate living conditions",
-    "mmMeaning": "(ဆိုးရွားသော အခြေအနေကို) သက်သာကောင်းမွန်လာစေသည်",
-    "mmNote": "Problem & Solution အက်ဆေးများတွင် လူနေမှုဘဝ မြှင့်တင်ပေးရာ၌ သုံးသည်။",
-    "exEn": "Targeted housing subsidies can ameliorate the living conditions of low-income families.",
-    "exMm": "ပစ်မှတ်ထားသော အိမ်ရာထောက်ပံ့ကြေးများသည် ဝင်ငွေနည်းမိသားစုများ၏ နေထိုင်မှုအခြေအနေကို ကောင်းမွန်လာစေနိုင်သည်။"
-  },
-  {
     "id": "v294",
     "word": "Compound",
     "pos": "Verb",
@@ -7097,30 +6821,6 @@
     "mmNote": "Passive ပုံစံ 'This issue is further compounded by...' ဖြင့် သုံးပါ။",
     "exEn": "Rural poverty is further compounded by inadequate transport links to regional markets.",
     "exMm": "ကျေးလက်ဆင်းရဲနွမ်းပါးမှုသည် ဒေသတွင်းဈေးကွက်သို့ သယ်ယူပို့ဆောင်ရေး မလုံလောက်မှုကြောင့် ပိုမိုဆိုးရွားလာရသည်။"
-  },
-  {
-    "id": "v295",
-    "word": "Proliferate",
-    "pos": "Verb",
-    "ipa": "/prəˈlɪf.ər.eɪt/",
-    "band": "Band 9.0",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "increase rapidly in number",
-    "synonyms": [
-      "multiply",
-      "mushroom",
-      "burgeon"
-    ],
-    "antonyms": [
-      "dwindle",
-      "diminish"
-    ],
-    "collocation": "streaming platforms have proliferated",
-    "mmMeaning": "အရေအတွက်အားဖြင့် အလျင်အမြန် ပွားများလာသည်",
-    "mmNote": "Noun ပုံစံ 'the rapid proliferation of...' ကို Task 2 Introduction တွင် သုံးနိုင်သည်။",
-    "exEn": "Streaming platforms have proliferated over the past decade, transforming home entertainment.",
-    "exMm": "ပြီးခဲ့သည့် ဆယ်စုနှစ်အတွင်း အွန်လိုင်းရုပ်သံလွှင့် ပလက်ဖောင်းများ အလျင်အမြန် ပွားများလာခဲ့သည်။"
   },
   {
     "id": "v296",
@@ -7147,30 +6847,6 @@
     "exMm": "ပွင့်လင်းမြင်သာသော အုပ်ချုပ်ရေးစနစ်သည် နိုင်ငံတော် အဖွဲ့အစည်းများအပေါ် ပြည်သူ့ယုံကြည်မှုကို ဖြစ်ပေါ်စေသည်။"
   },
   {
-    "id": "v297",
-    "word": "Catalyst",
-    "pos": "Noun",
-    "ipa": "/ˈkæt.əl.ɪst/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "something that speeds up change",
-    "synonyms": [
-      "stimulus",
-      "impetus",
-      "driving force"
-    ],
-    "antonyms": [
-      "deterrent",
-      "obstacle"
-    ],
-    "collocation": "act as a catalyst for reform",
-    "mmMeaning": "ပြောင်းလဲမှုကို အရှိန်မြှင့်ပေးသော တွန်းအား",
-    "mmNote": "'act as a catalyst for + Noun' ပုံစံဖြင့် သုံးပါ။",
-    "exEn": "High-speed internet access has acted as a catalyst for rural entrepreneurship.",
-    "exMm": "မြန်နှုန်းမြင့် အင်တာနက် ရရှိမှုသည် ကျေးလက် စွန့်ဦးတီထွင်လုပ်ငန်းများအတွက် အဓိကတွန်းအား ဖြစ်လာခဲ့သည်။"
-  },
-  {
     "id": "v298",
     "word": "Burgeoning",
     "pos": "Adjective",
@@ -7193,30 +6869,6 @@
     "mmNote": "'growing' အစား 'the burgeoning demand for...' ဟု အဆင့်မြှင့်သုံးပါ။",
     "exEn": "The burgeoning demand for electric vehicles requires massive investment in charging stations.",
     "exMm": "လျှပ်စစ်ကား ဝယ်လိုအား အရှိန်အဟုန်ဖြင့် ကြီးထွားလာမှုသည် အားသွင်းရုံများတွင် ရင်းနှီးမြှုပ်နှံရန် လိုအပ်စေသည်။"
-  },
-  {
-    "id": "v299",
-    "word": "Rudimentary",
-    "pos": "Adjective",
-    "ipa": "/ˌruː.dɪˈmen.tər.i/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "very basic or undeveloped",
-    "synonyms": [
-      "elementary",
-      "primitive",
-      "basic"
-    ],
-    "antonyms": [
-      "sophisticated",
-      "advanced"
-    ],
-    "collocation": "rudimentary knowledge of",
-    "mmMeaning": "အခြေခံအကျဆုံး အဆင့်သာရှိသေးသော",
-    "mmNote": "ဘာသာစကား အခြေခံ သို့မဟုတ် မဖွံ့ဖြိုးသေးသော အခြေခံအဆောက်အအုံများအတွက် သုံးသည်။",
-    "exEn": "Even a rudimentary understanding of local customs helps tourists avoid misunderstandings.",
-    "exMm": "ဒေသခံ ဓလေ့ထုံးစံများကို အခြေခံအဆင့်မျှ နားလည်ထားခြင်းကပင် ခရီးသွားများအား အထင်လွဲမှုမှ ရှောင်ရှားစေသည်။"
   },
   {
     "id": "v300",
@@ -7291,30 +6943,6 @@
     "exMm": "နေရာအနှံ့ စိမ့်ဝင်နေသော အယ်လ်ဂိုရီသမ် အကြံပြုချက်များသည် လူသန်းပေါင်းများစွာ ကြည့်ရှုသည့်အရာကို ပုံဖော်ပေးနေသည်။"
   },
   {
-    "id": "v303",
-    "word": "Unprecedented",
-    "pos": "Adjective",
-    "ipa": "/ʌnˈpres.ɪ.den.tɪd/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "never having happened before",
-    "synonyms": [
-      "unparalleled",
-      "unmatched",
-      "extraordinary"
-    ],
-    "antonyms": [
-      "commonplace",
-      "ordinary"
-    ],
-    "collocation": "at an unprecedented rate",
-    "mmMeaning": "သမိုင်းတစ်လျှောက် ယခင်က တစ်ခါမျှ မကြုံဖူးသော",
-    "mmNote": "'at an unprecedented pace/rate' ပုံစံဖြင့် ပြောင်းလဲမှုနှုန်းကို ပြောရာတွင် သုံးပါ။",
-    "exEn": "Artificial intelligence is automating cognitive tasks at an unprecedented pace.",
-    "exMm": "ဉာဏ်ရည်တုနည်းပညာသည် ဦးနှောက်သုံးလုပ်ငန်းများကို ယခင်က မကြုံဖူးသော အမြန်နှုန်းဖြင့် လုပ်ဆောင်ပေးနေသည်။"
-  },
-  {
     "id": "v304",
     "word": "Systemic",
     "pos": "Adjective",
@@ -7385,30 +7013,6 @@
     "mmNote": "'intangible cultural heritage' (ဒြပ်မဲ့ ယဉ်ကျေးမှုအမွေအနှစ်) တွင် သုံးသည်။",
     "exEn": "Traditional festivals preserve intangible cultural heritage that binds generations together.",
     "exMm": "ရိုးရာပွဲတော်များသည် မျိုးဆက်များကို စည်းနှောင်ပေးထားသည့် ဒြပ်မဲ့ယဉ်ကျေးမှု အမွေအနှစ်များကို ထိန်းသိမ်းပေးသည်။"
-  },
-  {
-    "id": "v307",
-    "word": "Disparity",
-    "pos": "Noun",
-    "ipa": "/dɪˈspær.ə.ti/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Business & Economics",
-    "basic": "unfair difference between groups",
-    "synonyms": [
-      "inequality",
-      "imbalance",
-      "gap"
-    ],
-    "antonyms": [
-      "parity",
-      "equality"
-    ],
-    "collocation": "wealth and healthcare disparity",
-    "mmMeaning": "(အုပ်စုနှစ်ခုကြား) မညီမျှသော ကွာဟချက်",
-    "mmNote": "ဝင်ငွေနှင့် ကျန်းမာရေး ကွာဟချက် အက်ဆေးများတွင် 'difference' အစား သုံးပါ။",
-    "exEn": "Investment in rural clinics helps narrow the healthcare disparity between cities and villages.",
-    "exMm": "ကျေးလက်ဆေးခန်းများတွင် ရင်းနှီးမြှုပ်နှံခြင်းသည် မြို့ပြနှင့် ကျေးရွာကြား ကျန်းမာရေး ကွာဟချက်ကို ကျဉ်းမြောင်းစေသည်။"
   },
   {
     "id": "v308",
@@ -7624,30 +7228,6 @@
     "exMm": "လူသားတို့၏ လုပ်ဆောင်ချက်များက ကမ္ဘာကြီးပူနွေးမှုကို အရှိန်မြှင့်နေကြောင်း သိပ္ပံပညာရှင်များအကြား အများသဘောတူညီချက် ရှိသည်။"
   },
   {
-    "id": "v317",
-    "word": "Empirical",
-    "pos": "Adjective",
-    "ipa": "/ɪmˈpɪr.ɪ.kəl/",
-    "band": "Band 9.0",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "based on observation and experiments",
-    "synonyms": [
-      "observational",
-      "evidence-based",
-      "factual"
-    ],
-    "antonyms": [
-      "theoretical",
-      "speculative"
-    ],
-    "collocation": "empirical evidence demonstrates",
-    "mmMeaning": "လက်တွေ့လေ့လာစမ်းသပ်မှု အထောက်အထားပေါ် အခြေခံသော",
-    "mmNote": "'empirical evidence suggests that...' သည် Academic Writing တွင် အလွန်အားကောင်းသည်။",
-    "exEn": "Empirical evidence demonstrates that four-day workweeks can maintain employee output.",
-    "exMm": "တစ်ပတ် လေးရက် အလုပ်ဆင်းသည့်စနစ်သည် ဝန်ထမ်းများ၏ ကုန်ထုတ်စွမ်းအားကို ထိန်းထားနိုင်ကြောင်း လက်တွေ့အထောက်အထားများက ပြသသည်။"
-  },
-  {
     "id": "v318",
     "word": "Pragmatic",
     "pos": "Adjective",
@@ -7696,30 +7276,6 @@
     "exMm": "ရပ်ရွာ စတုဒိသာမီးဖိုချောင်များတွင် ကူညီခြင်းက ကျောင်းသားများအကြား ပရဟိတစိတ်ဓာတ်ကို မြှင့်တင်ပေးသည်။"
   },
   {
-    "id": "v320",
-    "word": "Egalitarian",
-    "pos": "Adjective",
-    "ipa": "/ɪˌɡæl.ɪˈteə.ri.ən/",
-    "band": "Band 9.0",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Crime, Law & Governance",
-    "basic": "believing in equal rights and opportunities",
-    "synonyms": [
-      "equal",
-      "fair-minded",
-      "democratic"
-    ],
-    "antonyms": [
-      "elitist",
-      "hierarchical"
-    ],
-    "collocation": "build a more egalitarian society",
-    "mmMeaning": "လူတိုင်း တန်းတူအခွင့်အရေး ရရှိသင့်သည်ဟု ခံယူသော",
-    "mmNote": "ပညာရေးနှင့် ကျန်းမာရေး တန်းတူညီမျှမှု အက်ဆေးများတွင် အမှတ်ပြည့်ပေးသော C2 စာလုံးဖြစ်သည်။",
-    "exEn": "Free public libraries are essential institutions for building a more egalitarian society.",
-    "exMm": "အခမဲ့ အများပြည်သူ စာကြည့်တိုက်များသည် ပိုမိုတန်းတူညီမျှသော လူ့အဖွဲ့အစည်း တည်ဆောက်ရန် မရှိမဖြစ် လိုအပ်သည်။"
-  },
-  {
     "id": "v321",
     "word": "Meritocratic",
     "pos": "Adjective",
@@ -7741,30 +7297,6 @@
     "mmNote": "Scholarships နှင့် Education အက်ဆေးများတွင် သုံးနိုင်သည်။",
     "exEn": "Need-blind scholarships ensure that university admissions remain genuinely meritocratic.",
     "exMm": "ပညာသင်ဆုများသည် တက္ကသိုလ်ဝင်ခွင့်စနစ်ကို အရည်အချင်းပေါ်၌သာ အမှန်တကယ် အခြေခံစေသည်။"
-  },
-  {
-    "id": "v322",
-    "word": "Autonomous",
-    "pos": "Adjective",
-    "ipa": "/ɔːˈtɒn.ə.məs/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Technology & AI",
-    "basic": "independent and self-governing",
-    "synonyms": [
-      "self-governing",
-      "independent",
-      "self-directed"
-    ],
-    "antonyms": [
-      "dependent",
-      "controlled"
-    ],
-    "collocation": "autonomous vehicles / autonomous learners",
-    "mmMeaning": "ကိုယ်ပိုင်ဆုံးဖြတ်ချက်ဖြင့် လွတ်လပ်စွာ ရပ်တည်/မောင်းနှင်နိုင်သော",
-    "mmNote": "မောင်းသူမဲ့ကားနှင့် ကိုယ်တိုင်လေ့လာသင်ယူသူ နှစ်ခုလုံးတွင် သုံးနိုင်သည်။",
-    "exEn": "University education requires students to become autonomous learners who manage their own schedules.",
-    "exMm": "တက္ကသိုလ်ပညာရေးသည် ကျောင်းသားများအား ကိုယ်တိုင်စီမံခန့်ခွဲတတ်သော လွတ်လပ်သည့် သင်ယူသူများ ဖြစ်လာရန် လိုအပ်သည်။"
   },
   {
     "id": "v323",
@@ -7885,29 +7417,6 @@
     "mmNote": "'commensurate with' ပုံစံဖြင့် လစာနှင့် ပြစ်ဒဏ် ညီမျှမှုအကြောင်းတွင် သုံးပါ။",
     "exEn": "Nurses and teachers deserve remuneration commensurate with their vital contribution to society.",
     "exMm": "သူနာပြုနှင့် ဆရာများသည် လူ့အဖွဲ့အစည်းအပေါ် အကျိုးပြုမှုနှင့် ထိုက်တန်သည့် လုပ်ခလစာ ရရှိထိုက်သည်။"
-  },
-  {
-    "id": "v328",
-    "word": "Inadvertently",
-    "pos": "Adverb",
-    "ipa": "/ˌɪn.ədˈvɜː.tənt.li/",
-    "band": "Band 8.5",
-    "variety": "Task 2 High-Impact Verbs & Adjectives",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "without intending to; accidentally",
-    "synonyms": [
-      "unintentionally",
-      "unwittingly"
-    ],
-    "antonyms": [
-      "deliberately",
-      "intentionally"
-    ],
-    "collocation": "inadvertently reduce the supply",
-    "mmMeaning": "ရည်ရွယ်ချက် မပါဘဲ မတော်တဆ",
-    "mmNote": "မူဝါဒတစ်ခုက မမျှော်လင့်ဘဲ ဆိုးကျိုးဖြစ်စေသည့်အခါ သုံးပါ။",
-    "exEn": "Well-intentioned rent controls can inadvertently reduce the supply of new rental apartments.",
-    "exMm": "အိမ်ငှားခ ထိန်းချုပ်မှုများသည် မရည်ရွယ်ဘဲ အိမ်ငှားတိုက်ခန်းအသစ် ဆောက်လုပ်မှုကို လျော့ကျစေနိုင်သည်။"
   },
   {
     "id": "v329",
@@ -8075,31 +7584,6 @@
     "mmNote": "Conclusion တွင် 'It would be prudent for governments to...' ဟု သုံးနိုင်သည်။",
     "exEn": "It is prudent for households to maintain an emergency savings fund during economic uncertainty.",
     "exMm": "စီးပွားရေး မရေရာချိန်တွင် အရေးပေါ် စုဆောင်းငွေ ထားရှိခြင်းသည် အမြော်အမြင်ရှိသော လုပ်ရပ်ဖြစ်သည်။"
-  },
-  {
-    "id": "v336",
-    "word": "Indigenous",
-    "pos": "Adjective",
-    "ipa": "/ɪnˈdɪdʒ.ɪ.nəs/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Environment & Climate",
-    "basic": "native; originating naturally in a place",
-    "synonyms": [
-      "native",
-      "aboriginal",
-      "endemic"
-    ],
-    "antonyms": [
-      "exotic",
-      "non-native",
-      "invasive"
-    ],
-    "collocation": "indigenous plant species",
-    "mmMeaning": "ဒေသရင်းဖြစ်သော၊ ဌာနေတိုင်းရင်းသားဖြစ်သော",
-    "mmNote": "Reading တွင် 'indigenous' ကို 'native / local' ဖြင့် Paraphrase လုပ်လေ့ရှိသည်။",
-    "exEn": "Botanical gardens play a vital role in conserving indigenous plant species.",
-    "exMm": "ရုက္ခဗေဒ ဥယျာဉ်များသည် ဒေသရင်း အပင်မျိုးစိတ်များကို ထိန်းသိမ်းရာတွင် အရေးပါသည်။"
   },
   {
     "id": "v337",
@@ -8417,30 +7901,6 @@
     "exMm": "ငယ်စဉ်က အခက်အခဲငယ်များ ကျော်လွှားဖူးခြင်းက လူငယ်များအား စိတ်ဓာတ်ကြံ့ခိုင်သော လူကြီးများ ဖြစ်လာစေသည်။"
   },
   {
-    "id": "v350",
-    "word": "Susceptible",
-    "pos": "Adjective",
-    "ipa": "/səˈsep.tə.bəl/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Health & Urban Life",
-    "basic": "easily harmed or influenced by something",
-    "synonyms": [
-      "vulnerable",
-      "prone",
-      "predisposed"
-    ],
-    "antonyms": [
-      "immune",
-      "resistant"
-    ],
-    "collocation": "susceptible to peer pressure",
-    "mmMeaning": "(ရောဂါ သို့မဟုတ် လွှမ်းမိုးမှုကို) အလွယ်တကူ ခံရလွယ်သော",
-    "mmNote": "Preposition 'to + Noun' နှင့် အမြဲတွဲသုံးရသည်။",
-    "exEn": "Adolescents are particularly susceptible to social media peer pressure.",
-    "exMm": "ဆယ်ကျော်သက်များသည် လူမှုကွန်ရက်ပေါ်ရှိ ရွယ်တူဖိအားများ၏ လွှမ်းမိုးမှုကို အထူးခံရလွယ်ကြသည်။"
-  },
-  {
     "id": "v351",
     "word": "Cutting-edge",
     "pos": "Adjective",
@@ -8558,31 +8018,6 @@
     "exMm": "သမိုင်းမော်ကွန်းတိုက်များသည် ဘုရင့်အမိန့်တော်များကို အချိန်ကာလ အစဉ်လိုက် စီစဉ်ထားရှိသည်။"
   },
   {
-    "id": "v356",
-    "word": "Sporadic",
-    "pos": "Adjective",
-    "ipa": "/spəˈræd.ɪk/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "occurring at irregular intervals",
-    "synonyms": [
-      "intermittent",
-      "occasional",
-      "infrequent"
-    ],
-    "antonyms": [
-      "constant",
-      "continuous",
-      "like clockwork"
-    ],
-    "collocation": "sporadic language study",
-    "mmMeaning": "အချိန်မမှန်ဘဲ ပြတ်တောင်းပြတ်တောင်း တစ်ခါတစ်ရံသာ ဖြစ်ပေါ်သော",
-    "mmNote": "Reading တွင် 'happening occasionally and irregularly' ကို 'sporadic' ဟု Paraphrase လုပ်သည်။",
-    "exEn": "Sporadic language study rarely produces fluency; daily twenty-minute practice is far more effective.",
-    "exMm": "ပြတ်တောင်းပြတ်တောင်း ဘာသာစကား လေ့လာခြင်းသည် ကျွမ်းကျင်မှု ရရှိခဲပြီး နေ့စဉ် ပုံမှန်လေ့ကျင့်ခြင်းက ပိုထိရောက်သည်။"
-  },
-  {
     "id": "v357",
     "word": "Intermittent",
     "pos": "Adjective",
@@ -8630,31 +8065,6 @@
     "mmNote": "Verb ပုံစံမှာ 'perpetuate' (သက်ဆိုးရှည်စေသည်) ဖြစ်သည်။",
     "exEn": "Predatory payday loans often trap low-income borrowers in a perpetual cycle of debt.",
     "exMm": "အတိုးကြီးသော ကာလတိုချေးငွေများသည် ဝင်ငွေနည်းသူများကို အဆုံးမရှိသော အကြွေးသံသရာထဲ ပိတ်မိစေသည်။"
-  },
-  {
-    "id": "v359",
-    "word": "Ephemeral",
-    "pos": "Adjective",
-    "ipa": "/ɪˈfem.ər.əl/",
-    "band": "Band 9.0",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Academic Verbs & Modifiers",
-    "basic": "lasting for a very short time",
-    "synonyms": [
-      "fleeting",
-      "transient",
-      "short-lived"
-    ],
-    "antonyms": [
-      "enduring",
-      "permanent",
-      "perpetual"
-    ],
-    "collocation": "ephemeral social media fame",
-    "mmMeaning": "ခဏတာမျှသာ တည်မြဲသော (သက်တမ်းတိုတောင်းသော)",
-    "mmNote": "အင်တာနက်ပေါ်ရှိ ခဏတာ ခေတ်စားမှုများအကြောင်း ပြောရာတွင် အမှတ်ပြည့်ပေးသော C2 စာလုံးဖြစ်သည်။",
-    "exEn": "Social media fame is often ephemeral, fading as quickly as algorithms shift.",
-    "exMm": "လူမှုကွန်ရက်ပေါ်ရှိ နာမည်ကြီးမှုသည် ခဏတာမျှသာ ခံလေ့ရှိပြီး အလျင်အမြန် ပျောက်ကွယ်သွားတတ်သည်။"
   },
   {
     "id": "v360",
@@ -8729,30 +8139,6 @@
     "exMm": "နည်းပညာ အလိုအလျောက်စနစ်များသည် ထပ်ခါတလဲလဲ လုပ်ရသော စာရေးအလုပ်များ ပျောက်ကွယ်သွားမည့်အရေးကို ရှောင်လွှဲမရနိုင်အောင် ဖြစ်စေသည်။"
   },
   {
-    "id": "v363",
-    "word": "Irreversible",
-    "pos": "Adjective",
-    "ipa": "/ˌɪr.ɪˈvɜː.sə.bəl/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Environment & Climate",
-    "basic": "impossible to change back",
-    "synonyms": [
-      "permanent",
-      "irreparable",
-      "irrevocable"
-    ],
-    "antonyms": [
-      "reversible",
-      "temporary"
-    ],
-    "collocation": "trigger irreversible changes",
-    "mmMeaning": "မူလအခြေအနေသို့ ပြန်လည်ပြုပြင်ပြောင်းလဲ၍ မရနိုင်တော့သော",
-    "mmNote": "သဘာဝပတ်ဝန်းကျင် ပျက်စီးမှု အက်ဆေးများတွင် 'irreversible damage' ဟု သုံးပါ။",
-    "exEn": "Melting polar ice caps could trigger irreversible changes in global ocean currents.",
-    "exMm": "ဝင်ရိုးစွန်း ရေခဲပြင်များ အရည်ပျော်ခြင်းသည် သမုဒ္ဒရာ ရေစီးကြောင်းများတွင် ပြန်ပြင်မရနိုင်သော ပြောင်းလဲမှုများ ဖြစ်ပေါ်စေနိုင်သည်။"
-  },
-  {
     "id": "v364",
     "word": "Anomalous",
     "pos": "Adjective",
@@ -8825,80 +8211,6 @@
     "mmNote": "Listening Section 3 တွင် 'everyone agreed' = 'unanimous' အဖြစ် မေးလေ့ရှိသည်။",
     "exEn": "The city council reached a unanimous decision to pedestrianize the historic market square.",
     "exMm": "မြို့တော်ကောင်စီသည် သမိုင်းဝင် ဈေးရင်ပြင်ကို လမ်းလျှောက်ဇုန်ပြုလုပ်ရန် တစ်ခဲနက် ဆုံးဖြတ်ခဲ့ကြသည်။"
-  },
-  {
-    "id": "v367",
-    "word": "Ubiquitous",
-    "pos": "Adjective",
-    "ipa": "/juːˈbɪk.wɪ.təs/",
-    "band": "Band 9.0",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Technology & AI",
-    "basic": "present or found everywhere",
-    "synonyms": [
-      "omnipresent",
-      "pervasive",
-      "universal"
-    ],
-    "antonyms": [
-      "rare",
-      "scarce",
-      "uncommon"
-    ],
-    "collocation": "smartphones have become ubiquitous",
-    "mmMeaning": "နေရာတိုင်းတွင် တွေ့မြင်နေရသော",
-    "mmNote": "Technology အက်ဆေးတိုင်းတွင် သုံးနိုင်သော C2 စာလုံးဖြစ်သည်။",
-    "exEn": "In less than two decades, touch-screen smartphones have become ubiquitous across all age groups.",
-    "exMm": "ဆယ်စုနှစ် နှစ်ခုမပြည့်မီ စမတ်ဖုန်းများသည် အသက်အရွယ်အားလုံးအကြား နေရာတိုင်းတွင် တွေ့မြင်နေရပြီ ဖြစ်သည်။"
-  },
-  {
-    "id": "v368",
-    "word": "Negligible",
-    "pos": "Adjective",
-    "ipa": "/ˈneɡ.lɪ.dʒə.bəl/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Task 1 Data & Trends",
-    "basic": "so small as to be not worth considering",
-    "synonyms": [
-      "minimal",
-      "insignificant",
-      "marginal"
-    ],
-    "antonyms": [
-      "substantial",
-      "considerable"
-    ],
-    "collocation": "accounted for a negligible 1 percent",
-    "mmMeaning": "အလွန်နည်းပါးသော (မပြောပလောက်သော)",
-    "mmNote": "Task 1 တွင် 1% ကဲ့သို့ အလွန်နည်းသော ကိန်းဂဏန်းများအတွက် သုံးပါ။",
-    "exEn": "Hydropower accounted for a negligible 1 percent of the region's total electricity generation.",
-    "exMm": "ရေအားလျှပ်စစ်သည် ဒေသတွင်း စုစုပေါင်း လျှပ်စစ်ထုတ်လုပ်မှု၏ မပြောပလောက်သော ၁ ရာခိုင်နှုန်းသာ ပါဝင်ခဲ့သည်။"
-  },
-  {
-    "id": "v369",
-    "word": "Stringent",
-    "pos": "Adjective",
-    "ipa": "/ˈstrɪn.dʒənt/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Crime, Law & Governance",
-    "basic": "very strict and firm (of rules)",
-    "synonyms": [
-      "rigorous",
-      "strict",
-      "exacting"
-    ],
-    "antonyms": [
-      "lax",
-      "lenient",
-      "permissive"
-    ],
-    "collocation": "enforce stringent safety regulations",
-    "mmMeaning": "(စည်းမျဉ်းဥပဒေ) အလွန်တင်းကျပ်သော",
-    "mmNote": "Solution စာပိုဒ်တွင် 'enforce stringent regulations on...' ဟု သုံးပါ။",
-    "exEn": "Governments must enforce stringent safety regulations on chemical manufacturing plants.",
-    "exMm": "အစိုးရများသည် ဓာတုဗေဒ စက်ရုံများအပေါ် တင်းကျပ်သော ဘေးကင်းရေး စည်းမျဉ်းများ ချမှတ်ရမည်။"
   },
   {
     "id": "v370",
@@ -9048,31 +8360,6 @@
     "mmNote": "'homogeneous' နှင့် နှိုင်းယှဉ်သုံးနိုင်သည်။",
     "exEn": "Modern metropolitan classrooms serve an increasingly heterogeneous student population.",
     "exMm": "ခေတ်သစ် မြို့ပြစာသင်ခန်းများသည် မတူကွဲပြားသည့် ကျောင်းသားထုကို သင်ကြားပေးနေရသည်။"
-  },
-  {
-    "id": "v376",
-    "word": "Innate",
-    "pos": "Adjective",
-    "ipa": "/ɪˈneɪt/",
-    "band": "Band 8.5",
-    "variety": "Reading & Listening Paraphrase Pairs",
-    "category": "Education & Psychology",
-    "basic": "inborn natural talent",
-    "synonyms": [
-      "inborn",
-      "inherent",
-      "instinctive"
-    ],
-    "antonyms": [
-      "acquired",
-      "learned",
-      "cultivated"
-    ],
-    "collocation": "innate musical talent",
-    "mmMeaning": "မွေးရာပါဖြစ်သော၊ ပင်ကိုသဘာဝအလျောက် ပါရှိသော",
-    "mmNote": "'innate talent vs. diligent practice' ဟု တွဲသုံးပါ။",
-    "exEn": "While innate musical talent helps initially, mastery requires thousands of hours of practice.",
-    "exMm": "မွေးရာပါ ဂီတပါရမီက အစပိုင်းတွင် အထောက်အကူပြုသော်လည်း ကျွမ်းကျင်ရန်မှာ နာရီပေါင်းထောင်ချီ လေ့ကျင့်ရန် လိုအပ်သည်။"
   },
   {
     "id": "v377",
@@ -10144,54 +9431,6 @@
     "exMm": "ရန်ကုန်မြို့လယ်သည် ဘာသာပေါင်းစုံ ဝတ်ပြုကျောင်းများ အတူတည်ရှိနေသော ယဉ်ကျေးမှုပေါင်းစုံ ရောနှောရာ နေရာဖြစ်သည်။"
   },
   {
-    "id": "v424",
-    "word": "Affluent",
-    "pos": "Adjective",
-    "ipa": "/ˈæf.lu.ənt/",
-    "band": "Band 8.5",
-    "variety": "Media, Advertising & Globalization",
-    "category": "Business & Economics",
-    "basic": "wealthy; having a great deal of money",
-    "synonyms": [
-      "prosperous",
-      "wealthy",
-      "well-off"
-    ],
-    "antonyms": [
-      "impoverished",
-      "underprivileged"
-    ],
-    "collocation": "affluent industrialized nations",
-    "mmMeaning": "ချမ်းသာကြွယ်ဝသော",
-    "mmNote": "Writing တွင် 'rich countries' အစား 'affluent nations' ဟု အမြဲသုံးပါ။",
-    "exEn": "Affluent industrialized nations bear a responsibility to help fund climate adaptation.",
-    "exMm": "ချမ်းသာကြွယ်ဝသော စက်မှုနိုင်ငံကြီးများသည် ရာသီဥတု ပြုပြင်ရေးလုပ်ငန်းများကို ကူညီထောက်ပံ့ရန် တာဝန်ရှိသည်။"
-  },
-  {
-    "id": "v425",
-    "word": "Impoverished",
-    "pos": "Adjective",
-    "ipa": "/ɪmˈpɒv.ər.ɪʃt/",
-    "band": "Band 8.5",
-    "variety": "Media, Advertising & Globalization",
-    "category": "Business & Economics",
-    "basic": "reduced to poverty; very poor",
-    "synonyms": [
-      "underprivileged",
-      "disadvantaged",
-      "destitute"
-    ],
-    "antonyms": [
-      "affluent",
-      "prosperous"
-    ],
-    "collocation": "impoverished rural regions",
-    "mmMeaning": "ဆင်းရဲနွမ်းပါးသော",
-    "mmNote": "Writing တွင် 'poor areas' အစား 'impoverished regions' ဟု အဆင့်မြှင့်သုံးပါ။",
-    "exEn": "Microfinance loans empower entrepreneurs in impoverished rural regions to start small businesses.",
-    "exMm": "အသေးစား ချေးငွေများသည် ဆင်းရဲနွမ်းပါးသော ကျေးလက်ဒေသရှိ လုပ်ငန်းရှင်များကို စွမ်းဆောင်ရည် မြှင့်တင်ပေးသည်။"
-  },
-  {
     "id": "v426",
     "word": "Metropolis",
     "pos": "Noun",
@@ -10374,27 +9613,6 @@
     "mmNote": "Task 1 Map တိုင်းတွင် အမှတ်ပြည့်ရရန် မသုံးမဖြစ် သုံးရသော စကားစုဖြစ်သည်။",
     "exEn": "The farmland in the north-east was cleared to make way for a residential housing estate.",
     "exMm": "အရှေ့မြောက်ဘက်ရှိ လယ်ယာမြေများကို လူနေအိမ်ရာစခန်းအသစ် ဆောက်ရန် ရှင်းလင်းဖယ်ရှားခဲ့သည်။"
-  },
-  {
-    "id": "v434",
-    "word": "Pedestrianize",
-    "pos": "Verb",
-    "ipa": "/pəˈdes.tri.ə.naɪz/",
-    "band": "Band 8.5",
-    "variety": "Urbanization, Housing & Transport",
-    "category": "Health & Urban Life",
-    "basic": "convert a street for walking only",
-    "synonyms": [
-      "make car-free"
-    ],
-    "antonyms": [
-      "open to vehicular traffic"
-    ],
-    "collocation": "pedestrianize shopping streets",
-    "mmMeaning": "မော်တော်ယာဉ် ဝင်ခွင့်ပိတ်ပြီး လမ်းလျှောက်ဇုန်အဖြစ် ပြောင်းလဲသည်",
-    "mmNote": "Task 1 Map နှင့် Task 2 Traffic Solution နှစ်ခုလုံးတွင် သုံးနိုင်သည်။",
-    "exEn": "Pedestrianizing downtown shopping streets reduces exhaust fumes and boosts local cafés.",
-    "exMm": "မြို့လယ် ဈေးဝယ်လမ်းများကို လမ်းလျှောက်ဇုန် ပြောင်းလဲခြင်းသည် ကားမီးခိုးငွေ့များကို လျှော့ချပေးသည်။"
   },
   {
     "id": "v435",
@@ -12659,28 +11877,6 @@
     "exMm": "ကျောင်းဆင်းချိန် အားကစားအစီအစဉ်များနှင့် လမ်းညွှန်သင်ပြမှုများသည် မြို့ပြ လူငယ်မှုခင်းဖြစ်ပွားမှုကို လျှော့ချပေးနိုင်ကြောင်း သက်သေပြထားပြီးဖြစ်သည်။"
   },
   {
-    "id": "v537",
-    "word": "Recidivism",
-    "pos": "Noun",
-    "ipa": "/rɪˈsɪd.ɪ.vɪ.zəm/",
-    "band": "Band 9.0",
-    "variety": "Work, Economy, Finance & Law",
-    "category": "Crime, Law & Governance",
-    "basic": "tendency of a convicted criminal to reoffend after being released from prison",
-    "synonyms": [
-      "reoffending",
-      "relapse into crime"
-    ],
-    "antonyms": [
-      "successful rehabilitation"
-    ],
-    "collocation": "lower the rate of recidivism",
-    "mmMeaning": "ထောင်မှ လွတ်မြောက်ပြီးနောက် ပြစ်မှုထပ်မံကျူးလွန်သည့်နှုန်း",
-    "mmNote": "Prison vs. Rehabilitation အက်ဆေးများတွင် Examiner အမှတ်ပြည့်ပေးသော C2 ဝေါဟာရ ဖြစ်သည်။",
-    "exEn": "Prisons that provide vocational carpentry and coding classes achieve significantly lower rates of recidivism.",
-    "exMm": "လက်သမားပညာနှင့် ကွန်ပျူတာသင်တန်းပေးသော အကျဉ်းထောင်များသည် ပြစ်မှုထပ်မံကျူးလွန်နှုန်းကို သိသာစွာ လျှော့ချနိုင်ကြသည်။"
-  },
-  {
     "id": "v538",
     "word": "Capital punishment",
     "pos": "Noun Phrase",
@@ -13190,28 +12386,6 @@
     "mmNote": "Law နှင့် Business အက်ဆေးများတွင် 'lawsuits' အစား 'costly litigation' ဟု သုံးနိုင်သည်။",
     "exEn": "Corporations that falsify emissions data face both reputational damage and costly class-action litigation.",
     "exMm": "ကာဗွန်ထုတ်လွှတ်မှု ဒေတာများကို လိမ်လည်ဖော်ပြသော ကုမ္ပဏီများသည် ဂုဏ်သိက္ခာကျဆင်းမှုနှင့် ကုန်ကျစရိတ်များသော တရားစွဲဆိုမှုများကို ရင်ဆိုင်ရသည်။"
-  },
-  {
-    "id": "v561",
-    "word": "Pedagogy",
-    "pos": "Noun",
-    "ipa": "/ˈped.ə.ɡɒdʒ.i/",
-    "band": "Band 9.0",
-    "variety": "Education, Psychology & Arts",
-    "category": "Education & Psychology",
-    "basic": "the method and practice of teaching",
-    "synonyms": [
-      "teaching methodology",
-      "instructional approach"
-    ],
-    "antonyms": [
-      "rote memorization"
-    ],
-    "collocation": "modern student-centered pedagogy",
-    "mmMeaning": "သင်ကြားရေး နည်းစနစ်နှင့် ပညာရပ်",
-    "mmNote": "Education အက်ဆေးများတွင် 'teaching methods' အစား 'modern pedagogy / pedagogical approaches' ဟု သုံးပါ။",
-    "exEn": "Modern student-centered pedagogy encourages inquiry and debate rather than passive note-taking.",
-    "exMm": "ခေတ်သစ် ကျောင်းသားဗဟိုပြု သင်ကြားရေးနည်းစနစ်သည် စူးစမ်းမေးမြန်းမှုနှင့် ဆွေးနွေးငြင်းခုံမှုကို အားပေးသည်။"
   },
   {
     "id": "v562",
@@ -14449,29 +13623,6 @@
     "mmNote": "Speaking Part 2 & 3 တွင် 'Things didn't pan out as expected' သို့မဟုတ် 'Let's see how it pans out' ဟု သုံးနိုင်သည်။",
     "exEn": "Although our original camping plan didn't pan out due to heavy rain, the lakeside cabin was wonderful.",
     "exMm": "မိုးသည်းထန်စွာ ရွာသွန်းမှုကြောင့် မူလစခန်းချမည့် အစီအစဉ် မဖြစ်မြောက်ခဲ့သော်လည်း ရေကန်ဘေးအိမ်လေးမှာ အလွန်ကောင်းမွန်ခဲ့သည်။"
-  },
-  {
-    "id": "v617",
-    "word": "Phase out",
-    "pos": "Phrasal Verb",
-    "ipa": "/feɪz aʊt/",
-    "band": "Band 8.5",
-    "variety": "Speaking Phrasal Verbs & Idioms",
-    "category": "Environment & Climate",
-    "basic": "gradually stop using or producing something over a period of time",
-    "synonyms": [
-      "gradually discontinue",
-      "withdraw step by step"
-    ],
-    "antonyms": [
-      "introduce suddenly",
-      "phase in"
-    ],
-    "collocation": "gradually phase out petrol vehicles",
-    "mmMeaning": "တစ်ဆင့်ချင်း တဖြည်းဖြည်း ရပ်ဆိုင်းဖယ်ရှားသွားသည်",
-    "mmNote": "Speaking Part 3 နှင့် Writing Task 2 (Fossil fuels / Plastic bags) နှစ်ခုလုံးတွင် အလွန်အသုံးဝင်သည်။",
-    "exEn": "Many European cities plan to phase out diesel vehicles over the next decade rather than banning them overnight.",
-    "exMm": "ဥရောပမြို့ကြီး အများအပြားသည် ဒီဇယ်ယာဉ်များကို နေ့ချင်းညချင်း ပိတ်ပင်မည့်အစား လာမည့်ဆယ်စုနှစ်အတွင်း တဖြည်းဖြည်း ရပ်ဆိုင်းသွားရန် စီစဉ်နေကြသည်။"
   },
   {
     "id": "v618",

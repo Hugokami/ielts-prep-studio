@@ -1,0 +1,1095 @@
+[
+  {
+    "id": "mock_listening_01",
+    "title": "Cambridge Academic Listening Mock 1",
+    "subtitle": "4 Sections • 40 Questions • Complete Audio Script & Explanations",
+    "duration_minutes": 30,
+    "sections": [
+      {
+        "section": 1,
+        "title": "Section 1: Student Accommodation & Tenancy Agreement",
+        "context": "A conversation between a university student and an accommodation booking officer.",
+        "transcript": "Officer: Good morning, Campus Living and Student Accommodation Services. How can I help you today?\nStudent: Hello! I'm calling to enquire about private studio rentals near the central campus for the upcoming academic year.\nOfficer: Certainly. May I have your full name first, please?\nStudent: Yes, it's Julian Sterling. That's S-T-E-R-L-I-N-G.\nOfficer: Thank you, Julian. And what's your contact telephone number?\nStudent: It's 07700 900342. Oh wait, apologies, that was my temporary SIM. My permanent mobile number is 07700 900581.\nOfficer: Got it, ending in 581. And which degree faculty are you enrolled in?\nStudent: I'm a postgraduate student in Environmental Engineering.\nOfficer: Excellent. Now, what type of room preference do you have in mind? We offer shared four-bedroom flats, en-suite single rooms, and self-contained studio apartments.\nStudent: I really need a quiet environment for my thesis research, so a studio apartment would be ideal.\nOfficer: Right. And what is your preferred move-in date?\nStudent: My term starts on October 3rd, so I would like to move in on the 24th of September.\nOfficer: Let me check availability. Yes, we have a newly renovated studio at the Riverside Lodge. That property is located on Highfield Road.\nStudent: Highfield Road? How far is that on foot from the main library?\nStudent: It's about a 15-minute walk, or 5 minutes if you cycle along the dedicated riverbank path.\nStudent: That sounds perfect. What is the weekly rental rate?\nOfficer: The standard rate is £185 per week, and that includes high-speed fiber internet and water bills. However, electricity is metered separately.\nStudent: I see. Is there a security deposit required upon signing?\nOfficer: Yes, a refundable security deposit of £350 is payable upon contract confirmation.\nStudent: And what laundry facilities are available on-site?\nOfficer: There is a communal laundry room equipped with card-operated washing machines on the ground floor. Also, every resident receives access to a secure bicycle storage shed behind the main entrance.\nStudent: Fantastic. What documentation do I need to supply to finalize the reservation?\nOfficer: Just your official university acceptance letter and a copy of your passport photograph page.\nStudent: Brilliant, I'll email those across this afternoon. Thank you!\nOfficer: You're welcome, Julian. Goodbye.",
+        "questions": [
+          {
+            "id": 1,
+            "type": "fill",
+            "prompt": "Student's surname: ______",
+            "answer": "Sterling",
+            "acceptable": [
+              "sterling",
+              "Sterling"
+            ],
+            "explanation": "The student spells his surname out clearly: S-T-E-R-L-I-N-G."
+          },
+          {
+            "id": 2,
+            "type": "fill",
+            "prompt": "Contact phone number: ______",
+            "answer": "07700 900581",
+            "acceptable": [
+              "07700900581",
+              "07700 900581"
+            ],
+            "explanation": "He initially gives a temporary number ending in 342, but corrects himself to 07700 900581."
+          },
+          {
+            "id": 3,
+            "type": "fill",
+            "prompt": "Academic course: Environmental ______",
+            "answer": "Engineering",
+            "acceptable": [
+              "engineering",
+              "Engineering"
+            ],
+            "explanation": "He mentions he is a postgraduate student in Environmental Engineering."
+          },
+          {
+            "id": 4,
+            "type": "fill",
+            "prompt": "Preferred accommodation type: ______ apartment",
+            "answer": "studio",
+            "acceptable": [
+              "studio",
+              "Studio"
+            ],
+            "explanation": "He states: 'I really need a quiet environment... so a studio apartment would be ideal.'"
+          },
+          {
+            "id": 5,
+            "type": "fill",
+            "prompt": "Move-in date: ______ September",
+            "answer": "24th",
+            "acceptable": [
+              "24",
+              "24th",
+              "24 September",
+              "24th September"
+            ],
+            "explanation": "He says: 'I would like to move in on the 24th of September.'"
+          },
+          {
+            "id": 6,
+            "type": "fill",
+            "prompt": "Property street name: ______ Road",
+            "answer": "Highfield",
+            "acceptable": [
+              "highfield",
+              "Highfield"
+            ],
+            "explanation": "The officer states the property is on Highfield Road."
+          },
+          {
+            "id": 7,
+            "type": "fill",
+            "prompt": "Weekly rent (£): ______ (includes internet and water)",
+            "answer": "185",
+            "acceptable": [
+              "185",
+              "£185",
+              "185 pounds"
+            ],
+            "explanation": "The officer states: 'The standard rate is £185 per week'."
+          },
+          {
+            "id": 8,
+            "type": "fill",
+            "prompt": "Deposit amount (£): ______",
+            "answer": "350",
+            "acceptable": [
+              "350",
+              "£350"
+            ],
+            "explanation": "The officer says: 'a refundable security deposit of £350 is payable'."
+          },
+          {
+            "id": 9,
+            "type": "fill",
+            "prompt": "Free on-site facility: secure ______ storage",
+            "answer": "bicycle",
+            "acceptable": [
+              "bicycle",
+              "bike",
+              "Bicycle",
+              "Bike"
+            ],
+            "explanation": "The officer specifies: 'access to a secure bicycle storage shed'."
+          },
+          {
+            "id": 10,
+            "type": "fill",
+            "prompt": "Required document: university acceptance letter and ______ copy",
+            "answer": "passport",
+            "acceptable": [
+              "passport",
+              "Passport"
+            ],
+            "explanation": "The officer asks for university acceptance letter and a copy of his passport."
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "title": "Section 2: City Heritage & Eco-Park Orientation",
+        "context": "A talk given by a visitor center guide introducing the Green Valley Nature Reserve.",
+        "transcript": "Guide: Welcome everyone to the Green Valley Nature Reserve and Heritage Center. Before we set out along the main trail, I'd like to orient you to our grounds and explain some of the conservation projects taking place this season.\nFirst of all, a brief word about our founding history. The reserve was originally an industrial limestone quarry during the 19th century. Following its closure in 1974, local volunteers launched a massive ecological restoration campaign, transforming the derelict crater into what you see today: over 200 hectares of flourishing wetlands and ancient woodland.\nIf you look at the visitor map in your pamphlets, you'll see our central hub right where we are standing, at the North Gate Pavilion. Directly to your right, along the cobblestone lane, is the Heritage Blacksmith Workshop. Here, live demonstrations of traditional iron tools take place daily at 11:00 AM and 2:30 PM.\nContinuing straight ahead across the timber footbridge, you will arrive at the Dragonfly Marsh. We ask all visitors to remain strictly on the elevated wooden boardwalk here, as rare carnivorous sundew plants grow directly in the peat moss beside the water.\nIf you turn left immediately after crossing the footbridge, the winding gravel trail takes you up to the Hawk Ridge Lookout. From the observation platform at the summit, you can enjoy panoramic vistas across the entire valley.\nNow, concerning food and refreshments, please note that while picnics are warmly permitted in the designated Orchard Meadow, barbecues and open fires are strictly prohibited at all times due to dry brush fire hazard. Litter bins are stationed at every major junction, but we encourage everyone to practice our 'leave no trace' policy and take rubbish home whenever possible.\nFinally, for those interested in joining our evening bat walk, tickets are available at the information desk until 4:00 PM. High-frequency ultrasonic detectors will be loaned to each participant to track nocturnal pipistrelles along the riverbank.",
+        "questions": [
+          {
+            "id": 11,
+            "type": "mcq",
+            "prompt": "The Green Valley reserve was originally used as:",
+            "options": [
+              "A. A private botanical garden",
+              "B. An industrial limestone quarry",
+              "C. A commercial timber plantation"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "The guide says: 'The reserve was originally an industrial limestone quarry during the 19th century.'"
+          },
+          {
+            "id": 12,
+            "type": "mcq",
+            "prompt": "What took place at the site in 1974?",
+            "options": [
+              "A. The quarry permanently ceased operations",
+              "B. The visitor pavilion was constructed",
+              "C. A royal botanical society bought the land"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A",
+              "a"
+            ],
+            "explanation": "The guide notes: 'Following its closure in 1974, local volunteers launched a massive restoration campaign.'"
+          },
+          {
+            "id": 13,
+            "type": "mcq",
+            "prompt": "Visitors at Dragonfly Marsh must stay on the boardwalk to protect:",
+            "options": [
+              "A. Migratory waterfowl nests",
+              "B. Fragile carnivorous plants",
+              "C. Historical timber structures"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "The guide explains: 'rare carnivorous sundew plants grow directly in the peat moss beside the water.'"
+          },
+          {
+            "id": 14,
+            "type": "mcq",
+            "prompt": "Where can visitors find the best panoramic view of the valley?",
+            "options": [
+              "A. The North Gate Pavilion",
+              "B. Hawk Ridge Lookout",
+              "C. Orchard Meadow"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "The guide states: 'at Hawk Ridge Lookout... you can enjoy panoramic vistas across the entire valley.'"
+          },
+          {
+            "id": 15,
+            "type": "mcq",
+            "prompt": "Which activity is strictly forbidden across the reserve?",
+            "options": [
+              "A. Picnicking in the meadow",
+              "B. Using ultrasonic bat detectors",
+              "C. Lighting open fires or barbecues"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C",
+              "c"
+            ],
+            "explanation": "The guide emphasizes: 'barbecues and open fires are strictly prohibited at all times'."
+          },
+          {
+            "id": 16,
+            "type": "fill",
+            "prompt": "Blacksmith demonstrations take place at 11:00 AM and ______ PM.",
+            "answer": "2:30",
+            "acceptable": [
+              "2:30",
+              "2.30",
+              "2:30 PM",
+              "two thirty"
+            ],
+            "explanation": "The guide says: 'demonstrations... take place daily at 11:00 AM and 2:30 PM.'"
+          },
+          {
+            "id": 17,
+            "type": "fill",
+            "prompt": "The total area of restored wetlands and woodland is over ______ hectares.",
+            "answer": "200",
+            "acceptable": [
+              "200",
+              "two hundred"
+            ],
+            "explanation": "The guide mentions: 'over 200 hectares of flourishing wetlands and ancient woodland.'"
+          },
+          {
+            "id": 18,
+            "type": "fill",
+            "prompt": "The path to Hawk Ridge Lookout has a surface made of ______.",
+            "answer": "gravel",
+            "acceptable": [
+              "gravel",
+              "Gravel"
+            ],
+            "explanation": "The guide says: 'the winding gravel trail takes you up to the Hawk Ridge Lookout.'"
+          },
+          {
+            "id": 19,
+            "type": "fill",
+            "prompt": "Evening bat walk tickets must be purchased before ______ PM.",
+            "answer": "4:00",
+            "acceptable": [
+              "4:00",
+              "4",
+              "4 PM",
+              "four"
+            ],
+            "explanation": "The guide says: 'tickets are available at the information desk until 4:00 PM.'"
+          },
+          {
+            "id": 20,
+            "type": "fill",
+            "prompt": "Participants on the bat walk will borrow ultrasonic ______.",
+            "answer": "detectors",
+            "acceptable": [
+              "detectors",
+              "detector",
+              "Detectors"
+            ],
+            "explanation": "The guide states: 'High-frequency ultrasonic detectors will be loaned to each participant.'"
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "title": "Section 3: Academic Research Project on Renewable Microgrids",
+        "context": "Two engineering students, Liam and Clara, discussing their seminar presentation with their tutor, Dr. Evans.",
+        "transcript": "Dr. Evans: Come in, Clara, Liam. Please have a seat. You've submitted your initial research proposal on decentralized island microgrids. Today we need to refine the scope before your seminar presentation next Tuesday.\nClara: Thank you, Dr. Evans. Liam and I reviewed our case studies, and we feel that analyzing small off-grid Scottish islands like Eigg and Fair Isle gives us the most compelling comparative data.\nLiam: Right. On the Isle of Eigg, for example, they combined small-scale hydroelectric generators with four wind turbines and a photovoltaic solar array. Before 2008, residents were entirely reliant on noisy, polluting diesel generators that were capped at a few hours of electricity per day.\nDr. Evans: That's a classic case study. But what theoretical framework are you applying to assess whether the transition was successful?\nClara: We're using a three-tier framework: economic viability, technical grid stability, and community governance. Most literature tends to focus solely on electrical load balancing, but on Eigg, the crucial factor was actually community buy-in. Every household agreed to a strict 5-kilowatt instantaneous power cap.\nLiam: Exactly. If a family turns on an electric kettle and a washing machine simultaneously and exceeds 5 kilowatts, their local circuit breaker trips. That forced residents to stagger high-energy chores, which flattened the peak demand curve and prevented battery bank depletion.\nDr. Evans: That is an excellent point to emphasize. Many engineering students overlook sociological behavior in system design. Now, what about your quantitative data visualization?\nClara: We plotted daily generation profiles across four seasonal quadrants: winter gales, spring runoff, summer solar peaks, and autumn transitional calm. We noticed that during November, wind generation accounted for over 72% of total output, whereas solar output dwindled to less than 4%.\nLiam: So our key takeaway recommendation for the seminar is that seasonal hybrid storage—such as hydrogen electrolysis or flow batteries—is far more critical than simply installing additional solar panels.\nDr. Evans: Very sound. For your presentation slides, ensure your axes on the battery degradation chart are labeled clearly in kilowatt-hours rather than generic percentages. And keep your conclusion limited to three concise policy takeaways.\nClara: Understood, Dr. Evans. We'll finalize the deck by Monday morning.",
+        "questions": [
+          {
+            "id": 21,
+            "type": "mcq",
+            "prompt": "Why did Clara and Liam select Scottish islands for their case study?",
+            "options": [
+              "A. They possess the highest solar radiation in Britain",
+              "B. They provide compelling comparative off-grid data",
+              "C. Their local councils provided research funding"
+            ],
+            "answer": "B",
+            "answer_label": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Clara says: 'we feel that analyzing small off-grid Scottish islands like Eigg and Fair Isle gives us the most compelling comparative data.'"
+          },
+          {
+            "id": 22,
+            "type": "mcq",
+            "prompt": "Prior to 2008, how did Isle of Eigg residents primarily obtain power?",
+            "options": [
+              "A. Subsea high-voltage transmission cables",
+              "B. Diesel generators with restricted daily hours",
+              "C. Geothermal steam turbines"
+            ],
+            "answer": "B",
+            "answer_label": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Liam explains: 'Before 2008, residents were entirely reliant on noisy, polluting diesel generators that were capped at a few hours...'"
+          },
+          {
+            "id": 23,
+            "type": "mcq",
+            "prompt": "According to Clara, what critical factor is often overlooked in engineering literature?",
+            "options": [
+              "A. Community governance and user behavior",
+              "B. Battery manufacturing costs",
+              "C. Copper wiring transmission loss"
+            ],
+            "answer": "A",
+            "answer_label": "A",
+            "acceptable": [
+              "A",
+              "a"
+            ],
+            "explanation": "Clara notes: 'Most literature tends to focus solely on electrical load balancing, but on Eigg, the crucial factor was actually community buy-in.'"
+          },
+          {
+            "id": 24,
+            "type": "mcq",
+            "prompt": "What happens if a household on Eigg exceeds the 5-kilowatt power cap?",
+            "options": [
+              "A. They receive a heavy financial fine",
+              "B. Their household circuit breaker trips",
+              "C. Their electricity is disconnected for a week"
+            ],
+            "answer": "B",
+            "answer_label": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Liam states: 'If a family... exceeds 5 kilowatts, their local circuit breaker trips.'"
+          },
+          {
+            "id": 25,
+            "type": "mcq",
+            "prompt": "In November, wind power generated what proportion of total electricity on Eigg?",
+            "options": [
+              "A. Less than 4%",
+              "B. Exactly 50%",
+              "C. Over 72%"
+            ],
+            "answer": "C",
+            "answer_label": "C",
+            "acceptable": [
+              "C",
+              "c"
+            ],
+            "explanation": "Clara explains: 'during November, wind generation accounted for over 72% of total output.'"
+          },
+          {
+            "id": 26,
+            "type": "fill",
+            "prompt": "The household power cap on Eigg is ______ kilowatts.",
+            "answer": "5",
+            "acceptable": [
+              "5",
+              "five",
+              "5kW",
+              "5 kW"
+            ],
+            "explanation": "Liam states: 'Every household agreed to a strict 5-kilowatt instantaneous power cap.'"
+          },
+          {
+            "id": 27,
+            "type": "fill",
+            "prompt": "The students grouped seasonal generation profiles into ______ quadrants.",
+            "answer": "four",
+            "acceptable": [
+              "four",
+              "4"
+            ],
+            "explanation": "Clara says: 'We plotted daily generation profiles across four seasonal quadrants'."
+          },
+          {
+            "id": 28,
+            "type": "fill",
+            "prompt": "During winter months, solar output dropped to below ______ percent.",
+            "answer": "4",
+            "acceptable": [
+              "4",
+              "four",
+              "4%"
+            ],
+            "explanation": "Clara notes that solar output dwindled to 'less than 4%'."
+          },
+          {
+            "id": 29,
+            "type": "fill",
+            "prompt": "The students recommend seasonal storage like flow batteries or hydrogen ______.",
+            "answer": "electrolysis",
+            "acceptable": [
+              "electrolysis",
+              "Electrolysis"
+            ],
+            "explanation": "Liam suggests: 'such as hydrogen electrolysis or flow batteries'."
+          },
+          {
+            "id": 30,
+            "type": "fill",
+            "prompt": "Dr. Evans advises labeling the battery degradation axis in ______ rather than percentages.",
+            "answer": "kilowatt-hours",
+            "acceptable": [
+              "kilowatt-hours",
+              "kWh",
+              "kilowatt hours"
+            ],
+            "explanation": "Dr. Evans states: 'ensure your axes on the battery degradation chart are labeled clearly in kilowatt-hours'."
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "title": "Section 4: University Lecture on Cetacean Echolocation & Biomimicry",
+        "context": "A lecture delivered by a marine biologist on bioacoustics and maritime sonar engineering.",
+        "transcript": "Lecturer: Good afternoon, students. In today's bioengineering lecture, we explore one of nature's most sophisticated perceptual adaptations: cetacean echolocation, and examine how marine mammals are inspiring revolutionary advancements in underwater autonomous navigation.\nOdontocetes—or toothed whales, which include dolphins, porpoises, and sperm whales—inhabit an environment where sunlight penetrates only the upper photic zone, typically down to 200 meters. Below this depth, in total pitch black, optical vision is virtually useless. Over 30 million years of evolutionary pressure, these creatures transformed acoustic energy into their primary sensory modality.\nLet us examine the anatomical mechanism behind click emission. Sound is not generated in the larynx as in terrestrial mammals. Instead, air is forced through muscular nasal passages containing specialized phonic lips, historically termed the 'monkey lips'. When these tissue membranes snap together, they generate ultra-short, explosive acoustic clicks lasting merely 50 to 100 microseconds.\nDirectly in front of the nasal passages lies the melon—a prominent bulbous organ composed of specialized low-density acoustic lipids. The melon acts precisely like an acoustic lens, collimating and focusing the divergent acoustic waves into a tight, directional beam oriented ahead of the animal.\nUpon encountering an external target—such as a school of squid or a submerged reef—the sound waves bounce back. Crucially, cetaceans do not receive returning echoes through external ear canals, which are vestigial and filled with cellular debris. Instead, echoes are absorbed through the animal's lower jawbone, known as the mandible. The mandible is lined with specialized 'acoustic fats' that channel sound directly into the middle ear and the tympanoperiotic bone complex, transmitting high-resolution spatial information to the auditory cortex.\nWhat fascinates modern naval engineers is the dolphin's unprecedented ability to differentiate between two identical brass cylinders differing in wall thickness by as little as 0.3 millimeters, even amid chaotic ambient noise and heavy seabed reverberation.\nTraditional human synthetic sonar operates on narrowband pulses that suffer severe distortion near coastlines or shallow harbors. In response, roboticists at Southampton have developed 'biomimetic twin-inversion pulse sonar'—or TWIPS. By emitting pairs of opposing acoustic pulses identical to dolphin click trains, TWIPS can distinguish between hollow metal sea mines and clutters of bubbles, opening up transformative applications in marine archaeology, subsea cable inspection, and autonomous search-and-rescue.",
+        "questions": [
+          {
+            "id": 31,
+            "type": "fill",
+            "prompt": "Sunlight penetrates seawater down to a maximum of ______ meters.",
+            "answer": "200",
+            "acceptable": [
+              "200",
+              "two hundred",
+              "200m"
+            ],
+            "explanation": "The lecturer says sunlight penetrates 'typically down to 200 meters'."
+          },
+          {
+            "id": 32,
+            "type": "fill",
+            "prompt": "Cetacean acoustic clicks are generated by structures known as phonic ______.",
+            "answer": "lips",
+            "acceptable": [
+              "lips",
+              "Lips"
+            ],
+            "explanation": "The lecturer describes: 'specialized phonic lips, historically termed the monkey lips'."
+          },
+          {
+            "id": 33,
+            "type": "fill",
+            "prompt": "The duration of an echolocation click is 50 to ______ microseconds.",
+            "answer": "100",
+            "acceptable": [
+              "100",
+              "one hundred"
+            ],
+            "explanation": "The lecturer states clicks last 'merely 50 to 100 microseconds'."
+          },
+          {
+            "id": 34,
+            "type": "fill",
+            "prompt": "The bulbous fatty organ that focuses sound waves is called the ______.",
+            "answer": "melon",
+            "acceptable": [
+              "melon",
+              "Melon"
+            ],
+            "explanation": "The lecturer explains: 'Directly in front of the nasal passages lies the melon'."
+          },
+          {
+            "id": 35,
+            "type": "fill",
+            "prompt": "The melon functions as an acoustic ______ to collimate sound waves.",
+            "answer": "lens",
+            "acceptable": [
+              "lens",
+              "Lens"
+            ],
+            "explanation": "The lecturer states: 'The melon acts precisely like an acoustic lens'."
+          },
+          {
+            "id": 36,
+            "type": "fill",
+            "prompt": "Returning sound echoes are received through the animal's lower ______.",
+            "answer": "jawbone",
+            "acceptable": [
+              "jawbone",
+              "jaw",
+              "mandible",
+              "Jawbone"
+            ],
+            "explanation": "The lecturer notes: 'echoes are absorbed through the animal's lower jawbone, known as the mandible'."
+          },
+          {
+            "id": 37,
+            "type": "fill",
+            "prompt": "Dolphins can detect thickness differences in cylinders as small as ______ millimeters.",
+            "answer": "0.3",
+            "acceptable": [
+              "0.3",
+              "0.3mm",
+              "0.3 mm"
+            ],
+            "explanation": "The lecturer states: 'differing in wall thickness by as little as 0.3 millimeters'."
+          },
+          {
+            "id": 38,
+            "type": "fill",
+            "prompt": "Conventional man-made sonar struggles due to ambient noise and seabed ______.",
+            "answer": "reverberation",
+            "acceptable": [
+              "reverberation",
+              "Reverberation"
+            ],
+            "explanation": "The lecturer notes: 'amid chaotic ambient noise and heavy seabed reverberation'."
+          },
+          {
+            "id": 39,
+            "type": "fill",
+            "prompt": "The bio-inspired sonar system developed by engineers is named ______.",
+            "answer": "TWIPS",
+            "acceptable": [
+              "TWIPS",
+              "twips"
+            ],
+            "explanation": "The lecturer introduces 'biomimetic twin-inversion pulse sonar—or TWIPS'."
+          },
+          {
+            "id": 40,
+            "type": "fill",
+            "prompt": "TWIPS helps autonomous underwater vehicles distinguish metal objects from ______.",
+            "answer": "bubbles",
+            "acceptable": [
+              "bubbles",
+              "bubble clutter",
+              "clutter of bubbles"
+            ],
+            "explanation": "The lecturer explains: 'TWIPS can distinguish between hollow metal sea mines and clutters of bubbles'."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock_listening_02",
+    "title": "Cambridge Academic Listening Mock 2",
+    "subtitle": "4 Sections • 40 Questions • Urban Planning, Wildlife & Psychology",
+    "duration_minutes": 30,
+    "sections": [
+      {
+        "section": 1,
+        "title": "Section 1: Community Sports Center Membership Registration",
+        "context": "A phone conversation between a new resident and a community sports club coordinator.",
+        "transcript": "Coordinator: Good afternoon, Oakridge Community Leisure Complex. Marcus speaking.\nCaller: Hi Marcus, I recently relocated to the district and would like to ask about adult fitness memberships.\nCoordinator: Excellent! May I take your full name and current address first?\nCaller: Yes, it's Nathanial Crawford. That's N-A-T-H-A-N-I-A-L, and surname Crawford, C-R-A-W-F-O-R-D.\nCoordinator: And your address in Oakridge?\nCaller: Flat 14B, Elmwood Terrace, Oakridge. Postcode is OK4 7PL.\nCoordinator: Thank you. Which facilities are you most interested in utilizing?\nCaller: Primarily the 25-meter lap pool, and perhaps the squash courts on weekends.\nCoordinator: Wonderful. We offer two core tiers for swimming and racquet sports. The Standard Plan covers pool access between 7:00 AM and 4:00 PM on weekdays, which is £34 per month. But if you want unrestricted evening access and weekend court bookings, our Gold All-Access Tier is £49 monthly.\nCaller: The £49 tier sounds much more flexible for my working hours. Does that membership include guest passes?\nCoordinator: Yes, every Gold member receives two complimentary guest day-passes per calendar month.\nCaller: Excellent. When does the introductory personal induction session take place?\nCoordinator: We run mandatory health and equipment inductions every Wednesday evening at 6:30 PM, or Saturday mornings at 10:00 AM.\nCaller: Saturday at 10:00 AM suits me best.\nCoordinator: Perfect, I've booked you in for this Saturday, the 18th of October. Please remember to bring a padlock for your locker and suitable non-marking rubber trainers for the courts.\nCaller: Great, see you on Saturday!",
+        "questions": [
+          {
+            "id": 1,
+            "type": "fill",
+            "prompt": "Caller's surname: ______",
+            "answer": "Crawford",
+            "acceptable": [
+              "crawford",
+              "Crawford"
+            ],
+            "explanation": "Spelled out by caller: C-R-A-W-F-O-R-D."
+          },
+          {
+            "id": 2,
+            "type": "fill",
+            "prompt": "Street address: Flat 14B, ______ Terrace",
+            "answer": "Elmwood",
+            "acceptable": [
+              "elmwood",
+              "Elmwood"
+            ],
+            "explanation": "The caller states: 'Elmwood Terrace'."
+          },
+          {
+            "id": 3,
+            "type": "fill",
+            "prompt": "Postcode: ______",
+            "answer": "OK4 7PL",
+            "acceptable": [
+              "OK4 7PL",
+              "ok4 7pl",
+              "OK47PL"
+            ],
+            "explanation": "The caller provides: 'OK4 7PL'."
+          },
+          {
+            "id": 4,
+            "type": "fill",
+            "prompt": "Primary sport of interest: ______ pool",
+            "answer": "swimming",
+            "acceptable": [
+              "swimming",
+              "lap",
+              "swimming pool",
+              "lap pool"
+            ],
+            "explanation": "The caller says: 'Primarily the 25-meter lap pool'."
+          },
+          {
+            "id": 5,
+            "type": "fill",
+            "prompt": "Selected membership tier: ______ All-Access",
+            "answer": "Gold",
+            "acceptable": [
+              "gold",
+              "Gold"
+            ],
+            "explanation": "The caller selects the Gold All-Access Tier."
+          },
+          {
+            "id": 6,
+            "type": "fill",
+            "prompt": "Monthly fee (£): ______",
+            "answer": "49",
+            "acceptable": [
+              "49",
+              "£49"
+            ],
+            "explanation": "The coordinator states: 'Gold All-Access Tier is £49 monthly'."
+          },
+          {
+            "id": 7,
+            "type": "fill",
+            "prompt": "Complimentary guest passes per month: ______",
+            "answer": "2",
+            "acceptable": [
+              "2",
+              "two"
+            ],
+            "explanation": "Coordinator confirms: 'two complimentary guest day-passes'."
+          },
+          {
+            "id": 8,
+            "type": "fill",
+            "prompt": "Induction day: ______ morning",
+            "answer": "Saturday",
+            "acceptable": [
+              "saturday",
+              "Saturday"
+            ],
+            "explanation": "Caller books Saturday morning at 10:00 AM."
+          },
+          {
+            "id": 9,
+            "type": "fill",
+            "prompt": "Induction date: 18th ______",
+            "answer": "October",
+            "acceptable": [
+              "october",
+              "October"
+            ],
+            "explanation": "Coordinator confirms: 'Saturday, the 18th of October'."
+          },
+          {
+            "id": 10,
+            "type": "fill",
+            "prompt": "Items to bring: trainers and a ______ for locker",
+            "answer": "padlock",
+            "acceptable": [
+              "padlock",
+              "Padlock",
+              "lock"
+            ],
+            "explanation": "Coordinator says: 'bring a padlock for your locker'."
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "title": "Section 2: City Botanical Gardens Volunteer Program",
+        "context": "A talk given to volunteer gardeners about seasonal conservation tasks.",
+        "transcript": "Coordinator: Welcome volunteers to the St. Jude Botanical Gardens. We are delighted to have twenty-five enthusiastic local residents joining our autumn horticulture conservation team.\nOur gardens span thirty-five acres, divided into four specialty bio-zones: the Victorian Glasshouse, the Alpine Rockery, the Native Woodland Meadow, and the Medicinal Herb Sanctuary.\nThis season, our primary collective priority is soil health restoration and seed harvesting. In recent years, intense urban heatwaves have degraded topsoil organic matter across the meadow. Therefore, team A will focus on applying organic mulch to protect root systems before the first November frost.\nTeam B will be stationed in the Medicinal Herb Sanctuary. Your task involves collecting dried seeds from our heirloom calendula, echinacea, and valerian plants. Each seed batch must be cataloged in paper envelopes with the harvest date and specimen bed number. Never use plastic bags, as residual moisture promotes fungal mold during winter storage.\nSafety protocols are paramount. Thick thorn-resistant leather gloves must be worn when pruning near the heritage rose borders. First-aid kits are located inside the main tool shed and the tea pavilion. Tea and light refreshments will be served at 11:15 AM in the courtyard greenhouse. Let's head out and begin!",
+        "questions": [
+          {
+            "id": 11,
+            "type": "mcq",
+            "prompt": "How large are the St. Jude Botanical Gardens?",
+            "options": [
+              "A. 15 acres",
+              "B. 25 acres",
+              "C. 35 acres"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C",
+              "c"
+            ],
+            "explanation": "Coordinator states: 'Our gardens span thirty-five acres'."
+          },
+          {
+            "id": 12,
+            "type": "mcq",
+            "prompt": "Why has the meadow topsoil degraded in recent years?",
+            "options": [
+              "A. Intensive urban heatwaves",
+              "B. Excessive foot traffic from festivals",
+              "C. Invasive burrowing insects"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A",
+              "a"
+            ],
+            "explanation": "Coordinator explains: 'intense urban heatwaves have degraded topsoil organic matter'."
+          },
+          {
+            "id": 13,
+            "type": "mcq",
+            "prompt": "Why must volunteers avoid plastic bags when storing seeds?",
+            "options": [
+              "A. Plastic reacts chemically with herb seeds",
+              "B. Trapped moisture causes fungal mold",
+              "C. Plastic bags are prohibited by council recycling rules"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Coordinator notes: 'residual moisture promotes fungal mold during winter storage'."
+          },
+          {
+            "id": 14,
+            "type": "mcq",
+            "prompt": "When pruning near rose borders, volunteers must wear:",
+            "options": [
+              "A. Rubber waterproof aprons",
+              "B. Thorn-resistant leather gloves",
+              "C. Safety goggles and hardhats"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Coordinator emphasizes: 'Thick thorn-resistant leather gloves must be worn'."
+          },
+          {
+            "id": 15,
+            "type": "mcq",
+            "prompt": "Refreshment break is scheduled for:",
+            "options": [
+              "A. 10:30 AM",
+              "B. 11:15 AM",
+              "C. 12:00 PM"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Coordinator announces: 'Tea and light refreshments will be served at 11:15 AM'."
+          },
+          {
+            "id": 16,
+            "type": "fill",
+            "prompt": "Team A will spread organic ______ on root systems.",
+            "answer": "mulch",
+            "acceptable": [
+              "mulch",
+              "Mulch"
+            ],
+            "explanation": "Coordinator says: 'applying organic mulch to protect root systems'."
+          },
+          {
+            "id": 17,
+            "type": "fill",
+            "prompt": "Mulch protects plants before the arrival of the November ______.",
+            "answer": "frost",
+            "acceptable": [
+              "frost",
+              "Frost"
+            ],
+            "explanation": "Coordinator notes: 'before the first November frost'."
+          },
+          {
+            "id": 18,
+            "type": "fill",
+            "prompt": "Team B must store collected seeds inside ______ envelopes.",
+            "answer": "paper",
+            "acceptable": [
+              "paper",
+              "Paper"
+            ],
+            "explanation": "Coordinator instructs: 'cataloged in paper envelopes'."
+          },
+          {
+            "id": 19,
+            "type": "fill",
+            "prompt": "Envelopes must display the harvest date and the specimen ______ number.",
+            "answer": "bed",
+            "acceptable": [
+              "bed",
+              "Bed"
+            ],
+            "explanation": "Coordinator says: 'harvest date and specimen bed number'."
+          },
+          {
+            "id": 20,
+            "type": "fill",
+            "prompt": "First-aid kits are kept in the tea pavilion and the main ______.",
+            "answer": "tool shed",
+            "acceptable": [
+              "tool shed",
+              "toolshed",
+              "shed"
+            ],
+            "explanation": "Coordinator notes: 'inside the main tool shed and the tea pavilion'."
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "title": "Section 3: Educational Psychology Seminar on Cognitive Load Theory",
+        "context": "Two psychology students, Maya and Sam, discussing instructional design principles with their lecturer.",
+        "transcript": "Lecturer: Good morning, Maya, Sam. You're presenting John Sweller's Cognitive Load Theory in next week's pedagogy module. How is your slide synthesis progressing?\nSam: We've structured the talk around Sweller's three core load classifications: intrinsic, extraneous, and germane.\nMaya: Exactly. Intrinsic load relates directly to the innate complexity of the content being learned, which cannot be simplified without altering the subject itself. For example, learning multidimensional vector calculus has inherently higher element interactivity than memorizing single chemical symbols.\nSam: Extraneous load, on the other hand, is the real enemy of the student. It represents mental effort wasted processing poorly designed instructions, distracting animations, or split-attention slide layouts.\nLecturer: Precisely. And how are you illustrating the 'split-attention effect'?\nMaya: We've designed a side-by-side graphic. On the left is a conventional textbook anatomy diagram where labels are placed in a legend at the bottom of the page, forcing the learner's eyes to constantly scan back and forth. On the right is the integrated layout, where descriptive callouts are placed directly adjacent to the relevant anatomical structures.\nSam: Studies show the integrated layout reduces extraneous working memory demand by over 40%, leaving more cognitive capacity for germane load—which is the construction and automation of long-term mental schemas.\nLecturer: Excellent demonstration. Make sure you highlight the 'expertise reversal effect' as well. What works brilliantly for novices—such as step-by-step worked examples—often frustrates and impedes advanced experts who already possess automated schemas.\nMaya: Yes! We've included a dedicated slide explaining why adaptive learning algorithms must gradually fade scaffolds as learner competence grows.",
+        "questions": [
+          {
+            "id": 21,
+            "type": "mcq",
+            "prompt": "Intrinsic cognitive load is determined by:",
+            "options": [
+              "A. The font style of instructional textbooks",
+              "B. The inherent complexity of the learning subject",
+              "C. The physical environment of the classroom"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Maya explains: 'Intrinsic load relates directly to the innate complexity of the content'."
+          },
+          {
+            "id": 22,
+            "type": "mcq",
+            "prompt": "Extraneous cognitive load is caused by:",
+            "options": [
+              "A. Poorly formatted instructional design",
+              "B. Insufficient sleep before examinations",
+              "C. Low nutritional intake during study"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A",
+              "a"
+            ],
+            "explanation": "Sam states: 'mental effort wasted processing poorly designed instructions, distracting animations...'"
+          },
+          {
+            "id": 23,
+            "type": "mcq",
+            "prompt": "How does an integrated diagram layout reduce working memory demand?",
+            "options": [
+              "A. By eliminating technical labels entirely",
+              "B. By placing callout text directly next to anatomical structures",
+              "C. By using full-color audio recordings"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B",
+              "b"
+            ],
+            "explanation": "Maya describes: 'descriptive callouts are placed directly adjacent to the relevant anatomical structures'."
+          },
+          {
+            "id": 24,
+            "type": "mcq",
+            "prompt": "According to research cited by Sam, integrated layouts reduce extraneous load by over:",
+            "options": [
+              "A. 20%",
+              "B. 30%",
+              "C. 40%"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C",
+              "c"
+            ],
+            "explanation": "Sam states: 'integrated layout reduces extraneous working memory demand by over 40%'."
+          },
+          {
+            "id": 25,
+            "type": "mcq",
+            "prompt": "The 'expertise reversal effect' occurs when:",
+            "options": [
+              "A. Advanced learners are hindered by excessive beginner scaffolds",
+              "B. Novice learners attempt advanced research projects",
+              "C. Instructors forget introductory definitions"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A",
+              "a"
+            ],
+            "explanation": "Lecturer explains: 'What works brilliantly for novices... often frustrates and impedes advanced experts'."
+          },
+          {
+            "id": 26,
+            "type": "fill",
+            "prompt": "Cognitive Load Theory was originally developed by John ______.",
+            "answer": "Sweller",
+            "acceptable": [
+              "sweller",
+              "Sweller"
+            ],
+            "explanation": "Sam and lecturer cite John Sweller."
+          },
+          {
+            "id": 27,
+            "type": "fill",
+            "prompt": "Intrinsic complexity is driven by element ______.",
+            "answer": "interactivity",
+            "acceptable": [
+              "interactivity",
+              "Interactivity"
+            ],
+            "explanation": "Maya mentions 'higher element interactivity'."
+          },
+          {
+            "id": 28,
+            "type": "fill",
+            "prompt": "The split-attention effect forces the eye to scan back and forth between diagrams and the ______.",
+            "answer": "legend",
+            "acceptable": [
+              "legend",
+              "Legend"
+            ],
+            "explanation": "Maya refers to 'labels placed in a legend at the bottom'."
+          },
+          {
+            "id": 29,
+            "type": "fill",
+            "prompt": "Germane load is utilized to construct long-term mental ______.",
+            "answer": "schemas",
+            "acceptable": [
+              "schemas",
+              "schema",
+              "Schemas"
+            ],
+            "explanation": "Sam refers to 'the construction and automation of long-term mental schemas'."
+          },
+          {
+            "id": 30,
+            "type": "fill",
+            "prompt": "Adaptive systems must gradually fade educational ______ as mastery increases.",
+            "answer": "scaffolds",
+            "acceptable": [
+              "scaffolds",
+              "scaffolding",
+              "Scaffolds"
+            ],
+            "explanation": "Maya mentions 'gradually fade scaffolds as learner competence grows'."
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "title": "Section 4: University Lecture on Megacities & Urban Microclimate Resilience",
+        "context": "A lecture delivered by a professor of urban climatology on mitigating the Urban Heat Island (UHI) effect.",
+        "transcript": "Lecturer: Good afternoon. Today we examine the microclimatic challenges confronting global megacities in the 21st century, focusing specifically on urban heat island mitigation and aerodynamic ventilation corridors.\nAn Urban Heat Island—or UHI—describes the phenomenon whereby metropolitan regions experience ambient temperatures between 3 and 8 degrees Celsius warmer than their peripheral rural surroundings.\nThe primary thermodynamic driver is material thermal inertia. Conventional concrete, asphalt, and dark roofing membranes absorb incoming shortwave solar radiation throughout the day and reradiate this stored energy as longwave thermal radiation deep into the night, preventing nocturnal radiative cooling.\nFurthermore, dense high-rise street canyons physically impede horizontal advection. Wind speeds that would ordinarily disperse stagnant hot air are decelerated by building surface roughness, creating turbulent eddies that trap vehicular particulate emissions.\nTo counteract this thermodynamic trap, pioneering municipal planners in Singapore and Stuttgart have engineered 'urban ventilation corridors'. In Stuttgart, Germany, cold air drainage currents originating in surrounding forested hills are channeled through designated building-free corridors directly into the city center. Zoning bylaws enforce strict building height limits and mandate minimum setbacks along these natural airways.\nOn an architectural scale, researchers are deploying 'albedo optimization'. Standard asphalt has an albedo of merely 0.05 to 0.10, reflecting less than ten percent of sunlight. By integrating titanium dioxide light-scattering coatings into pavement binders, reflective 'cool pavements' achieve albedos exceeding 0.45, lowering ground surface temperatures by up to 12 degrees.\nFinally, urban evapotranspiration is being revitalized through bioswales and living green facades. A single mature deciduous street tree can transpire over 400 liters of water daily, producing a localized ambient cooling equivalent to ten commercial air-conditioning units operating continuously.",
+        "questions": [
+          {
+            "id": 31,
+            "type": "fill",
+            "prompt": "Metropolitan areas can be 3 to ______ degrees Celsius hotter than rural zones.",
+            "answer": "8",
+            "acceptable": [
+              "8",
+              "eight"
+            ],
+            "explanation": "Lecturer states: 'between 3 and 8 degrees Celsius warmer'."
+          },
+          {
+            "id": 32,
+            "type": "fill",
+            "prompt": "Building materials absorb daytime shortwave radiation and emit ______ radiation at night.",
+            "answer": "longwave",
+            "acceptable": [
+              "longwave",
+              "Longwave",
+              "long-wave"
+            ],
+            "explanation": "Lecturer explains: 'reradiate this stored energy as longwave thermal radiation'."
+          },
+          {
+            "id": 33,
+            "type": "fill",
+            "prompt": "High-rise street canyons impede horizontal air ______.",
+            "answer": "advection",
+            "acceptable": [
+              "advection",
+              "Advection"
+            ],
+            "explanation": "Lecturer mentions: 'street canyons physically impede horizontal advection'."
+          },
+          {
+            "id": 34,
+            "type": "fill",
+            "prompt": "Rough building surfaces decelerate wind and produce turbulent ______.",
+            "answer": "eddies",
+            "acceptable": [
+              "eddies",
+              "Eddies"
+            ],
+            "explanation": "Lecturer notes: 'creating turbulent eddies that trap vehicular particulate emissions'."
+          },
+          {
+            "id": 35,
+            "type": "fill",
+            "prompt": "Stuttgart, Germany utilizes cold air drainage from surrounding ______ hills.",
+            "answer": "forested",
+            "acceptable": [
+              "forested",
+              "Forested"
+            ],
+            "explanation": "Lecturer states: 'cold air drainage currents originating in surrounding forested hills'."
+          },
+          {
+            "id": 36,
+            "type": "fill",
+            "prompt": "Standard dark asphalt reflects less than ______ percent of solar radiation.",
+            "answer": "10",
+            "acceptable": [
+              "10",
+              "ten",
+              "10%"
+            ],
+            "explanation": "Lecturer notes standard asphalt reflects 'less than ten percent of sunlight'."
+          },
+          {
+            "id": 37,
+            "type": "fill",
+            "prompt": "Cool pavement coatings incorporate light-scattering ______ dioxide.",
+            "answer": "titanium",
+            "acceptable": [
+              "titanium",
+              "Titanium"
+            ],
+            "explanation": "Lecturer mentions 'titanium dioxide light-scattering coatings'."
+          },
+          {
+            "id": 38,
+            "type": "fill",
+            "prompt": "Reflective pavements can reduce ground surface temperatures by up to ______ degrees.",
+            "answer": "12",
+            "acceptable": [
+              "12",
+              "twelve"
+            ],
+            "explanation": "Lecturer states: 'lowering ground surface temperatures by up to 12 degrees'."
+          },
+          {
+            "id": 39,
+            "type": "fill",
+            "prompt": "A single mature deciduous tree can transpire over ______ liters of water per day.",
+            "answer": "400",
+            "acceptable": [
+              "400",
+              "four hundred"
+            ],
+            "explanation": "Lecturer confirms: 'can transpire over 400 liters of water daily'."
+          },
+          {
+            "id": 40,
+            "type": "fill",
+            "prompt": "The natural cooling produced by one mature tree equals ______ commercial air-conditioners.",
+            "answer": "10",
+            "acceptable": [
+              "10",
+              "ten"
+            ],
+            "explanation": "Lecturer concludes: 'localized ambient cooling equivalent to ten commercial air-conditioning units'."
+          }
+        ]
+      }
+    ]
+  }
+]
