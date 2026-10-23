@@ -3140,128 +3140,435 @@
   }
 
   /* =========================================================
-     HUB 7: AI MENTOR & IN-APP COPILOT (SERVERLESS CLOUDFLARE AI ENGINE)
+     HUB 7: GEMINI FULL-PAGE BORDERLESS CONVERSATIONAL CANVAS
+     (Modeled directly after Google Gemini web & mobile UI)
      ========================================================= */
-  .ai-chat-workspace {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 14px;
+
+  /* Viewport & Layout Reset when in AI Mentor tab */
+  body[data-active-tab="aichat"] {
+    overflow: hidden !important;
+    height: 100vh !important;
+    height: 100dvh !important;
   }
 
-  .ai-chat-card {
+  body[data-active-tab="aichat"] .topbar {
+    display: none !important;
+  }
+
+  body[data-active-tab="aichat"] #main-content.page-wrap {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .gemini-chat-canvas {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+    box-sizing: border-box;
+  }
+
+  .gemini-chat-canvas.active {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Ambient Radial Glow at top */
+  .gemini-ambient-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 960px;
+    height: 420px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(78, 138, 255, 0.12), rgba(156, 95, 255, 0.06) 45%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top Gemini Header Bar */
+  .gemini-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    height: 60px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .gemini-header-left, .gemini-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .gemini-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    padding: 8px 14px;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gemini-icon-btn:hover {
+    background: var(--bg-elevated);
+    color: var(--text);
+    border-color: var(--border-mid);
+  }
+
+  .gemini-back-btn {
+    padding: 7px 14px 7px 10px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+    color: var(--text);
+  }
+
+  .gemini-back-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(-2px);
+  }
+
+  .gemini-model-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: var(--bg-card);
     border: 1px solid var(--border-mid);
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    border-radius: 9999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .ai-chat-stream {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    min-height: 520px;
-    max-height: 76vh;
+  .gemini-model-pill:hover {
+    border-color: var(--border-accent);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  }
+
+  .gemini-model-sparkle {
+    background: linear-gradient(135deg, #4E8AFF, #9C5FFF, #FF5C8A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .gemini-model-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .gemini-model-badge {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .gemini-vip-badge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(224, 108, 53, 0.15));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .gemini-vip-badge-btn:hover {
+    transform: translateY(-1px);
+    border-color: #F59E0B;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  }
+
+  /* Scrollable Body Viewport */
+  .gemini-scroll-container {
+    flex: 1;
     overflow-y: auto;
-    padding: 16px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .ai-chat-msg {
+  .gemini-stage {
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px 180px 20px;
     display: flex;
-    gap: 12px;
-    max-width: 88%;
-    animation: fadeInMsg 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-direction: column;
+    box-sizing: border-box;
   }
 
-  @keyframes fadeInMsg {
-    from { opacity: 0; transform: translateY(6px); }
+  /* Hero / Greeting Empty State */
+  .gemini-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 48px auto 24px auto;
+    width: 100%;
+    max-width: 700px;
+    animation: geminiFadeIn 0.35s ease-out;
+  }
+
+  @keyframes geminiFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .ai-chat-msg.user {
-    align-self: flex-end;
-    flex-direction: row-reverse;
+  .gemini-hero-sparkle {
+    margin-bottom: 24px;
+    animation: geminiSparkleFloat 3.6s ease-in-out infinite;
   }
 
-  .ai-chat-msg.assistant {
-    align-self: flex-start;
+  @keyframes geminiSparkleFloat {
+    0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 16px rgba(78, 138, 255, 0.45)); }
+    50% { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 0 28px rgba(156, 95, 255, 0.7)); }
   }
 
-  .ai-chat-avatar {
+  .gemini-hero-title {
+    font-size: 2.35rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 10px 0;
+    line-height: 1.25;
+    background: linear-gradient(135deg, var(--text) 30%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gemini-hero-sub {
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+    margin: 0 0 32px 0;
+    max-width: 520px;
+    line-height: 1.55;
+  }
+
+  /* Mode Switcher Pills */
+  .gemini-mode-pills {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 9999px;
+    padding: 4px;
+    margin-bottom: 34px;
+    gap: 4px;
+  }
+
+  .gemini-mode-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    background: transparent;
+    border: none;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gemini-mode-pill.active {
+    background: var(--bg-elevated);
+    color: var(--text);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+
+  /* Suggestions Grid */
+  .gemini-suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .gemini-sugg-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 18px;
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .gemini-sugg-card:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+
+  .gemini-sugg-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .gemini-sugg-content {
+    flex: 1;
+  }
+
+  .gemini-sugg-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .gemini-sugg-desc {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  /* Chat Stream */
+  .gemini-chat-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+  }
+
+  .gemini-chat-stream .ai-chat-msg {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+    animation: geminiMsgIn 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes geminiMsgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .gemini-chat-stream .ai-chat-msg.user {
+    justify-content: flex-end;
+  }
+
+  .gemini-chat-stream .ai-chat-msg.user .ai-chat-avatar {
+    display: none;
+  }
+
+  .gemini-chat-stream .ai-chat-msg.user .ai-chat-bubble {
+    max-width: 80%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 22px 22px 6px 22px;
+    padding: 14px 20px;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--text);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  .gemini-chat-stream .ai-chat-msg.assistant {
+    justify-content: flex-start;
+  }
+
+  .gemini-chat-stream .ai-chat-msg.assistant .ai-chat-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
     flex-shrink: 0;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-mid);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    margin-top: 2px;
   }
 
-  .ai-chat-msg.user .ai-chat-avatar {
-    background: rgba(224, 108, 53, 0.2);
-    border-color: var(--border-accent);
-  }
-
-  .ai-chat-bubble {
-    background: var(--bg-card);
-    border: 1px solid var(--border-mid);
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 0.84rem;
-    line-height: 1.6;
-    color: var(--text);
-    word-break: break-word;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  }
-
-  .ai-chat-msg.user .ai-chat-bubble {
-    background: rgba(224, 108, 53, 0.12);
-    border-color: var(--border-accent);
+  .gemini-chat-stream .ai-chat-msg.assistant .ai-chat-bubble {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 4px 0 0 0;
+    box-shadow: none;
+    font-size: 0.95rem;
+    line-height: 1.68;
     color: var(--text);
   }
 
-  .ai-chat-bubble h3, .ai-chat-bubble h4 {
-    margin: 12px 0 6px 0;
+  .gemini-chat-stream .ai-chat-bubble h3,
+  .gemini-chat-stream .ai-chat-bubble h4 {
+    margin: 14px 0 6px 0;
     color: var(--accent);
   }
 
-  .ai-chat-bubble p {
-    margin: 0 0 10px 0;
+  .gemini-chat-stream .ai-chat-bubble p {
+    margin: 0 0 12px 0;
   }
 
-  .ai-chat-bubble p:last-child {
+  .gemini-chat-stream .ai-chat-bubble p:last-child {
     margin-bottom: 0;
   }
 
-  .ai-chat-bubble ul, .ai-chat-bubble ol {
-    margin: 6px 0 10px 18px;
+  .gemini-chat-stream .ai-chat-bubble ul,
+  .gemini-chat-stream .ai-chat-bubble ol {
+    margin: 6px 0 12px 20px;
     padding: 0;
   }
 
-  .ai-chat-bubble li {
-    margin-bottom: 4px;
+  .gemini-chat-stream .ai-chat-bubble li {
+    margin-bottom: 5px;
   }
 
   .ai-action-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(224, 108, 53, 0.15);
+    background: rgba(224, 108, 53, 0.12);
     border: 1px solid var(--accent);
     color: var(--accent);
-    border-radius: 6px;
-    padding: 4px 10px;
+    border-radius: 9999px;
+    padding: 5px 12px;
     font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
@@ -3275,106 +3582,257 @@
     background: var(--accent);
     color: #ffffff;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(224, 108, 53, 0.35);
+    box-shadow: 0 3px 10px rgba(224, 108, 53, 0.35);
   }
 
-  .ai-quick-prompts {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .ai-prompt-btn {
-    padding: 5px 12px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
+  .ai-chat-bookmark-btn {
+    float: right;
+    background: transparent;
+    border: none;
     color: var(--text-secondary);
     cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
     transition: all 0.15s ease;
-    white-space: nowrap;
   }
 
-  .ai-prompt-btn:hover {
+  .ai-chat-bookmark-btn:hover {
     color: var(--accent);
-    border-color: var(--border-accent);
-    background: var(--accent-soft);
+    background: var(--bg-elevated);
   }
 
-  .ai-input-wrapper {
+  /* Floating Pill Input Bar */
+  .gemini-input-floating-bar-wrapper {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    z-index: 50;
     display: flex;
-    gap: 10px;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    padding: 0 16px;
   }
 
-  .ai-chat-textarea {
-    flex: 1;
+  .gemini-input-floating-bar {
+    pointer-events: auto;
+    max-width: 800px;
+    width: 100%;
     min-height: 56px;
-    max-height: 180px;
-    padding: 12px 14px;
-    background: var(--bg);
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--border-mid);
-    border-radius: 8px;
+    border-radius: 9999px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.32);
+    display: flex;
+    align-items: center;
+    padding: 6px 10px 6px 14px;
+    gap: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .gemini-input-floating-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--accent);
+  }
+
+  .gemini-action-plus-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-mid);
     color: var(--text);
-    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .gemini-action-plus-btn:hover {
+    background: var(--border-mid);
+    transform: rotate(90deg);
+  }
+
+  .gemini-input-field-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .gemini-chat-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
     font-family: inherit;
+    font-size: 0.95rem;
     line-height: 1.5;
     resize: none;
-    box-sizing: border-box;
     outline: none;
-    transition: border-color 0.15s ease;
+    padding: 8px 4px;
+    max-height: 180px;
+    box-sizing: border-box;
   }
 
-  .ai-chat-textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
+  .gemini-chat-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.85;
   }
 
-  .ai-typing-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-  }
-
-  .ai-typing-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: aiPulse 1.3s infinite both;
-  }
-
-  .ai-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .ai-typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes aiPulse {
-    0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
-    40% { opacity: 1; transform: scale(1.15); }
-  }
-
-  .tma-bridge-banner {
+  .gemini-input-actions {
     display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    background: rgba(224, 108, 53, 0.12);
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin-bottom: 16px;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
-  .at-results-card {
+  .gemini-voice-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .gemini-voice-btn:hover {
+    background: var(--bg-elevated);
+    color: var(--text);
+  }
+
+  .gemini-voice-btn.listening {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.15);
+    animation: geminiVoicePulse 1.2s infinite;
+  }
+
+  @keyframes geminiVoicePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  .gemini-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gemini-send-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 16px rgba(224, 108, 53, 0.45);
+  }
+
+  /* Quick Action Popover (+ button) */
+  .gemini-plus-menu {
+    pointer-events: auto;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 20px;
     background: var(--bg-card);
-    border: 1px solid var(--border-accent);
-    border-radius: 10px;
-    padding: 20px;
-    min-height: 120px;
+    border: 1px solid var(--border-mid);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.32);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 60;
+    min-width: 270px;
   }
 
+  .gemini-plus-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .gemini-plus-item:hover {
+    background: var(--bg-elevated);
+    color: var(--accent);
+  }
+
+  /* Disclaimer / Micro-Status */
+  .gemini-input-disclaimer {
+    pointer-events: auto;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .gemini-header {
+      padding: 10px 14px;
+      height: 52px;
+    }
+    .gemini-back-text, .gemini-btn-label {
+      display: none;
+    }
+    .gemini-hero {
+      margin: 24px auto 16px auto;
+    }
+    .gemini-hero-title {
+      font-size: 1.7rem;
+    }
+    .gemini-hero-sub {
+      font-size: 0.86rem;
+      margin-bottom: 22px;
+    }
+    .gemini-suggestions-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .gemini-sugg-card {
+      padding: 12px 14px;
+    }
+    .gemini-stage {
+      padding: 12px 14px 175px 14px;
+    }
+    .gemini-input-floating-bar-wrapper {
+      bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      padding: 0 10px;
+    }
+    .gemini-input-floating-bar {
+      min-height: 50px;
+      padding: 4px 8px 4px 12px;
+      border-radius: 9999px;
+    }
+    .gemini-chat-stream .ai-chat-msg.user .ai-chat-bubble {
+      max-width: 88%;
+      font-size: 0.88rem;
+      padding: 10px 16px;
+    }
+  }
 
   /* =========================================================
      SPEAK APP SIGNATURE UI REWORK (OPEN-DESIGN AUDITED)
@@ -8171,77 +8629,161 @@ body.in-cbt-drill #backToTopBtn {
   <!-- =========================================================
        HUB 7: AI MENTOR // SERVERLESS CLOUDFLARE AI COPILOT & IN-APP NAVIGATOR
        ========================================================= -->
-  <section id="view-aichat" class="view-section studio-tab-section" data-tab-index="aichat" aria-labelledby="tab-aichat">
-    <div class="section-guide-banner">
-      <div>
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px; flex-wrap:wrap;">
-          <h2 class="section-guide-title" style="margin:0;">🤖 Cambridge AI Mentor &amp; In-App Copilot</h2>
-          <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; font-size:0.75rem;">100% Free // Zero-Key Serverless AI</span>
-          <span id="aiChatModelBadge" class="occ-ver-pill" style="color:var(--text); font-weight:700; font-size:0.75rem;">Llama 3.1 8B</span>
+    <section id="view-aichat" class="view-section studio-tab-section gemini-chat-canvas" data-tab-index="aichat" aria-labelledby="tab-aichat">
+    <!-- Global Persistent SVG Gradient Definition -->
+    <svg style="position:absolute; width:0; height:0; pointer-events:none;" aria-hidden="true">
+      <defs>
+        <linearGradient id="geminiSparkleGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4E8AFF"/>
+          <stop offset="35%" stop-color="#9C5FFF"/>
+          <stop offset="70%" stop-color="#FF5C8A"/>
+          <stop offset="100%" stop-color="#FFA439"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- Ambient Radial Glow -->
+    <div class="gemini-ambient-glow" aria-hidden="true"></div>
+
+    <!-- Gemini Top Bar -->
+    <header class="gemini-header">
+      <div class="gemini-header-left">
+        <button class="gemini-icon-btn gemini-back-btn" onclick="activateStudioTab('overview')" title="Back to IELTS Prep Studio">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <span class="gemini-back-text">Studio</span>
+        </button>
+        <div class="gemini-model-pill" id="geminiModelSelector" title="Active Model">
+          <span class="gemini-model-sparkle">✦</span>
+          <span class="gemini-model-name">Cambridge AI Core</span>
+          <span id="aiChatModelBadge" class="gemini-model-badge">Free</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         </div>
-        <p class="section-guide-sub">
-          Your personal Band 8.5+ IELTS Tutor powered by Cloudflare Serverless AI ($0 developer cost, zero authentication, no phone verification). Ask exam questions, request Band 9 essay outlines, practice mock speaking scenarios, or ask the AI to navigate directly to any test, cue card, or vocabulary drill across IELTS Prep Studio!
-        </p>
       </div>
-      <div class="section-guide-actions">
-        <button class="btn-outlined" style="padding:6px 12px; font-size:0.8rem; font-weight:700;" onclick="clearAiChatHistory()">🗑️ Clear Chat</button>
-        <button class="btn-outlined" style="padding:6px 12px; font-size:0.8rem; font-weight:700;" onclick="openVipPassModal()">👑 VIP Pass Info</button>
+      <div class="gemini-header-right">
+        <button class="gemini-icon-btn" onclick="startNewGeminiChat()" title="Start New Chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span class="gemini-btn-label">New chat</span>
+        </button>
+        <button class="gemini-icon-btn" onclick="clearAiChatHistory()" title="Clear Chat History">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        </button>
+        <button class="gemini-vip-badge-btn" onclick="openVipPassModal()" title="VIP Studio Status">
+          👑 <span class="gemini-vip-text">VIP</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable Chat Body Container -->
+    <div class="gemini-scroll-container" id="geminiScrollContainer">
+      <div class="gemini-stage">
+        
+        <!-- Gemini Empty State / Hero Greeting (Visible when chat is new/empty) -->
+        <div class="gemini-hero" id="geminiHero">
+          <div class="gemini-hero-sparkle" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="56" height="56" fill="none">
+              <path d="M24 0C24 13.255 13.255 24 0 24C13.255 24 24 34.745 24 48C24 34.745 34.745 24 48 24C34.745 24 24 13.255 24 0Z" fill="url(#geminiSparkleGrad)"/>
+            </svg>
+          </div>
+          <h1 class="gemini-hero-title">Where should we start?</h1>
+          <p class="gemini-hero-sub">Your personal Cambridge Band 8.5+ IELTS Tutor &amp; Multimodal Studio Copilot</p>
+
+          <!-- Mode Pills -->
+          <div class="gemini-mode-pills" role="tablist">
+            <button class="gemini-mode-pill active" id="modeChat" onclick="setGeminiMode('chat')">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+              <span>Chat</span>
+            </button>
+            <button class="gemini-mode-pill" id="modeTasks" onclick="setGeminiMode('tasks')">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="m9 16.2 10.6-10.6 1.4 1.4-12 12-5.5-5.5 1.4-1.4z"/></svg>
+              <span>IELTS Tasks</span>
+            </button>
+          </div>
+
+          <!-- 4 Suggestion Cards -->
+          <div class="gemini-suggestions-grid">
+            <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">
+              <div class="gemini-sugg-icon">🎙️</div>
+              <div class="gemini-sugg-content">
+                <div class="gemini-sugg-title">Speaking Band 9 Criteria</div>
+                <div class="gemini-sugg-desc">Fluency, Lexical Resource, Grammar, Pronunciation with exam examples</div>
+              </div>
+            </button>
+            <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Write a Band 9 outline and academic vocabulary for: Some people think universities should focus on graduates for work, while others think education is about broader knowledge.')">
+              <div class="gemini-sugg-icon">📝</div>
+              <div class="gemini-sugg-content">
+                <div class="gemini-sugg-title">Task 2 Essay Plan</div>
+                <div class="gemini-sugg-desc">High-scoring outline, body arguments, and collocations</div>
+              </div>
+            </button>
+            <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Generate image: A serene academic library in Cambridge with sunlight, mahogany desks, and books for IELTS preparation')">
+              <div class="gemini-sugg-icon">🎨</div>
+              <div class="gemini-sugg-content">
+                <div class="gemini-sugg-title">Generate Study Visual</div>
+                <div class="gemini-sugg-desc">Synthesize high-fidelity concept art and study atmosphere</div>
+              </div>
+            </button>
+            <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('What are the top tactics for True / False / Not Given in IELTS Reading? Give a step-by-step method.')">
+              <div class="gemini-sugg-icon">📖</div>
+              <div class="gemini-sugg-content">
+                <div class="gemini-sugg-title">CBT Reading Tactics</div>
+                <div class="gemini-sugg-desc">Proven keywords trapping strategy for True / False / Not Given</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Stream (Pure, borderless conversation) -->
+        <div id="aiChatStream" class="gemini-chat-stream" role="log" aria-live="polite">
+          <!-- Messages will be dynamically rendered here -->
+        </div>
+
       </div>
     </div>
 
-    <div class="ai-chat-workspace">
-      <div class="ai-chat-card">
-        <!-- Quick Starter Prompts -->
-        <div class="ai-quick-prompts">
-          <span style="font-size:0.75rem; color:var(--text-secondary); margin-right:4px; font-weight:700;">1-Tap Starters:</span>
-          <button class="ai-prompt-btn" onclick="setAiChatPrompt('How do I score Band 8.0 in Speaking Part 2? Give me the best framework and take me to the practice cue cards.')">🎙️ Speaking Part 2 Framework &amp; Cue Cards</button>
-          <button class="ai-prompt-btn" onclick="setAiChatPrompt('Give me a high-scoring Band 9 structure for Task 2 Discussion essays and show me the model essays.')">📝 Task 2 Essay Structure &amp; Models</button>
-          <button class="ai-prompt-btn" onclick="setAiChatPrompt('How does Spaced Repetition (SRS) work in this app? Take me to vocabulary flashcards.')">📚 SRS Vocabulary &amp; Flashcards</button>
-          <button class="ai-prompt-btn" onclick="setAiChatPrompt('What are the top tactics for True / False / Not Given in Reading? Take me to the reading tests.')">📖 True/False/Not Given Tactics</button>
-          <button class="ai-prompt-btn" onclick="setAiChatPrompt('Where can I find academic collocations for environmental and technology topics?')">⚡ Academic Collocations</button>
+    <!-- Floating Pill Input Container -->
+    <div class="gemini-input-floating-bar-wrapper">
+      <div class="gemini-input-floating-bar" id="geminiInputFloatingBar">
+        <!-- + Action Menu Button -->
+        <button class="gemini-action-plus-btn" id="geminiPlusBtn" onclick="toggleGeminiActionMenu()" title="Quick Actions &amp; Prompts">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+
+        <!-- Input Area -->
+        <div class="gemini-input-field-wrapper">
+          <textarea id="aiChatInput" class="gemini-chat-input" rows="1" placeholder="Ask Cambridge AI or type 'Generate image: ...'" oninput="autoExpandGeminiInput(this)" onkeydown="handleAiChatKeydown(event)"></textarea>
         </div>
 
-        <!-- Chat Stream -->
-        <div id="aiChatStream" class="ai-chat-stream" role="log" aria-live="polite">
-          <!-- Initial Assistant Welcome Message -->
-          <div class="ai-chat-msg assistant">
-            <div class="ai-chat-avatar">🤖</div>
-            <div class="ai-chat-bubble">
-              <h4 style="margin:0 0 8px 0; font-size:1.02rem; color:var(--accent); font-weight:800;">Welcome to your Cambridge AI Mentor &amp; Copilot!</h4>
-              <p>I am your dedicated IELTS preparation assistant, powered by <strong>Serverless Cloudflare AI (Meta Llama 3.1 8B)</strong> ($0 out-of-pocket developer cost, zero authentication, no phone numbers required). I know everything about this studio and can teach you Band 9 strategies, evaluate answers, or teleport you anywhere in the app with clickable shortcuts:</p>
-              <div style="margin:10px 0; display:flex; flex-wrap:wrap; gap:6px;">
-                <button class="ai-action-pill" onclick="handleAiNavAction('speaking:forecast')">🎙️ 50 Speaking Topics &amp; 160 Questions ↗</button>
-                <button class="ai-action-pill" onclick="handleAiNavAction('writing:models')">🏆 40 Band 9 Model Essays ↗</button>
-                <button class="ai-action-pill" onclick="handleAiNavAction('reading')">📖 23 Reading CBT Tests ↗</button>
-                <button class="ai-action-pill" onclick="handleAiNavAction('lexicon:vocab')">📚 1,162 Academic Vocabulary ↗</button>
-                <button class="ai-action-pill" onclick="handleAiNavAction('tools')">⚡ VIP Academic AI Tools ↗</button>
-              </div>
-              <p style="margin-top:8px; font-size:0.82rem; color:var(--text-secondary);">Ask any question below in <strong>English</strong> or <strong>Burmese (မြန်မာဘာသာ)</strong>!</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Unified Multimodal AI Bar (Zero Dropdown • Text + Visual Synthesis) -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <span class="brand-box" style="font-size:0.75rem; padding:3px 10px; background:var(--accent); color:var(--bg); border-radius:6px; font-weight:800;">🧠 CAMBRIDGE AI CORE</span>
-            <span style="font-size:0.78rem; font-weight:700; color:var(--text);">Unified Multimodal Copilot (Text Answers + AI Visual Generation) • 100% Free &amp; Keyless</span>
-          </div>
-          <div id="aiChatStatus" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Status: Ready (Text &amp; Visuals)</div>
-        </div>
-
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
-          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">🎙️ Speaking Band 9 Criteria</button>
-          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Write a Band 9 outline for: Some people think universities should focus on graduates for work, while others think education is about broader knowledge.')">📝 Essay Plan Outliner</button>
-          <button class="speak-pill-btn secondary" style="padding:3px 10px; font-size:0.74rem;" onclick="setAiChatPrompt('Generate image: A serene academic library in Cambridge with sunlight, books, and students preparing for the IELTS exam')">🎨 Generate Study Visual</button>
-        </div>
-
-        <div class="ai-input-wrapper">
-          <textarea id="aiChatInput" class="ai-chat-textarea" rows="2" placeholder="Ask anything about IELTS or type 'Generate image: [description]' to create visual aids..." onkeydown="handleAiChatKeydown(event)"></textarea>
-          <button id="aiChatSendBtn" class="btn-accent-solid" style="padding:12px 20px; font-weight:800; font-size:0.9rem; height:48px; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" onclick="sendAiChatMessage()">
-            <span>Send</span> <span>➤</span>
+        <!-- Right Action Buttons (Mic + Send) -->
+        <div class="gemini-input-actions">
+          <button class="gemini-voice-btn" id="geminiVoiceBtn" onclick="toggleGeminiVoiceInput()" title="Voice Dictation">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+          </button>
+          <button id="aiChatSendBtn" class="gemini-send-btn" onclick="sendAiChatMessage()" title="Send message">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="5 12 12 5 19 12"/>
+            </svg>
           </button>
         </div>
+      </div>
+
+      <!-- Quick Action Popover (Hidden by default, opened by + button) -->
+      <div class="gemini-plus-menu" id="geminiPlusMenu" style="display:none;">
+        <button class="gemini-plus-item" onclick="insertPromptSnippet('Evaluate my essay according to IELTS Band Descriptors:
+
+[Paste essay here]')">📝 Evaluate Essay</button>
+        <button class="gemini-plus-item" onclick="insertPromptSnippet('Simulate an IELTS Speaking Part 3 examiner on the topic: Technology and Education')">🎙️ Speaking Examiner Simulation</button>
+        <button class="gemini-plus-item" onclick="insertPromptSnippet('Generate image: High-tech IELTS digital computer workstation with books and notes')">🎨 Generate Visual Aid</button>
+        <button class="gemini-plus-item" onclick="insertPromptSnippet('Give me 10 C1/C2 Academic Collocations for Climate Change with example sentences')">⚡ Academic Collocations</button>
+      </div>
+
+      <!-- Disclaimer / Status -->
+      <div class="gemini-input-disclaimer">
+        <span id="aiChatStatus" class="gemini-status-text">Cambridge AI Multimodal Core • 100% Free &amp; Keyless</span>
       </div>
     </div>
   </section>
@@ -15720,12 +16262,24 @@ function appendAiChatMessage(role, text) {
   const stream = document.getElementById('aiChatStream');
   if (!stream) return;
 
+  // Hide hero greeting whenever a conversation message is added
+  const hero = document.getElementById('geminiHero');
+  if (hero) hero.style.display = 'none';
+
   const msgDiv = document.createElement('div');
   msgDiv.className = `ai-chat-msg ${role}`;
 
   const avatar = document.createElement('div');
   avatar.className = 'ai-chat-avatar';
-  avatar.textContent = (role === 'user') ? '👤' : '🤖';
+  if (role === 'user') {
+    avatar.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+  } else {
+    avatar.innerHTML = `
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+        <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" fill="url(#geminiSparkleGrad)"/>
+      </svg>
+    `;
+  }
 
   const bubble = document.createElement('div');
   bubble.className = 'ai-chat-bubble';
@@ -15750,15 +16304,124 @@ function appendAiChatMessage(role, text) {
   stream.appendChild(msgDiv);
 
   stream.scrollTop = stream.scrollHeight;
+  const scrollContainer = document.getElementById('geminiScrollContainer');
+  if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
 }
 
-function setAiChatPrompt(promptText) {
+function autoExpandGeminiInput(el) {
+  if (!el) return;
+  el.style.height = 'auto';
+  const newHeight = Math.min(el.scrollHeight, 180);
+  el.style.height = (newHeight > 24 ? newHeight : 24) + 'px';
+}
+
+function toggleGeminiActionMenu() {
+  const menu = document.getElementById('geminiPlusMenu');
+  if (!menu) return;
+  const isShown = menu.style.display !== 'none';
+  menu.style.display = isShown ? 'none' : 'flex';
+}
+
+function insertPromptSnippet(snippet) {
+  const input = document.getElementById('aiChatInput');
+  const menu = document.getElementById('geminiPlusMenu');
+  if (menu) menu.style.display = 'none';
+  if (input) {
+    input.value = snippet;
+    autoExpandGeminiInput(input);
+    input.focus();
+  }
+}
+
+function setGeminiMode(mode) {
+  const chatBtn = document.getElementById('modeChat');
+  const tasksBtn = document.getElementById('modeTasks');
+  const suggGrid = document.querySelector('.gemini-suggestions-grid');
+
+  if (mode === 'tasks') {
+    if (chatBtn) chatBtn.classList.remove('active');
+    if (tasksBtn) tasksBtn.classList.add('active');
+    if (suggGrid) {
+      suggGrid.innerHTML = `
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Give me a full Band 9 Speaking Part 2 response for: Describe an ambitious project you worked on.')">
+          <div class="gemini-sugg-icon">🎙️</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Speaking Part 2 Cue Card</div>
+            <div class="gemini-sugg-desc">Model Band 9 script with timing &amp; idiom markers</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Provide a complete Academic Writing Task 1 report for a double bar chart comparing renewable energy in 2010 vs 2025.')">
+          <div class="gemini-sugg-icon">📊</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Task 1 Model Report</div>
+            <div class="gemini-sugg-desc">Key features, overview paragraph &amp; comparison data</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Write 5 tricky IELTS Reading Multiple Choice questions with explanations on Artificial Intelligence.')">
+          <div class="gemini-sugg-icon">🧩</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Reading Mock Drill</div>
+            <div class="gemini-sugg-desc">Challenging distractor analysis &amp; evidence locator</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Generate image: An IELTS exam candidate receiving a Band 9 certificate in a British Council examination hall')">
+          <div class="gemini-sugg-icon">🎨</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Band 9 Vision Visualizer</div>
+            <div class="gemini-sugg-desc">Photorealistic visualization of exam triumph</div>
+          </div>
+        </button>
+      `;
+    }
+  } else {
+    if (tasksBtn) tasksBtn.classList.remove('active');
+    if (chatBtn) chatBtn.classList.add('active');
+    if (suggGrid) {
+      suggGrid.innerHTML = `
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">
+          <div class="gemini-sugg-icon">🎙️</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Speaking Band 9 Criteria</div>
+            <div class="gemini-sugg-desc">Fluency, Lexical Resource, Grammar, Pronunciation with exam examples</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Write a Band 9 outline and academic vocabulary for: Some people think universities should focus on graduates for work, while others think education is about broader knowledge.')">
+          <div class="gemini-sugg-icon">📝</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Task 2 Essay Plan</div>
+            <div class="gemini-sugg-desc">High-scoring outline, body arguments, and collocations</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Generate image: A serene academic library in Cambridge with sunlight, mahogany desks, and books for IELTS preparation')">
+          <div class="gemini-sugg-icon">🎨</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">Generate Study Visual</div>
+            <div class="gemini-sugg-desc">Synthesize high-fidelity concept art and study atmosphere</div>
+          </div>
+        </button>
+        <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('What are the top tactics for True / False / Not Given in IELTS Reading? Give a step-by-step method.')">
+          <div class="gemini-sugg-icon">📖</div>
+          <div class="gemini-sugg-content">
+            <div class="gemini-sugg-title">CBT Reading Tactics</div>
+            <div class="gemini-sugg-desc">Proven keywords trapping strategy for True / False / Not Given</div>
+          </div>
+        </button>
+      `;
+    }
+  }
+}
+
+function sendAiChatWithPrompt(promptText) {
   const input = document.getElementById('aiChatInput');
   if (input) {
     input.value = promptText;
-    input.focus();
-    sendAiChatMessage();
+    autoExpandGeminiInput(input);
   }
+  sendAiChatMessage();
+}
+
+function setAiChatPrompt(promptText) {
+  sendAiChatWithPrompt(promptText);
 }
 
 function handleAiChatKeydown(e) {
@@ -15768,27 +16431,97 @@ function handleAiChatKeydown(e) {
   }
 }
 
-function clearAiChatHistory() {
+function startNewGeminiChat() {
   aiChatMessages = [];
   const stream = document.getElementById('aiChatStream');
-  if (stream) {
-    stream.innerHTML = `
-      <div class="ai-chat-msg assistant">
-        <div class="ai-chat-avatar">🤖</div>
-        <div class="ai-chat-bubble">
-          <h4 style="margin:0 0 8px 0; font-size:1.02rem; color:var(--accent); font-weight:800;">Chat Cleared // Ready for New Questions</h4>
-          <p>Ask anything about IELTS or ask me to teleport you to any part of the app!</p>
-          <div style="margin:8px 0; display:flex; flex-wrap:wrap; gap:6px;">
-            <button class="ai-action-pill" onclick="handleAiNavAction('speaking:forecast')">🎙️ Speaking Cue Cards ↗</button>
-            <button class="ai-action-pill" onclick="handleAiNavAction('writing:models')">🏆 Band 9 Model Essays ↗</button>
-            <button class="ai-action-pill" onclick="handleAiNavAction('reading')">📖 Reading Tests ↗</button>
-          </div>
-        </div>
-      </div>
-    `;
+  if (stream) stream.innerHTML = '';
+  const hero = document.getElementById('geminiHero');
+  if (hero) hero.style.display = 'flex';
+  const input = document.getElementById('aiChatInput');
+  if (input) {
+    input.value = '';
+    input.style.height = 'auto';
+    input.focus();
   }
   const status = document.getElementById('aiChatStatus');
-  if (status) status.textContent = 'Status: Ready';
+  if (status) status.textContent = 'Cambridge AI Multimodal Core • 100% Free & Keyless';
+}
+
+function clearAiChatHistory() {
+  startNewGeminiChat();
+}
+
+// Voice input dictation with Web Speech API
+let geminiSpeechRecognition = null;
+let isGeminiListening = false;
+
+function toggleGeminiVoiceInput() {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const voiceBtn = document.getElementById('geminiVoiceBtn');
+  const input = document.getElementById('aiChatInput');
+  const status = document.getElementById('aiChatStatus');
+
+  if (!SpeechRec) {
+    if (status) status.textContent = '⚠️ Voice dictation is not supported in this browser.';
+    setTimeout(() => {
+      if (status) status.textContent = 'Cambridge AI Multimodal Core • 100% Free & Keyless';
+    }, 3000);
+    return;
+  }
+
+  if (isGeminiListening && geminiSpeechRecognition) {
+    try { geminiSpeechRecognition.stop(); } catch (err) {}
+    isGeminiListening = false;
+    if (voiceBtn) voiceBtn.classList.remove('listening');
+    if (status) status.textContent = 'Cambridge AI Multimodal Core • 100% Free & Keyless';
+    return;
+  }
+
+  try {
+    geminiSpeechRecognition = new SpeechRec();
+    geminiSpeechRecognition.continuous = false;
+    geminiSpeechRecognition.interimResults = true;
+    geminiSpeechRecognition.lang = 'en-US';
+
+    geminiSpeechRecognition.onstart = () => {
+      isGeminiListening = true;
+      if (voiceBtn) voiceBtn.classList.add('listening');
+      if (status) status.textContent = '🎙️ Listening... Speak your IELTS question';
+    };
+
+    geminiSpeechRecognition.onresult = (event) => {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      if (input && transcript) {
+        input.value = transcript;
+        autoExpandGeminiInput(input);
+      }
+    };
+
+    geminiSpeechRecognition.onerror = (err) => {
+      console.warn('[Gemini Voice] Speech error:', err);
+      isGeminiListening = false;
+      if (voiceBtn) voiceBtn.classList.remove('listening');
+      if (status) status.textContent = 'Voice dictation ended.';
+      setTimeout(() => {
+        if (status) status.textContent = 'Cambridge AI Multimodal Core • 100% Free & Keyless';
+      }, 2500);
+    };
+
+    geminiSpeechRecognition.onend = () => {
+      isGeminiListening = false;
+      if (voiceBtn) voiceBtn.classList.remove('listening');
+      if (status) status.textContent = 'Cambridge AI Multimodal Core • 100% Free & Keyless';
+    };
+
+    geminiSpeechRecognition.start();
+  } catch (e) {
+    console.error('[Gemini Voice] Init failure:', e);
+    isGeminiListening = false;
+    if (voiceBtn) voiceBtn.classList.remove('listening');
+  }
 }
 
 async function sendAiChatMessage() {
@@ -15819,6 +16552,7 @@ async function sendAiChatMessage() {
     lowerPrompt.includes('create an image of');
 
   const stream = document.getElementById('aiChatStream');
+  const scrollContainer = document.getElementById('geminiScrollContainer');
 
   if (isImageRequest) {
     if (sendBtn) sendBtn.disabled = true;
@@ -15831,7 +16565,7 @@ async function sendAiChatMessage() {
       <div class="ai-chat-avatar">🎨</div>
       <div class="ai-chat-bubble" style="padding:10px 16px;">
         <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text);">Cambridge AI is rendering visual artwork...</span>
+          <span style="font-size:0.86rem; font-weight:700; color:var(--text);">Cambridge AI is rendering visual artwork...</span>
           <div class="uiv-kinetic-loader"></div>
         </div>
       </div>
@@ -15839,6 +16573,7 @@ async function sendAiChatMessage() {
     if (stream) {
       stream.appendChild(typingDiv);
       stream.scrollTop = stream.scrollHeight;
+      if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
 
     let cleanPrompt = promptText
@@ -15865,22 +16600,27 @@ async function sendAiChatMessage() {
       const imageBubble = document.createElement('div');
       imageBubble.className = 'ai-chat-msg assistant';
       imageBubble.innerHTML = `
-        <div class="ai-chat-avatar">🎨</div>
+        <div class="ai-chat-avatar">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+            <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" fill="url(#geminiSparkleGrad)"/>
+          </svg>
+        </div>
         <div class="ai-chat-bubble" style="padding:14px; max-width:480px;">
-          <div style="font-size:0.82rem; font-weight:700; color:var(--accent); margin-bottom:6px;">🎨 AI Visual Synthesis Completed</div>
-          <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px; font-style:italic;">"${escapeHtml(cleanPrompt)}"</div>
-          <div style="position:relative; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:var(--bg-card); min-height:200px; display:flex; align-items:center; justify-content:center;">
-            <img src="${imageUrl}" alt="${escapeHtml(cleanPrompt)}" loading="lazy" style="width:100%; height:auto; display:block; border-radius:10px;" onerror="this.parentElement.innerHTML='<div style=\'padding:20px; text-align:center; color:var(--text-secondary);\'>Image could not be loaded. Please check connection.</div>';">
+          <div style="font-size:0.84rem; font-weight:700; color:var(--accent); margin-bottom:6px;">🎨 AI Visual Synthesis Completed</div>
+          <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px; font-style:italic;">"${escapeHtml(cleanPrompt)}"</div>
+          <div style="position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--border-mid); background:var(--bg-card); min-height:200px; display:flex; align-items:center; justify-content:center;">
+            <img src="${imageUrl}" alt="${escapeHtml(cleanPrompt)}" loading="lazy" style="width:100%; height:auto; display:block; border-radius:12px;" onerror="this.parentElement.innerHTML='<div style=\'padding:20px; text-align:center; color:var(--text-secondary);\'>Image could not be loaded. Please check connection.</div>';">
           </div>
-          <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-            <a href="${imageUrl}" target="_blank" rel="noopener" class="speak-pill-btn secondary" style="padding:4px 12px; font-size:0.75rem; text-decoration:none;">🔍 Open Full Resolution ↗</a>
-            <a href="${imageUrl}" download="ielts-ai-study-visual.png" class="speak-pill-btn" style="padding:4px 12px; font-size:0.75rem; text-decoration:none;">📥 Download Visual</a>
+          <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <a href="${imageUrl}" target="_blank" rel="noopener" class="speak-pill-btn secondary" style="padding:6px 14px; font-size:0.78rem; text-decoration:none;">🔍 Open Full Resolution ↗</a>
+            <a href="${imageUrl}" download="ielts-ai-study-visual.png" class="speak-pill-btn" style="padding:6px 14px; font-size:0.78rem; text-decoration:none;">📥 Download Visual</a>
           </div>
         </div>
       `;
       if (stream) {
         stream.appendChild(imageBubble);
         stream.scrollTop = stream.scrollHeight;
+        if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
       }
       if (status) status.textContent = 'Status: Ready (Visual Rendered)';
       if (sendBtn) sendBtn.disabled = false;
@@ -15889,15 +16629,19 @@ async function sendAiChatMessage() {
     return;
   }
 
-  // Append typing indicator with kinetic orbital loader
+  // Append typing indicator with Gemini sparkle and orbital loader
   const typingDiv = document.createElement('div');
   typingDiv.className = 'ai-chat-msg assistant';
   typingDiv.id = 'aiChatTyping';
   typingDiv.innerHTML = `
-    <div class="ai-chat-avatar">🤖</div>
+    <div class="ai-chat-avatar">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+        <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" fill="url(#geminiSparkleGrad)"/>
+      </svg>
+    </div>
     <div class="ai-chat-bubble" style="padding:10px 16px;">
       <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-size:0.82rem; font-weight:700; color:var(--text);">Cambridge Mentor is synthesizing...</span>
+        <span style="font-size:0.86rem; font-weight:700; color:var(--text);">Cambridge Mentor is synthesizing...</span>
         <div class="uiv-kinetic-loader"></div>
       </div>
     </div>
@@ -15905,6 +16649,7 @@ async function sendAiChatMessage() {
   if (stream) {
     stream.appendChild(typingDiv);
     stream.scrollTop = stream.scrollHeight;
+    if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
   }
 
   if (sendBtn) sendBtn.disabled = true;
@@ -16014,12 +16759,14 @@ async function sendAiChatMessage() {
     if (stream) {
       stream.appendChild(fallbackBubble);
       stream.scrollTop = stream.scrollHeight;
+      if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
     }
     if (status) status.textContent = 'Status: Connection Issue (Tap Retry)';
   }
 
   if (sendBtn) sendBtn.disabled = false;
 }
+
 
 function retryLastAiPrompt() {
   const lastUser = [...aiChatMessages].reverse().find(m => m.role === 'user');
