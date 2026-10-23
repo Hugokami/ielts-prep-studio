@@ -1,3 +1,16 @@
+
+function getDeviceId() {
+  try {
+    let id = localStorage.getItem('ips_device_id');
+    if (!id) {
+      id = 'dev-' + Math.random().toString(36).substring(2, 12) + '-' + Date.now().toString(36);
+      localStorage.setItem('ips_device_id', id);
+    }
+    return id;
+  } catch (e) {
+    return 'dev-anon-' + Date.now();
+  }
+}
 /**
  * IELTS Prep Studio - StorageManager & Telegram Mini App (TMA) Integration
  * 3-Tier Storage Engine: LocalStorage -> CloudStorage -> Cloudflare D1/KV Backend
@@ -516,7 +529,8 @@
           },
           body: JSON.stringify({
             initData: initData,
-            code: (code || '').trim().toUpperCase()
+            code: (code || '').trim().toUpperCase(),
+            deviceId: getDeviceId()
           })
         });
 
@@ -525,7 +539,10 @@
           throw new Error(data.error || 'Failed to redeem activation code');
         }
 
-        // Successfully redeemed! Merge VIP bundle
+        // Successfully redeemed! Store signed session token & merge VIP bundle
+        if (data.sessionToken) {
+          try { localStorage.setItem('ips_session_token', data.sessionToken); } catch (e) {}
+        }
         if (data.vipData && typeof window.mergeVipBundle === 'function') {
           window.mergeVipBundle(data.vipData);
         }

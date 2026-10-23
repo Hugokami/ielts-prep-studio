@@ -87,7 +87,7 @@
   {
     "id": "rm2",
     "code": "MOCK 2",
-    "title": "Passage 2: The Story of Silk & Ancient Trade Networks",
+    "title": "Passage 2: Sericulture & Ancient Eurasian Trade Networks",
     "category": "History & Archaeology",
     "difficulty": "Band 6.5 - 7.5",
     "questionTypes": "Matching Headings • True/False/Not Given",
@@ -1232,7 +1232,7 @@
   {
     "id": "rm12",
     "code": "MOCK 12",
-    "title": "Passage 12: The Development of the London Underground",
+    "title": "Passage 12: Subterranean Transit Engineering in the Victorian Era",
     "category": "Engineering & Natural Science",
     "difficulty": "Band 7.0 CBT",
     "questionTypes": "TFNG & Summary Completion (13 Items)",
@@ -1834,170 +1834,213 @@
   {
     "id": "rm15",
     "code": "MOCK 15",
-    "title": "Passage 15: The Mechanics of Ancient Astronomy: The Antikythera Mechanism",
-    "category": "Advanced Biosciences & Ecology",
-    "difficulty": "Band 8.0 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "title": "Passage 15: Deep-Sea Hydrothermal Vents & Chemosynthetic Ecosystems",
+    "category": "Marine Biology & Geochemistry",
+    "difficulty": "Band 7.5 - 8.5",
+    "questionTypes": "True/False/Not Given • Matching Information • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
-        "text": "In 1901, a group of Greek sponge divers sheltering from a severe storm off the coast of the island of Antikythera inadvertently discovered a sprawling Roman shipwreck. Resting at a depth of 45 metres, the wreck yielded a treasure trove of magnificent bronze and marble statues, exquisite glassware, and ancient silver coins. Among these spectacular artistic treasures was a heavily corroded, unassuming lump of bronze and wood. Initially ignored by marine archaeologists in favour of the more aesthetically pleasing artefacts, the calcified block sat undisturbed in the National Archaeological Museum in Athens. It was not until 1902 that archaeologist Valerios Stais, while examining the crumbling artefact, noticed a small, precisely cut gear wheel embedded in the rock, revealing it to be a highly sophisticated mechanical device rather than a mere statue fragment.",
-        "mmSummary": "အပိုဒ် (A) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+        "text": "Until the late 1970s, biological dogma held that all complex ecosystems on Earth were ultimately powered by solar radiation through the mechanism of photosynthesis. In 1977, however, geologists aboard the research submersible Alvin explored the Galápagos Rift, an active spreading ridge two and a half kilometres beneath the Pacific Ocean surface. Instead of encountering the barren, lifeless abyss predicted by traditional oceanic models, researchers stumbled upon vibrant biological oases clustering around submarine fissures that spewed mineral-laden fluids at temperatures exceeding 350 degrees Celsius. These volcanic geysers, subsequently designated hydrothermal vents, overturned long-standing ecological assumptions and proved that life could thrive in total darkness under crushing hydrostatic pressure."
       },
       {
         "label": "B",
-        "text": "For decades, the artefact completely baffled historians and classicists alike. Its sheer mechanical complexity seemed entirely anachronistic for its estimated construction date of the 2nd century BC. At the time, conventional historical narratives dictated that while the ancient Greeks were exceptionally adept at theoretical mathematics and geometry, they lacked the practical metallurgical and engineering skills required to create such a precise machine. The intricate gear trains within the Antikythera Mechanism rivalled the complexity of 18th-century European clocks. This staggering disparity led some early researchers to mistakenly assume it was a modern astrolabe that had been accidentally dropped into the ancient wreck centuries later.",
-        "mmSummary": "အပိုဒ် (B) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+        "text": "The thermodynamic catalyst underpinning these ecosystems is not sunlight, but geochemical energy derived from the Earth's upper mantle. Seawater percolates through tectonic cracks in the oceanic crust, where it is superheated by subsurface magma chambers. As the water is heated, it leaches heavy metals and sulfur compounds from surrounding basalt before being violently expelled back into the icy, alkaline ocean. Contact with cold abyssal water causes dissolved minerals to precipitate abruptly, forming towering chimney-like structures commonly referred to as 'black smokers' or 'white smokers' depending on their specific mineralogical composition."
       },
       {
         "label": "C",
-        "text": "The true function and origin of the mechanism were slowly unveiled through successive technological advancements in the late 20th and early 21st centuries. In the 1970s, British science historian Derek de Solla Price used early 2D X-ray imaging to count the gear teeth, proposing it was an astronomical computer designed to calculate celestial positions. Later, in 2005, the Antikythera Mechanism Research Project (AMRP) employed cutting-edge microfocus X-ray computed tomography to peer inside the remaining fragments without causing physical damage. They revealed a sophisticated, hand-powered orrery capable of tracking the Metonic cycle (the 19-year lunar calendar), charting the movements of the five classical planets, and accurately predicting lunar and solar eclipses using the 223-month Saros cycle.",
-        "mmSummary": "အပိုဒ် (C) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+        "text": "The primary producers sustaining these extreme environments are chemosynthetic archaea and bacteria. Rather than harnessing photons, these autotrophic microorganisms oxidize reduced chemical compounds—predominantly hydrogen sulfide, methane, and ferrous iron—to synthesize organic carbohydrates from dissolved carbon dioxide. Many of these microbes form thick microbial mats covering the surrounding basalt, while others have evolved obligate symbiotic relationships with specialized vent macrofauna. The most emblematic of these organisms is the giant tube worm, Riftia pachyptila, which can achieve lengths of over two metres. Possessing neither mouth, digestive tract, nor anus, Riftia survives entirely on metabolic by-products generated by billions of endosymbiotic sulfur-oxidizing bacteria housed within a specialized internal organ called the trophosome."
       },
       {
         "label": "D",
-        "text": "The specific creator of the device remains entirely unknown, though many prominent scholars theorise it may have been constructed by, or under the guidance of, the eminent ancient Greek astronomer Hipparchus. This hypothesis is supported by the machine's mechanical incorporation of Hipparchus's theory regarding the moon's elliptical orbit, which explained its variable speed across the sky. Tragically, the trajectory of this mechanical genius was abruptly cut short. The expanding Roman conquest of the Mediterranean, which culminated in the systematic looting of Greek city-states, fundamentally shifted the regional cultural focus from scientific inquiry and philosophy to imperial administration, military engineering, and warfare. The ship carrying the mechanism was, in all likelihood, a Roman vessel transporting looted Greek treasures back to Rome when it sank.",
-        "mmSummary": "အပိုဒ် (D) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+        "text": "The survival strategies necessitated by hydrothermal vent ecosystems have also compelled organisms to adapt to extreme transience. Because hydrothermal vents are anchored to dynamic tectonic plate boundaries, subterranean magma conduits frequently shift, shut down, or erupt without warning. An active vent field may suddenly cease venting within a few decades, condemning its dependent biological community to starvation, while fresh tectonic rifting can create pristine vent chimneys kilometers away. Vent species have therefore evolved exceptional larval dispersal capabilities, producing pelagic larvae capable of drifting across immense stretches of abyssal desert to colonize nascent volcanic chimneys."
       },
       {
         "label": "E",
-        "text": "The Antikythera Mechanism fundamentally rewrites the history of technology. It proves unequivocally that ancient engineers possessed a profound, applied understanding of kinematics, capable of translating highly complex astronomical cycles into miniature bronze gears. Following the eventual collapse of the Greco-Roman world, this astonishing level of mechanical sophistication disappeared entirely from the historical record, only re-emerging during the European Renaissance over a millennium later. It stands as a profound testament to a lost technological revolution, leaving modern historians to wonder what other mechanical marvels the ancient world might have produced had its intellectual trajectory not been severed.",
-        "mmSummary": "အပိုဒ် (E) ၏ အဓိကအချက်အလက်နှင့် ဆွေးနွေးချက်။"
+        "text": "Beyond their revolutionary impact on modern terrestrial biology, hydrothermal vents have galvanized research into the origins of life on Earth and across the solar system. Geochemical conditions at alkaline hydrothermal mounds resemble those hypothesized for the prebiotic Hadean ocean, leading many evolutionary biochemists to argue that the transition from abiotic chemistry to self-replicating metabolic networks occurred within the catalytic mineral pores of deep-sea chimneys. Furthermore, planetary scientists consider hydrothermal systems on extraterrestrial ocean worlds—notably Jupiter's moon Europa and Saturn's moon Enceladus—to represent the most plausible habitats for extant extraterrestrial life in our cosmic neighborhood."
       }
     ],
     "questions": [
       {
         "id": "rm15_q1",
         "type": "TFNG",
-        "q": "1. The sponge divers immediately recognised the scientific significance of the bronze mechanism in 1901.",
-        "options": [
-          "TRUE",
-          "FALSE",
-          "NOT GIVEN"
-        ],
-        "ans": "FALSE",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'FALSE'.",
-        "expMm": "အဖြေမှန်: 'FALSE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
-      },
-      {
-        "id": "rm15_q2",
-        "type": "TFNG",
-        "q": "2. Early historians believed the ancient Greeks were incapable of producing such precise metallurgical engineering.",
+        "q": "1. Prior to 1977, marine scientists generally believed that all complex life required sunlight for survival.",
         "options": [
           "TRUE",
           "FALSE",
           "NOT GIVEN"
         ],
         "ans": "TRUE",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
-        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "expEn": "Paragraph A confirms that prior to 1977, biological dogma maintained that all complex ecosystems were ultimately powered by solar radiation via photosynthesis.",
+        "expMm": "အဖြေမှန်: TRUE - စာပိုဒ် A အရ ၁၉၇၇ ခုနှစ် မတိုင်မီက သက်ရှိအဖွဲ့အစည်းအားလုံးသည် နေရောင်ခြည် (photosynthesis) ပေါ်တွင်သာ လုံးဝမှီခိုသည်ဟု ယူဆခဲ့ကြသည်။"
       },
       {
-        "id": "rm15_q3",
+        "id": "rm15_q2",
         "type": "TFNG",
-        "q": "3. Derek de Solla Price built a fully functioning physical replica of the device to prove his theories.",
+        "q": "2. The expedition aboard the submersible Alvin was originally organized to discover new marine species.",
         "options": [
           "TRUE",
           "FALSE",
           "NOT GIVEN"
         ],
         "ans": "NOT GIVEN",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'NOT GIVEN'.",
-        "expMm": "အဖြေမှန်: 'NOT GIVEN' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "expEn": "Paragraph A mentions geologists explored the Galápagos Rift and stumbled upon these oases, but does not state the original organizational purpose of the expedition.",
+        "expMm": "အဖြေမှန်: NOT GIVEN - စာပိုဒ် A တွင် ဘူမိဗေဒပညာရှင်များ Alvin ယာဉ်ဖြင့် စူးစမ်းခဲ့ကြောင်း ဖော်ပြထားသော်လည်း သက်ရှိအသစ်ရှာဖွေရန် ရည်ရွယ်ခဲ့ခြင်းဟုတ်မဟုတ် အချက်အလက်မပါဝင်ပါ။"
       },
       {
-        "id": "rm15_q4",
+        "id": "rm15_q3",
         "type": "TFNG",
-        "q": "4. The device incorporated mathematical theories regarding the variable speed of the moon.",
+        "q": "3. The color of hydrothermal chimneys is determined by the specific minerals precipitating from the fluid.",
         "options": [
           "TRUE",
           "FALSE",
           "NOT GIVEN"
         ],
         "ans": "TRUE",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'TRUE'.",
-        "expMm": "အဖြေမှန်: 'TRUE' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "expEn": "Paragraph B states that precipitating minerals form chimney structures referred to as 'black smokers' or 'white smokers' depending on their specific mineralogical composition.",
+        "expMm": "အဖြေမှန်: TRUE - စာပိုဒ် B တွင် ပါဝင်သော ဓာတ်သတ္တုဖွဲ့စည်းမှု (mineralogical composition) ပေါ်မူတည်၍ အခိုးထွက်ခေါင်းတိုင်များ၏ အရောင်ကွဲပြားကြောင်း ဖော်ပြထားသည်။"
+      },
+      {
+        "id": "rm15_q4",
+        "type": "TFNG",
+        "q": "4. Adult Riftia pachyptila consume surrounding microbial mats using a primitive oral cavity.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph C clearly states Riftia pachyptila possesses 'neither mouth, digestive tract, nor anus' and relies entirely on endosymbiotic bacteria.",
+        "expMm": "အဖြေမှန်: FALSE - စာပိုဒ် C အရ Riftia ပိုးကောင်ကြီးများတွင် ပါးစပ် (mouth) သို့မဟုတ် အစာခြေစနစ် လုံးဝမရှိဘဲ ခန္ဓာကိုယ်တွင်း ဘက်တီးရီးယားများမှတစ်ဆင့်သာ အာဟာရရရှိသည်။"
       },
       {
         "id": "rm15_q5",
-        "type": "GAP",
-        "q": "5. Row 1",
-        "options": [],
-        "ans": "",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
-        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "TFNG",
+        "q": "5. Active hydrothermal vents consistently remain operational for centuries.",
+        "options": [
+          "TRUE",
+          "FALSE",
+          "NOT GIVEN"
+        ],
+        "ans": "FALSE",
+        "expEn": "Paragraph D states that vent fields are transient and may cease venting 'within a few decades' due to shifting magma conduits.",
+        "expMm": "အဖြေမှန်: FALSE - စာပိုဒ် D အရ ရေပူစမ်းများသည် နှစ်ရာပေါင်းများစွာ မတည်မြဲဘဲ ဆယ်စုနှစ်အနည်းငယ်အတွင်း ရုတ်တရက် ရပ်တန့်သွားနိုင်သည်။"
       },
       {
         "id": "rm15_q6",
-        "type": "GAP",
-        "q": "6. Row 2",
-        "options": [],
-        "ans": "",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
-        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "MATCH",
+        "q": "6. An explanation of how geothermal heat extracts metals from basalt rock",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E"
+        ],
+        "ans": "Paragraph B",
+        "expEn": "Paragraph B explains that seawater percolating through crustal cracks is superheated and leaches heavy metals and sulfur compounds from surrounding basalt.",
+        "expMm": "အဖြေမှန်: Paragraph B - စာပိုဒ် B တွင် မြေအောက်ချော်ရည်အပူကြောင့် ပင်လယ်ရေပူနွေးလာပြီး ဘာဆော့ကျောက်လွှာများမှ သတ္တုများကို စုပ်ယူထုတ်ဖော်ပုံကို ရှင်းပြထားသည်။"
       },
       {
         "id": "rm15_q7",
-        "type": "GAP",
-        "q": "7. Row 3",
-        "options": [],
-        "ans": "",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
-        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "MATCH",
+        "q": "7. The evolutionary mechanism facilitating the colonization of distant newborn vents",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E"
+        ],
+        "ans": "Paragraph D",
+        "expEn": "Paragraph D discusses how vent fauna produce pelagic larvae capable of drifting across abyssal deserts to colonize nascent chimneys.",
+        "expMm": "အဖြေမှန်: Paragraph D - စာပိုဒ် D တွင် ရေပူစမ်းသစ်များဆီသို့ သားလောင်းများ ပင်လယ်ရေစီးကြောင်းဖြင့် ကူးခတ်ပြန့်နှံ့ပုံကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm15_q8",
-        "type": "GAP",
-        "q": "8. Row 4",
-        "options": [],
-        "ans": "",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for ''.",
-        "expMm": "အဖြေမှန်: '' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "MATCH",
+        "q": "8. The implications of hydrothermal chemistry for discovering life on other celestial bodies",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E"
+        ],
+        "ans": "Paragraph E",
+        "expEn": "Paragraph E highlights the significance of hydrothermal systems on Europa and Enceladus for astrobiological exploration.",
+        "expMm": "အဖြေမှန်: Paragraph E - စာပိုဒ် E တွင် ဂျူပီတာနှင့် စနေဂြိုဟ်၏ လများ (Europa & Enceladus) ပေါ်တွင် သက်ရှိရှာဖွေမှုနှင့် ရေပူစမ်းများ၏ ဆက်စပ်မှုကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm15_q9",
-        "type": "GAP",
-        "q": "9. What specific celestial cycle did the mechanism utilise to predict eclipses?",
-        "options": [],
-        "ans": "Saros cycle",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Saros cycle'.",
-        "expMm": "အဖြေမှန်: 'Saros cycle' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "MATCH",
+        "q": "9. A description of the anatomical adaptation of a giant symbiotic organism",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E"
+        ],
+        "ans": "Paragraph C",
+        "expEn": "Paragraph C details the unique anatomy of Riftia pachyptila and its internal bacterial organ, the trophosome.",
+        "expMm": "အဖြေမှန်: Paragraph C - စာပိုဒ် C တွင် Riftia ပိုးကောင်ကြီး၏ ထူးခြားသော ခန္ဓာဗေဒအင်္ဂါ (trophosome) ကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm15_q10",
-        "type": "GAP",
-        "q": "10. Which eminent Greek astronomer is most commonly theorised to be the device's creator?",
-        "options": [],
-        "ans": "Hipparchus",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Hipparchus'.",
-        "expMm": "အဖြေမှန်: 'Hipparchus' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "COMPLETION",
+        "q": "10. In chemosynthesis, autotrophic microbes generate organic molecules by oxidizing compounds like ______ sulfide.",
+        "options": [
+          "hydrogen",
+          "ferrous",
+          "calcium",
+          "magnesium"
+        ],
+        "ans": "hydrogen",
+        "expEn": "Paragraph C confirms that microorganisms oxidize chemical compounds, predominantly 'hydrogen sulfide'.",
+        "expMm": "အဖြေမှန်: hydrogen - စာပိုဒ် C တွင် ဘက်တီးရီးယားများသည် hydrogen sulfide ဓာတ်ကို ဓာတ်တိုးပြီး အာဟာရပြုလုပ်ကြောင်း ဖော်ပြထားသည်။"
       },
       {
         "id": "rm15_q11",
-        "type": "GAP",
-        "q": "11. What was the primary material the device was originally manufactured from?",
-        "options": [],
-        "ans": "bronze",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'bronze'.",
-        "expMm": "အဖြေမှန်: 'bronze' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "COMPLETION",
+        "q": "11. The specialized internal tissue where endosymbiotic bacteria reside in giant tube worms is called the ______.",
+        "options": [
+          "trophosome",
+          "basalt",
+          "alvin",
+          "crust"
+        ],
+        "ans": "trophosome",
+        "expEn": "Paragraph C states that bacteria are housed within a specialized internal organ called the 'trophosome'.",
+        "expMm": "အဖြေမှန်: trophosome - စာပိုဒ် C အရ Riftia ပိုးကောင်အတွင်း ဘက်တီးရီးယားများ နေထိုင်သည့် အင်္ဂါကို trophosome ဟုခေါ်သည်။"
       },
       {
         "id": "rm15_q12",
-        "type": "GAP",
-        "q": "12. During which later historical period did comparable mechanical complexity finally reappear in Europe?",
-        "options": [],
-        "ans": "European Renaissance",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'European Renaissance'.",
-        "expMm": "အဖြေမှန်: 'European Renaissance' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "COMPLETION",
+        "q": "12. To migrate to new vents, organisms release ______ larvae that drift across deep ocean deserts.",
+        "options": [
+          "pelagic",
+          "trophosome",
+          "basaltic",
+          "abyssal"
+        ],
+        "ans": "pelagic",
+        "expEn": "Paragraph D specifies that species produce 'pelagic larvae capable of drifting across immense stretches of abyssal desert'.",
+        "expMm": "အဖြေမှန်: pelagic - စာပိုဒ် D တွင် ရေလယ်ကူးခတ်နိုင်သော (pelagic) သားလောင်းများ ထုတ်လွှတ်သည်ဟု ဖော်ပြထားသည်။"
       },
       {
         "id": "rm15_q13",
-        "type": "GAP",
-        "q": "13. What type of ancient vessel was likely transporting the mechanism when it sank?",
-        "options": [],
-        "ans": "Roman vessel",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'Roman vessel'.",
-        "expMm": "အဖြေမှန်: 'Roman vessel' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "COMPLETION",
+        "q": "13. Two planetary bodies suspected of hosting extraterrestrial hydrothermal systems are Europa and ______.",
+        "options": [
+          "Enceladus",
+          "Titan",
+          "Mars",
+          "Callisto"
+        ],
+        "ans": "Enceladus",
+        "expEn": "Paragraph E explicitly identifies Europa and 'Enceladus' as prime ocean worlds with potential hydrothermal systems.",
+        "expMm": "အဖြေမှန်: Enceladus - စာပိုဒ် E တွင် ဂျူပီတာ၏ Europa နှင့် စနေ၏ Enceladus ဂြိုဟ်ရံလများတွင် ရေပူစမ်းများရှိနိုင်ကြောင်း ဖော်ပြထားသည်။"
       }
     ]
   },

@@ -1,5 +1,5 @@
 // IELTS Prep Studio Service Worker (Network-First with Cache Fallback)
-const CACHE_NAME = 'ielts-prep-studio-v8.7';
+const CACHE_NAME = 'ielts-prep-studio-v8.8';
 const STATIC_ASSETS = [
   './',
   './index.html',

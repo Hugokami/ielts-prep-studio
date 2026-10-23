@@ -28,8 +28,9 @@ const freeLexicon = lexicon.slice(0, 250);
 const vipLexicon = lexicon.slice(250);
 
 // 2. Partition Reading (3 Free / 20 VIP)
-const freeReading = reading.slice(0, 3);
-const vipReading = reading.slice(3);
+// All 23 Reading Passages 100% Free
+const freeReading = reading;
+const vipReading = [];
 
 // 3. Partition Writing (5 Free / 35 VIP)
 const freeWriting = writing.slice(0, 5);

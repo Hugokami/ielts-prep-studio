@@ -43,7 +43,7 @@ console.log('🤖 IELTS Prep Studio Telegram Bot Initializing...');
 // Helper: Check if user is the admin
 function isAdmin(ctx) {
   const uid = String(ctx.from?.id);
-  if (uid === '7468650530') return true;
+  const adminId = String(process.env.ADMIN_CHAT_ID || '').trim(); if (adminId && uid === adminId) return true;
   if (!ADMIN_CHAT_ID) return false;
   return uid === ADMIN_CHAT_ID;
 }
@@ -69,7 +69,7 @@ function getYangonDateStr() {
 }
 
 function isUserVip(userId) {
-  if (String(userId) === '7468650530') return true;
+  const adminId = String(process.env.ADMIN_CHAT_ID || '').trim(); if (adminId && String(userId) === adminId) return true;
   if (ADMIN_CHAT_ID && String(userId) === ADMIN_CHAT_ID) return true;
   return voucherPool.vouchers.some(v => String(v.telegramId) === String(userId) && v.status === 'Issued');
 }

@@ -29,3 +29,9 @@ IELTS_Studio_Voucher_Codes.xlsx
 .env
 .dev.vars
 public/data/
+
+# Local voucher pools and state
+scripts/mint-vouchers.cjs
+telegram-bot/voucherPool.js
+telegram-bot/vouchers_state.json
+telegram-bot/slips_state.json

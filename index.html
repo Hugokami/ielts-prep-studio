@@ -7200,7 +7200,7 @@ body.dark .speak-streak-btn.star-btn {
           <div class="speak-well well-mint">📝</div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Writing Lab</div>
-            <div class="speak-jumpin-sub">40 Band 9 model essays &amp; CEFR grader</div>
+            <div class="speak-jumpin-sub">40 High-scoring model essays &amp; CEFR practice evaluator</div>
           </div>
           <div class="speak-jumpin-arrow">→</div>
         </div>
@@ -8281,7 +8281,7 @@ body.dark .speak-streak-btn.star-btn {
         <div class="cbt-pane" id="rQuestionsBox"></div>
       </div>
 
-      <!-- Authentic Cambridge CBT Bottom Question Palette Bar -->
+      <!-- IELTS-Style CBT Bottom Question Palette Bar -->
       <div class="cbt-palette-bar" id="cbtPaletteBar">
         <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1; flex-wrap:nowrap;">
           <button type="button" class="btn-outlined" style="padding:3px 8px; font-size:0.74rem; font-weight:700; white-space:nowrap; flex-shrink:0;" onclick="navigateCbtQuestion(-1)" title="Previous Question (Alt+P)">← Prev</button>
@@ -9504,6 +9504,7 @@ window.mergeVipBundle = function(vipData) {
 
   if (typeof appState !== "undefined" && appState.userProfile) {
     appState.userProfile.tier = "vip";
+  appState.userProfile.verified = true;
     appState.userProfile.vipExpiresAt = "lifetime";
     try { localStorage.setItem("occ_ielts_studio_v5", JSON.stringify(appState)); } catch (e) {}
   }
@@ -9687,7 +9688,7 @@ function setLastGeminiTimestamp(ts) {
 let geminiCooldownTimer = null;
 const PARAPHRASE_FREE_DAILY_LIMIT = 10;
 const LEXICON_FREE_LIMIT = 250;
-const READING_FREE_LIMIT = 3;
+const READING_FREE_LIMIT = 23;
 const WRITING_MODELS_FREE_LIMIT = 5;
 const SPEAKING_FRAMEWORKS_FREE_LIMIT = 5;
 const SPEAKING_TOPICS_FREE_LIMIT = 5;
@@ -9766,58 +9767,31 @@ function ensureUserProfileInitialized() {
 
 function isVipActive() {
   if (window.isVipUser) return true;
+
+  // Check signed 30-day session token from Cloudflare Worker
   try {
-    const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser;
-    if (tgUser && (String(tgUser.id) === "7468650530" || String(tgUser.id) === String(window.ADMIN_TG_ID || "7468650530"))) {
-      window.isVipUser = true;
-      return true;
-    }
-  } catch (e) {}
-  try {
-    if (typeof localStorage !== "undefined") {
-      if (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_tier") === "vip") {
-        window.isVipUser = true;
-        return true;
+    const token = localStorage.getItem("ips_session_token");
+    if (token) {
+      const parts = token.split(".");
+      if (parts.length === 3) {
+        const payload = JSON.parse(atob(parts[1]));
+        if (payload.tier === "vip" && payload.exp && payload.exp > Math.floor(Date.now() / 1000)) {
+          window.isVipUser = true;
+          return true;
+        }
       }
-    }
-    if (typeof sessionStorage !== "undefined" && (sessionStorage.getItem("ips_vip_active") === "true" || sessionStorage.getItem("ielts_pending_voucher"))) {
-      window.isVipUser = true;
-      return true;
     }
   } catch (e) {}
 
-  ensureUserProfileInitialized();
-  if (appState && appState.userProfile && appState.userProfile.voucherCode) {
-    const vc = String(appState.userProfile.voucherCode).trim().toUpperCase();
-    const hardcoded = ["VIPPASS2026", "BAND9VIP", "SCHOLAR9", "BURMA2026", "ENGNOVATE"];
-    if (hardcoded.includes(vc) || /^IPS-(VIP|LIFE|INT|SPRINT)-/i.test(vc) || /^VIP-[2-9A-Z]{4}-[2-9A-Z]{4}$/i.test(vc)) {
-      window.isVipUser = true;
-      return true;
-    }
-  }
-  if (appState.userProfile.tier === "vip") {
-    const exp = appState.userProfile.vipExpiresAt;
-    if (!exp || exp === "lifetime" || exp === 0 || exp === 1) {
-      window.isVipUser = true;
-      return true;
-    }
-    const expTime = typeof exp === "number" ? (exp < 10000000000 ? exp * 1000 : exp) : Date.parse(exp);
-    if (!isNaN(expTime)) {
-      if (Date.now() < expTime) {
-        window.isVipUser = true;
-        return true;
-      }
-      return false; // Expired temporary pass
-    }
+  // Check verified Telegram user / cloud-synced state
+  if (appState && appState.userProfile && appState.userProfile.tier === "vip" && appState.userProfile.verified) {
     window.isVipUser = true;
     return true;
   }
-  if (window.currentUser && window.currentUser.uid && appState.userProfile.tier === "vip") {
-    window.isVipUser = true;
-    return true;
-  }
+
   return false;
 }
+
 
 function canUseSpeakingEvaluation() {
   ensureUserProfileInitialized();
@@ -9977,6 +9951,7 @@ window.handleStarsCheckout = async function() {
           tg.openInvoice(data.invoiceLink, function(status) {
             if (status === "paid") {
               appState.userProfile.tier = "vip";
+  appState.userProfile.verified = true;
               appState.userProfile.vipExpiresAt = "lifetime";
               window.isVipUser = true;
               try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
@@ -10214,6 +10189,7 @@ function activateVipPass(planType, voucherCode, isNewActivation = false) {
   ensureUserProfileInitialized();
   window.isVipUser = true;
   appState.userProfile.tier = "vip";
+  appState.userProfile.verified = true;
   if (voucherCode) appState.userProfile.voucherCode = voucherCode;
   appState.userProfile.vipExpiresAt = "lifetime";
   try {
@@ -10359,7 +10335,7 @@ window.checkAndExecutePendingVoucher = async function() {
         try {
           localStorage.setItem('ips_browser_tg_user', JSON.stringify(window.telegramUser));
         } catch (e) {}
-        if (cleanId === "7468650530" || cleanId === String(window.ADMIN_TG_ID || "7468650530")) {
+        if (window.ADMIN_TG_ID && cleanId === String(window.ADMIN_TG_ID)) {
           window.isVipUser = true;
           try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
         }
@@ -10764,6 +10740,7 @@ function loadAppState() {
                          (typeof localStorage !== "undefined" && (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher")));
   if (isVipPersisted) {
     appState.userProfile.tier = "vip";
+  appState.userProfile.verified = true;
     if (!appState.userProfile.vipExpiresAt) appState.userProfile.vipExpiresAt = "lifetime";
     window.isVipUser = true;
     try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
@@ -12271,7 +12248,7 @@ function prefillStepsFromModel() {
       const inp = document.getElementById(`fw_input_${idx}`);
       if (inp) inp.value = b.text;
     });
-    showToast("✓ Pre-filled framework steps from Band 9 Model Answer!");
+    showToast("✓ Pre-filled framework steps from High-Scoring Model Answer!");
     return;
   }
 
@@ -13256,15 +13233,15 @@ function initReadingMocks() {
 
   const groups = [
     { label: "🌱 Foundation & Diagnostic CBT Mocks (Passages 1–8)", start: 0, end: 8 },
-    { label: "⭐ Authentic Cambridge CBT Mocks (Passages 9–18)", start: 8, end: 18 },
-    { label: "🏆 Advanced Cambridge Mastery Mocks (Passages 19–23)", start: 18, end: READING_MOCKS.length }
+    { label: "📚 Full-Length Academic CBT Passages (Passages 9–23)", start: 8, end: 18 },
+    { label: "📚 Full-Length IELTS-Style CBT Passages (Passages 9–23)", start: 8, end: READING_MOCKS.length }
   ];
 
   sel.innerHTML = groups.map(g => {
     const opts = [];
     for (let i = g.start; i < Math.min(g.end, READING_MOCKS.length); i++) {
       const m = READING_MOCKS[i];
-      const locked = (!isVip && i >= READING_FREE_LIMIT) ? '🔒 [VIP] ' : '';
+      const locked = '';
       opts.push(`<option value="${i}">${locked}[${m.code}] ${m.title} (${m.questionTypes})</option>`);
     }
     return opts.length > 0 ? `<optgroup label="${g.label}">${opts.join("")}</optgroup>` : '';
@@ -14333,7 +14310,7 @@ Please provide your evaluation in this exact structured format:
 
 ### 3. Cambridge Part 3 Examiner Counter-Challenge (စိန်ခေါ်မေးခွန်း):
 - **Examiner's Pushback**: "[Present a thought-provoking counter-argument challenging candidate's viewpoint. e.g. 'That is a common perspective, but wouldn't you agree that...?']"
-- **Band 9 Concession-Rebuttal Model**: "[Provide a 2-3 sentence Band 9 model response using concession language like 'While I concede that..., the overarching reality remains that...']"
+- **Band 9 Concession-Rebuttal Model**: "[Provide a 2-3 sentence High-scoring model response using concession language like 'While I concede that..., the overarching reality remains that...']"
 - **Audio Practice Text**: [Clean 1-sentence prompt for candidate to practice speaking aloud]
 
 ### 4. Top 2 Band 9 Spoken Phrasing Upgrades:
@@ -14425,7 +14402,7 @@ function toggleModelDrawer() {
           <div class="vip-lock-banner" style="margin-bottom:12px;">
             <div class="vip-lock-banner-text">
               <div class="vip-lock-banner-title">🔒 VIP Examiner Model: [${w.code}] ${w.title}</div>
-              <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock all 30 Band 8.5/9.0 Examiner-Grade Model Essays, Structural Skeletons &amp; Burmese Linguistic Breakdowns with Lifetime VIP Pass!</div>
+              <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock all 40 High-Scoring IELTS-Style Model Essays, Structural Skeletons &amp; Burmese Linguistic Breakdowns with Lifetime VIP Pass!</div>
             </div>
             <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 30 Models (55,000 MMK)</button>
           </div>
@@ -18211,6 +18188,15 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
   else document.addEventListener('DOMContentLoaded', init);
 })(window);
 </script>
+
+
+  <!-- Legal Disclaimer & Non-Affiliation Notice -->
+  <footer class="app-legal-footer" style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:2rem 1rem; border-top:1px solid var(--border-subtle); margin-top:3rem; line-height:1.6;">
+    <div style="max-width:800px; margin:0 auto;">
+      <p style="margin:0 0 0.5rem 0;"><strong>Trademark &amp; Non-Affiliation Disclaimer:</strong> IELTS is a registered trademark of the University of Cambridge, the British Council, and IDP Education Australia. IELTS Prep Studio is an independent educational platform and is not affiliated with, approved, or endorsed by Cambridge Assessment English, the British Council, or IDP Education.</p>
+      <p style="margin:0;"><strong>AI Practice Notice:</strong> Automated AI evaluations provide estimated diagnostic feedback based on public IELTS band descriptors for practice purposes and are not official test scores.</p>
+    </div>
+  </footer>
 
 </body>
 </html>
