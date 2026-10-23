@@ -6519,43 +6519,178 @@ body.in-cbt-drill #backToTopBtn {
   }
 }
 
-/* 2. star-border (ambient CTA rotating aura) */
-@property --star-a {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
+/* 2. star-border (ambient CTA rotating aura - 100% cross-browser perimeter glow) */
 .star-btn {
-  --star-color: var(--accent, #d97706);
-  --star-w: 2px;
-  --star-a: 0deg;
+  --star-color: #f59e0b;
+  --star-bg: #0F172A;
   position: relative !important;
-  isolation: isolate;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border: none !important;
+  background: transparent !important;
+  z-index: 1;
 }
 .star-btn::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: inherit;
-  padding: var(--star-w);
-  background: conic-gradient(from var(--star-a), transparent 0 60%, var(--star-color) 78%, #ffffff 82%, var(--star-color) 86%, transparent 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  animation: starSpin 3.5s linear infinite;
-  pointer-events: none;
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 300% !important;
+  height: 600% !important;
+  min-width: 500px !important;
+  min-height: 500px !important;
+  transform: translate(-50%, -50%) rotate(0deg) !important;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 220deg,
+    var(--star-color, #f59e0b) 280deg,
+    #ffffff 330deg,
+    var(--star-color, #f59e0b) 350deg,
+    transparent 360deg
+  ) !important;
+  animation: starRotate 3.5s linear infinite !important;
+  z-index: -2 !important;
+  pointer-events: none !important;
 }
-@keyframes starSpin {
-  to { --star-a: 360deg; }
+@keyframes starRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.star-btn::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  border-radius: inherit !important;
+  background: var(--star-bg) !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  transition: background 0.2s ease !important;
+}
+.star-btn:hover::before {
+  animation-duration: 2s !important;
+}
+.star-btn:hover {
+  transform: translateY(-1px);
+}
+.speak-hero-start-btn.star-btn {
+  --star-color: #f59e0b;
+  --star-bg: #0F172A;
+}
+[data-theme="dark"] .speak-hero-start-btn.star-btn,
+body.dark .speak-hero-start-btn.star-btn {
+  --star-color: #fbbf24;
+  --star-bg: #1e293b;
+}
+.speak-streak-btn.star-btn {
+  --star-color: #ff3b5c;
+  --star-bg: var(--bg-card, #ffffff);
+}
+[data-theme="dark"] .speak-streak-btn.star-btn,
+body.dark .speak-streak-btn.star-btn {
+  --star-color: #ff3b5c;
+  --star-bg: #1e293b;
+}
+.btn-outlined.star-btn {
+  --star-color: var(--accent, #d97706);
+  --star-bg: var(--bg-card, #ffffff);
 }
 @media (prefers-reduced-motion: reduce) {
   .star-btn::before {
-    animation: none;
-    background: none;
-    border: var(--star-w) solid var(--accent);
+    animation: none !important;
+    background: none !important;
   }
+  .star-btn {
+    border: 2px solid var(--star-color, #f59e0b) !important;
+    background: var(--star-bg) !important;
+  }
+}
+
+/* TACTILE 3-BAR SLIDER SETTINGS BUTTON */
+.setting-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: rgb(129, 110, 216);
+  border-radius: 9px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 0px 0px 2px rgb(212, 209, 255);
+  flex-shrink: 0;
+  padding: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.setting-btn:hover {
+  transform: translateY(-1px);
+  background-color: rgb(118, 97, 210);
+  box-shadow: 0px 0px 0px 3px rgb(212, 209, 255), 0 4px 14px rgba(129, 110, 216, 0.4);
+}
+.setting-btn:active {
+  transform: translateY(1px);
+}
+.setting-btn .bar {
+  width: 50%;
+  height: 2px;
+  background-color: rgb(229, 229, 229);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.setting-btn .bar::before {
+  content: "";
+  width: 2px;
+  height: 2px;
+  background-color: rgb(126, 117, 255);
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0px 0px 5px white;
+}
+.setting-btn .bar1::before {
+  transform: translateX(-4px);
+}
+.setting-btn .bar2::before {
+  transform: translateX(4px);
+}
+.setting-btn:hover .bar1::before {
+  transform: translateX(4px);
+}
+.setting-btn:hover .bar2::before {
+  transform: translateX(-4px);
+}
+
+/* TOPBAR ANIMATED LOGO WRAPPER */
+.topbar-brand-orb-wrap {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  flex-shrink: 0;
+  margin-right: 6px;
+  background: transparent !important;
+}
+.topbar-brand-orb-wrap .topbar-orb {
+  --size: 0.28;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  transform: scale(var(--size));
+  transform-origin: center center;
+  pointer-events: none;
+  background: transparent !important;
 }
 
 /* 3. rotating-text (kinetic word cycles) */
@@ -6677,12 +6812,31 @@ body.in-cbt-drill #backToTopBtn {
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <!-- STICKY TOP NAVIGATION BAR (MINIMALIST 5 HUBS) -->
+<!-- SVG Mask Definition for Cambridge Orb Logo -->
+<svg style="position:absolute; width:0; height:0; pointer-events:none;" aria-hidden="true">
+  <defs>
+    <mask id="cambridgeOrbClipping">
+      <polygon points="80,50 65,76 35,76 20,50 35,24 65,24" fill="white" />
+      <polygon points="80,50 65,76 35,76 20,50 35,24 65,24" fill="white" />
+      <polygon points="80,50 65,76 35,76 20,50 35,24 65,24" fill="white" />
+    </mask>
+  </defs>
+</svg>
+
 <header class="topbar" role="banner">
   <div class="topbar-inner">
     <!-- ROW 1: Brand & Actions on Left, Utilities on Right -->
     <div class="topbar-row-top">
       <div class="topbar-left-wrap">
         <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
+          <div class="topbar-brand-orb-wrap" title="IELTS Prep Studio Academic Engine">
+            <div class="cambridge-orb-loader topbar-orb">
+              <svg width="100" height="100">
+                <use href="#cambridgeOrbClipping" />
+              </svg>
+              <div class="box"></div>
+            </div>
+          </div>
           <span class="brand-box">IELTS</span>
           <span class="brand-text">Prep Studio</span>
           <span class="brand-badge">Academic 8.5+</span>
@@ -6719,10 +6873,11 @@ body.in-cbt-drill #backToTopBtn {
           🌐 <span id="topLangLabel">EN</span>
         </button>
 
-        <!-- Minimalist Settings Drawer Trigger Button -->
-        <button class="util-icon-btn settings-trigger-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Settings</span>
+        <!-- Tactile 3-Bar Slider Setting Button -->
+        <button class="setting-btn" onclick="toggleSettingsDrawer()" title="Settings &amp; Preferences" aria-label="Open Settings">
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar1"></div>
         </button>
 
         <button class="vip-upgrade-btn-pro" id="vipNavBtn" onclick="openVipPassModal()" title="Upgrade to VIP Studio Pass">
@@ -6898,7 +7053,7 @@ body.in-cbt-drill #backToTopBtn {
     <section id="view-overview" class="view-section studio-tab-section active active-tab" data-tab-index="overview" aria-labelledby="tab-overview">
     <!-- CIRRUS INSPIRING DAYLIGHT HERO STAGE (ANTI-AI-SLOP CRAFT STANDARD) -->
     <div class="cirrus-hero-stage uiv-animate-enter">
-      <h1 class="cirrus-headline">
+      <h1 class="cirrus-headline decrypt" data-text="Master Cambridge IELTS on a quieter kind of preparation.">
         Master Cambridge IELTS on a quieter kind of preparation.
       </h1>
       <p class="cirrus-subtext">
@@ -6940,7 +7095,7 @@ body.in-cbt-drill #backToTopBtn {
           <div class="uiv-avatar-pulse" title="Cambridge AI Mentor Online &amp; Ready"></div>
         </div>
         <div>
-          <h1 id="speakWelcomeUser" style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;">Welcome back, Scholar</h1>
+          <h1 id="speakWelcomeUser" class="decrypt" data-text="Welcome back, Scholar" style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;">Welcome back, Scholar</h1>
           <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
         </div>
       </div>
@@ -6966,7 +7121,7 @@ body.in-cbt-drill #backToTopBtn {
         <p class="speak-hero-desc">
           Practice 1-minute cue card note framing &amp; Part 3 inversion hedging ("Seldom do we consider...") with instant Cambridge AI pronunciation &amp; lexical resource scoring.
         </p>
-        <button class="speak-hero-start-btn uiv-btn-shine star-btn" onclick="switchView('speaking')">
+        <button class="speak-hero-start-btn star-btn" onclick="switchView('speaking')">
           <span>Start Daily Lesson</span> <span>→</span>
         </button>
       </div>
@@ -6978,7 +7133,7 @@ body.in-cbt-drill #backToTopBtn {
           <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> <span class="shiny-text">Study Streak</span></div>
           <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> <span class="rot" data-words="academic collocations | high-yield IELTS traps | C1/C2 CEFR vocabulary | Band 8.5–9.0 expressions">academic collocations</span>. Paraphrase accuracy on track.</div>
         </div>
-        <button class="speak-streak-btn uiv-btn-shine star-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
+        <button class="speak-streak-btn star-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
           Review SRS Flashcards ↗
         </button>
       </div>
@@ -17893,5 +18048,55 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 })();
 
 </script>
+
+<!-- Motion-Anything: decrypted-text kinetic typography runner (/open-design) -->
+<script>
+(function(g){
+  'use strict';
+  var CH = '!<>-_\\/[]{}=+*^?#';
+  function red(){ return g.matchMedia && g.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function run(el){
+    var target = el.getAttribute('data-text') || el.textContent.trim();
+    if (red() || !target) { el.textContent = target; return; }
+    var frame = 0;
+    clearInterval(el.__d);
+    el.__d = setInterval(function(){
+      var out = '';
+      for (var i = 0; i < target.length; i++) {
+        if (i < frame / 2) {
+          out += target[i];
+        } else if (target[i] === ' ' || target[i] === '\n') {
+          out += target[i];
+        } else {
+          out += CH[Math.floor(Math.random() * CH.length)];
+        }
+      }
+      el.textContent = out;
+      frame++;
+      if (frame / 2 >= target.length) {
+        clearInterval(el.__d);
+        el.textContent = target;
+      }
+    }, 28);
+  }
+  function attach(el){
+    if (el.__dec) return;
+    el.__dec = 1;
+    var initialText = el.getAttribute('data-text') || el.textContent.trim();
+    el.setAttribute('data-text', initialText);
+    el.addEventListener('mouseenter', function(){ run(el); });
+    el.addEventListener('touchstart', function(){ run(el); }, {passive: true});
+    run(el);
+  }
+  function init(){
+    var els = document.querySelectorAll('.decrypt');
+    for (var i = 0; i < els.length; i++) attach(els[i]);
+  }
+  g.decryptEl = run;
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})(window);
+</script>
+
 </body>
 </html>
