@@ -172,8 +172,9 @@
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-font-smoothing: antialiased;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
@@ -815,8 +816,8 @@
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--text);
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
     min-width: 0;
     max-width: 100%;
   }
@@ -863,7 +864,8 @@
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .occ-card:hover {
@@ -933,8 +935,8 @@
     font-weight: 700;
     color: var(--text);
     line-height: 1.28;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .occ-word-sub {
@@ -1390,7 +1392,8 @@
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .q-opt {
@@ -1412,8 +1415,8 @@
 
   .q-opt span {
     min-width: 0;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .q-opt:hover {
@@ -1707,29 +1710,40 @@
     z-index: 70;
     background: var(--bg-card);
     border: 1px solid var(--border-accent);
-    border-radius: 6px;
-    padding: 6px;
+    border-radius: 8px;
+    padding: 5px;
     margin-bottom: 14px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-    gap: 8px;
+    gap: 6px;
+    align-items: stretch;
   }
 
   .mobile-cbt-tab-btn {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 14px;
+    gap: 5px;
+    padding: 8px 8px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     color: var(--text-secondary);
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-height: 44px;
+    min-height: 42px;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+  }
+
+  .mobile-cbt-tab-btn > span {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
   }
 
   .mobile-cbt-tab-btn:hover {
@@ -1744,17 +1758,27 @@
     box-shadow: 0 2px 8px rgba(224, 108, 53, 0.35);
   }
 
+  :root[data-theme="dark"] .mobile-cbt-tab-btn.active,
+  body.dark .mobile-cbt-tab-btn.active {
+    background: #F8FAFC;
+    color: #0F172A;
+    border-color: #F8FAFC;
+  }
+
   .cbt-tab-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.22);
     color: inherit;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 10px;
+    padding: 2px 6px;
+    border-radius: 9999px;
     font-family: monospace;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    line-height: 1.1;
   }
 
   .cbt-palette-wrapper {
@@ -2099,12 +2123,39 @@
       width: 100% !important;
       flex: 1 1 100% !important;
     }
-    .occ-toolbar button,
-    .occ-toolbar .btn-accent-solid,
-    .occ-toolbar .btn-outlined {
+    .occ-toolbar > button,
+    .occ-toolbar > .btn-accent-solid,
+    .occ-toolbar > .btn-outlined {
       width: 100% !important;
       flex: 1 1 100% !important;
       justify-content: center;
+      white-space: nowrap !important;
+    }
+    .occ-toolbar .cbt-ratio-selector {
+      width: 100% !important;
+      flex: 1 1 100% !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 6px !important;
+    }
+    .occ-toolbar .cbt-ratio-selector > span {
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+      word-break: keep-all !important;
+    }
+    .occ-toolbar .cbt-ratio-selector > button {
+      width: auto !important;
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      padding: 0 8px !important;
+      font-size: 0.74rem !important;
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+      justify-content: center !important;
     }
     .occ-toolbar .occ-ver-pill {
       width: 100% !important;
@@ -2482,14 +2533,8 @@
   }
 
 
-  /* Accessibility: Prefers Reduced Motion Invariant */
+  /* Accessibility: Prefers Reduced Motion Invariant (Preserving Signature UI Aura) */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
     #bg-canvas {
       display: none !important;
     }
@@ -6531,7 +6576,7 @@ body.in-cbt-drill #backToTopBtn {
   }
 }
 
-/* 2. star-border (ambient CTA rotating aura - 100% cross-browser perimeter glow) */
+/* 2. star-border (ambient CTA rotating aura - 100% cross-browser 360deg perimeter glow) */
 .star-btn {
   --star-color: #f59e0b;
   --star-bg: #0F172A;
@@ -6540,6 +6585,7 @@ body.in-cbt-drill #backToTopBtn {
   overflow: hidden !important;
   border: none !important;
   background: transparent !important;
+  box-shadow: inset 0 0 0 1.5px rgba(245, 158, 11, 0.22), 0 4px 14px rgba(15, 23, 42, 0.12) !important;
   z-index: 1;
 }
 .star-btn::before {
@@ -6547,40 +6593,45 @@ body.in-cbt-drill #backToTopBtn {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
-  width: 300% !important;
-  height: 600% !important;
-  min-width: 500px !important;
-  min-height: 500px !important;
-  transform: translate(-50%, -50%) rotate(0deg) !important;
+  width: 1000px !important;
+  height: 1000px !important;
+  margin-top: -500px !important;
+  margin-left: -500px !important;
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    transparent 220deg,
-    var(--star-color, #f59e0b) 280deg,
-    #ffffff 330deg,
-    var(--star-color, #f59e0b) 350deg,
+    transparent 45deg,
+    var(--star-color, #f59e0b) 110deg,
+    #ffffff 165deg,
+    var(--star-color, #f59e0b) 176deg,
+    transparent 180deg,
+    transparent 225deg,
+    var(--star-color, #f59e0b) 290deg,
+    #ffffff 345deg,
+    var(--star-color, #f59e0b) 356deg,
     transparent 360deg
   ) !important;
-  animation: starRotate 3.5s linear infinite !important;
+  animation: starRotate 3.2s linear infinite !important;
+  will-change: transform;
   z-index: -2 !important;
   pointer-events: none !important;
 }
 @keyframes starRotate {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 .star-btn::after {
   content: "" !important;
   position: absolute !important;
   inset: 2px !important;
-  border-radius: inherit !important;
+  border-radius: 9999px !important;
   background: var(--star-bg) !important;
   z-index: -1 !important;
   pointer-events: none !important;
   transition: background 0.2s ease !important;
 }
 .star-btn:hover::before {
-  animation-duration: 2s !important;
+  animation-duration: 1.8s !important;
 }
 .star-btn:hover {
   transform: translateY(-1px);
@@ -6588,34 +6639,54 @@ body.in-cbt-drill #backToTopBtn {
 .speak-hero-start-btn.star-btn {
   --star-color: #f59e0b;
   --star-bg: #0F172A;
+  color: #FFFFFF !important;
 }
 [data-theme="dark"] .speak-hero-start-btn.star-btn,
-body.dark .speak-hero-start-btn.star-btn {
+body.dark .speak-hero-start-btn.star-btn,
+:root[data-theme="dark"] .speak-hero-start-btn.star-btn {
   --star-color: #fbbf24;
   --star-bg: #1e293b;
+  color: #F8FAFC !important;
 }
 .speak-streak-btn.star-btn {
   --star-color: #ff3b5c;
   --star-bg: var(--bg-card, #ffffff);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 59, 92, 0.25) !important;
 }
 [data-theme="dark"] .speak-streak-btn.star-btn,
-body.dark .speak-streak-btn.star-btn {
+body.dark .speak-streak-btn.star-btn,
+:root[data-theme="dark"] .speak-streak-btn.star-btn {
   --star-color: #ff3b5c;
   --star-bg: #1e293b;
 }
 .btn-outlined.star-btn {
-  --star-color: var(--accent, #d97706);
+  --star-color: #f59e0b;
   --star-bg: var(--bg-card, #ffffff);
 }
-@media (prefers-reduced-motion: reduce) {
-  .star-btn::before {
-    animation: none !important;
-    background: none !important;
-  }
-  .star-btn {
-    border: 2px solid var(--star-color, #f59e0b) !important;
-    background: var(--star-bg) !important;
-  }
+
+/* Global Anti-Vertical / Anti-Mid-Word Broken Text Safeguard Across Whole App */
+button, .btn-outlined, .btn-accent-solid, .btn-primary,
+.speak-pill-btn, .subtab-btn, .at-subnav-btn, .mobile-cbt-tab-btn,
+.cbt-tab-badge, .occ-ver-pill, .occ-pill, .occ-ribbon,
+.srs-btn, .viz-toggle-btn, .flag-q-btn, .glv-chip, .sws-chip,
+.cirrus-eyebrow-pill, .speak-hero-tag, .speak-streak-btn,
+.vip-upgrade-btn, .vip-upgrade-btn-pro, .auth-btn, .util-icon-btn,
+.cbt-ratio-selector span, .cbt-ratio-selector button,
+.lex-alpha-pill, .lex-pag-btn, .at-chip-btn {
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+.cbt-ratio-selector > span,
+.cbt-ratio-selector > button {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+p, li, td, th, h1, h2, h3, h4, h5, h6,
+.occ-card, .q-card, .q-opt span, .sec-title, .occ-word-title {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
 }
 
 /* TACTILE 3-BAR SLIDER SETTINGS BUTTON */
@@ -8268,7 +8339,7 @@ body.dark .speak-streak-btn.star-btn {
         <button type="button" class="mobile-cbt-tab-btn" id="cbtTabQuestionsBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('questions')">
           <span class="cbt-tab-icon">📝</span>
           <span>Questions</span>
-          <span class="cbt-tab-badge" id="cbtAnsweredBadge">0 / 13</span>
+          <span class="cbt-tab-badge" id="cbtAnsweredBadge">0/13</span>
         </button>
         <button type="button" class="mobile-cbt-tab-btn" id="cbtTabSplitBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('split')">
           <span class="cbt-tab-icon">⚖️</span>
@@ -13392,7 +13463,7 @@ function updateReadingAnswerCounts() {
   const progText = document.getElementById("cbtPaletteProgressText");
   const floatText = document.getElementById("floatingCbtSwitchText");
 
-  if (badge) badge.textContent = `${answered} / ${total}`;
+  if (badge) badge.textContent = `${answered}/${total}`;
   if (progText) progText.textContent = `${answered} of ${total} answered`;
   if (floatText && currentMobileCbtView === "passage") {
     floatText.textContent = `Questions (${answered}/${total})`;
