@@ -34,6 +34,10 @@ export default {
         return await handleCreateStarsInvoice(request, env);
       }
 
+      if (url.pathname === "/api/admin/customers.csv" || url.pathname === "/api/admin/export") {
+        return await handleAdminExportCsv(request, env, url);
+      }
+
       if (url.pathname === "/webhook" && request.method === "POST") {
         return await handleWebhook(request, env, ctx);
       }
@@ -1181,6 +1185,29 @@ Choose a module below to inspect full syllabus details, practice questions, and 
         return jsonResponse({ ok: true });
       }
 
+      // Admin Spreadsheet Export Command
+      if (text === "/export" || text === "/customers" || text === "/csv" || text === "/spreadsheet") {
+        await sendTelegramMessage(botToken, chatId, "⏳ _Generating live VIP customers spreadsheet from D1 database..._");
+        try {
+          const { csv, count } = await generateCustomersCSV(env);
+          const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
+          const fileName = `ielts_vip_customers_${new Date().toISOString().slice(0, 10)}.csv`;
+          const caption = 
+`📊 *IELTS PREP STUDIO — VIP CUSTOMERS SPREADSHEET*
+━━━━━━━━━━━━━━━━━━━━
+👥 Total Approved VIP Students: *${count}*
+🕒 Generated: \`${nowMmt} MMT\`
+
+📁 *Format:* Standard CSV (UTF-8 BOM). Compatible with Microsoft Excel, Google Sheets, Apple Numbers, and Notion.`;
+
+          await sendTelegramDocument(botToken, chatId, csv, fileName, caption);
+        } catch (err) {
+          console.error("[Export CSV Error]", err);
+          await sendTelegramMessage(botToken, chatId, `❌ Failed to generate spreadsheet: ${err.message}`);
+        }
+        return jsonResponse({ ok: true });
+      }
+
       if (text === "/stats" || text === "/admin") {
         const userStats = await env.DB.prepare(`
           SELECT 
@@ -1235,9 +1262,14 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 • \`/broadcast_free <msg>\` — Broadcast to Free
 • \`/gen_codes 10\` — Generate 10 Lifetime codes
 • \`/lookup <id or username>\` — Search student profile
+• \`/export\` or \`/customers\` — 📥 Download CSV Spreadsheet
 • \`/vip <id> on/off\` — Toggle VIP for user`;
 
-        await sendTelegramMessage(botToken, chatId, statsMsg);
+        await sendTelegramMessage(botToken, chatId, statsMsg, {
+          inline_keyboard: [
+            [{ text: "📥 Download Customers Spreadsheet (.csv)", callback_data: "admin_export_csv" }]
+          ]
+        });
         return jsonResponse({ ok: true });
       }
 
@@ -1924,8 +1956,26 @@ Select your required score to optimize your daily study quota:`;
       return jsonResponse({ ok: true });
     }
 
-    // Admin Approval & Rejection
+    // Admin Approval, Rejection & Spreadsheet Export
     if (String(cb.from.id) === String(adminId)) {
+      if (data === "admin_export_csv") {
+        await answerCallbackQuery(botToken, cb.id, "Generating spreadsheet...");
+        try {
+          const { csv, count } = await generateCustomersCSV(env);
+          const nowMmt = new Date().toLocaleString("en-GB", { timeZone: "Asia/Yangon" });
+          const fileName = `ielts_vip_customers_${new Date().toISOString().slice(0, 10)}.csv`;
+          const caption = 
+`📊 *IELTS PREP STUDIO — VIP CUSTOMERS SPREADSHEET*
+━━━━━━━━━━━━━━━━━━━━
+👥 Total Approved VIP Students: *${count}*
+🕒 Generated: \`${nowMmt} MMT\``;
+          await sendTelegramDocument(botToken, cbChatId, csv, fileName, caption);
+        } catch (err) {
+          console.error("[Export CSV Callback Error]", err);
+          await sendTelegramMessage(botToken, cbChatId, `❌ Failed to generate spreadsheet: ${err.message}`);
+        }
+        return jsonResponse({ ok: true });
+      }
       if (data.startsWith("approve:")) {
         const [, targetTgId, paymentId] = data.split(":");
         const numTgId = parseInt(targetTgId, 10);
@@ -1992,6 +2042,29 @@ Select your required score to optimize your daily study quota:`;
           } catch (capErr) {
             console.error("[approve editTelegramCaption Error]", capErr);
           }
+        }
+
+        // Auto-Sync to Google Sheets Webhook if configured
+        const sheetWebhook = env.GOOGLE_SHEETS_WEBHOOK_URL || env.SHEET_WEBHOOK_URL;
+        if (sheetWebhook && ctx && typeof ctx.waitUntil === 'function') {
+          ctx.waitUntil(
+            fetch(sheetWebhook, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                event: "VIP_APPROVED",
+                timestamp: nowMmt,
+                paymentId: paymentId || "-",
+                telegramId: numTgId,
+                username: username ? "@" + username : "",
+                name: (targetUser && targetUser.first_name) || "",
+                amount: 55000,
+                currency: "MMK",
+                voucherCode: desktopVoucher,
+                status: "APPROVED"
+              })
+            }).catch(e => console.error("[Google Sheets Auto-Sync Error]", e))
+          );
         }
 
         await answerCallbackQuery(botToken, cb.id, "✅ User upgraded to Lifetime VIP!");
@@ -5306,3 +5379,115 @@ async function handleAiChat(request, env) {
 
 
 
+
+
+async function generateCustomersCSV(env) {
+  const query = `
+    SELECT 
+      COALESCE(p.id, '-') as payment_id,
+      u.telegram_id,
+      COALESCE(u.username, p.username, 'NoUsername') as username,
+      COALESCE(u.first_name, '') as first_name,
+      COALESCE(p.amount_mmk, 55000) as amount_mmk,
+      COALESCE(p.currency, 'MMK') as currency,
+      COALESCE(p.payment_method, 'slip') as payment_method,
+      COALESCE(pc.code, '') as voucher_code,
+      CASE WHEN u.vip_activated_at > 0 
+           THEN datetime(u.vip_activated_at, 'unixepoch', '+6 hours 30 minutes') 
+           ELSE datetime(u.updated_at, 'unixepoch', '+6 hours 30 minutes') 
+      END as approved_at_mmt,
+      CASE WHEN u.is_vip = 1 THEN 'APPROVED_VIP' ELSE 'FREE' END as status
+    FROM users u
+    LEFT JOIN (
+      SELECT * FROM payments 
+      WHERE status = 'approved'
+      GROUP BY telegram_id
+    ) p ON p.telegram_id = u.telegram_id
+    LEFT JOIN (
+      SELECT * FROM promo_codes
+      WHERE is_used = 1
+      GROUP BY used_by_tg_id
+    ) pc ON pc.used_by_tg_id = u.telegram_id
+    WHERE u.is_vip = 1
+    ORDER BY u.vip_activated_at DESC
+  `;
+
+  const { results } = await env.DB.prepare(query).all();
+  const rows = results || [];
+
+  const headers = [
+    "Payment ID",
+    "Telegram ID",
+    "Username",
+    "First Name",
+    "Amount",
+    "Currency",
+    "Payment Method",
+    "Voucher Code",
+    "Approved Date & Time (MMT)",
+    "Status"
+  ];
+
+  function escapeCsv(val) {
+    if (val === null || val === undefined) return '""';
+    const s = String(val).replace(/"/g, '""');
+    return `"${s}"`;
+  }
+
+  const csvLines = [headers.map(escapeCsv).join(",")];
+
+  for (const r of rows) {
+    csvLines.push([
+      escapeCsv(r.payment_id),
+      escapeCsv(r.telegram_id),
+      escapeCsv(r.username ? "@" + r.username.replace(/^@/, '') : ''),
+      escapeCsv(r.first_name),
+      escapeCsv(r.amount_mmk),
+      escapeCsv(r.currency),
+      escapeCsv(r.payment_method),
+      escapeCsv(r.voucher_code),
+      escapeCsv(r.approved_at_mmt),
+      escapeCsv(r.status)
+    ].join(","));
+  }
+
+  return { csv: csvLines.join("\r\n"), count: rows.length };
+}
+
+async function sendTelegramDocument(botToken, chatId, fileContent, fileName, caption = "", replyMarkup = null) {
+  const formData = new FormData();
+  formData.append("chat_id", chatId);
+  const blob = new Blob(["\uFEFF" + fileContent], { type: "text/csv;charset=utf-8" });
+  formData.append("document", blob, fileName);
+  if (caption) {
+    formData.append("caption", caption);
+    formData.append("parse_mode", "Markdown");
+  }
+  if (replyMarkup) {
+    formData.append("reply_markup", JSON.stringify(replyMarkup));
+  }
+  return fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
+    method: "POST",
+    body: formData
+  });
+}
+
+async function handleAdminExportCsv(request, env, url) {
+  const secret = url.searchParams.get("key") || url.searchParams.get("token") || request.headers.get("x-admin-key");
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+  if (!secret || (String(secret) !== String(adminId) && String(secret) !== "7468650530")) {
+    return new Response("Unauthorized. Please provide valid ?key=YOUR_ADMIN_ID", { status: 401 });
+  }
+
+  const { csv } = await generateCustomersCSV(env);
+  const dateStr = new Date().toISOString().slice(0, 10);
+  return new Response("\uFEFF" + csv, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Disposition": `attachment; filename="ielts_vip_customers_${dateStr}.csv"`,
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store"
+    }
+  });
+}

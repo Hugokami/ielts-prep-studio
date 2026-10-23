@@ -2285,6 +2285,38 @@ bot.command('help', handleHelp);
 // ==========================================
 // 4. ADMIN INVENTORY COMMANDS
 // ==========================================
+bot.command(['export', 'customers', 'csv', 'spreadsheet'], async (ctx) => {
+  if (!isAdmin(ctx)) return;
+  await ctx.reply('⏳ Generating VIP customers spreadsheet from local pool...');
+  try {
+    const list = voucherPool.listAllVouchers();
+    const approved = list.filter(v => v.isUsed);
+    const headers = ["Voucher Code", "Plan", "Redeemed By", "Redeemed At"];
+    function escapeCsv(val) {
+      if (val === null || val === undefined) return '""';
+      return `"${String(val).replace(/"/g, '""')}"`;
+    }
+    const lines = [headers.map(escapeCsv).join(",")];
+    for (const v of approved) {
+      lines.push([
+        escapeCsv(v.code),
+        escapeCsv(v.plan),
+        escapeCsv(v.usedBy || ""),
+        escapeCsv(v.usedAt ? new Date(v.usedAt).toLocaleString('en-GB', { timeZone: 'Asia/Yangon' }) : "")
+      ].join(","));
+    }
+    const csvContent = "\uFEFF" + lines.join("\r\n");
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const { InputFile } = require('grammy');
+    await ctx.replyWithDocument(
+      new InputFile(Buffer.from(csvContent, 'utf-8'), `ielts_vip_customers_${dateStr}.csv`),
+      { caption: `📊 **IELTS Prep Studio — VIP Customers**\nApproved Students: **${approved.length}**` }
+    );
+  } catch (err) {
+    await ctx.reply(`❌ Failed to export CSV: ${err.message}`);
+  }
+});
+
 bot.command('stats', (ctx) => {
   if (!isAdmin(ctx)) return;
   const stats = voucherPool.getStats();
