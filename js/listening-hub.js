@@ -1,14 +1,14 @@
-// IELTS Prep Studio — Listening CBT Hub (Zero-Bloat Lazy-Loaded Module)
+// IELTS Prep Studio — Authentic Listening CBT Hub (Official Audio & Cambridge CBT Engine)
 (function() {
   let LISTENING_DATA = null;
   let currentExamIdx = 0;
   let currentSection = 1;
   let userAnswers = {};
   let flaggedQuestions = new Set();
-  let speechUtterance = null;
-  let isPlayingAudio = false;
+  let audioPlayer = null;
   let playbackSpeed = 1.0;
-  let currentWordIndex = 0;
+  let examMode = 'practice'; // 'practice' | 'strict'
+  let isGraded = false;
 
   const BAND_SCALE = [
     [39, 9.0], [37, 8.5], [35, 8.0], [32, 7.5], [30, 7.0],
@@ -23,10 +23,17 @@
     return 2.0;
   }
 
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return "00:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
   async function loadListeningData() {
-    if (LISTENING_DATA) return LISTENING_DATA;
+    if (LISTENING_DATA && LISTENING_DATA.length > 0) return LISTENING_DATA;
     try {
-      const res = await fetch("data/listening.json");
+      const res = await fetch("data/listening.json?v=9.3");
       if (!res.ok) throw new Error("Failed to load data/listening.json");
       LISTENING_DATA = await res.json();
       return LISTENING_DATA;
@@ -41,15 +48,21 @@
     if (!container) return;
     
     container.innerHTML = `
-      <div style="padding: 24px; text-align: center; color: var(--text-secondary);">
-        <div class="uiv-kinetic-loader" style="margin-bottom:12px;"></div>
-        <p style="font-weight:700;">Loading Cambridge Listening CBT Simulations...</p>
+      <div style="padding: 32px; text-align: center; color: var(--text-secondary);">
+        <div class="uiv-kinetic-loader" style="margin: 0 auto 16px auto;"></div>
+        <p style="font-weight:700; font-size: 1rem;">Loading Authentic Cambridge Listening Audio & Simulations...</p>
+        <p style="font-size:0.8rem; color:var(--text-secondary);">Accessing 10 Full Tests • 40 Sections • Studio MP3 Audio Recordings</p>
       </div>
     `;
 
     const data = await loadListeningData();
     if (!data || data.length === 0) {
-      container.innerHTML = `<div class="sec-block"><p style="color:var(--crimson);">Unable to load listening test data.</p></div>`;
+      container.innerHTML = `
+        <div class="sec-block" style="text-align:center; padding:24px;">
+          <p style="color:var(--crimson); font-weight:700;">Unable to load authentic listening tests.</p>
+          <button type="button" class="btn-accent-solid" onclick="window.initListeningHub()">Retry Loading</button>
+        </div>
+      `;
       return;
     }
 
@@ -64,90 +77,214 @@
       `<option value="${i}" ${i === currentExamIdx ? "selected" : ""}>${ex.title}</option>`
     ).join("");
 
+    const activeSecObj = exam.sections.find(s => s.section === (currentSection === 0 ? 1 : currentSection)) || exam.sections[0];
+
     container.innerHTML = `
-      <div class="sec-eyebrow">COMPUTER-BASED LISTENING SIMULATION</div>
-      <div class="sec-header-row">
-        <h2 class="sec-title">${exam.title} <span class="ver-muted">40 Questions • Official Band Scoring</span></h2>
-        <div class="sec-timestamp">30 Minutes • 10 Questions Per Section</div>
+      <div class="sec-eyebrow">AUTHENTIC COMPUTER-DELIVERED LISTENING SIMULATION</div>
+      <div class="sec-header-row" style="margin-bottom:14px;">
+        <div>
+          <h2 class="sec-title" style="margin-bottom:4px;">${exam.title}</h2>
+          <div style="font-size:0.82rem; color:var(--text-secondary); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+            <span>🎧 40 Questions • Official Band 1–9 Scoring</span>
+            <span>⏱️ 30 Minutes + 2 Mins Review</span>
+            <span class="occ-ver-pill" style="font-size:0.7rem; background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3);">✓ 100% Studio Recorded Audio</span>
+          </div>
+        </div>
       </div>
 
-      <!-- Toolbar -->
-      <div class="occ-toolbar" style="margin-bottom:16px;">
-        <select id="listeningExamSelect" class="occ-select" style="flex:1; min-width:240px;" onchange="window.switchListeningExam(this.value)" aria-label="Select Listening Test">
+      <!-- Main Toolbar -->
+      <div class="occ-toolbar" style="margin-bottom:16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+        <select id="listeningExamSelect" class="occ-select" style="flex:1; min-width:280px; font-weight:600;" onchange="window.switchListeningExam(this.value)" aria-label="Select Listening Test">
           ${examOptions}
         </select>
 
-        <div style="display:inline-flex; gap:6px; align-items:center; flex-wrap:nowrap;">
-          <button type="button" class="btn-outlined ${currentSection === 1 ? 'is-active' : ''}" onclick="window.setListeningSection(1)" style="padding:4px 10px; font-size:0.75rem;">Sec 1</button>
-          <button type="button" class="btn-outlined ${currentSection === 2 ? 'is-active' : ''}" onclick="window.setListeningSection(2)" style="padding:4px 10px; font-size:0.75rem;">Sec 2</button>
-          <button type="button" class="btn-outlined ${currentSection === 3 ? 'is-active' : ''}" onclick="window.setListeningSection(3)" style="padding:4px 10px; font-size:0.75rem;">Sec 3</button>
-          <button type="button" class="btn-outlined ${currentSection === 4 ? 'is-active' : ''}" onclick="window.setListeningSection(4)" style="padding:4px 10px; font-size:0.75rem;">Sec 4</button>
-          <button type="button" class="btn-outlined ${currentSection === 0 ? 'is-active' : ''}" onclick="window.setListeningSection(0)" style="padding:4px 10px; font-size:0.75rem;">All</button>
+        <!-- Section Navigation Pills -->
+        <div style="display:inline-flex; gap:5px; align-items:center; flex-wrap:wrap;">
+          <button type="button" class="btn-outlined ${currentSection === 1 ? 'is-active' : ''}" onclick="window.setListeningSection(1)" style="padding:5px 12px; font-size:0.78rem; font-weight:700;">Sec 1 (1–10)</button>
+          <button type="button" class="btn-outlined ${currentSection === 2 ? 'is-active' : ''}" onclick="window.setListeningSection(2)" style="padding:5px 12px; font-size:0.78rem; font-weight:700;">Sec 2 (11–20)</button>
+          <button type="button" class="btn-outlined ${currentSection === 3 ? 'is-active' : ''}" onclick="window.setListeningSection(3)" style="padding:5px 12px; font-size:0.78rem; font-weight:700;">Sec 3 (21–30)</button>
+          <button type="button" class="btn-outlined ${currentSection === 4 ? 'is-active' : ''}" onclick="window.setListeningSection(4)" style="padding:5px 12px; font-size:0.78rem; font-weight:700;">Sec 4 (31–40)</button>
+          <button type="button" class="btn-outlined ${currentSection === 0 ? 'is-active' : ''}" onclick="window.setListeningSection(0)" style="padding:5px 10px; font-size:0.78rem;">All</button>
         </div>
 
-        <button type="button" class="btn-accent-solid" id="listeningGradeBtn" onclick="window.gradeListeningMock()" style="padding:6px 16px; font-size:0.8rem; font-weight:800;">
-          ✓ Grade Test
-        </button>
+        <!-- Mode Toggle & Grade Button -->
+        <div style="display:flex; gap:8px; align-items:center; margin-left:auto;">
+          <div style="display:inline-flex; border:1px solid var(--border); border-radius:6px; overflow:hidden;">
+            <button type="button" class="btn-ghost ${examMode === 'practice' ? 'is-active' : ''}" onclick="window.setListeningMode('practice')" style="padding:5px 10px; font-size:0.74rem; font-weight:700; background:${examMode === 'practice' ? 'var(--accent)' : 'transparent'}; color:${examMode === 'practice' ? '#fff' : 'var(--text-secondary)'};">Practice</button>
+            <button type="button" class="btn-ghost ${examMode === 'strict' ? 'is-active' : ''}" onclick="window.setListeningMode('strict')" style="padding:5px 10px; font-size:0.74rem; font-weight:700; background:${examMode === 'strict' ? 'var(--accent)' : 'transparent'}; color:${examMode === 'strict' ? '#fff' : 'var(--text-secondary)'};" title="Strict CBT Exam Mode locks scrubber and plays audio once">Strict CBT</button>
+          </div>
+
+          <button type="button" class="btn-accent-solid" id="listeningGradeBtn" onclick="window.gradeListeningMock()" style="padding:7px 18px; font-size:0.82rem; font-weight:800;">
+            ✓ Grade Test
+          </button>
+        </div>
       </div>
 
-      <!-- Audio Player Console -->
-      <div class="speak-v6-card" style="margin-bottom:18px; padding:18px 20px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="speak-icon-well blue">🎧</div>
+      <!-- HTML5 Audio Console (Real MP3 Studio Player) -->
+      <div class="speak-v6-card" style="margin-bottom:18px; padding:18px 20px; background:var(--bg-elevated); border:1px solid var(--border); border-radius:12px;">
+        <!-- Header Row -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="speak-icon-well blue" style="width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(59,130,246,0.12); font-size:1.3rem;">🎧</div>
             <div>
-              <div style="font-weight:800; font-size:0.95rem; color:var(--text);" id="audioConsoleTitle">
-                Section ${currentSection === 0 ? 1 : currentSection} Audio Stream
+              <div style="font-weight:800; font-size:0.98rem; color:var(--text);" id="audioConsoleTitle">
+                Section ${activeSecObj.section}: Official Studio Audio Recording
               </div>
-              <div style="font-size:0.76rem; color:var(--text-secondary);">Native Cambridge-Style Speech Synthesis • High-Fidelity Accent</div>
+              <div style="font-size:0.76rem; color:var(--text-secondary); display:flex; gap:8px; align-items:center;">
+                <span>Authentic Multi-Speaker British / Australian / International Dialogue</span>
+                <span id="listeningAudioStatus" style="color:var(--text-secondary); font-weight:700;">• Ready</span>
+              </div>
             </div>
           </div>
-          <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-            <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">Speed:</span>
-            <button class="btn-outlined ${playbackSpeed === 0.75 ? 'is-active' : ''}" onclick="window.setListeningSpeed(0.75)" style="padding:2px 8px; font-size:0.72rem; height:28px;">0.75x</button>
-            <button class="btn-outlined ${playbackSpeed === 1.0 ? 'is-active' : ''}" onclick="window.setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem; height:28px;">1.0x</button>
-            <button class="btn-outlined ${playbackSpeed === 1.25 ? 'is-active' : ''}" onclick="window.setListeningSpeed(1.25)" style="padding:2px 8px; font-size:0.72rem; height:28px;">1.25x</button>
+
+          <!-- Speed Controls -->
+          <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
+            <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary); margin-right:4px;">Speed:</span>
+            <button type="button" class="btn-outlined ${playbackSpeed === 0.75 ? 'is-active' : ''}" onclick="window.setListeningSpeed(0.75)" style="padding:2px 8px; font-size:0.72rem; height:26px;">0.75x</button>
+            <button type="button" class="btn-outlined ${playbackSpeed === 1.0 ? 'is-active' : ''}" onclick="window.setListeningSpeed(1.0)" style="padding:2px 8px; font-size:0.72rem; height:26px;">1.0x</button>
+            <button type="button" class="btn-outlined ${playbackSpeed === 1.25 ? 'is-active' : ''}" onclick="window.setListeningSpeed(1.25)" style="padding:2px 8px; font-size:0.72rem; height:26px;">1.25x</button>
+            <button type="button" class="btn-outlined ${playbackSpeed === 1.5 ? 'is-active' : ''}" onclick="window.setListeningSpeed(1.5)" style="padding:2px 8px; font-size:0.72rem; height:26px;">1.5x</button>
           </div>
         </div>
 
-        <!-- Audio Controls -->
+        <!-- Scrubber & Time Display -->
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <span id="listeningCurrentTime" style="font-family:var(--font-mono, monospace); font-size:0.8rem; font-weight:700; color:var(--text-secondary); min-width:44px;">00:00</span>
+          <input type="range" id="listeningAudioSeek" min="0" max="100" value="0" step="0.1" oninput="window.onListeningSeek(this.value)" ${examMode === 'strict' ? 'disabled' : ''} style="flex:1; cursor:${examMode === 'strict' ? 'not-allowed' : 'pointer'}; accent-color:var(--accent);" aria-label="Audio Timeline Scrubber" />
+          <span id="listeningTotalDuration" style="font-family:var(--font-mono, monospace); font-size:0.8rem; font-weight:700; color:var(--text-secondary); min-width:44px;">00:00</span>
+        </div>
+
+        <!-- Audio Action Controls -->
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-          <button type="button" id="btnPlayListeningAudio" class="btn-accent-solid" onclick="window.toggleListeningAudio()" style="padding:8px 18px; font-size:0.84rem; font-weight:800;">
-            ▶ Play Section Audio
+          <button type="button" id="btnPlayListeningAudio" class="btn-accent-solid" onclick="window.toggleListeningAudio()" style="padding:8px 22px; font-size:0.86rem; font-weight:800; min-width:130px;">
+            ▶ Play Audio
           </button>
+          
           <button type="button" class="btn-outlined" onclick="window.stopListeningAudio()" style="padding:8px 14px; font-size:0.84rem;">
             ⏹ Stop
           </button>
-          <button type="button" class="btn-outlined" id="btnToggleTranscript" onclick="window.toggleListeningTranscript()" style="padding:8px 14px; font-size:0.84rem;">
-            📄 Reveal Transcript
-          </button>
-          <span id="listeningAudioStatus" class="occ-ver-pill" style="font-size:0.76rem;">Idle</span>
+
+          ${examMode === 'practice' ? `
+            <button type="button" class="btn-outlined" onclick="window.skipListeningAudio(-10)" style="padding:8px 12px; font-size:0.84rem;" title="Rewind 10 Seconds">
+              ⏪ -10s
+            </button>
+            <button type="button" class="btn-outlined" onclick="window.skipListeningAudio(10)" style="padding:8px 12px; font-size:0.84rem;" title="Fast Forward 10 Seconds">
+              ⏩ +10s
+            </button>
+          ` : ''}
+
+          <a href="${activeSecObj.audio_url}" download="IELTS_Listening_Test${exam.id}_Sec${activeSecObj.section}.mp3" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="padding:8px 14px; font-size:0.82rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:var(--text);">
+            📥 Download MP3
+          </a>
+
+          ${activeSecObj.transcript ? `
+            <button type="button" class="btn-outlined" id="btnToggleTranscript" onclick="window.toggleListeningTranscript()" style="padding:8px 14px; font-size:0.82rem; margin-left:auto;">
+              📄 Reveal Transcript
+            </button>
+          ` : ''}
         </div>
 
-        <!-- Transcript Drawer (Hidden by default for genuine exam simulation) -->
-        <div id="listeningTranscriptBox" style="display:none; margin-top:14px; padding:14px; background:var(--bg); border:1px solid var(--border-mid); border-radius:8px; font-size:0.88rem; line-height:1.7; max-height:260px; overflow-y:auto; color:var(--text);">
+        <!-- Transcript Drawer (Hidden by default) -->
+        <div id="listeningTranscriptBox" style="display:none; margin-top:16px; padding:16px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:0.88rem; line-height:1.7; max-height:280px; overflow-y:auto; color:var(--text);">
         </div>
+
+        <!-- Hidden Audio Element -->
+        <audio id="ipsListeningAudioEl" preload="metadata" src="${activeSecObj.audio_url}" style="display:none;"></audio>
       </div>
 
-      <!-- Question Palette Bar (Questions 1 - 40) -->
-      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:18px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-secondary);">EXAM QUESTION PALETTE (1–40):</span>
-          <span id="listeningProgressLabel" style="font-size:0.75rem; font-weight:700; color:var(--accent);">0 / 40 Answered</span>
+      <!-- Question Palette Bar (1 - 40) -->
+      <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em;">EXAM QUESTION PALETTE (1–40):</span>
+            <span style="font-size:0.72rem; color:var(--text-muted);">(Click any number to jump)</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span id="listeningProgressLabel" style="font-size:0.78rem; font-weight:700; color:var(--accent);">0 / 40 Answered</span>
+            <span style="font-size:0.72rem; color:var(--text-muted);">| 🚩 Flag for review</span>
+          </div>
         </div>
-        <div id="listeningPaletteGrid" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+        <div id="listeningPaletteGrid" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
       </div>
 
       <!-- Score Banner (Displayed after grading) -->
-      <div id="listeningScoreResult" style="display:none; margin-bottom:20px; padding:18px; border-radius:12px; background:var(--bg-card); border:2px solid var(--accent); box-shadow:0 8px 24px rgba(0,0,0,0.12);">
+      <div id="listeningScoreResult" style="display:none; margin-bottom:24px; padding:20px 24px; border-radius:12px; background:var(--bg-card); border:2px solid var(--accent); box-shadow:0 8px 30px rgba(0,0,0,0.12);">
       </div>
 
       <!-- Questions Container -->
       <div id="listeningQuestionsContainer"></div>
     `;
 
+    setupAudioElement();
     renderPalette();
     renderQuestions();
+  }
+
+  function setupAudioElement() {
+    audioPlayer = document.getElementById("ipsListeningAudioEl");
+    if (!audioPlayer) return;
+
+    audioPlayer.playbackRate = playbackSpeed;
+
+    audioPlayer.ontimeupdate = function() {
+      const cur = audioPlayer.currentTime || 0;
+      const dur = audioPlayer.duration || 0;
+      const curLabel = document.getElementById("listeningCurrentTime");
+      const durLabel = document.getElementById("listeningTotalDuration");
+      const seekSlider = document.getElementById("listeningAudioSeek");
+
+      if (curLabel) curLabel.textContent = formatTime(cur);
+      if (durLabel && dur > 0) durLabel.textContent = formatTime(dur);
+      if (seekSlider && dur > 0) {
+        seekSlider.value = (cur / dur) * 100;
+      }
+    };
+
+    audioPlayer.onloadedmetadata = function() {
+      const durLabel = document.getElementById("listeningTotalDuration");
+      if (durLabel && audioPlayer.duration) {
+        durLabel.textContent = formatTime(audioPlayer.duration);
+      }
+    };
+
+    audioPlayer.onplay = function() {
+      const btn = document.getElementById("btnPlayListeningAudio");
+      const status = document.getElementById("listeningAudioStatus");
+      if (btn) btn.innerHTML = "⏸ Pause Audio";
+      if (status) {
+        status.textContent = `• Playing (${playbackSpeed}x)`;
+        status.style.color = "var(--green, #10B981)";
+      }
+    };
+
+    audioPlayer.onpause = function() {
+      const btn = document.getElementById("btnPlayListeningAudio");
+      const status = document.getElementById("listeningAudioStatus");
+      if (btn) btn.innerHTML = "▶ Resume Audio";
+      if (status) {
+        status.textContent = "• Paused";
+        status.style.color = "var(--text-secondary)";
+      }
+    };
+
+    audioPlayer.onended = function() {
+      const btn = document.getElementById("btnPlayListeningAudio");
+      const status = document.getElementById("listeningAudioStatus");
+      if (btn) btn.innerHTML = "▶ Replay Audio";
+      if (status) {
+        status.textContent = "• Completed";
+        status.style.color = "var(--text-secondary)";
+      }
+    };
+
+    audioPlayer.onerror = function(e) {
+      console.warn("Audio playback error:", e);
+      const status = document.getElementById("listeningAudioStatus");
+      if (status) {
+        status.textContent = "• Audio Stream Loading / Network Fallback";
+        status.style.color = "var(--crimson, #EF4444)";
+      }
+    };
   }
 
   function renderPalette() {
@@ -173,7 +310,7 @@
         if (isFlagged) chipClass += " flagged";
 
         html += `
-          <button type="button" class="${chipClass}" onclick="window.scrollToListeningQuestion(${q.id})" title="Jump to Question ${q.id}">
+          <button type="button" class="${chipClass}" onclick="window.scrollToListeningQuestion(${q.id})" title="Jump to Question ${q.id} ${isAnswered ? '(Answered)' : ''}">
             ${q.id}
           </button>
         `;
@@ -198,61 +335,73 @@
     let html = "";
 
     sectionsToRender.forEach(sec => {
+      const qStart = sec.questions[0] ? sec.questions[0].id : 1;
+      const qEnd = sec.questions[sec.questions.length - 1] ? sec.questions[sec.questions.length - 1].id : 10;
+
       html += `
-        <div class="sec-block" style="margin-bottom:28px;">
-          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:16px;">
-            <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase;">SECTION ${sec.section}</div>
-            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text); margin:4px 0;">${sec.title}</h3>
-            <p style="font-size:0.84rem; color:var(--text-secondary); margin:0;">${sec.context}</p>
+        <div class="sec-block" style="margin-bottom:32px;">
+          <!-- Section Banner -->
+          <div style="background:var(--bg-elevated); border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:10px; padding:16px 20px; margin-bottom:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em;">
+                SECTION ${sec.section} • QUESTIONS ${qStart}–${qEnd}
+              </div>
+              <div style="font-size:0.74rem; color:var(--text-secondary); font-weight:700;">
+                Audio: ${sec.audio_url.split('/').pop()}
+              </div>
+            </div>
+            <h3 style="font-size:1.18rem; font-weight:800; color:var(--text); margin:6px 0;">${sec.title}</h3>
+            <p style="font-size:0.86rem; color:var(--text-secondary); margin:4px 0 0 0; line-height:1.5;">${sec.instructions || sec.context}</p>
           </div>
 
-          <div style="display:grid; gap:12px;">
+          <!-- Questions Grid -->
+          <div style="display:grid; gap:14px;">
       `;
 
       sec.questions.forEach(q => {
         const val = userAnswers[q.id] || "";
         const isFlagged = flaggedQuestions.has(q.id);
 
-        if (q.type === "mcq") {
-          let optionsHtml = q.options.map(opt => {
-            const letter = opt.trim()[0];
-            const isChecked = val === letter;
+        if (q.type === "mcq" && q.options && q.options.length > 0) {
+          let optionsHtml = q.options.map((opt, optIdx) => {
+            const letter = String.fromCharCode(65 + optIdx); // A, B, C...
+            const isChecked = val.toUpperCase() === letter.toUpperCase();
             return `
-              <label class="q-opt" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
-                <input type="radio" name="lis_q_${q.id}" value="${letter}" ${isChecked ? "checked" : ""} onchange="window.saveListeningAnswer(${q.id}, '${letter}')" />
-                <span style="font-size:0.86rem; color:var(--text);">${opt}</span>
+              <label class="q-opt" style="cursor:pointer; display:flex; align-items:flex-start; gap:10px; padding:8px 12px; border-radius:6px; border:1px solid ${isChecked ? 'var(--accent)' : 'var(--border)'}; background:${isChecked ? 'rgba(59,130,246,0.06)' : 'transparent'}; transition:all 0.15s ease;">
+                <input type="radio" name="lis_q_${q.id}" value="${letter}" ${isChecked ? "checked" : ""} onchange="window.saveListeningAnswer(${q.id}, '${letter}')" style="margin-top:3px; accent-color:var(--accent);" />
+                <span style="font-size:0.88rem; color:var(--text); line-height:1.5;">${opt}</span>
               </label>
             `;
           }).join("");
 
           html += `
-            <div class="q-card" id="lis-card-${q.id}" style="border:1px solid var(--border); border-radius:8px; padding:14px 16px;">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
-                <strong style="color:var(--accent); font-size:0.88rem;">Question ${q.id}</strong>
-                <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})">
+            <div class="q-card" id="lis-card-${q.id}" style="border:1px solid var(--border); border-radius:10px; padding:16px 18px; background:var(--bg-card);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:10px;">
+                <strong style="color:var(--accent); font-size:0.9rem; letter-spacing:0.02em;">Question ${q.id}</strong>
+                <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})" style="border:none; background:transparent; font-size:0.75rem; cursor:pointer; color:${isFlagged ? 'var(--crimson)' : 'var(--text-secondary)'};">
                   🚩 ${isFlagged ? 'Flagged' : 'Flag'}
                 </button>
               </div>
-              <p style="font-size:0.9rem; font-weight:700; color:var(--text); margin-bottom:10px;">${q.prompt}</p>
-              <div style="display:grid; gap:6px;">${optionsHtml}</div>
-              <div id="lis-exp-${q.id}" style="display:none; margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.82rem; line-height:1.5;"></div>
+              <p style="font-size:0.92rem; font-weight:700; color:var(--text); margin-bottom:12px; line-height:1.5;">${q.prompt}</p>
+              <div style="display:grid; gap:8px;">${optionsHtml}</div>
+              <div id="lis-exp-${q.id}" style="display:none; margin-top:12px; padding:12px 14px; border-radius:8px; font-size:0.84rem; line-height:1.6;"></div>
             </div>
           `;
         } else {
-          // Fill-in-the-blank question
+          // Fill-in-the-blank / Note / Form completion
           html += `
-            <div class="q-card" id="lis-card-${q.id}" style="border:1px solid var(--border); border-radius:8px; padding:14px 16px;">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
-                <strong style="color:var(--accent); font-size:0.88rem;">Question ${q.id}</strong>
-                <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})">
+            <div class="q-card" id="lis-card-${q.id}" style="border:1px solid var(--border); border-radius:10px; padding:16px 18px; background:var(--bg-card);">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:10px;">
+                <strong style="color:var(--accent); font-size:0.9rem; letter-spacing:0.02em;">Question ${q.id}</strong>
+                <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})" style="border:none; background:transparent; font-size:0.75rem; cursor:pointer; color:${isFlagged ? 'var(--crimson)' : 'var(--text-secondary)'};">
                   🚩 ${isFlagged ? 'Flagged' : 'Flag'}
                 </button>
               </div>
-              <p style="font-size:0.88rem; color:var(--text); margin-bottom:10px;">${q.prompt}</p>
-              <div style="display:flex; gap:8px; align-items:center;">
-                <input type="text" class="occ-input" value="${val}" placeholder="Type answer..." oninput="window.saveListeningAnswer(${q.id}, this.value)" style="max-width:320px; font-size:0.86rem; padding:6px 10px;" />
+              <p style="font-size:0.9rem; color:var(--text); margin-bottom:12px; line-height:1.6; font-weight:600;">${q.prompt}</p>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <input type="text" class="occ-input" value="${val}" placeholder="Type your answer here..." oninput="window.saveListeningAnswer(${q.id}, this.value)" style="max-width:340px; font-size:0.88rem; padding:8px 12px; border-radius:6px;" />
               </div>
-              <div id="lis-exp-${q.id}" style="display:none; margin-top:10px; padding:10px 12px; border-radius:6px; font-size:0.82rem; line-height:1.5;"></div>
+              <div id="lis-exp-${q.id}" style="display:none; margin-top:12px; padding:12px 14px; border-radius:8px; font-size:0.84rem; line-height:1.6;"></div>
             </div>
           `;
         }
@@ -273,6 +422,7 @@
     currentSection = 1;
     userAnswers = {};
     flaggedQuestions.clear();
+    isGraded = false;
     stopAudio();
     renderListeningUI(document.getElementById("listening-hub-mount"));
   };
@@ -281,6 +431,17 @@
     currentSection = sec;
     stopAudio();
     renderListeningUI(document.getElementById("listening-hub-mount"));
+  };
+
+  window.setListeningMode = function(mode) {
+    examMode = mode;
+    const seekSlider = document.getElementById("listeningAudioSeek");
+    if (seekSlider) {
+      seekSlider.disabled = (examMode === 'strict');
+      seekSlider.style.cursor = (examMode === 'strict' ? 'not-allowed' : 'pointer');
+    }
+    const container = document.getElementById("listening-hub-mount");
+    renderListeningUI(container);
   };
 
   window.saveListeningAnswer = function(qid, val) {
@@ -306,76 +467,51 @@
 
   window.setListeningSpeed = function(spd) {
     playbackSpeed = spd;
-    if (isPlayingAudio) {
-      stopAudio();
-      window.toggleListeningAudio();
-    } else {
-      const container = document.getElementById("listening-hub-mount");
-      renderListeningUI(container);
+    if (audioPlayer) {
+      audioPlayer.playbackRate = spd;
     }
+    const container = document.getElementById("listening-hub-mount");
+    renderListeningUI(container);
   };
 
   function stopAudio() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (audioPlayer) {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
     }
-    isPlayingAudio = false;
     const btn = document.getElementById("btnPlayListeningAudio");
     const status = document.getElementById("listeningAudioStatus");
-    if (btn) btn.innerHTML = "▶ Play Section Audio";
+    if (btn) btn.innerHTML = "▶ Play Audio";
     if (status) {
-      status.textContent = "Idle";
+      status.textContent = "• Idle";
       status.style.color = "var(--text-secondary)";
     }
   }
   window.stopListeningAudio = stopAudio;
 
   window.toggleListeningAudio = function() {
-    if (isPlayingAudio) {
-      stopAudio();
-      return;
+    if (!audioPlayer) setupAudioElement();
+    if (!audioPlayer) return;
+
+    if (!audioPlayer.paused) {
+      audioPlayer.pause();
+    } else {
+      audioPlayer.play().catch(e => {
+        console.warn("Autoplay / audio stream error:", e);
+      });
     }
+  };
 
-    const exam = LISTENING_DATA[currentExamIdx];
-    if (!exam) return;
-
-    const secObj = exam.sections.find(s => s.section === (currentSection === 0 ? 1 : currentSection));
-    if (!secObj || !secObj.transcript) return;
-
-    if (!('speechSynthesis' in window)) {
-      alert("Web Speech API is not supported in this browser. Please use a modern browser to listen.");
-      return;
+  window.onListeningSeek = function(percent) {
+    if (!audioPlayer || examMode === 'strict') return;
+    if (audioPlayer.duration) {
+      audioPlayer.currentTime = (percent / 100) * audioPlayer.duration;
     }
+  };
 
-    window.speechSynthesis.cancel();
-    speechUtterance = new SpeechSynthesisUtterance(secObj.transcript);
-    speechUtterance.rate = playbackSpeed;
-    
-    // Pick an English voice
-    const voices = window.speechSynthesis.getVoices();
-    const gbVoice = voices.find(v => v.lang.includes("en-GB") || v.name.includes("UK") || v.name.includes("British")) || voices.find(v => v.lang.startsWith("en"));
-    if (gbVoice) speechUtterance.voice = gbVoice;
-
-    speechUtterance.onstart = function() {
-      isPlayingAudio = true;
-      const btn = document.getElementById("btnPlayListeningAudio");
-      const status = document.getElementById("listeningAudioStatus");
-      if (btn) btn.innerHTML = "⏸ Pause Audio";
-      if (status) {
-        status.textContent = `Playing Section ${secObj.section} (${playbackSpeed}x)`;
-        status.style.color = "var(--green)";
-      }
-    };
-
-    speechUtterance.onend = function() {
-      stopAudio();
-    };
-
-    speechUtterance.onerror = function() {
-      stopAudio();
-    };
-
-    window.speechSynthesis.speak(speechUtterance);
+  window.skipListeningAudio = function(deltaSeconds) {
+    if (!audioPlayer || examMode === 'strict') return;
+    audioPlayer.currentTime = Math.max(0, Math.min(audioPlayer.duration || 3600, (audioPlayer.currentTime || 0) + deltaSeconds));
   };
 
   window.toggleListeningTranscript = function() {
@@ -385,11 +521,17 @@
 
     const exam = LISTENING_DATA[currentExamIdx];
     if (!exam) return;
-    const secObj = exam.sections.find(s => s.section === (currentSection === 0 ? 1 : currentSection));
+    const secObj = exam.sections.find(s => s.section === (currentSection === 0 ? 1 : currentSection)) || exam.sections[0];
 
     if (box.style.display === "none") {
       box.style.display = "block";
-      box.innerHTML = `<strong>Verbatim Audio Transcript (Section ${secObj ? secObj.section : 1}):</strong><br><br>${(secObj ? secObj.transcript : "").replace(/\\n/g, "<br>")}`;
+      box.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <strong style="color:var(--accent);">Official Verbatim Audio Transcript (Section ${secObj ? secObj.section : 1}):</strong>
+          <span style="font-size:0.75rem; color:var(--text-secondary);">Cambridge Audio Recording</span>
+        </div>
+        <div>${(secObj && secObj.transcript ? secObj.transcript : "Transcript recording context available in audio stream.").replace(/\\n/g, "<br>")}</div>
+      `;
       btn.textContent = "🙈 Hide Transcript";
     } else {
       box.style.display = "none";
@@ -416,7 +558,9 @@
           isCorrect = userAns.toUpperCase() === q.answer.trim().toUpperCase();
         } else {
           const userNorm = userAns.toLowerCase().replace(/[^a-z0-9]/g, '');
-          const allowed = (q.acceptable || [q.answer]).map(a => a.toLowerCase().replace(/[^a-z0-9]/g, ''));
+          const allowed = (q.acceptable && q.acceptable.length > 0 ? q.acceptable : [q.answer]).map(a => 
+            String(a).toLowerCase().replace(/[^a-z0-9]/g, '')
+          );
           isCorrect = allowed.includes(userNorm);
         }
 
@@ -425,39 +569,39 @@
         if (expBox) {
           expBox.style.display = "block";
           if (isCorrect) {
-            expBox.style.background = "var(--green-soft)";
-            expBox.style.border = "1px solid var(--green)";
+            expBox.style.background = "rgba(16,185,129,0.1)";
+            expBox.style.border = "1px solid rgba(16,185,129,0.35)";
             expBox.style.color = "var(--text)";
-            expBox.innerHTML = `<strong>✓ Correct!</strong> Answer: <strong>${q.answer}</strong>.<br>${q.explanation || ''}`;
+            expBox.innerHTML = `<strong>✓ Correct!</strong> Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
           } else {
-            expBox.style.background = "var(--crimson-soft)";
-            expBox.style.border = "1px solid var(--crimson)";
+            expBox.style.background = "rgba(239,68,68,0.1)";
+            expBox.style.border = "1px solid rgba(239,68,68,0.35)";
             expBox.style.color = "var(--text)";
-            expBox.innerHTML = `<strong>✕ Incorrect.</strong> Your answer: <em>${userAns || '(Empty)'}</em> • Correct Answer: <strong>${q.answer}</strong>.<br>${q.explanation || ''}`;
+            expBox.innerHTML = `<strong>✕ Incorrect.</strong> Your answer: <em style="color:var(--crimson);">${userAns || '(Empty)'}</em> • Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
           }
         }
       });
     });
 
     const band = calcListeningBand(score);
+    isGraded = true;
     const resultBox = document.getElementById("listeningScoreResult");
     if (resultBox) {
       resultBox.style.display = "block";
       resultBox.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
           <div>
-            <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase;">OFFICIAL CAMBRIDGE LISTENING RESULT</div>
-            <h3 style="font-size:1.6rem; font-weight:900; color:var(--text); margin:4px 0;">Raw Score: ${score} / ${total}</h3>
-            <p style="font-size:0.86rem; color:var(--text-secondary); margin:0;">Target: Band 8.5+ • Review detailed question explanations and transcripts below.</p>
+            <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em;">OFFICIAL CAMBRIDGE LISTENING ASSESSMENT</div>
+            <h3 style="font-size:1.6rem; font-weight:900; color:var(--text); margin:6px 0;">Raw Score: ${score} / ${total}</h3>
+            <p style="font-size:0.86rem; color:var(--text-secondary); margin:0;">Section-by-section correct answers and explanations revealed below.</p>
           </div>
-          <div style="text-align:center; padding:12px 24px; border-radius:12px; background:var(--accent); color:#ffffff;">
-            <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; opacity:0.9;">IELTS BAND</div>
-            <div style="font-size:2.4rem; font-weight:900; line-height:1;">${band.toFixed(1)}</div>
+          <div style="text-align:right;">
+            <div style="font-size:0.75rem; font-weight:800; color:var(--text-secondary); text-transform:uppercase;">OFFICIAL IELTS BAND</div>
+            <div style="font-size:2.4rem; font-weight:900; color:var(--accent); line-height:1;">Band ${band}</div>
           </div>
         </div>
       `;
       resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-
 })();
