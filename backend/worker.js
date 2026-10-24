@@ -2382,7 +2382,7 @@ async function sendTelegramChatAction(botToken, chatId, action = "typing") {
 async function getTelegramByokKey(env, userId) {
   if (!env.BOT_STATE || !userId) return "";
   try {
-    return (await env.BOT_STATE.get(`byok_key:${userId}`)) || "";
+    return (await kv.get(`byok_key:${userId}`)) || "";
   } catch (e) {
     return "";
   }
@@ -2393,9 +2393,9 @@ async function setTelegramByokKey(env, userId, apiKey) {
   try {
     const clean = (apiKey || "").trim();
     if (clean) {
-      await env.BOT_STATE.put(`byok_key:${userId}`, clean);
+      await kv.put(`byok_key:${userId}`, clean);
     } else {
-      await env.BOT_STATE.delete(`byok_key:${userId}`);
+      await kv.delete(`byok_key:${userId}`);
     }
   } catch (e) {}
 }
