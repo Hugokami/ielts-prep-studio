@@ -1,0 +1,425 @@
+{
+  "version": "9.1",
+  "readingParaphrases": [
+    {
+      "id": "rp-01",
+      "category": "Environment & Ecology",
+      "questionPhrase": "irreversible environmental damage",
+      "passageEquivalent": "ecological degradation that cannot be undone",
+      "trapType": "Lexical Synonym + Clause Restructuring",
+      "exampleContext": "Passage states 'degradation that cannot be undone', matching 'irreversible damage' in TFNG.",
+      "burmeseNote": "'irreversible' (ပြန်မပြင်နိုင်သော) ကို စာပိုဒ်ထဲတွင် 'cannot be undone' ဟု ပြောင်းရေးထားတတ်သည်။"
+    },
+    {
+      "id": "rp-02",
+      "category": "Environment & Ecology",
+      "questionPhrase": "viable alternative energy source",
+      "passageEquivalent": "feasible substitute for fossil fuels",
+      "trapType": "Direct Academic Synonym",
+      "exampleContext": "Heading matching often swaps 'viable alternative' with 'feasible substitute'.",
+      "burmeseNote": "'viable' = 'feasible' (လက်တွေ့ဖြစ်နိုင်ခြေရှိသော)၊ 'alternative' = 'substitute' (အစားထိုးစရာ)။"
+    },
+    {
+      "id": "rp-03",
+      "category": "Environment & Ecology",
+      "questionPhrase": "pose a severe peril to marine biodiversity",
+      "passageEquivalent": "jeopardize oceanic species richness",
+      "trapType": "Verb-Noun Compression",
+      "exampleContext": "'pose a peril to' compresses into the single C1 verb 'jeopardize' or 'endanger'.",
+      "burmeseNote": "'pose a peril to' (အန္တရာယ်ဖြစ်စေသည်) ကို 'jeopardize' ကြိယာတစ်လုံးတည်းဖြင့် အစားထိုးတတ်သည်။"
+    },
+    {
+      "id": "rp-04",
+      "category": "Environment & Ecology",
+      "questionPhrase": "stem the decline of native habitats",
+      "passageEquivalent": "halt the shrinking of indigenous ecosystems",
+      "trapType": "Collocation Paraphrase",
+      "exampleContext": "'stem the decline' = 'halt the shrinking'; 'native' = 'indigenous'.",
+      "burmeseNote": "'stem' (ဟန့်တားသည်) = 'halt'၊ 'native' (မူရင်းဒေသရင်း) = 'indigenous'။"
+    },
+    {
+      "id": "rp-05",
+      "category": "Science & Technology",
+      "questionPhrase": "resemble early mechanical prototypes",
+      "passageEquivalent": "bear a striking likeness to initial rudimentary models",
+      "trapType": "Idiom to Verb Equivalence",
+      "exampleContext": "'resemble' is frequently paraphrased as 'bear a likeness to' or 'mirror'.",
+      "burmeseNote": "'resemble' (ဆင်တူသည်) ကို 'bear a likeness to' သို့မဟုတ် 'look like' ဟု ပြောင်းရေးလေ့ရှိသည်။"
+    },
+    {
+      "id": "rp-06",
+      "category": "Science & Technology",
+      "questionPhrase": "solely attributable to genetic factors",
+      "passageEquivalent": "exclusively explained by hereditary traits",
+      "trapType": "Qualifier + Cause Trap",
+      "exampleContext": "Watch out if passage says 'partly explained by' — that flips TFNG from TRUE to FALSE!",
+      "burmeseNote": "'solely / exclusively' (သက်သက်သာ) ဆိုသည့် ကန့်သတ်ချက်စကားလုံးများသည် TFNG တွင် အဓိကထောင်ချောက်ဖြစ်သည်။"
+    },
+    {
+      "id": "rp-07",
+      "category": "Science & Technology",
+      "questionPhrase": "trigger a fundamental shift in methodology",
+      "passageEquivalent": "act as a catalyst for a radical overhaul of research techniques",
+      "trapType": "Metaphorical Noun Phrase",
+      "exampleContext": "'trigger' = 'act as a catalyst for'; 'fundamental shift' = 'radical overhaul'.",
+      "burmeseNote": "'trigger' (စတင်ဖြစ်ပေါ်စေသည်) ကို 'act as a catalyst for' ဟု အဆင့်မြင့်ဝေါဟာရဖြင့် ဖလှယ်တတ်သည်။"
+    },
+    {
+      "id": "rp-08",
+      "category": "Science & Technology",
+      "questionPhrase": "unanticipated side effects",
+      "passageEquivalent": "unforeseen repercussions",
+      "trapType": "Adjective-Noun Collocation",
+      "exampleContext": "Common in medical and technological passages for Multiple Choice items.",
+      "burmeseNote": "'unanticipated' = 'unforeseen' (ကြိုတင်မမျှော်မှန်းထားသော)၊ 'side effects' = 'repercussions' (နောက်ဆက်တွဲဂယက်)။"
+    },
+    {
+      "id": "rp-09",
+      "category": "Economics & Business",
+      "questionPhrase": "lucrative commercial enterprise",
+      "passageEquivalent": "highly profitable business venture",
+      "trapType": "Adjective + Noun Swap",
+      "exampleContext": "'lucrative' always maps to 'profitable / financially rewarding'.",
+      "burmeseNote": "'lucrative' (အမြတ်အစွန်းများသော) = 'highly profitable'။"
+    },
+    {
+      "id": "rp-10",
+      "category": "Economics & Business",
+      "questionPhrase": "curb excessive consumer spending",
+      "passageEquivalent": "restrain extravagant household expenditure",
+      "trapType": "Register Elevation",
+      "exampleContext": "'curb' = 'restrain / curtail'; 'spending' = 'expenditure'.",
+      "burmeseNote": "'curb' (ထိန်းချုပ်သည်) = 'restrain'၊ 'spending' = 'expenditure' (အသုံးစရိတ်)။"
+    },
+    {
+      "id": "rp-11",
+      "category": "Economics & Business",
+      "questionPhrase": "thrive in a competitive market",
+      "passageEquivalent": "flourish amidst fierce commercial rivalry",
+      "trapType": "Verb + Prepositional Phrase",
+      "exampleContext": "'thrive' = 'flourish / prosper'; 'competition' = 'rivalry'.",
+      "burmeseNote": "'thrive' (ကြီးပွားတိုးတက်သည်) = 'flourish'၊ 'competition' = 'rivalry' (ပြိုင်ဆိုင်မှု)။"
+    },
+    {
+      "id": "rp-12",
+      "category": "Economics & Business",
+      "questionPhrase": "allocate substantial funding to infrastructure",
+      "passageEquivalent": "earmark considerable capital for public works",
+      "trapType": "Policy & Finance Synonym",
+      "exampleContext": "'allocate' = 'earmark / designate'; 'substantial' = 'considerable'.",
+      "burmeseNote": "'allocate' (ခွဲဝေချထားပေးသည်) ကို 'earmark' ဟု စီးပွားရေးစာပိုဒ်များတွင် သုံးလေ့ရှိသည်။"
+    },
+    {
+      "id": "rp-13",
+      "category": "Education & Psychology",
+      "questionPhrase": "innate cognitive capacity",
+      "passageEquivalent": "inborn mental faculty",
+      "trapType": "Psychology Term Mapping",
+      "exampleContext": "'innate' = 'inborn / intrinsic'; 'cognitive' = 'mental / intellectual'.",
+      "burmeseNote": "'innate' (မွေးရာပါ) = 'inborn'၊ 'cognitive capacity' (ဉာဏ်ရည်စွမ်းရည်) = 'mental faculty'။"
+    },
+    {
+      "id": "rp-14",
+      "category": "Education & Psychology",
+      "questionPhrase": "hinder early childhood development",
+      "passageEquivalent": "impede formative growth in young learners",
+      "trapType": "Negative Verb Paraphrase",
+      "exampleContext": "'hinder' = 'impede / hamper / obstruct / stifle'.",
+      "burmeseNote": "'hinder' (အဟန့်အတားဖြစ်စေသည်) = 'impede / hamper / stifle'။"
+    },
+    {
+      "id": "rp-15",
+      "category": "Education & Psychology",
+      "questionPhrase": "mandatory curriculum reform",
+      "passageEquivalent": "compulsory overhaul of the syllabus",
+      "trapType": "Institutional Synonym",
+      "exampleContext": "'mandatory' = 'compulsory / obligatory'; 'curriculum' = 'syllabus'.",
+      "burmeseNote": "'mandatory' (မဖြစ်မနေလုပ်ရသော) = 'compulsory / obligatory'။"
+    },
+    {
+      "id": "rp-16",
+      "category": "Education & Psychology",
+      "questionPhrase": "foster independent critical thinking",
+      "passageEquivalent": "cultivate autonomous analytical reasoning",
+      "trapType": "Pedagogical Collocation",
+      "exampleContext": "'foster' = 'cultivate / nurture'; 'independent' = 'autonomous'.",
+      "burmeseNote": "'foster' (ပျိုးထောင်ပေးသည်) = 'cultivate'၊ 'independent' = 'autonomous' (ကိုယ်ပိုင်လွတ်လပ်သော)။"
+    },
+    {
+      "id": "rp-17",
+      "category": "History & Archaeology",
+      "questionPhrase": "dated back to the Bronze Age",
+      "passageEquivalent": "originated several millennia ago during early metallurgy",
+      "trapType": "Chronological Paraphrase",
+      "exampleContext": "Cambridge passages often replace exact eras with descriptive time spans.",
+      "burmeseNote": "သမိုင်းစာပိုဒ်များတွင် ခုနှစ်/ခေတ်အမည်ကို 'several millennia ago' (နှစ်ထောင်ပေါင်းများစွာက) ဟု ပြောင်းတတ်သည်။"
+    },
+    {
+      "id": "rp-18",
+      "category": "History & Archaeology",
+      "questionPhrase": "scarce archaeological evidence",
+      "passageEquivalent": "a paucity of excavated artifacts",
+      "trapType": "Adjective to Noun Conversion",
+      "exampleContext": "'scarce' converts to the noun phrase 'a paucity of' or 'a dearth of'.",
+      "burmeseNote": "'scarce' (ရှားပါးသော) ကို 'a paucity of' သို့မဟုတ် 'a dearth of' ဟု နာမ်ပုဒ်ဖြင့် ပြောင်းရေးတတ်သည်။"
+    },
+    {
+      "id": "rp-19",
+      "category": "Urbanization & Society",
+      "questionPhrase": "alleviate chronic traffic congestion",
+      "passageEquivalent": "mitigate persistent vehicular gridlock",
+      "trapType": "Urban Planning Collocation",
+      "exampleContext": "'alleviate' = 'mitigate / ease'; 'chronic congestion' = 'persistent gridlock'.",
+      "burmeseNote": "'alleviate / mitigate' (သက်သာလျော့ပါးစေသည်)၊ 'congestion / gridlock' (ယာဉ်ကြောပိတ်ဆို့မှု)။"
+    },
+    {
+      "id": "rp-20",
+      "category": "Urbanization & Society",
+      "questionPhrase": "accelerating rural-to-urban migration",
+      "passageEquivalent": "rapidly intensifying exodus from the countryside to metropolises",
+      "trapType": "Directional Noun Phrase",
+      "exampleContext": "'rural-to-urban migration' = 'exodus from countryside to cities'.",
+      "burmeseNote": "'migration' (ရွှေ့ပြောင်းမှု) ကို အစုလိုက်အပြုံလိုက်ထွက်ခွာခြင်းအဓိပ္ပာယ်ဖြင့် 'exodus' ဟု သုံးတတ်သည်။"
+    },
+    {
+      "id": "rp-21",
+      "category": "Health & Medicine",
+      "questionPhrase": "susceptible to infectious diseases",
+      "passageEquivalent": "vulnerable to contagious ailments",
+      "trapType": "Medical Synonym",
+      "exampleContext": "'susceptible to' = 'vulnerable to / prone to'; 'infectious' = 'contagious'.",
+      "burmeseNote": "'susceptible to' (ကူးစက်ခံရလွယ်သော) = 'vulnerable to / prone to'။"
+    },
+    {
+      "id": "rp-22",
+      "category": "Health & Medicine",
+      "questionPhrase": "sedentary modern lifestyle",
+      "passageEquivalent": "contemporary habits characterized by physical inactivity",
+      "trapType": "Definitional Expansion",
+      "exampleContext": "A single adjective ('sedentary') is expanded into its definition ('physical inactivity').",
+      "burmeseNote": "'sedentary' (အထိုင်များသော/လှုပ်ရှားမှုနည်းသော) ကို 'physical inactivity' ဟု အဓိပ္ပာယ်ဖွင့်ဆိုချက်ဖြင့် ပြောင်းရေးတတ်သည်။"
+    },
+    {
+      "id": "rp-23",
+      "category": "Research & Evidence",
+      "questionPhrase": "refute the prevailing hypothesis",
+      "passageEquivalent": "disprove the conventional theory",
+      "trapType": "Academic Argumentation",
+      "exampleContext": "'refute' = 'disprove / debunk'; 'prevailing' = 'conventional / orthodox'.",
+      "burmeseNote": "'refute' (မှားကြောင်းသက်သေပြသည်) = 'disprove'၊ 'prevailing' (လက်ရှိလွှမ်းမိုးနေသော) = 'conventional'။"
+    },
+    {
+      "id": "rp-24",
+      "category": "Research & Evidence",
+      "questionPhrase": "corroborate earlier findings",
+      "passageEquivalent": "substantiate prior empirical results",
+      "trapType": "Academic Verification Verb",
+      "exampleContext": "'corroborate' = 'substantiate / validate / confirm'.",
+      "burmeseNote": "'corroborate' (ထောက်ခံအတည်ပြုသည်) = 'substantiate / validate'။"
+    }
+  ],
+  "listeningDistractors": [
+    {
+      "id": "ld-01",
+      "section": "Section 1 (Social Dialogue)",
+      "trapCategory": "Self-Correction Pivot",
+      "signalWords": "Wait, actually / Oh, sorry, no / Let me double-check that",
+      "transcriptSnippet": "Receptionist: 'The guided tour departs at 9:15 AM... oh, sorry, I'm looking at the winter schedule. From May onwards it leaves at 9:45 AM.'",
+      "wrongDistractor": "9:15 AM",
+      "correctAnswer": "9:45 AM",
+      "burmeseRule": "ပထမကြားရသော ကိန်းဂဏန်းကို ချက်ချင်းအဖြေမယူပါနှင့်။ 'oh, sorry / actually' နောက်မှ ပြင်ပြောသော အချက်သည်သာ အဖြေမှန်ဖြစ်သည်။"
+    },
+    {
+      "id": "ld-02",
+      "section": "Section 1 (Form Completion)",
+      "trapCategory": "Postcode & Alphanumeric Double-Letter Trap",
+      "signalWords": "Double S / Triple 8 / Zero ('Oh')",
+      "transcriptSnippet": "Caller: 'My postcode is MK4 9SS — that's S for Sugar, double S at the end, not F.'",
+      "wrongDistractor": "MK4 9SF",
+      "correctAnswer": "MK4 9SS",
+      "burmeseRule": "S နှင့် F၊ M နှင့် N၊ B နှင့် P တို့ကို စာလုံးပေါင်းပြရာတွင် နောက်ဆုံးအတည်ပြုသော စာလုံးကိုသာ ရေးပါ။"
+    },
+    {
+      "id": "ld-03",
+      "section": "Section 1 (Booking & Prices)",
+      "trapCategory": "Standard Price vs. Discounted Tier",
+      "signalWords": "Normally it's... / Unless you have... / Including the deposit",
+      "transcriptSnippet": "Agent: 'The weekend workshop is £85 for adults, though since you're a registered university student, it comes down to £60.'",
+      "wrongDistractor": "£85",
+      "correctAnswer": "£60",
+      "burmeseRule": "မေးခွန်းတွင် 'Student rate' လား 'Standard price' လား သေချာကြည့်ပါ။ ပထမပြောသော စျေးနှုန်းသည် ထောင်ချောက်ဖြစ်လေ့ရှိသည်။"
+    },
+    {
+      "id": "ld-04",
+      "section": "Section 2 (Public Monologue & Maps)",
+      "trapCategory": "Temporal Tense Shift (Past vs. Present vs. Proposed)",
+      "signalWords": "used to be / currently / plans to convert",
+      "transcriptSnippet": "Guide: 'The old sawmill on the east bank was converted into a café five years ago, and next autumn it will become the main ticket pavilion.'",
+      "wrongDistractor": "sawmill / ticket pavilion (if question asks 'What is on the east bank NOW?')",
+      "correctAnswer": "café",
+      "burmeseRule": "မေးခွန်း၏ ကာလ (currently / originally / in the future) ကို သတိထားပါ။ အတိတ်၊ ပစ္စုပ္ပန်၊ အနာဂတ် ၃ မျိုးလုံး ထည့်ပြောတတ်သည်။"
+    },
+    {
+      "id": "ld-05",
+      "section": "Section 2 (Map Labeling)",
+      "trapCategory": "Directional Preposition Contrast",
+      "signalWords": "opposite / adjacent to / just beyond / across the bridge from",
+      "transcriptSnippet": "Speaker: 'If you cross the footbridge from the main car park, don't turn left into the rose garden; go straight ahead and the glasshouse is directly facing the pond.'",
+      "wrongDistractor": "Left of the bridge",
+      "correctAnswer": "Straight ahead across the bridge, facing the pond",
+      "burmeseRule": "Map မေးခွန်းများတွင် 'don't turn...' ဟု ငြင်းဆိုထားသော လမ်းကြောင်းကို ကျော်ပြီး အမှန်တကယ်သွားရမည့် တည်နေရာကို ဖမ်းပါ။"
+    },
+    {
+      "id": "ld-06",
+      "section": "Section 3 (Academic Discussion)",
+      "trapCategory": "Speaker Agreement / Rejection Trap",
+      "signalWords": "That's a valid point, but... / I'm not convinced we have time for...",
+      "transcriptSnippet": "Liam: 'Should we interview 50 local shopkeepers?' Maya: 'That would give us great data, but Dr. Evans said our sample size doesn't need to exceed 15.' Liam: 'Fair enough, let's stick to Dr. Evans's limit.'",
+      "wrongDistractor": "50 shopkeepers",
+      "correctAnswer": "15 shopkeepers",
+      "burmeseRule": "Section 3 တွင် ကျောင်းသားတစ်ဦးက အကြံပြုသော်လည်း နောက်တစ်ဦးက 'but...' ဖြင့် ငြင်းပယ်ကာ သဘောတူဆုံးဖြတ်လိုက်သည့် နောက်ဆုံးအချက်ကိုသာ ရွေးပါ။"
+    },
+    {
+      "id": "ld-07",
+      "section": "Section 3 (Matching Opinions)",
+      "trapCategory": "Attitude & Hedging Intonation",
+      "signalWords": "I suppose so / Ideally, yes, although...",
+      "transcriptSnippet": "Tutor: 'What about including the 1990s census tables?' Student: 'Well, I suppose we could, though the methodology back then was notoriously unreliable.'",
+      "wrongDistractor": "Enthusiastic about including 1990s data",
+      "correctAnswer": "Skeptical / Doubtful about the reliability of 1990s data",
+      "burmeseRule": "'Well, I suppose... though...' သည် သဘောတူခြင်းမဟုတ်ဘဲ သံသယရှိခြင်း (skeptical/doubtful) ကို ပြသသည်။"
+    },
+    {
+      "id": "ld-08",
+      "section": "Section 4 (Academic Lecture)",
+      "trapCategory": "Singular vs. Plural & Word-Limit Grammar Check",
+      "signalWords": "a wide range of... / an individual...",
+      "transcriptSnippet": "Lecturer: 'The beetles rely on specialized antennae to detect subtle vibrations in the bark.' (Question: 'Beetles detect bark vibrations using their _______.' ONE WORD ONLY)",
+      "wrongDistractor": "specialized antennae (2 words) or antenna",
+      "correctAnswer": "antennae",
+      "burmeseRule": "'ONE WORD ONLY' ကန့်သတ်ချက်တွင် နာမဝိသေသန (specialized) ကို ဖြုတ်ပြီး အဓိကနာမ် (antennae) တစ်လုံးတည်းသာ ရေးရမည်။"
+    }
+  ],
+  "gtLetterModels": [
+    {
+      "code": "GT Task 1 · Formal",
+      "title": "Formal Letter: Reporting Lost Luggage to an Airline",
+      "type": "General Training Task 1 (Formal Letter)",
+      "promptEn": "You recently flew with an international airline and your suitcase did not arrive at your destination. Write a letter to the airline's Baggage Services Manager. In your letter:\n• give details of your flight and luggage tag\n• describe the suitcase and its essential contents\n• explain what action you expect the airline to take.",
+      "mmGuide": "General Training Task 1 (Formal Letter): လူမသိသော အဖွဲ့အစည်းသို့ ရေးသားရာတွင် 'Dear Sir or Madam,' ဖြင့်စပြီး 'Yours faithfully,' ဖြင့် အဆုံးသတ်ရမည်။ Contractions (I'm, don't) လုံးဝမသုံးရ။",
+      "vocab": [
+        "itinerary",
+        "baggage claim",
+        "indispensable",
+        "reimbursement",
+        "expedite",
+        "inconvenience"
+      ],
+      "outline": "Salutation: Dear Sir or Madam, | Para 1 (Purpose & Flight Details): Flight number, date, route, baggage reference tag | Para 2 (Description & Contents): Hard-shell navy Samsonite, conference attire & medication | Para 3 (Expected Action): Immediate tracking update & interim compensation | Sign-off: Yours faithfully, [Full Name]",
+      "model": [
+        "Dear Sir or Madam,",
+        "I am writing to formally report the non-arrival of my checked luggage following my journey on Flight BA-409 from London Heathrow to Singapore Changi Airport on 18 October. My baggage claim reference number, issued at the check-in desk, is LHR-884920.",
+        "The missing item is a medium-sized, matte navy-blue polycarbonate suitcase manufactured by Samsonite, featuring a distinctive burgundy leather luggage strap and a brass nameplate bearing my contact details. Inside the suitcase are three tailored business suits, presentation materials required for an international symposium this Thursday, and a two-week supply of prescription medication that is indispensable for my daily health regimen.",
+        "Given the urgency of my professional commitments in Singapore, I kindly request that your tracing department expedite the search for my property and arrange for its immediate courier delivery to the Marina Mandarin Hotel as soon as it is located. Furthermore, I would appreciate written confirmation of your reimbursement policy regarding emergency replacement clothing and toiletries purchased in the interim.",
+        "I have attached copies of my boarding pass and baggage receipt for your immediate reference, and I look forward to hearing from you within the next twenty-four hours.\n\nYours faithfully,\nAlexander Vance"
+      ],
+      "mmNotes": "Band 9.0 GT Formal Letter စံနှုန်း: (၁) ရည်ရွယ်ချက်ကို ပထမဝါကျတွင် တိုက်ရိုက်ဖော်ပြခြင်း၊ (၂) မေးခွန်းပါ Bullet ၃ ခုလုံးကို အချက်အလက်အတိအကျဖြင့် ပြည့်စုံစွာဖြေဆိုခြင်း၊ (၃) Formal Tone ('expedite', 'indispensable', 'in the interim') ကို တစ်သမတ်တည်း ထိန်းသိမ်းထားခြင်း။"
+    },
+    {
+      "code": "GT Task 1 · Semi-Formal",
+      "title": "Semi-Formal Letter: Requesting Maintenance from a Landlord",
+      "type": "General Training Task 1 (Semi-Formal Letter)",
+      "promptEn": "You have been living in a rented apartment for the past six months, and the heating system has recently stopped working properly. Write a letter to your landlord. In your letter:\n• explain what the problem is with the heating system\n• describe how this is affecting your daily routine and health\n• suggest a convenient time for a technician to visit.",
+      "mmGuide": "Semi-Formal Letter: အိမ်ရှင်၊ အလုပ်ရှင် သို့မဟုတ် ပါမောက္ခထံ ရေးသားရာတွင် အမည်သိသဖြင့် 'Dear Mr./Ms. [Surname],' ဖြင့်စပြီး 'Yours sincerely,' ဖြင့် အဆုံးသတ်ရမည်။",
+      "vocab": [
+        "malfunction",
+        "thermostat",
+        "intermittent",
+        "detrimental",
+        "rectify",
+        "accommodate"
+      ],
+      "outline": "Salutation: Dear Mr. Henderson, | Para 1 (Issue): Central radiator malfunction & thermostat failure in Apt 4B | Para 2 (Impact): Sub-zero overnight temperatures affecting remote work & respiratory health | Para 3 (Proposed Schedule): Technician access Tues/Thurs morning | Sign-off: Yours sincerely, [Full Name]",
+      "model": [
+        "Dear Mr. Henderson,",
+        "I hope this letter finds you well. I am writing as the tenant of Apartment 4B to bring an urgent maintenance issue regarding the central heating system to your attention. Over the past four days, the main boiler has been making a loud rattling noise, and the radiators in both the living room and bedroom have remained completely cold despite the thermostat being set to twenty-two degrees.",
+        "As overnight temperatures have dropped significantly this week, the lack of adequate heating has made the apartment uncomfortably chilly. Because I currently work from home three days a week, sitting in a cold room for extended hours has severely disrupted my concentration and triggered a mild respiratory cold.",
+        "I would be extremely grateful if you could arrange for a certified heating engineer to inspect and rectify the fault as soon as possible. I will be working from the apartment all day this Tuesday and Thursday, so any time between 9:00 AM and 4:00 PM on either day would be entirely convenient for me to grant the technician access.",
+        "Thank you very much for your prompt attention to this matter.\n\nYours sincerely,\nElena Rostova"
+      ],
+      "mmNotes": "Semi-Formal Tone တွင် ယဉ်ကျေးသိမ်မွေ့သော်လည်း အလွန်အမင်း တင်းကျပ်မနေဘဲ 'I hope this letter finds you well', 'I would be extremely grateful if...' စသည့် သဘာဝကျသော အသုံးအနှုန်းများကို သုံးထားသည်။"
+    },
+    {
+      "code": "GT Task 1 · Informal",
+      "title": "Informal Letter: Inviting an Overseas Friend to a Cultural Festival",
+      "type": "General Training Task 1 (Informal Letter)",
+      "promptEn": "An annual cultural festival is taking place in your hometown next month, and you would like to invite an English-speaking friend from abroad to stay with you and attend it. Write a letter to your friend. In your letter:\n• describe what happens during the festival\n• explain why you think your friend would particularly enjoy it\n• give practical details about staying at your home and travel arrangements.",
+      "mmGuide": "Informal Letter: သူငယ်ချင်းထံ ရေးသားရာတွင် 'Dear [First Name],' ဖြင့်စပြီး 'Best wishes, / Warm regards,' ဖြင့် အဆုံးသတ်ပါ။ သဘာဝကျသော Contractions (I'd, you'll) နှင့် Phrasal Verbs များ သုံးနိုင်သည်။",
+      "vocab": [
+        "vibrant",
+        "culinary",
+        "right up your alley",
+        "put you up",
+        "immersive",
+        "hospitality"
+      ],
+      "outline": "Salutation: Dear Marcus, | Para 1 (Warm Opening & Festival Overview): Lantern festival next month, street parades & night markets | Para 2 (Why Friend Will Love It): Matches his passion for street photography & authentic Asian cuisine | Para 3 (Logistics): Spare guest room ready, airport pickup | Sign-off: Warmest wishes, [First Name]",
+      "model": [
+        "Dear Marcus,",
+        "It feels like ages since we last caught up! I'm writing because our city's annual Autumn Lantern Festival is coming up in the second week of November, and I'd love it if you could fly over and experience it with me. For five whole days, the historic riverside district transforms into a pedestrian zone filled with illuminated paper floats, traditional folk music performances, and open-air night markets.",
+        "Knowing how passionate you are about documentary street photography, I immediately thought of you—this festival is honestly right up your alley. The contrast between the glowing lanterns and the nineteenth-century architecture makes for breathtaking evening shots, and the culinary stalls serve the exact kind of authentic regional street food you were raving about on our last trip.",
+        "You won't need to worry about booking a hotel, as I can easily put you up in my spare guest room for as long as you'd like to stay. Just let me know your flight arrival time once you book your ticket, and I'll happily drive out to the airport to pick you up.",
+        "Drop me a line as soon as you can check your work schedule!\n\nWarmest wishes,\nLiam"
+      ],
+      "mmNotes": "Informal Letter တွင် 'right up your alley' (မင်းအကြိုက်နဲ့ ကွက်တိပဲ)၊ 'put you up' (တည်းခိုခွင့်ပေးသည်)၊ 'drop me a line' (စာပြန်ပါ) စသည့် Idiomatic expressions များသည် Lexical Resource အမှတ်ကို Band 8.5+ သို့ မြှင့်တင်ပေးသည်။"
+    },
+    {
+      "code": "GT Task 1 · Formal Application",
+      "title": "Formal Letter: Applying for a Professional Training Grant",
+      "type": "General Training Task 1 (Formal Letter)",
+      "promptEn": "Your company is offering a sponsorship grant for employees who wish to attend a short professional training course abroad. Write a letter to your Human Resources Director. In your letter:\n• state which training course you would like to attend and where it is held\n• explain why this course is relevant to your current role\n• describe how the knowledge you gain will benefit the company as a whole.",
+      "mmGuide": "Formal Letter (HR Director သို့ လျှောက်လွှာ): ရာထူးကြီးသူသို့ လုပ်ငန်းသဘောအရ ရေးသားရာတွင် ပရော်ဖက်ရှင်နယ် အသုံးအနှုန်းများ (curriculum, operational efficiency, disseminate) ကို သုံးပါ။",
+      "vocab": [
+        "sponsorship",
+        "curriculum",
+        "spearhead",
+        "operational efficiency",
+        "disseminate",
+        "invaluable"
+      ],
+      "outline": "Salutation: Dear Ms. Sterling, | Para 1 (Course Details): 5-day Executive Supply Chain Analytics seminar in Zurich | Para 2 (Relevance to Role): Directly supports my current responsibility leading warehouse automation | Para 3 (Company Benefit): Will run internal workshops to train regional teams & cut logistics costs by 15% | Sign-off: Yours sincerely, [Full Name]",
+      "model": [
+        "Dear Ms. Sterling,",
+        "I am writing to submit my formal application for the Q4 Employee Professional Development Grant in order to attend the five-day Executive Seminar on Sustainable Supply Chain Analytics, scheduled to take place at the Swiss Federal Institute of Technology in Zurich from 10 to 14 November.",
+        "In my current capacity as Senior Logistics Coordinator, I have been tasked with spearheading the transition of our regional distribution centers toward automated inventory forecasting. The Zurich curriculum focuses specifically on predictive demand modeling and low-carbon freight routing, both of which directly address the bottlenecks our department encountered during the previous fiscal quarter.",
+        "Should my application be successful, I intend to compile a comprehensive implementation playbook upon my return and host two practical workshops for our twelve junior supply-chain analysts. Adopting these data-driven methodologies across our regional hubs could reduce warehouse holding costs by an estimated fifteen percent within six months.",
+        "Thank you for considering my application, and I would be delighted to discuss the course syllabus in further detail at your convenience.\n\nYours sincerely,\nDaniel Cho"
+      ],
+      "mmNotes": "Band 9.0 GT Letter တွင် ယေဘုယျပြောဆိုခြင်းထက် တိကျသော ဥပမာများ (Zurich, 10 to 14 November, 15% cost reduction, 12 junior analysts) ထည့်သွင်းရေးသားခြင်းက Task Achievement ကို အမြင့်ဆုံးရရှိစေသည်။"
+    },
+    {
+      "code": "GT Task 1 · Semi-Formal Apology",
+      "title": "Semi-Formal Letter: Rescheduling a Speaking Engagement at a Local College",
+      "type": "General Training Task 1 (Semi-Formal Letter)",
+      "promptEn": "You agreed to give a career talk to final-year students at a local college next week, but an unexpected work emergency requires you to travel abroad. Write a letter to the College Career Advisor. In your letter:\n• apologize and explain why you cannot attend on the original date\n• propose two alternative dates when you can deliver the talk\n• offer to send a colleague or preparatory materials in the meantime.",
+      "mmGuide": "Semi-Formal Apology Letter: တောင်းပန်စာရေးရာတွင် ခိုင်လုံသောအကြောင်းပြချက်ပေးပြီး တစ်ဖက်သား အဆင်ပြေစေမည့် အစားထိုးအစီအစဉ် (alternative solution) ကို တိကျစွာ ကမ်းလှမ်းရမည်။",
+      "vocab": [
+        "unforeseen",
+        "obliged",
+        "sincerely apologize",
+        "reschedule",
+        "stand in for",
+        "handout"
+      ],
+      "outline": "Salutation: Dear Dr. Patel, | Para 1 (Apology & Reason): Sincere apology; urgent audit in Tokyo requires immediate departure | Para 2 (Alternative Dates): Propose Nov 18 or Nov 21 afternoon | Para 3 (Interim Offer): Senior colleague Sarah Jenkins can cover original slot OR I can send interactive case-study handouts ahead of time | Sign-off: Yours sincerely, [Full Name]",
+      "model": [
+        "Dear Dr. Patel,",
+        "I am writing to sincerely apologize for an unforeseen scheduling conflict regarding the career workshop I was due to deliver to your final-year engineering students next Wednesday, 6 November. Unfortunately, an urgent regulatory audit at our Tokyo branch was announced this morning, and as Lead Compliance Officer, I am obliged to fly to Japan tomorrow to oversee the inspection in person.",
+        "As I remain deeply committed to supporting your students, I would be delighted to reschedule the session immediately upon my return. I am completely free on the afternoons of Monday, 18 November, and Thursday, 21 November, should either of those dates fit into the department academic calendar.",
+        "If postponing the event is inconvenient for your faculty, my senior colleague, Ms. Sarah Jenkins, has kindly offered to stand in for me next Wednesday and deliver the presentation on my behalf. Regardless of which option you prefer, I will email our digital career guide and interview preparation handouts to your office by Friday.",
+        "Please accept my apologies once again for this short notice, and let me know how you would like to proceed.\n\nYours sincerely,\nSophia Alverez"
+      ],
+      "mmNotes": "Bullet ၃ ခုလုံးကို စာပိုဒ် ၃ ပိုဒ်ဖြင့် ရှင်းလင်းစွာ ခွဲခြားရေးသားထားပြီး Coherence & Cohesion နှင့် Task Achievement နှစ်ခုလုံးတွင် Band 9.0 စံနှုန်းပြည့်မီသည်။"
+    }
+  ]
+}

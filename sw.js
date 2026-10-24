@@ -1,5 +1,5 @@
 // IELTS Prep Studio Service Worker (Network-First with Cache Fallback)
-const CACHE_NAME = 'ielts-prep-studio-v9.0';
+const CACHE_NAME = 'ielts-prep-studio-v9.1';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,8 @@ const STATIC_ASSETS = [
   './firebase-config.js',
   './manifest.json',
   './js/listening-hub.js',
+  './js/examiner-studio-pro.js',
+  './data/exam-traps.json',
   './js/academic-lexicon.js',
   './data/listening.json',
   './js/ielts-api-features.js',

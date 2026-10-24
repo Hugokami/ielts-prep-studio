@@ -12,6 +12,7 @@
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
 <script src="js/listening-hub.js"></script>
+<script src="js/examiner-studio-pro.js"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -7064,6 +7065,31 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     </div>
 
     <div class="drawer-section">
+      <div class="drawer-item-label" style="color:var(--accent);font-weight:800;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
+        <span>🔑 BYOK API Key (Free Unlimited AI)</span>
+        <span id="drawerByokStatusBadge" class="occ-ver-pill" style="font-size:0.64rem;">NOT SET</span>
+      </div>
+      <div class="drawer-item-sub" style="margin-bottom:8px;">
+        Use your own Google Gemini API key for unlimited AI Writing, Speaking &amp; Mentor checks on the Free Tier (100% local in browser).
+      </div>
+      <input type="password" id="drawerByokKeyInput" class="at-input-box" style="width:100%;font-family:monospace;font-size:0.8rem;padding:8px 10px;box-sizing:border-box;" placeholder="Paste AIzaSy... API key" autocomplete="off">
+      <div style="margin:5px 0 8px 0;">
+        <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem;font-weight:700;color:var(--accent);text-decoration:underline;display:inline-flex;align-items:center;gap:4px;">
+          create your api key here(100% free) ↗
+        </a>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:4px;">
+        <select id="drawerByokModelSelect" class="occ-select" style="flex:1;font-size:0.75rem;padding:5px 8px;">
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+          <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+        </select>
+        <button type="button" class="btn-accent-solid" style="padding:5px 11px;font-size:0.75rem;font-weight:700;" onclick="saveByokSettings('drawer')">Save</button>
+        <button type="button" class="btn-outlined" style="padding:5px 8px;font-size:0.74rem;" onclick="clearByokSettings()">Clear</button>
+      </div>
+    </div>
+
+    <div class="drawer-section">
       <div class="drawer-item-label" style="margin-bottom:6px;">Academic Support &amp; Instructor</div>
       <div class="drawer-item-sub" style="margin-bottom:10px;">Chat with lead instructor for essay reviews, feedback &amp; VIP passes</div>
       <a href="https://t.me/hyuguo" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:6px 12px; font-size:0.8rem;">
@@ -8614,6 +8640,23 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
 
+          <!-- Free-Tier BYOK Inline Configuration Bar -->
+          <div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;">
+                <span style="font-size:0.78rem;font-weight:800;color:var(--text);">🔑 Free Tier BYOK Key:</span>
+                <input type="password" id="inlineWritingByokInput" class="at-input-box" style="flex:1;min-width:170px;font-family:monospace;font-size:0.78rem;padding:5px 9px;" placeholder="Paste personal Gemini API key (AIzaSy...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
+                <button type="button" class="btn-accent-solid" style="padding:5px 12px;font-size:0.75rem;font-weight:700;" onclick="var d=document.getElementById('drawerByokKeyInput'),i=document.getElementById('inlineWritingByokInput');if(d&&i){d.value=i.value;saveByokSettings('drawer');}">Save Key</button>
+              </div>
+            </div>
+            <div style="margin-top:5px;font-size:0.77rem;">
+              <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:700;text-decoration:underline;">
+                create your api key here(100% free) ↗
+              </a>
+              <span style="color:var(--text-secondary);margin-left:6px;">— Unlock unlimited Free Tier AI Writing &amp; Speaking checks!</span>
+            </div>
+          </div>
+
           <!-- AI Examiner Evaluation Container -->
           <div id="geminiAuditResult" style="display:none; margin-top:14px; padding:16px; background:var(--bg); border:1px solid var(--accent); border-radius:6px; box-sizing:border-box;"></div>
 
@@ -9045,6 +9088,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-topic" onclick="switchAcademicToolsTab('topic')">📖 Academic Topic Briefs</button>
         <button class="at-subnav-btn" id="at-tab-dict" onclick="switchAcademicToolsTab('dict')">📚 Live Dictionary</button>
         <button class="at-subnav-btn" id="at-tab-quote" onclick="switchAcademicToolsTab('quote')">🧠 Scholar Rhetoric</button>
+        <button class="at-subnav-btn" id="at-tab-traps" onclick="switchAcademicToolsTab('traps')">🎯 Paraphrase &amp; Audio Traps</button>
+        <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')">🗂️ My Error Vault (<span class="error-vault-count-pill">0</span>)</button>
+        <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')">🧮 4-Skill Band Calculator</button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -9183,6 +9229,86 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </div>
           <div id="at-quote-results" class="at-results-card">
             <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 6: Reading Paraphrase Triggers & Listening Distractor Matrix -->
+      <div id="at-pane-traps" class="at-pane">
+        <div class="occ-card" style="padding:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+            <div>
+              <h3 style="margin:0 0 4px 0;font-size:1.1rem;color:var(--text);font-weight:800;">🎯 Cambridge Reading Paraphrase Triggers &amp; Listening Distractor Matrix</h3>
+              <p style="margin:0;font-size:0.83rem;color:var(--text-secondary);">
+                Master the exact Question-to-Passage synonym swaps and Section 1–4 audio self-correction pivots that determine Band 8.0+.
+              </p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <input type="text" id="trapsExplorerSearch" class="at-input-box" style="width:200px;font-size:0.8rem;padding:6px 10px;" placeholder="Search synonym or trap..." oninput="filterExamTrapsExplorer()">
+              <select id="trapsExplorerCat" class="occ-select" style="font-size:0.8rem;padding:6px 10px;" onchange="filterExamTrapsExplorer()">
+                <option value="ALL">All Modules (Reading + Listening)</option>
+                <option value="READING">Reading Paraphrases Only</option>
+                <option value="LISTENING">Listening Distractors Only</option>
+                <option value="Environment & Ecology">Environment &amp; Ecology</option>
+                <option value="Science & Technology">Science &amp; Technology</option>
+                <option value="Economics & Business">Economics &amp; Business</option>
+                <option value="Education & Psychology">Education &amp; Psychology</option>
+              </select>
+            </div>
+          </div>
+          <div id="at-pane-traps-inner"></div>
+        </div>
+      </div>
+
+      <!-- Pane 7: My Error Vault & AI Evaluation History -->
+      <div id="at-pane-vault" class="at-pane">
+        <div class="occ-card" style="padding:20px;">
+          <h3 style="margin:0 0 6px 0;font-size:1.1rem;color:var(--text);font-weight:800;">🗂️ My Personal Error Vault &amp; AI Evaluation History</h3>
+          <p style="margin:0 0 14px 0;font-size:0.83rem;color:var(--text-secondary);">
+            Review every ❌→✅ grammar, vocabulary, and sentence upgrade saved from your AI Examiner sessions, or export them as an Anki/CSV flashcard deck.
+          </p>
+          <div id="at-pane-vault-inner"></div>
+        </div>
+      </div>
+
+      <!-- Pane 8: Official 4-Skill Band Score Calculator -->
+      <div id="at-pane-bandcalc" class="at-pane">
+        <div class="occ-card" style="padding:20px;">
+          <h3 style="margin:0 0 6px 0;font-size:1.1rem;color:var(--text);font-weight:800;">🧮 Official 4-Skill IELTS Overall Band Score Calculator</h3>
+          <p style="margin:0 0 16px 0;font-size:0.83rem;color:var(--text-secondary);">
+            Computes your exact Overall Band Score using official British Council / IDP / Cambridge rounding rules (.25 rounds up to .5; .75 rounds up to the next whole band).
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px;">
+            <label style="padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:block;">
+              <div style="font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px;">🎧 Listening Band</div>
+              <select id="calcBandL" class="occ-select" style="width:100%;font-size:0.9rem;font-weight:700;" onchange="recalcOfficial4SkillBand()">
+                <option value="9.0">Band 9.0 (39–40/40)</option><option value="8.5">Band 8.5 (37–38/40)</option><option value="8.0">Band 8.0 (35–36/40)</option><option value="7.5" selected>Band 7.5 (32–34/40)</option><option value="7.0">Band 7.0 (30–31/40)</option><option value="6.5">Band 6.5 (26–29/40)</option><option value="6.0">Band 6.0 (23–25/40)</option><option value="5.5">Band 5.5 (18–22/40)</option><option value="5.0">Band 5.0 (16–17/40)</option>
+              </select>
+            </label>
+            <label style="padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:block;">
+              <div style="font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px;">📖 Reading Band</div>
+              <select id="calcBandR" class="occ-select" style="width:100%;font-size:0.9rem;font-weight:700;" onchange="recalcOfficial4SkillBand()">
+                <option value="9.0">Band 9.0 (39–40/40)</option><option value="8.5">Band 8.5 (37–38/40)</option><option value="8.0">Band 8.0 (35–36/40)</option><option value="7.5" selected>Band 7.5 (33–34/40)</option><option value="7.0">Band 7.0 (30–32/40)</option><option value="6.5">Band 6.5 (27–29/40)</option><option value="6.0">Band 6.0 (23–26/40)</option><option value="5.5">Band 5.5 (19–22/40)</option><option value="5.0">Band 5.0 (15–18/40)</option>
+              </select>
+            </label>
+            <label style="padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:block;">
+              <div style="font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px;">✍️ Writing Band</div>
+              <select id="calcBandW" class="occ-select" style="width:100%;font-size:0.9rem;font-weight:700;" onchange="recalcOfficial4SkillBand()">
+                <option value="9.0">Band 9.0</option><option value="8.5">Band 8.5</option><option value="8.0">Band 8.0</option><option value="7.5">Band 7.5</option><option value="7.0" selected>Band 7.0</option><option value="6.5">Band 6.5</option><option value="6.0">Band 6.0</option><option value="5.5">Band 5.5</option><option value="5.0">Band 5.0</option>
+              </select>
+            </label>
+            <label style="padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:block;">
+              <div style="font-size:0.78rem;font-weight:800;color:var(--text);margin-bottom:6px;">🎙️ Speaking Band</div>
+              <select id="calcBandS" class="occ-select" style="width:100%;font-size:0.9rem;font-weight:700;" onchange="recalcOfficial4SkillBand()">
+                <option value="9.0">Band 9.0</option><option value="8.5">Band 8.5</option><option value="8.0">Band 8.0</option><option value="7.5" selected>Band 7.5</option><option value="7.0">Band 7.0</option><option value="6.5">Band 6.5</option><option value="6.0">Band 6.0</option><option value="5.5">Band 5.5</option><option value="5.0">Band 5.0</option>
+              </select>
+            </label>
+          </div>
+          <div style="padding:18px;border-radius:10px;background:var(--bg);border:2px solid var(--accent);text-align:center;">
+            <div style="font-size:0.76rem;font-weight:800;color:var(--text-secondary);text-transform:uppercase;">OFFICIAL OVERALL IELTS BAND SCORE</div>
+            <div id="calcBandOverallVal" style="font-size:3rem;font-weight:900;color:#10b981;line-height:1.15;margin:6px 0;">7.5</div>
+            <div id="calcBandCefrBadge" class="occ-ver-pill" style="display:inline-block;margin-bottom:6px;font-weight:800;color:var(--accent);">CEFR C1 Effective Operational Proficiency</div>
+            <div id="calcBandRawAvg" style="font-size:0.8rem;color:var(--text-secondary);">Raw Average: 7.375 → Official Rounded Band: 7.5</div>
           </div>
         </div>
       </div>
@@ -14161,7 +14287,7 @@ function startGeminiButtonCooldown() {
 
 async function gradeEssayWithGemini() {
   const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
-  if (!window.currentUser && !isTg) {
+  if (!(window.hasByokKey && window.hasByokKey()) && !window.currentUser && !isTg) {
     alert("Please sign in with Google (top right) or launch inside Telegram to access the AI Examiner.\n\nFree accounts receive 5 evaluations per month; VIP Pass holders receive 60 evaluations per month.");
     if (window.signInWithGoogle) window.signInWithGoogle();
     return;
@@ -14324,7 +14450,7 @@ function gradeSpeakingFrameworkWithGemini() {
 
 async function gradeSpeakingWithGemini(fromFramework = false) {
   const isTg = !!(window.telegramUser || (window.StorageManager && window.StorageManager.isTelegram) || (window.Telegram && window.Telegram.WebApp && ((window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.Telegram.WebApp.initData)));
-  if (!window.currentUser && !isTg) {
+  if (!(window.hasByokKey && window.hasByokKey()) && !window.currentUser && !isTg) {
     alert("Please sign in with Google (top right) or launch inside Telegram to access the AI Speaking Examiner.\n\nFree accounts receive 10 evaluations per month; VIP Pass holders receive Unlimited evaluations.");
     if (window.signInWithGoogle) window.signInWithGoogle();
     return;
@@ -16282,7 +16408,7 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
