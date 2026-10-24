@@ -1086,13 +1086,46 @@ bot.on('callback_query:data', async (ctx) => {
 // ==========================================
 // 4. STUDENT TEXT INTAKE (PENDING TOOLS)
 // ==========================================
+const userByokKeys = new Map();
+
+bot.command(['byok', 'apikey', 'key'], async (ctx) => {
+  const userId = ctx.from?.id;
+  const arg = ctx.message.text.replace(/^\/(byok|apikey|key)(@\w+)?\s*/i, '').trim();
+  if (arg.toLowerCase() === 'clear') {
+    userByokKeys.delete(userId);
+    return ctx.reply('🗑️ *Personal BYOK API Key Removed.* Reverted to standard daily free quota.', { parse_mode: 'Markdown' });
+  }
+  if (/^AIza[0-9A-Za-z_-]{30,45}$/.test(arg)) {
+    userByokKeys.set(userId, arg);
+    return ctx.reply('🔑 *PERSONAL BYOK API KEY ACTIVATED!*\nYou now have *Unlimited Free-Tier AI Mentor* access powered by your personal Google Gemini API key!', { parse_mode: 'Markdown' });
+  }
+  const existing = userByokKeys.get(userId);
+  return ctx.reply(
+    `🔑 *FREE TIER BYOK — BRING YOUR OWN GEMINI API KEY*\n━━━━━━━━━━━━━━━━━━━━\n` +
+    `Status: ${existing ? '✅ *ACTIVE (Unlimited Free AI)*' : '⚪ *Not Set*'}\n\n` +
+    `1️⃣ Get your 100% free key from Google AI Studio:\n` +
+    `👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)\n\n` +
+    `2️⃣ Paste your \`AIzaSy...\` key directly in this chat (or type \`/byok AIzaSy...\`).`,
+    {
+      parse_mode: 'Markdown',
+      reply_markup: new InlineKeyboard().url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys')
+    }
+  );
+});
+
 bot.on('message:text', async (ctx, next) => {
+  const text = (ctx.message?.text || '').trim();
+  const userId = ctx.from?.id;
+
+  const byokMatch = text.match(/^AIza[0-9A-Za-z_-]{30,45}$/);
+  if (byokMatch && userId) {
+    userByokKeys.set(userId, byokMatch[0]);
+    return ctx.reply('🔑 *PERSONAL BYOK API KEY ACTIVATED!*\nYou now have *Unlimited Free-Tier AI Mentor* access powered by your personal Google Gemini API key!', { parse_mode: 'Markdown' });
+  }
+
   if (text === '🤖 Cambridge AI Mentor' || text === '🤖 AI Mentor') {
     return handleAiMentor(ctx, '');
   }
-
-  const text = (ctx.message?.text || '').trim();
-  const userId = ctx.from?.id;
   const isVip = isUserVip(userId);
 
   // 1. Collapsed & Expanded Keyboard Menu Handlers
@@ -1346,13 +1379,20 @@ Your personal Band 8.5+ IELTS Tutor powered by Cambridge AI Core.
     );
   }
 
+  const userByokKey = userByokKeys.get(userId) || '';
+  const hasByok = userByokKey.length >= 20;
   const isVip = isUserVip(userId);
-  const quota = checkAndConsumeQuota(userId);
+  const quota = hasByok ? { allowed: true, remaining: 999 } : checkAndConsumeQuota(userId);
   if (!quota.allowed) {
-    return ctx.reply(getQuotaExceededMessage(), {
-      parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
-    });
+    return ctx.reply(
+      getQuotaExceededMessage() + `\n\n🔑 *Or unlock Unlimited Free AI Mentor (100% Free)*:\n👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)\nPaste your \`AIzaSy...\` key right here in chat!`,
+      {
+        parse_mode: 'Markdown',
+        reply_markup: new InlineKeyboard()
+          .url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys').row()
+          .text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      }
+    );
   }
 
   // Send typing indicator
@@ -1365,6 +1405,30 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
 
   let replyText = '';
   let modelUsed = 'Cambridge Neural Core';
+
+  if (hasByok) {
+    try {
+      const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(userByokKey)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
+        })
+      });
+      if (gRes.ok) {
+        const gData = await gRes.json();
+        const gTxt = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (gTxt) {
+          replyText = gTxt.trim();
+          modelUsed = '🔑 BYOK (Gemini 2.5 Flash)';
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (!replyText)
 
   // Attempt High-Speed Zero-Key Neural Core (Pollinations OpenAI)
   try {

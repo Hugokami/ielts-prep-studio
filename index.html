@@ -9397,6 +9397,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="gemini-icon-btn" onclick="clearAiChatHistory()" title="Clear Chat History">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
         </button>
+        <button class="gemini-icon-btn byok-trigger-pill" onclick="openByokConfigModal()" title="Use Your Own Free Gemini API Key (BYOK)">
+          🔑 <span class="gemini-btn-label">BYOK Key</span>
+        </button>
         <button class="gemini-vip-badge-btn" onclick="openVipPassModal()" title="VIP Studio Status">
           👑 <span class="gemini-vip-text">VIP</span>
         </button>
@@ -9434,7 +9437,25 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </button>
           </div>
 
-          <!-- 4 Suggestion Cards -->
+          <!-- Free-Tier BYOK Bar for AI Mentor -->
+          <div style="max-width:560px;width:100%;margin:0 auto 16px auto;padding:12px 14px;background:var(--bg-card);border:1px solid var(--border-mid);border-radius:12px;text-align:left;box-sizing:border-box;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <span style="font-size:0.8rem;font-weight:800;color:var(--text);">🔑 Free Tier BYOK (Bring Your Own Gemini API Key):</span>
+              <span class="occ-ver-pill" style="font-size:0.65rem;color:var(--accent);font-weight:700;">100% Free Tier Unlocked</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <input type="password" id="aiMentorByokInput" class="at-input-box" style="flex:1;min-width:190px;font-family:monospace;font-size:0.8rem;padding:7px 10px;" placeholder="Paste personal Gemini API key (AIzaSy...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
+              <button type="button" class="btn-accent-solid" style="padding:7px 14px;font-size:0.78rem;font-weight:700;" onclick="var d=document.getElementById('drawerByokKeyInput'),m=document.getElementById('aiMentorByokInput');if(d&&m){d.value=m.value;saveByokSettings('drawer');}">Save Key</button>
+            </div>
+            <div style="margin-top:6px;font-size:0.78rem;">
+              <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:700;text-decoration:underline;">
+                create your api key here(100% free) ↗
+              </a>
+              <span style="color:var(--text-secondary);margin-left:6px;">— Or paste your <code>AIzaSy...</code> key directly into the chat!</span>
+            </div>
+          </div>
+
+                    <!-- 4 Suggestion Cards -->
           <div class="gemini-suggestions-grid">
             <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">
               <div class="gemini-sugg-icon">🎙️</div>
@@ -17435,10 +17456,44 @@ async function sendAiChatMessage() {
     aiChatMessages = aiChatMessages.slice(-6);
   }
 
+  // Auto-detect if user pasted a BYOK Gemini API key directly in chat (/byok AIza... or AIza...)
+  const byokMatch = promptText.match(/^(?:\/byok\s+|\/apikey\s+)?(AIza[0-9A-Za-z_-]{30,45})$/i);
+  if (byokMatch) {
+    const extractedKey = byokMatch[1].trim();
+    const dInput = document.getElementById('drawerByokKeyInput');
+    if (dInput) {
+      dInput.value = extractedKey;
+      if (typeof window.saveByokSettings === 'function') window.saveByokSettings('drawer');
+    } else {
+      try { localStorage.setItem('ips_byok_api_key', extractedKey); } catch (e) {}
+    }
+    const typingEl = document.getElementById('aiChatTyping');
+    if (typingEl) typingEl.remove();
+    appendAiChatMessage('assistant', '### 🔑 Personal BYOK API Key Activated!\nYour Google Gemini API key has been saved locally in your browser. You now have **Unlimited Free-Tier AI Mentor, Writing Examiner, and Speaking Examiner** access!\n\nAsk me any IELTS question below to test your personal Gemini connection.');
+    if (status) status.textContent = 'Status: Ready (BYOK Active)';
+    if (sendBtn) sendBtn.disabled = false;
+    return;
+  }
+
   let replyText = '';
   let providerUsed = 'Cambridge Neural Core (Llama 3.2 3B)';
 
+  // PRIORITY 0: Free-Tier BYOK (Bring Your Own Gemini API Key) if configured
+  if (typeof window.hasByokKey === 'function' && window.hasByokKey() && typeof window.callByokAiMentorChat === 'function') {
+    if (status) status.textContent = 'Status: Synthesizing with your personal BYOK Gemini Key...';
+    try {
+      const byokRes = await window.callByokAiMentorChat(aiChatMessages, AI_MENTOR_SYSTEM_PROMPT);
+      if (byokRes && byokRes.text) {
+        replyText = byokRes.text;
+        providerUsed = byokRes.modelUsed || '🔑 BYOK Gemini';
+      }
+    } catch (byokChatErr) {
+      console.warn('[AI Mentor BYOK fallback notice]:', byokChatErr);
+    }
+  }
+
   // PRIMARY ATTEMPT: Cloudflare Workers AI with 25s timeout cap
+  if (!replyText)
   try {
     const primaryController = new AbortController();
     const primaryTimeout = setTimeout(() => primaryController.abort(), 25000);

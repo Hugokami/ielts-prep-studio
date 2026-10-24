@@ -112,6 +112,22 @@
     const inlineInp = document.getElementById("inlineWritingByokInput");
     if (inlineInp && inlineInp.value !== key) inlineInp.value = key;
 
+    const mentorInp = document.getElementById("aiMentorByokInput");
+    if (mentorInp && mentorInp.value !== key) mentorInp.value = key;
+
+    const chatBadge = document.getElementById("aiChatModelBadge");
+    if (chatBadge) {
+      if (active) {
+        chatBadge.textContent = "🔑 BYOK UNLIMITED";
+        chatBadge.style.background = "rgba(16,185,129,0.18)";
+        chatBadge.style.color = "#10b981";
+      } else {
+        chatBadge.textContent = "FREE";
+        chatBadge.style.background = "";
+        chatBadge.style.color = "";
+      }
+    }
+
     document.querySelectorAll(".byok-trigger-pill").forEach((btn) => {
       btn.innerHTML = active
         ? `🔑 BYOK Active <span style="color:#10b981;font-weight:800;">(Unlimited)</span>`
@@ -218,6 +234,65 @@
     }
     throw lastErr || new Error("BYOK Gemini call failed");
   }
+
+  window.callByokAiMentorChat = async function (messagesArray, systemInstruction) {
+    const apiKey = getByokApiKey();
+    if (!apiKey) throw new Error("No BYOK key configured");
+
+    const preferred = getByokModel();
+    const models = [preferred, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"].filter(
+      (v, i, a) => a.indexOf(v) === i
+    );
+
+    const contents = (messagesArray || [])
+      .filter((m) => m && m.role !== "system" && m.content)
+      .map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: String(m.content) }]
+      }));
+
+    if (!contents.length) {
+      throw new Error("Empty chat messages");
+    }
+
+    let lastErr = null;
+    for (const model of models) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const payload = {
+          contents,
+          generationConfig: {
+            temperature: 0.35,
+            maxOutputTokens: 1600
+          }
+        };
+        if (systemInstruction) {
+          payload.system_instruction = { parts: [{ text: systemInstruction }] };
+        }
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const errTxt = await res.text();
+          lastErr = new Error(`BYOK ${model} HTTP ${res.status}: ${errTxt.slice(0, 180)}`);
+          continue;
+        }
+        const data = await res.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          return {
+            text: text.trim(),
+            modelUsed: `🔑 BYOK (${model})`
+          };
+        }
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("BYOK AI Mentor call failed");
+  };
 
   // ==========================================================================
   // 2. ERROR VAULT & EVALUATION HISTORY STORAGE (IELTS_WEB + AIELTS-WRITING)

@@ -697,6 +697,45 @@ _Need assistance? Lead Instructor: @hyuguo_`;
 
     // Direct Telegram Stars Checkout Shortcut
     
+    // 🔑 BYOK (Bring Your Own API Key) Commands & Direct Key Paste for Free Tier Unlimited AI Mentor
+    const rawByokMatch = text.match(/^(?:\/(?:byok|apikey|key)(?:@\w+)?\s+)?(AIza[0-9A-Za-z_-]{30,45})$/);
+    if (rawByokMatch) {
+      const userApiKey = rawByokMatch[1].trim();
+      await setTelegramByokKey(env, userId, userApiKey);
+      await sendTelegramMessage(botToken, chatId,
+`🔑 *PERSONAL BYOK API KEY ACTIVATED (100% FREE TIER)*
+━━━━━━━━━━━━━━━━━━━━
+✅ Your Google Gemini API key has been securely linked to your Telegram ID!
+
+🚀 *What is now unlocked for you on the Free Tier:*
+• *Unlimited 24/7 AI Mentor Queries* in this Telegram bot (zero daily quota limit!)
+• Powered directly by *Google Gemini 2.5 Flash*
+
+💡 *Try asking right now:*
+• \`/ai Write a Band 9 Task 2 essay outline on renewable energy\`
+• Or simply type any IELTS question directly in the chat!
+• To remove your key anytime, type \`/byok clear\``,
+        {
+          inline_keyboard: [
+            [{ text: "🤖 Ask AI Mentor Now", callback_data: "prompt_tool:ai" }],
+            [{ text: "🚀 Open IELTS Prep Studio Web App", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+          ]
+        }
+      );
+      return jsonResponse({ ok: true });
+    }
+
+    if (text === "/byok clear" || text === "/apikey clear" || text === "/key clear") {
+      await setTelegramByokKey(env, userId, "");
+      await sendTelegramMessage(botToken, chatId, "🗑️ *Personal BYOK API Key Removed.* Your account has reverted to the standard daily free quota (10 queries/day).");
+      return jsonResponse({ ok: true });
+    }
+
+    if (text.startsWith("/byok") || text.startsWith("/apikey") || text === "🔑 Free BYOK API Key") {
+      await sendTelegramByokSetupPrompt(botToken, chatId, userId, env);
+      return jsonResponse({ ok: true });
+    }
+
     // 🤖 Cambridge AI Mentor Commands (/mentor, /ai, /ask, or menu tap)
     if (text.startsWith("/mentor") || text.startsWith("/ai") || text.startsWith("/ask") || text === "🤖 Cambridge AI Mentor" || text === "🤖 AI Mentor") {
       let query = text.replace(/^\/(mentor|ai|ask)(@\w+)?\s*/i, "").replace(/^🤖\s*(Cambridge\s*)?AI\s*Mentor/i, "").trim();
@@ -715,6 +754,7 @@ Your personal Cambridge Band 8.5+ IELTS Tutor powered by Cloudflare Serverless A
 _Or simply reply directly with any IELTS question below!_`,
           {
             inline_keyboard: [
+              [{ text: "🔑 Use Free BYOK Key (100% Free Unlimited)", callback_data: "byok_setup" }],
               [{ text: "🚀 Open AI Mentor in Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
             ]
           }
@@ -1607,7 +1647,20 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
       isVip = userRow && userRow.is_vip === 1;
     } catch (e) {}
 
-    // Telegram Stars Payment Callback
+    // BYOK Setup & Clear Callbacks
+    if (data === "byok_setup") {
+      await answerCallbackQuery(botToken, cb.id, "🔑 BYOK Free API Key Setup");
+      await sendTelegramByokSetupPrompt(botToken, cbChatId, cbUserId, env);
+      return jsonResponse({ ok: true });
+    }
+    if (data === "byok_clear") {
+      await setTelegramByokKey(env, cbUserId, "");
+      await answerCallbackQuery(botToken, cb.id, "🗑️ Removed BYOK API Key");
+      await sendTelegramMessage(botToken, cbChatId, "🗑️ *Personal BYOK API Key Removed.* Reverted to standard daily free quota.");
+      return jsonResponse({ ok: true });
+    }
+
+        // Telegram Stars Payment Callback
     if (data === "pay_stars") {
       if (isVip) {
         await answerCallbackQuery(botToken, cb.id, "👑 You are already a VIP user!");
@@ -2326,26 +2379,109 @@ async function sendTelegramChatAction(botToken, chatId, action = "typing") {
   } catch (e) {}
 }
 
+async function getTelegramByokKey(env, userId) {
+  if (!env.BOT_STATE || !userId) return "";
+  try {
+    return (await env.BOT_STATE.get(`byok_key:${userId}`)) || "";
+  } catch (e) {
+    return "";
+  }
+}
+
+async function setTelegramByokKey(env, userId, apiKey) {
+  if (!env.BOT_STATE || !userId) return;
+  try {
+    const clean = (apiKey || "").trim();
+    if (clean) {
+      await env.BOT_STATE.put(`byok_key:${userId}`, clean);
+    } else {
+      await env.BOT_STATE.delete(`byok_key:${userId}`);
+    }
+  } catch (e) {}
+}
+
+async function sendTelegramByokSetupPrompt(botToken, chatId, userId, env) {
+  const existingKey = await getTelegramByokKey(env, userId);
+  const masked = existingKey
+    ? `✅ *ACTIVE* (\`${existingKey.slice(0, 6)}...${existingKey.slice(-4)}\`) — *Unlimited Free AI Unlocked*`
+    : `⚪ *Not Set* (Using 10/day standard free quota)`;
+
+  const msg =
+`🔑 *FREE TIER BYOK — BRING YOUR OWN GEMINI API KEY*
+━━━━━━━━━━━━━━━━━━━━
+Status: ${masked}
+
+Unlock *Unlimited 24/7 AI Mentor queries* on the Free Tier by connecting your own free Google Gemini API key!
+
+1️⃣ Get your free key from Google AI Studio:
+👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)
+
+2️⃣ Copy your \`AIzaSy...\` key and *paste it directly into this chat* (or send \`/byok AIzaSy...\`).`;
+
+  const kb = [
+    [{ text: "🔑 create your api key here(100% free) ↗", url: "https://aistudio.google.com/api-keys" }]
+  ];
+  if (existingKey) {
+    kb.push([{ text: "🗑️ Remove Saved BYOK Key", callback_data: "byok_clear" }]);
+  }
+  kb.push([{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]);
+
+  await sendTelegramMessage(botToken, chatId, msg, { inline_keyboard: kb });
+}
+
+async function callDirectByokGeminiTelegram(apiKey, systemPrompt, userPrompt) {
+  const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+          generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (txt) return { text: txt.trim(), model };
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
 async function handleTelegramAiMentorQuery(env, botToken, chatId, userId, promptText) {
   if (!promptText || promptText.trim().length === 0) return;
   const cleanPrompt = promptText.trim();
 
   await sendTelegramChatAction(botToken, chatId, "typing");
 
+  const userByokKey = await getTelegramByokKey(env, userId);
+  const hasByok = userByokKey.length >= 20;
   const isVip = await resolveIsVip(env, userId);
-  const quota = await checkAndConsumeQuota(env, userId, isVip);
+  const quota = hasByok ? { allowed: true, remaining: 999 } : await checkAndConsumeQuota(env, userId, isVip);
+
   if (!quota.allowed) {
     await sendTelegramMessage(botToken, chatId,
 `⚠️ *DAILY AI MENTOR QUOTA REACHED (10/10)*
 ━━━━━━━━━━━━━━━━━━━━
-You have reached your daily free limit of 10 AI queries today.
+You have reached your daily built-in free limit of 10 AI queries today.
 
-👑 *Upgrade to Lifetime VIP Pass (55,000 MMK)* for unlimited 24/7 access to Cambridge AI Mentor, all CBT tests, and Band 9 model answers!`,
+🔑 *Want Unlimited AI Mentor on the Free Tier (100% Free)?*
+Connect your own free Google Gemini API key (BYOK):
+👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)
+Then simply paste your \`AIzaSy...\` key right here in the chat!
+
+👑 Or upgrade to *Lifetime VIP Pass (55,000 MMK)* for zero-setup unlimited access across all devices!`,
       {
         inline_keyboard: [
+          [{ text: "🔑 create your api key here(100% free) ↗", url: "https://aistudio.google.com/api-keys" }],
+          [{ text: "⚙️ How to Set Free BYOK Key", callback_data: "byok_setup" }],
           [{ text: "👑 Get VIP Pass (55,000 MMK)", callback_data: "pay_manual" }],
-          [{ text: "⭐ Pay with Telegram Stars (750 Stars)", callback_data: "pay_stars" }],
-          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app" } }]
+          [{ text: "⭐ Pay with Telegram Stars (750 Stars)", callback_data: "pay_stars" }]
         ]
       }
     );
@@ -2359,6 +2495,14 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
 
   let replyText = "";
   let modelUsed = "Llama 3.2 3B";
+
+  if (hasByok) {
+    const byokResult = await callDirectByokGeminiTelegram(userByokKey, systemPrompt, cleanPrompt);
+    if (byokResult && byokResult.text) {
+      replyText = byokResult.text;
+      modelUsed = `BYOK (${byokResult.model})`;
+    }
+  }
 
   if (env.AI) {
     try {
@@ -2415,7 +2559,7 @@ The Cambridge AI Mentor is experiencing high traffic. Please try asking again in
     return;
   }
 
-  const quotaNote = isVip ? "👑 VIP Unlimited" : `📊 Quota: ${quota.remaining} queries left today`;
+  const quotaNote = hasByok ? `🔑 BYOK Unlimited Free Tier (${modelUsed})` : isVip ? "👑 VIP Unlimited" : `📊 Quota: ${quota.remaining} queries left today`;
   const formattedMsg = `🤖 *CAMBRIDGE AI MENTOR*\n━━━━━━━━━━━━━━━━━━━━\n${replyText}\n\n_${quotaNote} • Cambridge AI Core_`;
 
   await sendTelegramMessage(botToken, chatId, formattedMsg, {
