@@ -1381,7 +1381,7 @@ Return ONLY valid JSON matching this exact structure:
           <strong style="font-size:0.95rem;color:var(--text);">📌 Saved ❌→✅ Corrections &amp; Bookmarked Traps (${list.length})</strong>
         </div>
         <div style="display:flex;gap:8px;">
-          <button type="button" class="btn-accent-solid" style="padding:5px 12px;font-size:0.78rem;font-weight:700;" onclick="exportErrorVaultCsv()">⬇ Export CSV / Anki Deck</button>
+          <button type="button" class="btn-accent-solid" style="padding:5px 12px;font-size:0.78rem;font-weight:700;" onclick="exportErrorVaultCsv()">⬇ Export CSV Flashcard Deck</button>
         </div>
       </div>
 

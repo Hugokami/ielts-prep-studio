@@ -125,11 +125,11 @@
         </div>
       </div>
 
-      <!-- Engnovate-Style Test Card Directory (Full Test vs. Practice a Section) -->
+      <!-- Cambridge Test Card Directory (Full Test vs. Practice a Section) -->
       <div id="listeningDirectoryDrawer" style="display:${showDirectory ? 'block' : 'none'}; margin-bottom:20px; padding:16px; border-radius:12px; background:var(--bg-card); border:1px solid var(--border);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
           <div>
-            <div style="font-size:0.74rem; font-weight:800; color:var(--accent); text-transform:uppercase;">ENGNOVATE-STYLE QUICK DIRECTORY</div>
+            <div style="font-size:0.74rem; font-weight:800; color:var(--accent); text-transform:uppercase;">CAMBRIDGE CBT QUICK DIRECTORY</div>
             <div style="font-size:1rem; font-weight:800; color:var(--text);">Choose a Full 40-Question Test or Practice 1 Section</div>
           </div>
           <button type="button" class="btn-outlined" style="padding:4px 10px; font-size:0.75rem;" onclick="window.toggleListeningDirectory()">✕ Close Directory</button>

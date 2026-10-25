@@ -111,11 +111,12 @@
     --text: #F8FAFC;
     --text-secondary: #94A3B8;
     --text-muted: #64748B;
-    --accent: #F8FAFC;
-    --accent-bright: #FFFFFF;
-    --accent-dark: #E2E8F0;
-    --accent-soft: rgba(255, 255, 255, 0.08);
+    --accent: #D97706;
+    --accent-bright: #F59E0B;
+    --accent-dark: #B45309;
+    --accent-soft: rgba(245, 158, 11, 0.12);
     --accent-gold: #FBBF24;
+    --accent-ink: #0F172A;
     --teal: #38bdf8;
     --teal-soft: rgba(56, 189, 248, 0.14);
     --green: #34d399;
@@ -159,7 +160,8 @@
   html {
     font-size: calc(16px * var(--font-scale));
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
+    background-color: var(--bg);
     width: 100%;
     max-width: 100%;
     -webkit-text-size-adjust: 100%;
@@ -174,8 +176,7 @@
     width: 100%;
     max-width: 100%;
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     word-break: normal;
     overflow-wrap: break-word;
@@ -886,13 +887,29 @@
     position: absolute;
     top: 0;
     right: 0;
-    background: var(--accent);
+    background: linear-gradient(135deg, #D97706, #B45309) !important;
     color: #FFFFFF !important;
     font-size: 0.64rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     padding: 3px 9px;
+    border-bottom-left-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    z-index: 2;
+  }
+  :root[data-theme="dark"] .occ-ribbon {
+    background: linear-gradient(135deg, #F59E0B, #D97706) !important;
+    color: #0F172A !important;
+  }
+  .occ-ver-pill.high-band-pill {
+    color: #D97706 !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    background: rgba(245, 158, 11, 0.1) !important;
+  }
+  :root[data-theme="dark"] .occ-ver-pill.high-band-pill {
+    color: #FBBF24 !important;
+    border-color: rgba(251, 191, 36, 0.45) !important;
   }
 
   .occ-card-top {
@@ -4317,27 +4334,26 @@
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 12px !important;
+    gap: 8px !important;
     width: 100% !important;
     min-height: 38px !important;
+    flex-wrap: wrap !important;
   }
   .topbar-left-wrap {
     display: flex !important;
     align-items: center !important;
-    gap: 10px !important;
+    gap: 8px !important;
     flex-shrink: 0 !important;
   }
   .top-utils {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-end !important;
+    justify-content: flex-start !important;
+    margin-left: auto !important;
     gap: 6px !important;
     flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scrollbar-width: none !important;
-    -webkit-overflow-scrolling: touch !important;
-    flex-shrink: 1 !important;
-    min-width: 0 !important;
+    overflow-x: visible !important;
+    flex-shrink: 0 !important;
   }
   .top-utils::-webkit-scrollbar {
     display: none !important;
@@ -5468,8 +5484,8 @@ body[data-active-tab="mentor"] #mobileFabContainer,
 #ips-intro-splash {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #212121;
   color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -6908,7 +6924,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
 <!-- CINEMATIC MOTION INTRO OVERLAY: PENCIL + KINETIC TEXT -->
 <div id="ips-intro-splash" role="dialog" aria-modal="true" aria-label="IELTS Prep Studio Intro">
-  <button id="skipIntroBtn" onclick="dismissIntroSplash()" title="Skip Intro" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; padding:6px 14px; font-size:0.75rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px); z-index:10;">
+  <button id="skipIntroBtn" onclick="dismissIntroSplash()" title="Skip Intro" style="position:absolute; bottom:36px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,0.14); color:#FFFFFF; border:1.5px solid rgba(255,255,255,0.3); border-radius:9999px; padding:8px 22px; font-size:0.78rem; font-weight:800; cursor:pointer; backdrop-filter:blur(10px); z-index:10; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.4);">
     Skip Intro ✕
   </button>
 
@@ -6945,17 +6961,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     </g>
   </svg>
 
-  <!-- IELTS Prep Studio Intro Text (Without Progress Line) -->
-  <div class="loader">
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
-    <div class="text"><span>IELTS PREP STUDIO</span></div>
+  <!-- IELTS Prep Studio Unified Kinetic Title -->
+  <div class="ips-intro-title-box" style="display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; z-index:5;">
+    <h1 style="font-size:clamp(1.5rem, 5vw, 2.3rem); font-weight:900; letter-spacing:0.04em; color:#FFFFFF; text-shadow:0 4px 18px rgba(0,0,0,0.6); margin:0;">
+      IELTS <span style="background:linear-gradient(135deg, #F59E0B, #D97706); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">PREP STUDIO</span>
+    </h1>
+    <div style="font-size:0.76rem; font-weight:800; color:rgba(255,255,255,0.72); letter-spacing:0.12em; text-transform:uppercase;">
+      Cambridge Academic 8.5+ Engine
+    </div>
   </div>
 </div>
 
@@ -7043,22 +7056,22 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <!-- ROW 2: 7 Core Hub Navigation (Desktop) -->
     <nav class="nav-links" role="tablist" aria-label="Main Study Hubs">
       <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="overview" onclick="switchView('overview')">
-        Home
+        🏠 Home
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')">
-        Lexicon &amp; Drills
+        📚 Lexicon &amp; Drills
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-listening" data-target-tab="listening" onclick="switchView('listening')">
         🎧 Listening CBT
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="reading" onclick="switchView('reading')">
-        CBT Reading
+        📖 CBT Reading
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="writing" onclick="switchView('writing')">
-        Writing Lab
+        ✍️ Writing Lab
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="speaking" onclick="switchView('speaking')">
-        Speaking Studio
+        🎙️ Speaking Studio
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-tools" data-target-tab="tools" onclick="switchView('tools')">
         ⚡ Academic Tools
@@ -7608,7 +7621,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
 
       <div class="occ-card featured" style="padding:20px; background:var(--bg-card); border:1.5px solid var(--border-accent); border-radius:12px; margin-top:14px; position:relative; overflow:hidden;">
-        <div class="occ-ribbon" style="background:var(--accent); color:#FFFFFF !important;">BAND 9 SPEAKING &amp; DISCOURSE</div>
+        <div class="occ-ribbon" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important;">BAND 9 SPEAKING &amp; DISCOURSE</div>
 
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
           <div>
@@ -9132,7 +9145,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div>
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px; flex-wrap:wrap;">
           <h2 class="section-guide-title" style="margin:0;">⚡ VIP Academic AI Tools</h2>
-          <span id="atQuotaBadge" class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; font-size:0.75rem;">Loading Quota...</span>
+          <span id="atQuotaBadge" class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; font-size:0.75rem;">Loading Quota...</span>
         </div>
         <p class="section-guide-sub">
           Supercharge IELTS Writing Task 2 &amp; Speaking with native Academic Collocations, Band 8.5+ Synonyms, Comprehensive Multi-Paragraph Topic Briefs, Live Academic Dictionary &amp; Scholar Rhetoric.
@@ -9330,7 +9343,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div class="occ-card" style="padding:20px;">
           <h3 style="margin:0 0 6px 0;font-size:1.1rem;color:var(--text);font-weight:800;">🗂️ My Personal Error Vault &amp; AI Evaluation History</h3>
           <p style="margin:0 0 14px 0;font-size:0.83rem;color:var(--text-secondary);">
-            Review every ❌→✅ grammar, vocabulary, and sentence upgrade saved from your AI Examiner sessions, or export them as an Anki/CSV flashcard deck.
+            Review every ❌→✅ grammar, vocabulary, and sentence upgrade saved from your AI Examiner sessions, or export them as a CSV flashcard deck.
           </p>
           <div id="at-pane-vault-inner"></div>
         </div>
@@ -12223,7 +12236,7 @@ function renderLexiconGrid(keepPage) {
     const isHighBand = item.band.includes("8.5") || item.band.includes("9.0");
     return `
       <article class="occ-card ${isM || (idx === 0 && lexCurrentPage === 1) ? 'featured' : ''}">
-        ${isDue ? `<div class="occ-ribbon" style="background:var(--crimson); color:#fff;">SRS DUE TODAY</div>` : (isM ? `<div class="occ-ribbon">MASTERED ✓</div>` : (isHighBand ? `<div class="occ-ribbon">${item.band}</div>` : ``))}
+        ${isDue ? `<div class="occ-ribbon" style="background:var(--crimson, #EF4444); color:#FFFFFF !important;">SRS DUE TODAY</div>` : (isM ? `<div class="occ-ribbon" style="background:#10B981; color:#FFFFFF !important;">MASTERED ✓</div>` : ``)}
         <div>
           <div class="occ-card-top">
             <div class="occ-card-identity">
@@ -12234,7 +12247,7 @@ function renderLexiconGrid(keepPage) {
               </div>
             </div>
             <div class="occ-meta-right">
-              <span class="occ-ver-pill">${item.band}</span>
+              <span class="occ-ver-pill ${isHighBand ? 'high-band-pill' : ''}">${item.band}</span>
               <div class="occ-size-sub">${item.category}</div>
             </div>
           </div>
@@ -12295,8 +12308,13 @@ function renderLexiconGrid(keepPage) {
 
 function toggleMasterWord(id) {
   const i = appState.mastered.indexOf(id);
-  if (i === -1) appState.mastered.push(id);
-  else appState.mastered.splice(i, 1);
+  if (i === -1) {
+    appState.mastered.push(id);
+    if (typeof window.duoAddXp === "function") window.duoAddXp(15, "Vocab Mastered");
+    if (typeof window.duoCelebrate === "function") window.duoCelebrate();
+  } else {
+    appState.mastered.splice(i, 1);
+  }
   saveAppState();
   renderLexiconGrid(true);
 }
@@ -12619,7 +12637,7 @@ function handleSpeakingPracticePromptChange(promptVal) {
       <div class="occ-card" style="border:1px dashed var(--accent); background:rgba(224,108,53,0.06); padding:16px; border-radius:6px; margin-bottom:14px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
-            <span class="badge" style="background:var(--accent); color:#fff; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:3px;">🔒 VIP LOCKED</span>
+            <span class="badge" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:4px;">🔒 VIP LOCKED</span>
             <div style="font-size:0.95rem; font-weight:700; color:var(--text); margin-top:4px;">${data.title}</div>
             <div style="font-size:0.83rem; color:var(--text-secondary); margin-top:2px;">"${data.q}"</div>
           </div>
@@ -18022,7 +18040,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span style="font-size:1.35rem;">⚡</span>
             <h2 style="margin:0; font-size:1.18rem; font-weight:900; color:var(--text);">VIP Academic AI Lexicon &amp; Topic Tools</h2>
-            <span id="vipToolsQuotaBadge" class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; font-size:0.75rem;">Loading Quota...</span>
+            <span id="vipToolsQuotaBadge" class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; font-size:0.75rem;">Loading Quota...</span>
           </div>
           <p style="font-size:0.8rem; color:var(--text-secondary); margin:4px 0 0 0;">
             Supercharge your IELTS Writing Task 2 &amp; Speaking with Academic Collocations, Band 8.5+ Synonyms, Topic Briefs &amp; Dictionary.
@@ -18165,7 +18183,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
             <span style="font-size:1.4rem;">👑</span>
             <h2 style="font-size:1.28rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio — Full VIP Access</h2>
-            <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:800; white-space:nowrap;">750 ★ STARS (~$15) • 55,000 MMK</span>
+            <span class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; white-space:nowrap;">750 ★ STARS (~$15) • 55,000 MMK</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.5;">
             Master Band 8.0+ on your first attempt. Unlock all 1,162 vocabulary items, all 23 Cambridge Reading CBT simulations (231 questions), all 40 writing models &amp; automatic cross-device Telegram sync forever.
@@ -18304,7 +18322,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <div id="vipCheckoutStep" style="background:var(--bg); border:1px solid var(--accent); border-radius:6px; padding:16px; margin-bottom:16px; box-sizing:border-box;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <div>
-              <span class="occ-ver-pill" style="background:var(--accent); color:#fff; border:none; font-weight:700;">Select Checkout Method</span>
+              <span class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:700;">Select Checkout Method</span>
               <strong id="checkoutPlanTitle" style="margin-left:8px; font-size:0.95rem; color:var(--text);">Lifetime VIP Studio Pass</strong>
             </div>
           </div>

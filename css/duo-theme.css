@@ -1,16 +1,39 @@
 /* ============================================================================
-   IELTS Prep Studio v9.6 — OpenDesign Tactile Gamified UI & Animations
-   Preserves Current Color Theme (Slate / Porcelain / Royal Amber / Obsidian Dark)
-   Adds Duolingo-Style 3D Tactile Press Physics, Spring Animations & Gamification
-   With Strict Mobile Viewport Containment (Zero Horizontal Overflow)
+   IELTS Prep Studio v10.1 — Tactile Academic UI, Animations & Study Economy
+   Preserves Studio Palette (Slate / Porcelain / Royal Amber / Obsidian Dark)
+   Strict Viewport Containment (Zero Horizontal Overflow / Zero Right Cutoff)
    ============================================================================ */
 
-/* 0. STRICT VIEWPORT & CONTAINER CONTAINMENT GUARD */
-html,
-body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
+/* 0. STRICT VIEWPORT & CONTAINER CONTAINMENT GUARD (NO 100VW SCROLLBAR OVERFLOW) */
+html {
+  background-color: var(--bg, #F8FAFC) !important;
+  overflow-x: clip !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
+body {
+  background-color: var(--bg, #F8FAFC) !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* Seamless themed scrollbars so Windows/TMA never shows a white right-edge strip */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg, #0B0F19);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.55);
+}
+
 .view-section,
 .studio-tab-section,
 .cirrus-hero-stage,
@@ -33,7 +56,7 @@ body {
   text-align: center !important;
 }
 
-/* 1. TACTILE 3D BUTTON PRESS AFFORDANCE (PRESERVING CURRENT PALETTE) */
+/* 1. TACTILE 3D BUTTON PRESS AFFORDANCE (HIGH CONTRAST LIGHT & DARK) */
 .btn-accent-solid,
 .btn-primary,
 .cirrus-btn-dark,
@@ -48,7 +71,10 @@ body {
 :root[data-theme="dark"] .btn-accent-solid,
 :root[data-theme="dark"] .btn-primary,
 :root[data-theme="dark"] .cirrus-btn-dark {
-  box-shadow: 0 4px 0 #94A3B8, 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+  background: #F59E0B !important;
+  color: #0F172A !important;
+  border-color: #D97706 !important;
+  box-shadow: 0 4px 0 #92400E, 0 6px 16px rgba(0, 0, 0, 0.35) !important;
 }
 .btn-accent-solid:hover,
 .btn-primary:hover,
@@ -60,7 +86,9 @@ body {
 :root[data-theme="dark"] .btn-accent-solid:hover,
 :root[data-theme="dark"] .btn-primary:hover,
 :root[data-theme="dark"] .cirrus-btn-dark:hover {
-  box-shadow: 0 6px 0 #94A3B8, 0 10px 22px rgba(0, 0, 0, 0.45) !important;
+  background: #FBBF24 !important;
+  color: #0F172A !important;
+  box-shadow: 0 6px 0 #92400E, 0 10px 22px rgba(0, 0, 0, 0.45) !important;
 }
 .btn-accent-solid:active,
 .btn-primary:active,
@@ -73,9 +101,9 @@ body {
 .btn-outlined,
 .util-icon-btn,
 .cirrus-btn-light {
-  border-width: 2px !important;
-  border-radius: 12px !important;
-  box-shadow: 0 3px 0 var(--border-mid) !important;
+  border-width: 1.5px !important;
+  border-radius: 11px !important;
+  box-shadow: 0 2px 0 var(--border-mid) !important;
   transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
               border-color 0.15s ease,
@@ -85,12 +113,12 @@ body {
 .util-icon-btn:hover,
 .cirrus-btn-light:hover {
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 0 var(--border-mid) !important;
+  box-shadow: 0 3px 0 var(--border-mid) !important;
 }
 .btn-outlined:active,
 .util-icon-btn:active,
 .cirrus-btn-light:active {
-  transform: translateY(3px) !important;
+  transform: translateY(2px) !important;
   box-shadow: 0 0 0 var(--border-mid) !important;
 }
 
@@ -100,73 +128,74 @@ body {
 .speak-jumpin-card,
 .speak-hero-lesson-card,
 .speak-progress-banner {
-  border-width: 2px !important;
-  box-shadow: 0 4px 0 var(--border), var(--shadow-card) !important;
+  border-width: 1.5px !important;
+  box-shadow: 0 3px 0 var(--border), var(--shadow-card) !important;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
               border-color 0.2s ease !important;
 }
 .speak-jumpin-card:hover {
   transform: translateY(-3px) !important;
-  box-shadow: 0 7px 0 var(--border-mid), var(--shadow-hover) !important;
+  box-shadow: 0 6px 0 var(--border-mid), var(--shadow-hover) !important;
 }
 .speak-jumpin-card:active {
   transform: translateY(2px) !important;
   box-shadow: 0 2px 0 var(--border-mid) !important;
 }
 
-/* 3. TOP GAMIFICATION HUD PILLS (STREAK FLAME, XP, HEARTS, GEMS) */
+/* 3. UNIFIED SINGLE-LINE TOP GAMIFICATION HUD CAPSULE (ZERO OVERLAP / ZERO WRAPPING) */
 #duoTopHudMount {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
   max-width: 100%;
   min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-#duoTopHudMount::-webkit-scrollbar {
-  display: none;
 }
 .duo-hud-bar {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
-  max-width: 100%;
+  gap: 4px;
+  flex-wrap: nowrap !important;
+  padding: 3px 5px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-mid);
+  box-sizing: border-box;
 }
 .duo-hud-pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 9px;
+  gap: 3px;
+  padding: 3px 8px;
   border-radius: 999px;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 800;
   background: var(--bg-card);
-  border: 2px solid var(--border-mid);
-  box-shadow: 0 2px 0 var(--border);
+  border: 1px solid var(--border-mid);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
-  transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
+  flex-shrink: 0;
+  transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.14s ease, border-color 0.14s ease;
 }
 .duo-hud-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 0 var(--border-mid);
+  transform: translateY(-1px);
+  border-color: var(--accent-gold, #F59E0B);
 }
 .duo-hud-pill:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 0 var(--border-mid);
+  transform: translateY(1px);
 }
 .duo-hud-pill.streak {
   color: #EA580C;
-  border-color: rgba(245, 158, 11, 0.38);
+  border-color: rgba(245, 158, 11, 0.35);
   background: var(--well-orange, #FFF7ED);
 }
 :root[data-theme="dark"] .duo-hud-pill.streak {
   color: #FBBF24;
-  background: rgba(245, 158, 11, 0.12);
+  background: rgba(245, 158, 11, 0.14);
 }
 .duo-hud-pill.xp {
-  color: #D97706;
+  color: #B45309;
   border-color: rgba(245, 158, 11, 0.35);
 }
 :root[data-theme="dark"] .duo-hud-pill.xp {
@@ -174,20 +203,30 @@ body {
 }
 .duo-hud-pill.hearts {
   color: #E11D48;
-  border-color: rgba(225, 29, 72, 0.3);
+  border-color: rgba(225, 29, 72, 0.28);
 }
 :root[data-theme="dark"] .duo-hud-pill.hearts {
   color: #FB7185;
 }
 .duo-hud-pill.gems {
   color: #0284C7;
-  border-color: rgba(2, 132, 199, 0.3);
+  border-color: rgba(2, 132, 199, 0.28);
 }
 :root[data-theme="dark"] .duo-hud-pill.gems {
   color: #38BDF8;
 }
+.duo-hud-pill.guide-pill {
+  color: #0F172A;
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  border-color: #F59E0B;
+}
+:root[data-theme="dark"] .duo-hud-pill.guide-pill {
+  color: #0F172A;
+  background: linear-gradient(135deg, #FBBF24, #F59E0B);
+  border-color: #D97706;
+}
 
-/* 4. DUOLINGO SKILL PATH & DAILY QUESTS HUB (OVERVIEW DASHBOARD) */
+/* 4. CAMBRIDGE SKILL PATH & DAILY QUESTS HUB (OVERVIEW DASHBOARD) */
 #duoOverviewHubMount {
   width: 100%;
   max-width: 100%;
@@ -212,10 +251,10 @@ body {
 .duo-quest-card,
 .duo-path-card {
   background: var(--bg-card);
-  border: 2px solid var(--border-mid);
+  border: 1.5px solid var(--border-mid);
   border-radius: 20px;
   padding: 16px;
-  box-shadow: 0 4px 0 var(--border), var(--shadow-card);
+  box-shadow: 0 3px 0 var(--border), var(--shadow-card);
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -280,14 +319,17 @@ body {
   box-shadow: 0 4px 0 #92400E;
 }
 .duo-path-node.active-node .duo-node-circle {
-  background: var(--accent);
-  color: var(--bg-card);
-  border-color: var(--accent-gold, #F59E0B);
+  background: #0F172A;
+  color: #FFFFFF;
+  border-color: #F59E0B;
   box-shadow: 0 4px 0 #020617, 0 0 0 4px rgba(245, 158, 11, 0.22);
   animation: duoNodePulse 2.2s ease-in-out infinite;
 }
 :root[data-theme="dark"] .duo-path-node.active-node .duo-node-circle {
-  box-shadow: 0 4px 0 #64748B, 0 0 0 4px rgba(251, 191, 36, 0.25);
+  background: #F59E0B;
+  color: #0F172A;
+  border-color: #FBBF24;
+  box-shadow: 0 4px 0 #92400E, 0 0 0 4px rgba(251, 191, 36, 0.25);
 }
 .duo-node-label {
   font-size: 0.68rem;
@@ -357,7 +399,7 @@ body {
 }
 .duo-word-chip:hover {
   transform: translateY(-2px);
-  border-color: var(--accent);
+  border-color: #F59E0B;
 }
 .duo-word-chip:active {
   transform: translateY(3px);
@@ -440,6 +482,97 @@ body {
 .duo-bottom-feedback.is-warning {
   border-color: #F59E0B;
   box-shadow: 0 6px 0 rgba(245, 158, 11, 0.35), 0 20px 45px rgba(0, 0, 0, 0.32);
+}
+
+/* 8. ACADEMIC ECONOMY & NEW USER ONBOARDING GUIDE MODALS */
+.ips-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 4400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.ips-modal-overlay.open {
+  display: flex;
+}
+.ips-modal-shell {
+  width: 100%;
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-card);
+  border: 2px solid var(--border-mid);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  color: var(--text);
+}
+.ips-economy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+@media (max-width: 560px) {
+  .ips-economy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.ips-stat-explain-card {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ips-shop-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.ips-guide-step-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 4px;
+  background: var(--bg-elevated);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.ips-guide-tab-btn {
+  flex: 1 1 auto;
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.ips-guide-tab-btn.active {
+  background: #F59E0B;
+  color: #0F172A;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
