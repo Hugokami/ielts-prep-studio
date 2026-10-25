@@ -9,6 +9,7 @@
   let playbackSpeed = 1.0;
   let examMode = 'practice'; // 'practice' | 'strict'
   let isGraded = false;
+  let showDirectory = false;
 
   const BAND_SCALE = [
     [39, 9.0], [37, 8.5], [35, 8.0], [32, 7.5], [30, 7.0],
@@ -94,7 +95,11 @@
 
       <!-- Main Toolbar -->
       <div class="occ-toolbar" style="margin-bottom:16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-        <select id="listeningExamSelect" class="occ-select" style="flex:1; min-width:280px; font-weight:600;" onchange="window.switchListeningExam(this.value)" aria-label="Select Listening Test">
+        <button type="button" class="${showDirectory ? 'btn-accent-solid' : 'btn-outlined'}" onclick="window.toggleListeningDirectory()" style="padding:6px 12px; font-size:0.78rem; font-weight:800;">
+          📚 ${showDirectory ? 'Hide Test Directory' : 'Browse All 10 Tests'}
+        </button>
+
+        <select id="listeningExamSelect" class="occ-select" style="flex:1; min-width:0; max-width:100%; text-overflow:ellipsis; overflow:hidden; font-weight:600;" onchange="window.switchListeningExam(this.value)" aria-label="Select Listening Test">
           ${examOptions}
         </select>
 
@@ -117,6 +122,35 @@
           <button type="button" class="btn-accent-solid" id="listeningGradeBtn" onclick="window.gradeListeningMock()" style="padding:7px 18px; font-size:0.82rem; font-weight:800;">
             ✓ Grade Test
           </button>
+        </div>
+      </div>
+
+      <!-- Engnovate-Style Test Card Directory (Full Test vs. Practice a Section) -->
+      <div id="listeningDirectoryDrawer" style="display:${showDirectory ? 'block' : 'none'}; margin-bottom:20px; padding:16px; border-radius:12px; background:var(--bg-card); border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <div style="font-size:0.74rem; font-weight:800; color:var(--accent); text-transform:uppercase;">ENGNOVATE-STYLE QUICK DIRECTORY</div>
+            <div style="font-size:1rem; font-weight:800; color:var(--text);">Choose a Full 40-Question Test or Practice 1 Section</div>
+          </div>
+          <button type="button" class="btn-outlined" style="padding:4px 10px; font-size:0.75rem;" onclick="window.toggleListeningDirectory()">✕ Close Directory</button>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px;">
+          ${LISTENING_DATA.map((t, idx) => `
+            <div style="padding:14px; border-radius:10px; background:var(--bg-elevated); border:1px solid ${idx === currentExamIdx ? 'var(--accent)' : 'var(--border)'}; display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <strong style="font-size:0.88rem; color:var(--text); line-height:1.35;">${t.title}</strong>
+                <span class="occ-ver-pill" style="font-size:0.68rem;">40 Qs</span>
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button type="button" class="btn-accent-solid" style="padding:5px 10px; font-size:0.74rem; height:auto; flex:1;" onclick="window.launchListeningTestAndSection(${idx}, 0)">▶ Take Full Test</button>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px;">
+                ${[1,2,3,4].map(sNum => `
+                  <button type="button" class="btn-outlined" style="padding:4px 4px; font-size:0.72rem; font-weight:700; text-align:center;" onclick="window.launchListeningTestAndSection(${idx}, ${sNum})">Sec ${sNum}</button>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
 
@@ -417,6 +451,22 @@
   }
 
   // Window methods
+  window.toggleListeningDirectory = function() {
+    showDirectory = !showDirectory;
+    renderListeningUI(document.getElementById("listening-hub-mount"));
+  };
+
+  window.launchListeningTestAndSection = function(idx, sec) {
+    currentExamIdx = parseInt(idx, 10) || 0;
+    currentSection = sec;
+    userAnswers = {};
+    flaggedQuestions.clear();
+    isGraded = false;
+    showDirectory = false;
+    stopAudio();
+    renderListeningUI(document.getElementById("listening-hub-mount"));
+  };
+
   window.switchListeningExam = function(idx) {
     currentExamIdx = parseInt(idx, 10) || 0;
     currentSection = 1;
@@ -585,6 +635,9 @@
 
     const band = calcListeningBand(score);
     isGraded = true;
+    if (typeof window.syncAndRenderStudyStreak === "function") {
+      window.syncAndRenderStudyStreak(true);
+    }
     const resultBox = document.getElementById("listeningScoreResult");
     if (resultBox) {
       resultBox.style.display = "block";

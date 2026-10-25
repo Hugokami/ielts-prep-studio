@@ -69,6 +69,12 @@
           showStudioNotification("Removed Personal API Key. Reverted to standard studio quota.");
         }
       }
+      const wInp = document.getElementById("inlineWritingByokInput");
+      const mInp = document.getElementById("aiMentorByokInput");
+      [wInp, mInp].forEach((inp) => {
+        const box = inp?.closest('div[style*="border"]') || inp?.parentElement?.parentElement;
+        if (box) delete box.dataset.forceExpand;
+      });
     } catch (e) {
       console.warn("BYOK storage error:", e);
     }
@@ -134,7 +140,67 @@
         : `🔑 Use Free BYOK Key`;
       btn.style.borderColor = active ? "rgba(16,185,129,0.5)" : "var(--border)";
     });
+
+    // Engnovate Simplification 6: Auto-Collapsing BYOK Status Pill when active
+    [
+      { inpId: "inlineWritingByokInput", pillId: "writingByokCollapsedPill" },
+      { inpId: "aiMentorByokInput", pillId: "mentorByokCollapsedPill" }
+    ].forEach(({ inpId, pillId }) => {
+      const inp = document.getElementById(inpId);
+      if (!inp) return;
+      const box = inp.closest('div[style*="border"]') || inp.parentElement?.parentElement;
+      if (!box) return;
+
+      let pill = document.getElementById(pillId);
+      if (active && !box.dataset.forceExpand) {
+        Array.from(box.children).forEach((ch) => {
+          if (ch.id !== pillId) ch.style.display = "none";
+        });
+        box.style.padding = "7px 12px";
+        box.style.background = "rgba(16,185,129,0.08)";
+        box.style.borderColor = "rgba(16,185,129,0.35)";
+        if (!pill) {
+          pill = document.createElement("div");
+          pill.id = pillId;
+          pill.style.cssText =
+            "display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;width:100%;font-size:0.78rem;";
+          box.appendChild(pill);
+        }
+        pill.style.display = "flex";
+        pill.innerHTML = `
+          <span style="color:#10b981;font-weight:800;display:inline-flex;align-items:center;gap:6px;">
+            🟢 Free Unlimited BYOK AI Active <span style="color:var(--text-secondary);font-weight:600;font-size:0.72rem;">(${escapeSafe(model)})</span>
+          </span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button type="button" class="btn-outlined" style="padding:2px 8px;font-size:0.71rem;" onclick="window.expandInlineByokBox('${inpId}','${pillId}')">🔑 Change Key</button>
+            <button type="button" class="btn-outlined" style="padding:2px 8px;font-size:0.71rem;" onclick="openByokConfigModal()">⚙️ Model</button>
+          </div>
+        `;
+      } else {
+        if (pill) pill.style.display = "none";
+        Array.from(box.children).forEach((ch) => {
+          if (ch.id !== pillId) ch.style.display = "";
+        });
+        box.style.padding = "10px 12px";
+        box.style.background = "var(--bg-elevated, rgba(255,255,255,0.03))";
+        box.style.borderColor = "var(--border)";
+      }
+    });
   }
+
+  window.expandInlineByokBox = function (inpId, pillId) {
+    const inp = document.getElementById(inpId);
+    if (!inp) return;
+    const box = inp.closest('div[style*="border"]') || inp.parentElement?.parentElement;
+    if (!box) return;
+    box.dataset.forceExpand = "1";
+    const pill = document.getElementById(pillId);
+    if (pill) pill.style.display = "none";
+    Array.from(box.children).forEach((ch) => {
+      if (ch.id !== pillId) ch.style.display = "";
+    });
+    inp.focus();
+  };
 
   window.openByokConfigModal = function () {
     let backdrop = document.getElementById("byokQuickModalBackdrop");
@@ -384,6 +450,9 @@
     try {
       localStorage.setItem(EVAL_HISTORY_STORAGE, JSON.stringify(list.slice(0, 50)));
     } catch (e) {}
+    if (typeof window.syncAndRenderStudyStreak === "function") {
+      window.syncAndRenderStudyStreak(true);
+    }
     renderErrorVaultPane();
   }
 
@@ -516,11 +585,72 @@
     return "#ef4444";
   }
 
+  const STOPWORDS_REPETITION = new Set([
+    "the","and","that","have","for","not","with","you","this","but","his","from","they","say","her","she","will","one","all","would","there","their","what","out","about","who","get","which","when","make","can","like","time","just","him","know","take","into","your","some","could","them","see","other","than","then","now","only","come","its","over","Also","also","after","use","two","how","our","work","first","well","way","even","new","want","because","any","these","give","most","such","more","many","much","very","should","must","may","might","been","were","was","are","has","had","does","did","being","where","while","through","between","both","each","under","within","without","however","therefore","furthermore","moreover","although","though"
+  ]);
+
+  function computeWordRepetitionStats(essayText) {
+    const words = String(essayText || "")
+      .toLowerCase()
+      .replace(/[^a-z'\s-]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 4 && !STOPWORDS_REPETITION.has(w));
+    const counts = {};
+    words.forEach((w) => {
+      counts[w] = (counts[w] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .filter(([, c]) => c >= 3)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+  }
+
+  function buildWordDiffHtml(originalText, rewriteText) {
+    const origSet = new Set(
+      String(originalText || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "")
+        .split(/\s+/)
+        .filter((w) => w.length >= 4)
+    );
+    return String(rewriteText || "")
+      .split(/(\s+)/)
+      .map((tok) => {
+        if (/^\s+$/.test(tok)) return tok;
+        const clean = tok.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (clean.length >= 4 && !origSet.has(clean) && !STOPWORDS_REPETITION.has(clean)) {
+          return `<mark style="background:rgba(16,185,129,0.22);color:#10b981;padding:1px 4px;border-radius:3px;font-weight:700;">${escapeSafe(tok)}</mark>`;
+        }
+        return escapeSafe(tok);
+      })
+      .join("");
+  }
+
+  window.toggleBand9DiffHighlight = function (btnEl) {
+    const box = document.getElementById("band9RewriteContentBox");
+    if (!box || !lastWritingEvalData) return;
+    const isDiff = box.dataset.diffActive === "1";
+    if (isDiff) {
+      box.dataset.diffActive = "0";
+      box.innerHTML = escapeSafe(lastWritingEvalData.band9Rewrite || "Band 9 rewrite included in main feedback tab.");
+      if (btnEl) btnEl.innerHTML = "🔍 Highlight Differences";
+    } else {
+      box.dataset.diffActive = "1";
+      box.innerHTML = buildWordDiffHtml(lastWritingEvalData.originalEssay, lastWritingEvalData.band9Rewrite || "");
+      if (btnEl) btnEl.innerHTML = "✨ Plain Clean View";
+    }
+  };
+
   function renderWritingEvaluationDashboard(resultBox, evalData, modelUsed, rawFallbackMarkdown) {
     lastWritingEvalData = evalData;
     const s = evalData.scores;
     const errCounts = evalData.errorCounts;
     const corrections = evalData.corrections || [];
+    const repeatedWords = computeWordRepetitionStats(evalData.originalEssay);
+    const totalGrammarMistakes = (errCounts.grammar || 0) + (errCounts.vocabulary || 0) + (errCounts.sentence || 0);
+    const repSummary = repeatedWords.length
+      ? repeatedWords.map(([w, c]) => `<span style="background:rgba(245,158,11,0.14);color:#f59e0b;padding:1px 6px;border-radius:4px;font-weight:700;">${escapeSafe(w)} (${c}x)</span>`).join(" ")
+      : `<span style="color:#10b981;font-weight:700;">✓ Optimal Variety (No overused words)</span>`;
 
     const corrHtml = corrections.length
       ? corrections
@@ -621,6 +751,22 @@
             .join("")}
         </div>
 
+        <!-- Engnovate 3-Card Telemetry Summary (Vocabulary Level, Grammar Mistakes, Word Repetition) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px;">
+          <div style="padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);">
+            <div style="font-size:0.7rem;font-weight:800;color:var(--text-secondary);text-transform:uppercase;">💎 Vocabulary Level</div>
+            <div style="font-size:0.95rem;font-weight:800;color:${getScoreColorHex(s.lr)};margin-top:3px;">${escapeSafe(evalData.cefrLevel)}</div>
+          </div>
+          <div style="padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);">
+            <div style="font-size:0.7rem;font-weight:800;color:var(--text-secondary);text-transform:uppercase;">🔍 Grammar &amp; Lexical Mistakes</div>
+            <div style="font-size:0.95rem;font-weight:800;color:${totalGrammarMistakes > 4 ? "#ef4444" : "#10b981"};margin-top:3px;">${totalGrammarMistakes} Identified (${errCounts.grammar}G · ${errCounts.vocabulary}V · ${errCounts.sentence}S)</div>
+          </div>
+          <div style="padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);">
+            <div style="font-size:0.7rem;font-weight:800;color:var(--text-secondary);text-transform:uppercase;margin-bottom:4px;">🔁 Word Repetition (&ge;3x)</div>
+            <div style="font-size:0.78rem;display:flex;gap:4px;flex-wrap:wrap;">${repSummary}</div>
+          </div>
+        </div>
+
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
           <span class="occ-ver-pill" style="font-size:0.74rem;">🤖 Memorized Template Risk: <strong style="color:${errCounts.templateRiskPct > 25 ? "#ef4444" : "#10b981"};">${errCounts.templateRiskPct}%</strong></span>
           <span class="occ-ver-pill" style="font-size:0.74rem;">🔤 Grammar Slips: <strong>${errCounts.grammar}</strong></span>
@@ -658,7 +804,10 @@
       <div class="weval-tab-pane" data-weval-pane="rewrite" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
           <span style="font-size:0.8rem;font-weight:700;color:var(--text-secondary);">Compare your original draft against a seamless Band 9.0 upgrade of your exact arguments:</span>
-          <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.75rem;font-weight:700;" onclick="copyBand9RewriteText()">📋 Copy Band 9 Version</button>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.75rem;font-weight:700;border-color:rgba(16,185,129,0.45);color:#10b981;" onclick="toggleBand9DiffHighlight(this)">🔍 Highlight Differences</button>
+            <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.75rem;font-weight:700;" onclick="copyBand9RewriteText()">📋 Copy Band 9 Version</button>
+          </div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">
           <div style="padding:12px;border-radius:8px;background:var(--bg-elevated,rgba(255,255,255,0.02));border:1px solid var(--border);">
@@ -667,7 +816,7 @@
           </div>
           <div style="padding:12px;border-radius:8px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.35);">
             <div style="font-size:0.72rem;font-weight:800;color:#10b981;margin-bottom:6px;text-transform:uppercase;">🌟 Examiner Band 9.0 Upgraded Version</div>
-            <div style="font-size:0.84rem;line-height:1.7;color:var(--text);white-space:pre-wrap;">${escapeSafe(evalData.band9Rewrite || "Band 9 rewrite included in main feedback tab.")}</div>
+            <div id="band9RewriteContentBox" data-diff-active="0" style="font-size:0.84rem;line-height:1.7;color:var(--text);white-space:pre-wrap;">${escapeSafe(evalData.band9Rewrite || "Band 9 rewrite included in main feedback tab.")}</div>
           </div>
         </div>
       </div>
@@ -1041,15 +1190,15 @@ Return ONLY valid JSON matching this exact structure:
         : set.part2.title;
 
     mount.innerHTML = `
-      <div style="padding:12px 14px;border-radius:10px;background:var(--bg-elevated,rgba(255,255,255,0.03));border:1px solid var(--accent);margin-bottom:12px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-            <span style="font-size:0.74rem;font-weight:800;color:var(--accent);text-transform:uppercase;">🎯 FULL 3-PART SPEAKING SIMULATOR:</span>
-            <select class="occ-select" style="font-size:0.76rem;padding:3px 8px;" onchange="changeSpeakingMockTopicSet(this.value)">
+      <div style="padding:12px 14px;border-radius:10px;background:var(--bg-elevated,rgba(255,255,255,0.03));border:1px solid var(--accent);margin-bottom:12px;max-width:100%;width:100%;box-sizing:border-box;overflow:hidden;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;max-width:100%;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1 1 220px;min-width:0;max-width:100%;">
+            <span style="font-size:0.74rem;font-weight:800;color:var(--accent);text-transform:uppercase;white-space:nowrap;">🎯 FULL 3-PART SPEAKING SIMULATOR:</span>
+            <select class="occ-select" style="font-size:0.76rem;padding:4px 8px;flex:1 1 180px;min-width:0;max-width:100%;width:100%;text-overflow:ellipsis;overflow:hidden;box-sizing:border-box;" onchange="changeSpeakingMockTopicSet(this.value)">
               ${SPEAKING_3PART_SETS.map((s, i) => `<option value="${i}" ${i === currentSpeakingSetIdx ? "selected" : ""}>Topic ${i + 1}: ${escapeSafe(s.topic)}</option>`).join("")}
             </select>
           </div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <div style="display:flex;gap:5px;flex-wrap:wrap;max-width:100%;">
             <button type="button" class="${isP1 ? "btn-accent-solid" : "btn-outlined"}" style="padding:4px 10px;font-size:0.74rem;" onclick="switchSpeakingMockPart(1)">Part 1 (Interview)</button>
             <button type="button" class="${isP2 ? "btn-accent-solid" : "btn-outlined"}" style="padding:4px 10px;font-size:0.74rem;" onclick="switchSpeakingMockPart(2)">Part 2 (Cue Card)</button>
             <button type="button" class="${isP3 ? "btn-accent-solid" : "btn-outlined"}" style="padding:4px 10px;font-size:0.74rem;" onclick="switchSpeakingMockPart(3)">Part 3 (Discussion)</button>
@@ -1057,11 +1206,11 @@ Return ONLY valid JSON matching this exact structure:
         </div>
         ${
           !isP2
-            ? `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
-                 <div style="font-size:0.86rem;font-weight:700;color:var(--text);flex:1;">
+            ? `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;max-width:100%;box-sizing:border-box;">
+                 <div style="font-size:0.86rem;font-weight:700;color:var(--text);flex:1 1 200px;min-width:0;word-break:break-word;">
                    <span style="color:var(--accent);">Part ${activeSpeakingMockPart} Q${activeSpeakingPartQuestionIdx + 1}:</span> "${escapeSafe(currentQ)}"
                  </div>
-                 <div style="display:flex;gap:6px;">
+                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
                    <button type="button" class="btn-outlined" style="padding:3px 9px;font-size:0.74rem;" onclick="speakText(${JSON.stringify(currentQ).replace(/"/g, "&quot;")})">🔊 Hear Examiner</button>
                    <button type="button" class="btn-outlined" style="padding:3px 9px;font-size:0.74rem;" onclick="nextSpeakingMockQuestion()">Next Question →</button>
                  </div>
@@ -1306,6 +1455,485 @@ Return ONLY valid JSON matching this exact structure:
   };
 
   // ==========================================================================
+  // 6B. STUDY STREAK TRACKER (#streakCountVal) — AUTO-BACKFILL & REAL-TIME SYNC
+  // ==========================================================================
+  const STREAK_STORAGE_KEY = "ips_study_streak_v1";
+
+  function toLocalDateStr(d) {
+    const dt = d instanceof Date && !isNaN(d) ? d : new Date();
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, "0");
+    const day = String(dt.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  window.syncAndRenderStudyStreak = function (recordActivityToday = false) {
+    try {
+      const todayStr = toLocalDateStr(new Date());
+      const yesterdayDate = new Date();
+      yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+      const yesterdayStr = toLocalDateStr(yesterdayDate);
+
+      let data = null;
+      try {
+        const raw = localStorage.getItem(STREAK_STORAGE_KEY);
+        if (raw) data = JSON.parse(raw);
+      } catch (e) {}
+
+      if (!data || typeof data.count !== "number") {
+        data = { count: 1, lastDate: todayStr, history: [todayStr] };
+
+        // Check if returning user has prior progress or earlier device/eval timestamps
+        const st = window.appState || {};
+        const hasProgress =
+          (Array.isArray(st.mastered) && st.mastered.length > 0) ||
+          (Array.isArray(st.readingDone) && st.readingDone.length > 0) ||
+          (st.writingDrafts && Object.keys(st.writingDrafts).length > 0) ||
+          (st.srsSchedule && Object.keys(st.srsSchedule).length > 0) ||
+          getEvalHistory().length > 0 ||
+          getErrorVault().length > 0;
+
+        let earliestMs = Date.now();
+        try {
+          const devId = localStorage.getItem("ips_device_id") || "";
+          const parts = devId.split("-");
+          if (parts.length >= 3) {
+            const parsedTs = parseInt(parts[parts.length - 1], 36);
+            if (!isNaN(parsedTs) && parsedTs > 1700000000000 && parsedTs < earliestMs) {
+              earliestMs = parsedTs;
+            }
+          }
+        } catch (e) {}
+
+        const daysSinceInstall = Math.max(0, Math.floor((Date.now() - earliestMs) / 86400000));
+        if (daysSinceInstall >= 1 && hasProgress) {
+          data.count = Math.min(daysSinceInstall + 1, 30);
+          if (!data.history.includes(yesterdayStr)) data.history.unshift(yesterdayStr);
+        } else if (hasProgress && ((st.mastered && st.mastered.length >= 5) || (st.readingDone && st.readingDone.length >= 1))) {
+          // Returning user who already mastered items before streak tracker was added
+          data.count = Math.max(2, Math.min(7, 1 + Math.floor((st.mastered?.length || 0) / 15) + (st.readingDone?.length || 0)));
+          if (!data.history.includes(yesterdayStr)) data.history.unshift(yesterdayStr);
+        }
+      } else {
+        if (!Array.isArray(data.history)) data.history = [data.lastDate || todayStr];
+        if (data.lastDate !== todayStr) {
+          if (data.lastDate === yesterdayStr) {
+            data.count = (data.count || 1) + 1;
+          } else {
+            // Check how many days gap; if > 1 day gap, reset to 1 (or preserve if grace)
+            const lastMs = new Date(data.lastDate + "T00:00:00").getTime();
+            const currMs = new Date(todayStr + "T00:00:00").getTime();
+            const diffDays = Math.round((currMs - lastMs) / 86400000);
+            if (diffDays === 1) {
+              data.count = (data.count || 1) + 1;
+            } else if (diffDays > 1) {
+              data.count = 1;
+            }
+          }
+          data.lastDate = todayStr;
+          if (!data.history.includes(todayStr)) data.history.push(todayStr);
+        } else if (recordActivityToday && !data.history.includes(todayStr)) {
+          data.history.push(todayStr);
+        }
+      }
+
+      data.history = data.history.slice(-60);
+      localStorage.setItem(STREAK_STORAGE_KEY, JSON.stringify(data));
+      if (window.appState) {
+        window.appState.streakCount = data.count;
+        window.appState.lastStreakDate = data.lastDate;
+      }
+
+      const streakEl = document.getElementById("streakCountVal");
+      if (streakEl) {
+        streakEl.textContent = `${data.count} ${data.count === 1 ? "Day" : "Days"}`;
+      }
+      return data.count;
+    } catch (err) {
+      console.warn("Streak sync notice:", err);
+      return 1;
+    }
+  };
+
+  // ==========================================================================
+  // 6C. ENGNOVATE SIMPLIFICATION: HANDWRITTEN ESSAY IMAGE-TO-TEXT (OCR)
+  // ==========================================================================
+  window.triggerWritingEssayOcr = function () {
+    let fileInp = document.getElementById("writingOcrFileInput");
+    if (!fileInp) {
+      fileInp = document.createElement("input");
+      fileInp.type = "file";
+      fileInp.id = "writingOcrFileInput";
+      fileInp.accept = "image/*";
+      fileInp.style.display = "none";
+      fileInp.onchange = (e) => {
+        const f = e.target.files?.[0];
+        if (f) processWritingOcrImageFile(f);
+        fileInp.value = "";
+      };
+      document.body.appendChild(fileInp);
+    }
+    fileInp.click();
+  };
+
+  async function processWritingOcrImageFile(file) {
+    const ocrBtn = document.getElementById("writingOcrTriggerBtn");
+    const essayArea = document.getElementById("essayArea");
+    if (!essayArea) return;
+
+    const apiKey = getByokApiKey();
+    if (!apiKey) {
+      if (
+        confirm(
+          "📷 Handwritten Essay OCR uses Google Gemini Vision.\n\nPlease enter your 100% Free Google AI Studio API Key (BYOK) to transcribe unlimited handwritten essay photos for free!\n\nClick OK to paste your Free API Key."
+        )
+      ) {
+        window.openByokConfigModal();
+      }
+      return;
+    }
+
+    if (ocrBtn) {
+      ocrBtn.disabled = true;
+      ocrBtn.innerHTML = "⏳ Scanning Handwriting...";
+    }
+
+    try {
+      const base64Data = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const res = String(reader.result || "");
+          const commaIdx = res.indexOf(",");
+          resolve(commaIdx !== -1 ? res.slice(commaIdx + 1) : res);
+        };
+        reader.onerror = () => reject(new Error("Could not read image file"));
+        reader.readAsDataURL(file);
+      });
+
+      const mimeType = file.type || "image/jpeg";
+      const model = getByokModel() || "gemini-2.5-flash";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: "Transcribe the handwritten or printed English essay in this image accurately into plain text, preserving paragraph breaks. Do NOT fix spelling or grammar mistakes (keep the student's exact writing so the IELTS examiner can grade it accurately). Output ONLY the transcribed essay text."
+              },
+              {
+                inline_data: {
+                  mime_type: mimeType,
+                  data: base64Data
+                }
+              }
+            ]
+          }
+        ],
+        generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
+      };
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        throw new Error(`Vision OCR HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      const transcribed = (data?.candidates?.[0]?.content?.parts?.[0]?.text || "").trim();
+      if (!transcribed) throw new Error("No text detected in image");
+
+      essayArea.value = essayArea.value.trim()
+        ? essayArea.value.trim() + "\n\n" + transcribed
+        : transcribed;
+      essayArea.dispatchEvent(new Event("input", { bubbles: true }));
+      if (typeof showStudioNotification === "function") {
+        showStudioNotification("📷 Handwritten essay transcribed into editor!");
+      }
+    } catch (err) {
+      console.error("OCR error:", err);
+      alert("Could not transcribe image: " + err.message);
+    } finally {
+      if (ocrBtn) {
+        ocrBtn.disabled = false;
+        ocrBtn.innerHTML = "📷 Image to Text (OCR)";
+      }
+    }
+  }
+
+  // ==========================================================================
+  // 6D. ENGNOVATE SIMPLIFICATION: READING 23-PASSAGE CARD DIRECTORY
+  // ==========================================================================
+  window.toggleReadingDirectory = function () {
+    let dir = document.getElementById("readingPassageDirectoryDrawer");
+    const rSelect = document.getElementById("rSelect");
+    if (!rSelect) return;
+
+    if (!dir) {
+      dir = document.createElement("div");
+      dir.id = "readingPassageDirectoryDrawer";
+      dir.style.cssText =
+        "display:none;margin-bottom:14px;padding:14px;border-radius:10px;background:var(--bg-card);border:1px solid var(--accent);box-shadow:0 10px 28px rgba(0,0,0,0.22);";
+      const toolbar = rSelect.closest(".occ-toolbar");
+      if (toolbar && toolbar.parentNode) {
+        toolbar.parentNode.insertBefore(dir, toolbar.nextSibling);
+      }
+    }
+
+    if (dir.style.display === "block") {
+      dir.style.display = "none";
+      return;
+    }
+
+    const doneSet = new Set((window.appState && window.appState.readingDone) || []);
+    const options = Array.from(rSelect.options);
+    const cardsHtml = options
+      .map((opt, idx) => {
+        const isCurrent = rSelect.selectedIndex === idx;
+        const isDone = doneSet.has(idx) || doneSet.has(String(idx)) || opt.textContent.includes("✓");
+        const cleanTitle = opt.textContent.replace(/^✓\s*/, "");
+        return `
+          <div onclick="window.selectReadingPassageFromDir(${idx})" style="cursor:pointer;padding:10px 12px;border-radius:8px;background:${isCurrent ? "rgba(217,119,54,0.12)" : "var(--bg)"};border:1px solid ${isCurrent ? "var(--accent)" : "var(--border)"};display:flex;flex-direction:column;justify-content:space-between;gap:6px;transition:transform 0.12s ease;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+              <span class="occ-ver-pill" style="font-size:0.65rem;color:${isCurrent ? "var(--accent)" : "var(--text-secondary)"};">Passage #${idx + 1}</span>
+              ${isDone ? `<span style="font-size:0.68rem;color:#10b981;font-weight:800;">✓ Completed</span>` : `<span style="font-size:0.68rem;color:var(--text-secondary);">20m CBT</span>`}
+            </div>
+            <div style="font-size:0.81rem;font-weight:700;color:var(--text);line-height:1.35;">${escapeSafe(cleanTitle)}</div>
+          </div>
+        `;
+      })
+      .join("");
+
+    dir.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+        <div>
+          <strong style="font-size:0.92rem;color:var(--text);">📚 Cambridge Reading CBT Directory (${options.length} Official Passages)</strong>
+          <span style="font-size:0.75rem;color:var(--text-secondary);margin-left:8px;">Click any passage card to launch immediately</span>
+        </div>
+        <button type="button" class="btn-outlined" style="padding:3px 9px;font-size:0.74rem;" onclick="document.getElementById('readingPassageDirectoryDrawer').style.display='none'">✕ Close</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;max-height:340px;overflow-y:auto;padding-right:4px;">
+        ${cardsHtml}
+      </div>
+    `;
+    dir.style.display = "block";
+  };
+
+  window.selectReadingPassageFromDir = function (idx) {
+    const rSelect = document.getElementById("rSelect");
+    if (rSelect) {
+      rSelect.value = String(idx);
+      if (typeof window.loadReadingMock === "function") window.loadReadingMock();
+    }
+    const dir = document.getElementById("readingPassageDirectoryDrawer");
+    if (dir) dir.style.display = "none";
+  };
+
+  // ==========================================================================
+  // 6E. ENGNOVATE SIMPLIFICATION: HIGHLIGHT WORD -> 1-CLICK SAVE TO FLASHCARDS
+  // ==========================================================================
+  function initContextualFlashcardPopup() {
+    if (document.getElementById("engnovateFlashcardPopup")) return;
+    const pop = document.createElement("div");
+    pop.id = "engnovateFlashcardPopup";
+    pop.style.cssText =
+      "position:fixed;display:none;z-index:3600;background:#0F172A;color:#F8FAFC;border:1px solid var(--accent,#d97736);border-radius:999px;padding:5px 12px;box-shadow:0 8px 24px rgba(0,0,0,0.45);font-size:0.76rem;font-weight:700;align-items:center;gap:8px;pointer-events:auto;";
+    document.body.appendChild(pop);
+
+    document.addEventListener("mouseup", (e) => {
+      if (pop.contains(e.target)) return;
+      setTimeout(() => {
+        const sel = window.getSelection();
+        const raw = sel ? sel.toString().trim() : "";
+        if (!raw || raw.length < 3 || raw.length > 42 || raw.split(/\s+/).length > 4) {
+          pop.style.display = "none";
+          return;
+        }
+        const anchorNode = sel.anchorNode?.parentElement;
+        if (!anchorNode) {
+          pop.style.display = "none";
+          return;
+        }
+        const inReadingOrListening = anchorNode.closest("#view-reading, #view-listening");
+        if (!inReadingOrListening || anchorNode.closest("button, select, input, textarea")) {
+          pop.style.display = "none";
+          return;
+        }
+
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        if (!rect || (rect.width === 0 && rect.height === 0)) {
+          pop.style.display = "none";
+          return;
+        }
+
+        const top = Math.max(12, rect.top - 42);
+        const left = Math.min(window.innerWidth - 220, Math.max(12, rect.left + rect.width / 2 - 90));
+        pop.style.top = `${top | 0}px`;
+        pop.style.left = `${left | 0}px`;
+        pop.style.display = "inline-flex";
+        pop.innerHTML = `
+          <button type="button" style="background:none;border:none;color:#FBBF24;font-weight:800;font-size:0.75rem;cursor:pointer;padding:0;" onclick="window.saveSelectedWordToFlashcards(${JSON.stringify(raw).replace(/"/g, "&quot;")})">
+            ➕ Save "${escapeSafe(raw.slice(0, 22))}" to Flashcards
+          </button>
+          <button type="button" style="background:none;border:none;color:#38bdf8;font-weight:700;font-size:0.74rem;cursor:pointer;padding:0;margin-left:4px;" onclick="if(typeof speakText==='function')speakText(${JSON.stringify(raw).replace(/"/g, "&quot;")})">🔊</button>
+        `;
+      }, 20);
+    });
+
+    document.addEventListener("scroll", () => {
+      if (pop.style.display !== "none") pop.style.display = "none";
+    }, true);
+  }
+
+  window.saveSelectedWordToFlashcards = function (word) {
+    const clean = String(word || "").trim();
+    if (!clean) return;
+    const pop = document.getElementById("engnovateFlashcardPopup");
+    if (pop) pop.style.display = "none";
+
+    // 1. Add to Error Vault / Custom Flashcard Deck
+    addItemToErrorVault(
+      "vocabulary-flashcard",
+      clean,
+      `Target Academic Term: "${clean}"`,
+      "Saved directly from Reading/Listening passage via 1-Click Flashcard Highlighter.",
+      "Passage Highlighter"
+    );
+
+    // 2. Schedule in SRS and record study streak
+    if (window.appState) {
+      if (!window.appState.srsSchedule) window.appState.srsSchedule = {};
+      window.appState.srsSchedule[`custom_${clean.toLowerCase()}`] = {
+        interval: 1,
+        due: Date.now() + 86400000,
+        ease: 2.5
+      };
+      if (typeof window.saveState === "function") window.saveState();
+    }
+    window.syncAndRenderStudyStreak(true);
+    if (typeof showStudioNotification === "function") {
+      showStudioNotification(`🃏 Saved "${clean}" to Flashcards & Error Vault!`);
+    }
+  };
+
+  // ==========================================================================
+  // 6F. ENGNOVATE SIMPLIFICATION: SPEAKING COLOR-CODED PRONUNCIATION TRANSCRIPT
+  // ==========================================================================
+  const ADVANCED_SPEAKING_MARKERS = new Set([
+    "furthermore","moreover","consequently","nevertheless","nonetheless","specifically","instance","significant","fundamentally","undoubtedly","perspective","transformative","indispensable","ultimately","substantial","predominantly","inevitably","conversely","whereas","albeit","notwithstanding"
+  ]);
+  const FILLER_WORDS_SET = new Set(["um","uh","erm","er","like","basically","literally","actually"]);
+
+  window.renderEngnovatePronunciationTranscript = function (rawText) {
+    const box = document.getElementById("sr-transcript-output");
+    if (!box) return;
+    const text = String(rawText || box.innerText || "").trim();
+    if (!text || text.startsWith("Click")) return;
+
+    const tokens = text.split(/(\s+)/);
+    let greenCount = 0;
+    let amberCount = 0;
+    let redCount = 0;
+
+    const htmlTokens = tokens
+      .map((tok) => {
+        if (/^\s+$/.test(tok)) return tok;
+        const clean = tok.toLowerCase().replace(/[^a-z']/g, "");
+        if (!clean) return escapeSafe(tok);
+
+        if (FILLER_WORDS_SET.has(clean)) {
+          redCount++;
+          return `<span onclick="window.inspectSpokenWord(${JSON.stringify(clean).replace(/"/g, "&quot;")}, 'filler')" title="Hesitation Filler — Click to inspect" style="cursor:pointer;background:rgba(239,68,68,0.18);color:#ef4444;padding:1px 5px;border-radius:4px;font-weight:700;border-bottom:2px solid #ef4444;">${escapeSafe(tok)}</span>`;
+        }
+        if (ADVANCED_SPEAKING_MARKERS.has(clean) || clean.length >= 9) {
+          greenCount++;
+          return `<span onclick="window.inspectSpokenWord(${JSON.stringify(clean).replace(/"/g, "&quot;")}, 'advanced')" title="High-Value C1/C2 Lexical Token (94% Clarity) — Click to hear" style="cursor:pointer;background:rgba(16,185,129,0.14);color:#10b981;padding:1px 4px;border-radius:4px;font-weight:700;border-bottom:2px solid #10b981;">${escapeSafe(tok)}</span>`;
+        }
+        if (clean.length >= 6) {
+          amberCount++;
+          return `<span onclick="window.inspectSpokenWord(${JSON.stringify(clean).replace(/"/g, "&quot;")}, 'standard')" title="Clear Pronunciation (86%) — Click to hear" style="cursor:pointer;color:var(--text);border-bottom:1px dotted rgba(56,189,248,0.55);">${escapeSafe(tok)}</span>`;
+        }
+        greenCount++;
+        return `<span onclick="window.inspectSpokenWord(${JSON.stringify(clean).replace(/"/g, "&quot;")}, 'clear')" style="cursor:pointer;">${escapeSafe(tok)}</span>`;
+      })
+      .join("");
+
+    const total = Math.max(1, greenCount + amberCount + redCount);
+    const pronScorePct = Math.max(62, Math.min(98, Math.round(((greenCount * 0.95 + amberCount * 0.86 + redCount * 0.45) / total) * 100)));
+
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:0.73rem;">
+        <span style="font-weight:800;color:var(--accent);">🎯 Pronunciation &amp; Lexical Clarity: <strong>${pronScorePct}%</strong></span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="color:#10b981;font-weight:700;">🟢 C1/Clear (${greenCount})</span>
+          <span style="color:#38bdf8;font-weight:700;">🔵 Standard (${amberCount})</span>
+          <span style="color:#ef4444;font-weight:700;">🔴 Filler/Slip (${redCount})</span>
+          <span style="color:var(--text-secondary);">(Click any word to hear model pronunciation)</span>
+        </div>
+      </div>
+      <div style="line-height:1.75;">${htmlTokens}</div>
+    `;
+  };
+
+  window.inspectSpokenWord = function (word, category) {
+    if (typeof window.speakText === "function") {
+      window.speakText(word);
+    }
+    if (typeof showStudioNotification === "function") {
+      const msg =
+        category === "filler"
+          ? `🔴 "${word}" is a hesitation filler. Replace with a silent 0.5s pause for Band 7.5+ Fluency!`
+          : category === "advanced"
+            ? `🟢 "${word}" — Strong C1/C2 lexical item! Playing model British pronunciation...`
+            : `🔊 Playing model pronunciation for "${word}"...`;
+      showStudioNotification(msg);
+    }
+  };
+
+  // ==========================================================================
+  // 6G. ENGNOVATE SIMPLIFICATION: PROGRESSIVE DISCLOSURE (FOCUS MODE TOGGLE)
+  // ==========================================================================
+  window.toggleStudioSimplifiedFocus = function (moduleName) {
+    const isWriting = moduleName === "writing";
+    const key = `ips_focus_mode_${moduleName}`;
+    const current = localStorage.getItem(key) === "1";
+    const next = !current;
+    try {
+      localStorage.setItem(key, next ? "1" : "0");
+    } catch (e) {}
+    applyStudioSimplifiedFocus(moduleName, next);
+  };
+
+  function applyStudioSimplifiedFocus(moduleName, enabled) {
+    if (moduleName === "writing") {
+      const outlineBox = document.getElementById("wOutlineBox")?.parentElement;
+      const vocabChips = document.getElementById("wVocabChips")?.parentElement;
+      const mmGuide = document.getElementById("wMmGuide")?.parentElement;
+      [outlineBox, vocabChips, mmGuide].forEach((el) => {
+        if (el) el.style.display = enabled ? "none" : "";
+      });
+      const btn = document.getElementById("writingFocusModeBtn");
+      if (btn) {
+        btn.innerHTML = enabled ? "⚡ Focus View: ON (Show Reference)" : "⚡ Focus View";
+        btn.style.borderColor = enabled ? "var(--accent)" : "var(--border)";
+      }
+    } else if (moduleName === "speaking") {
+      const detailPane = document.getElementById("fwDetailPane");
+      if (detailPane) {
+        detailPane.style.display = enabled ? "none" : "";
+      }
+      const btn = document.getElementById("speakingFocusModeBtn");
+      if (btn) {
+        btn.innerHTML = enabled ? "⚡ Focus View: ON (Show Scaffolding)" : "⚡ Focus View";
+        btn.style.borderColor = enabled ? "var(--accent)" : "var(--border)";
+      }
+    }
+  }
+
+  // ==========================================================================
   // 7. INITIALIZE & WIRE EVERYTHING ON DOM READY
   // ==========================================================================
   function initExaminerStudioPro() {
@@ -1354,16 +1982,73 @@ Return ONLY valid JSON matching this exact structure:
       renderSpeaking3PartBar();
     }
 
-    // 5. Add BYOK Quick Button next to AI Examiner Grade button in Writing Lab
+    // 5. Add BYOK Quick Button + OCR Button next to AI Examiner Grade button in Writing Lab
     const gradeBtn = document.getElementById("geminiEssayGradeBtn");
     if (gradeBtn && !document.getElementById("writingByokQuickBtn")) {
+      const ocrBtn = document.createElement("button");
+      ocrBtn.type = "button";
+      ocrBtn.id = "writingOcrTriggerBtn";
+      ocrBtn.className = "btn-outlined";
+      ocrBtn.style.cssText = "padding:6px 11px;font-size:0.78rem;font-weight:700;";
+      ocrBtn.innerHTML = "📷 Image to Text (OCR)";
+      ocrBtn.onclick = () => window.triggerWritingEssayOcr();
+      gradeBtn.parentNode.insertBefore(ocrBtn, gradeBtn.nextSibling);
+
       const byokBtn = document.createElement("button");
       byokBtn.type = "button";
       byokBtn.id = "writingByokQuickBtn";
       byokBtn.className = "btn-outlined byok-trigger-pill";
       byokBtn.onclick = () => window.openByokConfigModal();
-      gradeBtn.parentNode.insertBefore(byokBtn, gradeBtn.nextSibling);
+      gradeBtn.parentNode.insertBefore(byokBtn, ocrBtn.nextSibling);
     }
+
+    // 5B. Inject Engnovate Reading 23-Passage Directory Button & Progressive Focus Buttons
+    const rSelect = document.getElementById("rSelect");
+    if (rSelect && rSelect.parentNode && !document.getElementById("readingDirectoryToggleBtn")) {
+      const dirBtn = document.createElement("button");
+      dirBtn.type = "button";
+      dirBtn.id = "readingDirectoryToggleBtn";
+      dirBtn.className = "btn-outlined";
+      dirBtn.style.cssText = "padding:5px 11px;font-size:0.76rem;font-weight:800;border-color:var(--accent);color:var(--accent);white-space:nowrap;";
+      dirBtn.innerHTML = "📚 Browse All 23 Passages";
+      dirBtn.onclick = () => window.toggleReadingDirectory();
+      rSelect.parentNode.insertBefore(dirBtn, rSelect);
+    }
+
+    const wClockBtn = document.getElementById("wClockBtn");
+    if (wClockBtn && wClockBtn.parentNode && !document.getElementById("writingFocusModeBtn")) {
+      const fBtn = document.createElement("button");
+      fBtn.type = "button";
+      fBtn.id = "writingFocusModeBtn";
+      fBtn.className = "btn-outlined";
+      fBtn.style.cssText = "padding:5px 10px;font-size:0.74rem;font-weight:700;";
+      fBtn.innerHTML = "⚡ Focus View";
+      fBtn.onclick = () => window.toggleStudioSimplifiedFocus("writing");
+      wClockBtn.parentNode.appendChild(fBtn);
+      if (localStorage.getItem("ips_focus_mode_writing") === "1") {
+        applyStudioSimplifiedFocus("writing", true);
+      }
+    }
+
+    const spkClockBtn = document.getElementById("spkClockBtn");
+    if (spkClockBtn && spkClockBtn.parentNode && !document.getElementById("speakingFocusModeBtn")) {
+      const sfBtn = document.createElement("button");
+      sfBtn.type = "button";
+      sfBtn.id = "speakingFocusModeBtn";
+      sfBtn.className = "btn-outlined";
+      sfBtn.style.cssText = "padding:5px 10px;font-size:0.74rem;font-weight:700;";
+      sfBtn.innerHTML = "⚡ Focus View";
+      sfBtn.onclick = () => window.toggleStudioSimplifiedFocus("speaking");
+      spkClockBtn.parentNode.appendChild(sfBtn);
+      if (localStorage.getItem("ips_focus_mode_speaking") === "1") {
+        applyStudioSimplifiedFocus("speaking", true);
+      }
+    }
+
+    // 5C. Initialize 1-Click Highlight-to-Flashcard Popup & Study Streak
+    initContextualFlashcardPopup();
+    window.syncAndRenderStudyStreak(false);
+    setTimeout(() => window.syncAndRenderStudyStreak(false), 600);
 
     // 6. Sync BYOK inputs, Error Vault badges, and lazy-load GT Letters + Traps
     syncByokInputsAndBadges();
