@@ -11,10 +11,11 @@
 <script src="js/storage-sync.js"></script>
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
-<script src="js/speaking-audio-manifest.js?v=9.8"></script>
-<script src="js/listening-hub.js?v=9.8"></script>
-<script src="js/examiner-studio-pro.js?v=9.8"></script>
-<script src="js/duo-motion.js?v=9.8"></script>
+<script src="js/speaking-audio-manifest.js?v=9.9"></script>
+<script src="js/lexicon-audio-manifest.js?v=9.9"></script>
+<script src="js/listening-hub.js?v=9.9"></script>
+<script src="js/examiner-studio-pro.js?v=9.9"></script>
+<script src="js/duo-motion.js?v=9.9"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -11301,9 +11302,9 @@ async function speakText(text) {
   const nk = normSpeakingKey(text);
   if (!nk) return;
   const fid = fnv1aSpeakingHash(nk);
-  const map = window.SPEAKING_AUDIO_MAP || {};
+  const map = Object.assign({}, window.LEXICON_AUDIO_MAP || {}, window.SPEAKING_AUDIO_MAP || {});
 
-  // 1. Direct match in pre-generated Expressive Gemini Studio Audio Map
+  // 1. Direct match in pre-generated Expressive Studio Audio Map
   if (map[fid]) {
     playStudioAudioQueue([map[fid]], text);
     return;
@@ -12328,7 +12329,7 @@ function renderActiveFlashcard() {
   document.getElementById("fc-band-meta").textContent = item.band;
   document.getElementById("fc-title").textContent = item.word;
   document.getElementById("fc-phonetic").textContent = `${item.ipa} — Replaces Band 5: "${item.basic}"`;
-  document.getElementById("fc-syn-list").innerHTML = `SYNONYMS // ${item.synonyms.map(s => `<span class="occ-syn-tag">${s}</span>`).join(" · ")}`;
+  document.getElementById("fc-syn-list").innerHTML = `SYNONYMS // ${(item.synonyms || []).map(s => `<span class="occ-syn-tag" onclick="event.stopPropagation(); speakText('${s.replace(/'/g, "")}')" style="cursor:pointer;" title="Pronounce ${s}">${s}</span>`).join(" · ")}`;
   document.getElementById("fc-mm-def").textContent = item.mmMeaning;
   document.getElementById("fc-mm-usage").textContent = item.mmNote;
   document.getElementById("fc-quote-en").textContent = `"${item.exEn}"`;
