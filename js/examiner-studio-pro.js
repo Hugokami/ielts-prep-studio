@@ -302,7 +302,7 @@
     throw lastErr || new Error("BYOK Gemini call failed");
   }
 
-  window.callByokAiMentorChat = async function (messagesArray, systemInstruction) {
+  async function callDirectByokGeminiVision(imageBase64, mimeType, promptText, systemInstruction) {
     const apiKey = getByokApiKey();
     if (!apiKey) throw new Error("No BYOK key configured");
 
@@ -311,12 +311,78 @@
       (v, i, a) => a.indexOf(v) === i
     );
 
-    const contents = (messagesArray || [])
-      .filter((m) => m && m.role !== "system" && m.content)
-      .map((m) => ({
+    let lastErr = null;
+    for (const model of models) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const parts = [
+          { inline_data: { mime_type: mimeType || "image/jpeg", data: imageBase64 } }
+        ];
+        if (promptText) parts.push({ text: promptText });
+        const payload = {
+          contents: [{ role: "user", parts: parts }],
+          generationConfig: {
+            temperature: 0.2,
+            maxOutputTokens: 2800
+          }
+        };
+        if (systemInstruction) {
+          payload.system_instruction = { parts: [{ text: systemInstruction }] };
+        }
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const errTxt = await res.text();
+          lastErr = new Error(`BYOK ${model} HTTP ${res.status}: ${errTxt.slice(0, 180)}`);
+          continue;
+        }
+        const data = await res.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          return {
+            text: text.trim(),
+            modelUsed: `BYOK Vision (${model})`
+          };
+        }
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("BYOK Gemini Vision call failed");
+  }
+
+  window.callDirectByokGeminiVision = callDirectByokGeminiVision;
+
+  window.callByokAiMentorChat = async function (messagesArray, systemInstruction, imagePayload = null) {
+    const apiKey = getByokApiKey();
+    if (!apiKey) throw new Error("No BYOK key configured");
+
+    const preferred = getByokModel();
+    const models = [preferred, "gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"].filter(
+      (v, i, a) => a.indexOf(v) === i
+    );
+
+    const filtered = (messagesArray || []).filter((m) => m && m.role !== "system" && m.content);
+    const contents = filtered.map((m, idx) => {
+      const isLastUserMsg = idx === filtered.length - 1 && (m.role === "user" || !m.role);
+      const parts = [];
+      if (isLastUserMsg && imagePayload && imagePayload.data) {
+        parts.push({
+          inline_data: {
+            mime_type: imagePayload.mimeType || "image/jpeg",
+            data: imagePayload.data
+          }
+        });
+      }
+      parts.push({ text: String(m.content || "Analyze this IELTS image in detail.") });
+      return {
         role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: String(m.content) }]
-      }));
+        parts
+      };
+    });
 
     if (!contents.length) {
       throw new Error("Empty chat messages");
@@ -1679,6 +1745,90 @@ Return ONLY valid JSON matching this exact structure:
   }
 
   // ==========================================================================
+  // 6C-2. TASK 1 CHART & GRAPH VISION ANALYZER
+  // ==========================================================================
+  window.triggerWritingChartAnalysis = function () {
+    let fileInp = document.getElementById("writingChartFileInput");
+    if (!fileInp) {
+      fileInp = document.createElement("input");
+      fileInp.type = "file";
+      fileInp.id = "writingChartFileInput";
+      fileInp.accept = "image/*";
+      fileInp.style.display = "none";
+      fileInp.onchange = (e) => {
+        const f = e.target.files?.[0];
+        if (f) processWritingChartImageFile(f);
+        fileInp.value = "";
+      };
+      document.body.appendChild(fileInp);
+    }
+    fileInp.click();
+  };
+
+  async function processWritingChartImageFile(file) {
+    const chartBtn = document.getElementById("writingChartTriggerBtn");
+    const essayArea = document.getElementById("essayArea");
+    if (!essayArea) return;
+
+    const apiKey = getByokApiKey();
+    if (!apiKey) {
+      if (
+        confirm(
+          "📊 Task 1 Chart Analysis uses Google Gemini Vision.\n\nPlease enter your 100% Free Google AI Studio API Key (BYOK) to analyze charts and generate Band 9 reports for free!\n\nClick OK to paste your Free API Key."
+        )
+      ) {
+        window.openByokConfigModal();
+      }
+      return;
+    }
+
+    if (chartBtn) {
+      chartBtn.disabled = true;
+      chartBtn.innerHTML = "⏳ Analyzing Chart...";
+    }
+
+    try {
+      const base64Data = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const res = String(reader.result || "");
+          const commaIdx = res.indexOf(",");
+          resolve(commaIdx !== -1 ? res.slice(commaIdx + 1) : res);
+        };
+        reader.onerror = () => reject(new Error("Could not read image file"));
+        reader.readAsDataURL(file);
+      });
+
+      const mimeType = file.type || "image/jpeg";
+      const systemPrompt = `You are a Senior Cambridge IELTS Writing Task 1 Examiner.
+Analyze the provided IELTS Task 1 chart, graph, table, map, or process diagram.
+Structure your report clearly with:
+1. ### 📊 Chart Breakdown & Key Trends (Overview of main features, highest/lowest points, significant changes)
+2. ### 📝 Complete Band 9 Model Report (Approx 170-190 words: Introduction, Overview, Detailed Body Paragraph 1, Detailed Body Paragraph 2)
+3. ### ⚡ Band 9 Academic Lexicon & Collocations (Used to describe data and comparisons)`;
+
+      const promptText = "Analyze this IELTS Writing Task 1 visual and provide the full Band 9 breakdown and report.";
+      const res = await callDirectByokGeminiVision(base64Data, mimeType, promptText, systemPrompt);
+
+      if (res && res.text) {
+        essayArea.value = (essayArea.value.trim() ? essayArea.value.trim() + "\n\n" : "") + res.text;
+        essayArea.dispatchEvent(new Event("input", { bubbles: true }));
+        if (typeof showStudioNotification === "function") {
+          showStudioNotification("📊 Band 9 Chart Report generated in editor!");
+        }
+      }
+    } catch (err) {
+      console.error("Chart analysis error:", err);
+      alert("Could not analyze chart: " + err.message);
+    } finally {
+      if (chartBtn) {
+        chartBtn.disabled = false;
+        chartBtn.innerHTML = "📊 Analyze Chart (Task 1)";
+      }
+    }
+  }
+
+  // ==========================================================================
   // 6D. ENGNOVATE SIMPLIFICATION: READING 23-PASSAGE CARD DIRECTORY
   // ==========================================================================
   window.toggleReadingDirectory = function () {
@@ -2012,12 +2162,21 @@ Return ONLY valid JSON matching this exact structure:
       ocrBtn.onclick = () => window.triggerWritingEssayOcr();
       gradeBtn.parentNode.insertBefore(ocrBtn, gradeBtn.nextSibling);
 
+      const chartBtn = document.createElement("button");
+      chartBtn.type = "button";
+      chartBtn.id = "writingChartTriggerBtn";
+      chartBtn.className = "btn-outlined";
+      chartBtn.style.cssText = "padding:6px 11px;font-size:0.78rem;font-weight:700;";
+      chartBtn.innerHTML = "📊 Analyze Chart (Task 1)";
+      chartBtn.onclick = () => window.triggerWritingChartAnalysis();
+      gradeBtn.parentNode.insertBefore(chartBtn, ocrBtn.nextSibling);
+
       const byokBtn = document.createElement("button");
       byokBtn.type = "button";
       byokBtn.id = "writingByokQuickBtn";
       byokBtn.className = "btn-outlined byok-trigger-pill";
       byokBtn.onclick = () => window.openByokConfigModal();
-      gradeBtn.parentNode.insertBefore(byokBtn, ocrBtn.nextSibling);
+      gradeBtn.parentNode.insertBefore(byokBtn, chartBtn.nextSibling);
     }
 
     // 5B. Inject Engnovate Reading 23-Passage Directory Button & Progressive Focus Buttons

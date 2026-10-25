@@ -1481,9 +1481,8 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       }
     }
 
-    // Student Photo Submission (Payment Receipt Slip)
+    // Student Photo Submission (Payment Receipt Slip OR Gemini Vision Analysis)
     if (msg.photo && msg.photo.length > 0) {
-      // Security & Mistake Prevention: Only forward slip and alert admin if user clicked Buy VIP
       let isAwaitingSlip = false;
       try {
         const userRec = await env.DB.prepare("SELECT pending_tool FROM users WHERE telegram_id = ?").bind(userId).first();
@@ -1496,64 +1495,127 @@ Choose a module below to inspect full syllabus details, practice questions, and 
         console.error("[Check VIP Slip State Error]", err);
       }
 
-      if (!isAwaitingSlip) {
-        // User sent a photo without clicking Buy VIP
-        await sendTelegramMessage(botToken, chatId,
-`📸 *ဓာတ်ပုံ လက်ခံရရှိပါသည်!*
-━━━━━━━━━━━━━━━━━━━━
-သင်သည် **Lifetime VIP Pass (55,000 MMK)** ဝယ်ယူရန် ငွေလွှဲစလစ် (Screenshot) ပေးပို့လိုခြင်း ဖြစ်ပါက အောက်ပါ **"👑 Buy Lifetime VIP"** ခလုတ်ကို အရင်နှိပ်ပြီးမှ စလစ်ပေးပို့ပေးပါ ခင်ဗျာ။
-
-_(To avoid mistakes, approval requests are only sent to Admin after clicking the Buy VIP button below.)_`,
-          {
-            inline_keyboard: [
-              [{ text: "👑 Buy Lifetime VIP (55,000 MMK)", callback_data: "info_payment" }],
-              [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
-            ]
-          }
-        );
-        return jsonResponse({ ok: true });
-      }
-
       const highestPhoto = msg.photo[msg.photo.length - 1];
       const fileId = highestPhoto.file_id;
-      const caption = msg.caption || "";
+      const caption = (msg.caption || "").trim();
 
-      const insertResult = await env.DB.prepare(`
-        INSERT INTO payments (telegram_id, username, file_id, caption_note, amount_mmk, status, created_at)
-        VALUES (?, ?, ?, ?, 55000, 'pending', unixepoch())
-      `).bind(msg.from.id, msg.from.username || "", fileId, caption).run();
+      if (isAwaitingSlip) {
+        const insertResult = await env.DB.prepare(`
+          INSERT INTO payments (telegram_id, username, file_id, caption_note, amount_mmk, status, created_at)
+          VALUES (?, ?, ?, ?, 55000, 'pending', unixepoch())
+        `).bind(msg.from.id, msg.from.username || "", fileId, caption).run();
 
-      const paymentId = insertResult.meta ? insertResult.meta.last_row_id : "pending";
+        const paymentId = insertResult.meta ? insertResult.meta.last_row_id : "pending";
 
-      // Acknowledge receipt to student & request TxRef / Phone
-      await sendTelegramMessage(botToken, chatId,
+        // Acknowledge receipt to student & request TxRef / Phone
+        await sendTelegramMessage(botToken, chatId,
 `✅ *ငွေလွှဲစလစ် လက်ခံရရှိပါသည်!*
 Screenshot received! Admin မှ 55,000 MMK စလစ်ကို စစ်ဆေးအတည်ပြုနေပါသည်။
 
 📝 *အမြန်ဆုံး အတည်ပြုနိုင်ရန်:*
 သင်၏ KBZPay / WavePay **Transaction ID နောက်ဆုံး ၄ လုံး** (သို့မဟုတ်) **ငွေလွှဲခဲ့သည့် ဖုန်းနံပါတ်** ကို ဤနေရာတွင် စာတိုအဖြစ် ပေးပို့ပေးပါ ခင်ဗျာ။`,
-        getMainMenuKeyboard(env)
-      );
+          getMainMenuKeyboard(env)
+        );
 
-      // Forward slip photo to Admin for 1-Tap Approval
-      if (adminId) {
-        const adminCaption = 
+        // Forward slip photo to Admin for 1-Tap Approval
+        if (adminId) {
+          const adminCaption = 
 `💳 *NEW PAYMENT SUBMISSION (55,000 MMK)*
 • Student: @${msg.from.username || "NoUsername"} (\`${msg.from.id}\`)
 • Name: ${msg.from.first_name || ""} ${msg.from.last_name || ""}
 • Payment ID: #${paymentId}
 • Notes: ${caption || "None"}`;
 
-        await sendTelegramPhoto(botToken, adminId, fileId, adminCaption, {
-          inline_keyboard: [
-            [
-              { text: "✅ Approve VIP (55,000 MMK)", callback_data: `approve:${msg.from.id}:${paymentId}` },
-              { text: "❌ Reject", callback_data: `reject:${msg.from.id}:${paymentId}` }
+          await sendTelegramPhoto(botToken, adminId, fileId, adminCaption, {
+            inline_keyboard: [
+              [
+                { text: "✅ Approve VIP (55,000 MMK)", callback_data: `approve:${msg.from.id}:${paymentId}` },
+                { text: "❌ Reject", callback_data: `reject:${msg.from.id}:${paymentId}` }
+              ]
             ]
-          ]
-        });
+          });
+        }
+
+        return jsonResponse({ ok: true });
       }
 
+      // 📸 Gemini Vision Analysis Flow for IELTS Questions, Essays, Charts, and Notes
+      await sendTelegramChatAction(botToken, chatId, "typing");
+      const userByokKey = await getTelegramByokKey(env, userId);
+      const hasByok = userByokKey.length >= 20;
+
+      let imageBase64 = "";
+      let mimeType = "image/jpeg";
+      try {
+        const fileInfoRes = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
+        if (fileInfoRes.ok) {
+          const fileInfo = await fileInfoRes.json();
+          const filePath = fileInfo?.result?.file_path;
+          if (filePath) {
+            const dlRes = await fetch(`https://api.telegram.org/file/bot${botToken}/${filePath}`);
+            if (dlRes.ok) {
+              const arrayBuf = await dlRes.arrayBuffer();
+              imageBase64 = arrayBufferToBase64(arrayBuf);
+              if (filePath.endsWith(".png")) mimeType = "image/png";
+              else if (filePath.endsWith(".webp")) mimeType = "image/webp";
+            }
+          }
+        }
+      } catch (dlErr) {
+        console.error("[Telegram Image Download Error]", dlErr);
+      }
+
+      if (hasByok && imageBase64) {
+        const systemPrompt = `You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.
+You provide Band 8.5+ IELTS preparation advice, essay evaluations, speaking frameworks, and vocabulary.
+Analyze IELTS practice material, question papers, handwritten essays, charts/graphs (Task 1), or reading passages provided in images.
+Provide structured, concise, and highly actionable analysis with clear headings and bullet points.
+Support both English and Burmese (မြန်မာဘာသာ) when appropriate.`;
+
+        const promptText = caption || "Please analyze this IELTS study material / practice question / handwriting essay / Task 1 chart in detail. Provide a Band 8.5-9 evaluation, breakdown of key academic vocabulary, grammar corrections, or structured answering framework.";
+
+        const visionResult = await callDirectByokGeminiVisionTelegram(userByokKey, imageBase64, mimeType, systemPrompt, promptText);
+        if (visionResult && visionResult.text) {
+          await sendTelegramMessage(botToken, chatId,
+`📸 *CAMBRIDGE AI VISION ANALYSIS*
+━━━━━━━━━━━━━━━━━━━━
+${visionResult.text}
+
+_🔑 BYOK Vision (${visionResult.model}) • Cambridge AI Core_`,
+            {
+              inline_keyboard: [
+                [{ text: "🤖 Ask Follow-up Question", callback_data: "prompt_tool:ai" }],
+                [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+                [{ text: "👑 Submit as VIP Payment Slip instead", callback_data: `slip_submit:${fileId}` }]
+              ]
+            }
+          );
+          return jsonResponse({ ok: true });
+        }
+      }
+
+      // If BYOK not configured or vision call failed, guide student & provide 1-tap slip submission
+      await sendTelegramMessage(botToken, chatId,
+`📸 *IELTS PHOTO RECEIVED — GEMINI VISION READY*
+━━━━━━━━━━━━━━━━━━━━
+I can analyze your IELTS Task 1 graphs, handwritten essays, test questions, or vocabulary notes using **Google Gemini Vision**!
+
+🔑 *Connect your 100% Free Gemini API Key (BYOK) for Unlimited Vision Analysis:*
+1️⃣ Get your free key from Google AI Studio:
+👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)
+2️⃣ Paste your key (\`AQ...\` or \`AIza...\`) right here in the chat to activate!
+
+👑 *Did you mean to submit a 55,000 MMK VIP payment slip?*
+Tap the button below to submit this screenshot to Admin for Lifetime VIP activation!`,
+        {
+          inline_keyboard: [
+            [{ text: "🔑 create your api key here(100% free) ↗", url: "https://aistudio.google.com/api-keys" }],
+            [{ text: "⚙️ How to Set Free BYOK Key", callback_data: "byok_setup" }],
+            [{ text: "👑 Submit as VIP Payment Slip (55,000 MMK)", callback_data: `slip_submit:${fileId}` }],
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          ]
+        }
+      );
       return jsonResponse({ ok: true });
     }
 
@@ -1646,6 +1708,48 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
       const userRow = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(cbUserId).first();
       isVip = userRow && userRow.is_vip === 1;
     } catch (e) {}
+
+    // Vision Photo 1-Tap Slip Submit Callback
+    if (data.startsWith("slip_submit:")) {
+      const fileId = data.replace("slip_submit:", "");
+      const cbUser = cb.from;
+      
+      const insertResult = await env.DB.prepare(`
+        INSERT INTO payments (telegram_id, username, file_id, caption_note, amount_mmk, status, created_at)
+        VALUES (?, ?, ?, ?, 55000, 'pending', unixepoch())
+      `).bind(cbUser.id, cbUser.username || "", fileId, "Submitted via Vision photo button").run();
+
+      const paymentId = insertResult.meta ? insertResult.meta.last_row_id : "pending";
+
+      await answerCallbackQuery(botToken, cb.id, "✅ Payment slip submitted to Admin!");
+      await sendTelegramMessage(botToken, cbChatId,
+`✅ *ငွေလွှဲစလစ် လက်ခံရရှိပါသည်!*
+Screenshot received! Admin မှ 55,000 MMK စလစ်ကို စစ်ဆေးအတည်ပြုနေပါသည်။
+
+📝 *အမြန်ဆုံး အတည်ပြုနိုင်ရန်:*
+သင်၏ KBZPay / WavePay **Transaction ID နောက်ဆုံး ၄ လုံး** (သို့မဟုတ်) **ငွေလွှဲခဲ့သည့် ဖုန်းနံပါတ်** ကို ဤနေရာတွင် စာတိုအဖြစ် ပေးပို့ပေးပါ ခင်ဗျာ။`,
+        getMainMenuKeyboard(env)
+      );
+
+      if (adminId) {
+        const adminCaption = 
+`💳 *NEW PAYMENT SUBMISSION (55,000 MMK)*
+• Student: @${cbUser.username || "NoUsername"} (\`${cbUser.id}\`)
+• Name: ${cbUser.first_name || ""} ${cbUser.last_name || ""}
+• Payment ID: #${paymentId}
+• Note: Submitted via photo button`;
+
+        await sendTelegramPhoto(botToken, adminId, fileId, adminCaption, {
+          inline_keyboard: [
+            [
+              { text: "✅ Approve VIP (55,000 MMK)", callback_data: `approve:${cbUser.id}:${paymentId}` },
+              { text: "❌ Reject", callback_data: `reject:${cbUser.id}:${paymentId}` }
+            ]
+          ]
+        });
+      }
+      return jsonResponse({ ok: true });
+    }
 
     // BYOK Setup & Clear Callbacks
     if (data === "byok_setup") {
@@ -2457,6 +2561,46 @@ async function callDirectByokGeminiTelegram(apiKey, systemPrompt, userPrompt) {
           system_instruction: { parts: [{ text: systemPrompt }] },
           contents: [{ role: "user", parts: [{ text: userPrompt }] }],
           generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (txt) return { text: txt.trim(), model };
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
+function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i += 8192) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+  }
+  return btoa(binary);
+}
+
+async function callDirectByokGeminiVisionTelegram(apiKey, imageBase64, mimeType, systemPrompt, userPrompt) {
+  const models = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"];
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const parts = [
+        { inline_data: { mime_type: mimeType || "image/jpeg", data: imageBase64 } }
+      ];
+      if (userPrompt) {
+        parts.push({ text: userPrompt });
+      }
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: "user", parts: parts }],
+          generationConfig: { temperature: 0.35, maxOutputTokens: 1400 }
         })
       });
       if (res.ok) {

@@ -490,14 +490,72 @@ bot.on('message:photo', async (ctx) => {
   // Security & Mistake Prevention: Only forward slip to Admin if user clicked Buy VIP
   const isAwaitingSlip = userPendingActions.get(user.id) === 'vip_slip';
   if (!isAwaitingSlip) {
+    // 📸 Gemini Vision Analysis Flow for IELTS Questions, Essays, Charts, and Notes
+    await ctx.replyWithChatAction('typing');
+    const userByokKey = userByokKeys.get(user.id) || '';
+    const hasByok = userByokKey.length >= 20;
+
+    let imageBase64 = '';
+    let mimeType = 'image/jpeg';
+    try {
+      const file = await ctx.api.getFile(photo.file_id);
+      if (file && file.file_path) {
+        const fileUrl = `https://api.telegram.org/file/bot${BOT_TOKEN}/${file.file_path}`;
+        const res = await fetch(fileUrl);
+        if (res.ok) {
+          const arrayBuffer = await res.arrayBuffer();
+          imageBase64 = Buffer.from(arrayBuffer).toString('base64');
+          if (file.file_path.endsWith('.png')) mimeType = 'image/png';
+          else if (file.file_path.endsWith('.webp')) mimeType = 'image/webp';
+        }
+      }
+    } catch (dlErr) {
+      console.error('[Bot Image Download Error]', dlErr);
+    }
+
+    if (hasByok && imageBase64) {
+      const systemPrompt = `You are the Cambridge AI Mentor & In-App Copilot for IELTS Prep Studio.
+You provide Band 8.5+ IELTS preparation advice, essay evaluations, speaking frameworks, and vocabulary.
+Analyze IELTS practice material, question papers, handwritten essays, charts/graphs (Task 1), or reading passages provided in images.
+Provide structured, concise, and highly actionable analysis with clear headings and bullet points.
+Support both English and Burmese (မြန်မာဘာသာ) when appropriate.`;
+
+      const caption = (ctx.message.caption || '').trim();
+      const promptText = caption || 'Please analyze this IELTS study material / practice question / handwriting essay / Task 1 chart in detail. Provide a Band 8.5-9 evaluation, breakdown of key academic vocabulary, grammar corrections, or structured answering framework.';
+
+      const visionResult = await callDirectByokGeminiVisionNode(userByokKey, imageBase64, mimeType, systemPrompt, promptText);
+      if (visionResult && visionResult.text) {
+        return ctx.reply(
+          `📸 *CAMBRIDGE AI VISION ANALYSIS*\n━━━━━━━━━━━━━━━━━━━━\n${visionResult.text}\n\n_🔑 BYOK Vision (${visionResult.model}) • Cambridge AI Core_`,
+          {
+            parse_mode: 'Markdown',
+            reply_markup: new InlineKeyboard()
+              .text('🤖 Ask Follow-up Question', 'prompt_tool:ai')
+              .row()
+              .webApp('🚀 Open Studio Web App', WEB_URL)
+              .row()
+              .text('👑 Submit as VIP Payment Slip instead', `slip_submit:${photo.file_id}`)
+          }
+        );
+      }
+    }
+
+    // If BYOK not configured or vision failed, guide student & provide 1-tap slip submission
     return ctx.reply(
-      `📸 **ဓာတ်ပုံ လက်ခံရရှိပါသည်!**\n━━━━━━━━━━━━━━━━━━━━\n` +
-      `သင်သည် **Lifetime VIP Pass (55,000 MMK)** ဝယ်ယူရန် ငွေလွှဲစလစ် (Screenshot) ပေးပို့လိုခြင်း ဖြစ်ပါက အောက်ပါ **"👑 Buy Lifetime VIP"** ခလုတ်ကို အရင်နှိပ်ပြီးမှ စလစ်ပေးပို့ပေးပါ ခင်ဗျာ။\n\n` +
-      `_(To avoid mistakes, approval requests are only sent to Admin after clicking the Buy VIP button below.)_`,
+      `📸 *IELTS PHOTO RECEIVED — GEMINI VISION READY*\n━━━━━━━━━━━━━━━━━━━━\n` +
+      `I can analyze your IELTS Task 1 graphs, handwritten essays, test questions, or vocabulary notes using **Google Gemini Vision**!\n\n` +
+      `🔑 *Connect your 100% Free Gemini API Key (BYOK) for Unlimited Vision Analysis:*\n` +
+      `1️⃣ Get your free key from Google AI Studio:\n` +
+      `👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)\n` +
+      `2️⃣ Paste your key (\`AQ...\` or \`AIza...\`) right here in the chat to activate!\n\n` +
+      `👑 *Did you mean to submit a 55,000 MMK VIP payment slip?*\n` +
+      `Tap the button below to submit this screenshot to Admin for Lifetime VIP activation!`,
       {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
-          .text('👑 Buy Lifetime VIP (55,000 MMK)', 'info_payment')
+          .url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys')
+          .row()
+          .text('👑 Submit as VIP Payment Slip (55,000 MMK)', `slip_submit:${photo.file_id}`)
           .row()
           .webApp('🚀 Open Studio Web App', WEB_URL)
       }
@@ -1093,6 +1151,35 @@ bot.on('callback_query:data', async (ctx) => {
 // ==========================================
 // 4. STUDENT TEXT INTAKE (PENDING TOOLS)
 // ==========================================
+async function callDirectByokGeminiVisionNode(apiKey, imageBase64, mimeType, systemPrompt, userPrompt) {
+  const models = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"];
+  for (const model of models) {
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{
+            role: 'user',
+            parts: [
+              { inline_data: { mime_type: mimeType || 'image/jpeg', data: imageBase64 } },
+              { text: userPrompt || 'Analyze this IELTS practice material / question / essay / chart in detail.' }
+            ]
+          }],
+          generationConfig: { temperature: 0.35, maxOutputTokens: 1400 }
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (txt) return { text: txt.trim(), model };
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
 const userByokKeys = new Map();
 
 function loadByokKeys() {

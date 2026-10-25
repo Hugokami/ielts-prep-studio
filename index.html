@@ -4044,6 +4044,86 @@
     flex-shrink: 0;
   }
 
+  .gemini-attach-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .gemini-attach-btn:hover {
+    background: var(--bg-elevated);
+    color: var(--accent);
+  }
+
+  .gemini-attach-btn.has-image {
+    color: var(--accent);
+    background: rgba(217, 119, 6, 0.15);
+  }
+
+  .gemini-image-preview-bar {
+    max-width: 800px;
+    width: calc(100% - 24px);
+    margin: 0 auto 8px auto;
+    padding: 6px 12px;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+    box-sizing: border-box;
+  }
+
+  .gemini-image-preview-thumb-wrap {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .gemini-image-preview-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gemini-image-preview-remove-btn {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border: none;
+    font-size: 11px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .gemini-image-preview-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   .gemini-voice-btn {
     width: 38px;
     height: 38px;
@@ -9577,6 +9657,18 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     <!-- Floating Pill Input Container (Positioned Fixed Above Mobile Nav) -->
     <div class="gemini-input-floating-bar-wrapper">
+      <!-- Attached Image Preview Bar -->
+      <div id="aiChatImagePreviewBar" class="gemini-image-preview-bar" style="display:none;">
+        <div class="gemini-image-preview-thumb-wrap">
+          <img id="aiChatImagePreviewImg" src="" alt="Attached image preview" />
+          <button type="button" class="gemini-image-preview-remove-btn" onclick="clearAiChatAttachedImage()" title="Remove image">&times;</button>
+        </div>
+        <div class="gemini-image-preview-meta">
+          <span id="aiChatImagePreviewName" style="font-weight:700;font-size:0.76rem;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">image.jpg</span>
+          <span style="font-size:0.68rem;color:var(--accent);font-weight:700;">✨ Gemini Vision Analysis Ready</span>
+        </div>
+      </div>
+
       <div class="gemini-input-floating-bar" id="geminiInputFloatingBar">
         <!-- + Action Menu Button -->
         <button class="gemini-action-plus-btn" id="geminiPlusBtn" onclick="toggleGeminiActionMenu()" title="Quick Actions &amp; Prompts">
@@ -9585,11 +9677,20 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
         <!-- Input Area -->
         <div class="gemini-input-field-wrapper">
-          <textarea id="aiChatInput" class="gemini-chat-input" rows="1" placeholder="Ask Cambridge AI or type 'Generate image: ...'" oninput="autoExpandGeminiInput(this)" onkeydown="handleAiChatKeydown(event)"></textarea>
+          <textarea id="aiChatInput" class="gemini-chat-input" rows="1" placeholder="Ask Cambridge AI or attach an image / paste screenshot..." oninput="autoExpandGeminiInput(this)" onkeydown="handleAiChatKeydown(event)"></textarea>
         </div>
 
-        <!-- Right Action Buttons (Mic + Send) -->
+        <!-- Right Action Buttons (Attach Image + Mic + Send) -->
         <div class="gemini-input-actions">
+          <button class="gemini-attach-btn" id="geminiAttachBtn" onclick="triggerAiChatImageUpload()" title="Attach Image / Chart / Essay for Gemini Vision Analysis">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+              <circle cx="9" cy="9" r="2"/>
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+            </svg>
+          </button>
+          <input type="file" id="aiChatImageInput" accept="image/*" style="display:none;" onchange="handleAiChatImageSelected(this)">
+
           <button class="gemini-voice-btn" id="geminiVoiceBtn" onclick="toggleGeminiVoiceInput()" title="Voice Dictation">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
@@ -9608,6 +9709,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
       <!-- Quick Action Popover (Hidden by default, opened by + button) -->
       <div class="gemini-plus-menu" id="geminiPlusMenu" style="display:none;">
+        <button class="gemini-plus-item" onclick="triggerAiChatImageUpload()">📷 Upload Image / Chart / Essay</button>
         <button class="gemini-plus-item" onclick="insertPromptSnippet('Evaluate my essay according to IELTS Band Descriptors:\n\n[Paste essay here]')">📝 Evaluate Essay</button>
         <button class="gemini-plus-item" onclick="insertPromptSnippet('Simulate an IELTS Speaking Part 3 examiner on the topic: Technology and Education')">🎙️ Speaking Examiner Simulation</button>
         <button class="gemini-plus-item" onclick="insertPromptSnippet('Generate image: High-tech IELTS digital computer workstation with books and notes')">🎨 Generate Visual Aid</button>
@@ -17311,7 +17413,7 @@ function renderAiChatMarkdown(md) {
     .replace(/\n/g, '<br>');
 }
 
-function appendAiChatMessage(role, text) {
+function appendAiChatMessage(role, text, imageSrc = null) {
   const stream = document.getElementById('aiChatStream');
   if (!stream) return;
 
@@ -17333,10 +17435,17 @@ function appendAiChatMessage(role, text) {
   const bubble = document.createElement('div');
   bubble.className = 'ai-chat-bubble';
   if (role === 'user') {
+    let imgHtml = '';
+    if (imageSrc) {
+      imgHtml = `<div style="margin-bottom:8px;max-width:240px;border-radius:8px;overflow:hidden;border:1px solid var(--border);"><img src="${imageSrc}" style="width:100%;height:auto;display:block;" alt="Attached image"/></div>`;
+    }
     bubble.innerHTML = `
       <div style="display:flex; align-items:flex-start; gap:8px;">
         <span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:#10B981; color:#fff; font-size:0.68rem; font-weight:800; flex-shrink:0; margin-top:2px;">✓</span>
-        <div style="flex:1;">${String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')}</div>
+        <div style="flex:1;">
+          ${imgHtml}
+          ${text ? String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') : ''}
+        </div>
       </div>
     `;
   } else {
@@ -17573,19 +17682,106 @@ function toggleGeminiVoiceInput() {
   }
 }
 
+let currentAttachedAiChatImage = null;
+
+function triggerAiChatImageUpload() {
+  const fileInp = document.getElementById('aiChatImageInput');
+  if (fileInp) fileInp.click();
+}
+
+function clearAiChatAttachedImage() {
+  currentAttachedAiChatImage = null;
+  const bar = document.getElementById('aiChatImagePreviewBar');
+  if (bar) bar.style.display = 'none';
+  const img = document.getElementById('aiChatImagePreviewImg');
+  if (img) img.src = '';
+  const fileInp = document.getElementById('aiChatImageInput');
+  if (fileInp) fileInp.value = '';
+  const attachBtn = document.getElementById('geminiAttachBtn');
+  if (attachBtn) attachBtn.classList.remove('has-image');
+}
+
+function handleAiChatImageSelected(inputEl) {
+  const file = inputEl.files?.[0];
+  if (file) {
+    processAiChatImageFile(file);
+  }
+}
+
+function processAiChatImageFile(file) {
+  if (!file || !file.type.startsWith('image/')) {
+    alert('Please select an image file (PNG, JPG, WEBP, or GIF).');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = String(reader.result || '');
+    const commaIdx = dataUrl.indexOf(',');
+    const base64 = commaIdx !== -1 ? dataUrl.slice(commaIdx + 1) : dataUrl;
+    currentAttachedAiChatImage = {
+      file,
+      name: file.name || 'image.jpg',
+      mimeType: file.type || 'image/jpeg',
+      base64,
+      dataUrl
+    };
+    const bar = document.getElementById('aiChatImagePreviewBar');
+    const img = document.getElementById('aiChatImagePreviewImg');
+    const nameEl = document.getElementById('aiChatImagePreviewName');
+    const attachBtn = document.getElementById('geminiAttachBtn');
+    if (img) img.src = dataUrl;
+    if (nameEl) nameEl.textContent = file.name || 'image.jpg';
+    if (bar) bar.style.display = 'flex';
+    if (attachBtn) attachBtn.classList.add('has-image');
+    const input = document.getElementById('aiChatInput');
+    if (input && !input.value.trim()) {
+      input.placeholder = "Ask question about image or press Send to analyze...";
+      input.focus();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// Support pasting screenshots directly into aiChatInput
+document.addEventListener('DOMContentLoaded', () => {
+  const chatInputEl = document.getElementById('aiChatInput');
+  if (chatInputEl) {
+    chatInputEl.addEventListener('paste', (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.indexOf('image') !== -1) {
+          const file = items[i].getAsFile();
+          if (file) {
+            processAiChatImageFile(file);
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+    });
+  }
+});
+
 async function sendAiChatMessage() {
   const input = document.getElementById('aiChatInput');
   const sendBtn = document.getElementById('aiChatSendBtn');
   const status = document.getElementById('aiChatStatus');
 
   if (!input) return;
-  const promptText = input.value.trim();
-  if (!promptText) return;
+  const attachedImg = currentAttachedAiChatImage;
+  let promptText = input.value.trim();
+  if (!promptText && !attachedImg) return;
 
-  // Append user message
-  appendAiChatMessage('user', promptText);
+  if (!promptText && attachedImg) {
+    promptText = "Please analyze this IELTS study material / practice question / handwriting essay / Task 1 chart in detail. Provide a Band 8.5-9 evaluation, breakdown of key academic vocabulary, grammar corrections, or structured answering framework.";
+  }
+
+  // Append user message (with image thumbnail if attached)
+  appendAiChatMessage('user', input.value.trim() || 'Analyze attached IELTS image', attachedImg?.dataUrl || null);
   input.value = '';
   input.style.height = 'auto';
+  clearAiChatAttachedImage();
 
   const lowerPrompt = promptText.toLowerCase();
   const isImageRequest = 
@@ -17748,16 +17944,28 @@ async function sendAiChatMessage() {
 
   // PRIORITY 0: Free-Tier BYOK (Bring Your Own Gemini API Key) if configured
   if (typeof window.hasByokKey === 'function' && window.hasByokKey() && typeof window.callByokAiMentorChat === 'function') {
-    if (status) status.textContent = 'Status: Synthesizing with your personal BYOK Gemini Key...';
+    if (status) status.textContent = attachedImg ? 'Status: Analyzing image with Google Gemini Vision...' : 'Status: Synthesizing with your personal BYOK Gemini Key...';
     try {
-      const byokRes = await window.callByokAiMentorChat(aiChatMessages, AI_MENTOR_SYSTEM_PROMPT);
+      const imagePayload = attachedImg ? { mimeType: attachedImg.mimeType, data: attachedImg.base64 } : null;
+      const byokRes = await window.callByokAiMentorChat(aiChatMessages, AI_MENTOR_SYSTEM_PROMPT, imagePayload);
       if (byokRes && byokRes.text) {
         replyText = byokRes.text;
-        providerUsed = byokRes.modelUsed || '🔑 BYOK Gemini';
+        providerUsed = byokRes.modelUsed || (attachedImg ? '🔑 BYOK Gemini Vision' : '🔑 BYOK Gemini');
       }
     } catch (byokChatErr) {
       console.warn('[AI Mentor BYOK fallback notice]:', byokChatErr);
     }
+  }
+
+  // If user attached an image but has not set up BYOK key yet
+  if (attachedImg && !replyText) {
+    if (status) status.textContent = 'Status: Ready';
+    if (sendBtn) sendBtn.disabled = false;
+    const typingEl = document.getElementById('aiChatTyping');
+    if (typingEl) typingEl.remove();
+    appendAiChatMessage('assistant', '### 📸 Image Analysis Requires Free BYOK Key\nGoogle Gemini Vision powers image analysis for Task 1 charts, essays, and exam questions.\n\nTo unlock **Unlimited 100% Free Image Analysis**, connect your free Google AI Studio key:\n👉 [Create your free key here (100% free)](https://aistudio.google.com/api-keys)\n\nPaste your key right here in the chat to activate immediately!');
+    if (typeof window.openByokConfigModal === 'function') window.openByokConfigModal();
+    return;
   }
 
   // PRIMARY ATTEMPT: Cloudflare Workers AI with 25s timeout cap
