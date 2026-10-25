@@ -587,10 +587,10 @@
       .map((q) => {
         const pct = Math.min(100, Math.round(((q.current || 0) / q.target) * 100));
         return `
-          <div style="margin-bottom:12px;padding:10px 12px;border-radius:12px;background:var(--bg-elevated);border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-              <span style="font-size:0.8rem;font-weight:700;color:var(--text);">${escapeHtml(q.title)}</span>
-              <span class="occ-ver-pill" style="font-size:0.68rem;color:${q.done ? "#10B981" : "var(--accent-gold,#F59E0B)"};font-weight:800;">
+          <div style="margin-bottom:10px;padding:10px 12px;border-radius:12px;background:var(--bg-elevated);border:1px solid var(--border);width:100%;max-width:100%;min-width:0;box-sizing:border-box;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px;min-width:0;">
+              <span style="font-size:0.79rem;font-weight:700;color:var(--text);flex:1 1 160px;min-width:0;word-break:break-word;">${escapeHtml(q.title)}</span>
+              <span class="occ-ver-pill" style="font-size:0.68rem;color:${q.done ? "#10B981" : "var(--accent-gold,#F59E0B)"};font-weight:800;flex-shrink:0;">
                 ${q.done ? "✓ Done (+ " + q.xp + " XP)" : q.current + "/" + q.target}
               </span>
             </div>
@@ -606,16 +606,16 @@
       <div class="duo-dashboard-hub">
         <!-- 1. DUOLINGO STYLE CAMBRIDGE SKILL TREE PATH -->
         <div class="duo-path-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div>
-              <div style="font-size:0.74rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;">UNIT 1 • FOUNDATION PATH</div>
-              <h3 style="font-size:1.05rem;font-weight:900;color:var(--text);margin:2px 0 0 0;">Cambridge Academic Journey</h3>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;min-width:0;">
+            <div style="flex:1 1 180px;min-width:0;">
+              <div style="font-size:0.72rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;">UNIT 1 • FOUNDATION PATH</div>
+              <h3 style="font-size:1.02rem;font-weight:900;color:var(--text);margin:2px 0 0 0;word-break:break-word;">Cambridge Academic Journey</h3>
             </div>
-            <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.75rem;font-weight:700;" onclick="window.openDuoWordScrambleModal()">
+            <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openDuoWordScrambleModal()">
               🧩 Sentence Drill
             </button>
           </div>
-          <p style="font-size:0.8rem;color:var(--text-secondary);margin:0 0 14px 0;">
+          <p style="font-size:0.79rem;color:var(--text-secondary);margin:0 0 12px 0;line-height:1.45;word-break:break-word;">
             Follow the guided step-by-step path to master Reading, Listening, Lexicon, and Speaking drills with instant feedback.
           </p>
 
@@ -632,8 +632,8 @@
             </div>
             <div class="duo-path-node active-node" onclick="switchView('reading')" title="Step 3: Cambridge Reading CBT Simulation">
               <div class="duo-node-circle">📖</div>
-              <div class="duo-node-label">Reading CBT</div>
-              <div class="duo-node-crowns">⭐ Current</div>
+              <div class="duo-node-label">Reading</div>
+              <div class="duo-node-crowns">⭐ Now</div>
             </div>
             <div class="duo-path-node" onclick="switchView('speaking')" title="Step 4: Speaking 3-Part Mock Simulator">
               <div class="duo-node-circle">🎙️</div>
@@ -642,20 +642,20 @@
             </div>
             <div class="duo-path-node" onclick="switchView('writing')" title="Step 5: Task 2 Academic Essay Lab">
               <div class="duo-node-circle">✍️</div>
-              <div class="duo-node-label">Writing Lab</div>
-              <div class="duo-node-crowns">🔒 Locked</div>
+              <div class="duo-node-label">Writing</div>
+              <div class="duo-node-crowns">🔒 Lab</div>
             </div>
           </div>
         </div>
 
         <!-- 2. DAILY QUESTS & REWARD CHEST -->
         <div class="duo-quest-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:1.15rem;">🎯</span>
-              <strong style="font-size:0.95rem;color:var(--text);">Daily Cambridge Quests</strong>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-width:0;">
+            <div style="display:flex;align-items:center;gap:6px;min-width:0;">
+              <span style="font-size:1.1rem;flex-shrink:0;">🎯</span>
+              <strong style="font-size:0.92rem;color:var(--text);">Daily Cambridge Quests</strong>
             </div>
-            <span class="occ-ver-pill" style="font-size:0.68rem;color:var(--accent-gold,#F59E0B);font-weight:800;">RESETS IN 6H</span>
+            <span class="occ-ver-pill" style="font-size:0.66rem;color:var(--accent-gold,#F59E0B);font-weight:800;flex-shrink:0;">RESETS DAILY</span>
           </div>
           ${questsHtml}
         </div>
