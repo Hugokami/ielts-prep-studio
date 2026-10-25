@@ -6,6 +6,13 @@
 
 import 'dotenv/config';
 import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const BYOK_STORE_FILE = path.join(__dirname, 'byok_state.json');
 import { Bot, InlineKeyboard } from 'grammy';
 import { voucherPool } from './voucherPool.js';
 import {
@@ -1088,15 +1095,51 @@ bot.on('callback_query:data', async (ctx) => {
 // ==========================================
 const userByokKeys = new Map();
 
+function loadByokKeys() {
+  try {
+    if (fs.existsSync(BYOK_STORE_FILE)) {
+      const raw = fs.readFileSync(BYOK_STORE_FILE, 'utf-8');
+      const data = JSON.parse(raw);
+      for (const [k, v] of Object.entries(data)) {
+        if (k && v) userByokKeys.set(isNaN(Number(k)) ? k : Number(k), String(v));
+      }
+    }
+  } catch (e) {
+    console.warn('[BYOK] Error loading byok_state.json:', e.message);
+  }
+}
+
+function saveByokKey(userId, key) {
+  if (!userId) return;
+  const clean = (key || '').trim().replace(/^["']|["']$/g, '');
+  if (clean) {
+    userByokKeys.set(userId, clean);
+  } else {
+    userByokKeys.delete(userId);
+  }
+  try {
+    const obj = {};
+    for (const [k, v] of userByokKeys.entries()) {
+      obj[String(k)] = v;
+    }
+    fs.writeFileSync(BYOK_STORE_FILE, JSON.stringify(obj, null, 2), 'utf-8');
+  } catch (e) {
+    console.warn('[BYOK] Error saving byok_state.json:', e.message);
+  }
+}
+
+loadByokKeys();
+
 bot.command(['byok', 'apikey', 'key'], async (ctx) => {
   const userId = ctx.from?.id;
-  const arg = ctx.message.text.replace(/^\/(byok|apikey|key)(@\w+)?\s*/i, '').trim();
+  const rawArg = ctx.message.text.replace(/^\/(byok|apikey|key)(@\w+)?\s*/i, '').trim();
+  const arg = rawArg.replace(/^["']|["']$/g, '');
   if (arg.toLowerCase() === 'clear') {
-    userByokKeys.delete(userId);
+    saveByokKey(userId, '');
     return ctx.reply('🗑️ *Personal BYOK API Key Removed.* Reverted to standard daily free quota.', { parse_mode: 'Markdown' });
   }
-  if (/^AIza[0-9A-Za-z_-]{30,45}$/.test(arg)) {
-    userByokKeys.set(userId, arg);
+  if (/^(?:AIza[0-9A-Za-z_-]{30,50}|AQ\.[0-9A-Za-z_.-]{30,70})$/i.test(arg)) {
+    saveByokKey(userId, arg);
     return ctx.reply('🔑 *PERSONAL BYOK API KEY ACTIVATED!*\nYou now have *Unlimited Free-Tier AI Mentor* access powered by your personal Google Gemini API key!', { parse_mode: 'Markdown' });
   }
   const existing = userByokKeys.get(userId);
@@ -1105,7 +1148,7 @@ bot.command(['byok', 'apikey', 'key'], async (ctx) => {
     `Status: ${existing ? '✅ *ACTIVE (Unlimited Free AI)*' : '⚪ *Not Set*'}\n\n` +
     `1️⃣ Get your 100% free key from Google AI Studio:\n` +
     `👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)\n\n` +
-    `2️⃣ Paste your \`AIzaSy...\` key directly in this chat (or type \`/byok AIzaSy...\`).`,
+    `2️⃣ Paste your Google AI Studio key (\`AQ...\` or \`AIza...\`) directly in this chat (or type \`/byok <your-key>\`).`,
     {
       parse_mode: 'Markdown',
       reply_markup: new InlineKeyboard().url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys')
@@ -1117,9 +1160,10 @@ bot.on('message:text', async (ctx, next) => {
   const text = (ctx.message?.text || '').trim();
   const userId = ctx.from?.id;
 
-  const byokMatch = text.match(/^AIza[0-9A-Za-z_-]{30,45}$/);
+  const cleanKey = text.replace(/^["']|["']$/g, '');
+  const byokMatch = cleanKey.match(/^(?:AIza[0-9A-Za-z_-]{30,50}|AQ\.[0-9A-Za-z_.-]{30,70})$/i);
   if (byokMatch && userId) {
-    userByokKeys.set(userId, byokMatch[0]);
+    saveByokKey(userId, byokMatch[0]);
     return ctx.reply('🔑 *PERSONAL BYOK API KEY ACTIVATED!*\nYou now have *Unlimited Free-Tier AI Mentor* access powered by your personal Google Gemini API key!', { parse_mode: 'Markdown' });
   }
 
@@ -1407,25 +1451,29 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
   let modelUsed = 'Cambridge Neural Core';
 
   if (hasByok) {
-    try {
-      const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(userByokKey)}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt }] },
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
-        })
-      });
-      if (gRes.ok) {
-        const gData = await gRes.json();
-        const gTxt = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (gTxt) {
-          replyText = gTxt.trim();
-          modelUsed = '🔑 BYOK (Gemini 2.5 Flash)';
+    const models = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"];
+    for (const model of models) {
+      try {
+        const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(userByokKey)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.35, maxOutputTokens: 1200 }
+          })
+        });
+        if (gRes.ok) {
+          const gData = await gRes.json();
+          const gTxt = gData?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (gTxt) {
+            replyText = gTxt.trim();
+            modelUsed = `🔑 BYOK (${model})`;
+            break;
+          }
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
   }
 
   if (!replyText)

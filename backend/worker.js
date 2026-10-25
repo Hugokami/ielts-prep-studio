@@ -698,7 +698,7 @@ _Need assistance? Lead Instructor: @hyuguo_`;
     // Direct Telegram Stars Checkout Shortcut
     
     // 🔑 BYOK (Bring Your Own API Key) Commands & Direct Key Paste for Free Tier Unlimited AI Mentor
-    const rawByokMatch = text.match(/^(?:\/(?:byok|apikey|key)(?:@\w+)?\s+)?(AIza[0-9A-Za-z_-]{30,45})$/);
+    const rawByokMatch = text.match(/^(?:\/(?:byok|apikey|key)(?:@\w+)?\s+)?["']?((?:AIza[0-9A-Za-z_-]{30,50}|AQ\.[0-9A-Za-z_.-]{30,70}))["']?$/i);
     if (rawByokMatch) {
       const userApiKey = rawByokMatch[1].trim();
       await setTelegramByokKey(env, userId, userApiKey);
@@ -709,7 +709,7 @@ _Need assistance? Lead Instructor: @hyuguo_`;
 
 🚀 *What is now unlocked for you on the Free Tier:*
 • *Unlimited 24/7 AI Mentor Queries* in this Telegram bot (zero daily quota limit!)
-• Powered directly by *Google Gemini 2.5 Flash*
+• Powered directly by *Google Gemini Flash*
 
 💡 *Try asking right now:*
 • \`/ai Write a Band 9 Task 2 essay outline on renewable energy\`
@@ -2379,19 +2379,35 @@ async function sendTelegramChatAction(botToken, chatId, action = "typing") {
   } catch (e) {}
 }
 
+const memoryByokCache = new Map();
+
 async function getTelegramByokKey(env, userId) {
-  if (!env.BOT_STATE || !userId) return "";
+  if (!userId) return "";
+  const cacheKey = String(userId);
+  if (memoryByokCache.has(cacheKey)) return memoryByokCache.get(cacheKey);
+  const kv = env.VIP_KV || env.BOT_STATE;
+  if (!kv) return "";
   try {
-    return (await kv.get(`byok_key:${userId}`)) || "";
+    const key = (await kv.get(`byok_key:${userId}`)) || "";
+    if (key) memoryByokCache.set(cacheKey, key);
+    return key;
   } catch (e) {
     return "";
   }
 }
 
 async function setTelegramByokKey(env, userId, apiKey) {
-  if (!env.BOT_STATE || !userId) return;
+  if (!userId) return;
+  const cacheKey = String(userId);
+  const clean = (apiKey || "").trim().replace(/^["']|["']$/g, "");
+  if (clean) {
+    memoryByokCache.set(cacheKey, clean);
+  } else {
+    memoryByokCache.delete(cacheKey);
+  }
+  const kv = env.VIP_KV || env.BOT_STATE;
+  if (!kv) return;
   try {
-    const clean = (apiKey || "").trim();
     if (clean) {
       await kv.put(`byok_key:${userId}`, clean);
     } else {
@@ -2416,7 +2432,7 @@ Unlock *Unlimited 24/7 AI Mentor queries* on the Free Tier by connecting your ow
 1️⃣ Get your free key from Google AI Studio:
 👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)
 
-2️⃣ Copy your \`AIzaSy...\` key and *paste it directly into this chat* (or send \`/byok AIzaSy...\`).`;
+2️⃣ Copy your Google AI Studio key (starts with \`AQ...\` or \`AIza...\`) and *paste it directly into this chat* (or send \`/byok <your-key>\`).`;
 
   const kb = [
     [{ text: "🔑 create your api key here(100% free) ↗", url: "https://aistudio.google.com/api-keys" }]
@@ -2430,7 +2446,7 @@ Unlock *Unlimited 24/7 AI Mentor queries* on the Free Tier by connecting your ow
 }
 
 async function callDirectByokGeminiTelegram(apiKey, systemPrompt, userPrompt) {
-  const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+  const models = ["gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"];
   for (const model of models) {
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -2473,7 +2489,7 @@ You have reached your daily built-in free limit of 10 AI queries today.
 🔑 *Want Unlimited AI Mentor on the Free Tier (100% Free)?*
 Connect your own free Google Gemini API key (BYOK):
 👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)
-Then simply paste your \`AIzaSy...\` key right here in the chat!
+Then simply paste your Google AI Studio key (\`AQ...\` or \`AIza...\`) right here in the chat!
 
 👑 Or upgrade to *Lifetime VIP Pass (55,000 MMK)* for zero-setup unlimited access across all devices!`,
       {

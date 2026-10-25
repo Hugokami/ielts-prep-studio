@@ -33,9 +33,9 @@
 
   function getByokModel() {
     try {
-      return localStorage.getItem(BYOK_MODEL_STORAGE) || "gemini-2.5-flash";
+      return localStorage.getItem(BYOK_MODEL_STORAGE) || "gemini-3.5-flash";
     } catch (e) {
-      return "gemini-2.5-flash";
+      return "gemini-3.5-flash";
     }
   }
 
@@ -236,9 +236,10 @@
           <div style="margin-bottom:16px;">
             <label for="modalByokModelSelect" style="font-size:0.75rem;font-weight:700;color:var(--text-secondary);display:block;margin-bottom:4px;">PREFERRED GEMINI MODEL</label>
             <select id="modalByokModelSelect" class="occ-select" style="width:100%;font-size:0.82rem;">
-              <option value="gemini-2.5-flash">Gemini 2.5 Flash (Recommended · Fast & Accurate)</option>
-              <option value="gemini-2.0-flash">Gemini 2.0 Flash (High Quota Free Tier)</option>
-              <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Academic Reasoning)</option>
+              <option value="gemini-3.5-flash">Gemini 3.5 Flash (Recommended · Fast & Accurate)</option>
+              <option value="gemini-3-flash-preview">Gemini 3 Flash</option>
+              <option value="gemini-flash-lite-latest">Gemini Flash Lite (Fast & Lightweight)</option>
+              <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
             </select>
           </div>
           <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
@@ -258,7 +259,7 @@
     if (!apiKey) throw new Error("No BYOK key configured");
 
     const preferred = getByokModel();
-    const models = [preferred, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"].filter(
+    const models = [preferred, "gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"].filter(
       (v, i, a) => a.indexOf(v) === i
     );
 
@@ -306,7 +307,7 @@
     if (!apiKey) throw new Error("No BYOK key configured");
 
     const preferred = getByokModel();
-    const models = [preferred, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"].filter(
+    const models = [preferred, "gemini-3.5-flash", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.8-flash", "gemini-flash-latest"].filter(
       (v, i, a) => a.indexOf(v) === i
     );
 
@@ -1625,7 +1626,7 @@ Return ONLY valid JSON matching this exact structure:
       });
 
       const mimeType = file.type || "image/jpeg";
-      const model = getByokModel() || "gemini-2.5-flash";
+      const model = getByokModel() || "gemini-3.5-flash";
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
       const payload = {
         contents: [

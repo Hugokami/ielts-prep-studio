@@ -7150,7 +7150,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="drawer-item-sub" style="margin-bottom:8px;">
         Use your own Google Gemini API key for unlimited AI Writing, Speaking &amp; Mentor checks on the Free Tier (100% local in browser).
       </div>
-      <input type="password" id="drawerByokKeyInput" class="at-input-box" style="width:100%;font-family:monospace;font-size:0.8rem;padding:8px 10px;box-sizing:border-box;" placeholder="Paste AIzaSy... API key" autocomplete="off">
+      <input type="password" id="drawerByokKeyInput" class="at-input-box" style="width:100%;font-family:monospace;font-size:0.8rem;padding:8px 10px;box-sizing:border-box;" placeholder="Paste Gemini API key (AQ... or AIza...)" autocomplete="off">
       <div style="margin:5px 0 8px 0;">
         <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="font-size:0.78rem;font-weight:700;color:var(--accent);text-decoration:underline;display:inline-flex;align-items:center;gap:4px;">
           create your api key here(100% free) ↗
@@ -7158,9 +7158,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
       <div style="display:flex;gap:6px;align-items:center;margin-bottom:4px;">
         <select id="drawerByokModelSelect" class="occ-select" style="flex:1;font-size:0.75rem;padding:5px 8px;">
-          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-          <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-          <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+          <option value="gemini-3.5-flash">Gemini 3.5 Flash</option>
+          <option value="gemini-3-flash-preview">Gemini 3 Flash</option>
+          <option value="gemini-flash-lite-latest">Gemini Flash Lite</option>
+          <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
         </select>
         <button type="button" class="btn-accent-solid" style="padding:5px 11px;font-size:0.75rem;font-weight:700;" onclick="saveByokSettings('drawer')">Save</button>
         <button type="button" class="btn-outlined" style="padding:5px 8px;font-size:0.74rem;" onclick="clearByokSettings()">Clear</button>
@@ -8723,7 +8724,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1;">
                 <span style="font-size:0.78rem;font-weight:800;color:var(--text);">🔑 Free Tier BYOK Key:</span>
-                <input type="password" id="inlineWritingByokInput" class="at-input-box" style="flex:1;min-width:170px;font-family:monospace;font-size:0.78rem;padding:5px 9px;" placeholder="Paste personal Gemini API key (AIzaSy...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
+                <input type="password" id="inlineWritingByokInput" class="at-input-box" style="flex:1;min-width:170px;font-family:monospace;font-size:0.78rem;padding:5px 9px;" placeholder="Paste personal Gemini API key (AQ... or AIza...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
                 <button type="button" class="btn-accent-solid" style="padding:5px 12px;font-size:0.75rem;font-weight:700;" onclick="var d=document.getElementById('drawerByokKeyInput'),i=document.getElementById('inlineWritingByokInput');if(d&&i){d.value=i.value;saveByokSettings('drawer');}">Save Key</button>
               </div>
             </div>
@@ -9522,14 +9523,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
               <span class="occ-ver-pill" style="font-size:0.65rem;color:var(--accent);font-weight:700;">100% Free Tier Unlocked</span>
             </div>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-              <input type="password" id="aiMentorByokInput" class="at-input-box" style="flex:1;min-width:190px;font-family:monospace;font-size:0.8rem;padding:7px 10px;" placeholder="Paste personal Gemini API key (AIzaSy...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
+              <input type="password" id="aiMentorByokInput" class="at-input-box" style="flex:1;min-width:190px;font-family:monospace;font-size:0.8rem;padding:7px 10px;" placeholder="Paste personal Gemini API key (AQ... or AIza...)" oninput="var d=document.getElementById('drawerByokKeyInput');if(d)d.value=this.value;">
               <button type="button" class="btn-accent-solid" style="padding:7px 14px;font-size:0.78rem;font-weight:700;" onclick="var d=document.getElementById('drawerByokKeyInput'),m=document.getElementById('aiMentorByokInput');if(d&&m){d.value=m.value;saveByokSettings('drawer');}">Save Key</button>
             </div>
             <div style="margin-top:6px;font-size:0.78rem;">
               <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:700;text-decoration:underline;">
                 create your api key here(100% free) ↗
               </a>
-              <span style="color:var(--text-secondary);margin-left:6px;">— Or paste your <code>AIzaSy...</code> key directly into the chat!</span>
+              <span style="color:var(--text-secondary);margin-left:6px;">— Or paste your <code>AQ...</code> or <code>AIza...</code> key directly into the chat!</span>
             </div>
           </div>
 
@@ -17723,8 +17724,8 @@ async function sendAiChatMessage() {
     aiChatMessages = aiChatMessages.slice(-6);
   }
 
-  // Auto-detect if user pasted a BYOK Gemini API key directly in chat (/byok AIza... or AIza...)
-  const byokMatch = promptText.match(/^(?:\/byok\s+|\/apikey\s+)?(AIza[0-9A-Za-z_-]{30,45})$/i);
+  // Auto-detect if user pasted a BYOK Gemini API key directly in chat (/byok AQ... or AQ... or AIza...)
+  const byokMatch = (promptText || '').trim().replace(/^[\"\']|[\"\']$/g, '').match(/^(?:\/(?:byok|apikey|key)\s+)?((?:AIza[0-9A-Za-z_-]{30,50}|AQ\.[0-9A-Za-z_.-]{30,70}))$/i);
   if (byokMatch) {
     const extractedKey = byokMatch[1].trim();
     const dInput = document.getElementById('drawerByokKeyInput');
