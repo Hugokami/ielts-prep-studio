@@ -11,9 +11,10 @@
 <script src="js/storage-sync.js"></script>
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
-<script src="js/listening-hub.js?v=9.6"></script>
-<script src="js/examiner-studio-pro.js?v=9.6"></script>
-<script src="js/duo-motion.js?v=9.6"></script>
+<script src="js/speaking-audio-manifest.js?v=9.8"></script>
+<script src="js/listening-hub.js?v=9.8"></script>
+<script src="js/examiner-studio-pro.js?v=9.8"></script>
+<script src="js/duo-motion.js?v=9.8"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -6896,7 +6897,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   white-space: nowrap !important;
 }
 </style>
-  <link rel="stylesheet" href="css/duo-theme.css?v=9.6">
+  <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#F59E0B">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -10027,7 +10028,7 @@ const LEXICON_FREE_LIMIT = 250;
 const READING_FREE_LIMIT = 23;
 const WRITING_MODELS_FREE_LIMIT = 5;
 const SPEAKING_FRAMEWORKS_FREE_LIMIT = 5;
-const SPEAKING_TOPICS_FREE_LIMIT = 5;
+const SPEAKING_TOPICS_FREE_LIMIT = 50;
 const MISTAKE_LOG_FREE_LIMIT = 5;
 
 let appState = {
@@ -11211,16 +11212,147 @@ function switchView(viewId, scrollTargetEl = null) {
 }
 
 // ==========================================
-// 2. SPEECH SYNTHESIS (PRONUNCIATION)
+// 2. EXPRESSIVE AI STUDIO VOICE PLAYER (ZERO SYNTHETIC BROWSER TTS)
 // ==========================================
-function speakText(text) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-GB";
-  u.rate = 0.92;
-  window.speechSynthesis.speak(u);
+let _studioActiveAudio = null;
+let _studioAudioQueue = [];
+
+function normSpeakingKey(text) {
+  return String(text || "")
+    .replace(/\[[^\]]+\]/g, "")
+    .replace(/['’`"]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 }
+
+function fnv1aSpeakingHash(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h.toString(16).padStart(8, "0") + "_" + str.length;
+}
+
+function updateStudioVoiceHud(state, previewText) {
+  let hud = document.getElementById("studioExpressiveVoiceHud");
+  if (state === "idle") {
+    if (hud) hud.style.display = "none";
+    return;
+  }
+  if (!hud) {
+    hud = document.createElement("div");
+    hud.id = "studioExpressiveVoiceHud";
+    hud.style.cssText =
+      "position:fixed;bottom:76px;right:16px;z-index:4300;display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:#0F172A;color:#F8FAFC;border:2px solid #F59E0B;box-shadow:0 8px 26px rgba(0,0,0,0.45);font-size:0.76rem;font-weight:700;max-width:calc(100vw - 32px);box-sizing:border-box;";
+    document.body.appendChild(hud);
+  }
+  const raw = String(previewText || "").replace(/\s+/g, " ").trim();
+  const shortText = raw.length > 40 ? raw.slice(0, 40) + "…" : raw;
+  const safeText = shortText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  hud.style.display = "inline-flex";
+  hud.innerHTML =
+    '<span style="font-size:1rem;line-height:1;">🔊</span>' +
+    '<div style="display:flex;flex-direction:column;min-width:0;">' +
+      '<span style="color:#FBBF24;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;">✨ Expressive AI Studio Voice</span>' +
+      '<span style="color:#F8FAFC;font-size:0.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;">"' + safeText + '"</span>' +
+    '</div>' +
+    '<button type="button" onclick="window.stopStudioVoice()" style="background:rgba(239,68,68,0.2);border:1px solid #EF4444;color:#FCA5A5;border-radius:999px;padding:3px 9px;font-size:0.7rem;font-weight:800;cursor:pointer;flex-shrink:0;">⏹ Stop</button>';
+}
+
+window.stopStudioVoice = function () {
+  _studioAudioQueue = [];
+  if (_studioActiveAudio) {
+    try {
+      _studioActiveAudio.pause();
+      _studioActiveAudio.currentTime = 0;
+    } catch (e) {}
+    _studioActiveAudio = null;
+  }
+  updateStudioVoiceHud("idle");
+};
+
+function playStudioAudioQueue(urls, labelText) {
+  window.stopStudioVoice();
+  if (!urls || !urls.length) return;
+  _studioAudioQueue = urls.slice();
+
+  function playNext() {
+    if (!_studioAudioQueue.length) {
+      _studioActiveAudio = null;
+      updateStudioVoiceHud("idle");
+      return;
+    }
+    const nextUrl = _studioAudioQueue.shift();
+    const audio = new Audio(nextUrl);
+    _studioActiveAudio = audio;
+    updateStudioVoiceHud("playing", labelText);
+    audio.onended = playNext;
+    audio.onerror = playNext;
+    audio.play().catch(function () {
+      updateStudioVoiceHud("idle");
+    });
+  }
+  playNext();
+}
+
+async function speakText(text) {
+  const nk = normSpeakingKey(text);
+  if (!nk) return;
+  const fid = fnv1aSpeakingHash(nk);
+  const map = window.SPEAKING_AUDIO_MAP || {};
+
+  // 1. Direct match in pre-generated Expressive Gemini Studio Audio Map
+  if (map[fid]) {
+    playStudioAudioQueue([map[fid]], text);
+    return;
+  }
+
+  // 2. Multi-sentence sequence match (e.g. Assembled Framework Steps)
+  const sentences = String(text || "").match(/[^.!?]+[.!?]+/g);
+  if (sentences && sentences.length > 1) {
+    const urls = [];
+    for (let i = 0; i < sentences.length; i++) {
+      const snk = normSpeakingKey(sentences[i]);
+      const sfid = fnv1aSpeakingHash(snk);
+      if (map[sfid]) urls.push(map[sfid]);
+    }
+    if (urls.length > 0) {
+      playStudioAudioQueue(urls, text);
+      return;
+    }
+  }
+
+  // 3. Dictionary human audio lookup for individual words outside the speaking manifest
+  try {
+    const cleanWord = nk.split(" ")[0];
+    if (cleanWord) {
+      const res = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(cleanWord));
+      if (res.ok) {
+        const data = await res.json();
+        const phonetics = (data && data[0] && data[0].phonetics) || [];
+        let audioSrc = "";
+        for (let i = 0; i < phonetics.length; i++) {
+          const a = phonetics[i].audio || "";
+          if (a && (a.indexOf("-uk.") !== -1 || a.indexOf("-gb.") !== -1)) {
+            audioSrc = a;
+            break;
+          }
+          if (a && !audioSrc) audioSrc = a;
+        }
+        if (audioSrc) {
+          playStudioAudioQueue([audioSrc], text);
+          return;
+        }
+      }
+    }
+  } catch (e) {}
+}
+window.speakText = speakText;
+window.speakWord = function (w) {
+  return speakText(w);
+};
 
 // ==========================================
 // 3. SUBTLE ANIMATED BACKGROUND CANVAS

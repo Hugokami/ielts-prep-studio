@@ -415,12 +415,8 @@
     },
 
     speakWord(word) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = 'en-GB'; // British English for IELTS standard
-        utterance.rate = 0.88;
-        window.speechSynthesis.speak(utterance);
+      if (typeof window.speakText === 'function') {
+        window.speakText(word);
       }
     },
 
@@ -2096,13 +2092,9 @@
 
           new Audio(info.audio).play();
 
-        } else if ('speechSynthesis' in window) {
+        } else if (typeof window.speakText === 'function') {
 
-          const u = new SpeechSynthesisUtterance(info.word);
-
-          u.lang = 'en-GB';
-
-          window.speechSynthesis.speak(u);
+          window.speakText(info.word);
 
         }
 
