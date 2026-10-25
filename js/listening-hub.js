@@ -638,6 +638,19 @@
     if (typeof window.syncAndRenderStudyStreak === "function") {
       window.syncAndRenderStudyStreak(true);
     }
+    if (typeof window.duoAddXp === "function") {
+      window.duoAddXp(score * 3 + 10, "Listening Test");
+    }
+    if (band >= 7.0 && typeof window.duoCelebrate === "function") {
+      window.duoCelebrate();
+    }
+    if (typeof window.duoShowFeedback === "function") {
+      window.duoShowFeedback({
+        title: `Listening CBT: Band ${band} (${score}/${total})`,
+        message: band >= 7.0 ? "Outstanding accuracy! Paraphrase mapping on track for Band 8.5+." : "Good practice! Review the flagged distractors and transcript citations.",
+        type: band >= 6.5 ? "success" : "warn"
+      });
+    }
     const resultBox = document.getElementById("listeningScoreResult");
     if (resultBox) {
       resultBox.style.display = "block";

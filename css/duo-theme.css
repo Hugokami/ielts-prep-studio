@@ -1,0 +1,381 @@
+/* ============================================================================
+   IELTS Prep Studio v9.5 — OpenDesign Tactile Gamified UI & Animations
+   Preserves Current Color Theme (Slate / Porcelain / Royal Amber / Obsidian Dark)
+   Adds Duolingo-Style 3D Tactile Press Physics, Spring Animations & Gamification
+   ============================================================================ */
+
+/* 1. TACTILE 3D BUTTON PRESS AFFORDANCE (PRESERVING CURRENT PALETTE) */
+.btn-accent-solid,
+.btn-primary,
+.cirrus-btn-dark,
+.speak-hero-start-btn {
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 #020617, 0 6px 14px rgba(15, 23, 42, 0.14) !important;
+  transform: translateY(0);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.15s ease !important;
+}
+:root[data-theme="dark"] .btn-accent-solid,
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .cirrus-btn-dark {
+  box-shadow: 0 4px 0 #94A3B8, 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+}
+.btn-accent-solid:hover,
+.btn-primary:hover,
+.cirrus-btn-dark:hover,
+.speak-hero-start-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 0 #020617, 0 10px 20px rgba(15, 23, 42, 0.18) !important;
+}
+:root[data-theme="dark"] .btn-accent-solid:hover,
+:root[data-theme="dark"] .btn-primary:hover,
+:root[data-theme="dark"] .cirrus-btn-dark:hover {
+  box-shadow: 0 6px 0 #94A3B8, 0 10px 22px rgba(0, 0, 0, 0.45) !important;
+}
+.btn-accent-solid:active,
+.btn-primary:active,
+.cirrus-btn-dark:active,
+.speak-hero-start-btn:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 0 0 #020617 !important;
+}
+
+.btn-outlined,
+.util-icon-btn,
+.cirrus-btn-light {
+  border-width: 2px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 0 var(--border-mid) !important;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.15s ease,
+              background-color 0.15s ease !important;
+}
+.btn-outlined:hover,
+.util-icon-btn:hover,
+.cirrus-btn-light:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 0 var(--border-mid) !important;
+}
+.btn-outlined:active,
+.util-icon-btn:active,
+.cirrus-btn-light:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 0 0 var(--border-mid) !important;
+}
+
+/* 2. TACTILE BENTO CARDS & JUMP-IN CARDS */
+.speak-v6-card,
+.occ-card,
+.speak-jumpin-card,
+.speak-hero-lesson-card,
+.speak-progress-banner {
+  border-width: 2px !important;
+  box-shadow: 0 4px 0 var(--border), var(--shadow-card) !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.2s ease !important;
+}
+.speak-jumpin-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 7px 0 var(--border-mid), var(--shadow-hover) !important;
+}
+.speak-jumpin-card:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 2px 0 var(--border-mid) !important;
+}
+
+/* 3. TOP GAMIFICATION HUD PILLS (STREAK FLAME, XP, HEARTS, GEMS) */
+.duo-hud-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.duo-hud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--bg-card);
+  border: 2px solid var(--border-mid);
+  box-shadow: 0 3px 0 var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
+}
+.duo-hud-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--border-mid);
+}
+.duo-hud-pill:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--border-mid);
+}
+.duo-hud-pill.streak {
+  color: #EA580C;
+  border-color: rgba(245, 158, 11, 0.38);
+  background: var(--well-orange, #FFF7ED);
+}
+:root[data-theme="dark"] .duo-hud-pill.streak {
+  color: #FBBF24;
+  background: rgba(245, 158, 11, 0.12);
+}
+.duo-hud-pill.xp {
+  color: #D97706;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+:root[data-theme="dark"] .duo-hud-pill.xp {
+  color: #FBBF24;
+}
+.duo-hud-pill.hearts {
+  color: #E11D48;
+  border-color: rgba(225, 29, 72, 0.3);
+}
+:root[data-theme="dark"] .duo-hud-pill.hearts {
+  color: #FB7185;
+}
+.duo-hud-pill.gems {
+  color: #0284C7;
+  border-color: rgba(2, 132, 199, 0.3);
+}
+:root[data-theme="dark"] .duo-hud-pill.gems {
+  color: #38BDF8;
+}
+
+/* 4. DUOLINGO SKILL PATH & DAILY QUESTS HUB (OVERVIEW DASHBOARD) */
+.duo-dashboard-hub {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+@media (max-width: 860px) {
+  .duo-dashboard-hub {
+    grid-template-columns: 1fr;
+  }
+}
+.duo-quest-card,
+.duo-path-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-mid);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 0 var(--border), var(--shadow-card);
+}
+.duo-path-nodes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 18px 0 12px;
+  position: relative;
+  overflow-x: auto;
+  padding: 8px 4px 12px;
+}
+.duo-path-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex: 1 1 0;
+  min-width: 72px;
+  position: relative;
+  z-index: 2;
+}
+.duo-node-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  background: var(--bg-elevated);
+  border: 3px solid var(--border-mid);
+  box-shadow: 0 5px 0 var(--border-mid);
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease;
+}
+.duo-path-node:hover .duo-node-circle {
+  transform: translateY(-3px) scale(1.04);
+}
+.duo-path-node:active .duo-node-circle {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--border-mid);
+}
+.duo-path-node.completed .duo-node-circle {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #FFFFFF;
+  border-color: #B45309;
+  box-shadow: 0 5px 0 #92400E;
+}
+.duo-path-node.active-node .duo-node-circle {
+  background: var(--accent);
+  color: var(--bg-card);
+  border-color: var(--accent-gold, #F59E0B);
+  box-shadow: 0 5px 0 #020617, 0 0 0 5px rgba(245, 158, 11, 0.22);
+  animation: duoNodePulse 2.2s ease-in-out infinite;
+}
+:root[data-theme="dark"] .duo-path-node.active-node .duo-node-circle {
+  box-shadow: 0 5px 0 #64748B, 0 0 0 5px rgba(251, 191, 36, 0.25);
+}
+.duo-node-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.2;
+}
+.duo-node-crowns {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #D97706;
+}
+:root[data-theme="dark"] .duo-node-crowns {
+  color: #FBBF24;
+}
+
+/* 5. PROGRESS BARS WITH TOP HIGHLIGHT STRIPE */
+.duo-progress-track {
+  width: 100%;
+  height: 14px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.duo-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #F59E0B, #10B981);
+  position: relative;
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.duo-progress-fill::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  right: 6px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+}
+
+/* 6. WORD-BANK SENTENCE BUILDER CHIPS (MINI-DRILL MODAL) */
+.duo-word-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-mid);
+  box-shadow: 0 3px 0 var(--border-mid);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease, opacity 0.15s ease;
+}
+.duo-word-chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+.duo-word-chip:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 var(--border-mid);
+}
+.duo-word-chip.used {
+  opacity: 0.3;
+  pointer-events: none;
+  background: var(--bg-elevated);
+}
+
+/* 7. MICRO-ANIMATIONS & FLOATING XP / FEEDBACK BANNERS */
+@keyframes duoNodePulse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes duoXpFloatUp {
+  0% { opacity: 0; transform: translateY(10px) scale(0.85); }
+  20% { opacity: 1; transform: translateY(0) scale(1.06); }
+  80% { opacity: 1; transform: translateY(-22px) scale(1); }
+  100% { opacity: 0; transform: translateY(-34px) scale(0.92); }
+}
+@keyframes duoShakeError {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+@keyframes duoPopSuccess {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.duo-xp-floater {
+  position: fixed;
+  z-index: 4200;
+  pointer-events: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #0F172A;
+  color: #FBBF24;
+  border: 2px solid #F59E0B;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  font-size: 0.84rem;
+  font-weight: 800;
+  animation: duoXpFloatUp 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.duo-shake {
+  animation: duoShakeError 0.38s ease;
+}
+.duo-pop {
+  animation: duoPopSuccess 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Bottom Slide-Up Lesson Feedback Banner */
+.duo-bottom-feedback {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 18px;
+  max-width: 680px;
+  margin: 0 auto;
+  z-index: 3900;
+  padding: 16px 20px;
+  border-radius: 18px;
+  border: 2px solid #10B981;
+  background: var(--bg-card);
+  box-shadow: 0 6px 0 rgba(16, 185, 129, 0.35), 0 20px 45px rgba(0, 0, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  transform: translateY(130%);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.duo-bottom-feedback.visible {
+  transform: translateY(0);
+}
+.duo-bottom-feedback.is-warning {
+  border-color: #F59E0B;
+  box-shadow: 0 6px 0 rgba(245, 158, 11, 0.35), 0 20px 45px rgba(0, 0, 0, 0.32);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .duo-path-node.active-node .duo-node-circle,
+  .duo-xp-floater,
+  .duo-shake,
+  .duo-pop {
+    animation: none !important;
+  }
+}

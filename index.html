@@ -13,6 +13,7 @@
 <script src="js/academic-lexicon.js"></script>
 <script src="js/listening-hub.js?v=9.4"></script>
 <script src="js/examiner-studio-pro.js?v=9.4"></script>
+<script src="js/duo-motion.js?v=9.5"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -6895,6 +6896,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   white-space: nowrap !important;
 }
 </style>
+  <link rel="stylesheet" href="css/duo-theme.css?v=9.5">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#F59E0B">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11767,6 +11769,10 @@ function rateWordSRS(wordId, days, bypassGate) {
   };
   if (days >= 7 && !appState.mastered.includes(wordId)) {
     appState.mastered.push(wordId);
+    if (typeof window.duoCelebrate === "function") window.duoCelebrate();
+    if (typeof window.duoAddXp === "function") window.duoAddXp(20, "Mastered Vocab");
+  } else if (days >= 3) {
+    if (typeof window.duoAddXp === "function") window.duoAddXp(10, "Vocab SRS");
   } else if (days === 1) {
     const idx = appState.mastered.indexOf(wordId);
     if (idx !== -1) appState.mastered.splice(idx, 1);
@@ -13961,6 +13967,19 @@ function gradeReading(idx) {
   if (!appState.readingDone.includes(m.id)) {
     appState.readingDone.push(m.id);
   }
+  if (typeof window.duoAddXp === "function") {
+    window.duoAddXp(c * 2 + 10, "Reading CBT");
+  }
+  if (parseFloat(band) >= 7.0 && typeof window.duoCelebrate === "function") {
+    window.duoCelebrate();
+  }
+  if (typeof window.duoShowFeedback === "function") {
+    window.duoShowFeedback({
+      title: `Reading CBT Graded: Band ${band} (${c}/${m.questions.length})`,
+      message: parseFloat(band) >= 7.0 ? "Great job! Paraphrase recognition was sharp." : "Review the Burmese evidence explanations above to fix trap traps!",
+      type: parseFloat(band) >= 6.5 ? "success" : "warn"
+    });
+  }
   saveAppState();
 }
 
@@ -14496,7 +14515,21 @@ Please provide your evaluation in this exact structured format:
       </div>
       <div class="gemini-content-body" style="font-size:0.88rem; line-height:1.75; color:var(--text);">
         ${formattedHtml}
-      </div>
+      </div>`;
+    if (typeof window.duoAddXp === "function") {
+      window.duoAddXp(30, "Speaking Evaluation");
+    }
+    if (typeof window.duoCelebrate === "function") {
+      window.duoCelebrate();
+    }
+    if (typeof window.duoShowFeedback === "function") {
+      window.duoShowFeedback({
+        title: "🎙️ Speaking Evaluated by Cambridge AI Examiner!",
+        message: "Part 3 Counter-Challenge & Native Phrasing Upgrades unlocked below.",
+        type: "success"
+      });
+    }
+    resultBox.innerHTML = resultBox.innerHTML
       <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); flex-wrap:wrap; gap:6px;">
         <span>Evaluated against Cambridge Academic IELTS Band Descriptors (Version 2026)</span>
         <button class="btn-outlined" style="font-size:0.75rem; padding:3px 8px;" onclick="gradeEssayWithGemini()">🔄 Re-Grade Essay</button>

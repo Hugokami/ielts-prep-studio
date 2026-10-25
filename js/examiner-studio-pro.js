@@ -1039,6 +1039,20 @@ Return ONLY valid JSON matching this exact structure:
           wordCount
         });
 
+        if (typeof window.duoAddXp === "function") {
+          window.duoAddXp(35, "Writing Essay");
+        }
+        if (parseFloat(evalData.scores.overall) >= 7.0 && typeof window.duoCelebrate === "function") {
+          window.duoCelebrate();
+        }
+        if (typeof window.duoShowFeedback === "function") {
+          window.duoShowFeedback({
+            title: `Writing Evaluated: Band ${evalData.scores.overall} (${evalData.cefrLevel})`,
+            message: `Granular error diffs & Band 9.0 rewrite unlocked below!`,
+            type: "success"
+          });
+        }
+
         if (typeof showStudioNotification === "function") {
           showStudioNotification(`✨ Graded: Band ${evalData.scores.overall} (${res.modelUsed})`);
         }
@@ -1814,6 +1828,9 @@ Return ONLY valid JSON matching this exact structure:
       if (typeof window.saveState === "function") window.saveState();
     }
     window.syncAndRenderStudyStreak(true);
+    if (typeof window.duoAddXp === "function") {
+      window.duoAddXp(15, "Vocab Flashcard");
+    }
     if (typeof showStudioNotification === "function") {
       showStudioNotification(`🃏 Saved "${clean}" to Flashcards & Error Vault!`);
     }
