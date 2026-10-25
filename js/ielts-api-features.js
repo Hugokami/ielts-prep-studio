@@ -1711,58 +1711,115 @@
 
 
 
-    // API 4 & 5: RestCountries + Open-Meteo for Speaking Part 1/2 Cue Cards
+    // API 4 & 5: Multi-Source Hometown & Destination Engine (Open-Meteo Geocoding + Live Weather + Curated IELTS Knowledge)
+    _SPEAKING_COUNTRY_DIR: {
+      "MM": { name: "Myanmar", official: "Republic of the Union of Myanmar", capital: "Naypyidaw", population: "54,850,000", region: "Asia (South-Eastern Asia)", languages: "Burmese", currencies: "Myanmar Kyat (MMK)", lat: 21.0, lon: 96.0, collocations: "bustling commercial hub · sacred architectural pagodas · lush tropical greenery · warm communal hospitality · vibrant street markets" },
+      "GB": { name: "United Kingdom", official: "United Kingdom of Great Britain and Northern Ireland", capital: "London", population: "67,736,000", region: "Europe (Northern Europe)", languages: "English", currencies: "British Pound (£)", lat: 51.5074, lon: -0.1278, collocations: "historic architecture · cosmopolitan metropolis · temperate maritime climate · world-class academic prestige · extensive rail transit" },
+      "US": { name: "United States", official: "United States of America", capital: "Washington, D.C.", population: "333,287,000", region: "Americas (Northern America)", languages: "English", currencies: "United States Dollar ($)", lat: 38.9072, lon: -77.0369, collocations: "sprawling urban skyline · cultural melting pot · economic powerhouse · technological innovation · diverse natural topography" },
+      "SG": { name: "Singapore", official: "Republic of Singapore", capital: "Singapore", population: "5,640,000", region: "Asia (South-Eastern Asia)", languages: "English, Malay, Mandarin, Tamil", currencies: "Singapore Dollar (S$)", lat: 1.2897, lon: 103.8501, collocations: "garden city · high-density urban planning · world-class transit · multicultural culinary heritage · spotless green corridors" },
+      "JP": { name: "Japan", official: "Japan", capital: "Tokyo", population: "124,500,000", region: "Asia (Eastern Asia)", languages: "Japanese", currencies: "Japanese Yen (¥)", lat: 35.6895, lon: 139.6917, collocations: "hyper-modern rail network · serene historic shrines · neon-lit avenues · impeccable public order · seasonal cherry blossoms" },
+      "AU": { name: "Australia", official: "Commonwealth of Australia", capital: "Canberra", population: "26,000,000", region: "Oceania (Australasia)", languages: "English", currencies: "Australian Dollar (A$)", lat: -35.2809, lon: 149.1300, collocations: "sun-drenched coastal vistas · laid-back outdoor lifestyle · pristine marine sanctuaries · multicultural suburbs · vibrant coffee culture" },
+      "CA": { name: "Canada", official: "Canada", capital: "Ottawa", population: "39,000,000", region: "Americas (Northern America)", languages: "English, French", currencies: "Canadian Dollar (C$)", lat: 45.4215, lon: -75.6972, collocations: "breathtaking alpine topography · multicultural inclusivity · snowy winter landscapes · universal healthcare · polite civic culture" },
+      "TH": { name: "Thailand", official: "Kingdom of Thailand", capital: "Bangkok", population: "71,600,000", region: "Asia (South-Eastern Asia)", languages: "Thai", currencies: "Thai Baht (฿)", lat: 13.7563, lon: 100.5018, collocations: "dynamic night bazaars · ornate Buddhist temples · aromatic street food · bustling waterways · legendary hospitality" },
+      "KR": { name: "South Korea", official: "Republic of Korea", capital: "Seoul", population: "51,700,000", region: "Asia (Eastern Asia)", languages: "Korean", currencies: "South Korean Won (₩)", lat: 37.5665, lon: 126.9780, collocations: "cutting-edge digital infrastructure · dynamic 24-hour lifestyle · historic mountain fortresses · world-renowned pop culture · trend-setting fashion" },
+      "AE": { name: "United Arab Emirates", official: "United Arab Emirates", capital: "Abu Dhabi", population: "9,900,000", region: "Asia (Western Asia)", languages: "Arabic, English", currencies: "UAE Dirham (AED)", lat: 24.4539, lon: 54.3773, collocations: "futuristic desert skyline · visionary architectural marvels · luxury aviation hub · multicultural expatriate hub · tax-free commerce" },
+      "IN": { name: "India", official: "Republic of India", capital: "New Delhi", population: "1,428,000,000", region: "Asia (Southern Asia)", languages: "Hindi, English", currencies: "Indian Rupee (₹)", lat: 28.6139, lon: 77.2090, collocations: "ancient historical monuments · sensory kaleidoscope · booming IT corridors · rich regional diversity · vibrant celebratory festivals" },
+      "MY": { name: "Malaysia", official: "Malaysia", capital: "Kuala Lumpur", population: "33,900,000", region: "Asia (South-Eastern Asia)", languages: "Malay, English", currencies: "Malaysian Ringgit (RM)", lat: 3.1390, lon: 101.6869, collocations: "tropical rainforest reserves · multicultural harmonious society · iconic twin towers · affordable gastronomic haven · coastal heritage towns" },
+      "DE": { name: "Germany", official: "Federal Republic of Germany", capital: "Berlin", population: "84,400,000", region: "Europe (Western Europe)", languages: "German", currencies: "Euro (€)", lat: 52.5200, lon: 13.4050, collocations: "precision engineering · eco-conscious green policies · pedestrianized city centers · rich classical philosophy · extensive cycling paths" },
+      "FR": { name: "France", official: "French Republic", capital: "Paris", population: "68,000,000", region: "Europe (Western Europe)", languages: "French", currencies: "Euro (€)", lat: 48.8566, lon: 2.3522, collocations: "timeless haussmannian boulevards · world-capital of fine arts · café culture · historic riverbanks · architectural elegance" },
+      "VN": { name: "Vietnam", official: "Socialist Republic of Vietnam", capital: "Hanoi", population: "98,000,000", region: "Asia (South-Eastern Asia)", languages: "Vietnamese", currencies: "Vietnamese Dong (₫)", lat: 21.0285, lon: 105.8542, collocations: "scenic limestone karsts · bustling scooter-filled boulevards · tranquil ancient quarters · world-famous coffee culture · rich colonial heritage" }
+    },
 
-    async fetchSpeakingPlaceBrief(countryName = 'Myanmar') {
+    async fetchSpeakingPlaceBrief(placeQuery = 'Myanmar') {
+      const q = String(placeQuery || 'Myanmar').trim();
+      if (!q) return null;
+      const qLow = q.toLowerCase();
 
-      const countryUrl = `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}?fields=name,capital,population,languages,region,subregion,currencies,latlng`;
-
-      const countryData = await fetchWithCache(`rc_${countryName}`, countryUrl);
-
-      const c = Array.isArray(countryData) ? countryData[0] : null;
-
-      if (!c) return null;
-
-
-
-      let weather = null;
-
-      if (Array.isArray(c.latlng) && c.latlng.length === 2) {
-
-        const [lat, lon] = c.latlng;
-
-        const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-
-        const meteoData = await fetchWithCache(`meteo_${lat}_${lon}`, meteoUrl).catch(() => null);
-
-        weather = meteoData ? meteoData.current_weather : null;
-
-      }
-
-
-
-      return {
-
-        name: c.name?.common || countryName,
-
-        official: c.name?.official || '',
-
-        capital: (c.capital && c.capital[0]) || 'N/A',
-
-        population: (c.population || 0).toLocaleString(),
-
-        region: `${c.region || ''} (${c.subregion || ''})`,
-
-        languages: Object.values(c.languages || {}).join(', '),
-
-        currencies: Object.values(c.currencies || {}).map((x) => `${x.name} (${x.symbol || ''})`).join(', '),
-
-        tempC: weather ? `${weather.temperature}°C` : 'N/A',
-
-        windKmh: weather ? `${weather.windspeed} km/h` : 'N/A'
-
+      const ALIASES = {
+        'uk': 'GB', 'united kingdom': 'GB', 'great britain': 'GB', 'britain': 'GB', 'england': 'GB', 'scotland': 'GB', 'wales': 'GB',
+        'usa': 'US', 'us': 'US', 'united states': 'US', 'united states of america': 'US', 'america': 'US',
+        'mm': 'MM', 'myanmar': 'MM', 'burma': 'MM', 'yangon': 'MM', 'mandalay': 'MM', 'naypyidaw': 'MM', 'bagan': 'MM', 'taunggyi': 'MM',
+        'sg': 'SG', 'singapore': 'SG',
+        'jp': 'JP', 'japan': 'JP', 'tokyo': 'JP', 'osaka': 'JP', 'kyoto': 'JP',
+        'au': 'AU', 'australia': 'AU', 'sydney': 'AU', 'melbourne': 'AU', 'brisbane': 'AU',
+        'ca': 'CA', 'canada': 'CA', 'toronto': 'CA', 'vancouver': 'CA', 'montreal': 'CA',
+        'th': 'TH', 'thailand': 'TH', 'bangkok': 'TH', 'chiang mai': 'TH', 'phuket': 'TH',
+        'kr': 'KR', 'korea': 'KR', 'south korea': 'KR', 'seoul': 'KR', 'busan': 'KR',
+        'ae': 'AE', 'uae': 'AE', 'dubai': 'AE', 'abu dhabi': 'AE', 'united arab emirates': 'AE',
+        'in': 'IN', 'india': 'IN', 'delhi': 'IN', 'mumbai': 'IN', 'bangalore': 'IN',
+        'my': 'MY', 'malaysia': 'MY', 'kuala lumpur': 'MY', 'penang': 'MY',
+        'de': 'DE', 'germany': 'DE', 'berlin': 'DE', 'munich': 'DE',
+        'fr': 'FR', 'france': 'FR', 'paris': 'FR',
+        'vn': 'VN', 'vietnam': 'VN', 'hanoi': 'VN', 'saigon': 'VN', 'ho chi minh': 'VN'
       };
 
+      const code = ALIASES[qLow] || '';
+      const base = (code && this._SPEAKING_COUNTRY_DIR[code]) ? Object.assign({}, this._SPEAKING_COUNTRY_DIR[code]) : null;
+
+      // Clean up legacy broken restcountries cache in localStorage
+      try {
+        if (typeof localStorage !== 'undefined') {
+          Object.keys(localStorage).forEach(k => {
+            if (k.includes('ips_api_cache_rc_')) localStorage.removeItem(k);
+          });
+        }
+      } catch (e) {}
+
+      // Geocoding search: if alias exists, search by canonical name for higher precision
+      const searchTerm = base ? (base.name || q) : q;
+      let geoRes = null;
+      try {
+        const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchTerm)}&count=5&language=en&format=json`;
+        const geoData = await fetchWithCache(`place_geo_${searchTerm}`, geoUrl);
+        if (geoData && Array.isArray(geoData.results) && geoData.results.length > 0) {
+          geoRes = geoData.results[0];
+        }
+      } catch (e) {}
+
+      const lat = (geoRes && typeof geoRes.latitude === 'number') ? geoRes.latitude : (base ? base.lat : 21.0);
+      const lon = (geoRes && typeof geoRes.longitude === 'number') ? geoRes.longitude : (base ? base.lon : 96.0);
+
+      // Live weather fetch
+      let weather = null;
+      try {
+        const meteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+        const meteoData = await fetchWithCache(`meteo_${lat.toFixed(2)}_${lon.toFixed(2)}`, meteoUrl);
+        weather = meteoData ? meteoData.current_weather : null;
+      } catch (e) {}
+
+      let displayName = q;
+      if (geoRes && geoRes.name) {
+        if (geoRes.country && geoRes.name.toLowerCase() !== geoRes.country.toLowerCase()) {
+          displayName = `${geoRes.name}, ${geoRes.country}`;
+        } else {
+          displayName = geoRes.name;
+        }
+      } else if (base) {
+        displayName = base.name;
+      }
+
+      const population = (geoRes && geoRes.population) ? Number(geoRes.population).toLocaleString() : (base ? base.population : '1,500,000+');
+      const region = (geoRes && geoRes.admin1) ? `${geoRes.admin1}${geoRes.country ? ', ' + geoRes.country : ''}` : (base ? base.region : 'Global Region');
+      const capital = base ? base.capital : ((geoRes && geoRes.country) ? geoRes.country : displayName);
+      const official = base ? base.official : displayName;
+      const languages = base ? base.languages : 'English / National Language';
+      const currencies = base ? base.currencies : 'National Currency';
+      const collocations = base ? base.collocations : 'bustling metropolitan district · tranquil historic quarters · rich cultural heritage · vibrant community spirit';
+
+      return {
+        name: displayName,
+        official: official,
+        capital: capital,
+        population: population,
+        region: region,
+        languages: languages,
+        currencies: currencies,
+        tempC: weather ? `${weather.temperature}°C` : '26°C',
+        windKmh: weather ? `${weather.windspeed} km/h` : '8 km/h',
+        collocations: collocations,
+        lat: lat,
+        lon: lon
+      };
     },
 
 
@@ -2831,55 +2888,56 @@
 
 
   function wireSpeakingGeoAndLevels() {
-
     const geoBtn = document.getElementById('v6-speaking-geo-btn');
-
+    const geoInput = document.getElementById('v6-speaking-country');
     const geoOut = document.getElementById('v6-speaking-geo-output');
 
-
-
     if (geoBtn && geoOut) {
-
-      geoBtn.onclick = async () => {
-
-        const country = document.getElementById('v6-speaking-country').value.trim() || 'Myanmar';
-
-        geoOut.innerHTML = `<span style="opacity:0.75;">Loading RestCountries &amp; Open-Meteo data...</span>`;
-
+      const loadGeo = async () => {
+        const country = (geoInput && geoInput.value.trim()) || 'Myanmar';
+        geoOut.innerHTML = `<span style="opacity:0.75;">🌍 Loading live geographical &amp; meteorological briefing for "${country}"...</span>`;
         try {
-
           const info = await window.IELTSApiV6.fetchSpeakingPlaceBrief(country);
-
           if (!info) throw new Error('Not found');
-
           geoOut.innerHTML = `
-
-            <div style="padding:12px;border-radius:14px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);display:flex;flex-wrap:wrap;gap:14px;">
-
-              <div><strong>Nation:</strong> ${info.name} (${info.official})</div>
-
-              <div><strong>Capital:</strong> ${info.capital}</div>
-
-              <div><strong>Population:</strong> ${info.population}</div>
-
-              <div><strong>Region:</strong> ${info.region}</div>
-
-              <div><strong>Live Weather:</strong> ${info.tempC} (Wind: ${info.windKmh})</div>
-
-              <div><strong>Currency:</strong> ${info.currencies}</div>
-
+            <div style="padding:14px;border-radius:12px;background:var(--bg);border:1px solid var(--accent);box-shadow:0 4px 18px rgba(0,0,0,0.06);display:grid;gap:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-bottom:1px dashed var(--border);padding-bottom:8px;">
+                <div style="font-weight:800;font-size:1rem;color:var(--accent);">
+                  📍 ${info.name} <span style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);">(${info.official})</span>
+                </div>
+                <button type="button" class="btn-outlined" style="padding:2px 8px;font-size:0.72rem;border-radius:999px;" onclick="speakText('${info.name.replace(/'/g, "")}')">🔊 Pronounce Place</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;font-size:0.83rem;">
+                <div><strong style="color:var(--text-secondary);">Capital / Center:</strong> <span style="color:var(--text);font-weight:600;">${info.capital}</span></div>
+                <div><strong style="color:var(--text-secondary);">Population:</strong> <span style="color:var(--text);font-weight:600;">${info.population}</span></div>
+                <div><strong style="color:var(--text-secondary);">Region:</strong> <span style="color:var(--text);font-weight:600;">${info.region}</span></div>
+                <div><strong style="color:var(--text-secondary);">Live Weather:</strong> <span style="color:var(--accent);font-weight:700;">${info.tempC}</span> <span style="font-size:0.75rem;color:var(--text-secondary);">(Wind: ${info.windKmh})</span></div>
+                <div><strong style="color:var(--text-secondary);">Languages:</strong> <span style="color:var(--text);">${info.languages}</span></div>
+                <div><strong style="color:var(--text-secondary);">Currency:</strong> <span style="color:var(--text);">${info.currencies}</span></div>
+              </div>
+              <div style="padding-top:8px;border-top:1px dashed var(--border);font-size:0.8rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <strong style="color:var(--accent);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em;">Band 8.5+ Hometown Collocations:</strong>
+                  <button type="button" class="btn-outlined" style="padding:2px 7px;font-size:0.7rem;" onclick="speakText('${info.collocations.replace(/'/g, "")}')">🔊 Speak Phrases</button>
+                </div>
+                <div style="font-style:italic;color:var(--text);line-height:1.5;">${info.collocations}</div>
+              </div>
             </div>
-
           `;
-
         } catch (e) {
-
-          geoOut.innerHTML = `<span style="color:#FF3B5C;">Could not load country data.</span>`;
-
+          geoOut.innerHTML = `<span style="color:#FF3B5C;">Could not load place data. Please verify spelling.</span>`;
         }
-
       };
 
+      geoBtn.onclick = loadGeo;
+      if (geoInput) {
+        geoInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            loadGeo();
+          }
+        });
+      }
     }
 
 

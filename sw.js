@@ -1,5 +1,5 @@
 // IELTS Prep Studio Service Worker (Network-First with Cache Fallback)
-const CACHE_NAME = 'ielts-prep-studio-v9.9';
+const CACHE_NAME = 'ielts-prep-studio-v10.0';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -59,6 +59,7 @@ self.addEventListener('fetch', (event) => {
     'api.worldbank.org',
     'restcountries.com',
     'api.open-meteo.com',
+    'geocoding-api.open-meteo.com',
     'itunes.apple.com',
     'api.dictionaryapi.dev',
     'api.datamuse.com',

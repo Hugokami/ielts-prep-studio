@@ -11,11 +11,11 @@
 <script src="js/storage-sync.js"></script>
 <script src="js/ielts-api-features.js"></script>
 <script src="js/academic-lexicon.js"></script>
-<script src="js/speaking-audio-manifest.js?v=9.9"></script>
-<script src="js/lexicon-audio-manifest.js?v=9.9"></script>
-<script src="js/listening-hub.js?v=9.9"></script>
-<script src="js/examiner-studio-pro.js?v=9.9"></script>
-<script src="js/duo-motion.js?v=9.9"></script>
+<script src="js/speaking-audio-manifest.js?v=10.0"></script>
+<script src="js/lexicon-audio-manifest.js?v=10.0"></script>
+<script src="js/listening-hub.js?v=10.0"></script>
+<script src="js/examiner-studio-pro.js?v=10.0"></script>
+<script src="js/duo-motion.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -9008,7 +9008,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
                 <span>Part 1 &amp; 2 Hometown / Destination Live Fact Card</span>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <input id="v6-speaking-country" class="speak-input-pill" type="text" value="Myanmar" placeholder="Country (e.g. Myanmar, Singapore, UK)" />
+                <input id="v6-speaking-country" class="speak-input-pill" type="text" value="Myanmar" placeholder="Hometown or Country (e.g. Yangon, Myanmar, UK, Tokyo, Singapore)" />
                 <button id="v6-speaking-geo-btn" class="speak-pill-btn secondary">Load Speaking Facts</button>
               </div>
             </div>
@@ -12922,8 +12922,9 @@ function renderSpeakingTopicBank() {
           ${(tb.vocab || []).map(v => `<span class="occ-syn-tag" onclick="speakText('${v.replace(/'/g, "\\'")}')">${v}</span>`).join(" ")}
         </div>
         ${tb.sample ? `
-          <div class="occ-example-box" style="margin-bottom:8px;">
-            <div class="occ-ex-en" style="font-size:0.83rem;">"${tb.sample}"</div>
+          <div class="occ-example-box" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+            <div class="occ-ex-en" style="font-size:0.83rem; flex:1;">"${tb.sample}"</div>
+            <button type="button" class="btn-outlined" style="padding:2px 6px; font-size:0.68rem; flex-shrink:0;" onclick="speakSpeakingTopic(${origIdx}, 'sample')" title="Listen Quote">🔊</button>
           </div>
         ` : ''}
         ${tb.mm ? `
@@ -12933,7 +12934,7 @@ function renderSpeakingTopicBank() {
         ` : ''}
 
         ${tb.part2 ? `
-          <details ${autoOpenP2 ? 'open' : ''} style="background:var(--bg); border:1px solid var(--border-accent); border-radius:6px; padding:8px 10px; margin-bottom:8px;">
+          <details id="spk_p2_details_${origIdx}" ${autoOpenP2 ? 'open' : ''} style="background:var(--bg); border:1px solid var(--border-accent); border-radius:6px; padding:8px 10px; margin-bottom:8px;">
             <summary style="cursor:pointer; font-weight:700; font-size:0.82rem; color:var(--accent); display:flex; justify-content:space-between; align-items:center;">
               <span>📋 Part 2 Cue Card &amp; 2-Min Band 9 Script</span>
               <span style="font-size:0.7rem; font-family:monospace; background:rgba(224,108,53,0.15); padding:1px 6px; border-radius:3px;">2-Min Model</span>
@@ -12945,7 +12946,7 @@ function renderSpeakingTopicBank() {
                   <strong style="color:var(--accent);">1-Min Prep Notes:</strong> <em>${tb.part2.prepNotes}</em>
                 </div>
               ` : ''}
-              <div style="font-style:italic; border-left:3px solid var(--accent); padding-left:10px; margin-bottom:8px; line-height:1.7;">
+              <div id="spk_p2_script_${origIdx}" class="spk-model-script-box" style="font-style:italic; border-left:3px solid var(--accent); padding-left:10px; margin-bottom:8px; line-height:1.7; transition:background-color 0.4s ease, box-shadow 0.4s ease; border-radius:4px;">
                 "${tb.part2.modelScript}"
               </div>
               ${tb.part2.mm ? `<div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">${tb.part2.mm}</div>` : ''}
@@ -13511,6 +13512,24 @@ function renderAllEssentialsModules() {
     const tb = SPEAKING_TOPIC_BANK_DATA[idx];
     if (!tb) return;
     if (part === 'part2' && tb.part2 && tb.part2.modelScript) {
+      // 1. Automatically expand the Part 2 Cue Card model accordion
+      const detailsEl = document.getElementById('spk_p2_details_' + idx);
+      if (detailsEl) {
+        detailsEl.open = true;
+      }
+      // 2. Smoothly scroll into view and pulse-highlight the Cue Card script being spoken
+      setTimeout(() => {
+        const scriptEl = document.getElementById('spk_p2_script_' + idx) || detailsEl;
+        if (scriptEl) {
+          scriptEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          scriptEl.style.backgroundColor = 'rgba(224, 108, 53, 0.16)';
+          scriptEl.style.boxShadow = '0 0 0 2px var(--accent)';
+          setTimeout(() => {
+            scriptEl.style.backgroundColor = '';
+            scriptEl.style.boxShadow = '';
+          }, 2600);
+        }
+      }, 60);
       speakText(tb.part2.modelScript);
     } else if (tb.sample) {
       speakText(tb.sample);
