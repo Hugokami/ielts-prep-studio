@@ -16,6 +16,7 @@
 <script src="js/listening-hub.js?v=10.0"></script>
 <script src="js/examiner-studio-pro.js?v=10.0"></script>
 <script src="js/duo-motion.js?v=10.0"></script>
+  <script src="js/burmese-cuisine.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -7709,6 +7710,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   <symbol id="lucide-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
   <symbol id="lucide-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></symbol>
   <symbol id="lucide-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></symbol>
+  <symbol id="lucide-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 2v19"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
   <symbol id="lucide-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
   <symbol id="lucide-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></symbol>
   <symbol id="lucide-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
@@ -9751,9 +9753,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <div id="spkCueCardBox" style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:12px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
                 <span style="font-size:0.72rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;">IELTS PART 2 CANDIDATE TASK CARD:</span>
-                <button type="button" class="accent-link" onclick="spinNativeSpeakingCueCard()" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer;">
-                  <svg class="ui-icon"><use href="#lucide-dices"/></svg> Random Cue Card
-                </button>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <button type="button" class="accent-link" onclick="openVipToolsModal('culinary')" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer; color:var(--accent);">
+                    <svg class="ui-icon" style="width:13px;height:13px;margin-right:2px;"><use href="#lucide-utensils"/></svg> Local Food &amp; Ingredients
+                  </button>
+                  <button type="button" class="accent-link" onclick="spinNativeSpeakingCueCard()" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer;">
+                    <svg class="ui-icon"><use href="#lucide-dices"/></svg> Random Cue Card
+                  </button>
+                </div>
               </div>
               <div id="spkCueTopic" style="font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:6px;">
                 Describe: A technological device you use daily
@@ -10063,6 +10070,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-traps" onclick="switchAcademicToolsTab('traps')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-target"/></svg> <span>Paraphrase Traps</span></button>
         <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-folder"/></svg> <span>Error Vault</span> (<span class="error-vault-count-pill">0</span>)</button>
         <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-calculator"/></svg> <span>Band Calculator</span></button>
+        <button class="at-subnav-btn" id="at-tab-culinary" onclick="switchAcademicToolsTab('culinary')"><svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> <span>Burmese Culinary</span></button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -10284,6 +10292,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </div>
         </div>
       </div>
+
+      <!-- Pane 9: Burmese Traditional Culinary Heritage & Ingredients Lexicon -->
+      <div id="at-pane-culinary" class="at-pane"></div>
 
       <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
       <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
@@ -18378,7 +18389,7 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
@@ -19983,6 +19994,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <button class="nav-link" id="vt-tab-topic" onclick="switchVipToolsTab('topic')"><svg class="ui-icon"><use href="#lucide-book-open"/></svg> Topic Briefs</button>
         <button class="nav-link" id="vt-tab-dict" onclick="switchVipToolsTab('dict')"><svg class="ui-icon"><use href="#lucide-book-open"/></svg> Academic Dictionary</button>
         <button class="nav-link" id="vt-tab-quote" onclick="switchVipToolsTab('quote')"><svg class="ui-icon"><use href="#lucide-brain"/></svg> Scholar Quote</button>
+        <button class="nav-link" id="vt-tab-culinary" onclick="switchVipToolsTab('culinary')"><svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> Burmese Culinary</button>
       </div>
 
       <!-- Tab 1: Collocations Pane -->
@@ -20070,6 +20082,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       </div>
 
       <!-- Tab 5: Scholar Quote Pane -->
+      <div id="vt-pane-culinary" class="vt-pane" style="display:none;"></div>
       <div id="vt-pane-quote" class="vt-pane" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <span style="font-size:0.85rem; color:var(--text-secondary);">Draw inspiration from thinkers, scientists, and rhetoricians:</span>
