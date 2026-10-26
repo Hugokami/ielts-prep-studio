@@ -644,4 +644,16 @@ body.topbar-collapsed .at-subnav-bar {
     padding-right: 16px !important;
     box-sizing: border-box !important;
   }
+
+  /* Zero-Collision Mobile Floating Buttons Stack */
+  #mobileFabContainer {
+    bottom: calc(76px + env(safe-area-inset-bottom, 8px)) !important;
+    right: 14px !important;
+    z-index: 150 !important;
+  }
+  #backToTopBtn, .btt-animated-btn {
+    bottom: calc(128px + env(safe-area-inset-bottom, 8px)) !important;
+    right: 14px !important;
+    z-index: 140 !important;
+  }
 }

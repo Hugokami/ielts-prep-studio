@@ -1996,9 +1996,11 @@
       box-sizing: border-box !important;
     }
     #backToTopBtn {
-      bottom: calc(76px + env(safe-area-inset-bottom, 8px)) !important;
+      bottom: calc(128px + env(safe-area-inset-bottom, 8px)) !important;
       right: 14px !important;
       left: auto !important;
+      z-index: 140 !important;
+      transition: transform 0.2s ease, opacity 0.2s ease, bottom 0.2s ease !important;
     }
     .hero-split {
       gap: 16px;
@@ -2925,9 +2927,9 @@
   /* Mobile Floating Action Button */
   #mobileFabContainer {
     position: fixed;
-    bottom: calc(74px + env(safe-area-inset-bottom, 8px));
-    right: 18px;
-    z-index: 150;
+    bottom: calc(76px + env(safe-area-inset-bottom, 8px)) !important;
+    right: 14px !important;
+    z-index: 150 !important;
     display: none;
   }
   @media (max-width: 768px) {
@@ -6619,9 +6621,11 @@ body.in-cbt-drill #backToTopBtn {
     border-radius: 50% !important;
     right: 14px !important;
     left: auto !important;
-    bottom: calc(76px + env(safe-area-inset-bottom, 8px)) !important;
+    bottom: calc(128px + env(safe-area-inset-bottom, 8px)) !important;
     align-items: center !important;
     justify-content: center !important;
+    z-index: 140 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
   }
   #backToTopBtn[style*="display: block"],
   #backToTopBtn[style*="display: flex"] {
@@ -16732,9 +16736,30 @@ window.filterLexiconByTrap = function(category) {
 // 8. Mobile Floating Action Button (FAB)
 window.toggleMobileFab = function() {
   const menu = document.getElementById('mobileFabMenu');
-  if (menu) menu.classList.toggle('show');
+  const btt = document.getElementById('backToTopBtn');
+  if (menu) {
+    const isShowing = menu.classList.toggle('show');
+    if (btt && window.scrollY > 400) {
+      btt.style.opacity = isShowing ? '0' : '1';
+      btt.style.pointerEvents = isShowing ? 'none' : 'auto';
+    }
+  }
   studioHaptic(10);
 };
+
+// Outside-tap listener to dismiss mobile fab menu cleanly
+document.addEventListener('click', (e) => {
+  const fab = document.getElementById('mobileFabContainer');
+  const menu = document.getElementById('mobileFabMenu');
+  if (menu && menu.classList.contains('show') && fab && !fab.contains(e.target)) {
+    menu.classList.remove('show');
+    const btt = document.getElementById('backToTopBtn');
+    if (btt && window.scrollY > 400) {
+      btt.style.opacity = '1';
+      btt.style.pointerEvents = 'auto';
+    }
+  }
+});
 
 // 9. Keyboard Shortcuts for CBT & Flashcards
 if (typeof window !== 'undefined') {
