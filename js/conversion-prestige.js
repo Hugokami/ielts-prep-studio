@@ -189,51 +189,209 @@
     }
   ];
 
+  const BAND_KEYS = ['6.0', '7.0', '8.5', '9.0'];
+  const BAND_COLORS = {
+    '6.0': '#94A3B8',
+    '7.0': '#0284C7',
+    '8.5': '#10B981',
+    '9.0': '#F59E0B'
+  };
+  const BAND_LEVELS = {
+    '6.0': 'B2 COMPETENT',
+    '7.0': 'C1 ADVANCED',
+    '8.5': 'C2 MASTERY',
+    '9.0': 'C2 EXPERT'
+  };
+
   let currentScenarioIdx = 0;
-  let currentBandStep = 8.5;
+  let currentBandIdx = 2; // Default to Band 8.5
+  let currentBandStep = 8.5; // Backwards-compatible float
+
+  function stepToBandIndex(step) {
+    if (typeof step === 'number') {
+      if (step >= 0 && step <= 3 && Number.isInteger(step)) return step;
+      if (step >= 9.0) return 3;
+      if (step >= 8.5) return 2;
+      if (step >= 7.0) return 1;
+      return 0;
+    }
+    const s = String(step || '').trim();
+    if (s === '3' || s === '9.0' || s === '9') return 3;
+    if (s === '2' || s === '8.5' || s === '8') return 2;
+    if (s === '1' || s === '7.0' || s === '7') return 1;
+    if (s === '0' || s === '6.0' || s === '6') return 0;
+    const num = parseFloat(s);
+    if (isNaN(num)) return 2;
+    if (num >= 9.0) return 3;
+    if (num >= 8.5) return 2;
+    if (num >= 7.0) return 1;
+    return 0;
+  }
 
   window.initBandTransformationSlider = function(containerId) {
-    const container = document.getElementById(containerId);
+    const targetId = containerId || 'atBandTransformationMount';
+    const container = document.getElementById(targetId);
     if (!container) return;
 
-    window.renderTransformationSliderWidget(containerId);
+    if (container.querySelector('.transformation-widget-card')) {
+      window.updateTransformationWidgetDOM(targetId);
+    } else {
+      window.renderTransformationSliderWidget(targetId);
+    }
   };
 
   window.selectTransformationScenario = function(idx, containerId) {
     currentScenarioIdx = parseInt(idx, 10) || 0;
-    window.renderTransformationSliderWidget(containerId || 'bandTransformationContainer');
+    window.updateTransformationWidgetDOM(containerId);
+  };
+
+  window.setTransformationBandIndex = function(idx, containerId) {
+    currentBandIdx = stepToBandIndex(idx);
+    currentBandStep = parseFloat(BAND_KEYS[currentBandIdx]);
+    window.updateTransformationWidgetDOM(containerId);
   };
 
   window.setTransformationBandStep = function(step, containerId) {
-    currentBandStep = parseFloat(step) || 8.5;
-    window.renderTransformationSliderWidget(containerId || 'bandTransformationContainer');
+    window.setTransformationBandIndex(step, containerId);
+  };
+
+  window.getCurrentTransformationText = function() {
+    const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
+    const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
+    const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
+    return currentData ? currentData.text : '';
+  };
+
+  window.updateTransformationWidgetDOM = function(containerId) {
+    const ids = ['atBandTransformationMount', 'vipBandTransformationMount'];
+    if (containerId && !ids.includes(containerId)) {
+      ids.push(containerId);
+    }
+    const targetContainers = ids.map(id => document.getElementById(id)).filter(Boolean);
+    if (targetContainers.length === 0) return;
+
+    const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
+    const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
+    const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
+    const activeColor = BAND_COLORS[bandKey] || '#10B981';
+    const bandLevel = BAND_LEVELS[bandKey] || 'C2 MASTERY';
+
+    targetContainers.forEach(container => {
+      // If container doesn't have the card yet, render it first
+      if (!container.querySelector('.transformation-widget-card')) {
+        window.renderTransformationSliderWidget(container.id || containerId);
+        return;
+      }
+
+      // 1. Card border
+      const card = container.querySelector('.transformation-widget-card');
+      if (card) {
+        card.style.borderColor = activeColor;
+      }
+
+      // 2. Pill badge
+      const pill = container.querySelector('.mut-band-pill');
+      if (pill) {
+        pill.style.background = activeColor;
+      }
+
+      // 3. Band Badge text & color
+      const badge = container.querySelector('.mut-band-badge');
+      if (badge) {
+        badge.textContent = `BAND ${currentData.band} ${bandLevel}`;
+        badge.style.color = activeColor;
+      }
+
+      // 4. Slider value & accent color (preserve pointer tracking without rebinding input value if already matches)
+      const slider = container.querySelector('.mut-slider-input');
+      if (slider) {
+        if (parseInt(slider.value, 10) !== currentBandIdx) {
+          slider.value = currentBandIdx;
+        }
+        slider.style.accentColor = activeColor;
+      }
+
+      // 5. Ticks highlighting
+      for (let i = 0; i < 4; i++) {
+        const tick = container.querySelector(`.mut-tick-${i}`);
+        if (tick) {
+          if (i === currentBandIdx) {
+            tick.style.color = activeColor;
+            tick.style.fontWeight = '900';
+            tick.style.transform = 'scale(1.08)';
+          } else {
+            tick.style.color = 'var(--text-secondary)';
+            tick.style.fontWeight = '700';
+            tick.style.transform = 'scale(1)';
+          }
+        }
+      }
+
+      // 6. Mutated Cambridge Payload text box
+      const payloadBox = container.querySelector('.mut-payload-box');
+      if (payloadBox) {
+        payloadBox.innerHTML = `&ldquo;${currentData.html}&rdquo;`;
+      }
+
+      // 7. Sub-scores (TA, CC, LR, GRA)
+      const taVal = container.querySelector('.mut-ta-val');
+      if (taVal) { taVal.textContent = currentData.ta.toFixed(1); taVal.style.color = activeColor; }
+
+      const ccVal = container.querySelector('.mut-cc-val');
+      if (ccVal) { ccVal.textContent = currentData.cc.toFixed(1); ccVal.style.color = activeColor; }
+
+      const lrVal = container.querySelector('.mut-lr-val');
+      if (lrVal) { lrVal.textContent = currentData.lr.toFixed(1); lrVal.style.color = activeColor; }
+
+      const graVal = container.querySelector('.mut-gra-val');
+      if (graVal) { graVal.textContent = currentData.gra.toFixed(1); graVal.style.color = activeColor; }
+
+      // 8. Burmese diagnostic rationale
+      const burmeseText = container.querySelector('.mut-burmese-text');
+      if (burmeseText) {
+        burmeseText.textContent = currentData.burmese;
+      }
+
+      // 9. Topic indicator footer
+      const topicCounter = container.querySelector('.mut-topic-counter');
+      if (topicCounter) {
+        topicCounter.textContent = `Scenario ${currentScenarioIdx + 1} of ${TRANSFORMATION_SCENARIOS.length}`;
+      }
+
+      // 10. Topic select sync
+      const topicSelect = container.querySelector('.mut-topic-select');
+      if (topicSelect && parseInt(topicSelect.value, 10) !== currentScenarioIdx) {
+        topicSelect.value = currentScenarioIdx;
+      }
+    });
   };
 
   window.renderTransformationSliderWidget = function(containerId) {
-    const container = document.getElementById(containerId);
+    const targetId = containerId || 'atBandTransformationMount';
+    const container = document.getElementById(targetId);
     if (!container) return;
 
     const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
-    const bandKey = currentBandStep >= 9.0 ? '9.0' : currentBandStep >= 8.5 ? '8.5' : currentBandStep >= 7.0 ? '7.0' : '6.0';
+    const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
     const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
-
-    // Band step colors
-    const bandColors = {
-      '6.0': '#94A3B8',
-      '7.0': '#0284C7',
-      '8.5': '#10B981',
-      '9.0': '#F59E0B'
-    };
-    const activeColor = bandColors[bandKey] || '#10B981';
+    const activeColor = BAND_COLORS[bandKey] || '#10B981';
+    const bandLevel = BAND_LEVELS[bandKey] || 'C2 MASTERY';
 
     container.innerHTML = `
-      <div class="transformation-widget-card" style="padding:22px; background:var(--bg-card); border:1.5px solid ${activeColor}; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,0.25); position:relative; overflow:hidden;">
+      <div class="transformation-widget-card" style="padding:22px; background:var(--bg-card); border:1.5px solid ${activeColor}; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,0.25); position:relative; overflow:hidden; transition:border-color 0.25s ease;">
         
+        <style>
+          .token-lr { color: #10B981; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(16,185,129,0.4); text-underline-offset: 3px; }
+          .token-gra { color: #8B5CF6; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(139,92,246,0.4); text-underline-offset: 3px; }
+          .token-cc { color: #0284C7; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(2,132,199,0.4); text-underline-offset: 3px; }
+          .token-base { color: #94A3B8; font-style: italic; }
+        </style>
+
         <!-- Header & Scenario Dropdown -->
         <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
           <div>
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
-              <span class="occ-ver-pill" style="background:${activeColor}; color:#FFF; font-weight:900; font-size:0.72rem; padding:3px 8px; border-radius:6px; white-space:nowrap; display:inline-block; flex-shrink:0;">BAND MUTATION LAB</span>
+              <span class="mut-band-pill occ-ver-pill" style="background:${activeColor}; color:#FFF; font-weight:900; font-size:0.72rem; padding:3px 8px; border-radius:6px; white-space:nowrap; display:inline-block; flex-shrink:0; transition:background 0.25s ease;">BAND MUTATION LAB</span>
               <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Interactive Band 6.0 &rarr; 8.5+</span>
             </div>
             <h3 style="margin:0; font-size:1.12rem; font-weight:800; color:var(--text); line-height:1.35;">Examiner Syntax &amp; Lexical Transformation</h3>
@@ -243,7 +401,7 @@
           </div>
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:8px; border:1px solid var(--border);">
             <label style="font-size:0.75rem; color:var(--text-secondary); font-weight:800; white-space:nowrap;">TOPIC SELECTOR:</label>
-            <select class="occ-select" style="font-size:0.8rem; padding:5px 10px; flex:1; min-width:200px; max-width:100%; border-radius:6px;" onchange="window.selectTransformationScenario(this.value, '${containerId}')">
+            <select class="occ-select mut-topic-select" style="font-size:0.8rem; padding:5px 10px; flex:1; min-width:200px; max-width:100%; border-radius:6px;" onchange="window.selectTransformationScenario(this.value, '${targetId}')">
               ${TRANSFORMATION_SCENARIOS.map((s, i) => `
                 <option value="${i}" ${i === currentScenarioIdx ? 'selected' : ''}>${escapeHtml(s.category)}: ${escapeHtml(s.topic)}</option>
               `).join('')}
@@ -255,35 +413,38 @@
         <div style="background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:18px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <span style="font-size:0.75rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em;">Target Band Slider</span>
-            <span style="font-size:1.1rem; font-weight:900; color:${activeColor}; font-family:monospace;">BAND ${currentData.band} ${currentData.band === '9.0' ? 'C2 EXPERT' : currentData.band === '8.5' ? 'C2 MASTERY' : currentData.band === '7.0' ? 'C1 ADVANCED' : 'B2 COMPETENT'}</span>
+            <span class="mut-band-badge" style="font-size:1.1rem; font-weight:900; color:${activeColor}; font-family:monospace; transition:color 0.25s ease;">BAND ${currentData.band} ${bandLevel}</span>
           </div>
 
           <div style="position:relative; margin:14px 0 10px 0;">
-            <input type="range" min="6.0" max="9.0" step="0.5" value="${currentBandStep}" 
+            <input type="range" min="0" max="3" step="1" value="${currentBandIdx}" 
+              class="mut-slider-input"
               style="width:100%; height:8px; accent-color:${activeColor}; cursor:pointer;" 
-              oninput="window.setTransformationBandStep(this.value, '${containerId}')" aria-label="Band score slider">
-            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-secondary); font-weight:800; font-family:monospace; margin-top:6px;">
-              <span style="cursor:pointer; ${bandKey === '6.0' ? 'color:#94A3B8; font-weight:900;' : ''}" onclick="window.setTransformationBandStep(6.0, '${containerId}')">Band 6.0</span>
-              <span style="cursor:pointer; ${bandKey === '7.0' ? 'color:#0284C7; font-weight:900;' : ''}" onclick="window.setTransformationBandStep(7.0, '${containerId}')">Band 7.0</span>
-              <span style="cursor:pointer; ${bandKey === '8.5' ? 'color:#10B981; font-weight:900;' : ''}" onclick="window.setTransformationBandStep(8.5, '${containerId}')">Band 8.5</span>
-              <span style="cursor:pointer; ${bandKey === '9.0' ? 'color:#F59E0B; font-weight:900;' : ''}" onclick="window.setTransformationBandStep(9.0, '${containerId}')">Band 9.0</span>
+              oninput="window.setTransformationBandIndex(this.value, '${targetId}')" 
+              onchange="window.setTransformationBandIndex(this.value, '${targetId}')"
+              aria-label="Band score slider">
+            <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-secondary); font-weight:800; font-family:monospace; margin-top:6px; user-select:none;">
+              <span class="mut-tick-0" style="cursor:pointer; transition:all 0.2s ease; ${currentBandIdx === 0 ? `color:${activeColor}; font-weight:900; transform:scale(1.08);` : 'font-weight:700;'}" onclick="window.setTransformationBandIndex(0, '${targetId}')">Band 6.0</span>
+              <span class="mut-tick-1" style="cursor:pointer; transition:all 0.2s ease; ${currentBandIdx === 1 ? `color:${activeColor}; font-weight:900; transform:scale(1.08);` : 'font-weight:700;'}" onclick="window.setTransformationBandIndex(1, '${targetId}')">Band 7.0</span>
+              <span class="mut-tick-2" style="cursor:pointer; transition:all 0.2s ease; ${currentBandIdx === 2 ? `color:${activeColor}; font-weight:900; transform:scale(1.08);` : 'font-weight:700;'}" onclick="window.setTransformationBandIndex(2, '${targetId}')">Band 8.5</span>
+              <span class="mut-tick-3" style="cursor:pointer; transition:all 0.2s ease; ${currentBandIdx === 3 ? `color:${activeColor}; font-weight:900; transform:scale(1.08);` : 'font-weight:700;'}" onclick="window.setTransformationBandIndex(3, '${targetId}')">Band 9.0</span>
             </div>
           </div>
         </div>
 
         <!-- Live Sentence Display Box with Token Highlights -->
         <div style="margin-bottom:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
             <span style="font-size:0.75rem; font-weight:800; color:var(--text-secondary); text-transform:uppercase;">Mutated Cambridge Payload:</span>
-            <div style="display:flex; gap:8px; font-size:0.7rem;">
+            <div style="display:flex; gap:8px; font-size:0.7rem; flex-wrap:wrap;">
               <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:2px; background:#10B981; display:inline-block;"></span> Lexical C1/C2</span>
               <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:2px; background:#8B5CF6; display:inline-block;"></span> Inversion/GRA</span>
               <span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:2px; background:#0284C7; display:inline-block;"></span> Cohesion/CC</span>
             </div>
           </div>
 
-          <div style="padding:18px 20px; background:var(--bg); border:1.5px solid var(--border-accent); border-radius:8px; font-size:1.02rem; line-height:1.75; color:var(--text); font-family:Georgia, serif; min-height:68px;">
-            "${currentData.html}"
+          <div class="mut-payload-box" style="padding:18px 20px; background:var(--bg); border:1.5px solid var(--border-accent); border-radius:8px; font-size:1.02rem; line-height:1.75; color:var(--text); font-family:Georgia, serif; min-height:68px;">
+            &ldquo;${currentData.html}&rdquo;
           </div>
         </div>
 
@@ -291,19 +452,19 @@
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:8px; margin-bottom:16px;">
           <div style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; text-align:center;">
             <div style="font-size:0.68rem; color:var(--text-secondary); font-weight:700;">TASK RESPONSE</div>
-            <div style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace;">${currentData.ta.toFixed(1)}</div>
+            <div class="mut-ta-val" style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace; transition:color 0.25s ease;">${currentData.ta.toFixed(1)}</div>
           </div>
           <div style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; text-align:center;">
             <div style="font-size:0.68rem; color:var(--text-secondary); font-weight:700;">COHESION &amp; COHERENCE</div>
-            <div style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace;">${currentData.cc.toFixed(1)}</div>
+            <div class="mut-cc-val" style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace; transition:color 0.25s ease;">${currentData.cc.toFixed(1)}</div>
           </div>
           <div style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; text-align:center;">
             <div style="font-size:0.68rem; color:var(--text-secondary); font-weight:700;">LEXICAL RESOURCE</div>
-            <div style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace;">${currentData.lr.toFixed(1)}</div>
+            <div class="mut-lr-val" style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace; transition:color 0.25s ease;">${currentData.lr.toFixed(1)}</div>
           </div>
           <div style="padding:8px 10px; background:var(--bg); border:1px solid var(--border); border-radius:6px; text-align:center;">
             <div style="font-size:0.68rem; color:var(--text-secondary); font-weight:700;">GRAMMATICAL RANGE</div>
-            <div style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace;">${currentData.gra.toFixed(1)}</div>
+            <div class="mut-gra-val" style="font-size:1.15rem; font-weight:900; color:${activeColor}; font-family:monospace; transition:color 0.25s ease;">${currentData.gra.toFixed(1)}</div>
           </div>
         </div>
 
@@ -312,21 +473,21 @@
           <div style="font-size:0.75rem; font-weight:800; color:#D97706; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
             <svg class="ui-icon ui-icon-xs"><use href="#lucide-search"/></svg> EXAMINER DIAGNOSTIC SURGERY // မြန်မာသုံးသပ်ချက်:
           </div>
-          <div class="burmese" style="font-size:0.84rem; color:var(--text); line-height:1.6;">
+          <div class="burmese mut-burmese-text" style="font-size:0.84rem; color:var(--text); line-height:1.6;">
             ${escapeHtml(currentData.burmese)}
           </div>
         </div>
 
         <!-- Action Row -->
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <span style="font-size:0.75rem; color:var(--text-secondary);">
+          <span class="mut-topic-counter" style="font-size:0.75rem; color:var(--text-secondary);">
             Scenario ${currentScenarioIdx + 1} of ${TRANSFORMATION_SCENARIOS.length}
           </span>
           <div style="display:flex; gap:8px;">
-            <button class="btn-outlined" style="padding:6px 12px; font-size:0.78rem;" onclick="window.copyTransformationText('${currentData.text.replace(/'/g, "\\'")}')">
+            <button class="btn-outlined" style="padding:6px 12px; font-size:0.78rem;" onclick="window.copyTransformationText()">
               <svg class="ui-icon ui-icon-xs"><use href="#lucide-copy"/></svg> Copy Text
             </button>
-            <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:700;" onclick="window.sendTransformationToWritingLab('${currentData.text.replace(/'/g, "\\'")}')">
+            <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:700;" onclick="window.sendTransformationToWritingLab()">
               <svg class="ui-icon ui-icon-xs"><use href="#lucide-pen-tool"/></svg> Insert into Writing Lab &rarr;
             </button>
           </div>
@@ -337,19 +498,21 @@
   };
 
   window.copyTransformationText = function(text) {
+    const payload = text || window.getCurrentTransformationText();
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(payload);
       if (typeof window.showToast === 'function') window.showToast('Copied transformed sentence to clipboard!');
     }
   };
 
   window.sendTransformationToWritingLab = function(text) {
+    const payload = text || window.getCurrentTransformationText();
     if (typeof window.switchView === 'function') {
       window.switchView('writing');
     }
     const editor = document.getElementById('we-input') || document.getElementById('writingEditorInput');
     if (editor) {
-      editor.value = (editor.value ? editor.value + '\n\n' : '') + text;
+      editor.value = (editor.value ? editor.value + '\n\n' : '') + payload;
       editor.dispatchEvent(new Event('input'));
       if (typeof window.showToast === 'function') window.showToast('Transformed sentence inserted into Writing Lab!');
     }
