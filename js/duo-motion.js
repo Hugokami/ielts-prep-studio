@@ -1221,6 +1221,8 @@
 
     renderHudPills();
     renderOverviewDuoHub();
+    initTopbarAutoCollapse();
+    initTopUtilsDragScroll();
 
     // 4. First-time user onboarding guide auto-prompt (3.8s after launch, once only)
     try {
@@ -1232,6 +1234,117 @@
         }, 3800);
       }
     } catch (e) {}
+  }
+
+  // ==========================================================================
+  // 10. TOPBAR AUTO-COLLAPSE ON SCROLL & MOBILE HORIZONTAL SLIDE CONTROLLER
+  // ==========================================================================
+  function initTopbarAutoCollapse() {
+    let lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    let ticking = false;
+    const COLLAPSE_MIN_Y = 54;
+    const DELTA_THRESHOLD = 8;
+
+    function onScrollTick() {
+      const currentY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+
+      // Always show topbar at or near the very top of the page
+      if (currentY <= COLLAPSE_MIN_Y) {
+        if (document.body.classList.contains("topbar-collapsed")) {
+          document.body.classList.remove("topbar-collapsed");
+        }
+        lastScrollY = currentY;
+        ticking = false;
+        return;
+      }
+
+      // Do NOT collapse if user is actively typing in an input/textarea or if a modal/drawer is open
+      const activeEl = document.activeElement;
+      const isTyping = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.isContentEditable);
+      const isModalOpen = document.querySelector(".modal.active, .modal.show, .drawer.open, #settingsDrawer.open, #vipPassModal[style*='display: flex']");
+
+      if (isTyping || isModalOpen) {
+        lastScrollY = currentY;
+        ticking = false;
+        return;
+      }
+
+      const delta = currentY - lastScrollY;
+
+      if (delta > DELTA_THRESHOLD) {
+        // Scrolling DOWN -> Auto collapse
+        if (!document.body.classList.contains("topbar-collapsed")) {
+          document.body.classList.add("topbar-collapsed");
+        }
+      } else if (delta < -DELTA_THRESHOLD) {
+        // Scrolling UP -> Reveal
+        if (document.body.classList.contains("topbar-collapsed")) {
+          document.body.classList.remove("topbar-collapsed");
+        }
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(onScrollTick);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      document.body.classList.remove("topbar-collapsed");
+      lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    }, { passive: true });
+
+    window.revealTopbar = function() {
+      document.body.classList.remove("topbar-collapsed");
+      lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    };
+  }
+
+  function initTopUtilsDragScroll() {
+    const el = document.querySelector(".top-utils");
+    if (!el || el.dataset.dragScrollBound) return;
+    el.dataset.dragScrollBound = "true";
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let hasMoved = false;
+
+    el.addEventListener("mousedown", (e) => {
+      // Allow mouse drag-scrolling for desktop mouse users and devtools responsive mode
+      if (e.button !== 0) return;
+      isDown = true;
+      hasMoved = false;
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDown = false;
+    });
+
+    el.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 5) {
+        hasMoved = true;
+      }
+      el.scrollLeft = scrollLeft - walk;
+    });
+
+    el.addEventListener("click", (e) => {
+      if (hasMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        hasMoved = false;
+      }
+    }, true);
   }
 
   if (document.readyState === "loading") {

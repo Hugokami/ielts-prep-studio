@@ -4383,12 +4383,30 @@
     width: 100% !important;
     max-width: 100% !important;
     pointer-events: auto !important;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease !important;
+    will-change: transform;
   }
   :root[data-theme="dark"] .topbar {
     background: #0B0F19 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45) !important;
+  }
+  body.topbar-collapsed .topbar {
+    transform: translateY(-100%) !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+  }
+  .subtab-bar,
+  .subnav-strip,
+  .mobile-cbt-toggle-bar,
+  .at-subnav-bar {
+    transition: top 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  body.topbar-collapsed .subtab-bar,
+  body.topbar-collapsed .subnav-strip,
+  body.topbar-collapsed .mobile-cbt-toggle-bar,
+  body.topbar-collapsed .at-subnav-bar {
+    top: 0px !important;
   }
   .topbar-inner {
     pointer-events: auto !important;
@@ -4416,6 +4434,8 @@
     justify-content: space-between !important;
     gap: 8px !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     min-height: 38px !important;
     flex-wrap: wrap !important;
   }
@@ -4432,11 +4452,22 @@
     margin-left: auto !important;
     gap: 6px !important;
     flex-wrap: nowrap !important;
-    overflow-x: visible !important;
-    flex-shrink: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-x !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overscroll-behavior-x: contain !important;
+    padding-bottom: 2px !important;
+    flex-shrink: 1 !important;
   }
   .top-utils::-webkit-scrollbar {
     display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
   .top-utils > * {
     flex-shrink: 0 !important;
@@ -4487,20 +4518,58 @@
     .nav-links {
       display: none !important;
     }
+    .topbar-row-top {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 6px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+    .topbar-left-wrap {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      min-width: 0 !important;
+    }
+    .top-utils {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      justify-content: flex-start !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      touch-action: pan-x !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      overscroll-behavior-x: contain !important;
+      padding-bottom: 2px !important;
+      padding-right: 16px !important;
+      box-sizing: border-box !important;
+    }
   }
   @media (max-width: 600px) {
     .topbar-row-top {
       flex-direction: column !important;
       align-items: stretch !important;
-      gap: 8px !important;
+      gap: 6px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
     }
     .topbar-left-wrap {
       width: 100% !important;
       justify-content: flex-start !important;
+      min-width: 0 !important;
     }
     .top-utils {
       width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       justify-content: flex-start !important;
+      padding-right: 16px !important;
     }
   }
 
@@ -7098,6 +7167,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
       <!-- Top Right Utilities -->
       <div class="top-utils">
+        <div id="duoTopHudMount" class="duo-top-hud-mount"></div>
         <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
           🔍 <span class="search-btn-label">Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
         </button>
@@ -16041,6 +16111,12 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       }
     } catch (hydrateErr) {
       console.warn('[Tab Hydration Notice]', hydrateErr);
+    }
+
+    if (typeof window.revealTopbar === 'function') {
+      window.revealTopbar();
+    } else {
+      document.body.classList.remove('topbar-collapsed');
     }
 
     if (scrollTargetEl) {
