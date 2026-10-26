@@ -20,6 +20,7 @@
   <script src="js/band-surgery.js?v=10.0"></script>
   <script src="js/speaking-cbt-weapons.js?v=10.0"></script>
   <script src="js/analytics-exam-kit.js?v=10.0"></script>
+  <script src="js/conversion-prestige.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -101,7 +102,56 @@
   }
 
   /* Linear / Cal.com Refined Obsidian Slate Dark Mode */
-  :root[data-theme="dark"] {
+  :root[data-theme="obsidian-gold"] {
+    --bg: #07090E;
+    --bg-card: #0D111A;
+    --bg-card-hover: #161D2B;
+    --bg-elevated: #161D2B;
+    --bg-Elevated: #161D2B;
+    --bg-subtle: #111724;
+    --surface: #0D111A;
+    --border: rgba(245, 158, 11, 0.16);
+    --border-mid: rgba(245, 158, 11, 0.28);
+    --border-accent: #F59E0B;
+    --text: #FFFBEB;
+    --text-secondary: #D1D5DB;
+    --text-muted: #9CA3AF;
+    --accent: #F59E0B;
+    --accent-bright: #FBBF24;
+    --accent-dark: #B45309;
+    --accent-soft: rgba(245, 158, 11, 0.18);
+    --accent-gold: #FCD34D;
+    --accent-ink: #07090E;
+    --teal: #38BDF8;
+    --teal-soft: rgba(56, 189, 248, 0.14);
+    --green: #10B981;
+    --green-soft: rgba(16, 185, 129, 0.16);
+    --success: #10B981;
+    --crimson: #F43F5E;
+    --crimson-soft: rgba(244, 63, 94, 0.16);
+  }
+
+  [data-theme="obsidian-gold"] .topbar {
+    background: rgba(7, 9, 14, 0.92) !important;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.25) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  [data-theme="obsidian-gold"] .btn-accent-solid {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+    color: #07090E !important;
+    font-weight: 800 !important;
+    border: 1px solid #FCD34D !important;
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.35) !important;
+  }
+
+  [data-theme="obsidian-gold"] .occ-card,
+  [data-theme="obsidian-gold"] .constellation-box,
+  [data-theme="obsidian-gold"] .modal-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(245, 158, 11, 0.15) !important;
+  }
+
+  [data-theme="dark"] {
     --bg: #0B0F19;
     --bg-card: #111827;
     --bg-card-hover: #1F2937;
@@ -2324,6 +2374,36 @@
       color: #000000 !important;
     }
     body.printing-cheat-sheet .no-print {
+      display: none !important;
+    }
+    body.printing-certificate .topbar,
+    body.printing-certificate .mobile-bottom-nav,
+    body.printing-certificate .subnav-strip,
+    body.printing-certificate #bg-canvas,
+    body.printing-certificate #backToTopBtn,
+    body.printing-certificate #word-inspector,
+    body.printing-certificate .studio-container,
+    body.printing-certificate .modal-backdrop:not(#mockReadinessCertificateModal) {
+      display: none !important;
+    }
+    body.printing-certificate #mockReadinessCertificateModal {
+      display: block !important;
+      position: static !important;
+      background: #FFFFFF !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+    body.printing-certificate .print-certificate-card {
+      box-shadow: none !important;
+      border: none !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      background: #FFFFFF !important;
+      color: #000000 !important;
+    }
+    body.printing-certificate .no-print {
       display: none !important;
     }
     .topbar, .mobile-bottom-nav, .subnav-strip, #bg-canvas, #backToTopBtn, #word-inspector, .modal-backdrop {
@@ -7948,9 +8028,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="drawer-item-label">Interface Theme</div>
           <div class="drawer-item-sub">Switch between Dark and Light mode</div>
         </div>
-        <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Switch Dark / Light Theme">
-          <span id="themeLabel">Light</span>
-        </button>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-outlined" id="themeBtn" onclick="toggleThemeMode()" title="Cycle Dark / Gold / Light Theme">
+            <span id="themeLabel">Light</span>
+          </button>
+          <button class="btn-outlined" onclick="window.setPrestigeTheme('obsidian-gold')" style="border-color:#D97706; color:#D97706; font-weight:800; font-size:0.75rem; padding:4px 8px;" title="Activate Obsidian &amp; Gold Fellow Prestige Theme">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-crown"/></svg> Gold
+          </button>
+        </div>
       </div>
     </div>
 
@@ -10137,6 +10222,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-culinary" onclick="switchAcademicToolsTab('culinary')"><svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> <span>Burmese Culinary</span></button>
         <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
         <button class="at-subnav-btn" id="at-tab-cheatsheet" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon ui-icon-xs" style="color:#059669;"><use href="#lucide-file-text"/></svg> <span>Cheat Sheet PDF</span></button>
+        <button class="at-subnav-btn" id="at-tab-transformation" onclick="switchAcademicToolsTab('transformation')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-sliders"/></svg> <span>Band 6-8.5 Mutation</span></button>
+        <button class="at-subnav-btn" id="at-tab-cert" onclick="openMockReadinessCertificate()"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-award"/></svg> <span>Readiness Certificate</span></button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -10482,6 +10569,11 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Refresh Live Feed</button>
         </div>
         <div id="v6-podcast-output"></div>
+      </div>
+
+      <!-- Pane 11: Band 6.0 -> 8.5 Transformation Lab -->
+      <div id="at-pane-transformation" class="at-pane">
+        <div id="atBandTransformationMount"></div>
       </div>
 
     </div>
@@ -11310,6 +11402,11 @@ function openVipPassModal() {
     } else {
       activeSec.style.display = "none";
       purchaseSec.style.display = "block";
+      if (typeof window.initBandTransformationSlider === 'function') {
+        setTimeout(function() {
+          window.initBandTransformationSlider('vipBandTransformationMount');
+        }, 50);
+      }
     }
   }
   m.style.display = "flex";
@@ -12271,7 +12368,13 @@ function saveAppState() {
 // 1. THEME, LANGUAGE, FONT SCALE & NAVIGATION
 // ==========================================
 function toggleThemeMode() {
-  appState.theme = appState.theme === "dark" ? "light" : "dark";
+  if (appState.theme === "dark") {
+    appState.theme = "obsidian-gold";
+  } else if (appState.theme === "obsidian-gold") {
+    appState.theme = "light";
+  } else {
+    appState.theme = "dark";
+  }
   applyThemeUI();
   renderConstellation(appState.activeGraphWordId);
   saveAppState();
@@ -12280,7 +12383,10 @@ function toggleThemeMode() {
 function applyThemeUI() {
   document.documentElement.setAttribute("data-theme", appState.theme);
   const lbl = document.getElementById("themeLabel");
-  if (lbl) lbl.textContent = appState.theme === "dark" ? "Light ↗" : "Dark ↗";
+  if (lbl) {
+    if (appState.theme === "obsidian-gold") lbl.textContent = "Gold ↗";
+    else lbl.textContent = appState.theme === "dark" ? "Light ↗" : "Dark ↗";
+  }
 }
 
 function toggleLanguageMode() {
@@ -12982,6 +13088,9 @@ function refreshAnalytics() {
   renderVarietyDistribution();
   if (typeof window.renderExamReadinessBanner === 'function') {
     window.renderExamReadinessBanner('examReadinessBanner');
+  }
+  if (typeof window.initFocusHeartsAndXpHud === 'function') {
+    window.initFocusHeartsAndXpHud();
   }
 }
 
@@ -14971,6 +15080,9 @@ function gradeDrill() {
       exp.className = "q-exp fail";
       exp.innerHTML = `<strong style="color:var(--crimson);">Expected: ${d.item.word}</strong> · Synonyms: ${d.item.synonyms.join(", ")}<br><span class="burmese">${d.item.mmMeaning} — ${d.item.mmNote}</span>`;
       logMistakeItem("Paraphrase Drill", `Replace "${d.item.basic}" in: "${d.blanked}"`, d.item.word, `${d.item.mmMeaning} — ${d.item.mmNote}`);
+      if (typeof window.deductFocusHeart === "function") {
+        window.deductFocusHeart();
+      }
     }
   });
   recordParaphraseDrillUsage();
@@ -18562,7 +18674,7 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
@@ -18575,6 +18687,11 @@ function switchAcademicToolsTab(tabName) {
     if (vtBtn) vtBtn.classList.toggle('active', t === tabName);
     if (vtPane) vtPane.style.display = (t === tabName) ? 'block' : 'none';
   });
+  if (tabName === 'transformation') {
+    if (typeof window.initBandTransformationSlider === 'function') {
+      window.initBandTransformationSlider('atBandTransformationMount');
+    }
+  }
 }
 
 window.openBandSurgeryFromEditor = function() {
@@ -20419,7 +20536,13 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <svg class="ui-icon"><use href="#lucide-message-square"/></svg> Direct Lead Instructor Academic Support: <a href="https://t.me/hyuguo" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:800; text-decoration:underline;">@hyuguo</a>
           </div>
 
-          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+            <button class="btn-accent-solid" onclick="openMockReadinessCertificate()" style="font-size:0.82rem; font-weight:700; background:#D97706; border:none;">
+              <svg class="ui-icon"><use href="#lucide-award"/></svg> Mock Readiness Certificate
+            </button>
+            <button class="btn-outlined" onclick="togglePrestigeTheme()" style="font-size:0.82rem; font-weight:700; border-color:#D97706; color:#D97706;">
+              <svg class="ui-icon"><use href="#lucide-crown"/></svg> Toggle Obsidian Gold Theme
+            </button>
             <button class="btn-outlined" onclick="triggerCloudSync()" style="font-size:0.82rem; font-weight:700;">
               <svg class="ui-icon"><use href="#lucide-cloud"/></svg> Sync Progress Now
             </button>
@@ -20432,6 +20555,9 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
       <!-- VIP Purchase & Activation Section (Shown for Free Users) -->
       <div id="vipPurchaseSection">
+        <!-- 4.1: Interactive Band 6.0 -> 8.5 Transformation Showcase -->
+        <div id="vipBandTransformationMount" style="margin:12px 0 16px 0;"></div>
+
         <!-- Private Tutor vs IELTS Prep Studio ROI Anchor -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; margin:14px 0;">
           <div style="background:rgba(224, 86, 36, 0.05); border:1px solid rgba(224, 86, 36, 0.25); border-radius:6px; padding:14px;">
