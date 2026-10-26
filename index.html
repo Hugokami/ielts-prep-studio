@@ -18,6 +18,7 @@
 <script src="js/duo-motion.js?v=10.0"></script>
   <script src="js/burmese-cuisine.js?v=10.0"></script>
   <script src="js/band-surgery.js?v=10.0"></script>
+  <script src="js/speaking-cbt-weapons.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -9251,6 +9252,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <span>Reading Tactics &amp; Traps</span>
       </button>
+      <button class="subtab-btn" data-subtab="tfng" onclick="switchSubTab('reading', 'tfng'); if(typeof window.renderTfngArbiterPanel==='function') window.renderTfngArbiterPanel('tfngArbiterContainer');">
+        <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-target"/></svg>
+        <span>False vs Not Given Arbiter</span>
+      </button>
     </div>
 
     <!-- SUBTAB 1: READING CBT -->
@@ -9387,6 +9392,11 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- SUBTAB 3: TRUE / FALSE / NOT GIVEN DECISIVE ARBITER -->
+    <div class="subtab-panel" data-subtab="tfng">
+      <div id="tfngArbiterContainer" style="padding-top:4px;"></div>
     </div>
   </section>
 
@@ -9763,6 +9773,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
                   <button type="button" class="accent-link" onclick="openVipToolsModal('culinary')" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer; color:var(--accent);">
                     <svg class="ui-icon" style="width:13px;height:13px;margin-right:2px;"><use href="#lucide-utensils"/></svg> Local Food &amp; Ingredients
                   </button>
+                  <button type="button" class="accent-link" onclick="window.toggleCueCardLifeline()" style="font-size:0.74rem; font-weight:800; background:linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(217, 119, 6, 0.05)); border:1px solid #D97706; border-radius:6px; padding:3px 8px; cursor:pointer; color:#D97706; display:inline-flex; align-items:center; gap:4px;" title="Open 60-Second Cue Card Lifeline (PPF Mind-Map & 5 Curated Idioms)">
+                    <svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> 60s Cue Card Lifeline
+                  </button>
                   <button type="button" class="accent-link" onclick="spinNativeSpeakingCueCard()" style="font-size:0.74rem; font-weight:700; background:none; border:none; cursor:pointer;">
                     <svg class="ui-icon"><use href="#lucide-dices"/></svg> Random Cue Card
                   </button>
@@ -9778,6 +9791,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
                 <li>And explain whether it has made your life easier or more complicated.</li>
               </ul>
             </div>
+
+            <!-- 60s Cue Card Lifeline Drawer (PPF + STORY Mind-Map) -->
+            <div id="cueCardLifelineDrawer" style="display:none; margin-bottom:12px;"></div>
 
             <!-- Controls Row: Record, Stop, Save, VU meter -->
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
@@ -17458,25 +17474,38 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
 
     const words = combined.split(/\s+/).filter(Boolean);
     const elapsedMinutes = Math.max((Date.now() - (startTimeMs || Date.now())) / 60000, 0.12);
-    const wpm = Math.round(words.length / elapsedMinutes);
 
+    let diag2 = null;
+    if (typeof window.computeSpeechDiagnostics2 === 'function') {
+      diag2 = window.computeSpeechDiagnostics2(combined, elapsedMinutes);
+    }
+
+    const wpm = diag2 ? diag2.wpm : Math.round(words.length / elapsedMinutes);
     const fillerMatches = combined.match(FILLER_REGEX) || [];
+    const totalHesitations = diag2 ? diag2.totalHesitations : fillerMatches.length;
 
     if (wpmEl) wpmEl.textContent = String(wpm);
     if (wordCountEl) wordCountEl.textContent = String(words.length);
-    if (fillerCountEl) fillerCountEl.textContent = String(fillerMatches.length);
+    if (fillerCountEl) fillerCountEl.textContent = String(totalHesitations);
 
     if (paceBar) {
       const pct = Math.min(100, Math.round((wpm / 180) * 100));
       paceBar.style.width = pct + '%';
-      if (wpm < 110) paceBar.style.background = '#f59e0b';
-      else if (wpm <= 160) paceBar.style.background = '#10b981';
-      else paceBar.style.background = '#ef4444';
+      paceBar.style.background = diag2 ? diag2.wpmColor : (wpm < 110 ? '#f59e0b' : (wpm <= 160 ? '#10b981' : '#ef4444'));
+      if (diag2 && wpm >= 130 && wpm <= 155) {
+        paceBar.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.6)';
+      } else {
+        paceBar.style.boxShadow = '';
+      }
     }
     if (paceStatus) {
-      if (wpm < 110) paceStatus.innerHTML = '<span style="color:#f59e0b;font-weight:700;">Slow (&lt;110 WPM) — Aim to expand sentences</span>';
-      else if (wpm <= 160) paceStatus.innerHTML = '<span style="color:#10b981;font-weight:700;">Optimal Band 8+ Natural Flow (120–150 WPM)</span>';
-      else paceStatus.innerHTML = '<span style="color:#ef4444;font-weight:700;">Fast (&gt;165 WPM) — Pace yourself for clarity</span>';
+      if (diag2) {
+        paceStatus.innerHTML = `<span style="color:${diag2.wpmColor}; font-weight:800;">${diag2.wpmZone}</span> &middot; Fluency: <strong style="color:var(--text);">${diag2.estimatedBand}</strong>`;
+      } else {
+        if (wpm < 110) paceStatus.innerHTML = '<span style="color:#f59e0b;font-weight:700;">Slow (&lt;110 WPM) — Aim to expand sentences</span>';
+        else if (wpm <= 160) paceStatus.innerHTML = '<span style="color:#10b981;font-weight:700;">Optimal Band 8+ Natural Flow (120–150 WPM)</span>';
+        else paceStatus.innerHTML = '<span style="color:#ef4444;font-weight:700;">Fast (&gt;165 WPM) — Pace yourself for clarity</span>';
+      }
     }
 
     const cleanWordTokens = combined.toLowerCase().match(/\b[a-z]{2,}\b/g) || [];
