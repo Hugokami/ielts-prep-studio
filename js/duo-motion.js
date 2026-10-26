@@ -5,12 +5,12 @@
 //   - Web Audio API Synthesized Chimes (Zero external latency / zero CORS)
 //   - Lightweight 60 FPS Canvas Confetti (Auto-cleanup, no dependencies)
 //   - Interactive Academic Study Economy:
-//       * 🔥 Consistency Streak (with 🧊 Streak Freeze Protection)
-//       * ⭐ Academic XP & Cambridge Scholar Rank Progression (Level 1–5)
-//       * ❤️ Focus Hearts (stamina in drills; regenerates or practice-heals)
-//       * 💎 Academic Gems & Spendable Scholar Store (Hints, Refills, Boosts)
+//       * Consistency Streak (with Streak Freeze Protection)
+//       * Academic XP & Cambridge Scholar Rank Progression (Level 1–5)
+//       * Focus Hearts (stamina in drills; regenerates or practice-heals)
+//       * Academic Gems & Spendable Scholar Store (Hints, Refills, Boosts)
 //   - 4-Step Interactive New User Onboarding & Studio Guide Modal
-//   - Cambridge Academic Syntax Builder (with 💡 Smart Hint Power-Up)
+//   - Cambridge Academic Syntax Builder (with Smart Hint Power-Up)
 // ============================================================================
 
 (function () {
@@ -90,15 +90,15 @@
   window.getScholarRankInfo = function (xp) {
     const val = typeof xp === "number" ? xp : (getGamifyState().xp || 0);
     if (val >= 2000) {
-      return { level: 5, title: "Cambridge Master", bandTrack: "Band 8.5 – 9.0 Track", nextAt: 3000, progressPct: 100, badge: "👑" };
+      return { level: 5, title: "Cambridge Master", bandTrack: "Band 8.5 – 9.0 Track", nextAt: 3000, progressPct: 100, badge: "lucide-crown" };
     } else if (val >= 1000) {
-      return { level: 4, title: "Distinction Fellow", bandTrack: "Band 8.0 Track", nextAt: 2000, progressPct: Math.round(((val - 1000) / 1000) * 100), badge: "🎖️" };
+      return { level: 4, title: "Distinction Fellow", bandTrack: "Band 8.0 Track", nextAt: 2000, progressPct: Math.round(((val - 1000) / 1000) * 100), badge: "lucide-award" };
     } else if (val >= 500) {
-      return { level: 3, title: "Honours Scholar", bandTrack: "Band 7.5 Track", nextAt: 1000, progressPct: Math.round(((val - 500) / 500) * 100), badge: "🏅" };
+      return { level: 3, title: "Honours Scholar", bandTrack: "Band 7.5 Track", nextAt: 1000, progressPct: Math.round(((val - 500) / 500) * 100), badge: "lucide-medal" };
     } else if (val >= 200) {
-      return { level: 2, title: "Academic Contender", bandTrack: "Band 6.5 – 7.0 Track", nextAt: 500, progressPct: Math.round(((val - 200) / 300) * 100), badge: "⭐" };
+      return { level: 2, title: "Academic Contender", bandTrack: "Band 6.5 – 7.0 Track", nextAt: 500, progressPct: Math.round(((val - 200) / 300) * 100), badge: "lucide-star" };
     }
-    return { level: 1, title: "Foundation Candidate", bandTrack: "Band 6.0 Track", nextAt: 200, progressPct: Math.round((val / 200) * 100), badge: "🌱" };
+    return { level: 1, title: "Foundation Candidate", bandTrack: "Band 6.0 Track", nextAt: 200, progressPct: Math.round((val / 200) * 100), badge: "lucide-sprout" };
   };
 
   // Heart Auto-Regeneration (1 Heart per 15 minutes)
@@ -212,7 +212,7 @@
     st.soundEnabled = !st.soundEnabled;
     saveGamifyState(st);
     if (typeof showStudioNotification === "function") {
-      showStudioNotification(st.soundEnabled ? "🔊 Sound Effects ON" : "🔇 Sound Effects Muted");
+      showStudioNotification(st.soundEnabled ? "Sound Effects ON" : "Sound Effects Muted");
     }
   };
 
@@ -311,8 +311,8 @@
       setTimeout(() => {
         window.duoCelebrate();
         window.duoShowFeedback({
-          title: `🎉 SCHOLAR RANK UP! ${newRank.badge} Level ${newRank.level}`,
-          message: `Promoted to "${newRank.title}" (${newRank.bandTrack})! +25 💎 Bonus awarded!`,
+          title: `SCHOLAR RANK UP! Level ${newRank.level}`,
+          message: `Promoted to "${newRank.title}" (${newRank.bandTrack})! +25 Gems Bonus awarded!`,
           type: "success"
         });
       }, 600);
@@ -344,8 +344,8 @@
         state.gems += q.gems || 5;
         setTimeout(() => {
           duoShowFeedback({
-            title: `🏆 Daily Quest Completed!`,
-            message: `"${q.title}" finished! +${q.xp} XP & +${q.gems || 5} 💎 claimed.`,
+            title: `Daily Quest Completed!`,
+            message: `"${q.title}" finished! +${q.xp} XP & +${q.gems || 5} Gems claimed.`,
             type: "success"
           });
           window.duoCelebrate();
@@ -368,7 +368,7 @@
     tag.className = "duo-xp-floater";
     tag.style.top = `${Math.max(10, top | 0)}px`;
     tag.style.left = `${Math.max(10, left | 0)}px`;
-    tag.innerHTML = `⭐ <strong>${text}</strong>`;
+    tag.innerHTML = `<svg class="ui-icon" style="color:#EAB308;"><use href="#lucide-star"/></svg> <strong>${text}</strong>`;
     document.body.appendChild(tag);
 
     setTimeout(() => {
@@ -399,7 +399,7 @@
 
     banner.innerHTML = `
       <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:240px;">
-        <div style="font-size:1.8rem;line-height:1;">${type === "success" ? "🎉" : "💡"}</div>
+        <div style="font-size:1.8rem;line-height:1;">${type === "success" ? '<svg class="ui-icon" style="width:32px;height:32px;color:#F59E0B;"><use href="#lucide-party-popper"/></svg>' : '<svg class="ui-icon" style="width:32px;height:32px;color:#F59E0B;"><use href="#lucide-lightbulb"/></svg>'}</div>
         <div>
           <div style="font-size:0.95rem;font-weight:900;color:var(--text);margin-bottom:2px;">${escapeHtml(title)}</div>
           <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.45;">${escapeHtml(message)}</div>
@@ -409,7 +409,7 @@
         <button type="button" class="btn-accent-solid" id="duoFeedbackActionBtn" style="padding:8px 18px;font-size:0.84rem;font-weight:800;white-space:nowrap;">
           ${escapeHtml(actionText)}
         </button>
-        <button type="button" class="btn-outlined" style="padding:6px 10px;font-size:0.75rem;" onclick="document.getElementById('duoBottomFeedbackBanner').classList.remove('visible')">✕</button>
+        <button type="button" class="btn-outlined" style="padding:6px 10px;font-size:0.75rem;" onclick="document.getElementById('duoBottomFeedbackBanner').classList.remove('visible')">&times;</button>
       </div>
     `;
 
@@ -483,10 +483,10 @@
             <svg class="ui-icon" style="width:24px;height:24px;color:#3B82F6;" aria-hidden="true"><use href="#lucide-puzzle"/></svg>
             <div>
               <strong style="font-size:1.02rem;color:var(--text);">Cambridge Academic Syntax Builder</strong>
-              <div style="font-size:0.75rem;color:var(--accent-gold,#F59E0B);font-weight:700;">DAILY COLLOCATION CHALLENGE • +25 XP &amp; +5 💎</div>
+              <div style="font-size:0.75rem;color:var(--accent-gold,#F59E0B);font-weight:700;">DAILY COLLOCATION CHALLENGE • +25 XP &amp; +5 Gems</div>
             </div>
           </div>
-          <button class="btn-outlined" style="padding:4px 9px;font-size:0.78rem;" onclick="document.getElementById('duoScrambleModalBackdrop').classList.remove('open');document.getElementById('duoScrambleModalBackdrop').style.display='none';">✕</button>
+          <button class="btn-outlined" style="padding:4px 9px;font-size:0.78rem;" onclick="document.getElementById('duoScrambleModalBackdrop').classList.remove('open');document.getElementById('duoScrambleModalBackdrop').style.display='none';">&times;</button>
         </div>
 
         <div style="margin-bottom:14px;padding:12px 14px;border-radius:12px;background:var(--well-peach,#FFF7ED);border:1px solid rgba(245,158,11,0.25);">
@@ -546,7 +546,7 @@
     tokenBtn.id = pickedId;
     tokenBtn.className = "duo-word-chip";
     tokenBtn.style.borderColor = "var(--accent-gold,#F59E0B)";
-    tokenBtn.innerHTML = `${escapeHtml(word)} <small style="color:var(--text-secondary);margin-left:3px;">✕</small>`;
+    tokenBtn.innerHTML = `${escapeHtml(word)} <small style="color:var(--text-secondary);margin-left:3px;">&times;</small>`;
     tokenBtn.onclick = () => window.duoReturnChip(chipIdx, word);
 
     slot.appendChild(tokenBtn);
@@ -587,7 +587,7 @@
     if ((st.gems || 0) < 10) {
       duoPlaySound("warn");
       if (typeof showStudioNotification === "function") {
-        showStudioNotification("⚠️ Need at least 10 💎 Gems for a Hint! Earn gems by practicing.");
+        showStudioNotification("Need at least 10 Gems for a Hint! Earn gems by practicing.");
       }
       return;
     }
@@ -613,7 +613,7 @@
       if (match) {
         window.duoPickChip(match[0], nextWord);
         if (typeof showStudioNotification === "function") {
-          showStudioNotification(`💡 Hint used: "${nextWord}" placed (-10 💎)`);
+          showStudioNotification(`Hint used: "${nextWord}" placed (-10 Gems)`);
         }
       }
     }
@@ -642,7 +642,7 @@
           modal.style.display = "none";
         }
         duoShowFeedback({
-          title: "🎉 Flawless Syntax! +25 XP & +5 💎",
+          title: "Flawless Syntax! +25 XP & +5 Gems",
           message: `Mastered Collocation: "${targetSentence}"`,
           type: "success"
         });
@@ -658,7 +658,7 @@
       saveGamifyState(st);
 
       if (typeof showStudioNotification === "function") {
-        showStudioNotification(`⚠️ Incorrect word sequence (-1 ❤️). Remaining: ${st.hearts}/5.`);
+        showStudioNotification(`Incorrect word sequence (-1 Heart). Remaining: ${st.hearts}/5.`);
       }
     }
   };
@@ -696,7 +696,7 @@
               <div style="font-size:0.75rem;color:var(--text-secondary);">How Consistency, XP, Focus Hearts, and Gems power your IELTS Band 8.5+</div>
             </div>
           </div>
-          <button class="btn-outlined" style="padding:4px 9px;font-size:0.78rem;" onclick="document.getElementById('ipsAcademicEconomyModalBackdrop').classList.remove('open');document.getElementById('ipsAcademicEconomyModalBackdrop').style.display='none';">✕</button>
+          <button class="btn-outlined" style="padding:4px 9px;font-size:0.78rem;" onclick="document.getElementById('ipsAcademicEconomyModalBackdrop').classList.remove('open');document.getElementById('ipsAcademicEconomyModalBackdrop').style.display='none';">&times;</button>
         </div>
 
         <!-- SCHOLAR RANK TIER HERO -->
@@ -715,27 +715,27 @@
           <div class="duo-progress-track">
             <div class="duo-progress-fill" style="width:${rank.progressPct}%;"></div>
           </div>
-          ${isDoubleXp ? `<div style="margin-top:8px;font-size:0.74rem;color:#D97706;font-weight:800;">⚡ 2× Double XP Boost ACTIVE (${doubleXpMins} minutes remaining)</div>` : ''}
+          ${isDoubleXp ? `<div style="margin-top:8px;font-size:0.74rem;color:#D97706;font-weight:800;">2× Double XP Boost ACTIVE (${doubleXpMins} minutes remaining)</div>` : ''}
         </div>
 
         <!-- 4 CORE CURRENCIES EXPLAINED -->
         <div class="ips-economy-grid">
           <div class="ips-stat-explain-card">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:1.2rem;">🔥</span>
+              <svg class="ui-icon" style="width:24px;height:24px;color:#F97316;"><use href="#lucide-flame"/></svg>
               <strong style="font-size:0.86rem;color:#EA580C;">Study Streak</strong>
             </div>
             <p style="font-size:0.76rem;color:var(--text-secondary);margin:0;line-height:1.4;">
               Tracks consecutive active study days. Study at least 1 lesson daily to maintain.
             </p>
             <div style="margin-top:4px;font-size:0.72rem;font-weight:700;color:var(--text);">
-              Status: <strong>${st.streakFreezes > 0 ? '🧊 Streak Freeze Equipped (' + st.streakFreezes + ')' : 'No freeze shield active'}</strong>
+              Status: <strong>${st.streakFreezes > 0 ? 'Streak Freeze Shield Equipped (' + st.streakFreezes + ')' : 'No freeze shield active'}</strong>
             </div>
           </div>
 
           <div class="ips-stat-explain-card">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:1.2rem;">⭐</span>
+              <svg class="ui-icon" style="width:24px;height:24px;color:#EAB308;"><use href="#lucide-star"/></svg>
               <strong style="font-size:0.86rem;color:#D97706;">Academic XP</strong>
             </div>
             <p style="font-size:0.76rem;color:var(--text-secondary);margin:0;line-height:1.4;">
@@ -748,27 +748,27 @@
 
           <div class="ips-stat-explain-card">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:1.2rem;">❤️</span>
+              <svg class="ui-icon" style="width:24px;height:24px;color:#EF4444;"><use href="#lucide-heart"/></svg>
               <strong style="font-size:0.86rem;color:#E11D48;">Focus Hearts</strong>
             </div>
             <p style="font-size:0.76rem;color:var(--text-secondary);margin:0;line-height:1.4;">
-              Exam stamina during drills. Mistakes cost 1 ❤️. Refills over time or with Gems.
+              Exam stamina during drills. Mistakes cost 1 Focus Heart. Refills over time or with Gems.
             </p>
             <div style="margin-top:4px;font-size:0.72rem;font-weight:700;color:var(--text);">
-              Lives: <strong>${st.hearts}/${st.maxHearts || 5} ❤️</strong>
+              Lives: <strong>${st.hearts}/${st.maxHearts || 5} Hearts</strong>
             </div>
           </div>
 
           <div class="ips-stat-explain-card">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span style="font-size:1.2rem;">💎</span>
+              <svg class="ui-icon" style="width:24px;height:24px;color:#06B6D4;"><use href="#lucide-gem"/></svg>
               <strong style="font-size:0.86rem;color:#0284C7;">Academic Gems</strong>
             </div>
             <p style="font-size:0.76rem;color:var(--text-secondary);margin:0;line-height:1.4;">
-              Spendable scholar currency. Earn +1 💎 per 5 XP and +15 💎 per Daily Quest.
+              Spendable scholar currency. Earn +1 Gem per 5 XP and +15 Gems per Daily Quest.
             </p>
             <div style="margin-top:4px;font-size:0.72rem;font-weight:700;color:var(--text);">
-              Balance: <strong>${st.gems || 45} 💎</strong>
+              Balance: <strong>${st.gems || 45} Gems</strong>
             </div>
           </div>
         </div>
@@ -776,8 +776,8 @@
         <!-- SCHOLAR GEM STORE -->
         <div style="margin-bottom:16px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-            <h4 style="font-size:0.92rem;font-weight:800;color:var(--text);margin:0;">💎 Scholar Gem Store (Spend Your Gems)</h4>
-            <span style="font-size:0.75rem;color:#0284C7;font-weight:800;">Available: ${st.gems || 45} 💎</span>
+            <h4 style="font-size:0.92rem;font-weight:800;color:var(--text);margin:0;"><svg class="ui-icon" style="color:#06B6D4;"><use href="#lucide-gem"/></svg> Scholar Gem Store (Spend Your Gems)</h4>
+            <span style="font-size:0.75rem;color:#0284C7;font-weight:800;">Available: ${st.gems || 45} Gems</span>
           </div>
 
           <div class="ips-shop-row">
@@ -786,7 +786,7 @@
               <div style="font-size:0.73rem;color:var(--text-secondary);">Restores Focus Hearts back to 5/5 immediately.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#E11D48;border-color:rgba(225,29,72,0.3);" onclick="window.duoBuyStoreItem('refill_hearts')">
-              15 💎 Refill
+              15 Gems Refill
             </button>
           </div>
 
@@ -796,7 +796,7 @@
               <div style="font-size:0.73rem;color:var(--text-secondary);">Doubles all XP earned across the studio for 15 minutes of intensive study.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#D97706;border-color:rgba(217,119,6,0.3);" onclick="window.duoBuyStoreItem('double_xp')">
-              30 💎 Activate
+              30 Gems Activate
             </button>
           </div>
 
@@ -806,7 +806,7 @@
               <div style="font-size:0.73rem;color:var(--text-secondary);">Protects your daily consistency streak if you miss a study day.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#0284C7;border-color:rgba(2,132,199,0.3);" onclick="window.duoBuyStoreItem('streak_freeze')">
-              50 💎 Shield
+              50 Gems Shield
             </button>
           </div>
 
@@ -816,17 +816,17 @@
               <div style="font-size:0.73rem;color:var(--text-secondary);">Unlock a secret Band 9 Golden Academic Expression with audio and Burmese analysis.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#10B981;border-color:rgba(16,185,129,0.3);" onclick="window.duoBuyStoreItem('booster_card')">
-              25 💎 Draw
+              25 Gems Draw
             </button>
           </div>
         </div>
 
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1.5px solid var(--border);">
           <button type="button" class="btn-outlined" style="font-size:0.78rem;" onclick="window.openStudioGuideModal()">
-            📖 Open Full Studio Guide
+            Open Full Studio Guide
           </button>
           <button type="button" class="btn-accent-solid" style="padding:8px 18px;font-size:0.82rem;font-weight:800;" onclick="window.openDuoWordScrambleModal()">
-            🧩 Play Syntax Builder (+25 XP)
+            Play Syntax Builder (+25 XP)
           </button>
         </div>
       </div>
@@ -838,43 +838,43 @@
     if (itemKey === "refill_hearts") {
       if ((st.gems || 0) < 15) {
         duoPlaySound("warn");
-        if (typeof showStudioNotification === "function") showStudioNotification("⚠️ Need 15 💎 to refill hearts!");
+        if (typeof showStudioNotification === "function") showStudioNotification("Need 15 Gems to refill hearts!");
         return;
       }
       st.gems -= 15;
       st.hearts = st.maxHearts || 5;
       saveGamifyState(st);
       duoPlaySound("success");
-      if (typeof showStudioNotification === "function") showStudioNotification("❤️ Hearts refilled to 5/5!");
+      if (typeof showStudioNotification === "function") showStudioNotification("Focus Hearts refilled to 5/5!");
       window.openAcademicEconomyModal();
     } else if (itemKey === "double_xp") {
       if ((st.gems || 0) < 30) {
         duoPlaySound("warn");
-        if (typeof showStudioNotification === "function") showStudioNotification("⚠️ Need 30 💎 for Double XP!");
+        if (typeof showStudioNotification === "function") showStudioNotification("Need 30 Gems for Double XP!");
         return;
       }
       st.gems -= 30;
       st.doubleXpUntil = Date.now() + 15 * 60 * 1000;
       saveGamifyState(st);
       window.duoCelebrate();
-      if (typeof showStudioNotification === "function") showStudioNotification("⚡ 2× Double XP Activated for 15 minutes!");
+      if (typeof showStudioNotification === "function") showStudioNotification("2× Double XP Activated for 15 minutes!");
       window.openAcademicEconomyModal();
     } else if (itemKey === "streak_freeze") {
       if ((st.gems || 0) < 50) {
         duoPlaySound("warn");
-        if (typeof showStudioNotification === "function") showStudioNotification("⚠️ Need 50 💎 for Streak Freeze!");
+        if (typeof showStudioNotification === "function") showStudioNotification("Need 50 Gems for Streak Freeze!");
         return;
       }
       st.gems -= 50;
       st.streakFreezes = (st.streakFreezes || 0) + 1;
       saveGamifyState(st);
       duoPlaySound("success");
-      if (typeof showStudioNotification === "function") showStudioNotification("🧊 Streak Freeze Shield equipped!");
+      if (typeof showStudioNotification === "function") showStudioNotification("Streak Freeze Shield equipped!");
       window.openAcademicEconomyModal();
     } else if (itemKey === "booster_card") {
       if ((st.gems || 0) < 25) {
         duoPlaySound("warn");
-        if (typeof showStudioNotification === "function") showStudioNotification("⚠️ Need 25 💎 to draw a card!");
+        if (typeof showStudioNotification === "function") showStudioNotification("Need 25 Gems to draw a card!");
         return;
       }
       st.gems -= 25;
@@ -888,7 +888,7 @@
       ];
       const drawn = CARDS[Math.floor(Math.random() * CARDS.length)];
       window.duoShowFeedback({
-        title: "🎯 Golden Band 9 Academic Card Unlocked!",
+        title: "Golden Band 9 Academic Card Unlocked!",
         message: drawn,
         type: "success"
       });
@@ -922,22 +922,22 @@
         </p>
         <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px;">
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>🏠 Home Overview</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Journey tree, daily quests &amp; streak tracker</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-house"/></svg>Home Overview</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Journey tree, daily quests &amp; streak tracker</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>📚 Lexicon &amp; Drills</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">1,162 AWL words &amp; 1-3-7 Spaced Repetition</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book-open"/></svg>Lexicon &amp; Drills</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">1,162 AWL words &amp; 1-3-7 Spaced Repetition</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>🎧 Listening CBT</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">160 Cambridge audio tests with transcripts</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-headphones"/></svg>Listening CBT</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">160 Cambridge audio tests with transcripts</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>📖 CBT Reading</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">23 Full Passages with split highlighter</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book"/></svg>CBT Reading</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">23 Full Passages with split highlighter</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>✍️ Writing Lab</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Task 1 charts &amp; Task 2 AI CEFR evaluator</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-pen-tool"/></svg>Writing Lab</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Task 1 charts &amp; Task 2 AI CEFR evaluator</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong>🎙️ Speaking Studio</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">35 Forecasts, auto-cue cards &amp; live weather</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-mic"/></svg>Speaking Studio</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">35 Forecasts, auto-cue cards &amp; live weather</span>
           </div>
         </div>
       `,
@@ -949,19 +949,19 @@
         </p>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
           <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);">
-            <span style="font-size:1.2rem;">🔥</span>
+            <svg class="ui-icon" style="width:24px;height:24px;color:#F97316;"><use href="#lucide-flame"/></svg>
             <div><strong style="font-size:0.82rem;color:#EA580C;">Streak</strong><div style="font-size:0.74rem;color:var(--text-secondary);">Your daily habit chain. Complete at least one exercise daily to keep it glowing.</div></div>
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);">
-            <span style="font-size:1.2rem;">⭐</span>
+            <svg class="ui-icon" style="width:24px;height:24px;color:#EAB308;"><use href="#lucide-star"/></svg>
             <div><strong style="font-size:0.82rem;color:#D97706;">Academic XP</strong><div style="font-size:0.74rem;color:var(--text-secondary);">Progresses your Scholar Rank from Level 1 (Band 6.0) to Level 5 (Band 9.0).</div></div>
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);">
-            <span style="font-size:1.2rem;">❤️</span>
-            <div><strong style="font-size:0.82rem;color:#E11D48;">Focus Hearts</strong><div style="font-size:0.74rem;color:var(--text-secondary);">Your stamina in recall drills. Careless slips cost 1 ❤️. Refills over time or in the Gem Store.</div></div>
+            <svg class="ui-icon" style="width:24px;height:24px;color:#EF4444;"><use href="#lucide-heart"/></svg>
+            <div><strong style="font-size:0.82rem;color:#E11D48;">Focus Hearts</strong><div style="font-size:0.74rem;color:var(--text-secondary);">Your stamina in recall drills. Careless slips cost 1 Focus Heart. Refills over time or in the Gem Store.</div></div>
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);">
-            <span style="font-size:1.2rem;">💎</span>
+            <svg class="ui-icon" style="width:24px;height:24px;color:#06B6D4;"><use href="#lucide-gem"/></svg>
             <div><strong style="font-size:0.82rem;color:#0284C7;">Gems (Store Currency)</strong><div style="font-size:0.74rem;color:var(--text-secondary);">Earn gems by studying. Spend them on Syntax Builder Hints, 2× XP Boosts, and Streak Shields.</div></div>
           </div>
         </div>
@@ -987,7 +987,7 @@
           </div>
         </div>
         <div style="padding:10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.76rem;line-height:1.45;">
-          💡 When words come due, the topbar shows <strong>Due Today</strong>. Click it to review in under 3 minutes before the memory decays.
+          When words come due, the topbar shows <strong>Due Today</strong>. Click it to review in under 3 minutes before the memory decays.
         </div>
       `,
       4: `
@@ -1009,7 +1009,7 @@
         </div>
         <div style="text-align:center;">
           <button type="button" class="btn-accent-solid" style="padding:10px 24px;font-size:0.9rem;font-weight:800;" onclick="window.markGuideCompleteAndStart()">
-            🚀 Start My First Session →
+            Start My First Session &rarr;
           </button>
         </div>
       `
@@ -1019,10 +1019,10 @@
       <div class="ips-modal-shell" style="max-width:580px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:1.3rem;">🎓</span>
+            <svg class="ui-icon" style="width:24px;height:24px;color:var(--accent);"><use href="#lucide-award"/></svg>
             <strong style="font-size:0.98rem;color:var(--text);">IELTS Prep Studio — Student Quick Guide</strong>
           </div>
-          <button class="btn-outlined" style="padding:3px 8px;font-size:0.75rem;" onclick="document.getElementById('ipsNewUserGuideModalBackdrop').classList.remove('open');document.getElementById('ipsNewUserGuideModalBackdrop').style.display='none';">✕</button>
+          <button class="btn-outlined" style="padding:3px 8px;font-size:0.75rem;" onclick="document.getElementById('ipsNewUserGuideModalBackdrop').classList.remove('open');document.getElementById('ipsNewUserGuideModalBackdrop').style.display='none';">&times;</button>
         </div>
 
         <div class="ips-guide-step-tabs">
@@ -1046,7 +1046,7 @@
             </button>
           ` : `
             <button type="button" class="btn-accent-solid" style="padding:6px 16px;font-size:0.8rem;font-weight:700;" onclick="window.markGuideCompleteAndStart()">
-              Got It ✓
+              Got It
             </button>
           `}
         </div>
@@ -1123,7 +1123,7 @@
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px;min-width:0;">
               <span style="font-size:0.79rem;font-weight:700;color:var(--text);flex:1 1 160px;min-width:0;word-break:break-word;">${escapeHtml(q.title)}</span>
               <span class="occ-ver-pill" style="font-size:0.68rem;color:${q.done ? "#10B981" : "var(--accent-gold,#F59E0B)"};font-weight:800;flex-shrink:0;">
-                ${q.done ? "✓ Done (+ " + q.xp + " XP)" : q.current + "/" + q.target}
+                ${q.done ? "Done (+ " + q.xp + " XP)" : q.current + "/" + q.target}
               </span>
             </div>
             <div class="duo-progress-track">
@@ -1145,10 +1145,10 @@
             </div>
             <div style="display:flex;gap:6px;">
               <button type="button" class="btn-outlined" style="padding:4px 9px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openStudioGuideModal(1)">
-                📖 Guide
+                <svg class="ui-icon" style="width:14px;height:14px;"><use href="#lucide-book-open"/></svg> Guide
               </button>
               <button type="button" class="btn-accent-solid" style="padding:4px 10px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openDuoWordScrambleModal()">
-                🧩 Syntax Drill
+                <svg class="ui-icon" style="width:14px;height:14px;"><use href="#lucide-puzzle"/></svg> Syntax Drill
               </button>
             </div>
           </div>
@@ -1189,7 +1189,7 @@
         <div class="duo-quest-card">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-width:0;">
             <div style="display:flex;align-items:center;gap:6px;min-width:0;">
-              <span style="font-size:1.1rem;flex-shrink:0;">🎯</span>
+              <span style="font-size:1.1rem;flex-shrink:0;"><svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-target"/></svg></span>
               <strong style="font-size:0.92rem;color:var(--text);">Daily Cambridge Quests</strong>
             </div>
             <span class="occ-ver-pill" style="font-size:0.66rem;color:var(--accent-gold,#F59E0B);font-weight:800;flex-shrink:0;">RESETS DAILY</span>
