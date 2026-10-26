@@ -16,6 +16,30 @@
 (function () {
   "use strict";
 
+  // Magic UI Number Ticker for Gamification HUD Pills
+  function animateDuoTicker(el, endVal, suffix = "") {
+    if (!el) return;
+    const start = parseInt(el.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+    const end = parseInt(endVal, 10) || 0;
+    if (start === end) {
+      el.textContent = end + suffix;
+      return;
+    }
+    const startTime = performance.now();
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / 450);
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.round(start + (end - start) * ease);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = end + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+
+
+
   const GAMIFY_STORAGE_KEY = "ips_duo_gamify_v1";
   const GUIDE_SEEN_KEY = "ips_onboarding_guide_seen_v1";
 

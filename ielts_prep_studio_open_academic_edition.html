@@ -7204,6 +7204,278 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       font-size: 0.68rem !important;
     }
   }
+
+  /* ==========================================================================
+     SHADCN/UI COMMAND PALETTE (CMD+K POWER USER SUITE)
+     ========================================================================== */
+  .cmd-palette-card {
+    max-width: 680px !important;
+    width: 92% !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 24px 64px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.04) !important;
+    background: #FFFFFF !important;
+    backdrop-filter: blur(16px) !important;
+  }
+  :root[data-theme="dark"] .cmd-palette-card {
+    background: #0D111A !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 28px 72px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  }
+  .cmd-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  :root[data-theme="dark"] .cmd-header {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  .cmd-input {
+    flex: 1;
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    font-size: 0.96rem !important;
+    font-family: inherit !important;
+    color: var(--text) !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  .cmd-kbd {
+    display: inline-flex;
+    align-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(15, 23, 42, 0.06);
+    color: var(--text-secondary);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+  }
+  :root[data-theme="dark"] .cmd-kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+  .cmd-filter-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(15, 23, 42, 0.02);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    overflow-x: auto;
+  }
+  :root[data-theme="dark"] .cmd-filter-tabs {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+  .cmd-filter-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .cmd-filter-pill.active {
+    background: #0284C7;
+    color: #FFFFFF;
+  }
+  .cmd-filter-pill:hover:not(.active) {
+    background: rgba(15, 23, 42, 0.06);
+    color: var(--text);
+  }
+  .cmd-results-area {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 8px 10px;
+  }
+  .cmd-group-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 10px 4px 10px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .cmd-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+  .cmd-item:hover,
+  .cmd-item.selected {
+    background: rgba(2, 132, 199, 0.08);
+    border-color: rgba(2, 132, 199, 0.25);
+  }
+  :root[data-theme="dark"] .cmd-item:hover,
+  :root[data-theme="dark"] .cmd-item.selected {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.28);
+  }
+  .cmd-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 18px;
+    background: rgba(15, 23, 42, 0.03);
+    border-top: 1px solid rgba(15, 23, 42, 0.06);
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+  }
+  :root[data-theme="dark"] .cmd-footer {
+    background: rgba(255, 255, 255, 0.03);
+    border-top-color: rgba(255, 255, 255, 0.06);
+  }
+
+  /* ==========================================================================
+     SHADCN/UI SEGMENTED CONTROL SUBNAVS & PILL STRIPS
+     ========================================================================== */
+  .subtab-bar,
+  .at-subnav-bar {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    max-width: 100% !important;
+    width: auto !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    padding: 4px 6px !important;
+    background: rgba(15, 23, 42, 0.04) !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 999px !important;
+    margin-bottom: 20px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    touch-action: pan-x !important;
+  }
+  .subtab-bar::-webkit-scrollbar,
+  .at-subnav-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+  :root[data-theme="dark"] .subtab-bar,
+  :root[data-theme="dark"] .at-subnav-bar {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+  .subtab-btn,
+  .at-subnav-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+  }
+  .subtab-btn:hover,
+  .at-subnav-btn:hover {
+    color: var(--text) !important;
+    background: rgba(15, 23, 42, 0.06) !important;
+  }
+  :root[data-theme="dark"] .subtab-btn:hover,
+  :root[data-theme="dark"] .at-subnav-btn:hover {
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+  .subtab-btn.active,
+  .at-subnav-btn.active {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+    border-color: #0284C7 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28) !important;
+  }
+  :root[data-theme="dark"] .subtab-btn.active,
+  :root[data-theme="dark"] .at-subnav-btn.active {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+    border-color: #0284C7 !important;
+    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.42) !important;
+  }
+
+  /* ==========================================================================
+     ACETERNITY SPOTLIGHT CARDS & BENTO HOVER REVEAL (60 FPS HARDWARE ACCEL)
+     ========================================================================== */
+  .spotlight-card {
+    position: relative !important;
+    overflow: hidden !important;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .spotlight-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transition: opacity 0.25s ease !important;
+    background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(2, 132, 199, 0.08), transparent 75%) !important;
+    z-index: 1 !important;
+  }
+  .spotlight-card:hover::before {
+    opacity: 1 !important;
+  }
+  :root[data-theme="dark"] .spotlight-card::before {
+    background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.12), transparent 75%) !important;
+  }
+  .spotlight-card:hover {
+    border-color: rgba(2, 132, 199, 0.35) !important;
+    box-shadow: 0 12px 32px -6px rgba(2, 132, 199, 0.14) !important;
+  }
+  :root[data-theme="dark"] .spotlight-card:hover {
+    border-color: rgba(56, 189, 248, 0.38) !important;
+    box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* ==========================================================================
+     MAGIC UI 60 FPS NUMBER TICKERS & TELEMETRY GLOW
+     ========================================================================== */
+  @keyframes badgePulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.45);
+    }
+    50% {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 7px rgba(225, 29, 72, 0);
+    }
+  }
+  .badge-accent.has-due {
+    animation: badgePulse 2.5s cubic-bezier(0.16, 1, 0.3, 1) infinite !important;
+    background: #E11D48 !important;
+    color: #FFFFFF !important;
+  }
 </style>
   <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
@@ -9578,15 +9850,15 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     <div class="at-workspace-container">
       <!-- Sub-Tab Navigation Bar -->
-      <div class="at-subnav-bar">
-        <button class="at-subnav-btn active" id="at-tab-collocations" onclick="switchAcademicToolsTab('collocations')">🔗 Collocations</button>
-        <button class="at-subnav-btn" id="at-tab-synonyms" onclick="switchAcademicToolsTab('synonyms')">💎 Band 8.5+ Synonyms</button>
-        <button class="at-subnav-btn" id="at-tab-topic" onclick="switchAcademicToolsTab('topic')">📖 Academic Topic Briefs</button>
-        <button class="at-subnav-btn" id="at-tab-dict" onclick="switchAcademicToolsTab('dict')">📚 Live Dictionary</button>
-        <button class="at-subnav-btn" id="at-tab-quote" onclick="switchAcademicToolsTab('quote')">🧠 Scholar Rhetoric</button>
-        <button class="at-subnav-btn" id="at-tab-traps" onclick="switchAcademicToolsTab('traps')">🎯 Paraphrase &amp; Audio Traps</button>
-        <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')">🗂️ My Error Vault (<span class="error-vault-count-pill">0</span>)</button>
-        <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')">🧮 4-Skill Band Calculator</button>
+      <div class="at-subnav-bar" role="tablist" aria-label="Academic Tools Sub-Navigation">
+        <button class="at-subnav-btn active" id="at-tab-collocations" onclick="switchAcademicToolsTab('collocations')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-link"/></svg> <span>Collocations</span></button>
+        <button class="at-subnav-btn" id="at-tab-synonyms" onclick="switchAcademicToolsTab('synonyms')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-gem"/></svg> <span>Band 8.5+ Synonyms</span></button>
+        <button class="at-subnav-btn" id="at-tab-topic" onclick="switchAcademicToolsTab('topic')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book-open"/></svg> <span>Topic Briefs</span></button>
+        <button class="at-subnav-btn" id="at-tab-dict" onclick="switchAcademicToolsTab('dict')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book"/></svg> <span>Dictionary</span></button>
+        <button class="at-subnav-btn" id="at-tab-quote" onclick="switchAcademicToolsTab('quote')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-brain"/></svg> <span>Scholar Rhetoric</span></button>
+        <button class="at-subnav-btn" id="at-tab-traps" onclick="switchAcademicToolsTab('traps')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-target"/></svg> <span>Paraphrase Traps</span></button>
+        <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-folder"/></svg> <span>Error Vault</span> (<span class="error-vault-count-pill">0</span>)</button>
+        <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-calculator"/></svg> <span>Band Calculator</span></button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -10090,14 +10362,27 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   <div style="font-size:0.8rem; color:var(--text-secondary); font-family:monospace;">SYNONYMS // <span id="ins-syn" style="color:var(--accent);"></span></div>
 </div>
 
+<!-- SHADCN/UI COMMAND PALETTE (CMD+K POWER USER SUITE) -->
 <div id="quickSearchModal" class="modal-backdrop" onclick="if(event.target===this) closeQuickSearchModal()">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Global Quick Search">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <div class="sec-eyebrow" style="margin-bottom:0;">GLOBAL QUICK SEARCH // 1,162 WORDS · 23 READING · 40 WRITING · 50 SPEAKING TOPICS</div>
-      <button class="btn-outlined" style="padding:3px 9px; font-size:0.75rem;" onclick="closeQuickSearchModal()">ESC</button>
+  <div class="modal-card cmd-palette-card" role="dialog" aria-modal="true" aria-label="Command Palette">
+    <div class="cmd-header">
+      <svg class="ui-icon" style="color:var(--text-secondary); width:18px; height:18px;"><use href="#lucide-search"/></svg>
+      <input type="text" id="globalSearchInput" class="cmd-input" placeholder="Search 1,162 words, 23 CBT mocks, 40 essays, or 50 topics..." oninput="renderGlobalSearchResults()" onkeydown="handleCmdPaletteKeydown(event)" autocomplete="off" spellcheck="false">
+      <kbd class="cmd-kbd" onclick="closeQuickSearchModal()" style="cursor:pointer;" title="Press Escape to exit">ESC</kbd>
     </div>
-    <input type="text" id="globalSearchInput" class="occ-input" style="width:100%; font-size:0.95rem; margin-bottom:12px;" placeholder="Type any English word, Burmese meaning, topic, or mock test title..." oninput="renderGlobalSearchResults()">
-    <div id="globalSearchResults" style="max-height:360px; overflow-y:auto; display:grid; gap:8px;"></div>
+    <div class="cmd-filter-tabs">
+      <button class="cmd-filter-pill active" data-filter="all" onclick="setCmdPaletteFilter('all')">All Results</button>
+      <button class="cmd-filter-pill" data-filter="lexicon" onclick="setCmdPaletteFilter('lexicon')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book-open"/></svg> Lexicon (1,162)</button>
+      <button class="cmd-filter-pill" data-filter="reading" onclick="setCmdPaletteFilter('reading')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book"/></svg> Reading (23)</button>
+      <button class="cmd-filter-pill" data-filter="writing" onclick="setCmdPaletteFilter('writing')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-pen-tool"/></svg> Writing (40)</button>
+      <button class="cmd-filter-pill" data-filter="speaking" onclick="setCmdPaletteFilter('speaking')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-mic"/></svg> Speaking (50)</button>
+    </div>
+    <div id="globalSearchResults" class="cmd-results-area" role="listbox"></div>
+    <div class="cmd-footer">
+      <span><kbd class="cmd-kbd">↑</kbd> <kbd class="cmd-kbd">↓</kbd> Navigate</span>
+      <span><kbd class="cmd-kbd">↵ Enter</kbd> Open / Jump</span>
+      <span><kbd class="cmd-kbd">Esc</kbd> Close</span>
+    </div>
   </div>
 </div>
 
@@ -10873,7 +11158,7 @@ window.updateTmaFullscreenUI = function() {
   }
 
   if (btn && tg) {
-    btn.innerHTML = tg.isFullscreen ? "🗗 Restore" : "<svg class="ui-icon"><use href="#lucide-maximize-2"/></svg> Maximize";
+    btn.innerHTML = tg.isFullscreen ? "Restore" : `<svg class="ui-icon"><use href="#lucide-maximize-2"/></svg> Maximize`;
     btn.title = tg.isFullscreen ? "Exit Fullscreen" : "Maximize / Fullscreen Mini App";
   }
 
@@ -11453,22 +11738,22 @@ function updateAuthUI() {
 function formatWithLucideIcons(str) {
   if (typeof str !== 'string') return str;
   return str
-    .replace(/⏳/g, '<svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-clock"/></svg>')
-    .replace(/✓/g, '<svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg>')
-    .replace(/🎉/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-party-popper"/></svg>')
-    .replace(/⚠️|⚠/g, '<svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg>')
-    .replace(/☁️|☁/g, '<svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-cloud"/></svg>')
-    .replace(/👑/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-crown"/></svg>')
-    .replace(/🔊/g, '<svg class="ui-icon"><use href="#lucide-volume-2"/></svg>')
-    .replace(/🔇/g, '<svg class="ui-icon"><use href="#lucide-volume-x"/></svg>')
-    .replace(/💡/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-lightbulb"/></svg>')
-    .replace(/💎/g, '<svg class="ui-icon" style="color:#06B6D4;"><use href="#lucide-gem"/></svg>')
-    .replace(/❤️|❤/g, '<svg class="ui-icon" style="color:#EF4444;"><use href="#lucide-heart"/></svg>')
-    .replace(/⭐|⭐️|★/g, '<svg class="ui-icon" style="color:#EAB308;"><use href="#lucide-star"/></svg>')
-    .replace(/🔥/g, '<svg class="ui-icon" style="color:#F97316;"><use href="#lucide-flame"/></svg>')
-    .replace(/📋/g, '<svg class="ui-icon"><use href="#lucide-clipboard"/></svg>')
-    .replace(/🔑/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-key"/></svg>')
-    .replace(/🎟️|🎟/g, '<svg class="ui-icon" style="color:#8B5CF6;"><use href="#lucide-ticket"/></svg>');
+    .replace(/⏳/g, `<svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-clock"/></svg>`)
+    .replace(/✓/g, `<svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg>`)
+    .replace(/🎉/g, `<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-party-popper"/></svg>`)
+    .replace(/⚠️|⚠/g, `<svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg>`)
+    .replace(/☁️|☁/g, `<svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-cloud"/></svg>`)
+    .replace(/👑/g, `<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-crown"/></svg>`)
+    .replace(/🔊/g, `<svg class="ui-icon"><use href="#lucide-volume-2"/></svg>`)
+    .replace(/🔇/g, `<svg class="ui-icon"><use href="#lucide-volume-x"/></svg>`)
+    .replace(/💡/g, `<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-lightbulb"/></svg>`)
+    .replace(/💎/g, `<svg class="ui-icon" style="color:#06B6D4;"><use href="#lucide-gem"/></svg>`)
+    .replace(/❤️|❤/g, `<svg class="ui-icon" style="color:#EF4444;"><use href="#lucide-heart"/></svg>`)
+    .replace(/⭐|⭐️|★/g, `<svg class="ui-icon" style="color:#EAB308;"><use href="#lucide-star"/></svg>`)
+    .replace(/🔥/g, `<svg class="ui-icon" style="color:#F97316;"><use href="#lucide-flame"/></svg>`)
+    .replace(/📋/g, `<svg class="ui-icon"><use href="#lucide-clipboard"/></svg>`)
+    .replace(/🔑/g, `<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-key"/></svg>`)
+    .replace(/🎟️|🎟/g, `<svg class="ui-icon" style="color:#8B5CF6;"><use href="#lucide-ticket"/></svg>`);
 }
 
 function showStudioNotification(msg, duration = 3500) {
@@ -11604,7 +11889,7 @@ function applyLanguageUI() {
   document.body.classList.toggle("hide-burmese", !appState.showBurmese);
   const btn = document.getElementById("langBtn");
   if (btn) {
-    btn.textContent = appState.showBurmese ? "文A မြန်မာ ON" : "<svg class="ui-icon"><use href="#lucide-globe"/></svg> EN ONLY";
+    btn.innerHTML = appState.showBurmese ? "文A မြန်မာ ON" : `<svg class="ui-icon"><use href="#lucide-globe"/></svg> EN ONLY`;
     btn.classList.toggle("active-lang", appState.showBurmese);
     btn.title = appState.showBurmese ? "Bilingual mode active. Click for English only." : "English only mode active. Click for Bilingual (Burmese).";
   }
@@ -12242,9 +12527,12 @@ function refreshAnalytics() {
   if (kw) kw.textContent = `${wCount} / ${totalWriting} Saved`;
 
   const srsBadge = document.getElementById("srsDueCountBadge");
-  if (srsBadge) srsBadge.textContent = dueIds.length;
+  if (srsBadge) {
+    animateNumberTicker(srsBadge, dueIds.length);
+    srsBadge.classList.toggle("has-due", dueIds.length > 0);
+  }
   const errBadge = document.getElementById("errorLogCountBadge");
-  if (errBadge) errBadge.textContent = errCount;
+  if (errBadge) animateNumberTicker(errBadge, errCount);
 
   renderSkillRadar(mCount, appState.drillBest, rCount, wCount);
   renderVarietyDistribution();
@@ -12671,7 +12959,43 @@ function renderLexiconGrid(keepPage) {
   }
 
   if (!fullList.length) {
-    grid.innerHTML = `<div class="occ-card" style="grid-column: 1 / -1;"><p style="color:var(--text-secondary);">No matching vocabulary items found in your accessible library (${isVip ? 'all 1,162 entries' : '250 free entries'}). Try resetting your filters or selecting a different letter.</p></div>`;
+    const isDueFilter = (document.getElementById("lexStatus")?.value === "DUE");
+    if (isDueFilter) {
+      grid.innerHTML = `
+        <div class="occ-card spotlight-card" style="grid-column: 1 / -1; padding:48px 24px; text-align:center; border-radius:14px;">
+          <div style="width:58px; height:58px; margin:0 auto 14px auto; border-radius:50%; background:rgba(2,132,199,0.12); display:flex; align-items:center; justify-content:center; color:#0284C7;">
+            <svg class="ui-icon" style="width:30px; height:30px;"><use href="#lucide-check"/></svg>
+          </div>
+          <h4 style="font-size:1.1rem; font-weight:800; color:var(--text); margin:0 0 6px 0;">All Reviews Completed Today!</h4>
+          <p style="font-size:0.83rem; color:var(--text-secondary); max-width:440px; margin:0 auto 18px auto; line-height:1.5;">
+            Your Spaced Repetition (SRS) queue is completely clear! Next scheduled memory intervals will unlock tomorrow at 06:00.
+          </p>
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button class="btn-accent-solid" onclick="document.getElementById('lexStatus').value='ALL'; renderLexiconGrid();" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
+              Explore All 1,162 Words →
+            </button>
+            <button class="btn-outlined" onclick="switchView('speaking')" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
+              Practice Speaking Forecast
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = `
+        <div class="occ-card spotlight-card" style="grid-column: 1 / -1; padding:48px 24px; text-align:center; border-radius:14px;">
+          <div style="width:56px; height:56px; margin:0 auto 14px auto; border-radius:50%; background:rgba(15,23,42,0.06); display:flex; align-items:center; justify-content:center; color:var(--text-secondary);">
+            <svg class="ui-icon" style="width:28px; height:28px;"><use href="#lucide-search"/></svg>
+          </div>
+          <h4 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0;">No Matching Academic Words</h4>
+          <p style="font-size:0.82rem; color:var(--text-secondary); max-width:420px; margin:0 auto 18px auto; line-height:1.5;">
+            No vocabulary items matched your current filter criteria in your accessible library (${isVip ? 'all 1,162 entries' : '250 free entries'}). Try clearing search or selecting a different letter.
+          </p>
+          <button class="btn-accent-solid" onclick="document.getElementById('lexSearch').value=''; document.getElementById('lexStatus').value='ALL'; renderLexiconGrid();" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
+            Reset All Filters
+          </button>
+        </div>
+      `;
+    }
     if (topPagBar) topPagBar.innerHTML = "";
     if (botPagBar) botPagBar.innerHTML = "";
     return;
@@ -15611,6 +15935,55 @@ function resetWClock() {
 // ==========================================
 // 11. MODALS: GLOBAL QUICK SEARCH & ERROR LOG
 // ==========================================
+let cmdPaletteFilter = 'all';
+let cmdPaletteSelectedIndex = 0;
+let cmdPaletteCurrentHits = [];
+
+function setCmdPaletteFilter(f) {
+  cmdPaletteFilter = f;
+  document.querySelectorAll('.cmd-filter-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === f);
+  });
+  cmdPaletteSelectedIndex = 0;
+  renderGlobalSearchResults();
+}
+
+function handleCmdPaletteKeydown(e) {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (cmdPaletteCurrentHits.length > 0) {
+      cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex + 1) % cmdPaletteCurrentHits.length;
+      updateCmdPaletteSelection();
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (cmdPaletteCurrentHits.length > 0) {
+      cmdPaletteSelectedIndex = (cmdPaletteSelectedIndex - 1 + cmdPaletteCurrentHits.length) % cmdPaletteCurrentHits.length;
+      updateCmdPaletteSelection();
+    }
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (cmdPaletteCurrentHits.length > 0 && cmdPaletteCurrentHits[cmdPaletteSelectedIndex]) {
+      const hit = cmdPaletteCurrentHits[cmdPaletteSelectedIndex];
+      eval(hit.action);
+    }
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    closeQuickSearchModal();
+  }
+}
+
+function updateCmdPaletteSelection() {
+  const items = document.querySelectorAll('.cmd-item');
+  items.forEach((it, idx) => {
+    const isSel = (idx === cmdPaletteSelectedIndex);
+    it.classList.toggle('selected', isSel);
+    if (isSel) {
+      it.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  });
+}
+
 function openQuickSearchModal() {
   const m = document.getElementById("quickSearchModal");
   if (m) m.classList.add("open");
@@ -15631,101 +16004,207 @@ function renderGlobalSearchResults() {
   const box = document.getElementById("globalSearchResults");
   if (!box) return;
 
-  if (!q) {
-    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">Type a keyword above to search across <strong>1,162 vocabulary entries &amp; exam traps</strong>, <strong>23 Reading CBT passages</strong>, <strong>40 Writing models</strong>, and <strong>50 Speaking forecast topics</strong>.</div>`;
-    return;
-  }
-
-  const hits = [];
   const isVip = isVipActive();
+  const hits = [];
 
-  VOCAB_DATA.forEach((v, vIdx) => {
-    if (v.word.toLowerCase().includes(q) || v.mmMeaning.includes(q) || v.synonyms.some(s => s.toLowerCase().includes(q))) {
-      const isLocked = (!isVip && vIdx >= LEXICON_FREE_LIMIT);
-      hits.push({
-        type: isLocked ? "LEXICON 🔒 [VIP]" : "LEXICON",
-        title: `${isLocked ? '🔒 ' : ''}${v.word} (${v.band})`,
-        sub: isLocked 
-          ? `${v.mmMeaning} · ${v.variety} · Lifetime VIP Pass required to unlock card & SRS`
-          : `${v.mmMeaning} · Synonyms: ${v.synonyms.join(", ")}`,
-        action: isLocked
-          ? `closeQuickSearchModal(); openVipPassModal();`
-          : `closeQuickSearchModal(); jumpToWordInLexicon('${v.word.replace(/'/g, "\\'")}');`
-      });
-    }
-  });
-
-  READING_MOCKS.forEach((rm, idx) => {
-    if (rm.title.toLowerCase().includes(q) || rm.category.toLowerCase().includes(q)) {
-      const isLocked = (!isVip && idx >= READING_FREE_LIMIT);
-      hits.push({
-        type: isLocked ? "READING MOCK 🔒 [VIP]" : "READING MOCK",
-        title: `${isLocked ? '🔒 ' : ''}[${rm.code}] ${rm.title}`,
-        sub: `${rm.category} · ${rm.questionTypes}`,
-        action: isLocked
-          ? `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock(); openVipPassModal();`
-          : `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock();`
-      });
-    }
-  });
-
-  WRITING_MOCKS.forEach((wm, idx) => {
-    if (wm.title.toLowerCase().includes(q) || (wm.promptEn && wm.promptEn.toLowerCase().includes(q))) {
-      const isLocked = (!isVip && idx >= WRITING_MODELS_FREE_LIMIT);
-      hits.push({
-        type: isLocked ? "WRITING MODEL 🔒 [VIP]" : "WRITING MODEL",
-        title: `${isLocked ? '🔒 ' : ''}[${wm.code}] ${wm.title}`,
-        sub: wm.type,
-        action: isLocked
-          ? `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock(); openVipPassModal();`
-          : `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock();`
-      });
-    }
-  });
-
-  SPEAKING_FRAMEWORKS.forEach((fw, idx) => {
-    if (fw.name.toLowerCase().includes(q) || fw.subtitle.toLowerCase().includes(q)) {
-      const isLocked = (!isVip && idx >= SPEAKING_FRAMEWORKS_FREE_LIMIT);
-      hits.push({
-        type: isLocked ? "SPEAKING FRAMEWORK 🔒 [VIP]" : "SPEAKING FRAMEWORK",
-        title: `${isLocked ? '🔒 ' : ''}${fw.name} — ${fw.subtitle}`,
-        sub: fw.whenToUse,
-        action: isLocked
-          ? `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx}); openVipPassModal();`
-          : `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx});`
-      });
-    }
-  });
-
-  SPEAKING_TOPIC_BANK_DATA.forEach((tb, idx) => {
-    if ((tb.topic && tb.topic.toLowerCase().includes(q)) || (tb.category && tb.category.toLowerCase().includes(q)) || (tb.vocab && tb.vocab.some(v => v.toLowerCase().includes(q)))) {
-      const isLocked = (!isVip && idx >= SPEAKING_TOPICS_FREE_LIMIT);
-      hits.push({
-        type: isLocked ? "SPEAKING TOPIC 🔒 [VIP]" : "SPEAKING TOPIC",
-        title: `${isLocked ? '🔒 ' : ''}${tb.topic}`,
-        sub: `${tb.category || "2026 Forecast"} · ${(tb.vocab || []).slice(0, 3).join(", ")}`,
-        action: isLocked
-          ? `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } openVipPassModal();`
-          : `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }`
-      });
-    }
-  });
-
-  if (!hits.length) {
-    box.innerHTML = `<div style="font-size:0.84rem; color:var(--text-secondary); padding:8px;">No matches found for "${q}".</div>`;
+  // Default Recommendations when query is empty
+  if (!q) {
+    box.innerHTML = `
+      <div style="padding:14px; text-align:center;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:4px;">Cambridge Academic Command Palette</div>
+        <div style="font-size:0.75rem; color:var(--text-secondary); max-width:440px; margin:0 auto 14px auto;">Type any English keyword, Burmese gloss, collocation, or CBT code to instantly jump.</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:8px; text-align:left;">
+          <div class="cmd-item" onclick="closeQuickSearchModal(); jumpToDueSRS();">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg class="ui-icon" style="color:#F97316;"><use href="#lucide-clock"/></svg>
+              <div>
+                <strong style="font-size:0.82rem;">Today's Due SRS</strong>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">Spaced Repetition</div>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-item" onclick="closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='0'; loadReadingMock();">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-book"/></svg>
+              <div>
+                <strong style="font-size:0.82rem;">Cambridge Mock 1</strong>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">C18 Reading Test</div>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-item" onclick="closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='0'; loadWritingMock();">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg class="ui-icon" style="color:#10B981;"><use href="#lucide-pen-tool"/></svg>
+              <div>
+                <strong style="font-size:0.82rem;">Band 9.0 Writing Model</strong>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">Task 2 Education</div>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-item" onclick="closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(0);">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <svg class="ui-icon" style="color:#8B5CF6;"><use href="#lucide-mic"/></svg>
+              <div>
+                <strong style="font-size:0.82rem;">Speaking P.E.E.L. Framework</strong>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">Part 3 Fluency</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    cmdPaletteCurrentHits = [];
     return;
   }
 
-  box.innerHTML = hits.slice(0, 25).map(h => `
-    <div style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px;" onclick="${h.action}">
-      <div>
-        <span class="occ-ver-pill" style="color:var(--accent); margin-right:6px;">${h.type}</span>
-        <strong style="font-size:0.9rem;">${h.title}</strong>
-        <div class="burmese" style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">${h.sub}</div>
+  // 1. Lexicon
+  if (cmdPaletteFilter === 'all' || cmdPaletteFilter === 'lexicon') {
+    VOCAB_DATA.forEach((v, vIdx) => {
+      if (v.word.toLowerCase().includes(q) || v.mmMeaning.includes(q) || v.synonyms.some(s => s.toLowerCase().includes(q))) {
+        const isLocked = (!isVip && vIdx >= LEXICON_FREE_LIMIT);
+        hits.push({
+          category: "Lexicon & Collocations",
+          catIcon: "book-open",
+          catColor: "#3B82F6",
+          type: isLocked ? "LEXICON 🔒" : "LEXICON",
+          title: `${v.word} (${v.band})`,
+          isLocked: isLocked,
+          sub: isLocked ? `${v.mmMeaning} · Lifetime VIP Pass required` : `${v.mmMeaning} · Synonyms: ${v.synonyms.slice(0, 3).join(", ")}`,
+          action: isLocked
+            ? `closeQuickSearchModal(); openVipPassModal();`
+            : `closeQuickSearchModal(); jumpToWordInLexicon('${v.word.replace(/'/g, "\\'")}');`
+        });
+      }
+    });
+  }
+
+  // 2. Reading
+  if (cmdPaletteFilter === 'all' || cmdPaletteFilter === 'reading') {
+    READING_MOCKS.forEach((rm, idx) => {
+      if (rm.title.toLowerCase().includes(q) || rm.category.toLowerCase().includes(q) || rm.code.toLowerCase().includes(q)) {
+        const isLocked = (!isVip && idx >= READING_FREE_LIMIT);
+        hits.push({
+          category: "Cambridge CBT Reading Mocks",
+          catIcon: "book",
+          catColor: "#0284C7",
+          type: isLocked ? "READING 🔒" : "READING",
+          title: `[${rm.code}] ${rm.title}`,
+          isLocked: isLocked,
+          sub: `${rm.category} · ${rm.questionTypes}`,
+          action: isLocked
+            ? `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock(); openVipPassModal();`
+            : `closeQuickSearchModal(); switchView('reading'); document.getElementById('rSelect').value='${idx}'; loadReadingMock();`
+        });
+      }
+    });
+  }
+
+  // 3. Writing
+  if (cmdPaletteFilter === 'all' || cmdPaletteFilter === 'writing') {
+    WRITING_MOCKS.forEach((wm, idx) => {
+      if (wm.title.toLowerCase().includes(q) || (wm.promptEn && wm.promptEn.toLowerCase().includes(q)) || wm.code.toLowerCase().includes(q)) {
+        const isLocked = (!isVip && idx >= WRITING_MODELS_FREE_LIMIT);
+        hits.push({
+          category: "Band 8.5–9.0 Writing Models",
+          catIcon: "pen-tool",
+          catColor: "#10B981",
+          type: isLocked ? "WRITING 🔒" : "WRITING",
+          title: `[${wm.code}] ${wm.title}`,
+          isLocked: isLocked,
+          sub: wm.type,
+          action: isLocked
+            ? `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock(); openVipPassModal();`
+            : `closeQuickSearchModal(); switchView('writing'); document.getElementById('wSelect').value='${idx}'; loadWritingMock();`
+        });
+      }
+    });
+  }
+
+  // 4. Speaking
+  if (cmdPaletteFilter === 'all' || cmdPaletteFilter === 'speaking') {
+    SPEAKING_FRAMEWORKS.forEach((fw, idx) => {
+      if (fw.name.toLowerCase().includes(q) || fw.subtitle.toLowerCase().includes(q)) {
+        const isLocked = (!isVip && idx >= SPEAKING_FRAMEWORKS_FREE_LIMIT);
+        hits.push({
+          category: "Speaking Frameworks & Topics",
+          catIcon: "mic",
+          catColor: "#8B5CF6",
+          type: isLocked ? "FRAMEWORK 🔒" : "FRAMEWORK",
+          title: `${fw.name} — ${fw.subtitle}`,
+          isLocked: isLocked,
+          sub: fw.whenToUse,
+          action: isLocked
+            ? `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx}); openVipPassModal();`
+            : `closeQuickSearchModal(); switchView('speaking'); selectSpeakingFramework(${idx});`
+        });
+      }
+    });
+
+    SPEAKING_TOPIC_BANK_DATA.forEach((tb, idx) => {
+      if ((tb.topic && tb.topic.toLowerCase().includes(q)) || (tb.category && tb.category.toLowerCase().includes(q)) || (tb.vocab && tb.vocab.some(v => v.toLowerCase().includes(q)))) {
+        const isLocked = (!isVip && idx >= SPEAKING_TOPICS_FREE_LIMIT);
+        hits.push({
+          category: "Speaking Frameworks & Topics",
+          catIcon: "mic",
+          catColor: "#8B5CF6",
+          type: isLocked ? "TOPIC 🔒" : "TOPIC",
+          title: tb.topic,
+          isLocked: isLocked,
+          sub: `${tb.category || "2026 Forecast"} · ${(tb.vocab || []).slice(0, 3).join(", ")}`,
+          action: isLocked
+            ? `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } openVipPassModal();`
+            : `closeQuickSearchModal(); switchView('speaking'); const el = document.getElementById('spk_topic_${idx}'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }`
+        });
+      }
+    });
+  }
+
+  cmdPaletteCurrentHits = hits.slice(0, 30);
+  cmdPaletteSelectedIndex = Math.min(cmdPaletteSelectedIndex, Math.max(0, cmdPaletteCurrentHits.length - 1));
+
+  if (!cmdPaletteCurrentHits.length) {
+    box.innerHTML = `
+      <div style="padding:28px 14px; text-align:center;">
+        <svg class="ui-icon" style="width:36px; height:36px; color:var(--text-secondary); margin-bottom:8px;"><use href="#lucide-search"/></svg>
+        <div style="font-size:0.88rem; font-weight:700; color:var(--text);">No matching resources found</div>
+        <div style="font-size:0.75rem; color:var(--text-secondary); max-width:340px; margin:4px auto 0 auto;">No results found for "${escapeHtml(q)}". Try searching for an academic synonym, Cambridge code like "C18", or switch filter tabs.</div>
       </div>
-      <span style="color:var(--accent); font-weight:700; font-size:0.8rem;">Open ↗</span>
-    </div>
-  `).join("");
+    `;
+    return;
+  }
+
+  // Render grouped results
+  let lastCat = null;
+  let html = '';
+  cmdPaletteCurrentHits.forEach((h, idx) => {
+    if (h.category !== lastCat) {
+      lastCat = h.category;
+      html += `
+        <div class="cmd-group-label">
+          <svg class="ui-icon ui-icon-xs" style="color:${h.catColor};"><use href="#lucide-${h.catIcon}"/></svg>
+          <span>${h.category}</span>
+        </div>
+      `;
+    }
+    const isSel = (idx === cmdPaletteSelectedIndex);
+    html += `
+      <div class="cmd-item ${isSel ? 'selected' : ''}" onclick="${h.action}" role="option" aria-selected="${isSel}">
+        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+          <svg class="ui-icon" style="color:${h.catColor}; flex-shrink:0;"><use href="#lucide-${h.catIcon}"/></svg>
+          <div style="min-width:0;">
+            <div style="font-size:0.86rem; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${escapeHtml(h.title)}
+              ${h.isLocked ? `<svg class="ui-icon ui-icon-xs" style="color:#D97706; margin-left:4px;"><use href="#lucide-lock"/></svg>` : ""}
+            </div>
+            <div class="burmese" style="font-size:0.75rem; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(h.sub)}</div>
+          </div>
+        </div>
+        <span class="cmd-kbd" style="flex-shrink:0; font-size:0.65rem;">Jump ↵</span>
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
 }
 
 function openErrorLogModal() {
@@ -15743,7 +16222,20 @@ function renderErrorLogModalList() {
   const isVip = isVipActive();
   const logs = appState.errorLog || [];
   if (!logs.length) {
-    listEl.innerHTML = `<div style="padding:16px; background:var(--bg); border:1px solid var(--border); color:var(--green); font-weight:600;">✓ Zero unresolved mistakes! Any wrong answers in Reading or Paraphrase Drills will appear here automatically.</div>`;
+    listEl.innerHTML = `
+      <div style="padding:48px 24px; text-align:center; background:var(--bg-card); border:1px solid rgba(15,23,42,0.08); border-radius:14px; margin-bottom:12px;">
+        <div style="width:56px; height:56px; margin:0 auto 14px auto; border-radius:50%; background:rgba(16,185,129,0.12); display:flex; align-items:center; justify-content:center; color:#10B981;">
+          <svg class="ui-icon" style="width:28px; height:28px;"><use href="#lucide-shield"/></svg>
+        </div>
+        <h4 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0;">Flawless Record // Zero Unresolved Mistakes</h4>
+        <p style="font-size:0.82rem; color:var(--text-secondary); max-width:420px; margin:0 auto 18px auto; line-height:1.5;">
+          You currently have zero logged exam errors! Any missed questions in Cambridge Reading Mocks or Collocation Cloze Drills will automatically be catalogued here for review.
+        </p>
+        <button class="btn-accent-solid" onclick="switchView('reading')" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
+          Start Cambridge Reading Drill →
+        </button>
+      </div>
+    `;
     return;
   }
 
@@ -19365,6 +19857,48 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })(window);
+
+
+// Aceternity Spotlight Hover Controller (Passive 60 FPS Cursor Tracking)
+if (typeof window !== 'undefined') {
+  document.addEventListener('mousemove', (e) => {
+    const card = e.target.closest('.spotlight-card');
+    if (card) {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    }
+  }, { passive: true });
+}
+
+
+
+// Magic UI 60 FPS Number Ticker Helper
+function animateNumberTicker(el, endVal, duration = 400, suffix = "") {
+  if (!el) return;
+  const start = parseInt(el.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+  const end = parseInt(endVal, 10) || 0;
+  if (start === end) {
+    el.textContent = end + suffix;
+    return;
+  }
+  const startTime = performance.now();
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    // easeOutExpo
+    const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+    const val = Math.round(start + (end - start) * ease);
+    el.textContent = val + suffix;
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = end + suffix;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
 </script>
 
 
