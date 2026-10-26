@@ -10154,20 +10154,25 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <input type="text" id="at-topic-input" class="at-input-box" placeholder="Enter essay topic (e.g. Artificial intelligence, Renewable energy, Globalization, Urbanization)..." onkeydown="if(event.key==='Enter') executeVipTopicSearch()">
             <button class="btn-accent-solid" onclick="executeVipTopicSearch()" style="padding:10px 20px; font-weight:700; font-size:0.9rem;">Fetch Article</button>
           </div>
-          <div class="at-quick-chips">
-            <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center; margin-right:4px;">IELTS Themes:</span>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Artificial intelligence'); executeVipTopicSearch();">Artificial intelligence</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Renewable energy'); executeVipTopicSearch();">Renewable energy</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Globalization'); executeVipTopicSearch();">Globalization</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Urbanization'); executeVipTopicSearch();">Urbanization</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Higher education'); executeVipTopicSearch();">Higher education</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Climate change'); executeVipTopicSearch();">Climate change</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Automation'); executeVipTopicSearch();">Automation</button>
-            <button class="at-chip-btn" onclick="setVipToolInput('topic', 'Mental health'); executeVipTopicSearch();">Mental health</button>
+          <div class="at-quick-chips" style="gap:6px; flex-wrap:wrap;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center; margin-right:4px; font-weight:700;">12 Core Argument Matrices:</span>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('ai_workplace')">AI &amp; Automation</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('carbon_tax')">Carbon Tax &amp; Climate</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('urban_transit')">Urban Transit</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('university_tuition')">Free University</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('juvenile_justice')">Juvenile Justice</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('universal_healthcare')">Universal Healthcare</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('remote_work')">Remote Work</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('space_exploration')">Space vs Poverty</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('digital_privacy')">Privacy vs Surveillance</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('fast_fashion')">Fast Fashion</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('mass_tourism')">Mass Tourism</button>
+            <button class="at-chip-btn" onclick="window.loadArgumentThemeById('media_algorithms')">Social Media Algorithms</button>
           </div>
           <div id="at-topic-results" class="at-results-card">
             <div style="color:var(--text-secondary); font-size:0.88rem; padding:24px; text-align:center;">
-              Search any global IELTS theme above to load full encyclopedic background knowledge with clean paragraphs.
+              <p style="margin:0 0 12px 0;">Select any of the <strong>12 Core Cambridge Argument Matrices</strong> above or search an essay theme to explore Band 9.0 Thesis statements, Pro/Con claims, Concessions, and Collocations!</p>
+              <button class="btn-accent-solid" onclick="window.loadArgumentThemeById('ai_workplace')" style="padding:8px 18px; font-weight:700; font-size:0.85rem;"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book-open"/></svg> Load Featured Blueprint: AI &amp; Workplace Automation</button>
             </div>
           </div>
         </div>
@@ -18741,6 +18746,20 @@ async function executeVipTopicSearch() {
   if (atInp) atInp.value = topic;
   if (vtInp) vtInp.value = topic;
 
+  // 1. Intercept with Offline 12-Theme Pro/Con/Thesis Argument Matrix (Examiner Idea Bank)
+  if (typeof window.findArgumentTheme === 'function') {
+    const matchedTheme = window.findArgumentTheme(topic);
+    if (matchedTheme) {
+      if (document.getElementById('at-topic-results')) {
+        window.renderArgumentMatrixCard(matchedTheme, 'at-topic-results');
+      }
+      if (document.getElementById('vt-topic-results')) {
+        window.renderArgumentMatrixCard(matchedTheme, 'vt-topic-results');
+      }
+      return;
+    }
+  }
+
   renderAcademicToolResult('topic', getAcademicToolLoadingHtml('Extracting'));
 
   try {
@@ -20123,12 +20142,13 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           <button class="btn-accent-solid" onclick="executeVipTopicSearch()" style="padding:8px 16px; font-weight:700;">Explore Topic</button>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
-          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Artificial intelligence'); executeVipTopicSearch();">AI in Society</button>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Renewable energy'); executeVipTopicSearch();">Renewable Energy</button>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Urbanization'); executeVipTopicSearch();">Urbanization</button>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Globalization'); executeVipTopicSearch();">Globalization</button>
-          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setVipToolInput('topic', 'Higher education'); executeVipTopicSearch();">Higher Education</button>
+          <span style="color:var(--text-secondary); align-self:center; font-weight:700;">12 Core Themes:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('ai_workplace')">AI &amp; Automation</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('carbon_tax')">Carbon Tax</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('urban_transit')">Urban Transit</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('university_tuition')">Free University</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('universal_healthcare')">Healthcare</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="window.loadArgumentThemeById('fast_fashion')">Fast Fashion</button>
         </div>
         <div id="vt-topic-results" style="min-height:100px;">
           <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">

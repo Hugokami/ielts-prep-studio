@@ -1269,4 +1269,1080 @@
 
   window.BAND6_TRAP_RULES = BAND6_TRAP_RULES;
 
+
+  // ==========================================
+  // STEP 1.3: 12-THEME PRO/CON/THESIS ARGUMENT MATRIX (EXAMINER IDEA BANK)
+  // ==========================================
+  const IELTS_ARGUMENT_MATRIX = [
+  {
+    "id": "ai_workplace",
+    "title": "Artificial Intelligence & Workplace Automation",
+    "category": "Technology & Society",
+    "keywords": [
+      "ai",
+      "artificial intelligence",
+      "automation",
+      "robots",
+      "machine learning",
+      "workplace",
+      "employment",
+      "tech",
+      "jobs"
+    ],
+    "prompt": "Some people believe that artificial intelligence will eliminate human jobs and cause widespread unemployment, while others argue it will create superior economic opportunities. Discuss both views and give your opinion.",
+    "band9Thesis": "While the rapid automation of routine cognitive and administrative tasks will undoubtedly precipitate transitional labor market friction, artificial intelligence ultimately functions as a paradigm-shifting catalyst for macroeconomic productivity and the genesis of higher-order human occupations.",
+    "pros": [
+      {
+        "claim": "Augmentation of Human Productivity & Higher-Order Job Creation",
+        "evidence": "Historical parallels with the Industrial Revolution demonstrate that technological automation shifts labor from manual drudgery toward cognitive innovation and systems architecture.",
+        "burmese": "လူသားတို့၏ လုပ်အားကို အစားထိုးခြင်းထက် ကုန်ထုတ်လုပ်မှု စွမ်းအားကို အဆပေါင်းများစွာ မြှင့်တင်ပေးပြီး နည်းပညာဆန်းသစ်တီထွင်မှုဆိုင်ရာ အဆင့်မြင့် အလုပ်အကိုင်သစ်များကို ဖန်တီးပေးပါသည်။"
+      },
+      {
+        "claim": "Unprecedented Precision in Complex Decision-Making",
+        "evidence": "Machine learning algorithms reduce human diagnostic error in specialized domains such as oncology imaging, supply-chain logistics, and epidemiological forecasting.",
+        "burmese": "ဆေးပညာ၊ ထောက်ပံ့ပို့ဆောင်ရေးနှင့် ခန့်မှန်းတွက်ချက်မှုများတွင် လူသားတို့၏ အမှားအယွင်းများကို အနည်းဆုံးဖြစ်အောင် လျှော့ချပေးနိုင်ပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Acute Structural Unemployment & Skill-Gap Disparity",
+        "evidence": "Mid-career routine knowledge workers face rapid obsolescence without institutionalized lifelong retraining programs.",
+        "burmese": "ပုံမှန်ရုံးလုပ်ငန်း လုပ်ကိုင်နေသော လူလတ်ပိုင်း ဝန်ထမ်းများအနေဖြင့် အချိန်တိုအတွင်း နည်းပညာအသစ် မသင်ယူနိုင်ပါက ချက်ချင်း အလုပ်လက်မဲ့ ဖြစ်နိုင်ပါသည်။"
+      },
+      {
+        "claim": "Socioeconomic Wealth Concentration Among Tech Monopolies",
+        "evidence": "Capital returns accrue disproportionately to proprietary algorithmic infrastructure owners, exacerbating Gini coefficient inequality.",
+        "burmese": "နည်းပညာကုမ္ပဏီကြီးများသာ စည်းစိမ်ဥစ္စာ အမြောက်အမြား စုစည်းရရှိသွားပြီး လူတန်းစား ကွာဟချက်ကို ပိုမိုကြီးထွားစေနိုင်ပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the transitional economic volatility and localized dislocation of entry-level clerical staff, national retraining frameworks can effectively bridge the skills gap.",
+    "collocations": [
+      {
+        "phrase": "precipitate structural unemployment",
+        "burmese": "ဖွဲ့စည်းပုံဆိုင်ရာ အလုပ်လက်မဲ့ပြဿနာကို ဖြစ်ပေါ်စေသည်",
+        "example": "Unchecked automation may precipitate structural unemployment across manufacturing hubs."
+      },
+      {
+        "phrase": "algorithmic efficiency",
+        "burmese": "တွက်ချက်မှု အယ်လ်ဂိုရစ်သမ်ဆိုင်ရာ စွမ်းဆောင်ရည်",
+        "example": "Enterprises harness algorithmic efficiency to optimize global logistics."
+      },
+      {
+        "phrase": "paradigm shift in labor dynamics",
+        "burmese": "လုပ်သားစျေးကွက် ဖွဲ့စည်းမှု၏ အခြေခံပြောင်းလဲမှု",
+        "example": "Generative AI represents a paradigm shift in intellectual labor dynamics."
+      },
+      {
+        "phrase": "augment cognitive capacity",
+        "burmese": "ဉာဏ်ရည်ပိုင်းဆိုင်ရာ စွမ်းရည်ကို အထောက်အကူပြု မြှင့်တင်သည်",
+        "example": "Modern tools augment cognitive capacity rather than supplanting human intellect."
+      },
+      {
+        "phrase": "disproportionate wealth concentration",
+        "burmese": "မညီမျှသော စည်းစိမ်ဥစ္စာ စုစည်းမှု",
+        "example": "Technological disruption risks exacerbating disproportionate wealth concentration."
+      }
+    ]
+  },
+  {
+    "id": "carbon_tax",
+    "title": "Carbon Taxation & Green Energy Subsidies",
+    "category": "Environmental Economics",
+    "keywords": [
+      "carbon",
+      "tax",
+      "climate",
+      "environment",
+      "renewable energy",
+      "fossil fuels",
+      "emissions",
+      "pollution",
+      "green"
+    ],
+    "prompt": "Some people argue that the most effective way to solve environmental pollution is to increase the price of fuel and levy heavy carbon taxes. To what extent do you agree or disagree?",
+    "band9Thesis": "Although fiscal penalties on carbon-intensive consumption play a vital role in disincentivizing fossil-fuel reliance, fiscal mechanisms alone remain insufficient unless paired with substantial public subsidisation of clean renewable energy alternatives.",
+    "pros": [
+      {
+        "claim": "Internalisation of Environmental Externalities",
+        "evidence": "Carbon taxation forces corporate polluters to incorporate ecological damage into their operating overheads, incentivising low-emission manufacturing methods.",
+        "burmese": "ကာဗွန်အခွန်စည်းကြပ်ခြင်းသည် သဘာဝပတ်ဝန်းကျင် ပျက်စီးမှုကို ကုန်ကျစရိတ်အဖြစ် ထည့်သွင်းတွက်ချက်စေပြီး စက်ရုံများကို သန့်ရှင်းသောနည်းပညာ ပြောင်းလဲသုံးစွဲစေပါသည်။"
+      },
+      {
+        "claim": "Generation of Ring-Fenced Green Innovation Revenue",
+        "evidence": "Tax revenues raised from polluters can be legally earmarked for public research into grid-scale battery storage and fusion technology.",
+        "burmese": "ညစ်ညမ်းမှုအခွန်မှရရှိသော ဘဏ္ဍာငွေများကို ပြန်လည်ပြည့်ဖြိုးမြဲစွမ်းအင် သုတေသနများအတွက် ဘဏ္ဍာရန်ပုံငွေအဖြစ် ပြန်လည်အသုံးပြုနိုင်ပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Regressive Economic Burden on Lower-Income Households",
+        "evidence": "Energy constitutes an inelastic necessity, meaning higher fuel levies disproportionately penalize socioeconomically disadvantaged commuters.",
+        "burmese": "လောင်စာဆီစရိတ် မြင့်တက်လာခြင်းသည် ဝင်ငွေနည်း ပြည်သူများ၏ နေ့စဉ်သွားလာစရိတ်နှင့် စားဝတ်နေရေးကို မတန်တဆ ဝန်ထုပ်ဝန်ပိုး ဖြစ်စေပါသည်။"
+      },
+      {
+        "claim": "Cross-Border Industrial Relocation (Carbon Leakage)",
+        "evidence": "Stringent domestic taxes incentivize heavy manufacturers to offshore production to jurisdictions with lax environmental regulations.",
+        "burmese": "အခွန်စည်းကြပ်မှု တင်းကျပ်လွန်းပါက စက်ရုံများသည် စည်းကမ်းလျှော့ပေါ့သော နိုင်ငံများသို့ ရွှေ့ပြောင်းသွားနိုင်သဖြင့် တစ်ကမ္ဘာလုံးအတိုင်းအတာဖြင့် ညစ်ညမ်းမှု မလျော့ကျနိုင်ပါ။"
+      }
+    ],
+    "concession": "Notwithstanding the potential regressive impact on impoverished households, targeted rebate cheques can neutralize disproportionate financial strain.",
+    "collocations": [
+      {
+        "phrase": "internalise ecological externalities",
+        "burmese": "သဘာဝပတ်ဝန်းကျင် ပျက်စီးမှုကုန်ကျစရိတ်ကို ထည့်သွင်းတွက်ချက်သည်",
+        "example": "Carbon pricing compels industries to internalise ecological externalities."
+      },
+      {
+        "phrase": "disincentivize carbon-intensive consumption",
+        "burmese": "ကာဗွန်ထုတ်လွှတ်မှုများသော သုံးစွဲမှုကို ဟန့်တားသည်",
+        "example": "Higher fuel duties effectively disincentivize carbon-intensive commuting."
+      },
+      {
+        "phrase": "regressive economic burden",
+        "burmese": "ဝင်ငွေနည်းသူများအပေါ် မမျှတစွာ ဝန်ပိစေသော စီးပွားရေးဝန်ထုပ်ဝန်ပိုး",
+        "example": "Unmoderated energy taxes impose a regressive economic burden on rural families."
+      },
+      {
+        "phrase": "ring-fenced public revenue",
+        "burmese": "သီးသန့်ရည်ရွယ်ချက်အတွက်သာ ခွဲဝေထားသော နိုင်ငံတော်ဘဏ္ဍာငွေ",
+        "example": "Tax receipts must be ring-fenced for renewable infrastructure deployment."
+      },
+      {
+        "phrase": "hasten the transition to renewables",
+        "burmese": "ပြန်လည်ပြည့်ဖြိုးမြဲစွမ်းအင်သို့ ကူးပြောင်းမှုကို အရှိန်မြှင့်တင်သည်",
+        "example": "Strategic tariffs hasten the transition to renewables across transport sectors."
+      }
+    ]
+  },
+  {
+    "id": "urban_transit",
+    "title": "Urbanisation & Metropolitan Transit Networks",
+    "category": "Urban Planning & Infrastructure",
+    "keywords": [
+      "urban",
+      "city",
+      "transit",
+      "transport",
+      "metro",
+      "traffic",
+      "congestion",
+      "roads",
+      "public transport"
+    ],
+    "prompt": "The expansion of major cities is creating severe problems such as traffic congestion and pollution. Some people believe the solution is to construct more roads, while others advocate investing in public transport systems. Discuss both views and give your opinion.",
+    "band9Thesis": "While road expansion provides ephemeral relief, constructing additional vehicular thoroughfares invariably induces latent traffic demand; consequently, municipal capital must be decisively committed to high-capacity public transit networks.",
+    "pros": [
+      {
+        "claim": "Exponential Spatial & Energetic Efficiency",
+        "evidence": "A single electrified subway line can transport 40,000 passengers per direction per hour, utilizing a fraction of the land area and kilowatt-hours required by private automobiles.",
+        "burmese": "လျှပ်စစ်ရထားလိုင်းတစ်ခုသည် သာမန်ကားလမ်းများထက် မြေနေရာနှင့် စွမ်းအင် အလွန်သက်သာစွာဖြင့် တစ်နာရီလျှင် လူပေါင်း ၄၀,၀၀၀ ကျော်ကို ပို့ဆောင်ပေးနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Democratization of Metropolitan Mobility",
+        "evidence": "Subsidized public transit guarantees that non-drivers, low-income citizens, and disabled demographics maintain unhindered access to commercial hubs and medical facilities.",
+        "burmese": "ကားမမောင်းနိုင်သူများ၊ ဝင်ငွေနည်းသူများနှင့် မသန်စွမ်းသူများအတွက် မြို့ပြအလုပ်အကိုင်နှင့် ကျန်းမာရေးဝန်ဆောင်မှုများသို့ လွယ်ကူစွာ သွားလာနိုင်စေပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Prohibitive Capital Expenditure & Construction Disruption",
+        "evidence": "Underground metro infrastructure projects require tens of billions in public debt and create severe decade-long surface disruption.",
+        "burmese": "မြေအောက်ရထားလိုင်းများ တည်ဆောက်ခြင်းသည် နိုင်ငံတော်ဘဏ္ဍာငွေ ဘီလီယံချီ ကုန်ကျပြီး ဆောက်လုပ်နေစဉ် နှစ်ပေါင်းများစွာ မြို့တွင်းသွားလာရေးကို ထိခိုက်စေပါသည်။"
+      },
+      {
+        "claim": "Suburban Inflexibility & Fixed-Route Limitations",
+        "evidence": "Fixed rail lines cannot dynamically serve low-density peripheral suburbs without auxiliary feeder buses and substantial operational subsidies.",
+        "burmese": "မြို့စွန်ရပ်ကွက်များသို့ ရထားလိုင်းများ အလွယ်တကူ မရောက်ရှိနိုင်သဖြင့် မြို့ပြအစွန်အဖျားတွင် နေထိုင်သူများအတွက် ကားအသုံးပြုမှုကို အပြည့်အဝ မတားဆီးနိုင်ပါ။"
+      }
+    ],
+    "concession": "Notwithstanding the formidable initial capital expenditure and logistical disruption of tunneling, the multi-generational environmental dividends far outweigh immediate costs.",
+    "collocations": [
+      {
+        "phrase": "induce latent traffic demand",
+        "burmese": "ဖိနှိပ်ထားသော ယာဉ်ကြောလိုအပ်ချက်ကို ဆွဲဆောင်ဖြစ်ပေါ်စေသည်",
+        "example": "Expanding expressways invariably induces latent traffic demand, worsening congestion."
+      },
+      {
+        "phrase": "high-capacity transit arterial",
+        "burmese": "စွမ်းရည်မြင့် အများသုံးသယ်ယူပို့ဆောင်ရေး ပင်မလမ်းကြောင်း",
+        "example": "The city established a high-capacity transit arterial connecting eastern suburbs."
+      },
+      {
+        "phrase": "alleviate metropolitan bottlenecks",
+        "burmese": "မြို့ပြယာဉ်ကြောပိတ်ဆို့မှုများကို လျှော့ပါးသက်သာစေသည်",
+        "example": "Electrified commuter rail serves to alleviate metropolitan bottlenecks."
+      },
+      {
+        "phrase": "prohibitive capital outlay",
+        "burmese": "အလွန်အမင်း ကြီးမားလှသော မတည်ငွေရင်းကုန်ကျစရိတ်",
+        "example": "Subway expansion projects require overcoming prohibitive capital outlay."
+      },
+      {
+        "phrase": "unfettered suburban sprawl",
+        "burmese": "ထိန်းချုပ်မှုမဲ့ မြို့စွန်သို့ ကျယ်ပြန့်လာသော မြို့ပြပျံ့နှံ့မှု",
+        "example": "Transit-oriented development curtails unfettered suburban sprawl."
+      }
+    ]
+  },
+  {
+    "id": "university_tuition",
+    "title": "Higher Education Tuition: Free vs User-Pays",
+    "category": "Education & Social Policy",
+    "keywords": [
+      "university",
+      "tuition",
+      "education",
+      "fees",
+      "free education",
+      "students",
+      "debt",
+      "tertiary"
+    ],
+    "prompt": "Some people believe that university education should be free for all students, while others believe that students should pay their own tuition fees. Discuss both views and give your opinion.",
+    "band9Thesis": "Although state-funded tertiary education guarantees socioeconomic meritocracy and eliminates debilitating graduate debt, an equitable cost-sharing framework with income-contingent repayments represents the most fiscally sustainable model.",
+    "pros": [
+      {
+        "claim": "Dismantling Socioeconomic Gatekeeping & Intergenerational Mobility",
+        "evidence": "Abolishing tuition fees enables talented students from underprivileged backgrounds to pursue high-return professions without incurring life-altering loan obligations.",
+        "burmese": "တက္ကသိုလ်ပညာရေး အခမဲ့ဖြစ်ပါက ဆင်းရဲသော ကျောင်းသားများအနေဖြင့် ငွေကြေးအခက်အခဲကြောင့် ပညာရေးမစွန့်လွှတ်ရဘဲ လူမှုအဆင့်အတန်း တက်လှမ်းနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Maximizing National Knowledge Capital & Global Competitiveness",
+        "evidence": "Nations with free tertiary education, such as Germany and the Nordic states, cultivate robust technological workforces that drive long-term GDP growth.",
+        "burmese": "ပညာတတ် လူ့စွမ်းအားအရင်းအမြစ် ပေါများလာပြီး နိုင်ငံတကာ စီးပွားရေးနှင့် နည်းပညာနယ်ပယ်တွင် ယှဉ်ပြိုင်နိုင်စွမ်း ပိုမိုမြင့်မားလာစေပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Unsustainable Fiscal Burden on Public Treasuries",
+        "evidence": "Full state subsidisation requires diversion of billions from early childhood and vocational education, potentially reducing university departmental research funding.",
+        "burmese": "နိုင်ငံတော်ဘဏ္ဍာမှ အကုန်ကျခံရသဖြင့် အခွန်ထမ်းပြည်သူများအပေါ် ဝန်ပိစေပြီး မူလတန်းနှင့် သက်မွေးဝမ်းကျောင်း ပညာရေးအတွက် ရန်ပုံငွေ လျော့နည်းသွားစေနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Regressive Redistribution of Public Wealth",
+        "evidence": "University graduates earn substantially higher lifetime incomes; therefore, taxpayer funding effectively subsidises future high earners with blue-collar tax revenues.",
+        "burmese": "ဘွဲ့ရများသည် နောင်တစ်ချိန်တွင် ဝင်ငွေများစွာ ရရှိကြမည်ဖြစ်သဖြင့် တက္ကသိုလ်မတက်သော သာမန်အလုပ်သမားများ၏ အခွန်ငွေဖြင့် ထောက်ပံ့ပေးရာရောက်နေပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the legitimate fiscal constraints of national budgets, income-contingent loan programs ensure that graduates contribute only once attaining financial stability.",
+    "collocations": [
+      {
+        "phrase": "socioeconomic meritocracy",
+        "burmese": "လူမှုစီးပွား အရည်အချင်းစစ် စနစ်",
+        "example": "Tuition-free universities foster genuine socioeconomic meritocracy."
+      },
+      {
+        "phrase": "debilitating graduate indebtedness",
+        "burmese": "ဘွဲ့ရများ၏ ဘဝကို ချုပ်ချယ်သော အကြွေးဝန်ထုပ်ဝန်ပိုး",
+        "example": "Student loan reforms aim to eradicate debilitating graduate indebtedness."
+      },
+      {
+        "phrase": "income-contingent repayment framework",
+        "burmese": "ဝင်ငွေပေါ်မူတည်၍ ပြန်ဆပ်ရသော စနစ်",
+        "example": "Australia pioneered an income-contingent repayment framework for undergraduates."
+      },
+      {
+        "phrase": "regressive wealth redistribution",
+        "burmese": "ဆင်းရဲသားထံမှ ချမ်းသာသူထံသို့ မညီမျှစွာ ပြန်လည်ခွဲဝေမှု",
+        "example": "Uncapped subsidies can unintentionally trigger regressive wealth redistribution."
+      },
+      {
+        "phrase": "cultivate intellectual capital",
+        "burmese": "ဉာဏပညာအရင်းအနှီးကို ပြုစုပျိုးထောင်သည်",
+        "example": "Public investment in tertiary institutions serves to cultivate intellectual capital."
+      }
+    ]
+  },
+  {
+    "id": "juvenile_justice",
+    "title": "Juvenile Justice & Parental Responsibility",
+    "category": "Law & Family Sociology",
+    "keywords": [
+      "juvenile",
+      "crime",
+      "parents",
+      "teenagers",
+      "punish",
+      "responsibility",
+      "delinquency",
+      "children",
+      "law"
+    ],
+    "prompt": "Juvenile crime is increasing in many cities. Some believe that parents should be held legally responsible for their children's crimes, while others argue that teenagers themselves should face punishment. Discuss both views and give your opinion.",
+    "band9Thesis": "While negligent guardians must certainly be held accountable for domestic moral abandonment, imposing punitive statutory liability on parents overlooks the complex socioeconomic catalysts of adolescent delinquency, necessitating rehabilitative intervention for the youth.",
+    "pros": [
+      {
+        "claim": "Incentivization of Active Filial Oversight & Supervision",
+        "evidence": "Legal liability compels negligent guardians to actively monitor their children's peer affiliations, digital activities, and curfews.",
+        "burmese": "မိဘများအား ဥပဒေအရ တာဝန်ယူစေခြင်းဖြင့် သားသမီးများ၏ ပေါင်းသင်းဆက်ဆံရေးနှင့် ညထွက်ခြင်းများကို ပိုမိုဂရုစိုက် စောင့်ကြပ်လာစေပါသည်။"
+      },
+      {
+        "claim": "Acknowledgement of Domestic Socialisation Primacy",
+        "evidence": "Criminological research confirms that childhood behavioral deviance overwhelmingly originates in volatile, neglectful, or abusive domestic settings.",
+        "burmese": "ဆယ်ကျော်သက်များ၏ ရာဇဝတ်မှုများသည် မိဘများ၏ လျစ်လျူရှုမှုနှင့် အိမ်တွင်းအကြမ်းဖက်မှုများမှ အဓိက အစပြုကြောင်း မှုခင်းဆေးပညာက သက်သေပြထားပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "External Preponderance of Peer & Social Media Influences",
+        "evidence": "Adolescents spend the vast majority of their waking hours immersed in autonomous peer groups, gang coercion, and digital forums beyond parental control.",
+        "burmese": "ဆယ်ကျော်သက်များသည် အပေါင်းအသင်းနှင့် ဆိုရှယ်မီဒီယာများ၏ လွှမ်းမိုးမှုအောက်တွင် ပိုမိုရှိနေသဖြင့် မိဘများအနေဖြင့် ၂၄ နာရီလုံး ထိန်းချုပ်ရန် မဖြစ်နိုင်ပါ။"
+      },
+      {
+        "claim": "Individual Moral Agency & The Deterrent Deficit",
+        "evidence": "Punishing parents rather than the offender undermines personal accountability, failing to deter recidivism among young offenders.",
+        "burmese": "ပြစ်မှုကျူးလွန်သူ ဆယ်ကျော်သက်ကို အပြစ်မပေးဘဲ မိဘကိုသာ အပြစ်ပေးပါက မိမိကိုယ်ကို တာဝန်ယူစိတ် ကင်းမဲ့သွားပြီး ထပ်မံပြစ်မှုကျူးလွန်နိုင်ပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the culpability of neglectful guardians, punitive measures must prioritize restorative juvenile justice and psychological counseling over familial incarceration.",
+    "collocations": [
+      {
+        "phrase": "punitive statutory liability",
+        "burmese": "ဥပဒေအရ ပြစ်ဒဏ်ခတ်နိုင်သော တာဝန်ယူမှု",
+        "example": "Courts debate whether to impose punitive statutory liability on custodial guardians."
+      },
+      {
+        "phrase": "adolescent delinquent behavior",
+        "burmese": "ဆယ်ကျော်သက်များ၏ လမ်းလွဲမှုနှင့် ပြစ်မှုကျူးလွန်သော အပြုအမူ",
+        "example": "Community mentors intervene to mitigate adolescent delinquent behavior."
+      },
+      {
+        "phrase": "volatile domestic socialization",
+        "burmese": "မငြိမ်မသက်သော အိမ်တွင်း လူမှုဆက်ဆံရေး ပတ်ဝန်းကျင်",
+        "example": "Volatile domestic socialization frequently precipitates antisocial conduct."
+      },
+      {
+        "phrase": "restorative juvenile justice",
+        "burmese": "ပြန်လည်ထူထောင်ရေး ဦးစားပေး ဆယ်ကျော်သက် တရားစီရင်ရေး",
+        "example": "Scandinavian systems prioritize restorative juvenile justice over harsh incarceration."
+      },
+      {
+        "phrase": "curtail criminal recidivism",
+        "burmese": "ပြစ်မှုထပ်မံကျူးလွန်ခြင်းကို ဟန့်တားလျှော့ချသည်",
+        "example": "Early psychological rehabilitation serves to curtail criminal recidivism among minors."
+      }
+    ]
+  },
+  {
+    "id": "universal_healthcare",
+    "title": "Healthcare Systems: Universal State-Funded vs Private Insurance",
+    "category": "Public Health & Social Welfare",
+    "keywords": [
+      "health",
+      "healthcare",
+      "hospital",
+      "medical",
+      "insurance",
+      "private",
+      "public",
+      "doctors",
+      "free"
+    ],
+    "prompt": "Some people believe that healthcare is a fundamental human right that should be provided free by the state, while others argue that individuals should pay for their own private health insurance. Discuss both views and give your opinion.",
+    "band9Thesis": "Although private enterprise fosters technological innovation and reduces hospital waiting queues, universal state-underwritten healthcare is an indispensable human prerequisite that safeguards public welfare against commercial exploitation.",
+    "pros": [
+      {
+        "claim": "Moral Imperative of Equitable Health Access",
+        "evidence": "Treating healthcare as a market commodity creates catastrophic health expenditure, plunging millions of uninsured citizens into destitution.",
+        "burmese": "ကျန်းမာရေးစောင့်ရှောက်မှုကို စီးပွားရေးကုန်စည်အဖြစ် သတ်မှတ်ပါက ဆင်းရဲနွမ်းပါးသူများ ဆေးကုသခ မတတ်နိုင်ဘဲ အသက်ဆုံးရှုံးရနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Superior Macroeconomic Preventive Care Efficacy",
+        "evidence": "Single-payer systems prioritize early disease screening and vaccination, significantly lowering the long-term economic burden of chronic illness.",
+        "burmese": "နိုင်ငံတော်မှ အခမဲ့ကုသပေးခြင်းဖြင့် ရောဂါများကို ကြိုတင်ကာကွယ်နိုင်ပြီး ရေရှည်တွင် နိုင်ငံတော်၏ ကျန်းမာရေးကုန်ကျစရိတ်ကို သက်သာစေပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Rationing Delays & Prolonged Elective Surgery Queues",
+        "evidence": "State-managed healthcare monopolies frequently suffer from chronic underfunding, resulting in extensive waiting lists for life-enhancing operations.",
+        "burmese": "အစိုးရဆေးရုံများတွင် လူနာများပြားသဖြင့် အရေးပေါ်မဟုတ်သော ခွဲစိတ်မှုများအတွက် လပေါင်းများစွာ စောင့်ဆိုင်းရသည့် ပြဿနာများ ရှိနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Stifling of Biopharmaceutical R&D Innovation",
+        "evidence": "Competitive private healthcare markets provide the robust profit margins necessary to incentivize costly clinical trials for cutting-edge therapies.",
+        "burmese": "ပုဂ္ဂလိကကဏ္ဍသည် ဆေးဝါးသုတေသနနှင့် အဆင့်မြင့် ဆေးဘက်ဆိုင်ရာ ပစ္စည်းများ တီထွင်ရာတွင် ပိုမိုလျင်မြန်စွာ ရင်းနှီးမြှုပ်နှံနိုင်ပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the operational agility of private medical clinics, a publicly funded baseline of comprehensive emergency care remains non-negotiable.",
+    "collocations": [
+      {
+        "phrase": "universal healthcare entitlement",
+        "burmese": "လူတိုင်း အခမဲ့ကျန်းမာရေး စောင့်ရှောက်ခွင့်",
+        "example": "The constitution guarantees a universal healthcare entitlement for all residents."
+      },
+      {
+        "phrase": "catastrophic medical expenditure",
+        "burmese": "ဘဝပျက်လောက်အောင် ကြီးမားလှသော ဆေးကုသစရိတ်",
+        "example": "Public subsidies shield vulnerable families from catastrophic medical expenditure."
+      },
+      {
+        "phrase": "prolonged elective surgery queues",
+        "burmese": "ခွဲစိတ်ကုသမှု ခံယူရန် ကြာရှည်စွာ စောင့်ဆိုင်းရသော တန်းစီစာရင်း",
+        "example": "Chronic staffing shortages exacerbate prolonged elective surgery queues."
+      },
+      {
+        "phrase": "incentivize biopharmaceutical innovation",
+        "burmese": "ဇီဝဆေးဝါး ဆန်းသစ်တီထွင်မှုများကို အားပေးလှုံ့ဆော်သည်",
+        "example": "Patent protections exist to incentivize biopharmaceutical innovation."
+      },
+      {
+        "phrase": "preventive epidemiological intervention",
+        "burmese": "ရောဂါမဖြစ်ပွားမီ ကြိုတင်ကာကွယ်သော ကပ်ရောဂါဗေဒဆိုင်ရာ ဆောင်ရွက်ချက်",
+        "example": "Universal clinics prioritize cost-effective preventive epidemiological intervention."
+      }
+    ]
+  },
+  {
+    "id": "remote_work",
+    "title": "Remote Working & Telecommuting Dynamics",
+    "category": "Corporate Culture & Urban Geography",
+    "keywords": [
+      "work from home",
+      "remote",
+      "office",
+      "telecommuting",
+      "productivity",
+      "employees",
+      "companies"
+    ],
+    "prompt": "Due to technological developments, more people can now work from home rather than in a traditional office. Do the advantages of this trend outweigh the disadvantages?",
+    "band9Thesis": "The proliferation of telecommuting undeniably yields profound dividends in worker autonomy, reduced vehicular emissions, and metropolitan decentralization, substantially outweighing the associated drawbacks of interpersonal isolation.",
+    "pros": [
+      {
+        "claim": "Eradication of Commuting Friction & Carbon Footprint Abatement",
+        "evidence": "Eliminating daily vehicular transit saves workers hundreds of hours annually, dramatically attenuating metropolitan carbon emissions and traffic congestion.",
+        "burmese": "နေ့စဉ် ရုံးတက်ရုံးဆင်း သွားလာရသော အချိန်များကို သက်သာစေပြီး ယာဉ်ကြောပိတ်ဆို့မှုနှင့် ကာဗွန်ထုတ်လွှတ်မှုကို သိသာစွာ လျှော့ချပေးပါသည်။"
+      },
+      {
+        "claim": "Democratization of Global Talent Acquisition",
+        "evidence": "Enterprises can recruit skilled specialists irrespective of geographic constraints, empowering professionals in secondary regional cities.",
+        "burmese": "ကုမ္ပဏီများအနေဖြင့် မည်သည့်မြို့၊ မည်သည့်နိုင်ငံမှမဆို အရည်အချင်းရှိသူများကို ငှားရမ်းနိုင်ပြီး ဒေသတွင်း ပညာရှင်များအတွက် အခွင့်အလမ်း ပိုမိုပွင့်လန်းစေပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Erosion of Corporate Camaraderie & Serendipitous Collaboration",
+        "evidence": "Spontaneous innovation and mentorship flourish in physical office ecosystems, which virtual teleconferencing platforms fail to replicate.",
+        "burmese": "ရုံးခန်းတွင်း မျက်နှာချင်းဆိုင် ပြောဆိုတိုင်ပင်မှုမှ ထွက်ပေါ်လာသော အကြံဥာဏ်သစ်များနှင့် အပြန်အလှန် ရင်းနှီးမှုများ လျော့ကျသွားနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Blurring of Domestic Boundaries & Psychological Burnout",
+        "evidence": "Constant digital connectivity creates an 'always-on' expectation, exacerbating occupational stress and domestic intrusion.",
+        "burmese": "အိမ်နှင့် ရုံးအလုပ် မခွဲခြားနိုင်တော့ဘဲ အချိန်ပြည့် အလုပ်လုပ်နေရသကဲ့သို့ ခံစားရကာ စိတ်ဖိစီးမှုနှင့် ပင်ပန်းနွမ်းနယ်မှုကို ဖြစ်စေပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the challenges of maintaining organic team chemistry, adopting structured hybrid working models mitigates social detachment while retaining autonomy.",
+    "collocations": [
+      {
+        "phrase": "attenuate commuting fatigue",
+        "burmese": "သွားလာရသော ပင်ပန်းနွမ်းနယ်မှုကို လျော့ပါးစေသည်",
+        "example": "Flexible telecommuting policies demonstrably attenuate commuting fatigue."
+      },
+      {
+        "phrase": "geographic decentralization of labor",
+        "burmese": "လုပ်သားအင်အား ပထဝီဝင်အရ ပြန့်ကျဲသွားခြင်း",
+        "example": "Remote models catalyze the geographic decentralization of labor to provincial towns."
+      },
+      {
+        "phrase": "spontaneous organizational synergy",
+        "burmese": "ရုံးတွင်း ပူးပေါင်းဆောင်ရွက်မှုမှ အလိုအလျောက် ထွက်ပေါ်လာသော အကျိုးသက်ရောက်မှု",
+        "example": "Critics argue that physical workspaces promote spontaneous organizational synergy."
+      },
+      {
+        "phrase": "blurring of domestic boundaries",
+        "burmese": "အိမ်တွင်းနှင့် အလုပ်နယ်နိမိတ် ရောထွေးမှု",
+        "example": "Working from bedrooms risks the psychological blurring of domestic boundaries."
+      },
+      {
+        "phrase": "hybrid occupational model",
+        "burmese": "အိမ်နှင့် ရုံးခန်း နှစ်မျိုးစလုံး ပေါင်းစပ်ထားသော လုပ်ငန်းပုံစံ",
+        "example": "Forward-thinking corporations are embracing the hybrid occupational model."
+      }
+    ]
+  },
+  {
+    "id": "space_exploration",
+    "title": "Space Exploration Funding vs Terrestrial Poverty Alleviation",
+    "category": "Science Policy & Humanitarian Ethics",
+    "keywords": [
+      "space",
+      "exploration",
+      "nasa",
+      "mars",
+      "planets",
+      "poverty",
+      "funding",
+      "money",
+      "terrestrial"
+    ],
+    "prompt": "Billions of dollars are spent on space research and missions to other planets. Some people believe this money should instead be spent on solving immediate problems on Earth like poverty and hunger. Discuss both views and give your opinion.",
+    "band9Thesis": "While mitigating immediate terrestrial poverty and famine demands urgent humanitarian expenditure, space exploration is not an exorbitant luxury but an existential investment that yields revolutionary technological spin-offs for Earth.",
+    "pros": [
+      {
+        "claim": "Catalyst for Revolutionary Spin-Off Technologies",
+        "evidence": "Aerospace research has directly yielded satellite telecommunications, solar photovoltaic cells, GPS navigation, and advanced water purification systems.",
+        "burmese": "အာကာသသုတေသနမှတစ်ဆင့် ဂြိုဟ်တုဆက်သွယ်ရေး၊ နေရောင်ခြည်စွမ်းအင်သုံး ဆိုလာစနစ်များနှင့် ရေသန့်စင်နည်းပညာသစ်များ ကမ္ဘာပေါ်တွင် အကျိုးပြုနေပါသည်။"
+      },
+      {
+        "claim": "Existential Planetary Risk Mitigation & Resource Scarcity",
+        "evidence": "Asteroid mining and multi-planetary habitation provide long-term insurance against catastrophic extinction-level planetary events and terrestrial rare-earth depletion.",
+        "burmese": "ကမ္ဘာမြေကြီးပေါ်ရှိ ရှားပါးသတ္တုအရင်းအမြစ်များ ခန်းခြောက်လာခြင်းနှင့် ကမ္ဘာပျက်ကပ်ဘေးအန္တရာယ်များမှ ကာကွယ်ရန် ရေရှည်အာမခံချက် ဖြစ်ပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Ethical Dissonance Amid Acute Terrestrial Deprivation",
+        "evidence": "Expending billions on extraterrestrial orbiters while hundreds of millions lack potable water and basic medical care creates profound moral incongruity.",
+        "burmese": "ကမ္ဘာပေါ်တွင် လူသန်းပေါင်းများစွာ ငတ်မွတ်ခေါင်းပါးနေချိန်တွင် အာကာသသို့ ဘီလီယံနှင့်ချီ သုံးစွဲနေခြင်းသည် ကျင့်ဝတ်ပိုင်းအရ မေးခွန်းထုတ်စရာ ဖြစ်နေပါသည်။"
+      },
+      {
+        "claim": "Diminishing Marginal Returns Compared to Social Programs",
+        "evidence": "Public funds invested directly in agrarian irrigation and public health clinics yield immediate, quantifiable improvements in human life expectancy.",
+        "burmese": "ဆင်းရဲနွမ်းပါးမှု ပပျောက်ရေးနှင့် စိုက်ပျိုးရေးတွင် တိုက်ရိုက်ရင်းနှီးမြှုပ်နှံခြင်းက လူသားများအတွက် ချက်ချင်းလက်ငင်း အကျိုးရလဒ် ပိုမိုဖြစ်ထွန်းစေပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the heart-wrenching reality of global destitution, the federal budget allocations for space exploration constitute a negligible fraction of global military spending.",
+    "collocations": [
+      {
+        "phrase": "existential planetary risk",
+        "burmese": "ကမ္ဘာမြေတည်တံ့ရေးဆိုင်ရာ အန္တရာယ်",
+        "example": "Scientific exploration guards against existential planetary risks."
+      },
+      {
+        "phrase": "technological spin-off dividend",
+        "burmese": "နည်းပညာသုတေသနမှ ဆက်စပ်ထွက်ပေါ်လာသော အကျိုးကျေးဇူး",
+        "example": "Aerospace development delivers immense technological spin-off dividends."
+      },
+      {
+        "phrase": "acute terrestrial deprivation",
+        "burmese": "ကမ္ဘာပေါ်ရှိ ဆိုးရွားသော ဆင်းရဲချို့တဲ့မှု",
+        "example": "Critics emphasize acute terrestrial deprivation in developing regions."
+      },
+      {
+        "phrase": "exorbitant luxury expenditure",
+        "burmese": "မလိုအပ်ဘဲ အလွန်အကျွံ ငွေဖြုန်းတီးသော သုံးစွဲမှု",
+        "example": "Space probes should not be viewed as an exorbitant luxury expenditure."
+      },
+      {
+        "phrase": "alleviate systemic famine",
+        "burmese": "စနစ်တကျ အမြစ်တွယ်နေသော ငတ်မွတ်ခေါင်းပါးမှုကို လျှော့ချသည်",
+        "example": "Global humanitarian funds are deployed to alleviate systemic famine."
+      }
+    ]
+  },
+  {
+    "id": "digital_privacy",
+    "title": "Digital Privacy Rights vs National Security Surveillance",
+    "category": "Civil Liberties & Cybersecurity",
+    "keywords": [
+      "privacy",
+      "surveillance",
+      "data",
+      "security",
+      "government",
+      "cctv",
+      "monitoring",
+      "internet",
+      "spying"
+    ],
+    "prompt": "Governments are increasingly using surveillance technologies like CCTV cameras and data monitoring to prevent crime. Some argue this violates personal privacy, while others believe it is necessary for public safety. Discuss both views and give your opinion.",
+    "band9Thesis": "Although comprehensive electronic surveillance provides intelligence services with vital tools to preempt extremist threats, unchecked state surveillance represents an unacceptable infringement upon fundamental civil liberties, demanding rigorous judicial oversight.",
+    "pros": [
+      {
+        "claim": "Preemption of Violent Extremism & Organized Syndicates",
+        "evidence": "Metropolitan CCTV arrays and algorithmic communications monitoring enable law enforcement to neutralize terror plots and dismantle transnational human trafficking networks.",
+        "burmese": "CCTV ကင်မရာများနှင့် ဆက်သွယ်ရေးစောင့်ကြည့်မှုများသည် အကြမ်းဖက်မှုများနှင့် နိုင်ငံဖြတ်ကျော် ရာဇဝတ်ဂိုဏ်းများကို ကြိုတင်ဟန့်တားနိုင်ပါသည်။"
+      },
+      {
+        "claim": "Enhanced Objective Evidence in Criminal Jurisprudence",
+        "evidence": "High-resolution video telemetry provides incontrovertible forensic evidence, preventing wrongful convictions and expediting judicial proceedings.",
+        "burmese": "ခိုင်လုံသော ရုပ်သံသက်သေ အထောက်အထားများ ရရှိစေသဖြင့် အပြစ်မဲ့သူများ မတရားထောင်ကျခြင်းမှ ကာကွယ်ပေးနိုင်ပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Chilling Effect on Free Speech & Democratic Dissent",
+        "evidence": "Ubiquitous state monitoring induces self-censorship among journalists, whistleblowers, and lawful political opposition, eroding democratic accountability.",
+        "burmese": "အစိုးရက အချိန်ပြည့် စောင့်ကြည့်နေပါက သတင်းထောက်များနှင့် ပြည်သူများသည် လွတ်လပ်စွာ ဝေဖန်ပြောဆိုရန် ကြောက်ရွံ့လာပြီး ဒီမိုကရေစီကို ထိခိုက်စေပါသည်။"
+      },
+      {
+        "claim": "Peril of Algorithmic Bias & Data Breaches",
+        "evidence": "Facial recognition algorithms exhibit disproportionate false-positive rates for ethnic minorities, while centralized surveillance databases remain vulnerable to hostile cyberattacks.",
+        "burmese": "မျက်နှာမှတ်မိစနစ်များသည် လူနည်းစုများကို အမှားအယွင်း စွပ်စွဲမိတတ်ပြီး အစိုးရ၏ အချက်အလက်များ ဟက်ကာများထံ ပေါက်ကြားသွားပါက အန္တရာယ်ကြီးမားပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the pragmatic necessity of public safety operations, intrusive surveillance must remain strictly contingent upon independent judicial warrants.",
+    "collocations": [
+      {
+        "phrase": "infringe upon civil liberties",
+        "burmese": "နိုင်ငံသားအခွင့်အရေးနှင့် လွတ်လပ်ခွင့်များကို ချိုးဖောက်ထိပါးသည်",
+        "example": "Unwarranted digital wiretaps infringe upon civil liberties."
+      },
+      {
+        "phrase": "preempt extremist atrocities",
+        "burmese": "အကြမ်းဖက် ရက်စက်မှုများကို ကြိုတင်ကာကွယ်ဟန့်တားသည်",
+        "example": "Actionable signal intelligence serves to preempt extremist atrocities."
+      },
+      {
+        "phrase": "chilling effect on public dissent",
+        "burmese": "ပြည်သူများ၏ လွတ်လပ်စွာ ဝေဖန်ဆန္ဒပြမှုကို ကြောက်ရွံ့တုံ့ဆိုင်းစေသော သက်ရောက်မှု",
+        "example": "Pervasive facial tracking exerts a chilling effect on public dissent."
+      },
+      {
+        "phrase": "independent judicial oversight",
+        "burmese": "လွတ်လပ်သော တရားစီရင်ရေး၏ ကြီးကြပ်စစ်ဆေးမှု",
+        "example": "Surveillance mandates require strict and independent judicial oversight."
+      },
+      {
+        "phrase": "draconian mass surveillance apparatus",
+        "burmese": "ရက်စက်တင်းကျပ်လွန်းသော အများပြည်သူစောင့်ကြည့်ရေး ယန္တရား",
+        "example": "Civil society opposes the deployment of a draconian mass surveillance apparatus."
+      }
+    ]
+  },
+  {
+    "id": "fast_fashion",
+    "title": "Fast Fashion & Circular Economic Sustainability",
+    "category": "Consumerism & Environmental Sustainability",
+    "keywords": [
+      "fashion",
+      "clothes",
+      "fast fashion",
+      "shopping",
+      "textiles",
+      "waste",
+      "consumerism",
+      "sustainability"
+    ],
+    "prompt": "Modern society produces and consumes inexpensive clothing at an unprecedented rate. What are the problems associated with this trend, and what measures can be taken to resolve them?",
+    "band9Thesis": "The relentless escalation of fast-fashion consumption inflicts catastrophic aquatic pollution and human rights exploitation in the Global South, an ecological emergency that can only be countered through statutory garment recycling mandates and extended producer responsibility.",
+    "pros": [
+      {
+        "claim": "Catastrophic Microplastic Effluent & Landfill Congestion",
+        "evidence": "Synthetic polyester garments shed non-biodegradable microfibers during laundering, poisoning marine ecosystems, while billions of tonnes of garments end up incinerated in developing nations.",
+        "burmese": "စျေးပေါသော အဝတ်အထည်များသည် ပလတ်စတစ်မိုက်ခရိုဖိုင်ဘာများ ထုတ်လွှတ်ပြီး ရေထုကို ညစ်ညမ်းစေသည့်အပြင် နှစ်စဉ် အဝတ်အထည်တန်ချိန် သန်းပေါင်းများစွာ အမှိုက်ပုံများသို့ ရောက်ရှိနေပါသည်။"
+      },
+      {
+        "claim": "Sweatshop Exploitation & Human Dignity Violations",
+        "evidence": "Ultra-cheap apparel relies upon poverty-level wages, hazardous factory environments, and child labor in unregulated manufacturing enclaves.",
+        "burmese": "စျေးနှုန်းအလွန်ချိုသာစေရန်အတွက် ဖွံ့ဖြိုးဆဲနိုင်ငံများရှိ အလုပ်သမားများကို လုပ်အားခ အလွန်နည်းပါးစွာ ပေးပြီး အန္တရာယ်များသော ပတ်ဝန်းကျင်တွင် ခိုင်းစေနေကြပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Democratic Access to Affordable Apparel",
+        "evidence": "Fast fashion enables low-income demographics to dress with dignity and keep pace with professional workplace dress codes without excessive expenditure.",
+        "burmese": "ဝင်ငွေနည်း ပြည်သူများအတွက် သင့်တင့်သော ကုန်ကျစရိတ်ဖြင့် သပ်ရပ်စွာ ဝတ်ဆင်နိုင်ခွင့် ပေးစွမ်းထားပါသည်။"
+      },
+      {
+        "claim": "Economic Engine for Developing Nation Employment",
+        "evidence": "The garment sector serves as the single largest formal employer and foreign-exchange earner in economies like Bangladesh and Vietnam.",
+        "burmese": "ဘင်္ဂလားဒေ့ရှ်နှင့် ဗီယက်နမ်ကဲ့သို့ နိုင်ငံများတွင် အထည်ချုပ်လုပ်ငန်းသည် သန်းနှင့်ချီသော အမျိုးသမီးများအတွက် အဓိက အလုပ်အကိုင် အရင်းအမြစ် ဖြစ်ပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the economic livelihoods supported by textile manufacturing, the planetary boundary breaches caused by throwaway consumerism require systemic transition to circular economics.",
+    "collocations": [
+      {
+        "phrase": "throwaway consumer culture",
+        "burmese": "ခဏသုံးပြီး လွှင့်ပစ်သော စားသုံးမှု ယဉ်ကျေးမှု",
+        "example": "Fast fashion embodies an unsustainable throwaway consumer culture."
+      },
+      {
+        "phrase": "extended producer responsibility",
+        "burmese": "ထုတ်လုပ်သူ၏ ရေရှည်တာဝန်ယူမှု စည်းမျဉ်း",
+        "example": "Legislation must mandate extended producer responsibility for textile recycling."
+      },
+      {
+        "phrase": "microfiber aquatic contamination",
+        "burmese": "မိုက်ခရိုဖိုင်ဘာ အမျှင်များကြောင့် ရေထုညစ်ညမ်းမှု",
+        "example": "Synthetic washing cycles accelerate microfiber aquatic contamination."
+      },
+      {
+        "phrase": "sweatshop labor exploitation",
+        "burmese": "စက်ရုံဆိုးများတွင် လုပ်အားခေါင်းပုံဖြတ် အမြတ်ထုတ်မှု",
+        "example": "Ethical audits aim to eliminate sweatshop labor exploitation."
+      },
+      {
+        "phrase": "transition to circular economics",
+        "burmese": "အရင်းအမြစ် ပြန်လည်အသုံးပြုသော စီးပွားရေးစနစ်သို့ ကူးပြောင်းခြင်း",
+        "example": "Apparel brands must hasten the transition to circular economics."
+      }
+    ]
+  },
+  {
+    "id": "mass_tourism",
+    "title": "Mass Global Tourism & Indigenous Heritage Preservation",
+    "category": "Globalization & Cultural Anthropology",
+    "keywords": [
+      "tourism",
+      "tourists",
+      "culture",
+      "heritage",
+      "travel",
+      "monuments",
+      "sites",
+      "local",
+      "indigenous"
+    ],
+    "prompt": "International tourism is bringing significant economic benefits to many countries, but it also causes environmental and cultural damage. Do the benefits of international tourism outweigh the disadvantages?",
+    "band9Thesis": "While mass international tourism delivers indispensable revenue and cross-cultural enlightenment, the structural commodification of ancestral traditions and degradation of fragile heritage sites mandate stringent visitor caps and eco-tourism tariffs.",
+    "pros": [
+      {
+        "claim": "Vital Foreign Exchange & Regional Employment Catalyst",
+        "evidence": "Hospitality and travel industries inject vital capital into developing regions, funding local infrastructure, schools, and civic amenities.",
+        "burmese": "နိုင်ငံခြားငွေ တိုက်ရိုက်ရရှိစေပြီး ဒေသခံများအတွက် ဟိုတယ်၊ ခရီးသွားနှင့် အစားအသောက်ဆိုင်ရာ အလုပ်အကိုင် အခွင့်အလမ်းများစွာ ဖန်တီးပေးပါသည်။"
+      },
+      {
+        "claim": "Cross-Cultural Empathy & Global Cosmopolitanism",
+        "evidence": "Direct interpersonal immersion between global travelers and native communities dismantles xenophobic prejudices and fosters international solidarity.",
+        "burmese": "ကမ္ဘာလှည့်ခရီးသွားများနှင့် ဒေသခံများအကြား အပြန်အလှန် ချစ်ကြည်ရင်းနှီးမှု ရရှိစေပြီး လူမျိုးရေးခွဲခြားမှုများကို လျော့ကျစေပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Commodification & Dilution of Sacred Rituals",
+        "evidence": "Authentic spiritual ceremonies are transformed into trivialized commercial spectacles tailored for brief tourist photography.",
+        "burmese": "ရိုးရာယဉ်ကျေးမှုနှင့် ဘာသာရေးအခမ်းအနားများသည် ခရီးသွားများ ဓာတ်ပုံရိုက်ရန်အတွက် သာမန်စီးပွားဖြစ် ဖျော်ဖြေမှုအဆင့်သို့ လျှောကျသွားတတ်ပါသည်။"
+      },
+      {
+        "claim": "Physical Overcrowding & Ecological Erosion of Fragile Biomes",
+        "evidence": "Historic sanctuaries such as Machu Picchu and Venice suffer from severe masonry wear, waste accumulation, and rising cost-of-living displacement for locals.",
+        "burmese": "ရှေးဟောင်းအမွေအနှစ်နေရာများ ပျက်စီးယိုယွင်းလာပြီး ဒေသခံများမှာ ကုန်စျေးနှုန်းကြီးမြင့်မှုကြောင့် မိမိတို့နေရပ်မှ ပြောင်းရွှေ့ပေးရတတ်ပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the undeniable economic stimulus of tourist receipts, the irrevocable loss of sacred cultural integrity cannot be redeemed by short-term fiscal profits.",
+    "collocations": [
+      {
+        "phrase": "commodification of cultural heritage",
+        "burmese": "ယဉ်ကျေးမှု အမွေအနှစ်များကို စီးပွားဖြစ် ကုန်စည်အဖြစ် ပြောင်းလဲခြင်း",
+        "example": "Unchecked tourism accelerates the commodification of cultural heritage."
+      },
+      {
+        "phrase": "invaluable foreign-exchange receipts",
+        "burmese": "အဖိုးမဖြတ်နိုင်သော နိုင်ငံခြားငွေ ရရှိမှု",
+        "example": "Developing archipelagos rely heavily on foreign-exchange receipts."
+      },
+      {
+        "phrase": "physical erosion of ancient masonry",
+        "burmese": "ရှေးဟောင်း အဆောက်အအုံများ ရုပ်ပိုင်းဆိုင်ရာ ပျက်စီးယိုယွင်းမှု",
+        "example": "Mass footsteps precipitate the physical erosion of ancient masonry."
+      },
+      {
+        "phrase": "indigenous ritual trivialization",
+        "burmese": "တိုင်းရင်းသား ရိုးရာဓလေ့များကို တန်ဖိုးမဲ့ ဖျော်ဖြေမှုအဖြစ် ပြုလုပ်ခြင်း",
+        "example": "Commercial package tours risk indigenous ritual trivialization."
+      },
+      {
+        "phrase": "mandate sustainable visitor caps",
+        "burmese": "ရေရှည်တည်တံ့သော ခရီးသွားဦးရေ ကန့်သတ်ချက်များ သတ်မှတ်သည်",
+        "example": "Vulnerable ecosystems mandate sustainable visitor caps to endure."
+      }
+    ]
+  },
+  {
+    "id": "media_algorithms",
+    "title": "Social Media Algorithms & Societal Echo Chambers",
+    "category": "Media Studies & Democratic Politics",
+    "keywords": [
+      "social media",
+      "algorithm",
+      "echo chamber",
+      "fake news",
+      "polarization",
+      "news",
+      "information",
+      "internet"
+    ],
+    "prompt": "Social networking platforms have become the primary source of news for many people. To what extent does this development threaten democratic discourse and social cohesion?",
+    "band9Thesis": "The algorithmic curation of digital information fundamentally jeopardizes democratic cohesion by trapping citizens in ideological echo chambers and commercializing inflammatory disinformation, requiring algorithmic transparency legislation.",
+    "pros": [
+      {
+        "claim": "Democratization of News Distribution & Citizen Journalism",
+        "evidence": "Social networks dismantle traditional oligarchic media monopolies, empowering grassroots movements and marginalized voices to expose official malfeasance.",
+        "burmese": "သမားရိုးကျ မီဒီယာကြီးများ၏ ချုပ်ကိုင်မှုကို ဖောက်ထွက်နိုင်ပြီး သာမန်ပြည်သူများက မတရားမှုများကို ဖော်ထုတ်တင်ပြနိုင်ခွင့် ရရှိစေပါသည်။"
+      },
+      {
+        "claim": "Hyper-Personalized Real-Time Information Access",
+        "evidence": "Users receive instantaneous emergency broadcasts, scientific breakthroughs, and niche academic discourse tailored precisely to their professional fields.",
+        "burmese": "အရေးပေါ်သတင်းများနှင့် မိမိတို့စိတ်ဝင်စားသော ပညာရပ်ဆိုင်ရာ သတင်းအချက်အလက်များကို ချက်ချင်းလက်ငင်း ရယူနိုင်ပါသည်။"
+      }
+    ],
+    "cons": [
+      {
+        "claim": "Algorithmic Amplification of Outrage & Epistemic Bubbles",
+        "evidence": "Engagement-maximizing algorithms intentionally elevate sensationalist, polarizing narratives, radicalizing political factions and eroding common consensus.",
+        "burmese": "လူအများ ဒေါသထွက်စေမည့် သတင်းမှားများနှင့် အမုန်းစကားများကို အယ်လ်ဂိုရစ်သမ်များက တမင်တကာ ဦးစားပေးဖော်ပြသဖြင့် နိုင်ငံရေးအရ အုပ်စုကွဲစေပါသည်။"
+      },
+      {
+        "claim": "Degradation of Rigorous Investigative Journalism",
+        "evidence": "Ad-revenue migration to tech intermediaries has bankrupt regional newspapers, leaving civic councils and municipal corruption unscrutinized.",
+        "burmese": "ကြော်ငြာဝင်ငွေများ ဆိုရှယ်မီဒီယာများထံ ရောက်သွားသဖြင့် အရည်အသွေးမြင့် စုံစမ်းထောက်လှမ်းရေး သတင်းစာများ ရှင်သန်ရန် ခက်ခဲလာပါသည်။"
+      }
+    ],
+    "concession": "Notwithstanding the democratizing potential of open internet forums, the unchecked algorithmic optimization for political outrage poses an existential threat to democratic consensus.",
+    "collocations": [
+      {
+        "phrase": "ideological echo chambers",
+        "burmese": "မိမိအကြိုက် အမြင်တူများသာ ပြန်လည်ပဲ့တင်ထပ်နေသော သတင်းဝန်းကျင်",
+        "example": "Users become hermetically sealed within ideological echo chambers."
+      },
+      {
+        "phrase": "algorithmic amplification of outrage",
+        "burmese": "ဒေါသနှင့် အမုန်းတရားကို အယ်လ်ဂိုရစ်သမ်က အရှိန်မြှင့်တင်ပေးမှု",
+        "example": "Platforms profit from the algorithmic amplification of outrage."
+      },
+      {
+        "phrase": "erode democratic consensus",
+        "burmese": "ဒီမိုကရေစီနည်းကျ တူညီဆန္ဒကို တိုက်စားဖျက်ဆီးသည်",
+        "example": "Unfiltered disinformation campaigns erode democratic consensus."
+      },
+      {
+        "phrase": "grassroots citizen journalism",
+        "burmese": "အခြေခံလူထု ပြည်သူ့သတင်းထောက်စနစ်",
+        "example": "Social channels empower authentic grassroots citizen journalism."
+      },
+      {
+        "phrase": "statutory algorithmic transparency",
+        "burmese": "ဥပဒေအရ အယ်လ်ဂိုရစ်သမ် ပွင့်လင်းမြင်သာမှု ရှိစေရေး",
+        "example": "Parliaments are debating statutory algorithmic transparency standards."
+      }
+    ]
+  }
+];
+
+  window.IELTS_ARGUMENT_MATRIX = IELTS_ARGUMENT_MATRIX;
+
+  window.findArgumentTheme = function(query) {
+    if (!query || !query.trim()) return null;
+    const q = query.trim().toLowerCase();
+
+    // Exact id or title match
+    for (const t of IELTS_ARGUMENT_MATRIX) {
+      if (t.id === q || t.title.toLowerCase() === q) return t;
+    }
+
+    // Keyword match
+    for (const t of IELTS_ARGUMENT_MATRIX) {
+      for (const kw of t.keywords) {
+        if (q.includes(kw) || kw.includes(q)) return t;
+      }
+    }
+    return null;
+  };
+
+  window.renderArgumentMatrixCard = function(theme, targetContainerId) {
+    const container = document.getElementById(targetContainerId);
+    if (!container || !theme) return;
+
+    let collocationsHtml = theme.collocations.map((c, i) => `
+      <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:10px 12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
+          <strong style="color:var(--accent); font-size:0.86rem;">${i+1}. ${escapeHtml(c.phrase)}</strong>
+          <span class="burmese" style="font-size:0.78rem; color:var(--text-secondary);">${escapeHtml(c.burmese)}</span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-secondary); font-style:italic; line-height:1.45;">
+          &ldquo;${escapeHtml(c.example)}&rdquo;
+        </div>
+      </div>
+    `).join('');
+
+    const proItemsHtml = theme.pros.map((p, i) => `
+      <div style="margin-bottom:12px; padding:12px 14px; background:rgba(16, 185, 129, 0.04); border-left:3px solid #10B981; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; font-size:0.88rem; color:var(--text); margin-bottom:4px;">
+          Argument ${i+1}: ${escapeHtml(p.claim)}
+        </div>
+        <div style="font-size:0.83rem; color:var(--text-secondary); line-height:1.5; margin-bottom:4px;">
+          ${escapeHtml(p.evidence)}
+        </div>
+        <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45;">
+          ${escapeHtml(p.burmese)}
+        </div>
+      </div>
+    `).join('');
+
+    const conItemsHtml = theme.cons.map((c, i) => `
+      <div style="margin-bottom:12px; padding:12px 14px; background:rgba(239, 68, 68, 0.04); border-left:3px solid #EF4444; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; font-size:0.88rem; color:var(--text); margin-bottom:4px;">
+          Counter-Argument ${i+1}: ${escapeHtml(c.claim)}
+        </div>
+        <div style="font-size:0.83rem; color:var(--text-secondary); line-height:1.5; margin-bottom:4px;">
+          ${escapeHtml(c.evidence)}
+        </div>
+        <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45;">
+          ${escapeHtml(c.burmese)}
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="occ-card" style="padding:22px; border:1px solid var(--border-accent); background:var(--bg-card); border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.04);">
+        
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:12px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
+              <span class="occ-ver-pill" style="background:#D97706; color:#FFF; font-weight:800; font-size:0.72rem;">EXAMINER IDEA BANK</span>
+              <span style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">${escapeHtml(theme.category)}</span>
+            </div>
+            <h3 style="margin:0; font-size:1.2rem; font-weight:900; color:var(--text);">${escapeHtml(theme.title)}</h3>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-outlined" style="padding:6px 12px; font-size:0.78rem; font-weight:700;" onclick="window.copyArgumentBlueprint(${JSON.stringify(theme.id)})">
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-copy"/></svg> Copy Blueprint
+            </button>
+            <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800;" onclick="window.exportMatrixOutline(${JSON.stringify(theme.id)})">
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-arrow-up-right"/></svg> Export to Writing Lab
+            </button>
+          </div>
+        </div>
+
+        <!-- Official Prompt -->
+        <div style="margin-bottom:16px; padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+          <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-secondary); margin-bottom:4px;">
+            Target IELTS Task 2 Essay Prompt:
+          </div>
+          <div style="font-size:0.9rem; font-weight:600; color:var(--text); line-height:1.5;">
+            &ldquo;${escapeHtml(theme.prompt)}&rdquo;
+          </div>
+        </div>
+
+        <!-- Band 9.0 Thesis Statement -->
+        <div style="margin-bottom:18px; padding:14px 16px; background:linear-gradient(135deg, rgba(217,119,6,0.06), rgba(217,119,6,0.02)); border:1px solid rgba(217,119,6,0.25); border-radius:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#D97706; display:inline-flex; align-items:center; gap:6px;">
+              <svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Band 9.0 Master Thesis Statement:
+            </span>
+            <span class="occ-ver-pill" style="background:#10B981; color:#FFF; font-weight:800; font-size:0.7rem; padding:1px 8px;">C2 Register</span>
+          </div>
+          <p style="margin:0; font-size:0.96rem; line-height:1.65; color:var(--text); font-family:Georgia, serif;">
+            ${escapeHtml(theme.band9Thesis)}
+          </p>
+        </div>
+
+        <!-- Two Column Arguments: Pros vs Cons -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:18px;">
+          <div>
+            <div style="font-weight:800; font-size:0.9rem; color:#10B981; margin-bottom:8px; display:inline-flex; align-items:center; gap:6px;">
+              <svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-check"/></svg> Perspective A: Core Proponents
+            </div>
+            ${proItemsHtml}
+          </div>
+          <div>
+            <div style="font-weight:800; font-size:0.9rem; color:#EF4444; margin-bottom:8px; display:inline-flex; align-items:center; gap:6px;">
+              <svg class="ui-icon ui-icon-xs" style="color:#EF4444;"><use href="#lucide-x"/></svg> Perspective B: Counter-Arguments
+            </div>
+            ${conItemsHtml}
+          </div>
+        </div>
+
+        <!-- Concession Clause -->
+        <div style="margin-bottom:18px; padding:12px 14px; background:rgba(99, 102, 241, 0.04); border-left:3px solid #6366F1; border-radius:0 8px 8px 0;">
+          <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#6366F1; margin-bottom:4px;">
+            Examiner Concession &amp; Rebuttal Pivot:
+          </div>
+          <div style="font-size:0.9rem; color:var(--text); line-height:1.55; font-style:italic;">
+            &ldquo;${escapeHtml(theme.concession)}&rdquo;
+          </div>
+        </div>
+
+        <!-- 5 Essential Topic Collocations -->
+        <div>
+          <div style="font-weight:800; font-size:0.9rem; color:var(--text); margin-bottom:10px; display:inline-flex; align-items:center; gap:6px;">
+            <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-link"/></svg> 5 Band 8.5+ Topic Collocations &amp; Context:
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px;">
+            ${collocationsHtml}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  window.exportMatrixOutline = function(themeId) {
+    const theme = IELTS_ARGUMENT_MATRIX.find(t => t.id === themeId);
+    if (!theme) return;
+
+    const outlineText = `=== IELTS WRITING TASK 2 ESSAY BLUEPRINT ===
+TOPIC: ${theme.title}
+PROMPT: ${theme.prompt}
+
+[INTRODUCTION]
+- Hook: In contemporary society, the debate surrounding ${theme.keywords[0]} has intensified...
+- Thesis Statement: ${theme.band9Thesis}
+
+[BODY PARAGRAPH 1: PERSPECTIVE A]
+- Topic Sentence: On the one hand, proponents argue that ${theme.pros[0].claim.toLowerCase()}.
+- Explanation & Evidence: ${theme.pros[0].evidence}
+- Second Supporting Point: Furthermore, ${theme.pros[1].claim.toLowerCase()}, as evidenced by ${theme.pros[1].evidence}
+
+[BODY PARAGRAPH 2: PERSPECTIVE B & REBUTTAL]
+- Counter-Perspective Topic Sentence: Conversely, critics raise substantial concerns regarding ${theme.cons[0].claim.toLowerCase()}.
+- Supporting Detail: Specifically, ${theme.cons[0].evidence}
+- Concession & Synthesis: ${theme.concession}
+
+[CONCLUSION]
+- Restatement: In the final analysis, having evaluated both perspectives, it remains clear that...
+
+[TARGET BAND 8.5+ COLLOCATIONS TO INCLUDE]
+${theme.collocations.map((c, i) => `${i+1}. ${c.phrase} (${c.burmese})`).join('\n')}
+`;
+
+    const el = document.getElementById('essayArea');
+    if (el) {
+      el.value = outlineText;
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      if (typeof window.runLiveWritingDiagnostics === 'function') {
+        window.runLiveWritingDiagnostics();
+      }
+
+      if (typeof window.switchTab === 'function') {
+        window.switchTab('writing');
+      }
+
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.focus();
+        el.style.transition = 'box-shadow 0.3s ease';
+        el.style.boxShadow = '0 0 0 3px #10B981';
+        setTimeout(() => { el.style.boxShadow = ''; }, 1500);
+      }, 300);
+
+      if (window.showAppToast) {
+        window.showAppToast(`"${theme.title}" outline exported directly to Writing Lab!`, 'success');
+      }
+    }
+  };
+
+  window.copyArgumentBlueprint = function(themeId) {
+    const theme = IELTS_ARGUMENT_MATRIX.find(t => t.id === themeId);
+    if (!theme) return;
+
+    const text = `IELTS Band 9.0 Blueprint: ${theme.title}\nPrompt: ${theme.prompt}\nThesis: ${theme.band9Thesis}\n\nPerspective A (Pro):\n1. ${theme.pros[0].claim}: ${theme.pros[0].evidence}\n2. ${theme.pros[1].claim}: ${theme.pros[1].evidence}\n\nPerspective B (Con):\n1. ${theme.cons[0].claim}: ${theme.cons[0].evidence}\n2. ${theme.cons[1].claim}: ${theme.cons[1].evidence}\n\nConcession: ${theme.concession}\n\nCollocations:\n${theme.collocations.map(c => `- ${c.phrase} (${c.burmese})`).join('\n')}`;
+
+    navigator.clipboard.writeText(text).then(() => {
+      if (window.showAppToast) {
+        window.showAppToast('Full argument blueprint copied to clipboard!', 'success');
+      }
+    });
+  };
+
+  window.loadArgumentThemeById = function(themeId, targetContainerId) {
+    const theme = IELTS_ARGUMENT_MATRIX.find(t => t.id === themeId);
+    if (theme) {
+      const atInp = document.getElementById('at-topic-input');
+      const vtInp = document.getElementById('vt-topic-input');
+      if (atInp) atInp.value = theme.title;
+      if (vtInp) vtInp.value = theme.title;
+
+      const atContainer = document.getElementById('at-topic-results');
+      const vtContainer = document.getElementById('vt-topic-results');
+      if (atContainer) window.renderArgumentMatrixCard(theme, 'at-topic-results');
+      if (vtContainer) window.renderArgumentMatrixCard(theme, 'vt-topic-results');
+    }
+  };
+
 })(window);
