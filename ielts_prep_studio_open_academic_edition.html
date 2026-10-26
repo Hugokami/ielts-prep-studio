@@ -10350,6 +10350,41 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
           </div>
         </div>
+
+        <!-- Section 2: The 18 Deadly Band-6.0 Cliche & Trap X-Ray Playground -->
+        <div class="occ-card" style="padding:20px; margin-top:20px; border-top:2px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="background:linear-gradient(135deg, #EF4444, #DC2626); color:#FFF; font-weight:900; font-size:0.75rem; padding:3px 10px; border-radius:4px; letter-spacing:0.04em;">EXAMINER PENALTY X-RAY</span>
+                <h3 style="margin:0; font-size:1.15rem; color:var(--text); font-weight:800; display:inline-flex; align-items:center; gap:8px;">
+                  <svg class="ui-icon" style="color:#EF4444;"><use href="#lucide-target"/></svg> The 18 Deadly Band-6.0 Clich&eacute; &amp; Trap X-Ray
+                </h3>
+              </div>
+              <p style="margin:0; font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+                Scan your essay paragraphs for memorized template clich&eacute;s (<em>Nowadays, Every coin has two sides, In a nutshell</em>), informal contractions, and conversational quantifiers that cap your Lexical Resource at Band 6.0.
+              </p>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn-outlined" style="padding:6px 14px; font-size:0.8rem; font-weight:700;" onclick="window.loadSampleClicheEssay()">
+                <svg class="ui-icon ui-icon-xs"><use href="#lucide-sparkles"/></svg> Load Clich&eacute; Sample Essay
+              </button>
+            </div>
+          </div>
+
+          <div class="at-search-bar-wrap" style="align-items:flex-start;">
+            <textarea id="at-trapxray-input" class="at-input-box" rows="3" style="resize:vertical; min-height:72px; font-family:inherit; font-size:14px; border-radius:8px;" placeholder="Paste any essay draft or paragraph to scan for the 18 Cambridge penalty traps..."></textarea>
+            <button class="btn-accent-solid" onclick="window.runWorkspaceTrapScanner()" style="padding:12px 22px; font-weight:800; font-size:0.9rem; white-space:nowrap; flex-shrink:0; background:linear-gradient(135deg, #EF4444, #DC2626); border:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+              <svg class="ui-icon" style="color:#FFF;"><use href="#lucide-target"/></svg> Run Trap X-Ray
+            </button>
+          </div>
+
+          <div id="at-trapxray-results">
+            <div style="color:var(--text-secondary); font-size:0.86rem; padding:24px 16px; text-align:center; background:rgba(0,0,0,0.03); border-radius:8px; border:1px dashed var(--border);">
+              Paste a paragraph above or click &ldquo;Load Clich&eacute; Sample Essay&rdquo; to test real-time examiner penalty detection and 1-click surgical auto-fixes!
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->

@@ -2345,4 +2345,166 @@ ${theme.collocations.map((c, i) => `${i+1}. ${c.phrase} (${c.burmese})`).join('\
     }
   };
 
+
+  window.runWorkspaceTrapScanner = function() {
+    const el = document.getElementById('at-trapxray-input');
+    const container = document.getElementById('at-trapxray-results');
+    if (!el || !container) return;
+
+    const text = el.value.trim();
+    if (!text) {
+      if (window.showAppToast) window.showAppToast('Please enter or load an essay to scan for traps!', 'warning');
+      return;
+    }
+
+    const report = window.scanBand6Traps(text);
+    const isClean = report.totalTraps === 0;
+    const isCritical = report.totalTraps >= 3;
+    const meterColor = isClean ? '#10B981' : (isCritical ? '#EF4444' : '#F59E0B');
+
+    let detectionsHtml = '';
+    if (isClean) {
+      detectionsHtml = `
+        <div style="padding:20px; text-align:center; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.2); border-radius:8px;">
+          <div style="font-size:1.1rem; font-weight:800; color:#10B981; margin-bottom:4px;">
+            <svg class="ui-icon" style="color:#10B981;"><use href="#lucide-check"/></svg> Clean Academic Register
+          </div>
+          <p style="margin:0; font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">
+            Zero memorized clichés, informal contractions, or conversational quantifiers detected. Your essay satisfies Band 8.0+ academic style standards.
+          </p>
+        </div>
+      `;
+    } else {
+      detectionsHtml = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:0.85rem; font-weight:700; color:var(--text);">
+            Detected ${report.totalTraps} Cambridge Penalty Trap${report.totalTraps > 1 ? 's' : ''}:
+          </span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; background:#10B981; border:none;" onclick="window.autoFixWorkspaceTraps()">
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-sparkles"/></svg> Auto-Fix All Traps
+            </button>
+            <button class="btn-outlined" style="padding:6px 14px; font-size:0.78rem; font-weight:700;" onclick="window.exportWorkspaceCleansedToWritingLab()">
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-arrow-up-right"/></svg> Send to Writing Lab
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${report.detections.map((d, i) => `
+            <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:${d.severity === 'Critical' ? '#EF4444' : '#F59E0B'}; color:#FFF; font-weight:800; font-size:0.7rem; padding:2px 6px; border-radius:4px;">
+                    ${d.severity.toUpperCase()}
+                  </span>
+                  <strong style="font-size:0.88rem; color:var(--text);">${escapeHtml(d.name)}</strong>
+                </div>
+                <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem; font-weight:700; border-color:#10B981; color:#10B981;" onclick="window.autoFixSingleWorkspaceTrap(${JSON.stringify(d.matchedText)}, ${JSON.stringify(d.suggested)})">
+                  <svg class="ui-icon ui-icon-xs"><use href="#lucide-check"/></svg> Auto-Fix &rarr; "${escapeHtml(d.suggested)}"
+                </button>
+              </div>
+
+              <div style="font-size:0.84rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span>Found: <strong style="color:var(--danger); text-decoration:line-through;">"${escapeHtml(d.matchedText)}"</strong></span>
+                <span>&rarr;</span>
+                <span>Replace with: <strong style="color:var(--success); font-weight:700;">"${escapeHtml(d.suggested)}"</strong></span>
+              </div>
+
+              <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45; margin-top:2px;">
+                ${escapeHtml(d.reason)}
+              </div>
+
+              <div style="font-size:0.78rem; color:var(--text-secondary); font-family:'Pyidaungsu', 'Myanmar3', sans-serif; background:rgba(0,0,0,0.02); padding:4px 8px; border-radius:4px; border-left:2px solid #F59E0B;">
+                ${escapeHtml(d.burmese)}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    container.innerHTML = `
+      <div style="padding:16px; border:1px solid ${meterColor}; background:var(--bg-card); border-radius:10px; margin-top:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg class="ui-icon" style="color:${meterColor};"><use href="#lucide-target"/></svg>
+            <strong style="font-size:1rem; color:var(--text);">Examiner Risk Assessment:</strong>
+            <span style="font-size:0.85rem; font-weight:800; color:${meterColor};">${report.riskLevel}</span>
+          </div>
+          <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Penalty Risk: ${report.riskScore}%</span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="height:6px; background:rgba(0,0,0,0.08); border-radius:3px; overflow:hidden;">
+            <div style="width:${report.riskScore}%; height:100%; background:${meterColor}; transition:width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        ${detectionsHtml}
+      </div>
+    `;
+  };
+
+  window.loadSampleClicheEssay = function() {
+    const el = document.getElementById('at-trapxray-input');
+    if (!el) return;
+    el.value = "Nowadays, technology plays an important role in our daily lives. Every coin has two sides. A lot of people think that the internet is very good for young children, but it's also a big problem. More and more kids don't study and get bad results in school. In a nutshell, we should solve the problem immediately.";
+    window.runWorkspaceTrapScanner();
+  };
+
+  window.autoFixSingleWorkspaceTrap = function(origText, repText) {
+    const el = document.getElementById('at-trapxray-input');
+    if (!el || !origText || !repText) return;
+    const cur = el.value;
+    const escaped = origText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const rx = new RegExp(escaped, 'i');
+    if (rx.test(cur)) {
+      el.value = cur.replace(rx, repText);
+      window.runWorkspaceTrapScanner();
+      if (window.showAppToast) {
+        window.showAppToast(`Auto-fixed: "${origText}" -> "${repText}"`, 'success');
+      }
+    }
+  };
+
+  window.autoFixWorkspaceTraps = function() {
+    const el = document.getElementById('at-trapxray-input');
+    if (!el) return;
+    let text = el.value;
+    let fixCount = 0;
+
+    BAND6_TRAP_RULES.forEach(rule => {
+      rule.rx.lastIndex = 0;
+      if (rule.id === "contractions") {
+        Object.keys(CONTRACTION_EXPANSIONS).forEach(c => {
+          const rx = new RegExp('\\b' + c + '\\b', 'gi');
+          if (rx.test(text)) {
+            text = text.replace(rx, CONTRACTION_EXPANSIONS[c]);
+            fixCount++;
+          }
+        });
+      } else {
+        if (rule.rx.test(text)) {
+          text = text.replace(rule.rx, () => {
+            fixCount++;
+            return rule.suggested;
+          });
+        }
+      }
+    });
+
+    el.value = text;
+    window.runWorkspaceTrapScanner();
+    if (window.showAppToast) {
+      window.showAppToast(`Surgically cleansed ${fixCount} Band-6 traps from paragraph!`, 'success');
+    }
+  };
+
+  window.exportWorkspaceCleansedToWritingLab = function() {
+    const el = document.getElementById('at-trapxray-input');
+    if (!el || !el.value.trim()) return;
+    window.insertSurgeryIntoWritingLab(el.value.trim());
+  };
+
 })(window);
