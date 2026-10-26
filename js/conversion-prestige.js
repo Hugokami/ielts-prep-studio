@@ -230,19 +230,20 @@
       <div class="transformation-widget-card" style="padding:22px; background:var(--bg-card); border:1.5px solid ${activeColor}; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,0.25); position:relative; overflow:hidden;">
         
         <!-- Header & Scenario Dropdown -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
           <div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="occ-ver-pill" style="background:${activeColor}; color:#FFF; font-weight:900; font-size:0.72rem;">BAND MUTATION LAB</span>
-              <h3 style="margin:0; font-size:1.15rem; font-weight:800; color:var(--text);">Examiner Syntax &amp; Lexical Transformation</h3>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+              <span class="occ-ver-pill" style="background:${activeColor}; color:#FFF; font-weight:900; font-size:0.72rem; padding:3px 8px; border-radius:6px; white-space:nowrap; display:inline-block; flex-shrink:0;">BAND MUTATION LAB</span>
+              <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Interactive Band 6.0 &rarr; 8.5+</span>
             </div>
-            <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:3px;">
+            <h3 style="margin:0; font-size:1.12rem; font-weight:800; color:var(--text); line-height:1.35;">Examiner Syntax &amp; Lexical Transformation</h3>
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px; line-height:1.45;">
               Slide to observe how Cambridge criteria transform basic ideas into Band 8.5/9.0 mastery.
             </div>
           </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <label style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">TOPIC:</label>
-            <select class="occ-select" style="font-size:0.78rem; padding:4px 10px;" onchange="window.selectTransformationScenario(this.value, '${containerId}')">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:rgba(0,0,0,0.03); padding:8px 12px; border-radius:8px; border:1px solid var(--border);">
+            <label style="font-size:0.75rem; color:var(--text-secondary); font-weight:800; white-space:nowrap;">TOPIC SELECTOR:</label>
+            <select class="occ-select" style="font-size:0.8rem; padding:5px 10px; flex:1; min-width:200px; max-width:100%; border-radius:6px;" onchange="window.selectTransformationScenario(this.value, '${containerId}')">
               ${TRANSFORMATION_SCENARIOS.map((s, i) => `
                 <option value="${i}" ${i === currentScenarioIdx ? 'selected' : ''}>${escapeHtml(s.category)}: ${escapeHtml(s.topic)}</option>
               `).join('')}
@@ -490,175 +491,6 @@
       }
     }
   };
-
-  // ==========================================
-  // 4.4: OFFICIAL CAMBRIDGE MOCK READINESS CERTIFICATE
-  // ==========================================
-
-  window.openMockReadinessCertificate = function() {
-    let modal = document.getElementById('mockReadinessCertificateModal');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'mockReadinessCertificateModal';
-      modal.className = 'modal-backdrop';
-      modal.style.zIndex = '99999';
-      modal.onclick = function(e) { if (e.target === modal) modal.style.display = 'none'; };
-      document.body.appendChild(modal);
-    }
-
-    // Get current candidate name
-    let studentName = 'Cambridge Academic Candidate';
-    try {
-      if (window.appState && window.appState.userProfile && window.appState.userProfile.name) {
-        studentName = window.appState.userProfile.name;
-      } else {
-        const stored = localStorage.getItem('ips_student_name');
-        if (stored) studentName = stored;
-      }
-    } catch(e) {}
-
-    // Get 4-axis scores
-    let axes = [
-      { label: "TA / CC", band: 8.5 },
-      { label: "Lexical", band: 8.5 },
-      { label: "Grammar", band: 8.0 },
-      { label: "Receptive", band: 8.5 }
-    ];
-    if (typeof window.getCambridge4AxisScores === 'function') {
-      axes = window.getCambridge4AxisScores();
-    }
-
-    const overallBand = (axes.reduce((sum, a) => sum + a.band, 0) / axes.length).toFixed(1);
-    const certSerial = 'CAM-85-' + Math.abs(hashCode(studentName + overallBand)).toString(16).toUpperCase().padStart(8, '0');
-    const issueDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    modal.innerHTML = `
-      <div class="modal-card print-certificate-card" style="max-width:840px; width:95%; max-height:92vh; overflow-y:auto; background:var(--bg-card); border:2px solid #D97706; border-radius:12px; padding:24px; box-sizing:border-box; margin:auto;" onclick="event.stopPropagation()">
-        
-        <!-- Controls Bar (Hidden during print) -->
-        <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:12px;">
-          <div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="occ-ver-pill" style="background:#D97706; color:#FFF; font-weight:800; font-size:0.75rem;">OFFICIAL CREDENTIAL</span>
-              <h2 style="margin:0; font-size:1.25rem; font-weight:900; color:var(--text);">Cambridge Mock Readiness Certificate</h2>
-            </div>
-            <p style="margin:4px 0 0 0; font-size:0.8rem; color:var(--text-secondary);">
-              Certified readiness assessment for international university and visa admissions.
-            </p>
-          </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn-accent-solid" onclick="window.printMockCertificate()" style="padding:8px 18px; font-weight:800; font-size:0.85rem; background:#D97706; border:none;">
-              <svg class="ui-icon ui-icon-xs"><use href="#lucide-printer"/></svg> Print / Save PDF
-            </button>
-            <button class="btn-outlined" onclick="document.getElementById('mockReadinessCertificateModal').style.display='none'">
-              <svg class="ui-icon ui-icon-xs"><use href="#lucide-x"/></svg> Close
-            </button>
-          </div>
-        </div>
-
-        <!-- High-Resolution Certificate Surface -->
-        <div id="printableCertificateArea" style="background:#FFFDF8; color:#1A1A1A; border:8px double #D97706; border-radius:8px; padding:32px 36px; position:relative; box-shadow:inset 0 0 40px rgba(217,119,6,0.06); font-family:Georgia, serif;">
-          
-          <!-- Outer Corner Ornaments -->
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #D97706; padding-bottom:14px; margin-bottom:20px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="width:48px; height:48px; border-radius:50%; background:#D97706; display:flex; justify-content:center; align-items:center; color:#FFF; font-weight:900; font-size:1.4rem;">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-              </div>
-              <div>
-                <h1 style="margin:0; font-size:1.35rem; font-weight:900; color:#854D0E; letter-spacing:0.04em; text-transform:uppercase;">IELTS Prep Studio Academic</h1>
-                <div style="font-size:0.75rem; color:#A16207; font-weight:700; letter-spacing:0.06em;">CAMBRIDGE ASSESSMENT PROTOCOL // CEFR C1/C2 VERIFICATION</div>
-              </div>
-            </div>
-            <div style="text-align:right; font-family:monospace; font-size:0.75rem; color:#854D0E; font-weight:800;">
-              <div>SERIAL: ${certSerial}</div>
-              <div style="color:#A16207;">STATUS: VERIFIED READY</div>
-            </div>
-          </div>
-
-          <!-- Certificate Body -->
-          <div style="text-align:center; padding:10px 0 20px 0;">
-            <div style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.12em; color:#854D0E; font-weight:700; margin-bottom:6px;">This is to certify that</div>
-            
-            <!-- Editable Candidate Name in Modal -->
-            <div style="margin-bottom:12px;">
-              <input type="text" id="certCandidateNameInput" value="${escapeHtml(studentName)}" 
-                style="font-size:1.75rem; font-weight:900; color:#1C1917; text-align:center; border:none; border-bottom:1.5px dashed #D97706; background:transparent; width:90%; font-family:Georgia, serif; padding:4px;" 
-                oninput="window.updateCertCandidateName(this.value)" placeholder="Enter Candidate Name" title="Click to edit candidate name">
-            </div>
-
-            <p style="font-size:0.95rem; line-height:1.65; max-width:620px; margin:0 auto 20px auto; color:#44403C;">
-              has demonstrated rigorous operational readiness and syntactic fluency across the complete Cambridge Academic syllabus, attaining a projected proficiency level of:
-            </p>
-
-            <!-- Big Band Score Emblem -->
-            <div style="display:inline-flex; align-items:center; gap:16px; padding:12px 28px; background:linear-gradient(135deg, rgba(217,119,6,0.12) 0%, rgba(245,158,11,0.06) 100%); border:2px solid #D97706; border-radius:50px; margin-bottom:24px;">
-              <div style="text-align:left;">
-                <div style="font-size:0.72rem; font-weight:800; color:#854D0E; text-transform:uppercase; letter-spacing:0.06em;">Projected Examination Level</div>
-                <div style="font-size:1.6rem; font-weight:900; color:#854D0E;">BAND ${overallBand} // C2 PROFICIENT</div>
-              </div>
-            </div>
-
-            <!-- 4-Axis Competency Breakdown Grid -->
-            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; max-width:680px; margin:0 auto 24px auto;">
-              ${axes.map(a => `
-                <div style="border:1px solid #E7E5E4; background:#FFFFFF; padding:10px 8px; border-radius:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                  <div style="font-size:0.7rem; font-weight:800; color:#78716C; text-transform:uppercase;">${escapeHtml(a.label)}</div>
-                  <div style="font-size:1.25rem; font-weight:900; color:#854D0E; font-family:monospace; margin-top:2px;">B${a.band.toFixed(1)}</div>
-                </div>
-              `).join('')}
-            </div>
-
-            <!-- Signatures and Date Row -->
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:1.5px solid #E7E5E4; padding-top:18px; margin-top:10px; text-align:left; font-size:0.8rem; color:#78716C;">
-              <div>
-                <div style="font-weight:800; color:#1C1917;">DATE OF ATTESTATION</div>
-                <div>${issueDate}</div>
-              </div>
-              <div style="text-align:center;">
-                <div style="width:72px; height:72px; border:2px solid #D97706; border-radius:50%; display:flex; justify-content:center; align-items:center; margin:0 auto 4px auto; color:#D97706; font-size:0.65rem; font-weight:900; text-transform:uppercase; transform:rotate(-12deg);">
-                  CAMBRIDGE<br>READY<br>SEAL
-                </div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-weight:800; color:#1C1917;">VERIFICATION AUTHORITY</div>
-                <div>IELTS Prep Studio Academic Council</div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    `;
-
-    modal.style.display = 'flex';
-  };
-
-  window.updateCertCandidateName = function(name) {
-    localStorage.setItem('ips_student_name', name);
-    if (window.appState && window.appState.userProfile) {
-      window.appState.userProfile.name = name;
-    }
-  };
-
-  window.printMockCertificate = function() {
-    document.body.classList.add('printing-certificate');
-    window.print();
-    setTimeout(function() {
-      document.body.classList.remove('printing-certificate');
-    }, 1200);
-  };
-
-  function hashCode(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = ((hash << 5) - hash) + str.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
-  }
 
   function escapeHtml(str) {
     if (!str) return '';

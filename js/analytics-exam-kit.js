@@ -445,27 +445,31 @@
     const isUrgent = data.daysRemaining <= 14;
 
     container.innerHTML = `
-      <div style="padding:14px 18px; background:linear-gradient(135deg, rgba(217,119,6,0.08) 0%, rgba(180,83,9,0.02) 100%); border:1px solid rgba(217,119,6,0.25); border-radius:10px; margin-bottom:16px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="occ-ver-pill" style="background:${isUrgent ? '#EF4444' : '#D97706'}; color:#FFF; font-weight:900; font-size:0.72rem;">
-              ${data.daysRemaining} DAYS TO EXAM
-            </span>
-            <strong style="color:var(--text); font-size:0.95rem;">Target Band: ${data.targetBand} Readiness Engine</strong>
-          </div>
-          <div style="display:flex; gap:6px; align-items:center; font-size:0.75rem;">
-            <span style="color:var(--text-secondary); font-weight:600;">Timeline:</span>
-            <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem;" onclick="window.setExamTargetDatePreset(7)">7d</button>
-            <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem;" onclick="window.setExamTargetDatePreset(14)">14d</button>
-            <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem;" onclick="window.setExamTargetDatePreset(30)">30d</button>
-            <button class="btn-accent-solid" style="padding:2px 8px; font-size:0.72rem; font-weight:700;" onclick="window.openNightBeforeCheatSheet()">
-              <svg class="ui-icon ui-icon-xs"><use href="#lucide-printer"/></svg> Cheat Sheet
-            </button>
-          </div>
+      <div style="padding:14px 16px; background:linear-gradient(135deg, rgba(217,119,6,0.08) 0%, rgba(180,83,9,0.02) 100%); border:1px solid rgba(217,119,6,0.25); border-radius:10px; margin-bottom:16px; overflow:hidden; box-sizing:border-box; max-width:100%;">
+        <!-- Row 1: Days to Exam & Title -->
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+          <span class="occ-ver-pill" style="background:${isUrgent ? '#EF4444' : '#D97706'}; color:#FFF; font-weight:900; font-size:0.72rem; padding:3px 8px; border-radius:4px; white-space:nowrap; flex-shrink:0;">
+            ${data.daysRemaining} DAYS TO EXAM
+          </span>
+          <strong style="color:var(--text); font-size:0.92rem; line-height:1.3; flex:1; min-width:180px;">Target Band: ${data.targetBand} Readiness Engine</strong>
         </div>
 
-        <div style="margin-bottom:6px;">
-          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:3px;">
+        <!-- Row 2: Timeline buttons & Cheat Sheet Action -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; background:rgba(0,0,0,0.02); padding:6px 10px; border-radius:8px; border:1px solid var(--border);">
+          <div style="display:flex; gap:5px; align-items:center; font-size:0.75rem; flex-wrap:wrap;">
+            <span style="color:var(--text-secondary); font-weight:600; margin-right:2px;">Timeline:</span>
+            <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; border-radius:4px;" onclick="window.setExamTargetDatePreset(7)">7d</button>
+            <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; border-radius:4px;" onclick="window.setExamTargetDatePreset(14)">14d</button>
+            <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem; border-radius:4px;" onclick="window.setExamTargetDatePreset(30)">30d</button>
+          </div>
+          <button class="btn-accent-solid" style="padding:4px 10px; font-size:0.72rem; font-weight:800; border-radius:6px; white-space:nowrap; flex-shrink:0;" onclick="window.openNightBeforeCheatSheet()">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-printer"/></svg> Cheat Sheet PDF
+          </button>
+        </div>
+
+        <!-- Row 3: Progress Bar -->
+        <div style="margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:4px;">
             <span>Studio Burn-Down Readiness</span>
             <strong style="color:#D97706;">${data.readinessScore}% Ready</strong>
           </div>
@@ -474,14 +478,14 @@
           </div>
         </div>
 
-        <div style="font-size:0.76rem; color:var(--text-secondary);">
+        <div style="font-size:0.74rem; color:var(--text-secondary); line-height:1.45;">
           Daily Velocity Target: <strong>1 Writing Mock + 2 Speaking Drills + 15 Lexicon words</strong> to guarantee Band ${data.targetBand} readiness.
         </div>
       </div>
     `;
   };
 
-  function escapeHtml(str) {
+    function escapeHtml(str) {
     if (!str) return '';
     return String(str)
       .replace(/&/g, '&amp;')

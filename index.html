@@ -1644,7 +1644,7 @@
     width: 100%;
     max-width: 100vw;
     background: rgba(0, 0, 0, 0.72);
-    z-index: 400;
+    z-index: 99999 !important;
     display: none;
     align-items: flex-start;
     justify-content: center;
@@ -1652,6 +1652,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
+  }
+
+  #quickSearchModal {
+    z-index: 999999 !important;
   }
 
   .modal-backdrop.open {
@@ -2270,8 +2274,14 @@
       width: 100%;
     }
     .modal-backdrop {
-      padding: 16px 8px 32px 8px !important;
+      padding: max(20px, env(safe-area-inset-top, 20px)) 8px 32px 8px !important;
       overflow-x: hidden !important;
+      z-index: 99999 !important;
+    }
+    #quickSearchModal {
+      z-index: 999999 !important;
+      align-items: flex-start !important;
+      padding-top: max(20px, env(safe-area-inset-top, 20px)) !important;
     }
     .modal-card {
       width: 100% !important;
@@ -2376,36 +2386,7 @@
     body.printing-cheat-sheet .no-print {
       display: none !important;
     }
-    body.printing-certificate .topbar,
-    body.printing-certificate .mobile-bottom-nav,
-    body.printing-certificate .subnav-strip,
-    body.printing-certificate #bg-canvas,
-    body.printing-certificate #backToTopBtn,
-    body.printing-certificate #word-inspector,
-    body.printing-certificate .studio-container,
-    body.printing-certificate .modal-backdrop:not(#mockReadinessCertificateModal) {
-      display: none !important;
-    }
-    body.printing-certificate #mockReadinessCertificateModal {
-      display: block !important;
-      position: static !important;
-      background: #FFFFFF !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      width: 100% !important;
-    }
-    body.printing-certificate .print-certificate-card {
-      box-shadow: none !important;
-      border: none !important;
-      max-width: 100% !important;
-      width: 100% !important;
-      padding: 0 !important;
-      background: #FFFFFF !important;
-      color: #000000 !important;
-    }
-    body.printing-certificate .no-print {
-      display: none !important;
-    }
+
     .topbar, .mobile-bottom-nav, .subnav-strip, #bg-canvas, #backToTopBtn, #word-inspector, .modal-backdrop {
       display: none !important;
     }
@@ -10223,7 +10204,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
         <button class="at-subnav-btn" id="at-tab-cheatsheet" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon ui-icon-xs" style="color:#059669;"><use href="#lucide-file-text"/></svg> <span>Cheat Sheet PDF</span></button>
         <button class="at-subnav-btn" id="at-tab-transformation" onclick="switchAcademicToolsTab('transformation')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-sliders"/></svg> <span>Band 6-8.5 Mutation</span></button>
-        <button class="at-subnav-btn" id="at-tab-cert" onclick="openMockReadinessCertificate()"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-award"/></svg> <span>Readiness Certificate</span></button>
+
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -10471,9 +10452,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
           </div>
 
-          <div class="at-search-bar-wrap" style="align-items:flex-start;">
-            <textarea id="at-surgery-input" class="at-input-box" rows="2" style="resize:vertical; min-height:56px; font-family:inherit; font-size:15px; border-radius:8px;" placeholder="Enter or paste any basic essay sentence (e.g. 'Many people think government should spend more money on public transport to stop traffic jams')..."></textarea>
-            <button class="btn-accent-solid" onclick="executeBandSurgery('workspace')" style="padding:12px 22px; font-weight:800; font-size:0.9rem; white-space:nowrap; flex-shrink:0; align-self:stretch; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+          <div class="at-search-bar-wrap" style="flex-direction:column; align-items:stretch; gap:10px; margin-bottom:14px;">
+            <textarea id="at-surgery-input" class="at-input-box" rows="5" style="resize:vertical; min-height:130px; font-family:inherit; font-size:15px; border-radius:8px; line-height:1.6; padding:12px 14px; width:100%; box-sizing:border-box;" placeholder="Enter or paste any basic essay sentence (e.g. 'Many people think government should spend more money on public transport to stop traffic jams')..."></textarea>
+            <button class="btn-accent-solid" onclick="executeBandSurgery('workspace')" style="padding:10px 22px; min-height:46px; height:auto; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:800; border-radius:8px; align-self:flex-start;">
               <svg class="ui-icon"><use href="#lucide-sparkles"/></svg> Upgrade Sentence
             </button>
           </div>
@@ -10518,9 +10499,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
           </div>
 
-          <div class="at-search-bar-wrap" style="align-items:flex-start;">
-            <textarea id="at-trapxray-input" class="at-input-box" rows="3" style="resize:vertical; min-height:72px; font-family:inherit; font-size:14px; border-radius:8px;" placeholder="Paste any essay draft or paragraph to scan for the 18 Cambridge penalty traps..."></textarea>
-            <button class="btn-accent-solid" onclick="window.runWorkspaceTrapScanner()" style="padding:12px 22px; font-weight:800; font-size:0.9rem; white-space:nowrap; flex-shrink:0; background:linear-gradient(135deg, #EF4444, #DC2626); border:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+          <div class="at-search-bar-wrap" style="flex-direction:column; align-items:stretch; gap:10px; margin-bottom:14px;">
+            <textarea id="at-trapxray-input" class="at-input-box" rows="6" style="resize:vertical; min-height:150px; font-family:inherit; font-size:14px; border-radius:8px; line-height:1.6; padding:12px 14px; width:100%; box-sizing:border-box;" placeholder="Paste any essay draft or paragraph to scan for the 18 Cambridge penalty traps..."></textarea>
+            <button class="btn-accent-solid" onclick="window.runWorkspaceTrapScanner()" style="padding:10px 22px; min-height:46px; height:auto; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:800; border-radius:8px; background:linear-gradient(135deg, #EF4444, #DC2626); border:none; align-self:flex-start;">
               <svg class="ui-icon" style="color:#FFF;"><use href="#lucide-target"/></svg> Run Trap X-Ray
             </button>
           </div>
@@ -20537,9 +20518,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           </div>
 
           <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
-            <button class="btn-accent-solid" onclick="openMockReadinessCertificate()" style="font-size:0.82rem; font-weight:700; background:#D97706; border:none;">
-              <svg class="ui-icon"><use href="#lucide-award"/></svg> Mock Readiness Certificate
-            </button>
+
             <button class="btn-outlined" onclick="togglePrestigeTheme()" style="font-size:0.82rem; font-weight:700; border-color:#D97706; color:#D97706;">
               <svg class="ui-icon"><use href="#lucide-crown"/></svg> Toggle Obsidian Gold Theme
             </button>
