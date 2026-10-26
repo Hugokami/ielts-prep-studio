@@ -13420,6 +13420,7 @@ function getFilteredLexicon() {
   const filtered = pool.filter(item => {
     if (vr !== "ALL" && item.variety !== vr) return false;
     if (ct !== "ALL" && item.category !== ct) return false;
+    if (window.lexCollocOnly && !(item.collocation && String(item.collocation).trim())) return false;
 
     // Filter by selected starting letter
     if (lexSelectedLetter !== "ALL") {
@@ -18478,11 +18479,8 @@ window.filterLexiconByTrap = function(category) {
 
   const sInp = document.getElementById('lexSearch');
   if (!sInp) return;
-  if (category === 'COLLOC') {
-    sInp.value = 'collocation';
-  } else {
-    sInp.value = '';
-  }
+  window.lexCollocOnly = (category === 'COLLOC');
+  sInp.value = '';
   renderLexiconGrid();
   studioHaptic(10);
 };
