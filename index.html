@@ -7604,6 +7604,25 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   transform: scale(0.96);
 }
 
+
+/* LIVE SPEECH DIAGNOSTICS & EDITABLE TRANSCRIPT */
+.sr-transcript-surface:focus {
+  outline: 2px solid var(--accent, #0284c7) !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.18) !important;
+  background: var(--bg-card) !important;
+}
+.sr-transcript-surface[contenteditable="true"] {
+  cursor: text;
+  caret-color: var(--accent, #0284c7);
+}
+.sr-partial-pulse {
+  animation: srPulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes srPulse {
+  0% { border-color: rgba(2, 132, 199, 0.4); box-shadow: 0 0 4px rgba(2, 132, 199, 0.2); }
+  100% { border-color: var(--accent, #0284c7); box-shadow: 0 0 12px rgba(2, 132, 199, 0.45); }
+}
+
 </style>
   <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
@@ -9761,16 +9780,39 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
 
             <!-- Automated Speaking Diagnostic Panel (WPM & Filler-Word Detector & Diversity) -->
-            <div id="speaking-analytics-panel" style="padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elevated);">
-              <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <div><strong style="color:var(--text); font-size:0.84rem;"><svg class="ui-icon"><use href="#lucide-chart-no-axes-column"/></svg> Live Speech Diagnostics</strong> <span id="sr-status-badge" style="font-size: 0.76rem; color:var(--text-secondary);">(Idle)</span></div>
-                <div style="display: flex; gap: 1rem; font-size: 0.82rem; flex-wrap: wrap; align-items: center;">
+            <div id="speaking-analytics-panel" style="padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-mid); background: var(--bg-elevated); box-shadow: var(--shadow-sm);">
+              
+              <!-- Header Row: Title, Status Badge, Accent Selector, and Telemetry Badges -->
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <strong style="color:var(--text); font-size:0.86rem; display:inline-flex; align-items:center; gap:6px;">
+                    <svg class="ui-icon"><use href="#lucide-chart-no-axes-column"/></svg> Live Speech Diagnostics
+                  </strong>
+                  <span id="sr-status-badge" style="font-size: 0.75rem; color:var(--text-secondary); font-weight:600;">(Idle)</span>
+                  
+                  <!-- Accent / Dialect Selector for Precise Recognition -->
+                  <div class="sr-accent-wrapper" style="display:inline-flex; align-items:center; gap:5px; margin-left:4px;">
+                    <label for="sr-accent-select" style="font-size:0.71rem; color:var(--text-secondary); font-weight:700;">Accent:</label>
+                    <select id="sr-accent-select" onchange="window.changeSpeakingAccent(this.value)" style="padding:2px 8px; font-size:0.72rem; border-radius:6px; border:1px solid var(--border-mid); background:var(--bg); color:var(--text); font-weight:600; cursor:pointer;" title="Choose speech accent for highest recognition accuracy">
+                      <option value="en-US" selected>en-US (General American - High Accuracy)</option>
+                      <option value="en-GB">en-GB (British Academic)</option>
+                      <option value="en-AU">en-AU (Australian)</option>
+                      <option value="en-IN">en-IN (South Asian)</option>
+                      <option value="en-SG">en-SG (Southeast Asian)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Telemetry Counters -->
+                <div style="display: flex; gap: 0.85rem; font-size: 0.82rem; flex-wrap: wrap; align-items: center;">
                   <span><svg class="ui-icon"><use href="#lucide-timer"/></svg> Pace: <strong id="sr-wpm-val" style="color:var(--accent);">0</strong> WPM <small style="color:var(--text-secondary);">(Target: 120–150)</small></span>
                   <span><svg class="ui-icon"><use href="#lucide-message-square"/></svg> Words: <strong id="sr-word-count">0</strong></span>
                   <span><svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg> Fillers: <strong id="sr-filler-count" style="color: var(--crimson, #dc2626);">0</strong></span>
                   <span><svg class="ui-icon" style="color:#06B6D4;"><use href="#lucide-gem"/></svg> Diversity: <strong id="sr-diversity-val" style="color: var(--teal, #38bdf8);">0%</strong></span>
                 </div>
               </div>
+
+              <!-- Pace Gauge Bar -->
               <div class="sr-pace-gauge">
                 <div id="sr-wpm-bar" class="sr-pace-fill"></div>
               </div>
@@ -9779,9 +9821,56 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
                 <span id="sr-pace-status" style="color:var(--green); font-weight:700;">Target: 120–150 WPM</span>
                 <span>Fast (&gt;165 WPM)</span>
               </div>
-              <div id="sr-transcript-output" style="min-height: 64px; max-height: 180px; overflow-y:auto; padding: 0.75rem 1rem; border-radius: 8px; background: var(--bg); font-size: 0.92rem; line-height: 1.6; color: var(--text); border: 1px solid var(--border-mid);">
+
+              <!-- Dedicated Pronunciation Clarity & Lexical Breakdown Bar -->
+              <div id="sr-pronunciation-header" style="display:none; margin-bottom:8px; padding:6px 10px; border-radius:6px; background:var(--bg-card); border:1px dashed var(--border-mid); font-size:0.74rem;"></div>
+
+              <!-- Partial Re-record Live Capture Bar (Interactive banner when re-recording a selection) -->
+              <div id="sr-partial-record-bar" style="display:none; margin-bottom:8px; padding:8px 12px; border-radius:8px; background:rgba(2, 132, 199, 0.08); border:1px solid var(--accent); box-shadow:0 2px 8px rgba(2, 132, 199, 0.15);">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+                  <span style="font-weight:800; font-size:0.76rem; color:var(--accent); display:inline-flex; align-items:center; gap:5px;">
+                    <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-mic"/></svg> Re-recording Specific Phrase:
+                  </span>
+                  <div style="display:flex; gap:6px;">
+                    <button type="button" class="btn-accent-solid" style="padding:2px 8px; font-size:0.72rem;" onclick="window.applyPartialReRecord()">Apply</button>
+                    <button type="button" class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="window.cancelPartialReRecord()">Cancel</button>
+                  </div>
+                </div>
+                <div style="font-size:0.74rem; color:var(--text-secondary); margin-bottom:4px;">
+                  Replacing: <span id="sr-partial-target-text" style="color:var(--crimson); text-decoration:line-through; font-weight:600;"></span>
+                </div>
+                <div id="sr-partial-live-text" style="font-size:0.86rem; color:var(--text); font-weight:700; min-height:22px; padding:4px 8px; border-radius:4px; background:var(--bg); border:1px solid var(--border-mid);">
+                  <em style="color:var(--text-secondary); font-weight:normal;">Listening... speak your replacement words now</em>
+                </div>
+              </div>
+
+              <!-- Transcript Action Toolbar (Edit mode toggle, re-record selection, clear, re-record all) -->
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                  <button type="button" id="sr-edit-toggle-btn" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem; display:inline-flex; align-items:center; gap:5px;" onclick="window.toggleTranscriptEditMode()" title="Toggle inline edit mode to edit any text directly">
+                    <svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span id="sr-edit-btn-text">Edit Transcript</span>
+                  </button>
+                  <button type="button" id="sr-rerecord-part-btn" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem; display:none; align-items:center; gap:5px; border-color:var(--accent); color:var(--accent);" onclick="window.startPartialReRecord()" title="Speak to replace selected text">
+                    <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-mic"/></svg> <span id="sr-rerecord-part-label">Re-record Selection</span>
+                  </button>
+                  <span id="sr-edit-hint" style="display:none; font-size:0.72rem; color:var(--text-secondary); font-style:italic;">Edit words directly, or highlight any part to re-record it</span>
+                </div>
+                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                  <button type="button" id="sr-clear-btn" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem; color:var(--crimson); display:inline-flex; align-items:center; gap:5px;" onclick="window.clearSpeakingTranscript()" title="Delete current transcript and reset diagnostics">
+                    <svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-trash-2"/></svg> Delete
+                  </button>
+                  <button type="button" id="sr-rerecord-all-btn" class="btn-outlined" style="padding:4px 10px; font-size:0.74rem; display:inline-flex; align-items:center; gap:5px;" onclick="window.rerecordAllSpeaking()" title="Clear take and start new recording immediately">
+                    <svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Re-record All
+                  </button>
+                </div>
+              </div>
+
+              <!-- Main Transcript Surface (Interactive + Editable) -->
+              <div id="sr-transcript-output" class="sr-transcript-surface" style="min-height: 80px; max-height: 220px; overflow-y:auto; padding: 0.85rem 1rem; border-radius: 8px; background: var(--bg); font-size: 0.92rem; line-height: 1.65; color: var(--text); border: 1px solid var(--border-mid); transition: border-color 0.2s, box-shadow 0.2s;" role="textbox" aria-label="Speech Transcript">
                 <em style="color:var(--text-secondary);">Click <strong><svg class="ui-icon"><use href="#lucide-mic"/></svg> Record My Voice</strong> and deliver your cue card response. Your live speech transcript, pace (WPM), lexical diversity, and highlighted filler words will appear here automatically.</em>
               </div>
+
+              <!-- Bottom Row: Filler tags and Action Buttons -->
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px;">
                 <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -9794,7 +9883,12 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
             <!-- Speaking AI Evaluation Result Container -->
             <div id="geminiSpeakingAuditResult" style="display:none; margin-top:1rem; padding:1.2rem; border-radius:10px; border:1px solid var(--border-accent); background:var(--bg-card);"></div>
-            <audio id="micAudioPlayer" controls style="width:100%; height:36px; margin-top:10px; display:none;"></audio>
+            <div id="micAudioContainer" style="display:none; align-items:center; gap:8px; margin-top:10px;">
+              <audio id="micAudioPlayer" controls style="flex:1; height:36px;"></audio>
+              <button type="button" id="micDiscardBtn" class="btn-outlined" style="padding:4px 10px; font-size:0.75rem; color:var(--crimson); flex-shrink:0; display:inline-flex; align-items:center; gap:4px;" onclick="window.discardRecordedAudio()" title="Discard recorded audio clip">
+                <svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-trash-2"/></svg> Discard Audio
+              </button>
+            </div>
             <div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:8px;">
               မိမိပြောဆိုသည့် အသံကို ဖမ်းယူပြီး ပြန်နားထောင်ခြင်းဖြင့် 'um / uh' အသံများ၊ Grammar အမှားများနှင့် အသံအနိမ့်အမြင့်ကို ချက်ချင်း စစ်ဆေးပြုပြင်နိုင်ပါသည်။
             </div>
@@ -14113,13 +14207,21 @@ async function toggleMicRecording() {
       recordedAudioUrl = URL.createObjectURL(blob);
       const player = document.getElementById("micAudioPlayer");
       const dlLink = document.getElementById("micDownloadLink");
+      const audioContainer = document.getElementById("micAudioContainer");
+      const discardBtn = document.getElementById("micDiscardBtn");
       if (player) {
         player.src = recordedAudioUrl;
         player.style.display = "block";
       }
+      if (audioContainer) {
+        audioContainer.style.display = "flex";
+      }
       if (dlLink) {
         dlLink.href = recordedAudioUrl;
         dlLink.style.display = "inline-flex";
+      }
+      if (discardBtn) {
+        discardBtn.style.display = "inline-flex";
       }
       recordSpeakingEvaluationUsage();
       const updatedQuota = canUseSpeakingEvaluation();
@@ -15732,10 +15834,9 @@ async function gradeSpeakingWithGemini(fromFramework = false) {
       sourceLabel = `Framework Builder (${fw.name})`;
     }
   } else {
-    const transcriptEl = document.getElementById("sr-transcript-output");
-    const rawText = transcriptEl ? transcriptEl.innerText.trim() : "";
- if (rawText && !rawText.includes("Click ️ Record My Voice") && !rawText.includes("Listening...")) {
-      spokenText = rawText;
+    const pureTranscript = typeof window.getSpeakingTranscriptText === "function" ? window.getSpeakingTranscriptText() : "";
+    if (pureTranscript) {
+      spokenText = pureTranscript;
       sourceLabel = "Live Voice Transcript";
     } else {
       const fw = typeof SPEAKING_FRAMEWORKS !== "undefined" && SPEAKING_FRAMEWORKS[activeFwIndex];
@@ -17176,26 +17277,85 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
   let isRecordingSpeech = false;
   let startTimeMs = 0;
   let finalTranscriptText = '';
+  let accumulatedFinalText = '';
+  let isEditMode = false;
+  let selectedRangeInfo = null;
+  let partialRecognition = null;
+  let isPartialRecording = false;
+  let partialCapturedText = '';
 
   const FILLER_REGEX = /\b(um+|uh+|er+|ah+|hmm+|like|you know|basically|actually|sort of|kind of)\b/gi;
 
-  function renderAnalyzedTranscript(rawText, interimText = '') {
-    const combined = (rawText + ' ' + interimText).trim();
-    const statusBadge = document.getElementById('sr-status-badge');
+  // 1. Accent & Dialect Selection
+  let currentAccent = 'en-US';
+  try {
+    const savedAccent = localStorage.getItem('ips_speech_accent');
+    if (savedAccent) currentAccent = savedAccent;
+  } catch (e) {}
+
+  window.changeSpeakingAccent = function(accent) {
+    if (!accent) return;
+    currentAccent = accent;
+    try { localStorage.setItem('ips_speech_accent', accent); } catch (e) {}
+    if (recognition && isRecordingSpeech) {
+      try { recognition.lang = accent; } catch (e) {}
+    }
+    if (typeof showToast === 'function') {
+      showToast('Speech recognition accent set to ' + accent);
+    }
+  };
+
+  // Sync dropdown on load
+  setTimeout(() => {
+    const sel = document.getElementById('sr-accent-select');
+    if (sel) sel.value = currentAccent;
+  }, 100);
+
+  // 2. Text Normalization (Sentence capitalization, punctuation & contractions smoothing)
+  function normalizeTranscript(text) {
+    if (!text) return '';
+    let str = String(text).replace(/\s+/g, ' ').trim();
+    // Capitalize standalone 'i'
+    str = str.replace(/\bi\b/g, 'I');
+    // Capitalize sentence beginnings
+    str = str.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+    // Smooth common speech-to-text contractions
+    str = str.replace(/\bdont\b/gi, "don't")
+             .replace(/\bcant\b/gi, "can't")
+             .replace(/\bwont\b/gi, "won't")
+             .replace(/\bim\b/gi, "I'm")
+             .replace(/\bive\b/gi, "I've")
+             .replace(/\bid\b/gi, "I'd")
+             .replace(/\byoure\b/gi, "you're")
+             .replace(/\btheyre\b/gi, "they're")
+             .replace(/\bwasnt\b/gi, "wasn't")
+             .replace(/\bisnt\b/gi, "isn't");
+    return str;
+  }
+
+  // 3. Telemetry Calculation from text
+  function updateTelemetryFromText(text) {
+    const combined = String(text || '').trim();
     const wpmEl = document.getElementById('sr-wpm-val');
     const wordCountEl = document.getElementById('sr-word-count');
     const fillerCountEl = document.getElementById('sr-filler-count');
-    const transcriptBox = document.getElementById('sr-transcript-output');
+    const diversityEl = document.getElementById('sr-diversity-val');
+    const paceBar = document.getElementById('sr-wpm-bar');
+    const paceStatus = document.getElementById('sr-pace-status');
+    const fillerBreakdown = document.getElementById('sr-filler-breakdown');
 
     if (!combined) {
       if (wpmEl) wpmEl.textContent = '0';
       if (wordCountEl) wordCountEl.textContent = '0';
       if (fillerCountEl) fillerCountEl.textContent = '0';
+      if (diversityEl) diversityEl.textContent = '0%';
+      if (paceBar) paceBar.style.width = '0%';
+      if (fillerBreakdown) fillerBreakdown.innerHTML = '';
       return;
     }
 
     const words = combined.split(/\s+/).filter(Boolean);
-    const elapsedMinutes = Math.max((Date.now() - startTimeMs) / 60000, 0.08);
+    const elapsedMinutes = Math.max((Date.now() - (startTimeMs || Date.now())) / 60000, 0.12);
     const wpm = Math.round(words.length / elapsedMinutes);
 
     const fillerMatches = combined.match(FILLER_REGEX) || [];
@@ -17204,28 +17364,72 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     if (wordCountEl) wordCountEl.textContent = String(words.length);
     if (fillerCountEl) fillerCountEl.textContent = String(fillerMatches.length);
 
+    if (paceBar) {
+      const pct = Math.min(100, Math.round((wpm / 180) * 100));
+      paceBar.style.width = pct + '%';
+      if (wpm < 110) paceBar.style.background = '#f59e0b';
+      else if (wpm <= 160) paceBar.style.background = '#10b981';
+      else paceBar.style.background = '#ef4444';
+    }
+    if (paceStatus) {
+      if (wpm < 110) paceStatus.innerHTML = '<span style="color:#f59e0b;font-weight:700;">Slow (&lt;110 WPM) — Aim to expand sentences</span>';
+      else if (wpm <= 160) paceStatus.innerHTML = '<span style="color:#10b981;font-weight:700;">Optimal Band 8+ Natural Flow (120–150 WPM)</span>';
+      else paceStatus.innerHTML = '<span style="color:#ef4444;font-weight:700;">Fast (&gt;165 WPM) — Pace yourself for clarity</span>';
+    }
+
     const cleanWordTokens = combined.toLowerCase().match(/\b[a-z]{2,}\b/g) || [];
     const uniqueTokens = new Set(cleanWordTokens);
     const diversityPct = cleanWordTokens.length > 0 ? Math.round((uniqueTokens.size / cleanWordTokens.length) * 100) : 0;
-    const diversityEl = document.getElementById('sr-diversity-val');
     if (diversityEl) diversityEl.textContent = `${diversityPct}%`;
 
-    // Escape HTML and highlight filler words in red badges
-    const escapedHtml = combined
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(FILLER_REGEX, (match) => `<mark style="background:rgba(248,113,113,0.2);color:#f87171;padding:1px 5px;border-radius:4px;font-weight:700;border:1px solid rgba(248,113,113,0.4);">${match}</mark>`);
-
-    if (transcriptBox) {
-      if (typeof window.renderEngnovatePronunciationTranscript === 'function') {
-        window.renderEngnovatePronunciationTranscript(combined);
+    // Render filler breakdown chips
+    if (fillerBreakdown) {
+      if (fillerMatches.length === 0) {
+        fillerBreakdown.innerHTML = '<span style="font-size:0.71rem; color:#10b981; font-weight:700;">Zero hesitation fillers detected! Excellent fluency.</span>';
       } else {
-        transcriptBox.innerHTML = escapedHtml;
+        const counts = {};
+        fillerMatches.forEach(m => { const k = m.toLowerCase(); counts[k] = (counts[k] || 0) + 1; });
+        fillerBreakdown.innerHTML = Object.entries(counts).map(([w, c]) => 
+          `<span style="font-size:0.7rem; padding:1px 6px; border-radius:4px; background:rgba(239,68,68,0.12); color:#ef4444; border:1px solid rgba(239,68,68,0.3); font-weight:700;">${w} (${c})</span>`
+        ).join(' ');
       }
     }
   }
 
+  // 4. Render analyzed transcript surface
+  function renderAnalyzedTranscript(rawText, interimText = '') {
+    const combined = normalizeTranscript(rawText + (interimText ? ' ' + interimText : ''));
+    updateTelemetryFromText(combined);
+
+    const transcriptBox = document.getElementById('sr-transcript-output');
+    if (!transcriptBox) return;
+
+    if (isEditMode) {
+      // In edit mode, don't re-tokenize while user is typing
+      return;
+    }
+
+    if (!combined) {
+      transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Click <strong><svg class="ui-icon"><use href="#lucide-mic"/></svg> Record My Voice</strong> and deliver your cue card response. Your live speech transcript, pace (WPM), lexical diversity, and highlighted filler words will appear here automatically.</em>';
+      const header = document.getElementById('sr-pronunciation-header');
+      if (header) header.style.display = 'none';
+      return;
+    }
+
+    if (typeof window.renderEngnovatePronunciationTranscript === 'function') {
+      window.renderEngnovatePronunciationTranscript(combined);
+    } else {
+      transcriptBox.setAttribute('data-raw-text', combined);
+      const escaped = combined
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(FILLER_REGEX, (m) => `<mark style="background:rgba(248,113,113,0.2);color:#f87171;padding:1px 5px;border-radius:4px;font-weight:700;border:1px solid rgba(248,113,113,0.4);">${m}</mark>`);
+      transcriptBox.innerHTML = `<div style="line-height:1.75;">${escaped}</div>`;
+    }
+  }
+
+  // 5. Native Cue Cards
   const NATIVE_CUE_CARDS = [
     {
       topic: 'A technological device you use daily',
@@ -17284,20 +17488,29 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     if (promptsEl) promptsEl.innerHTML = card.prompts.map(p => `<li>${p}</li>`).join('');
   };
 
+  // 6. Start Main Speech Diagnostics Recording
   window.startSpeakingDiagnostics = function () {
     finalTranscriptText = '';
+    accumulatedFinalText = '';
     startTimeMs = Date.now();
+    isEditMode = false;
     const statusBadge = document.getElementById('sr-status-badge');
-    const wpmEl = document.getElementById('sr-wpm-val');
-    const wordCountEl = document.getElementById('sr-word-count');
-    const fillerCountEl = document.getElementById('sr-filler-count');
     const transcriptBox = document.getElementById('sr-transcript-output');
+    const editBtn = document.getElementById('sr-edit-toggle-btn');
+    const editHint = document.getElementById('sr-edit-hint');
+    const partBtn = document.getElementById('sr-rerecord-part-btn');
 
-    if (wpmEl) wpmEl.textContent = '0';
-    if (wordCountEl) wordCountEl.textContent = '0';
-    if (fillerCountEl) fillerCountEl.textContent = '0';
-    const diversityEl = document.getElementById('sr-diversity-val');
-    if (diversityEl) diversityEl.textContent = '0%';
+    if (editBtn) {
+      editBtn.className = 'btn-outlined';
+      editBtn.innerHTML = '<svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Edit Transcript</span>';
+    }
+    if (editHint) editHint.style.display = 'none';
+    if (partBtn) partBtn.style.display = 'none';
+    if (transcriptBox) {
+      transcriptBox.setAttribute('contenteditable', 'false');
+    }
+
+    updateTelemetryFromText('');
 
     if (!SpeechRecognition) {
       if (statusBadge) statusBadge.textContent = '(Browser Speech-to-Text unavailable — Recording audio only)';
@@ -17307,36 +17520,57 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
 
     try {
       recognition = new SpeechRecognition();
-      recognition.lang = 'en-GB';
+      recognition.lang = currentAccent;
       recognition.continuous = true;
       recognition.interimResults = true;
+      recognition.maxAlternatives = 3;
+
+      const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+      if (SpeechGrammarList) {
+        try {
+          const grammar = '#JSGF V1.0; grammar ielts; public <ielts> = cue card | IELTS | Cambridge | technology | environment | education | society | government | economic | experience | however | moreover | furthermore | consequently | in my opinion | from my perspective ;';
+          const speechRecognitionList = new SpeechGrammarList();
+          speechRecognitionList.addFromString(grammar, 1);
+          recognition.grammars = speechRecognitionList;
+        } catch (e) {}
+      }
 
       recognition.onstart = () => {
         isRecordingSpeech = true;
- if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--crimson); font-weight:700;"> Live Transcribing...</span>';
-        if (transcriptBox) transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Listening... speak your response clearly now.</em>';
+        if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--crimson); font-weight:700;">Live Transcribing (' + currentAccent + ')...</span>';
+        if (transcriptBox) transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Listening... speak your cue card response clearly now.</em>';
       };
 
       recognition.onresult = (event) => {
+        let currentFinal = '';
         let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const chunk = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscriptText += chunk + ' ';
+        for (let i = 0; i < event.results.length; i++) {
+          const res = event.results[i];
+          if (res.isFinal) {
+            currentFinal += res[0].transcript + ' ';
           } else {
-            interim += chunk;
+            interim += res[0].transcript;
           }
         }
+        finalTranscriptText = normalizeTranscript((accumulatedFinalText + ' ' + currentFinal).trim());
         renderAnalyzedTranscript(finalTranscriptText, interim);
       };
 
-      recognition.onerror = () => {
-        if (statusBadge) statusBadge.textContent = '(Audio recording active)';
+      recognition.onerror = (err) => {
+        console.warn('[Speech Recognition Event]', err);
+        if (statusBadge && isRecordingSpeech) statusBadge.textContent = '(Audio recording active)';
       };
 
       recognition.onend = () => {
+        accumulatedFinalText = finalTranscriptText;
         if (isRecordingSpeech) {
-          try { recognition.start(); } catch (e) {}
+          try {
+            recognition.lang = currentAccent;
+            recognition.start();
+          } catch (e) {}
+        } else {
+          // Finalize interactive view
+          renderAnalyzedTranscript(finalTranscriptText, '');
         }
       };
 
@@ -17346,14 +17580,294 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     }
   };
 
+  // 7. Stop Main Speech Diagnostics Recording
   window.stopSpeakingDiagnostics = function () {
     isRecordingSpeech = false;
     if (recognition) {
       try { recognition.stop(); } catch (e) {}
     }
     const statusBadge = document.getElementById('sr-status-badge');
- if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--green); font-weight:700;"> Analysis Complete</span>';
+    if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--green); font-weight:700;">Analysis Complete</span>';
+    setTimeout(() => {
+      renderAnalyzedTranscript(finalTranscriptText, '');
+    }, 150);
   };
+
+  // 8. Direct Inline Editing Toggle
+  window.toggleTranscriptEditMode = function () {
+    const transcriptBox = document.getElementById('sr-transcript-output');
+    const editBtn = document.getElementById('sr-edit-toggle-btn');
+    const editHint = document.getElementById('sr-edit-hint');
+    if (!transcriptBox) return;
+
+    isEditMode = !isEditMode;
+
+    if (isEditMode) {
+      // Switch into direct editing mode
+      transcriptBox.setAttribute('contenteditable', 'true');
+      transcriptBox.focus();
+      // Set pure plain text for editing
+      const pureText = finalTranscriptText || transcriptBox.getAttribute('data-raw-text') || transcriptBox.innerText.trim();
+      if (!pureText.startsWith('Click')) {
+        transcriptBox.textContent = pureText;
+      }
+      if (editBtn) {
+        editBtn.className = 'btn-accent-solid';
+        editBtn.innerHTML = '<svg class="ui-icon"><use href="#lucide-check"/></svg> <span>Done Editing</span>';
+      }
+      if (editHint) editHint.style.display = 'inline';
+    } else {
+      // Save edits and switch back to interactive token view
+      transcriptBox.setAttribute('contenteditable', 'false');
+      const edited = transcriptBox.innerText.trim();
+      finalTranscriptText = normalizeTranscript(edited);
+      accumulatedFinalText = finalTranscriptText;
+      transcriptBox.setAttribute('data-raw-text', finalTranscriptText);
+      renderAnalyzedTranscript(finalTranscriptText, '');
+      if (editBtn) {
+        editBtn.className = 'btn-outlined';
+        editBtn.innerHTML = '<svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Edit Transcript</span>';
+      }
+      if (editHint) editHint.style.display = 'none';
+      if (typeof showToast === 'function') showToast('Transcript updated and diagnostics refreshed!');
+      if (typeof studioHaptic === 'function') studioHaptic(15);
+    }
+  };
+
+  // 9. Selection Tracking on Transcript Surface
+  function handleTranscriptSelection() {
+    const transcriptBox = document.getElementById('sr-transcript-output');
+    const partBtn = document.getElementById('sr-rerecord-part-btn');
+    const partLabel = document.getElementById('sr-rerecord-part-label');
+    if (!transcriptBox || !partBtn) return;
+
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) {
+      return;
+    }
+
+    const text = sel.toString().trim();
+    if (text.length >= 2 && transcriptBox.contains(sel.anchorNode)) {
+      selectedRangeInfo = { text: text, range: sel.getRangeAt(0).cloneRange() };
+      partBtn.style.display = 'inline-flex';
+      if (partLabel) {
+        const preview = text.length > 16 ? text.slice(0, 16) + '…' : text;
+        partLabel.textContent = `Re-record "${preview}"`;
+      }
+    }
+  }
+
+  document.addEventListener('selectionchange', handleTranscriptSelection);
+
+  // 10. Re-record Selected Specific Phrase
+  window.startPartialReRecord = function () {
+    if (!selectedRangeInfo || !selectedRangeInfo.text) {
+      if (typeof showToast === 'function') {
+        showToast('Please highlight/select the specific word or phrase in the transcript you want to re-record.');
+      }
+      return;
+    }
+    if (!SpeechRecognition) {
+      if (typeof showToast === 'function') showToast('Speech recognition is not available in this browser engine.');
+      return;
+    }
+
+    // Pause main recording if active
+    if (isRecordingSpeech && recognition) {
+      try { recognition.stop(); } catch (e) {}
+      isRecordingSpeech = false;
+    }
+
+    const bar = document.getElementById('sr-partial-record-bar');
+    const targetEl = document.getElementById('sr-partial-target-text');
+    const liveEl = document.getElementById('sr-partial-live-text');
+    if (bar) {
+      bar.style.display = 'block';
+      bar.classList.add('sr-partial-pulse');
+    }
+    if (targetEl) targetEl.textContent = `"${selectedRangeInfo.text}"`;
+    if (liveEl) liveEl.innerHTML = '<em style="color:var(--text-secondary); font-weight:normal;">Listening (' + currentAccent + ')... speak your replacement phrase now</em>';
+
+    partialCapturedText = '';
+
+    try {
+      if (partialRecognition) {
+        try { partialRecognition.abort(); } catch (e) {}
+      }
+      partialRecognition = new SpeechRecognition();
+      partialRecognition.lang = currentAccent;
+      partialRecognition.continuous = false;
+      partialRecognition.interimResults = true;
+      partialRecognition.maxAlternatives = 3;
+
+      partialRecognition.onstart = () => {
+        isPartialRecording = true;
+      };
+
+      partialRecognition.onresult = (evt) => {
+        let interim = '';
+        let finalChunk = '';
+        for (let i = 0; i < evt.results.length; i++) {
+          if (evt.results[i].isFinal) finalChunk += evt.results[i][0].transcript + ' ';
+          else interim += evt.results[i][0].transcript;
+        }
+        const display = (finalChunk + interim).trim();
+        if (display) {
+          partialCapturedText = display;
+          if (liveEl) liveEl.innerHTML = `<span style="color:var(--accent); font-weight:700;">"${display}"</span>`;
+        }
+      };
+
+      partialRecognition.onerror = (err) => {
+        console.warn('[Partial Speech Error]', err);
+      };
+
+      partialRecognition.onend = () => {
+        isPartialRecording = false;
+        if (bar) bar.classList.remove('sr-partial-pulse');
+        if (liveEl && partialCapturedText) {
+          liveEl.innerHTML = `<span style="color:var(--accent); font-weight:700;">"${partialCapturedText}"</span> <small style="color:var(--text-secondary);">(Click Apply to update)</small>`;
+        }
+      };
+
+      partialRecognition.start();
+    } catch (err) {
+      if (typeof showToast === 'function') showToast('Unable to start speech recognition for selection: ' + err.message);
+    }
+  };
+
+  // Apply replacement from partial re-record
+  window.applyPartialReRecord = function () {
+    if (!partialCapturedText) {
+      if (typeof showToast === 'function') showToast('No speech detected yet. Speak clearly or click Cancel.');
+      return;
+    }
+    const oldPhrase = selectedRangeInfo ? selectedRangeInfo.text : '';
+    if (oldPhrase && finalTranscriptText.includes(oldPhrase)) {
+      finalTranscriptText = finalTranscriptText.replace(oldPhrase, partialCapturedText);
+    } else {
+      finalTranscriptText = (finalTranscriptText + ' ' + partialCapturedText).trim();
+    }
+    finalTranscriptText = normalizeTranscript(finalTranscriptText);
+    accumulatedFinalText = finalTranscriptText;
+
+    renderAnalyzedTranscript(finalTranscriptText, '');
+    window.cancelPartialReRecord();
+
+    if (typeof showToast === 'function') showToast(`Replaced "${oldPhrase}" with "${partialCapturedText}"!`);
+    if (typeof studioHaptic === 'function') studioHaptic(20);
+  };
+
+  // Cancel partial re-record
+  window.cancelPartialReRecord = function () {
+    if (partialRecognition) {
+      try { partialRecognition.abort(); } catch (e) {}
+    }
+    isPartialRecording = false;
+    partialCapturedText = '';
+    const bar = document.getElementById('sr-partial-record-bar');
+    const partBtn = document.getElementById('sr-rerecord-part-btn');
+    if (bar) {
+      bar.style.display = 'none';
+      bar.classList.remove('sr-partial-pulse');
+    }
+    if (partBtn) partBtn.style.display = 'none';
+    selectedRangeInfo = null;
+  };
+
+  // 11. Clear / Delete Transcript
+  window.clearSpeakingTranscript = function () {
+    if (typeof stopMicRecording === 'function') {
+      try { stopMicRecording(); } catch (e) {}
+    }
+    if (isRecordingSpeech && recognition) {
+      try { recognition.stop(); } catch (e) {}
+    }
+    isRecordingSpeech = false;
+    finalTranscriptText = '';
+    accumulatedFinalText = '';
+    selectedRangeInfo = null;
+    isEditMode = false;
+
+    window.cancelPartialReRecord();
+
+    const statusBadge = document.getElementById('sr-status-badge');
+    if (statusBadge) statusBadge.textContent = '(Idle)';
+
+    const transcriptBox = document.getElementById('sr-transcript-output');
+    if (transcriptBox) {
+      transcriptBox.setAttribute('contenteditable', 'false');
+      transcriptBox.removeAttribute('data-raw-text');
+      transcriptBox.innerHTML = '<em style="color:var(--text-secondary);">Click <strong><svg class="ui-icon"><use href="#lucide-mic"/></svg> Record My Voice</strong> and deliver your cue card response. Your live speech transcript, pace (WPM), lexical diversity, and highlighted filler words will appear here automatically.</em>';
+    }
+
+    const editBtn = document.getElementById('sr-edit-toggle-btn');
+    const editHint = document.getElementById('sr-edit-hint');
+    const partBtn = document.getElementById('sr-rerecord-part-btn');
+    if (editBtn) {
+      editBtn.className = 'btn-outlined';
+      editBtn.innerHTML = '<svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Edit Transcript</span>';
+    }
+    if (editHint) editHint.style.display = 'none';
+    if (partBtn) partBtn.style.display = 'none';
+
+    const pronHeader = document.getElementById('sr-pronunciation-header');
+    if (pronHeader) {
+      pronHeader.style.display = 'none';
+      pronHeader.innerHTML = '';
+    }
+
+    updateTelemetryFromText('');
+
+    if (typeof window.discardRecordedAudio === 'function') {
+      window.discardRecordedAudio();
+    }
+
+    const evalResult = document.getElementById('geminiSpeakingAuditResult');
+    if (evalResult) {
+      evalResult.style.display = 'none';
+      evalResult.innerHTML = '';
+    }
+
+    if (typeof studioHaptic === 'function') studioHaptic(15);
+    if (typeof showToast === 'function') showToast('Speaking transcript and diagnostics cleared.');
+  };
+
+  // 12. Re-record All (1-click wipe and record)
+  window.rerecordAllSpeaking = function () {
+    window.clearSpeakingTranscript();
+    const statusBadge = document.getElementById('sr-status-badge');
+    if (statusBadge) statusBadge.innerHTML = '<span style="color:var(--accent); font-weight:700;">Starting fresh recording...</span>';
+    setTimeout(() => {
+      if (typeof toggleMicRecording === 'function') {
+        toggleMicRecording();
+      }
+    }, 220);
+  };
+
+  // 13. Pure Transcript Text Getter (Used by Copy, Send to Writing & Gemini Grading)
+  window.getSpeakingTranscriptText = function () {
+    if (finalTranscriptText) return finalTranscriptText.trim();
+    const transcriptBox = document.getElementById('sr-transcript-output');
+    if (!transcriptBox) return '';
+    const rawAttr = transcriptBox.getAttribute('data-raw-text');
+    if (rawAttr) return rawAttr.trim();
+    const text = transcriptBox.innerText.trim();
+    if (text.startsWith('Click') || text.includes('Record My Voice and deliver')) return '';
+    return text;
+  };
+
+  // Live input listener for when user types in contenteditable
+  setTimeout(() => {
+    const box = document.getElementById('sr-transcript-output');
+    if (box) {
+      box.addEventListener('input', function () {
+        if (isEditMode) {
+          updateTelemetryFromText(this.innerText);
+        }
+      });
+    }
+  }, 200);
 })();
 
 
@@ -17435,27 +17949,23 @@ function stopMicVuVisualizer() {
 }
 
 window.copySpeakingTranscript = function() {
-  const box = document.getElementById('sr-transcript-output');
-  if (!box) return;
-  const text = box.innerText.trim();
-  if (!text || text.startsWith('Click')) {
-    showToast('Record your voice first to generate a transcript.');
+  const text = typeof window.getSpeakingTranscriptText === 'function' ? window.getSpeakingTranscriptText() : '';
+  if (!text) {
+    if (typeof showToast === 'function') showToast('Record your voice or enter transcript text first.');
     return;
   }
   navigator.clipboard.writeText(text).then(() => {
-    studioHaptic(15);
- showToast(' Speaking transcript copied to clipboard!');
+    if (typeof studioHaptic === 'function') studioHaptic(15);
+    if (typeof showToast === 'function') showToast('Speaking transcript copied to clipboard!');
   }).catch(() => {
-    showToast('Unable to copy transcript.');
+    if (typeof showToast === 'function') showToast('Unable to copy transcript.');
   });
 };
 
 window.sendSpeakingTranscriptToWriting = function() {
-  const box = document.getElementById('sr-transcript-output');
-  if (!box) return;
-  const text = box.innerText.trim();
-  if (!text || text.startsWith('Click')) {
-    showToast('Record your voice first to generate a transcript.');
+  const text = typeof window.getSpeakingTranscriptText === 'function' ? window.getSpeakingTranscriptText() : '';
+  if (!text) {
+    if (typeof showToast === 'function') showToast('Record your voice or enter transcript text first.');
     return;
   }
   switchView('writing');
@@ -17465,8 +17975,8 @@ window.sendSpeakingTranscriptToWriting = function() {
     if (typeof runLiveWritingDiagnostics === 'function') {
       runLiveWritingDiagnostics();
     }
-    studioHaptic(25);
- showToast('️ Speaking transcript imported into Writing Editor!');
+    if (typeof studioHaptic === 'function') studioHaptic(25);
+    if (typeof showToast === 'function') showToast('Speaking transcript imported into Writing Editor!');
   }
 };
 

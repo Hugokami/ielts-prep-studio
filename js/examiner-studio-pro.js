@@ -1998,8 +1998,12 @@ Structure your report clearly with:
   window.renderEngnovatePronunciationTranscript = function (rawText) {
     const box = document.getElementById("sr-transcript-output");
     if (!box) return;
-    const text = String(rawText || box.innerText || "").trim();
-    if (!text || text.startsWith("Click")) return;
+    const header = document.getElementById("sr-pronunciation-header");
+    const text = String(rawText || box.getAttribute("data-raw-text") || box.innerText || "").trim();
+    if (!text || text.startsWith("Click")) {
+      if (header) header.style.display = "none";
+      return;
+    }
 
     const tokens = text.split(/(\s+)/);
     let greenCount = 0;
@@ -2032,18 +2036,31 @@ Structure your report clearly with:
     const total = Math.max(1, greenCount + amberCount + redCount);
     const pronScorePct = Math.max(62, Math.min(98, Math.round(((greenCount * 0.95 + amberCount * 0.86 + redCount * 0.45) / total) * 100)));
 
-    box.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border);font-size:0.73rem;">
-        <span style="font-weight:800;color:var(--accent);">🎯 Pronunciation &amp; Lexical Clarity: <strong>${pronScorePct}%</strong></span>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <span style="color:#10b981;font-weight:700;">🟢 C1/Clear (${greenCount})</span>
-          <span style="color:#38bdf8;font-weight:700;">🔵 Standard (${amberCount})</span>
-          <span style="color:#ef4444;font-weight:700;">🔴 Filler/Slip (${redCount})</span>
-          <span style="color:var(--text-secondary);">(Click any word to hear model pronunciation)</span>
+    if (header) {
+      header.style.display = "flex";
+      header.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;width:100%;">
+          <span style="font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:5px;">
+            <svg class="ui-icon" style="color:var(--accent);width:14px;height:14px;"><use href="#lucide-target"/></svg>
+            Pronunciation &amp; Lexical Clarity: <strong>${pronScorePct}%</strong>
+          </span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:0.71rem;align-items:center;">
+            <span style="color:#10b981;font-weight:700;display:inline-flex;align-items:center;gap:4px;"><span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;"></span> C1/Clear (${greenCount})</span>
+            <span style="color:#38bdf8;font-weight:700;display:inline-flex;align-items:center;gap:4px;"><span style="width:7px;height:7px;border-radius:50%;background:#38bdf8;display:inline-block;"></span> Standard (${amberCount})</span>
+            <span style="color:#ef4444;font-weight:700;display:inline-flex;align-items:center;gap:4px;"><span style="width:7px;height:7px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Filler/Slip (${redCount})</span>
+            <span style="color:var(--text-secondary);">(Click any word to hear model pronunciation)</span>
+          </div>
         </div>
-      </div>
-      <div style="line-height:1.75;">${htmlTokens}</div>
-    `;
+      `;
+    }
+
+    // Always keep data-raw-text clean for export/grading
+    box.setAttribute("data-raw-text", text);
+
+    // Only render inner tokens if user is not in edit mode
+    if (box.getAttribute("contenteditable") !== "true") {
+      box.innerHTML = `<div class="sr-tokens-flow" style="line-height:1.75;">${htmlTokens}</div>`;
+    }
   };
 
   window.inspectSpokenWord = function (word, category) {
@@ -2053,13 +2070,15 @@ Structure your report clearly with:
     if (typeof showStudioNotification === "function") {
       const msg =
         category === "filler"
-          ? `🔴 "${word}" is a hesitation filler. Replace with a silent 0.5s pause for Band 7.5+ Fluency!`
+          ? `[Hesitation Filler] "${word}" is a hesitation filler. Replace with a silent 0.5s pause for Band 7.5+ Fluency!`
           : category === "advanced"
-            ? `🟢 "${word}" — Strong C1/C2 lexical item! Playing model British pronunciation...`
-            : `🔊 Playing model pronunciation for "${word}"...`;
+            ? `[C1/C2 Lexical Item] "${word}" - Strong academic lexical token. Playing model pronunciation...`
+            : `Playing model pronunciation for "${word}"...`;
       showStudioNotification(msg);
     }
   };
+
+
 
   // ==========================================================================
   // 6G. ENGNOVATE SIMPLIFICATION: PROGRESSIVE DISCLOSURE (FOCUS MODE TOGGLE)
