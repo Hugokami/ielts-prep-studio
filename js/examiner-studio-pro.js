@@ -461,8 +461,18 @@
       });
       saveErrorVault(list);
     }
+    // Bridge to unified Mistake Notebook 2.0
+    if (typeof window.logMistakeItem === "function") {
+      window.logMistakeItem(
+        sourceModule || "Writing Examiner",
+        wrong ? `Original phrasing: "${wrong}"` : "Examiner Diagnostic Trap",
+        correct || "Band 8.5+ Precision Phrasing",
+        explanation || "Academic precision correction.",
+        { wrong: wrong, stage: 1, dueDays: 1 }
+      );
+    }
     if (typeof showStudioNotification === "function") {
-      showStudioNotification("📌 Saved correction to My Error Vault!");
+      showStudioNotification("Saved correction to Mistake Notebook & Error Vault!");
     }
     renderErrorVaultPane();
   };

@@ -20,6 +20,7 @@
   <script src="js/band-surgery.js?v=10.0"></script>
   <script src="js/speaking-cbt-weapons.js?v=10.0"></script>
   <script src="js/analytics-exam-kit.js?v=10.0"></script>
+  <script src="js/today-plan.js?v=10.0"></script>
   <script src="js/conversion-prestige.js?v=10.0"></script>
 
 
@@ -7936,7 +7937,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
             <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
           </svg>
-          <span id="vipBtnText"><span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (55,000 MMK)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span></span>
+          <span id="vipBtnText"><span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (97k/5k)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span></span>
         </button>
       </div>
     </div>
@@ -8221,6 +8222,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
 
     
+    <!-- 3.25: ADAPTIVE 25-MINUTE DAILY PLAN ENGINE -->
+    <div id="todayPlanMount"></div>
+
     <!-- 3.3: TARGET BAND EXAM COUNTDOWN & READINESS BANNER -->
     <div id="examReadinessBanner"></div>
 
@@ -10825,21 +10829,45 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 </div>
 
 <div id="errorLogModal" class="modal-backdrop" onclick="if(event.target===this) closeErrorLogModal()">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Personal Error Log">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Mistake Notebook 2.0" style="max-width:680px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
       <div>
-        <div class="sec-eyebrow" style="margin-bottom:2px;">PERSONAL WEAK-SPOT TRACKER</div>
-        <h3 style="font-size:1.15rem; font-weight:700;">My Mistake Log (Reading &amp; Paraphrase Drills)</h3>
+        <div class="sec-eyebrow" style="margin-bottom:2px;">CROSS-MODULE ERROR DEFENSE</div>
+        <h3 style="font-size:1.15rem; font-weight:800; margin:0; display:flex; align-items:center; gap:8px;">
+          <svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg>
+          Mistake Notebook 2.0
+          <span class="occ-ver-pill" style="font-size:0.68rem; padding:2px 8px; background:rgba(239,68,68,0.12); color:var(--crimson); font-weight:800; border-radius:999px;">1-3-7 Spaced Autopsy</span>
+        </h3>
       </div>
-      <div style="display:flex; gap:8px;">
+      <div style="display:flex; gap:6px;">
         <button class="btn-outlined" style="padding:4px 10px; font-size:0.75rem;" onclick="clearAllErrors()">Clear All</button>
         <button class="btn-outlined" style="padding:4px 10px; font-size:0.75rem;" onclick="closeErrorLogModal()">ESC</button>
       </div>
     </div>
-    <p class="burmese" style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:12px;">
-      Reading နှင့် Paraphrase Drill တို့တွင် မှားယွင်းခဲ့သော မေးခွန်းများကို ဤနေရာတွင် အလိုအလျောက် စုစည်းပေးထားပါသည်။ အဖြေမှန်နှင့် ရှင်းလင်းချက်ကို ပြန်လည်လေ့လာပြီး နားလည်သွားပါက Resolved နှိပ်ပါ။
-    </p>
-    <div id="errorLogList" style="max-height:380px; overflow-y:auto; display:grid; gap:10px;"></div>
+
+    <!-- Mode Tabs: Mistake Bank vs 1-3-7 Spaced Review Quiz -->
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px; flex-wrap:wrap;">
+      <div style="display:flex; gap:6px;">
+        <button id="errTabListBtn" class="btn-accent-solid" style="padding:5px 12px; font-size:0.76rem; font-weight:700; border-radius:6px;" onclick="switchMistakeModalTab('list')">
+          <svg class="ui-icon ui-icon-xs"><use href="#lucide-book-open"/></svg> Mistake Bank (<span id="errModalCountVal">0</span>)
+        </button>
+        <button id="errTabQuizBtn" class="btn-outlined" style="padding:5px 12px; font-size:0.76rem; font-weight:700; border-radius:6px;" onclick="switchMistakeModalTab('quiz')">
+          <svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-refresh-cw"/></svg> 1-3-7 Spaced Review (<span id="errModalDueVal">0</span> Due)
+        </button>
+      </div>
+      <div id="errModuleFilterGroup" style="display:flex; gap:4px; align-items:center;">
+        <span style="font-size:0.72rem; color:var(--text-secondary); font-weight:600;">Filter:</span>
+        <select id="errModuleSelect" onchange="renderErrorLogModalList()" style="font-size:0.72rem; padding:2px 6px; border-radius:4px; background:var(--bg); color:var(--text); border:1px solid var(--border);">
+          <option value="ALL">All Modules</option>
+          <option value="Reading">Reading Mocks</option>
+          <option value="Band Surgery">Band Surgery</option>
+          <option value="Writing">Writing Lab</option>
+          <option value="Paraphrase Drill">Paraphrase Drill</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="errorLogList" style="max-height:420px; overflow-y:auto; display:grid; gap:10px;"></div>
   </div>
 </div>
 
@@ -11094,9 +11122,9 @@ const UPGRADE_RULES = [
 // FREEMIUM USAGE METER & VIP PASS ENGINE (ENGNOVATE MODEL)
 // ==========================================
 const VIP_PASS_PLANS = {
-  lifetime: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" },
-  sprint: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" },
-  intensive: { name: "Lifetime Studio Pass", priceMmk: "55,000 MMK", days: "lifetime" }
+  sprint: { name: "7-Day Sprint Pass", priceMmk: "5,000 MMK", stars: 75, days: 7 },
+  lifetime: { name: "Lifetime Studio Pass", priceMmk: "97,000 MMK", stars: 1350, days: "lifetime" },
+  intensive: { name: "Lifetime Studio Pass", priceMmk: "97,000 MMK", stars: 1350, days: "lifetime" }
 };
 
 const VALID_VOUCHER_CODES = {
@@ -11201,6 +11229,7 @@ function setLastGeminiTimestamp(ts) {
 }
 let geminiCooldownTimer = null;
 const PARAPHRASE_FREE_DAILY_LIMIT = 10;
+const BAND_SURGERY_FREE_DAILY_LIMIT = 3;
 const LEXICON_FREE_LIMIT = 250;
 const READING_FREE_LIMIT = 23;
 const WRITING_MODELS_FREE_LIMIT = 5;
@@ -11370,6 +11399,29 @@ function recordParaphraseDrillUsage() {
   updateAuthUI();
 }
 
+function canUseBandSurgery() {
+  ensureUserProfileInitialized();
+  if (isVipActive()) {
+    return { allowed: true, remaining: "Unlimited", used: (appState.userProfile.dailyUsage && appState.userProfile.dailyUsage.bandSurgeries) || 0 };
+  }
+  const used = (appState.userProfile.dailyUsage && appState.userProfile.dailyUsage.bandSurgeries) || 0;
+  return {
+    allowed: used < BAND_SURGERY_FREE_DAILY_LIMIT,
+    remaining: Math.max(0, BAND_SURGERY_FREE_DAILY_LIMIT - used),
+    used
+  };
+}
+window.canUseBandSurgery = canUseBandSurgery;
+
+function recordBandSurgeryUsage() {
+  if (isVipActive()) return;
+  ensureUserProfileInitialized();
+  appState.userProfile.dailyUsage.bandSurgeries = (appState.userProfile.dailyUsage.bandSurgeries || 0) + 1;
+  saveAppState();
+  updateAuthUI();
+}
+window.recordBandSurgeryUsage = recordBandSurgeryUsage;
+
 function openVipPassModal() {
   const m = document.getElementById("vipPassModal");
   if (!m) return;
@@ -11418,7 +11470,7 @@ function openVipPassModal() {
 function renderVipFxPills(mmkRates) {
   const fxMount = document.getElementById("vipLiveCurrencyPills");
   if (!fxMount || !mmkRates) return;
-  const pMmk = 55000;
+  const pMmk = (window.currentCheckoutPlan === "sprint") ? 5000 : 97000;
   const usd = (pMmk * (mmkRates.usd || 0.00027)).toFixed(2);
   const sgd = (pMmk * (mmkRates.sgd || 0.00036)).toFixed(2);
   const thb = Math.round(pMmk * (mmkRates.thb || 0.0095));
@@ -11438,14 +11490,27 @@ function closeVipPassModal() {
 }
 
 function openVipCheckout(planType) {
-  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive;
+  window.currentCheckoutPlan = planType || 'lifetime';
+  const plan = VIP_PASS_PLANS[window.currentCheckoutPlan] || VIP_PASS_PLANS.lifetime;
   const step = document.getElementById("vipCheckoutStep");
   const title = document.getElementById("checkoutPlanTitle");
   const mmk = document.getElementById("checkoutMmkAmount");
+  const starsBtn = document.getElementById("starsCheckoutBtn");
+  const proofLink = document.getElementById("sendPaymentProofLink");
+  const starsVal = document.getElementById("checkoutStarsAmount");
+  const isSprint = (window.currentCheckoutPlan === 'sprint');
+
   if (step) {
     step.style.display = "block";
-    if (title) title.textContent = `${plan.name} — ${plan.priceMmk}`;
+    if (title) title.textContent = `${plan.name} — ${plan.priceMmk} / ${plan.stars || (isSprint ? 75 : 1350)} Stars`;
     if (mmk) mmk.textContent = plan.priceMmk;
+    if (starsVal) starsVal.innerHTML = `${isSprint ? '75' : '1,350'} <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars`;
+    if (starsBtn) {
+      starsBtn.innerHTML = `<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-star"/></svg> Pay ${isSprint ? '75' : '1,350'} Stars via Telegram (Instant ${isSprint ? '7-Day' : 'Lifetime'} VIP)`;
+    }
+    if (proofLink) {
+      proofLink.href = `https://t.me/IELTSPrepStudioBot?start=${isSprint ? 'vip_sprint' : 'vip_lifetime'}`;
+    }
     step.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 }
@@ -11469,7 +11534,7 @@ function copyPaymentPhone() {
 }
 
 window.handleSendPaymentProof = function(e) {
-  const botUrl = "https://t.me/IELTSPrepStudioBot?start=vip_55k";
+  const botUrl = `https://t.me/IELTSPrepStudioBot?start=${window.currentCheckoutPlan === "sprint" ? "vip_sprint" : "vip_lifetime"}`;
   if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === "function") {
     try {
       if (e && typeof e.preventDefault === "function") e.preventDefault();
@@ -11499,10 +11564,11 @@ window.handleStarsCheckout = async function() {
     // Check if running inside Telegram Mini App with openInvoice support
     if (tg && typeof tg.openInvoice === "function") {
       try {
+        const chosenPlan = window.currentCheckoutPlan || "lifetime";
         const resp = await fetch("/api/create-stars-invoice", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: userId || 0, plan: "lifetime" })
+          body: JSON.stringify({ userId: userId || 0, plan: chosenPlan })
         });
         const data = await resp.json();
         if (data && data.invoiceLink) {
@@ -12075,7 +12141,7 @@ function updateAuthUI() {
       vipBtn.style.borderColor = "";
       vipBtn.style.color = "";
       vipBtn.title = "Upgrade to VIP Studio Pass";
-      vipText.innerHTML = `<span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (55,000 MMK)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span>`;
+      vipText.innerHTML = `<span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (97k/5k)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span>`;
     }
   }
 
@@ -12137,7 +12203,7 @@ function updateAuthUI() {
           </div>
           ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
- Upgrade to Lifetime VIP (55,000 MMK)
+ Upgrade to Lifetime VIP (97,000 MMK)
           </button>
           `}
           ${(!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) ? `
@@ -12199,7 +12265,7 @@ function updateAuthUI() {
           </div>
           ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
- Upgrade to Lifetime VIP (55,000 MMK)
+ Upgrade to Lifetime VIP (97,000 MMK)
           </button>
           `}
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; color:var(--crimson); border-color:var(--border); padding:8px 12px;" onclick="if(window.signOutUser) { window.signOutUser(); closeAccountModal(); }">
@@ -13067,6 +13133,9 @@ function refreshAnalytics() {
 
   renderSkillRadar(mCount, appState.drillBest, rCount, wCount);
   renderVarietyDistribution();
+  if (typeof window.renderTodayPlanCard === 'function') {
+    window.renderTodayPlanCard('todayPlanMount');
+  }
   if (typeof window.renderExamReadinessBanner === 'function') {
     window.renderExamReadinessBanner('examReadinessBanner');
   }
@@ -13630,7 +13699,7 @@ function renderLexiconGrid(keepPage) {
       <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:320px; line-height:1.45;">
         Unlock all <strong>${VOCAB_DATA.length} Band 8.5 Academic Collocations, 538 Reading Traps &amp; Academic Lexicon</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with Lifetime VIP Pass.
       </p>
-      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full ${VOCAB_DATA.length} Lexicon (55,000 MMK)</button>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Unlock Full ${VOCAB_DATA.length} Lexicon (97,000 MMK / 5,000 MMK)</button>
     </article>
   ` : "";
 
@@ -13974,7 +14043,7 @@ function handleSpeakingPracticePromptChange(promptVal) {
             <div style="font-size:0.95rem; font-weight:700; color:var(--text); margin-top:4px;">${data.title}</div>
             <div style="font-size:0.83rem; color:var(--text-secondary); margin-top:2px;">"${data.q}"</div>
           </div>
- <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; padding:6px 14px;"> Unlock All 160 Questions in VIP (55,000 MMK)</button>
+ <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; padding:6px 14px;"> Unlock All 160 Questions in VIP (97,000 MMK / 5,000 MMK)</button>
         </div>
       </div>
     `;
@@ -14254,7 +14323,7 @@ function renderSpeakingTopicBank() {
           <div class="burmese" style="font-size:0.77rem; color:var(--text-secondary); line-height:1.6; margin-bottom:10px;">
             Part 1 Warm-up Q&amp;A၊ Part 2 Cue Card (2-Min Model Script &amp; Prep Notes) နှင့် Part 3 Deep Discussion အဖြေစုံကို Lifetime VIP Pass ဖြင့် အကန့်အသတ်မရှိ လေ့လာနိုင်ပါသည်။
           </div>
- <button class="btn-accent-solid" onclick="openVipPassModal()" style="width:100%; font-size:0.78rem; font-weight:800; padding:6px 12px; cursor:pointer;"> Unlock All 50 Forecast Topics (55,000 MMK)</button>
+ <button class="btn-accent-solid" onclick="openVipPassModal()" style="width:100%; font-size:0.78rem; font-weight:800; padding:6px 12px; cursor:pointer;"> Unlock All 50 Forecast Topics (97,000 MMK / 5,000 MMK)</button>
         </div>
       `;
     } else if (isForecast) {
@@ -14439,7 +14508,7 @@ async function toggleMicRecording() {
   }
   const quota = canUseSpeakingEvaluation();
   if (!quota.allowed) {
-    alert(`You have reached your Free Tier quota of ${SPEAKING_FREE_MONTHLY_LIMIT} Speaking voice recordings this month.\n\nUpgrade to Lifetime VIP Pass (55,000 MMK) for unlimited voice recordings, all 5 speaking frameworks & all Band 9 candidate model recordings!`);
+    alert(`You have reached your Free Tier quota of ${SPEAKING_FREE_MONTHLY_LIMIT} Speaking voice recordings this month.\n\nUpgrade to Lifetime VIP Pass (97k/5k) for unlimited voice recordings, all 5 speaking frameworks & all Band 9 candidate model recordings!`);
     openVipPassModal();
     return;
   }
@@ -14546,7 +14615,7 @@ function renderSpeakingFramework(idx) {
           <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Framework: ${fw.name}</div>
           <div class="vip-lock-banner-desc">Framework 1 (PELL) is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (PELL, 123, AAA, STAR, PARA) + Full Band 9 Candidate Model Scripts with Lifetime VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (55,000 MMK)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (97,000 MMK / 5,000 MMK)</button>
       </div>
       <div class="vip-gated-blur">
         <div class="sec-eyebrow">${fw.code}</div>
@@ -14565,7 +14634,7 @@ function renderSpeakingFramework(idx) {
         <div style="padding:16px; background:var(--bg); border:1px dashed var(--accent); border-radius:6px; text-align:center;">
  <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px;"> Step Scaffolding Builder Locked for ${fw.name}</div>
           <p style="font-size:0.79rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.45;">Interactive step-by-step oral response synthesis for ${fw.name} is exclusive to Lifetime VIP Pass.</p>
- <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; padding:6px 14px;"> Unlock Full Speaking Suite (55,000 MMK)</button>
+ <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; padding:6px 14px;"> Unlock Full Speaking Suite (97,000 MMK / 5,000 MMK)</button>
         </div>
       `;
     }
@@ -14986,21 +15055,29 @@ function revealPart17Answer(eIdx, iIdx) {
   if (el) el.style.display = 'block';
 }
 
-function logMistakeItem(moduleName, questionPrompt, expectedAnswer, explanationText) {
+function logMistakeItem(moduleName, questionPrompt, expectedAnswer, explanationText, options = {}) {
   if (!appState.errorLog) appState.errorLog = [];
-  const exists = appState.errorLog.some(e => e.q === questionPrompt);
+  const exists = appState.errorLog.some(e => (e.q === questionPrompt || (options.wrong && e.wrong === options.wrong)));
   if (!exists) {
+    const now = Date.now();
     appState.errorLog.unshift({
-      id: "err_" + Date.now() + "_" + Math.floor(Math.random() * 999),
-      module: moduleName,
+      id: "err_" + now + "_" + Math.floor(Math.random() * 999),
+      module: moduleName || "Academic Studio",
       q: questionPrompt,
       ans: expectedAnswer,
       exp: explanationText,
+      expMm: options.expMm || "",
+      wrong: options.wrong || "",
+      stage: options.stage || 1, // 1-3-7 Spaced Repetition stage
+      due: now + (options.dueDays || 1) * 86400000,
+      resolved: false,
       date: new Date().toISOString().slice(0, 10)
     });
     saveAppState();
+    if (typeof refreshAnalytics === "function") refreshAnalytics();
   }
 }
+window.logMistakeItem = logMistakeItem;
 
 // ==========================================
 // 8. PARAPHRASE DRILL
@@ -15010,7 +15087,7 @@ let currentDrill = [];
 function generateDrill(isUserClick = false) {
   const quota = canUseParaphraseDrill();
   if (isUserClick && !quota.allowed) {
-    if (confirm(`You have completed your ${PARAPHRASE_FREE_DAILY_LIMIT} free daily Paraphrase Drills for today.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?`)) {
+    if (confirm(`You have completed your ${PARAPHRASE_FREE_DAILY_LIMIT} free daily Paraphrase Drills for today.\n\nUpgrade to Lifetime VIP Studio Pass (97,000 MMK) or 7-Day Sprint Pass (5,000 MMK) for unlimited daily drills, Part 17 Exercises & Mistake Log! Would you like to view VIP options?`)) {
       openVipPassModal();
     }
     return;
@@ -15295,7 +15372,7 @@ function loadReadingMock() {
           <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Cambridge Reading Mock [${m.code}]</div>
           <div class="vip-lock-banner-desc">Passages 1, 2 &amp; 3 are free. Unlock all 23 Cambridge Academic Reading CBT Mocks (231 Questions) + Burmese Answer Evidence with Lifetime VIP Pass!</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 23 CBT Passages (55,000 MMK)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 23 CBT Passages (97,000 MMK / 5,000 MMK)</button>
       </div>
       <div class="vip-gated-blur">
         <h3 style="font-size:1.18rem; font-weight:700; margin-bottom:16px;">${m.title}</h3>
@@ -15312,7 +15389,7 @@ function loadReadingMock() {
           <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> Questions Locked for VIP Pass</div>
           <div class="vip-lock-banner-desc">Full ${m.questions ? m.questions.length : 13}-item authentic IELTS question sets, real-time band grading, and Burmese answer evidence across 23 CBT mocks are reserved for VIP members.</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get Lifetime VIP Pass (55,000 MMK)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get Lifetime VIP Pass (97k/5k)</button>
       </div>
     `;
     return;
@@ -15627,7 +15704,7 @@ function loadWritingMock() {
           <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> Band 9.0 Model Essay Locked [VIP]</div>
           <div class="vip-lock-banner-desc">This authentic Band 9.0 essay sample, examiner commentary, and vocabulary upgrades are exclusive to Lifetime VIP Pass holders.</div>
         </div>
-        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:700;">Unlock Full Essay (55,000 MMK)</button>
+        <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:700;">Unlock Full Essay (97,000 MMK / 5,000 MMK)</button>
       </div>
     `;
     document.getElementById("wModelMmNotes").innerHTML = `
@@ -15706,7 +15783,7 @@ function runManualWritingAudit() {
     if (isVipActive()) {
       alert(`You have reached your Fair-Use allocation of ${WRITING_VIP_MONTHLY_LIMIT} writing checks this month (2 full essays every day).\n\nYour allocation automatically resets on the 1st of next month.`);
     } else {
-      if (confirm(`You have used your ${WRITING_FREE_MONTHLY_LIMIT} free monthly CEFR & Trap Audits.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
+      if (confirm(`You have used your ${WRITING_FREE_MONTHLY_LIMIT} free monthly CEFR & Trap Audits.\n\nUpgrade to Lifetime VIP Pass (97,000 MMK) or 7-Day Sprint Pass (5,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
         openVipPassModal();
       }
     }
@@ -15928,7 +16005,7 @@ async function gradeEssayWithGemini() {
     if (isVipActive()) {
       alert(`You have reached your Fair-Use allocation of ${WRITING_VIP_MONTHLY_LIMIT} writing evaluations this month (2 full essays every single day).\n\nYour allocation automatically resets on the 1st of next month.`);
     } else {
-      if (confirm(`You have completed your ${WRITING_FREE_MONTHLY_LIMIT} free monthly writing evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
+      if (confirm(`You have completed your ${WRITING_FREE_MONTHLY_LIMIT} free monthly writing evaluations.\n\nUpgrade to Lifetime VIP Pass (97,000 MMK) or 7-Day Sprint Pass (5,000 MMK) for 60 Cambridge AI evaluations per month (2 full essays daily)! Would you like to view VIP options?`)) {
         openVipPassModal();
       }
     }
@@ -16135,7 +16212,7 @@ async function gradeSpeakingWithGemini(fromFramework = false) {
     if (isVipActive()) {
       alert("You have reached your Fair-Use allocation for Speaking evaluations this month.");
     } else {
-      if (confirm(`You have used your ${SPEAKING_FREE_MONTHLY_LIMIT} free monthly speaking evaluations.\n\nUpgrade to Lifetime VIP Studio Pass (55,000 MMK) for Unlimited AI Speaking evaluations and Part 3 Examiner Challenges! Would you like to view VIP options?`)) {
+      if (confirm(`You have used your ${SPEAKING_FREE_MONTHLY_LIMIT} free monthly speaking evaluations.\n\nUpgrade to Lifetime VIP Pass (97,000 MMK) or 7-Day Sprint Pass (5,000 MMK) for Unlimited AI Speaking evaluations and Part 3 Examiner Challenges! Would you like to view VIP options?`)) {
         openVipPassModal();
       }
     }
@@ -16287,7 +16364,7 @@ function toggleModelDrawer() {
               <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Examiner Model: [${w.code}] ${w.title}</div>
               <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock all 40 High-Scoring IELTS-Style Model Essays, Structural Skeletons &amp; Burmese Linguistic Breakdowns with Lifetime VIP Pass!</div>
             </div>
-            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 30 Models (55,000 MMK)</button>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 30 Models (97,000 MMK / 5,000 MMK)</button>
           </div>
           <div style="white-space:pre-line; font-size:0.91rem; line-height:1.8; color:var(--text); padding:10px 0; opacity:0.85;">
             <strong>Sample Introduction (Free Preview):</strong><br>
@@ -16764,13 +16841,43 @@ function renderGlobalSearchResults() {
   box.innerHTML = html;
 }
 
+let currentMistakeTab = 'list';
+let activeMistakeQuizIdx = 0;
+let mistakeRevealed = false;
+
+function switchMistakeModalTab(tab) {
+  currentMistakeTab = tab;
+  mistakeRevealed = false;
+  const listBtn = document.getElementById("errTabListBtn");
+  const quizBtn = document.getElementById("errTabQuizBtn");
+  const filterGroup = document.getElementById("errModuleFilterGroup");
+  if (listBtn && quizBtn) {
+    if (tab === 'list') {
+      listBtn.className = "btn-accent-solid";
+      quizBtn.className = "btn-outlined";
+      if (filterGroup) filterGroup.style.display = "flex";
+    } else {
+      listBtn.className = "btn-outlined";
+      quizBtn.className = "btn-accent-solid";
+      if (filterGroup) filterGroup.style.display = "none";
+    }
+  }
+  renderErrorLogModalList();
+}
+
 function openErrorLogModal() {
   document.getElementById("errorLogModal")?.classList.add("open");
-  renderErrorLogModalList();
+  switchMistakeModalTab(currentMistakeTab || 'list');
 }
 
 function closeErrorLogModal() {
   document.getElementById("errorLogModal")?.classList.remove("open");
+}
+
+function getDueMistakes() {
+  const now = Date.now();
+  const logs = (appState.errorLog || []).filter(e => !e.resolved);
+  return logs.filter(e => !e.due || e.due <= now);
 }
 
 function renderErrorLogModalList() {
@@ -16778,6 +16885,20 @@ function renderErrorLogModalList() {
   if (!listEl) return;
   const isVip = isVipActive();
   const logs = appState.errorLog || [];
+
+  // Update counts in tab headers
+  const countEl = document.getElementById("errModalCountVal");
+  const dueEl = document.getElementById("errModalDueVal");
+  const dueList = getDueMistakes();
+  if (countEl) countEl.textContent = String(logs.length);
+  if (dueEl) dueEl.textContent = String(dueList.length);
+
+  if (currentMistakeTab === 'quiz') {
+    renderMistakeReviewQuiz(listEl, isVip);
+    return;
+  }
+
+  // --- List Mode ---
   if (!logs.length) {
     listEl.innerHTML = `
       <div style="padding:48px 24px; text-align:center; background:var(--bg-card); border:1px solid rgba(15,23,42,0.08); border-radius:14px; margin-bottom:12px;">
@@ -16786,9 +16907,9 @@ function renderErrorLogModalList() {
         </div>
         <h4 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0;">Flawless Record // Zero Unresolved Mistakes</h4>
         <p style="font-size:0.82rem; color:var(--text-secondary); max-width:420px; margin:0 auto 18px auto; line-height:1.5;">
-          You currently have zero logged exam errors! Any missed questions in Cambridge Reading Mocks or Collocation Cloze Drills will automatically be catalogued here for review.
+          You currently have zero logged exam errors! Any missed questions in Cambridge Reading Mocks, Band Surgery upgrades, or Trap X-Ray scans will automatically be catalogued here for 1-3-7 Spaced Review.
         </p>
-        <button class="btn-accent-solid" onclick="switchView('reading')" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
+        <button class="btn-accent-solid" onclick="closeErrorLogModal(); switchView('reading')" style="font-size:0.84rem; padding:8px 18px; border-radius:999px;">
           Start Cambridge Reading Drill →
         </button>
       </div>
@@ -16796,42 +16917,178 @@ function renderErrorLogModalList() {
     return;
   }
 
-  const effectiveLogs = isVip ? logs : logs.slice(0, MISTAKE_LOG_FREE_LIMIT);
+  const modSelect = document.getElementById("errModuleSelect");
+  const filterMod = modSelect ? modSelect.value : "ALL";
+  let filteredLogs = logs;
+  if (filterMod !== "ALL") {
+    filteredLogs = logs.filter(l => (l.module || "").toLowerCase().includes(filterMod.toLowerCase()));
+  }
+
+  const effectiveLogs = isVip ? filteredLogs : filteredLogs.slice(0, MISTAKE_LOG_FREE_LIMIT);
   const quotaBanner = !isVip ? `
-    <div style="padding:10px 14px; background:rgba(224,108,53,0.08); border:1px solid var(--accent); border-radius:4px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+    <div style="padding:10px 14px; background:rgba(217,119,6,0.08); border:1px solid #D97706; border-radius:6px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
       <div style="font-size:0.8rem; color:var(--text);">
         <strong>Free Tier Mistake Bank:</strong> Storing up to <strong>${MISTAKE_LOG_FREE_LIMIT}</strong> errors (${logs.length} total logged).
       </div>
-      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem; padding:4px 10px;">Upgrade for Unlimited Bank &amp; Cloud Sync (55,000 MMK)</button>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem; padding:4px 10px;">Upgrade (7-Day 5k / Lifetime 97k)</button>
     </div>
   ` : "";
 
-  const itemsHtml = effectiveLogs.map(item => `
-    <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border-accent); margin-bottom:8px; border-radius:4px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
-        <span class="occ-ver-pill" style="color:var(--crimson);">${item.module} · ${item.date}</span>
- <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="resolveErrorItem('${item.id}')">Mark Resolved </button>
+  const itemsHtml = effectiveLogs.map(item => {
+    const stage = item.stage || 1;
+    const isDue = !item.due || item.due <= Date.now();
+    const stageText = stage >= 4 ? "Mastered" : `Stage ${stage} (${stage === 1 ? '1d' : (stage === 2 ? '3d' : '7d')})`;
+    return `
+      <div style="padding:12px 14px; background:var(--bg); border:1px solid ${isDue ? 'rgba(239,68,68,0.3)' : 'var(--border)'}; margin-bottom:8px; border-radius:8px; position:relative;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="occ-ver-pill" style="color:var(--crimson); font-weight:800; font-size:0.7rem; background:rgba(239,68,68,0.08); padding:2px 6px; border-radius:4px;">${escapeHtml(item.module || 'Studio')} · ${escapeHtml(item.date || '')}</span>
+            <span class="occ-ver-pill" style="background:${isDue ? '#EF4444' : 'rgba(0,0,0,0.05)'}; color:${isDue ? '#FFF' : 'var(--text-secondary)'}; font-size:0.65rem; font-weight:700; padding:2px 6px; border-radius:4px;">
+              ${escapeHtml(stageText)} ${isDue ? '• DUE NOW' : ''}
+            </span>
+          </div>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.72rem;" onclick="resolveErrorItem('${item.id}')">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-check"/></svg> Mark Resolved
+          </button>
+        </div>
+        <div style="font-weight:700; font-size:0.86rem; color:var(--text); margin-bottom:4px; line-height:1.4;">${escapeHtml(item.q || item.wrong)}</div>
+        <div style="font-size:0.83rem; color:var(--green); font-weight:700; margin-bottom:4px;">Correct / Upgraded: ${escapeHtml(item.ans)}</div>
+        ${item.exp ? `<div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:2px;">${escapeHtml(item.exp)}</div>` : ''}
+        ${item.expMm ? `<div class="burmese" style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml(item.expMm)}</div>` : ''}
       </div>
-      <div style="font-weight:700; font-size:0.86rem; margin-bottom:4px;">${item.q}</div>
-      <div style="font-size:0.83rem; color:var(--green); font-weight:700; margin-bottom:4px;">Correct Answer: ${item.ans}</div>
-      <div class="burmese" style="font-size:0.8rem; color:var(--text-secondary);">${item.exp}</div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
-  const excessCard = (!isVip && logs.length > MISTAKE_LOG_FREE_LIMIT) ? `
-    <div style="padding:14px; text-align:center; background:var(--bg); border:1px dashed var(--accent); border-radius:4px; margin-top:8px;">
-      <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:4px;">+ ${logs.length - MISTAKE_LOG_FREE_LIMIT} More Mistakes Stored</div>
-      <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">Upgrade to Lifetime VIP Pass to review all archived mistakes and sync across devices.</div>
-      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem;">Unlock All Mistakes (55,000 MMK)</button>
+  const excessCard = (!isVip && filteredLogs.length > MISTAKE_LOG_FREE_LIMIT) ? `
+    <div style="padding:14px; text-align:center; background:var(--bg); border:1px dashed var(--accent); border-radius:6px; margin-top:8px;">
+      <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:4px;">+ ${filteredLogs.length - MISTAKE_LOG_FREE_LIMIT} More Mistakes Stored</div>
+      <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:10px;">Upgrade to Lifetime VIP or 7-Day Sprint Pass to review all archived mistakes and sync across devices.</div>
+      <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.75rem;">Unlock Unlimited Bank (5,000 MMK / 97,000 MMK)</button>
     </div>
   ` : "";
 
   listEl.innerHTML = quotaBanner + itemsHtml + excessCard;
 }
 
+function renderMistakeReviewQuiz(listEl, isVip) {
+  const dueItems = getDueMistakes();
+  const pool = dueItems.length > 0 ? dueItems : (appState.errorLog || []).filter(e => !e.resolved);
+
+  if (!pool.length) {
+    listEl.innerHTML = `
+      <div style="padding:48px 24px; text-align:center; background:var(--bg-card); border:1px solid rgba(16,185,129,0.3); border-radius:14px;">
+        <div style="width:56px; height:56px; margin:0 auto 14px auto; border-radius:50%; background:rgba(16,185,129,0.12); display:flex; align-items:center; justify-content:center; color:#10B981;">
+          <svg class="ui-icon" style="width:28px; height:28px;"><use href="#lucide-check"/></svg>
+        </div>
+        <h4 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0;">All Mistakes Cleared for Today!</h4>
+        <p style="font-size:0.82rem; color:var(--text-secondary); max-width:400px; margin:0 auto 16px auto; line-height:1.5;">
+          You have 0 mistakes due for spaced repetition right now. Great retention! Check back tomorrow or switch to Mistake Bank to browse all items.
+        </p>
+        <button class="btn-accent-solid" onclick="switchMistakeModalTab('list')" style="font-size:0.82rem; padding:6px 16px;">
+          View All Mistakes →
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  if (activeMistakeQuizIdx >= pool.length) {
+    activeMistakeQuizIdx = 0;
+  }
+  const item = pool[activeMistakeQuizIdx];
+  const stage = item.stage || 1;
+
+  listEl.innerHTML = `
+    <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:18px 20px;">
+      <!-- Quiz Progress Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span class="occ-ver-pill" style="background:#D97706; color:#FFF; font-weight:800; font-size:0.68rem; padding:2px 6px; border-radius:4px;">1-3-7 SRS DRILL</span>
+          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">Mistake ${activeMistakeQuizIdx + 1} of ${pool.length}</span>
+        </div>
+        <span class="occ-ver-pill" style="background:rgba(0,0,0,0.05); color:var(--text); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:4px;">
+          Source: ${escapeHtml(item.module || 'Studio')} • Stage ${stage}
+        </span>
+      </div>
+
+      <!-- Question / Prompt -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:0.75rem; font-weight:800; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">Missed Question / Weak Phrasing:</div>
+        <div style="font-size:0.95rem; font-weight:700; color:var(--text); line-height:1.45; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:12px 14px;">
+          ${escapeHtml(item.q || item.wrong)}
+        </div>
+      </div>
+
+      <!-- Answer Reveal Area -->
+      ${!mistakeRevealed ? `
+        <div style="text-align:center; padding:16px 0;">
+          <button class="btn-accent-solid" style="padding:10px 22px; font-size:0.86rem; font-weight:800; border-radius:8px;" onclick="window.revealMistakeAnswer()">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-eye"/></svg> Reveal Band 9 Answer &amp; Rationale
+          </button>
+        </div>
+      ` : `
+        <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:14px; margin-bottom:16px;">
+          <div style="font-size:0.75rem; font-weight:800; color:#10B981; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;">Correct Academic Phrasing:</div>
+          <div style="font-size:0.95rem; font-weight:800; color:var(--text); margin-bottom:8px; line-height:1.4;">
+            ${escapeHtml(item.ans)}
+          </div>
+          ${item.exp ? `<div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:4px; line-height:1.4;">${escapeHtml(item.exp)}</div>` : ''}
+          ${item.expMm ? `<div class="burmese" style="font-size:0.8rem; color:var(--text-muted); line-height:1.5;">${escapeHtml(item.expMm)}</div>` : ''}
+        </div>
+
+        <!-- Rating Buttons (1-3-7 Algorithm) -->
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <button class="btn-outlined" style="padding:8px 16px; font-size:0.8rem; font-weight:700; color:var(--danger); border-color:var(--danger);" onclick="window.advanceMistakeReview('${item.id}', false)">
+            ❌ Still Struggling (Reset to Day 1)
+          </button>
+          <button class="btn-accent-solid" style="padding:8px 18px; font-size:0.8rem; font-weight:800; background:#10B981; border-color:#10B981;" onclick="window.advanceMistakeReview('${item.id}', true)">
+            ✅ Mastered (Advance to ${stage === 1 ? '3 Days' : (stage === 2 ? '7 Days' : 'Resolved!')})
+          </button>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+window.revealMistakeAnswer = function() {
+  mistakeRevealed = true;
+  renderErrorLogModalList();
+};
+
+window.advanceMistakeReview = function(errId, mastered) {
+  mistakeRevealed = false;
+  const now = Date.now();
+  const logs = appState.errorLog || [];
+  const item = logs.find(e => e.id === errId);
+  if (item) {
+    if (!mastered) {
+      item.stage = 1;
+      item.due = now + 86400000; // 1 day
+      item.resolved = false;
+    } else {
+      const curStage = item.stage || 1;
+      if (curStage === 1) {
+        item.stage = 2;
+        item.due = now + (3 * 86400000); // 3 days
+      } else if (curStage === 2) {
+        item.stage = 3;
+        item.due = now + (7 * 86400000); // 7 days
+      } else {
+        item.stage = 4;
+        item.resolved = true;
+      }
+    }
+    saveAppState();
+    if (typeof refreshAnalytics === "function") refreshAnalytics();
+  }
+  activeMistakeQuizIdx++;
+  renderErrorLogModalList();
+};
+
 function resolveErrorItem(errId) {
   appState.errorLog = (appState.errorLog || []).filter(e => e.id !== errId);
   saveAppState();
+  if (typeof refreshAnalytics === "function") refreshAnalytics();
   renderErrorLogModalList();
 }
 
@@ -16839,6 +17096,7 @@ function clearAllErrors() {
   if (!confirm("Clear all logged mistakes?")) return;
   appState.errorLog = [];
   saveAppState();
+  if (typeof refreshAnalytics === "function") refreshAnalytics();
   renderErrorLogModalList();
 }
 
@@ -18622,7 +18880,7 @@ function updateVipToolsQuotaUI(quota) {
         bn.style.border = '1px solid rgba(224, 86, 36, 0.4)';
         bn.style.color = 'var(--crimson)';
  bn.innerHTML = `<strong>️ Daily Free Limit Reached (10/10 queries used today).</strong><br>
-        Free tier users receive 10 Academic AI queries per day. <a href="javascript:void(0)" onclick="openVipPassModal();" style="color:var(--accent); font-weight:800; text-decoration:underline;">Upgrade to Lifetime VIP (55,000 MMK)</a> for UNLIMITED daily access across all tools, reading CBT &amp; writing labs!`;
+        Free tier users receive 10 Academic AI queries per day. <a href="javascript:void(0)" onclick="openVipPassModal();" style="color:var(--accent); font-weight:800; text-decoration:underline;">Upgrade to Lifetime VIP (97,000 MMK)</a> for UNLIMITED daily access across all tools, reading CBT &amp; writing labs!`;
       } else {
         bn.style.background = 'rgba(46, 204, 113, 0.08)';
         bn.style.border = '1px solid rgba(46, 204, 113, 0.3)';
@@ -18778,7 +19036,7 @@ async function executeVipCollocationsSearch() {
       if (!res || !res.success) {
         renderAcademicToolResult('collocations', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
  <strong>️ ${res.error || 'Failed to fetch collocations.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+ ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
         </div>`);
         return;
       }
@@ -18887,7 +19145,7 @@ async function executeVipSynonymsSearch() {
       if (!res || !res.success) {
         renderAcademicToolResult('synonyms', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
  <strong>️ ${res.error || 'Failed to fetch synonyms.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+ ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
         </div>`);
         return;
       }
@@ -18982,7 +19240,7 @@ async function executeVipTopicSearch() {
     if (!res || !res.success) {
       renderAcademicToolResult('topic', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
  <strong>️ ${res.error || 'Failed to fetch topic brief.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+ ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
       </div>`);
       return;
     }
@@ -19084,7 +19342,7 @@ async function executeVipDictSearch() {
     if (!res || !res.success) {
       renderAcademicToolResult('dict', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
  <strong>️ ${res.error || 'Failed to fetch definition.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+ ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
       </div>`);
       return;
     }
@@ -19133,7 +19391,7 @@ async function executeVipQuoteSearch() {
     if (!res || !res.success) {
       renderAcademicToolResult('quote', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
  <strong>️ ${res.error || 'Failed to fetch quote.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to Lifetime VIP (55,000 Ks)</button></div>` : ''}
+ ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
       </div>`);
       return;
     }
@@ -19189,7 +19447,7 @@ Always format these as [Label](action:target):
 - [ Speaking Forecast & Cue Cards](action:forecast) -> 50 Speaking Topics, 160 specific questions (Parts 1, 2, and 3) with full Band 9 answers and 1-minute prep notes.
 - [ Speaking Frameworks](action:frameworks) -> 5 Band 9 Master Frameworks: PEEL, PAST-PRESENT-FUTURE, OREO, 5W1H, DIRECT-EXTEND.
 - [ VIP Academic Tools](action:tools) -> VIP Collocations, Band 8.5+ Synonyms, Comprehensive Multi-Paragraph Academic Topic Briefs, Live Dictionary, and Scholar Rhetoric.
-- [ VIP Pass Info](action:vip) -> Lifetime VIP Pass, Telegram Stars (750 XTR) instant checkout, KBZPay/WavePay (55,000 MMK).
+- [ VIP Pass Info](action:vip) -> Lifetime VIP Pass, Telegram Stars (1,350 XTR / 75 XTR), KBZPay/WavePay (97,000 MMK / 5,000 MMK).
 - [ Quick Search](action:search) -> Global instant search across all 1,162 words, 23 reading tests, 40 writing models, and 50 speaking topics.
 
 PEDAGOGICAL & CRITERIA RULES:
@@ -20462,7 +20720,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
             <span style="font-size:1.4rem;"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg></span>
             <h2 style="font-size:1.28rem; font-weight:900; color:var(--text); margin:0;">IELTS Prep Studio — Full VIP Access</h2>
-            <span class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; white-space:nowrap;">750 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> STARS (~$15) • 55,000 MMK</span>
+            <span class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; white-space:nowrap;">1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> STARS • 97,000 MMK (or 75 Stars / 5,000 MMK Sprint)</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.55;">
             Master Band 8.0+ on your first attempt. Unlock all 1,162 academic vocabulary items + 117 Burmese culinary terms, 23 Cambridge Reading CBT simulations (231 questions), 40 writing models, Live Band Surgery (5.5 &rarr; 8.5+), 18 Deadly Cliche &amp; Trap X-Ray, 12-Theme Argument Matrix, 60s Cue Card Lifeline, Speech Diagnostics 2.0, TFNG Decisive Arbiter, 4-Axis Competency Radar, 1-Click Night-Before Cheat Sheet PDF, and Obsidian &amp; Gold Prestige Theme.
@@ -20569,7 +20827,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <span style="position:absolute; top:-9px; right:12px; background:var(--green); color:#000; font-size:0.65rem; font-weight:900; padding:2px 8px; border-radius:3px; text-transform:uppercase;">Save 500,000+ MMK</span>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
               <span style="font-size:0.75rem; font-weight:800; color:var(--green); text-transform:uppercase; letter-spacing:0.04em;">Lifetime Studio VIP Pass</span>
-              <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">55,000 MMK (Once)</span>
+              <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">97,000 MMK (Lifetime)</span>
             </div>
             <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
               <li><strong>All 1,162 Lexicon Items + 117 Burmese Culinary Terms</strong> + 1-3-7 SRS</li>
@@ -20584,6 +20842,23 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           </div>
         </div>
 
+        <!-- 7-Day Sprint Pass Card (New Tier) -->
+        <div class="vip-pricing-card" style="margin:14px 0; border:1px solid var(--border); padding:16px; background:var(--bg-card); border-radius:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px;">
+                <span class="occ-ver-pill" style="background:#2563EB; color:#FFF; font-weight:800; font-size:0.68rem; padding:2px 8px; border-radius:4px;">EXAM SPRINT</span>
+                <strong style="font-size:1.05rem; color:var(--text);">7-Day Full Access Sprint Pass</strong>
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-secondary); max-width:440px;">All 23 CBTs, Live Band Surgery, 1,162 Lexicon &amp; VIP tools for 7 full days. Perfect for quick exam revision.</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.35rem; font-weight:900; color:var(--accent); line-height:1.2;">75 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars <span style="font-size:0.95rem; color:var(--text);"><br>or 5,000 MMK</span></div>
+              <button class="btn-outlined" style="margin-top:6px; padding:5px 14px; font-size:0.8rem; font-weight:700;" onclick="openVipCheckout('sprint')">Choose 7-Day Pass &rarr;</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Lifetime VIP Pass Pricing Card -->
         <div class="vip-pricing-card popular" style="margin:14px 0; border:2px solid var(--accent); padding:18px; background:linear-gradient(180deg, rgba(224, 108, 53, 0.08) 0%, var(--bg) 100%);">
           <div class="popular-badge" style="background:var(--accent); color:#fff; font-weight:800; font-size:0.7rem; padding:3px 12px; letter-spacing:0.04em; white-space:nowrap;"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> ALL-ACCESS LIFETIME PASS</div>
@@ -20594,7 +20869,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                 <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:10px;">One-time investment for lifetime access across all study modules, official Cambridge CBT mocks, pronunciation audio &amp; cloud sync.</div>
               </div>
               <div style="text-align:right;">
-                <div class="vip-price-amount" style="font-size:1.65rem; font-weight:900; color:var(--accent); line-height:1.1;">750 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars <span style="font-size:1.1rem; color:var(--text);"><br>or 55,000 MMK</span></div>
+                <div class="vip-price-amount" style="font-size:1.65rem; font-weight:900; color:var(--accent); line-height:1.1;">1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars <span style="font-size:1.1rem; color:var(--text);"><br>or 97,000 MMK</span></div>
                 <div style="font-size:0.75rem; color:var(--text-muted); font-family:monospace; margin-top:4px;">ONE-TIME INVESTMENT • LIFETIME PASS</div>
               </div>
             </div>
@@ -20633,7 +20908,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
               </div>
             </div>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Get Lifetime VIP Pass (750 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars / 55,000 MMK)</button>
+          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Get Lifetime VIP Pass (1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars / 97,000 MMK)</button>
         </div>
 
         <!-- Payment & Activation Details -->
@@ -20655,13 +20930,13 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                   <div style="font-size:0.75rem; color:var(--green); font-weight:700;"><svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg> AUTOMATIC 1-TAP ACTIVATION • APPLE PAY / GOOGLE PAY / STARS</div>
                 </div>
               </div>
-              <span style="font-size:1.15rem; font-weight:900; color:var(--accent);">750 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars (~$15)</span>
+              <span id="checkoutStarsAmount" style="font-size:1.15rem; font-weight:900; color:var(--accent);">1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars</span>
             </div>
             <p style="font-size:0.82rem; color:var(--text-secondary); margin:0 0 12px 0; line-height:1.5;">
               Ideal for international students outside Myanmar. Purchase directly in Telegram using your Stars balance, Apple Pay, Google Pay, or debit card. Your account is upgraded automatically in under 3 seconds.
             </p>
             <button id="starsCheckoutBtn" class="btn-accent-solid" onclick="handleStarsCheckout()" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:0.9rem; padding:12px; font-weight:800; cursor:pointer;">
-              <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-star"/></svg> Pay 750 Stars via Telegram (Instant Lifetime VIP)
+              <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-star"/></svg> Pay 1,350 Stars via Telegram (Instant Lifetime VIP)
             </button>
           </div>
 
@@ -20675,18 +20950,18 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                   <div style="font-size:0.75rem; color:var(--text-muted);">MANUAL SLIP VERIFICATION VIA BOT</div>
                 </div>
               </div>
-              <span style="font-size:1rem; font-weight:800; color:var(--text);">55,000 MMK</span>
+              <span style="font-size:1rem; font-weight:800; color:var(--text);">97,000 MMK (Lifetime) / 5,000 MMK (7-Day)</span>
             </div>
             <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
               Account Name: <strong>Lyan Htet</strong><br>
               KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
               <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;"><svg class="ui-icon"><use href="#lucide-clipboard"/></svg> Copy Number</button><br>
-              Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
+              Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">97,000 MMK</strong> (or 5,000 MMK for 7-Day Sprint)
             </div>
             <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
-              KBZPay သို့မဟုတ် WavePay ဖြင့် 55,000 MMK လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး Lifetime Studio VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
+              KBZPay သို့မဟုတ် WavePay ဖြင့် 97,000 MMK (Lifetime) သို့မဟုတ် 5,000 MMK (7-Day Sprint) လွှဲပြီးပါက ငွေလွှဲ screenshot ကို Telegram Bot (@IELTSPrepStudioBot) သို့ ပို့ပေးပြီး VIP Pass ကို ချက်ချင်း အတည်ပြုနိုင်ပါသည်။
             </div>
-            <a href="https://t.me/IELTSPrepStudioBot?start=vip_55k" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer; width:100%; box-sizing:border-box;" onclick="handleSendPaymentProof(event)">
+            <a id="sendPaymentProofLink" href="https://t.me/IELTSPrepStudioBot?start=vip_lifetime" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; font-size:0.84rem; padding:10px 18px; font-weight:700; text-decoration:none; cursor:pointer; width:100%; box-sizing:border-box;" onclick="handleSendPaymentProof(event)">
               <svg class="ui-icon"><use href="#lucide-message-square"/></svg> Send Myanmar Payment Screenshot in Telegram Bot (@IELTSPrepStudioBot) ↗
             </a>
           </div>
@@ -20714,7 +20989,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                 <tr style="border-bottom:1px solid var(--border-mid); color:var(--text-secondary);">
                   <th style="padding:6px;">Module / Feature</th>
                   <th style="padding:6px; color:var(--text);">Free Tier</th>
-                  <th style="padding:6px; color:var(--accent);">Full VIP Access (750 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars / 55,000 MMK)</th>
+                  <th style="padding:6px; color:var(--accent);">Full VIP Access (75 / 1,350 Stars • 5,000 / 97,000 MMK)</th>
                 </tr>
               </thead>
               <tbody>

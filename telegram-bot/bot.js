@@ -26,7 +26,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID ? String(process.env.ADMIN_CHAT_ID).trim() : null;
 const PAYMENT_PHONE = process.env.PAYMENT_PHONE || '09-768691939';
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME || 'Lyan Htet';
-const PRICE_MMK = process.env.PRICE_MMK || '55,000 MMK';
+const PRICE_MMK = process.env.PRICE_MMK || '97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)';
 const WEB_URL = process.env.STUDIO_WEB_URL || 'https://hugokami.github.io/ielts-prep-studio';
 
 function getLaunchUrl(userId = null, voucher = null) {
@@ -110,14 +110,14 @@ function formatQuotaFooter(quota) {
   if (quota.isVip) {
     return '👑 *VIP Lifetime Pass — Unlimited Daily Access ✨*';
   }
-  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (750 ★ Stars / 55,000 MMK) for Unlimited Access!*`;
+  return `💡 *Free Preview:* *${quota.remaining}/10 remaining today.*\n⭐ *Upgrade to Lifetime VIP (1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) / 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)) for Unlimited Access!*`;
 }
 
 function getQuotaExceededMessage() {
   return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (10/10 USED)*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
     `Free tier accounts are allocated 10 Academic AI searches per day.\n\n` +
-    `👑 *Target Band 8.5+ Lifetime Studio VIP Pass (750 ★ Stars / 55,000 MMK)*\n` +
+    `👑 *Target Band 8.5+ Lifetime Studio VIP Pass (1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) / 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))*\n` +
     `• ⚡ *UNLIMITED* Academic AI Searches (/collocate, /syn, /dict, /read, /quote)\n` +
     `• 🔬 Live Band Surgery (5.5 ➔ 8.5+), 18-Trap X-Ray & 12-Theme Argument Matrix\n` +
     `• 🎙️ 60s Cue Card Lifeline, Speech Diagnostics 2.0 & TFNG Decisive Arbiter\n` +
@@ -424,7 +424,7 @@ bot.command('start', async (ctx) => {
         `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Lexicon & Traps\n\n` +
         `🇲🇲 **မြန်မာကျောင်းသားများအတွက် Lifetime VIP Pass ဝယ်ယူခြင်း**\n\n` +
         `📌 **Payment Details (ငွေပေးချေရန် နည်းလမ်းများ):**\n` +
-        `• ⭐️ **Telegram Stars:** \`750 ★ Stars\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
+        `• ⭐️ **Telegram Stars:** \`1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint)\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
         `• 🇲🇲 **KBZPay / WavePay:** \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME}) — \`${PRICE_MMK}\`\n\n` +
         `✨ **VIP Pass တွင် ပါဝင်သော Deliverables အပြည့်အစုံ (10 ခုလုံး):**\n` +
         `1. 📖 Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + TFNG Decisive Arbiter\n` +
@@ -442,7 +442,7 @@ bot.command('start', async (ctx) => {
         `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon\n\n` +
         `✨ *Welcome International Scholar! Studio VIP Pass is available worldwide.*\n\n` +
         `📌 *Available Payment Rails:*\n` +
-        `• ⭐️ *Telegram Stars:* *750 ★ Stars* (Instant 1-Click Global Automated Activation)\n` +
+        `• ⭐️ *Telegram Stars:* *1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint)* (Instant 1-Click Global Automated Activation)\n` +
         `• 🇲🇲 *Myanmar Mobile Wallets:* *${PRICE_MMK}* (KBZPay / WavePay: \`${PAYMENT_PHONE}\`)\n\n` +
         `✨ *VIP Pass Deliverables (Complete Academic Arsenal):*\n` +
         `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions) + TFNG Arbiter\n` +
@@ -458,9 +458,9 @@ bot.command('start', async (ctx) => {
         `👇 *Tap 🚀 Start Menu below to explore:*`;
 
     inlineKeyboard
-      .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+      .text('⭐️ Pay 1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) (Instant)', 'pay_stars')
       .row()
-      .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
+      .text('🇲🇲 KBZPay / WavePay (97k MMK)', 'info_payment')
       .row()
       .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
       .text('🌐 Language', 'menu_lang')
@@ -560,14 +560,14 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
       `1️⃣ Get your free key from Google AI Studio:\n` +
       `👉 [create your api key here(100% free)](https://aistudio.google.com/api-keys)\n` +
       `2️⃣ Paste your key (\`AQ...\` or \`AIza...\`) right here in the chat to activate!\n\n` +
-      `👑 *Did you mean to submit a 55,000 MMK VIP payment slip?*\n` +
+      `👑 *Did you mean to submit a 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint) VIP payment slip?*\n` +
       `Tap the button below to submit this screenshot to Admin for Lifetime VIP activation!`,
       {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
           .url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys')
           .row()
-          .text('👑 Submit as VIP Payment Slip (55,000 MMK)', `slip_submit:${photo.file_id}`)
+          .text('👑 Submit as VIP Payment Slip (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))', `slip_submit:${photo.file_id}`)
           .row()
           .webApp('🚀 Open Studio Web App', WEB_URL)
       }
@@ -643,15 +643,22 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
 // ==========================================
 // 2B. TELEGRAM STARS (XTR) INVOICE & AUTO-FULFILLMENT
 // ==========================================
-async function sendStarsInvoice(ctx) {
+async function sendStarsInvoice(ctx, plan = 'lifetime') {
   const userId = ctx.from?.id;
+  const isSprint = (plan === 'sprint');
+  const amount = isSprint ? 75 : 1350;
+  const title = isSprint ? 'IELTS Prep Studio — 7-Day Sprint Pass' : 'IELTS Prep Studio — Lifetime VIP Pass';
+  const desc = isSprint
+    ? '7-Day Full Access: All 23 CBT Passages, 40 Writing Models, Live Band Surgery, 1,162 Lexicon Items & VIP Tools.'
+    : 'Lifetime VIP: 23 Reading CBT Passages, 40 Writing Models, Live Band Surgery, 18-Trap X-Ray, Argument Matrix, 60s Speaking Lifeline, Speech Diagnostics 2.0, TFNG Arbiter, 1,162 Lexicon Items & Cheat Sheet PDF.';
+
   try {
     await ctx.replyWithInvoice(
-      'IELTS Prep Studio — Lifetime VIP Pass',
-      'Lifetime access: 23 Reading CBT Passages, 40 Writing Models, Live Band Surgery, 18-Trap X-Ray, Argument Matrix, 60s Speaking Lifeline, Speech Diagnostics 2.0, TFNG Arbiter, 1,162 Lexicon Items & Cheat Sheet PDF.',
-      `stars_vip_${userId}_${Date.now()}`,
+      title,
+      desc,
+      `stars_vip_${isSprint ? 'sprint' : 'life'}_${userId}_${Date.now()}`,
       'XTR',
-      [{ label: 'Lifetime VIP Studio Pass', amount: 750 }]
+      [{ label: isSprint ? '7-Day Sprint Pass' : 'Lifetime VIP Studio Pass', amount: amount }]
     );
   } catch (err) {
     console.error('[sendStarsInvoice Error]', err.message);
@@ -691,7 +698,7 @@ bot.on('message:successful_payment', async (ctx) => {
   const successMsg =
     `🎉 *PAYMENT RECEIVED! YOUR LIFETIME VIP PASS IS ACTIVE!*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `⭐️ *Amount Paid:* \`${payment.total_amount} ${payment.currency}\` (750 Stars)\n` +
+    `⭐️ *Amount Paid:* \`${payment.total_amount} ${payment.currency}\` (1,350 Stars)\n` +
     `🎟️ *Voucher Code:* \`${code}\`\n\n` +
     `Tap the **1-Click Magic Link** below to immediately activate your Lifetime VIP Studio Pass:\n\n` +
     `👉 *1-Click Magic Link:*\n${magicLink}\n\n` +
@@ -722,7 +729,7 @@ bot.on('message:successful_payment', async (ctx) => {
         `⭐ *NEW TELEGRAM STARS VIP PURCHASE!*\n` +
         `━━━━━━━━━━━━━━━━━━━━\n` +
         `👤 *Student:* ${studentName} (${studentUsername || studentId})\n` +
-        `💰 *Amount:* \`${payment.total_amount} ${payment.currency}\` (750 Stars)\n` +
+        `💰 *Amount:* \`${payment.total_amount} ${payment.currency}\` (1,350 Stars)\n` +
         `🎟️ *Issued Voucher:* \`${code}\`\n` +
         `🆔 *Charge ID:* \`${chargeId}\`\n` +
         `⏰ *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
@@ -902,15 +909,15 @@ bot.on('callback_query:data', async (ctx) => {
       `👑 **IELTS PREP STUDIO — LIFETIME VIP PASS**\n━━━━━━━━━━━━━━━━━━━━\n` +
       `Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps\n\n` +
       `⭐ **Worldwide Investment:** **750 ★ Telegram Stars (~$15 USD)**\n` +
-      `🇲🇲 **Myanmar Local Price:** **55,000 MMK** (KBZPay / WavePay)\n` +
+      `🇲🇲 **Myanmar Local Price:** **97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)** (KBZPay / WavePay)\n` +
       `_One-Time Investment • Lifetime Access • Zero Subscriptions_\n\n` +
       `👇 **Choose your checkout method below:**`,
       {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
-          .text('🇲🇲 KBZPay / WavePay (55,000 MMK)', 'info_payment')
+          .text('🇲🇲 KBZPay / WavePay (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))', 'info_payment')
           .row()
-          .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+          .text('⭐️ Pay 1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) (Instant)', 'pay_stars')
           .row()
           .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
       }
@@ -1093,7 +1100,49 @@ bot.on('callback_query:data', async (ctx) => {
     return handleBuy(ctx);
   }
 
-  if (data === 'pay_stars') {
+  if (data.startsWith('quiz_eval:')) {
+    const parts = data.split(':');
+    const qIdx = parseInt(parts[1], 10);
+    const optIdx = parseInt(parts[2], 10);
+    const explanations = [
+      {
+        correct: 1,
+        exp: "✅ *Correct Answer: B) stringent*\n\n*Why:* While 'strict' is common (Band 6.0), 'stringent regulations' is an authentic C2 institutional collocation that examiners reward Band 8.5+ for in Lexical Resource.\n\n*Burmese:* stringent = အလွန်တင်းကျပ်ပြီး တိကျခိုင်မာသော (ဥပဒေ/စည်းမျဉ်းများအတွက် အဆင့်မြင့်သုံးစွဲမှု)"
+      },
+      {
+        correct: 1,
+        exp: "✅ *Correct Answer: B) FALSE*\n\n*Why:* The passage uses tentative modality ('suggested', 'might indicate', 'modest'), which directly contradicts the definitive assertion in the statement ('proved that the technique was effective'). Direct contradiction = FALSE.\n\n*Burmese:* Suggestion (အကြံပြုချက်/ယူဆချက်) နှင့် Proof (သက်သေပြနိုင်ခြင်း) တို့သည် ဖြောင့်ဖြောင့်ကြီး ဆန့်ကျင်နေသောကြောင့် FALSE ဖြစ်ပါသည်။"
+      },
+      {
+        correct: 1,
+        exp: "✅ *Correct Answer: B) Seldom do people realize...*\n\n*Why:* When a negative adverbial ('Seldom', 'Rarely', 'Not only') begins a sentence, standard English syntax requires inversion: Negative Adverb + Auxiliary Verb (do/does/did) + Subject + Main Verb.\n\n*Burmese:* Negative Inversion တွင် ဝါကျရှေ့ဆုံးသို့ Seldom ရောက်လာပါက အရန်ကြိယာ (do/does) ကို Subject ရှေ့သို့ ပို့ပေးရပါမည်။"
+      }
+    ];
+    const item = explanations[qIdx] || explanations[0];
+    const isRight = (optIdx === item.correct);
+    const reply = (isRight ? "🎉 *EXCELLENT! BAND 8.5+ PRECISION!*\n" : "❌ *INCORRECT ATTEMPT*\n") + "\n" + item.exp;
+    const keyboard = new InlineKeyboard()
+      .text('🧠 Try Another Drill', 'cmd_quiz')
+      .row()
+      .webApp('⚡ Open Studio Mini App', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev');
+
+    await ctx.reply(reply, { parse_mode: 'Markdown', reply_markup: keyboard });
+    return;
+  }
+
+  if (data === 'cmd_quiz') {
+    return handleQuiz(ctx);
+  }
+
+  if (data === 'pay_stars' || data === 'pay_stars_lifetime') {
+    return sendStarsInvoice(ctx, 'lifetime');
+  }
+
+  if (data === 'pay_stars_sprint') {
+    return sendStarsInvoice(ctx, 'sprint');
+  }
+
+  if (data === 'pay_stars_old') {
     const isVip = isUserVip(ctx.from?.id);
     if (isVip) {
       await ctx.answerCallbackQuery({ text: '👑 You are already a VIP user!' }).catch(() => {});
@@ -1148,7 +1197,7 @@ bot.on('callback_query:data', async (ctx) => {
       );
     }
     return ctx.reply(
-      `💳 **Myanmar Mobile Wallet Payment (55,000 MMK — Lifetime VIP Pass)**\n` +
+      `💳 **Myanmar Mobile Wallet Payment (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint) — Lifetime VIP Pass)**\n` +
       `━━━━━━━━━━━━━━━━━━━━\n` +
       `• KBZPay / WavePay: \`${PAYMENT_PHONE}\`\n` +
       `• Account Name: **${ACCOUNT_NAME}**\n` +
@@ -1160,7 +1209,7 @@ bot.on('callback_query:data', async (ctx) => {
       {
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
-          .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+          .text('⭐️ Pay 1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) (Instant)', 'pay_stars')
           .row()
           .text('⚡ VIP Academic Menu', 'menu_tools')
       }
@@ -1299,7 +1348,7 @@ bot.on('message:text', async (ctx, next) => {
         ]
       : [
           [{ text: '🚀 Launch IELTS Prep Studio', web_app: { url: WEB_URL } }],
-          [{ text: '⚡ VIP Academic Tools' }, { text: '👑 Buy VIP (750 ★ / 55k)' }],
+          [{ text: '⚡ VIP Academic Tools' }, { text: '👑 Buy VIP (1,350 ★ / 97k)' }],
           [{ text: '📖 Scholarly Cloze Drill' }, { text: '🎙️ Native Podcasts' }],
           [{ text: '📚 Curriculum & Features' }, { text: '📊 My Study & VIP Status' }],
           [{ text: '💳 Payment Info' }, { text: '📅 Exam Countdown' }],
@@ -1399,17 +1448,17 @@ async function handleBuy(ctx) {
     `Unlock unlimited lifetime access to 23 Cambridge Reading CBT Mocks, Live Band Surgery (5.5 ➔ 8.5+), 18-Trap X-Ray, 12-Theme Argument Matrix, 40 Writing Models, 60s Speaking Lifeline, Speech Diagnostics 2.0, TFNG Decisive Arbiter, 1,162 Academic Lexicon & 117 Burmese Culinary Terms, 4-Axis Radar & Night-Before Cheat Sheet PDF.\n\n` +
     `💳 *Select Your Payment Rail:*\n\n` +
     `⭐️ *Option 1: Telegram Stars (Worldwide)*\n` +
-    `• Price: *750 ★ Stars* (~$15 USD)\n` +
+    `• Price: *1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint)* (~$15 USD)\n` +
     `• Instant automated activation & 1-Click Magic Link!\n\n` +
     `🇲🇲 *Option 2: Myanmar Mobile Wallets*\n` +
-    `• Price: *55,000 MMK*\n` +
+    `• Price: *97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)*\n` +
     `• KBZPay / WavePay: \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME})\n` +
     `• Upload transfer screenshot for 1-tap admin approval.`;
 
   const keyboard = new InlineKeyboard()
-    .text('⭐️ Pay 750 ★ Stars (Instant)', 'pay_stars')
+    .text('⭐️ Pay 1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) (Instant)', 'pay_stars')
     .row()
-    .text('🇲🇲 KBZPay / WavePay (55k MMK)', 'info_payment')
+    .text('🇲🇲 KBZPay / WavePay (97k MMK)', 'info_payment')
     .row()
     .webApp('🚀 Open IELTS Prep Studio', WEB_URL)
     .text('🌐 Language', 'menu_lang');
@@ -1492,7 +1541,7 @@ async function handleToolsMenu(ctx) {
     .row();
 
   if (!isVip) {
-    keyboard.text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy').row();
+    keyboard.text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy').row();
   }
 
   keyboard.webApp('🚀 Launch IELTS Prep Studio', WEB_URL)
@@ -1541,7 +1590,7 @@ Your personal Band 8.5+ IELTS Tutor powered by Cambridge AI Core.
         parse_mode: 'Markdown',
         reply_markup: new InlineKeyboard()
           .url('🔑 create your api key here(100% free) ↗', 'https://aistudio.google.com/api-keys').row()
-          .text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+          .text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
       }
     );
   }
@@ -1645,7 +1694,7 @@ async function handleCollocate(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -1706,7 +1755,7 @@ async function handleSyn(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -1759,7 +1808,7 @@ async function handleDict(ctx, rawWord) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -1800,7 +1849,7 @@ async function handleRead(ctx, rawTopic) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -1910,7 +1959,7 @@ async function handleQuote(ctx) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -1938,7 +1987,7 @@ async function handlePaper(ctx, topic) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
   const t = topic || 'artificial intelligence education';
@@ -1972,7 +2021,7 @@ async function handleChart(ctx, country) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
   const c = (country || 'MMR').trim().toUpperCase().slice(0, 3);
@@ -2073,7 +2122,7 @@ async function handleCloze(ctx, topic) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -2202,7 +2251,7 @@ async function handlePodcast(ctx, query) {
   if (!quota.allowed) {
     return ctx.reply(getQuotaExceededMessage(), {
       parse_mode: 'Markdown',
-      reply_markup: new InlineKeyboard().text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy')
+      reply_markup: new InlineKeyboard().text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy')
     });
   }
 
@@ -2312,11 +2361,11 @@ async function handleQuota(ctx) {
     `👑 **Tier Status:** ${isVip ? '👑 **LIFETIME VIP PASS (Active)**' : '🆓 **FREE TIER**'}\n\n` +
     (isVip
       ? '✨ **Unlimited Daily Queries Activated!**\nYou have lifetime unrestricted access to all academic collocations, synonyms, topic briefs, dictionary queries, and scholar quotes.'
-      : `📅 **Today's Quota (${getYangonDateStr()} MMT):**\n• Used Today: *${quota.count} / ${quota.limit}*\n• Remaining Today: *${quota.remaining} queries*\n\n⭐ **Upgrade to Lifetime VIP (55,000 MMK)** for unlimited queries, all 1,162 vocabulary items, 23 CBT reading passages, and 40 writing models!`);
+      : `📅 **Today's Quota (${getYangonDateStr()} MMT):**\n• Used Today: *${quota.count} / ${quota.limit}*\n• Remaining Today: *${quota.remaining} queries*\n\n⭐ **Upgrade to Lifetime VIP (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))** for unlimited queries, all 1,162 vocabulary items, 23 CBT reading passages, and 40 writing models!`);
 
   const keyboard = new InlineKeyboard();
   if (!isVip) {
-    keyboard.text('👑 Buy VIP (750 ★ / 55k)', 'menu_buy').row();
+    keyboard.text('👑 Buy VIP (1,350 ★ / 97k)', 'menu_buy').row();
   }
   keyboard.text('⚡ VIP Academic Menu', 'menu_tools');
 
@@ -2435,23 +2484,104 @@ async function handleHelp(ctx) {
   });
 }
 
+async function handleInvite(ctx) {
+  const userId = ctx.from?.id;
+  const refLink = `https://t.me/IELTSPrepStudioBot?start=ref_${userId}`;
+  const inviteMsg =
+`🎁 *INVITE CANDIDATES & EARN +7 VIP DAYS FREE!*
+━━━━━━━━━━━━━━━━━━━━
+Share IELTS Prep Studio with your friends or study groups!
+When any student opens the app using your referral link, *BOTH OF YOU instantly receive +7 Days of Full VIP Access*.
+
+🔗 *Your Personal Referral Link:*
+\`${refLink}\`
+
+💡 *How it works:*
+1. Send your link to fellow test-takers.
+2. When they tap Start, our edge automatically provisions +7 VIP days to both accounts.
+3. No limits! Refer 4 candidates to unlock 28 days of free VIP access!`;
+
+  const keyboard = new InlineKeyboard()
+    .url('📤 Share Link via Telegram', `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Join IELTS Prep Studio for Cambridge CBT mocks, Band 8.5 Collocations & AI writing diagnostics! Use my invite link to get +7 Days Free VIP Access:")}`)
+    .row()
+    .webApp('🚀 Open Studio Mini App', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev');
+
+  await ctx.reply(inviteMsg, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+async function handleStreak(ctx) {
+  const streakMsg =
+`🔥 *YOUR IELTS STUDY STREAK COACH*
+━━━━━━━━━━━━━━━━━━━━
+🎯 *The 25-Minute Rule:*
+IELTS examiners report that candidates studying *25 minutes daily* achieve Band 7.5+ in half the calendar time of weekend crammers. Daily active recall locks syntactic structures into long-term working memory.
+
+Complete today's 4 prescribed drills in the Mini App to extend your streak!`;
+
+  const keyboard = new InlineKeyboard()
+    .webApp('⚡ Launch Today\'s 25-Min Circuit', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev')
+    .row()
+    .text('🧠 3-Question Daily Quiz', 'cmd_quiz');
+
+  await ctx.reply(streakMsg, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
+async function handleQuiz(ctx) {
+  const quizzes = [
+    {
+      q: "📚 *Academic Collocation Drill (Lexical Resource):*\n\n\"The municipal council agreed to implement ________ regulations to combat urban air pollution.\"\n\nWhich C2 academic adjective achieves Band 8.5+ precision?",
+      opts: [
+        { t: "A) strict", c: "quiz_eval:0:0" },
+        { t: "B) stringent", c: "quiz_eval:0:1" },
+        { t: "C) hard", c: "quiz_eval:0:2" },
+        { t: "D) tough", c: "quiz_eval:0:3" }
+      ]
+    },
+    {
+      q: "📖 *Reading TFNG Decisive Arbiter Drill:*\n\n*Passage text:* \"Dr. Roberts suggested that the preliminary experimental data might indicate a modest reduction in emissions.\"\n\n*Question:* \"Dr. Roberts proved that the technique was effective.\"\n\nWhat is the correct answer according to Cambridge standards?",
+      opts: [
+        { t: "A) TRUE", c: "quiz_eval:1:0" },
+        { t: "B) FALSE", c: "quiz_eval:1:1" },
+        { t: "C) NOT GIVEN", c: "quiz_eval:1:2" }
+      ]
+    },
+    {
+      q: "⚖️ *Live Band Surgery (Grammatical Range):*\n\nWhich negative inverted structure is grammatically flawless for IELTS Task 2 body paragraphs?",
+      opts: [
+        { t: "A) Seldom people realize the consequences...", c: "quiz_eval:2:0" },
+        { t: "B) Seldom do people realize the consequences...", c: "quiz_eval:2:1" },
+        { t: "C) Seldom people do realize the consequences...", c: "quiz_eval:2:2" }
+      ]
+    }
+  ];
+
+  const sel = quizzes[Math.floor(Math.random() * quizzes.length)];
+  const keyboard = new InlineKeyboard();
+  sel.opts.forEach(o => keyboard.text(o.t, o.c).row());
+
+  await ctx.reply(sel.q, { parse_mode: 'Markdown', reply_markup: keyboard });
+}
+
 // Register Bot Commands
 bot.command(['tools', 'academic'], handleToolsMenu);
 bot.command(['vip', 'buy', 'stars', 'buy_stars'], handleBuy);
+bot.command(['invite', 'ref', 'referral'], handleInvite);
+bot.command('streak', handleStreak);
+bot.command('quiz', handleQuiz);
 bot.command(['lang', 'language'], handleLanguage);
 bot.command('pay', async (ctx) => {
   return ctx.reply(
     `💳 **Payment Options — Lifetime VIP Pass**\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
     `⭐️ **Option 1: Telegram Stars (Worldwide)**\n` +
-    `• Price: **750 ★ Stars** (Instant 1-Click activation)\n\n` +
+    `• Price: **1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint)** (Instant 1-Click activation)\n\n` +
     `🇲🇲 **Option 2: Myanmar Mobile Wallets**\n` +
     `• KBZPay / WavePay: \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME})\n` +
     `• Price: **${PRICE_MMK}** (Send slip for 1-tap approval)\n`,
     {
       parse_mode: 'Markdown',
       reply_markup: new InlineKeyboard()
-        .text('⭐️ Pay 750 ★ Stars', 'pay_stars')
+        .text('⭐️ Pay 1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint)', 'pay_stars')
         .text('🇲🇲 Slip Instructions', 'info_payment')
         .row()
         .text('⚡ VIP Academic Menu', 'menu_tools')
@@ -2595,7 +2725,7 @@ bot.start({
     try {
       await bot.api.setMyCommands([
         { command: 'start', description: '🎓 Launch Studio & Payment Options' },
-        { command: 'vip', description: '👑 Lifetime VIP Pass (750 ★ Stars / 55k MMK)' },
+        { command: 'vip', description: '👑 Lifetime VIP Pass (1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) / 97k MMK)' },
         { command: 'buy', description: '⭐️ Instant Stars / Wallet Checkout' },
         { command: 'lang', description: '🌐 Switch Language (English / မြန်မာ)' },
         { command: 'tools', description: '⚡ VIP Academic AI Tools (Collocations, Synonyms, etc.)' },

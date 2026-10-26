@@ -668,6 +668,9 @@
           </div>
 
           <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <button class="btn-outlined" style="padding:6px 14px; font-size:0.78rem; font-weight:700; color:var(--crimson);" onclick="window.logSurgeryToMistakeNotebook(this, ${JSON.stringify(result.originalSentence)}, ${JSON.stringify(v.upgradedText)}, ${JSON.stringify(v.explanation)}, ${JSON.stringify(v.burmeseNote)})">
+              <svg class="ui-icon ui-icon-xs" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg> Log Mistake
+            </button>
             <button class="btn-outlined" style="padding:6px 14px; font-size:0.78rem; font-weight:700;" onclick="window.copySurgeryVariantText(this, ${JSON.stringify(v.upgradedText)})">
               <svg class="ui-icon ui-icon-xs"><use href="#lucide-copy"/></svg> Copy Upgrade
             </button>
@@ -714,6 +717,22 @@
       return;
     }
 
+    // 3-Run Free Taster Gate (Phase 4)
+    if (typeof window.canUseBandSurgery === 'function') {
+      const quota = window.canUseBandSurgery();
+      if (!quota.allowed) {
+        if (typeof window.openVipPassModal === 'function') {
+          if (confirm(`You have completed your 3 free Live Band Surgeries for today.\n\nUpgrade to 7-Day Sprint Pass (5,000 MMK / 75 Stars) or Lifetime VIP Pass (97,000 MMK / 1,350 Stars) for unlimited syntax transformations! Would you like to view options?`)) {
+            window.openVipPassModal();
+          }
+        }
+        return;
+      }
+      if (typeof window.recordBandSurgeryUsage === 'function') {
+        window.recordBandSurgeryUsage();
+      }
+    }
+
     const atContainer = document.getElementById('at-surgery-results');
     const vtContainer = document.getElementById('vt-surgery-results');
 
@@ -740,6 +759,26 @@
     if (atInput) atInput.value = text;
     if (vtInput) vtInput.value = text;
     window.executeBandSurgery(source);
+  };
+
+  window.logSurgeryToMistakeNotebook = function(btnEl, baseline, upgraded, exp, expMm) {
+    if (typeof window.logMistakeItem === 'function') {
+      window.logMistakeItem(
+        "Band Surgery",
+        `Weak Baseline: "${baseline}"`,
+        upgraded,
+        exp || "Upgraded into Band 9 academic structure with impersonal agency.",
+        { wrong: baseline, expMm: expMm, stage: 1, dueDays: 1 }
+      );
+    }
+    if (btnEl) {
+      const origHtml = btnEl.innerHTML;
+      btnEl.innerHTML = `<svg class="ui-icon ui-icon-xs" style="color:var(--success);"><use href="#lucide-check"/></svg> Logged!`;
+      setTimeout(() => { btnEl.innerHTML = origHtml; }, 2000);
+    }
+    if (window.showAppToast) {
+      window.showAppToast('Saved baseline sentence & Band 9 upgrade to Mistake Notebook!', 'success');
+    }
   };
 
   window.copySurgeryVariantText = function(btnEl, text) {
