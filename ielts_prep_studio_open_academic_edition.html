@@ -942,14 +942,25 @@
     justify-content: center;
     font-size: 0.85rem;
     font-weight: 700;
-    border-radius: 3px;
+    border-radius: 6px;
     cursor: pointer;
     flex-shrink: 0;
-    transition: border-color 0.15s ease;
+    padding: 0;
+    transition: all 0.15s ease;
   }
 
   .occ-icon-box:hover {
     border-color: var(--accent);
+    background: rgba(2, 132, 199, 0.10);
+    transform: scale(1.05);
+  }
+  .occ-icon-box svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
   }
 
   .occ-word-title {
@@ -2598,12 +2609,7 @@
     box-shadow: 0 2px 10px rgba(224, 108, 53, 0.35) !important;
   }
 
-  .mob-nav-btn.active,
-  .mob-nav-btn.is-active {
-    color: var(--accent, #e06c35) !important;
-    border-top: 2px solid var(--accent, #e06c35);
-    background: rgba(224, 108, 53, 0.08);
-  }
+  /* legacy active removed */
 
   /* Collapsible Reference Accordions inside Active Tabs */
   .reference-accordion {
@@ -5305,11 +5311,7 @@
   :root[data-theme="dark"] .mob-nav-bar {
     background: rgba(15, 23, 38, 0.94) !important;
   }
-  .mob-nav-btn.active, .mob-nav-btn.is-active {
-    color: var(--accent) !important;
-    background: var(--accent-soft) !important;
-    border-radius: var(--r-pill) !important;
-  }
+  /* legacy active removed */
 
 
 /* ============================================================================
@@ -6406,17 +6408,22 @@ body.in-cbt-drill #backToTopBtn {
 .mobile-bottom-nav .mob-nav-btn:hover svg {
   transform: translateY(-2px) scale(1.08);
 }
-.mobile-bottom-nav .mob-nav-btn.active {
-  background: var(--accent);
+.mobile-bottom-nav .mob-nav-btn.active,
+.mobile-bottom-nav .mob-nav-btn.is-active {
+  background: var(--accent, #0284c7) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45) !important;
 }
-.mobile-bottom-nav .mob-nav-btn.active svg {
-  stroke: #ffffff;
-  transform: scale(1.05);
+.mobile-bottom-nav .mob-nav-btn.active svg,
+.mobile-bottom-nav .mob-nav-btn.is-active svg {
+  stroke: #ffffff !important;
+  fill: none !important;
+  transform: scale(1.08) !important;
 }
-.mobile-bottom-nav .mob-nav-btn.active span {
-  color: #ffffff;
+.mobile-bottom-nav .mob-nav-btn.active span,
+.mobile-bottom-nav .mob-nav-btn.is-active span {
+  color: #ffffff !important;
+  font-weight: 800 !important;
 }
 .mobile-bottom-nav .mob-nav-btn:active {
   transform: scale(0.92);
@@ -7485,6 +7492,118 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     background: #E11D48 !important;
     color: #FFFFFF !important;
   }
+
+/* MODERN GLASSMORPHIC STUDIO AUDIO MINI-PLAYER */
+.studio-voice-hud-player {
+  position: fixed;
+  bottom: calc(76px + env(safe-area-inset-bottom, 10px));
+  right: 16px;
+  z-index: 4300;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px 8px 12px;
+  border-radius: 9999px;
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  background: rgba(15, 23, 42, 0.92);
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  font-size: 0.76rem;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.studio-voice-hud-player.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+@media (min-width: 769px) {
+  .studio-voice-hud-player {
+    bottom: 24px;
+    right: 24px;
+  }
+}
+[data-theme="light"] .studio-voice-hud-player {
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text, #0F172A);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.audio-eq-bars {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 18px;
+  padding: 0 2px;
+}
+.audio-eq-bars .eq-bar {
+  width: 3px;
+  background: #38BDF8;
+  border-radius: 99px;
+  animation: eqBounce 0.8s ease-in-out infinite;
+}
+.audio-eq-bars .eq-1 { animation-delay: 0.0s; height: 7px; }
+.audio-eq-bars .eq-2 { animation-delay: 0.25s; height: 16px; }
+.audio-eq-bars .eq-3 { animation-delay: 0.45s; height: 11px; }
+.audio-eq-bars .eq-4 { animation-delay: 0.15s; height: 8px; }
+@keyframes eqBounce {
+  0%, 100% { height: 4px; }
+  50% { height: 17px; }
+}
+.studio-voice-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.studio-voice-badge {
+  color: #38BDF8;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+[data-theme="light"] .studio-voice-badge {
+  color: #0284C7;
+}
+.studio-voice-title {
+  color: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 190px;
+}
+.studio-voice-stop-btn {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #EF4444;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 0.70rem;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+.studio-voice-stop-btn:hover {
+  background: rgba(239, 68, 68, 0.28);
+  transform: scale(1.04);
+}
+.studio-voice-stop-btn:active {
+  transform: scale(0.96);
+}
+
 </style>
   <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
@@ -12029,27 +12148,42 @@ function fnv1aSpeakingHash(str) {
 function updateStudioVoiceHud(state, previewText) {
   let hud = document.getElementById("studioExpressiveVoiceHud");
   if (state === "idle") {
-    if (hud) hud.style.display = "none";
+    if (hud) {
+      hud.classList.remove("is-visible");
+      setTimeout(() => { if (hud && !hud.classList.contains("is-visible")) hud.style.display = "none"; }, 200);
+    }
     return;
   }
   if (!hud) {
     hud = document.createElement("div");
     hud.id = "studioExpressiveVoiceHud";
-    hud.style.cssText =
-      "position:fixed;bottom:76px;right:16px;z-index:4300;display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:#0F172A;color:#F8FAFC;border:2px solid #F59E0B;box-shadow:0 8px 26px rgba(0,0,0,0.45);font-size:0.76rem;font-weight:700;max-width:calc(100vw - 32px);box-sizing:border-box;";
+    hud.className = "studio-voice-hud-player";
     document.body.appendChild(hud);
   }
   const raw = String(previewText || "").replace(/\s+/g, " ").trim();
-  const shortText = raw.length > 40 ? raw.slice(0, 40) + "…" : raw;
+  const shortText = raw.length > 36 ? raw.slice(0, 36) + "..." : raw;
   const safeText = shortText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   hud.style.display = "inline-flex";
-  hud.innerHTML =
- '<span style="font-size:1rem;line-height:1;"></span>' +
-    '<div style="display:flex;flex-direction:column;min-width:0;">' +
- '<span style="color:#FBBF24;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;"> Expressive AI Studio Voice</span>' +
-      '<span style="color:#F8FAFC;font-size:0.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px;">"' + safeText + '"</span>' +
-    '</div>' +
- '<button type="button" onclick="window.stopStudioVoice()" style="background:rgba(239,68,68,0.2);border:1px solid #EF4444;color:#FCA5A5;border-radius:999px;padding:3px 9px;font-size:0.7rem;font-weight:800;cursor:pointer;flex-shrink:0;"> Stop</button>';
+  hud.innerHTML = `
+    <div class="audio-eq-bars" aria-hidden="true">
+      <span class="eq-bar eq-1"></span>
+      <span class="eq-bar eq-2"></span>
+      <span class="eq-bar eq-3"></span>
+      <span class="eq-bar eq-4"></span>
+    </div>
+    <div class="studio-voice-info">
+      <span class="studio-voice-badge">
+        <svg class="ui-icon" style="width:11px;height:11px;"><use href="#lucide-volume-2"/></svg>
+        Studio Voice
+      </span>
+      <span class="studio-voice-title">"${safeText}"</span>
+    </div>
+    <button type="button" class="studio-voice-stop-btn" onclick="window.stopStudioVoice()" aria-label="Stop audio">
+      <svg class="ui-icon" style="width:9px;height:9px;fill:currentColor;stroke:none;"><use href="#lucide-square"/></svg>
+      <span>Stop</span>
+    </button>
+  `;
+  requestAnimationFrame(() => hud.classList.add("is-visible"));
 }
 
 window.stopStudioVoice = function () {
@@ -12060,6 +12194,9 @@ window.stopStudioVoice = function () {
       _studioActiveAudio.currentTime = 0;
     } catch (e) {}
     _studioActiveAudio = null;
+  }
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
   }
   updateStudioVoiceHud("idle");
 };
@@ -12154,6 +12291,9 @@ async function speakText(text) {
         const enVoice = voices.find(v => v.lang && v.lang.startsWith("en"));
         if (enVoice) utter.voice = enVoice;
       }
+      utter.onstart = function() { updateStudioVoiceHud("playing", text); };
+      utter.onend = function() { updateStudioVoiceHud("idle"); };
+      utter.onerror = function() { updateStudioVoiceHud("idle"); };
       window.speechSynthesis.speak(utter);
       return;
     }
@@ -13075,7 +13215,9 @@ function renderLexiconGrid(keepPage) {
         <div>
           <div class="occ-card-top">
             <div class="occ-card-identity">
- <div class="occ-icon-box" title="Pronounce" onclick="speakText('${(item.word || '').replace(/'/g, "")}')" title="Pronounce ${item.word}"></div>
+ <button type="button" class="occ-icon-box" onclick="speakText('${(item.word || '').replace(/'/g, "")}')" title="Pronounce ${item.word}" aria-label="Pronounce ${item.word}">
+                <svg class="ui-icon" style="width:18px;height:18px;color:var(--accent);"><use href="#lucide-volume-2"/></svg>
+              </button>
               <div>
                 <div class="occ-word-title">${item.word}</div>
                 <div class="occ-word-sub">${item.pos} · ${item.ipa}</div>

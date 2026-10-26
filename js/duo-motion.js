@@ -1102,7 +1102,7 @@
         <div class="duo-hud-pill guide-pill" title="Open Student Quick Guide" onclick="window.openStudioGuideModal(1)">
           <svg class="ui-icon" style="color:#3B82F6;" aria-hidden="true"><use href="#lucide-book-marked"/></svg> <span>Guide</span>
         </div>
-        <button type="button" class="btn-outlined" style="padding:2px 7px;font-size:0.72rem;border-radius:999px;border:none;" title="Toggle Sound Effects" onclick="window.duoToggleSound()">
+        <button type="button" class="duo-hud-pill sound-pill" title="Toggle Sound Effects" onclick="window.duoToggleSound()" aria-label="Toggle Sound Effects">
           ${st.soundEnabled !== false ? '<svg class="ui-icon" aria-hidden="true"><use href="#lucide-volume-2"/></svg>' : '<svg class="ui-icon" aria-hidden="true"><use href="#lucide-volume-x"/></svg>'}
         </button>
       </div>

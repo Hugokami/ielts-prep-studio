@@ -831,3 +831,25 @@ body.topbar-collapsed .at-subnav-bar {
   color: var(--text-secondary);
   line-height: 1.4;
 }
+
+.duo-hud-pill.sound-pill {
+  padding: 3px 7px;
+  cursor: pointer;
+  border: 1px solid var(--border-mid);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.duo-hud-pill.sound-pill:hover {
+  border-color: var(--accent, #0284C7);
+  color: var(--text);
+  background: var(--bg-subtle, var(--bg-elevated));
+}
+.duo-hud-pill.sound-pill svg {
+  width: 13px !important;
+  height: 13px !important;
+  display: block;
+}
