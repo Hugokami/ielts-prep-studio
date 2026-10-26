@@ -8063,7 +8063,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <span class="cirrus-status-pulse"></span>
             <span>Cambridge AI Mentor Online &bull; Active Academic Session</span>
           </div>
-          <button class="btn-outlined" onclick="openBandAssessmentModal()" style="height:32px; padding:0 14px; font-size:0.78rem; font-weight:700; border-radius:9999px;">
+          <button class="btn-outlined" id="cirrusTargetBandBtn" onclick="openBandAssessmentModal()" style="height:32px; padding:0 14px; font-size:0.78rem; font-weight:700; border-radius:9999px; cursor:pointer;" title="Click to view and change your target IELTS band score">
             Target Band 8.5 ▾
           </button>
         </div>
@@ -8077,12 +8077,12 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
         <div>
           <h1 id="speakWelcomeUser" data-text="Welcome back, Scholar" style="font-size:1.45rem; font-weight:800; color:var(--text); letter-spacing:-0.025em; margin:0;">Welcome back, Scholar</h1>
-          <div style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
+          <div id="speakTargetSub" style="font-size:0.84rem; color:var(--text-secondary); margin-top:2px;">Target: Band 8.5+ Academic • Next Cambridge drill ready</div>
         </div>
       </div>
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-        <span class="occ-ver-pill" style="height:36px; padding:0 14px; font-size:0.8rem; font-weight:800; border-radius:9999px; display:inline-flex; align-items:center; gap:6px; background:var(--well-orange, #FFF7ED); color:var(--accent); border:1px solid rgba(245,158,11,0.35);">
-          <svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-target"/></svg> Target: Band 8.5+ Academic
+        <span class="occ-ver-pill" id="speakTargetBadgePill" onclick="openBandAssessmentModal()" style="height:36px; padding:0 14px; font-size:0.8rem; font-weight:800; border-radius:9999px; display:inline-flex; align-items:center; gap:6px; background:var(--well-orange, #FFF7ED); color:var(--accent); border:1px solid rgba(245,158,11,0.35); cursor:pointer;" title="Click to change your target band score">
+          <svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-target"/></svg> <span id="speakTargetBadgeText">Target: Band 8.5+ Academic</span>
         </span>
       </div>
     </div>
@@ -8302,7 +8302,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
 
         <div class="speak-value-body">
-          <h2 class="speak-value-title">The Studio That Lets You Speak &amp; Score Band 8.5+</h2>
+          <h2 class="speak-value-title">The Studio That Lets You Speak &amp; Score <span id="speakValueTargetBand">Band 8.5+</span></h2>
           <p class="speak-value-sub">
             Practice active speaking and writing 4x more than standard video courses. Real-time Cambridge evaluation, instant feedback, and authentic CBT simulations.
           </p>
@@ -19673,38 +19673,174 @@ function retryWithFastLlama() {
 // =========================================================
 // SPEAK APP SUITE INTERACTIVE HELPERS (OPEN-DESIGN)
 // =========================================================
-function openBandAssessmentModal() {
-  const modal = document.getElementById('bandAssessmentModal');
-  if (modal) modal.style.display = 'flex';
-}
+// =========================================================
+// TARGET BAND SCORE MANAGEMENT & FIRST-USER ONBOARDING
+// =========================================================
+const TARGET_BAND_LEVELS = {
+  '1': { level: 1, band: '6.0', label: 'Band 6.0', range: 'Band 5.5 - 6.0', desc: 'Competent Foundation' },
+  '2': { level: 2, band: '6.5', label: 'Band 6.5', range: 'Band 6.5', desc: 'Standard Academic Entry' },
+  '3': { level: 3, band: '7.5', label: 'Band 7.5', range: 'Band 7.0 - 7.5', desc: 'Good User / Professional' },
+  '4': { level: 4, band: '8.5', label: 'Band 8.5', range: 'Band 8.0 - 8.5', desc: 'Very Good Academic' },
+  '5': { level: 5, band: '9.0', label: 'Band 9.0', range: 'Band 9.0 Expert', desc: 'Expert Academic Master' }
+};
 
-function closeBandAssessmentModal() {
+window.getUserTargetBandLevel = function () {
+  try {
+    const saved = localStorage.getItem('ips_user_target_band');
+    if (saved && TARGET_BAND_LEVELS[saved]) return String(saved);
+  } catch (e) {}
+  return '4'; // default Band 8.5
+};
+
+window.getUserTargetBandInfo = function () {
+  const lvl = window.getUserTargetBandLevel();
+  return TARGET_BAND_LEVELS[lvl] || TARGET_BAND_LEVELS['4'];
+};
+
+window.applyUserTargetBand = function (level, silent = false) {
+  const lvlStr = String(level);
+  const info = TARGET_BAND_LEVELS[lvlStr] || TARGET_BAND_LEVELS['4'];
+  
+  // 1. Persist to storage
+  try {
+    localStorage.setItem('ips_user_target_band', lvlStr);
+    localStorage.setItem('ips_target_score_onboarded', '1');
+  } catch (e) {}
+
+  // 2. Update all DOM elements across the application
+  // A. Cirrus stage button (top bar)
+  const topBtn = document.getElementById('cirrusTargetBandBtn');
+  if (topBtn) {
+    topBtn.innerHTML = `Target ${info.label} ▾`;
+  }
+
+  // B. Scholar welcome subtitle
+  const welcomeSub = document.getElementById('speakTargetSub');
+  if (welcomeSub) {
+    welcomeSub.textContent = `Target: ${info.label}+ Academic • Next Cambridge drill ready`;
+  }
+
+  // C. Scholar welcome badge pill
+  const badgeText = document.getElementById('speakTargetBadgeText');
+  if (badgeText) {
+    badgeText.textContent = `Target: ${info.label}+ Academic`;
+  }
+
+  // D. Value prop banner target band
+  const valTarget = document.getElementById('speakValueTargetBand');
+  if (valTarget) {
+    valTarget.textContent = `${info.label}+`;
+  }
+
+  // E. Any generic .user-target-band-text elements
+  document.querySelectorAll('.user-target-band-text').forEach(el => {
+    el.textContent = `${info.label}+`;
+  });
+
+  // F. Synchronize modal items
+  document.querySelectorAll('.speak-level-item').forEach(el => {
+    const elLvl = el.getAttribute('data-level');
+    const radio = el.querySelector('.speak-level-radio');
+    if (elLvl === lvlStr) {
+      el.classList.add('active');
+      if (radio) {
+        radio.innerHTML = '<svg class="ui-icon" style="color:#0284C7; width:14px; height:14px;"><use href="#lucide-check"/></svg>';
+      }
+    } else {
+      el.classList.remove('active');
+      if (radio) radio.innerHTML = '';
+    }
+  });
+
+  // G. Update currentUser profile if active
+  if (window.currentUser) {
+    window.currentUser.targetBand = info.label;
+    try {
+      if (typeof saveUserProfileLocally === 'function') {
+        saveUserProfileLocally();
+      }
+    } catch (e) {}
+  }
+
+  // H. Tactile and visual feedback
+  if (!silent) {
+    if (typeof studioHaptic === 'function') studioHaptic(20);
+    if (typeof showStudioNotification === 'function') {
+      showStudioNotification(`Target ${info.label} saved! Your drills, AI examiners, and forecasts are now set to ${info.label}.`);
+    } else if (typeof showToast === 'function') {
+      showToast(`Target ${info.label} set as your current goal!`);
+    }
+  }
+};
+
+window.openBandAssessmentModal = function (isFirstTime = false) {
+  const modal = document.getElementById('bandAssessmentModal');
+  if (!modal) return;
+
+  const currentLvl = window.getUserTargetBandLevel();
+  // Ensure the current level is marked active with checkmark
+  document.querySelectorAll('.speak-level-item').forEach(el => {
+    const elLvl = el.getAttribute('data-level');
+    const radio = el.querySelector('.speak-level-radio');
+    if (elLvl === String(currentLvl)) {
+      el.classList.add('active');
+      if (radio) radio.innerHTML = '<svg class="ui-icon" style="color:#0284C7; width:14px; height:14px;"><use href="#lucide-check"/></svg>';
+    } else {
+      el.classList.remove('active');
+      if (radio) radio.innerHTML = '';
+    }
+  });
+
+  // Adjust header/subhead if first time onboarding
+  const titleEl = modal.querySelector('.speak-assessment-title');
+  const subEl = modal.querySelector('.speak-assessment-sub');
+  const actionBtn = document.getElementById('confirmBandBtn') || modal.querySelector('.btn-accent-solid');
+
+  if (isFirstTime) {
+    if (titleEl) titleEl.textContent = 'What is your target IELTS score?';
+    if (subEl) subEl.textContent = 'Welcome, Scholar! Choose your target band to personalize your daily drills, AI examiners, and exam simulations:';
+    if (actionBtn) actionBtn.textContent = 'Confirm Target Score & Start';
+  } else {
+    if (titleEl) titleEl.textContent = 'How would you rate your English?';
+    if (subEl) subEl.textContent = 'Select your target level to personalize your daily drills & exam forecasts:';
+    if (actionBtn) actionBtn.textContent = 'Save Target Band';
+  }
+
+  modal.style.display = 'flex';
+};
+
+window.closeBandAssessmentModal = function () {
   const modal = document.getElementById('bandAssessmentModal');
   if (modal) modal.style.display = 'none';
-}
+};
 
-function selectBandLevel(level, element) {
-  document.querySelectorAll('.speak-level-item').forEach(el => {
-    el.classList.remove('active');
-    const radio = el.querySelector('.speak-level-radio');
-    if (radio) radio.textContent = '';
-  });
-  if (element) {
-    element.classList.add('active');
-    const radio = element.querySelector('.speak-level-radio');
- if (radio) radio.textContent = '';
-  }
-  localStorage.setItem('ips_user_target_band', String(level));
-}
+window.selectBandLevel = function (level, element) {
+  // Instantly apply the selection so it takes effect immediately!
+  window.applyUserTargetBand(level);
+};
 
-function confirmBandLevelSelection() {
-  closeBandAssessmentModal();
-  const lvl = localStorage.getItem('ips_user_target_band') || '3';
-  const labelMap = { '1': 'Band 6.0', '2': 'Band 6.5', '3': 'Band 7.5', '4': 'Band 8.5', '5': 'Band 9.0' };
+window.confirmBandLevelSelection = function () {
+  window.closeBandAssessmentModal();
+  const info = window.getUserTargetBandInfo();
   if (typeof showStudioNotification === 'function') {
- showStudioNotification(` Target ${labelMap[lvl] || 'Band 8.5'} saved! Your daily drills have been personalized.`);
+    showStudioNotification(`Target ${info.label} confirmed! Personalized daily drills active.`);
+  } else if (typeof showToast === 'function') {
+    showToast(`Target ${info.label} confirmed!`);
   }
-}
+};
+
+// Check if first-time user needs target score onboarding
+window.checkNewUserTargetScoreOnboarding = function () {
+  try {
+    const hasTargetBand = localStorage.getItem('ips_user_target_band');
+    const hasOnboarded = localStorage.getItem('ips_target_score_onboarded');
+    if (!hasTargetBand || !hasOnboarded) {
+      setTimeout(() => {
+        window.openBandAssessmentModal(true);
+      }, 450);
+    }
+  } catch (e) {}
+};
 
 function triggerSpeakCopilot() {
   const input = document.getElementById('speakCopilotInput');
@@ -20311,8 +20447,8 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
     </div>
 
     <div style="margin-top:20px;">
-      <button class="btn-accent-solid" style="width:100%; height:52px; font-size:1.05rem;" onclick="confirmBandLevelSelection()">
-        Continue
+      <button class="btn-accent-solid" id="confirmBandBtn" style="width:100%; height:52px; font-size:1.05rem;" onclick="confirmBandLevelSelection()">
+        Confirm Target Band
       </button>
     </div>
   </div>
@@ -20332,6 +20468,9 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         splash.classList.add('dismissed');
         setTimeout(() => {
           splash.style.display = 'none';
+          if (typeof window.checkNewUserTargetScoreOnboarding === 'function') {
+            window.checkNewUserTargetScoreOnboarding();
+          }
         }, 600);
       }
     };
@@ -20352,6 +20491,20 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
   } else {
     initIntroSplash();
   }
+
+  // Initialize user target band from storage & check first-time onboarding
+  if (typeof window.applyUserTargetBand === 'function') {
+    window.applyUserTargetBand(window.getUserTargetBandLevel(), true);
+  }
+  setTimeout(() => {
+    const splash = document.getElementById('ips-intro-splash');
+    if (!splash || splash.style.display === 'none' || splash.classList.contains('dismissed')) {
+      if (typeof window.checkNewUserTargetScoreOnboarding === 'function') {
+        window.checkNewUserTargetScoreOnboarding();
+      }
+    }
+  }, 1200);
+
 })();
 </script>
 
