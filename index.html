@@ -19,6 +19,7 @@
   <script src="js/burmese-cuisine.js?v=10.0"></script>
   <script src="js/band-surgery.js?v=10.0"></script>
   <script src="js/speaking-cbt-weapons.js?v=10.0"></script>
+  <script src="js/analytics-exam-kit.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -2295,6 +2296,36 @@
   }
 
   @media print {
+    body.printing-cheat-sheet .topbar,
+    body.printing-cheat-sheet .mobile-bottom-nav,
+    body.printing-cheat-sheet .subnav-strip,
+    body.printing-cheat-sheet #bg-canvas,
+    body.printing-cheat-sheet #backToTopBtn,
+    body.printing-cheat-sheet #word-inspector,
+    body.printing-cheat-sheet .studio-container,
+    body.printing-cheat-sheet .modal-backdrop:not(#nightBeforeCheatSheetModal) {
+      display: none !important;
+    }
+    body.printing-cheat-sheet #nightBeforeCheatSheetModal {
+      display: block !important;
+      position: static !important;
+      background: #FFFFFF !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+    body.printing-cheat-sheet .print-cheat-sheet-card {
+      box-shadow: none !important;
+      border: none !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      background: #FFFFFF !important;
+      color: #000000 !important;
+    }
+    body.printing-cheat-sheet .no-print {
+      display: none !important;
+    }
     .topbar, .mobile-bottom-nav, .subnav-strip, #bg-canvas, #backToTopBtn, #word-inspector, .modal-backdrop {
       display: none !important;
     }
@@ -8124,6 +8155,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
 
     
+    <!-- 3.3: TARGET BAND EXAM COUNTDOWN & READINESS BANNER -->
+    <div id="examReadinessBanner"></div>
+
     <!-- OPEN DESIGN: ACADEMIC METRICS BENTO GRID (Linear / Stripe Standard) -->
     <div class="academic-telemetry-bento uiv-animate-enter uiv-delay-4" style="margin-bottom:20px;">
       <div class="telemetry-bento-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
@@ -8538,8 +8572,15 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div class="constellation-box">
           <div>
             <div class="sec-eyebrow" style="margin-bottom:4px;">DIAGNOSTIC METRICS</div>
-            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:10px;">IELTS 5-Pillar Readiness</h3>
-            <div id="radarContainer" style="display:flex; justify-content:center; align-items:center; height:215px;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <h3 style="font-size:1.1rem; font-weight:700; margin:0;">Cambridge 4-Axis &amp; Readiness</h3>
+              <button class="btn-accent-solid" style="padding:3px 10px; font-size:0.72rem; font-weight:800;" onclick="openNightBeforeCheatSheet()">
+                <svg class="ui-icon ui-icon-xs"><use href="#lucide-printer"/></svg> Cheat Sheet PDF
+              </button>
+            </div>
+            <div id="radarContainer" style="display:flex; justify-content:center; align-items:center; min-height:215px;"></div>
+            <!-- 3.1: Daily Weak-Spot Prescription -->
+            <div id="dailyPrescriptionContainer" style="margin-top:10px;"></div>
           </div>
 
           <div style="border-top:1px solid var(--border); padding-top:14px; margin-top:8px;">
@@ -10074,7 +10115,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           Supercharge IELTS Writing Task 2 &amp; Speaking with native Academic Collocations, Band 8.5+ Synonyms, Comprehensive Multi-Paragraph Topic Briefs, Live Academic Dictionary &amp; Scholar Rhetoric.
         </p>
       </div>
-      <div class="section-guide-actions">
+      <div class="section-guide-actions" style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.8rem; font-weight:700;" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon"><use href="#lucide-printer"/></svg> Night-Before Cheat Sheet PDF</button>
         <button class="btn-outlined" style="padding:6px 12px; font-size:0.8rem; font-weight:700;" onclick="openVipPassModal()"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> VIP Pass Info</button>
       </div>
     </div>
@@ -10094,6 +10136,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-calculator"/></svg> <span>Band Calculator</span></button>
         <button class="at-subnav-btn" id="at-tab-culinary" onclick="switchAcademicToolsTab('culinary')"><svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> <span>Burmese Culinary</span></button>
         <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
+        <button class="at-subnav-btn" id="at-tab-cheatsheet" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon ui-icon-xs" style="color:#059669;"><use href="#lucide-file-text"/></svg> <span>Cheat Sheet PDF</span></button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -12937,9 +12980,19 @@ function refreshAnalytics() {
 
   renderSkillRadar(mCount, appState.drillBest, rCount, wCount);
   renderVarietyDistribution();
+  if (typeof window.renderExamReadinessBanner === 'function') {
+    window.renderExamReadinessBanner('examReadinessBanner');
+  }
 }
 
 function renderSkillRadar(mCount, drillScore, rCount, wCount) {
+  if (typeof window.renderCambridge4AxisRadar === 'function') {
+    window.renderCambridge4AxisRadar("radarContainer");
+    if (typeof window.renderDailyPrescription === 'function') {
+      window.renderDailyPrescription("dailyPrescriptionContainer");
+    }
+    return;
+  }
   const radEl = document.getElementById("radarContainer");
   if (!radEl) return;
   const axes = [
