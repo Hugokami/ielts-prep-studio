@@ -429,42 +429,315 @@
   };
 
   // ==========================================================================
-  // 5. CAMBRIDGE ACADEMIC SYNTAX BUILDER (WITH HINT POWER-UP)
+  // 5. CAMBRIDGE ACADEMIC SYNTAX BUILDER (DAILY REFRESH & ROTATING BANK)
   // ==========================================================================
-  window.openDuoWordScrambleModal = function () {
+  const SYNTAX_BANK = [
+    {
+      target: "Urban forests significantly mitigate carbon emissions in industrial cities.",
+      focus: "mitigate",
+      grammarPattern: "Academic Collocation",
+      category: "Environment & Ecology",
+      translation: "မြို့ပြသစ်တောများသည် စက်မှုမြို့ကြီးများရှိ ကာဗွန်ထုတ်လွှတ်မှုကို သိသာစွာ လျော့ပါးသက်သာစေသည်။"
+    },
+    {
+      target: "Rarely do developing economies transition to clean energy without international financial assistance.",
+      focus: "Rarely do ... transition",
+      grammarPattern: "Negative Inversion",
+      category: "Economics & Energy",
+      translation: "ဖွံ့ဖြိုးဆဲစီးပွားရေးနိုင်ငံများသည် နိုင်ငံတကာငွေကြေးအကူအညီမပါဘဲ သန့်ရှင်းသောစွမ်းအင်သို့ ကူးပြောင်းနိုင်ခဲသည်။"
+    },
+    {
+      target: "Rapid technological advancements inevitably transform contemporary pedagogical methodologies.",
+      focus: "inevitably transform",
+      grammarPattern: "Advanced Collocation",
+      category: "Education & Technology",
+      translation: "လျင်မြန်သော နည်းပညာ တိုးတက်မှုများသည် ခေတ်သစ် သင်ကြားရေး နည်းစနစ်များကို မလွဲမသွေ ပြောင်းလဲစေသည်။"
+    },
+    {
+      target: "Having evaluated empirical data, researchers concluded that renewable subsidies accelerate decarbonisation.",
+      focus: "Having evaluated",
+      grammarPattern: "Fronted Perfect Participle",
+      category: "Science & Environment",
+      translation: "လက်တွေ့အချက်အလက်များကို အကဲဖြတ်ပြီးနောက် သုတေသီများက ပြန်လည်ပြည့်ဖြိုးမြဲစွမ်းအင် ထောက်ပံ့ကြေးများသည် ကာဗွန်လျှော့ချရေးကို အရှိန်မြှင့်တင်ပေးကြောင်း ကောက်ချက်ချခဲ့ကြသည်။"
+    },
+    {
+      target: "It is through comprehensive academic research that institutions formulate effective educational reforms.",
+      focus: "It is through ... that",
+      grammarPattern: "Cleft Sentence",
+      category: "Education & Policy",
+      translation: "ဘက်စုံပညာရပ်ဆိုင်ရာ သုတေသနများမှတစ်ဆင့်သာ အဖွဲ့အစည်းများသည် ထိရောက်သော ပညာရေးပြုပြင်ပြောင်းလဲမှုများကို ပုံဖော်နိုင်ခြင်းဖြစ်သည်။"
+    },
+    {
+      target: "Governments should allocate substantial funding to modernise public healthcare infrastructure.",
+      focus: "allocate substantial funding",
+      grammarPattern: "Academic Collocation",
+      category: "Public Health & Governance",
+      translation: "အစိုးရများသည် ပြည်သူ့ကျန်းမာရေး အခြေခံအဆောက်အအုံကို ခေတ်မီစေရန် ရန်ပုံငွေ အမြောက်အမြား ခွဲဝေချထားပေးသင့်သည်။"
+    },
+    {
+      target: "Seldom have scholars observed such unprecedented fluctuations in global financial markets.",
+      focus: "Seldom have ... observed",
+      grammarPattern: "Negative Inversion",
+      category: "Finance & Economics",
+      translation: "ပညာရှင်များသည် ကမ္ဘာ့ဘဏ္ဍာရေးစျေးကွက်များတွင် ဤကဲ့သို့ မကြုံစဖူး မတည်ငြိမ်မှုများကို တွေ့မြင်ရခဲသည်။"
+    },
+    {
+      target: "Subsidising electric vehicles fosters sustainable transportation alternatives in metropolitan regions.",
+      focus: "Subsidising ... fosters",
+      grammarPattern: "Fronted Gerund Subject",
+      category: "Transportation & Ecology",
+      translation: "လျှပ်စစ်မော်တော်ယာဉ်များကို ထောက်ပံ့ပေးခြင်းသည် မြို့ကြီးများတွင် ရေရှည်တည်တံ့သော သယ်ယူပို့ဆောင်ရေး အစားထိုးရွေးချယ်စရာများကို အားပေးအားမြှောက်ပြုစေသည်။"
+    },
+    {
+      target: "Artificial intelligence systems are widely recognised to enhance diagnostic precision in clinical trials.",
+      focus: "are widely recognised to enhance",
+      grammarPattern: "Academic Passive",
+      category: "Technology & Medicine",
+      translation: "ဉာဏ်ရည်တုစနစ်များသည် ဆေးဘက်ဆိုင်ရာစမ်းသပ်မှုများတွင် ရောဂါရှာဖွေမှု တိကျမှုကို မြှင့်တင်ပေးကြောင်း ကျယ်ကျယ်ပြန့်ပြန့် အသိအမှတ်ပြုထားကြသည်။"
+    },
+    {
+      target: "Notwithstanding substantial initial capital expenditure, solar energy yields significant long-term economic dividends.",
+      focus: "Notwithstanding",
+      grammarPattern: "Concessive Prepositional Phrase",
+      category: "Energy & Infrastructure",
+      translation: "ကနဦး အရင်းအနှီး အသုံးစရိတ် ကြီးမားသော်လည်း နေရောင်ခြည်စွမ်းအင်သည် ရေရှည်တွင် သိသာထင်ရှားသော စီးပွားရေးအကျိုးအမြတ်များကို ပေးဆောင်သည်။"
+    },
+    {
+      target: "Under no circumstances should corporate entities compromise digital privacy safeguards for commercial gains.",
+      focus: "Under no circumstances should",
+      grammarPattern: "Negative Inversion",
+      category: "Ethics & Technology",
+      translation: "မည်သည့်အခြေအနေမျိုးတွင်မျှ စီးပွားရေးအဖွဲ့အစည်းများသည် စီးပွားဖြစ်အမြတ်အစွန်းအတွက် ဒစ်ဂျစ်တယ်ကိုယ်ရေးကိုယ်တာ အကာအကွယ်များကို လျှော့မပေါ့သင့်ပါ။"
+    },
+    {
+      target: "Implementing stringent environmental regulations motivates corporations to adopt circular economy principles.",
+      focus: "Implementing ... motivates",
+      grammarPattern: "Gerund Subject + Collocation",
+      category: "Business & Environment",
+      translation: "တင်းကျပ်သော သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ စည်းမျဉ်းများကို အကောင်အထည်ဖော်ခြင်းသည် စက်မှုကော်ပိုရေးရှင်းများအား သံသရာစီးပွားရေးမူများကို ကျင့်သုံးရန် တွန်းအားပေးသည်။"
+    },
+    {
+      target: "What distinguishes exceptional academic institutions is their unyielding commitment to rigorous scientific inquiry.",
+      focus: "What distinguishes ... is",
+      grammarPattern: "Wh- Cleft Sentence",
+      category: "Academia & Research",
+      translation: "ထူးချွန်သော ပညာရပ်ဆိုင်ရာ အဖွဲ့အစည်းများကို ခြားနားစေသည့် အချက်မှာ တိကျခိုင်မာသော သိပ္ပံနည်းကျ စူးစမ်းရှာဖွေမှုအပေါ် မယိမ်းယိုင်သော ကတိကဝတ်ဖြစ်သည်။"
+    },
+    {
+      target: "Comprehensive statistical analysis is indispensable for substantiating academic hypotheses.",
+      focus: "indispensable for substantiating",
+      grammarPattern: "Advanced Collocation",
+      category: "Research & Methodology",
+      translation: "ဘက်စုံစာရင်းအင်းဆိုင်ရာ ခွဲခြမ်းစိတ်ဖြာမှုသည် ပညာရပ်ဆိုင်ရာ ယူဆချက်များကို ခိုင်လုံစွာသက်သေပြရန် မရှိမဖြစ် လိုအပ်သည်။"
+    },
+    {
+      target: "Hardly had the government implemented fiscal reforms when foreign direct investment increased noticeably.",
+      focus: "Hardly had ... when",
+      grammarPattern: "Temporal Inversion",
+      category: "Economics & Governance",
+      translation: "အစိုးရက ဘဏ္ဍာရေးပြုပြင်ပြောင်းလဲမှုများကို အကောင်အထည်ဖော်ပြီးသည်နှင့် မရှေးမနှောင်းပင် နိုင်ငံခြားတိုက်ရိုက်ရင်းနှီးမြှုပ်နှံမှု သိသာစွာ တိုးတက်လာခဲ့သည်။"
+    },
+    {
+      target: "Prolonged exposure to automated algorithms can inadvertently reinforce societal echo chambers.",
+      focus: "inadvertently reinforce",
+      grammarPattern: "Adverbial Modification + Collocation",
+      category: "Media & Society",
+      translation: "အလိုအလျောက် အယ်လဂိုရီသမ်များနှင့် ကြာရှည်ထိတွေ့မှုသည် လူ့အဖွဲ့အစည်းအတွင်း သဘောထားတူရာ စုပြုံခြင်း (echo chambers) ကို မရည်ရွယ်ဘဲ ပိုမိုအားကောင်းစေနိုင်သည်။"
+    },
+    {
+      target: "Only by fostering interdisciplinary collaboration can universities resolve complex existential dilemmas.",
+      focus: "Only by ... can",
+      grammarPattern: "Restrictive Inversion",
+      category: "Higher Education",
+      translation: "ဘာသာရပ်ပေါင်းစုံ ပူးပေါင်းဆောင်ရွက်မှုကို အားပေးခြင်းဖြင့်သာ တက္ကသိုလ်များသည် ရှုပ်ထွေးသော ဖြစ်တည်မှုဆိုင်ရာ ပြဿနာများကို ဖြေရှင်းနိုင်မည်ဖြစ်သည်။"
+    },
+    {
+      target: "The proliferation of remote working arrangements has precipitated profound structural shifts in urban housing.",
+      focus: "proliferation ... precipitated profound",
+      grammarPattern: "Academic Nominalisation",
+      category: "Sociology & Urban Studies",
+      translation: "အဝေးမှ အလုပ်လုပ်သော အစီအစဉ်များ ပြန့်ပွားလာခြင်းသည် မြို့ပြအိမ်ရာကဏ္ဍတွင် ကြီးမားနက်ရှိုင်းသော ဖွဲ့စည်းပုံဆိုင်ရာ အပြောင်းအလဲများကို ဖြစ်ပေါ်စေခဲ့သည်။"
+    },
+    {
+      target: "Had public transit networks been expanded earlier, commuter congestion would have dissipated substantially.",
+      focus: "Had ... been",
+      grammarPattern: "Inverted Conditional",
+      category: "Urban Infrastructure",
+      translation: "အများပြည်သူ သယ်ယူပို့ဆောင်ရေးကွန်ရက်များကို စောစီးစွာ တိုးချဲ့ခဲ့ပါက ခရီးသွားပြည်သူများ၏ ယာဉ်ကြောပိတ်ဆို့မှုသည် သိသိသာသာ လျော့ကျသွားမည်ဖြစ်သည်။"
+    },
+    {
+      target: "Preserving indigenous biodiversity is essential for sustaining resilient regional ecosystems.",
+      focus: "Preserving ... is essential",
+      grammarPattern: "Gerund Phrase as Subject",
+      category: "Conservation Biology",
+      translation: "ဒေသရင်း ဇီဝမျိုးစုံမျိုးကွဲများကို ထိန်းသိမ်းခြင်းသည် ခံနိုင်ရည်ရှိသော ဒေသတွင်း ဂေဟစနစ်များကို တည်တံ့စေရန် မရှိမဖြစ် လိုအပ်သည်။"
+    },
+    {
+      target: "Not only do vocational training programmes cultivate practical skills, but they also bolster youth employability.",
+      focus: "Not only do ... but they also",
+      grammarPattern: "Correlative Inversion",
+      category: "Education & Employment",
+      translation: "သက်မွေးပညာသင်တန်းများသည် လက်တွေ့ကျသော ကျွမ်းကျင်မှုများကို ပြုစုပျိုးထောင်ပေးရုံသာမက လူငယ်များ အလုပ်အကိုင်ရရှိနိုင်စွမ်းကိုလည်း အားကောင်းစေသည်။"
+    },
+    {
+      target: "Fostering critical thinking skills equips students to navigate misleading digital disinformation.",
+      focus: "Fostering ... equips",
+      grammarPattern: "Gerund Subject + Object Infinitive",
+      category: "Education & Digital Literacy",
+      translation: "ဝေဖန်ပိုင်းခြားတွေးခေါ်နိုင်စွမ်းကို လေ့ကျင့်ပေးခြင်းသည် ကျောင်းသားများအား လမ်းလွဲစေသော ဒစ်ဂျစ်တယ်သတင်းမှားများကို ခွဲခြားသိမြင်စေရန် အရည်အချင်း တပ်ဆင်ပေးသည်။"
+    },
+    {
+      target: "Autonomous transportation technologies are anticipated to alleviate urban traffic bottlenecks considerably.",
+      focus: "are anticipated to alleviate",
+      grammarPattern: "Passive Predictive Construction",
+      category: "Technology & Urban Mobility",
+      translation: "အလိုအလျောက် မောင်းနှင်သည့် သယ်ယူပို့ဆောင်ရေး နည်းပညာများသည် မြို့ပြယာဉ်ကြော ပိတ်ဆို့မှုများကို များစွာ သက်သာစေလိမ့်မည်ဟု ခန့်မှန်းရသည်။"
+    },
+    {
+      target: "Were corporate leaders to prioritise environmental sustainability, consumer brand loyalty would intensify dramatically.",
+      focus: "Were ... to prioritise",
+      grammarPattern: "Inverted Conditional",
+      category: "Business & Corporate Ethics",
+      translation: "ကော်ပိုရိတ်ခေါင်းဆောင်များသည် သဘာဝပတ်ဝန်းကျင် ရေရှည်တည်တံ့မှုကို ဦးစားပေးခဲ့ပါက စားသုံးသူများ၏ အမှတ်တံဆိပ်အပေါ် သစ္စာစောင့်သိမှုသည် သိသာစွာ တိုးမြင့်လာမည်ဖြစ်သည်။"
+    },
+    {
+      target: "Equitable distribution of medical resources remains imperative for mitigating socioeconomic disparities.",
+      focus: "remains imperative for mitigating",
+      grammarPattern: "Nominalised Subject + Gerund Complement",
+      category: "Public Health & Social Equity",
+      translation: "ဆေးဘက်ဆိုင်ရာ အရင်းအမြစ်များကို မျှတစွာ ဖြန့်ဝေခြင်းသည် လူမှုစီးပွား မညီမျှမှုများကို လျော့ပါးစေရန် မရှိမဖြစ် လိုအပ်သောအချက်အဖြစ် ဆက်လက်တည်ရှိနေသည်။"
+    },
+    {
+      target: "Scarcely had the international treaty been ratified when signatory nations initiated emission reductions.",
+      focus: "Scarcely had ... when",
+      grammarPattern: "Temporal Inversion",
+      category: "International Relations & Climate",
+      translation: "နိုင်ငံတကာစာချုပ်ကို အတည်ပြုပြီးသည်နှင့် မရှေးမနှောင်းပင် လက်မှတ်ရေးထိုးထားသော နိုင်ငံများသည် ဓာတ်ငွေ့ထုတ်လွှတ်မှု လျှော့ချရေးကို စတင်ခဲ့ကြသည်။"
+    },
+    {
+      target: "Integrating experiential learning into university curricula bolsters scholarly engagement significantly.",
+      focus: "Integrating ... bolsters",
+      grammarPattern: "Fronted Gerund Phrase",
+      category: "Higher Education Pedagogy",
+      translation: "လက်တွေ့သင်ယူမှုများကို တက္ကသိုလ် သင်ရိုးညွှန်းတမ်းတွင် ထည့်သွင်းပေါင်းစပ်ခြင်းသည် ပညာရပ်ဆိုင်ရာ စိတ်ပါဝင်စားမှုကို သိသာစွာ တိုးတက်စေသည်။"
+    },
+    {
+      target: "It is the absence of comprehensive oversight that exacerbates algorithmic discrimination in modern credit scoring.",
+      focus: "It is ... that",
+      grammarPattern: "Cleft Focus Construction",
+      category: "Data Ethics & AI",
+      translation: "ခေတ်သစ် အကြွေးအကဲဖြတ်မှုများတွင် အယ်လဂိုရီသမ်ဆိုင်ရာ ခွဲခြားဆက်ဆံမှုကို ပိုမိုဆိုးရွားစေသည့် အဓိကအကြောင်းရင်းမှာ ဘက်စုံကြီးကြပ်ကွပ်ကဲမှု ကင်းမဲ့နေခြင်းပင်ဖြစ်သည်။"
+    },
+    {
+      target: "In no way does automation eliminate the necessity for human empathy in palliative medical care.",
+      focus: "In no way does ... eliminate",
+      grammarPattern: "Negative Prepositional Inversion",
+      category: "Healthcare & Human Ethics",
+      translation: "မည်သည့်နည်းနှင့်မျှ အလိုအလျောက်စနစ်သည် ဝေဒနာသက်သာစောင့်ရှောက်မှုတွင် လူသားချင်းစာနာထောက်ထားမှု လိုအပ်ချက်ကို မဖယ်ရှားနိုင်ပါ။"
+    },
+    {
+      target: "Cultivating linguistic diversity within academic institutions enriches collective intellectual discourse.",
+      focus: "Cultivating ... enriches",
+      grammarPattern: "Gerund Subject",
+      category: "Linguistics & Academia",
+      translation: "ပညာရပ်ဆိုင်ရာ အဖွဲ့အစည်းများအတွင်း ဘာသာစကားဆိုင်ရာ မတူကွဲပြားမှုကို ပြုစုပျိုးထောင်ခြင်းသည် စုပေါင်းဉာဏဆွေးနွေးမှုများကို ပိုမိုကြွယ်ဝစေသည်။"
+    },
+    {
+      target: "Little did early climatologists realise that oceanic warming would accelerate polar ice retreat so rapidly.",
+      focus: "Little did ... realise",
+      grammarPattern: "Adverbial Inversion",
+      category: "Climate Science",
+      translation: "သမုဒ္ဒရာများ ပူနွေးလာမှုသည် ဝင်ရိုးစွန်းရေခဲများ အရည်ပျော်မှုကို ဤမျှလျင်မြန်စွာ အရှိန်မြှင့်တင်လိမ့်မည်ဟု အစောပိုင်း ရာသီဥတုပညာရှင်များ မထင်မှတ်ခဲ့ကြပေ။"
+    }
+  ];
+
+  function getTodayDateString() {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  let syntaxCountdownInterval = null;
+
+  function getDailySyntaxDrillIndex(dateStr, totalCount) {
+    if (!totalCount || totalCount <= 0) return 0;
+    const parts = (dateStr || "").split("-");
+    if (parts.length === 3) {
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10) - 1;
+      const d = parseInt(parts[2], 10);
+      const epoch = new Date(2026, 0, 1);
+      const cur = new Date(y, m, d);
+      const diffDays = Math.round((cur - epoch) / (1000 * 60 * 60 * 24));
+      return Math.abs(diffDays) % totalCount;
+    }
+    return 0;
+  }
+
+  function updateSyntaxCountdown() {
+    const el = document.getElementById("duoSyntaxCountdownText");
+    if (!el) return;
+    const timeUntil = getTimeUntilMidnight();
+    el.innerHTML = `Next daily drill in <strong>${timeUntil.hours}h ${timeUntil.mins}m</strong>`;
+  }
+
+  function getTimeUntilMidnight() {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+    const diff = midnight - now;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return { hours, mins };
+  }
+
+  window.duoCloseScrambleModal = function () {
+    if (syntaxCountdownInterval) {
+      clearInterval(syntaxCountdownInterval);
+      syntaxCountdownInterval = null;
+    }
+    const modal = document.getElementById("duoScrambleModalBackdrop");
+    if (modal) {
+      modal.classList.remove("open");
+      modal.style.display = "none";
+    }
+  };
+
+  window.openDuoWordScrambleModal = function (requestedDrill = null) {
     duoPlaySound("pop");
 
-    const SAMPLES = [
-      {
-        target: "Urban forests significantly mitigate carbon emissions in industrial cities.",
-        focus: "mitigate",
-        translation: "မြို့ပြသစ်တောများသည် စက်မှုမြို့များရှိ ကာဗွန်ထုတ်လွှတ်မှုကို သိသာစွာ လျော့ပါးစေသည်။"
-      },
-      {
-        target: "Rapid technological advancements inevitably transform modern educational practices.",
-        focus: "inevitably",
-        translation: "လျင်မြန်သော နည်းပညာ တိုးတက်မှုများသည် ခေတ်သစ် ပညာရေးကို မလွဲမသွေ ပြောင်းလဲစေသည်။"
-      },
-      {
-        target: "Governments should allocate substantial funding to sustainable infrastructure.",
-        focus: "allocate",
-        translation: "အစိုးရများသည် ရေရှည်တည်တံ့သော အခြေခံအဆောက်အအုံများအတွက် ရန်ပုံငွေ အမြောက်အမြား ခွဲဝေချထားပေးသင့်သည်။"
-      },
-      {
-        target: "Comprehensive research is indispensable for establishing reliable academic conclusions.",
-        focus: "indispensable",
-        translation: "တိကျခိုင်မာသော ပညာရပ်ဆိုင်ရာ ကောက်ချက်များအတွက် ဘက်စုံသုတေသနသည် မရှိမဖြစ် လိုအပ်သည်။"
-      },
-      {
-        target: "Subsidising public transit fosters equitable access to economic opportunities.",
-        focus: "equitable",
-        translation: "အများပြည်သူ သယ်ယူပို့ဆောင်ရေးကို ထောက်ပံ့ပေးခြင်းသည် စီးပွားရေးအခွင့်အလမ်းများကို မျှတစွာရရှိစေသည်။"
-      }
-    ];
+    const todayStr = getTodayDateString();
+    const isCompletedToday = localStorage.getItem("ips_daily_syntax_completed_date") === todayStr;
+    const dailyIndex = getDailySyntaxDrillIndex(todayStr, SYNTAX_BANK.length);
+    const timeUntil = getTimeUntilMidnight();
 
-    const pick = SAMPLES[Math.floor(Math.random() * SAMPLES.length)];
+    let targetIndex = dailyIndex;
+    let isDaily = true;
+
+    if (requestedDrill === "next" || requestedDrill === "bonus") {
+      const last = typeof window.duoActiveDrillIdx === "number" ? window.duoActiveDrillIdx : dailyIndex;
+      targetIndex = (last + 1) % SYNTAX_BANK.length;
+      isDaily = false;
+    } else if (typeof requestedDrill === "number") {
+      targetIndex = Math.abs(requestedDrill) % SYNTAX_BANK.length;
+      isDaily = (targetIndex === dailyIndex);
+    } else {
+      targetIndex = dailyIndex;
+      isDaily = true;
+    }
+
+    window.duoActiveDrillIdx = targetIndex;
+    window.duoIsDailyDrill = isDaily;
+
+    const pick = SYNTAX_BANK[targetIndex];
     const correctWords = pick.target.replace(/[.]/g, "").split(/\s+/);
     const scrambled = [...correctWords].sort(() => Math.random() - 0.5);
+    if (scrambled.join(" ") === correctWords.join(" ") && scrambled.length > 2) {
+      const temp = scrambled[0];
+      scrambled[0] = scrambled[1];
+      scrambled[1] = temp;
+    }
 
     let modal = document.getElementById("duoScrambleModalBackdrop");
     if (!modal) {
@@ -474,33 +747,76 @@
       document.body.appendChild(modal);
     }
 
+    const isTodayMastered = isDaily && isCompletedToday;
+
     modal.classList.add("open");
     modal.style.display = "flex";
     modal.innerHTML = `
-      <div class="ips-modal-shell" style="max-width:540px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <svg class="ui-icon" style="width:24px;height:24px;color:#3B82F6;" aria-hidden="true"><use href="#lucide-puzzle"/></svg>
+      <div class="ips-modal-shell" style="max-width:580px;border-radius:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(59,130,246,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg class="ui-icon" style="width:22px;height:22px;color:#3B82F6;" aria-hidden="true"><use href="#lucide-puzzle"/></svg>
+            </div>
             <div>
-              <strong style="font-size:1.02rem;color:var(--text);">Cambridge Academic Syntax Builder</strong>
-              <div style="font-size:0.75rem;color:var(--accent-gold,#F59E0B);font-weight:700;">DAILY COLLOCATION CHALLENGE • +25 XP &amp; +5 Gems</div>
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <strong style="font-size:1.02rem;color:var(--text);font-weight:800;">Cambridge Academic Syntax Builder</strong>
+                ${isDaily ? `
+                  <span style="font-size:0.68rem;font-weight:800;padding:2px 7px;border-radius:10px;background:rgba(59,130,246,0.12);color:#2563EB;border:1px solid rgba(59,130,246,0.25);letter-spacing:0.04em;">DAILY DRILL</span>
+                ` : `
+                  <span style="font-size:0.68rem;font-weight:800;padding:2px 7px;border-radius:10px;background:rgba(16,185,129,0.12);color:#059669;border:1px solid rgba(16,185,129,0.25);letter-spacing:0.04em;">BONUS PRACTICE</span>
+                `}
+              </div>
+              <div style="font-size:0.74rem;color:var(--text-secondary);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <span>Drill #${targetIndex + 1} of ${SYNTAX_BANK.length}</span>
+                <span>&bull;</span>
+                <span style="color:var(--accent);font-weight:700;">${escapeHtml(pick.grammarPattern)}</span>
+              </div>
             </div>
           </div>
-          <button class="btn-outlined" style="padding:4px 9px;font-size:0.78rem;" onclick="document.getElementById('duoScrambleModalBackdrop').classList.remove('open');document.getElementById('duoScrambleModalBackdrop').style.display='none';">&times;</button>
+          <button class="btn-outlined" style="padding:4px 9px;font-size:0.85rem;line-height:1;border-radius:8px;" onclick="window.duoCloseScrambleModal();" aria-label="Close Syntax Builder">&times;</button>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 12px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);margin-bottom:12px;font-size:0.75rem;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg class="ui-icon" style="width:14px;height:14px;color:var(--accent-gold,#F59E0B);"><use href="#lucide-calendar"/></svg>
+            <span style="font-weight:700;color:var(--text);">${todayStr}</span>
+            ${isTodayMastered ? `
+              <span style="display:inline-flex;align-items:center;gap:3px;color:#10B981;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(16,185,129,0.1);">
+                <svg class="ui-icon" style="width:12px;height:12px;"><use href="#lucide-check-circle-2"/></svg> Completed (+25 XP)
+              </span>
+            ` : isDaily ? `
+              <span style="display:inline-flex;align-items:center;gap:3px;color:#F59E0B;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(245,158,11,0.1);">
+                <svg class="ui-icon" style="width:12px;height:12px;"><use href="#lucide-sparkles"/></svg> +25 XP &amp; +5 Gems
+              </span>
+            ` : `
+              <span style="display:inline-flex;align-items:center;gap:3px;color:#3B82F6;font-weight:700;padding:1px 6px;border-radius:4px;background:rgba(59,130,246,0.1);">
+                <svg class="ui-icon" style="width:12px;height:12px;"><use href="#lucide-sparkles"/></svg> +10 XP Practice
+              </span>
+            `}
+          </div>
+          <div style="color:var(--text-secondary);display:flex;align-items:center;gap:4px;">
+            <svg class="ui-icon" style="width:13px;height:13px;"><use href="#lucide-clock"/></svg>
+            <span id="duoSyntaxCountdownText">Next daily drill in <strong>${timeUntil.hours}h ${timeUntil.mins}m</strong></span>
+          </div>
         </div>
 
         <div style="margin-bottom:14px;padding:12px 14px;border-radius:12px;background:var(--well-peach,#FFF7ED);border:1px solid rgba(245,158,11,0.25);">
-          <div style="font-size:0.76rem;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:4px;">Burmese Prompt:</div>
-          <div class="burmese" style="font-size:0.92rem;font-weight:700;color:var(--text);">${escapeHtml(pick.translation)}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:0.74rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.04em;">Burmese Academic Meaning:</div>
+            <div style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);">Focus: <strong style="color:var(--text);">${escapeHtml(pick.focus)}</strong></div>
+          </div>
+          <div class="burmese" style="font-size:0.92rem;font-weight:700;color:var(--text);line-height:1.5;">${escapeHtml(pick.translation)}</div>
+          <div style="margin-top:6px;font-size:0.72rem;color:var(--text-secondary);">
+            Topic Domain: <span style="font-weight:600;color:var(--text);">${escapeHtml(pick.category)}</span>
+          </div>
         </div>
 
-        <!-- Candidate Constructed Sentence Slot -->
-        <div id="duoScrambleSlot" style="min-height:56px;padding:10px 14px;border-radius:14px;background:var(--bg-elevated);border:2px dashed var(--border-mid);display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;">
-          <span id="duoScramblePlaceholder" style="font-size:0.82rem;color:var(--text-secondary);">Tap words from the bank below to construct the Band 8.5+ sentence...</span>
+        <div id="duoScrambleSlot" style="min-height:58px;padding:10px 14px;border-radius:14px;background:var(--bg-elevated);border:2px dashed var(--border-mid);display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;transition:all 0.25s ease;">
+          <span id="duoScramblePlaceholder" style="font-size:0.82rem;color:var(--text-secondary);">Tap words from the bank below in correct academic syntax sequence...</span>
         </div>
 
-        <!-- Available Word Chips Bank -->
-        <div id="duoChipsBank" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:70px;">
+        <div id="duoChipsBank" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:68px;">
           ${scrambled
             .map(
               (w, i) => `
@@ -513,20 +829,27 @@
         </div>
 
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:10px;border-top:1px solid var(--border);">
-          <div style="display:flex;gap:6px;">
-            <button type="button" class="btn-outlined" style="font-size:0.8rem;" onclick="window.duoResetScramble()">↺ Clear</button>
-            <button type="button" class="btn-outlined" style="font-size:0.8rem;color:#0284C7;border-color:rgba(2,132,199,0.3);" onclick="window.duoUseScrambleHint(${JSON.stringify(correctWords).replace(/"/g, "&quot;")})">
-              <svg class="ui-icon" style="color:#F59E0B;" aria-hidden="true"><use href="#lucide-lightbulb"/></svg> Hint (10 <svg class="ui-icon" style="color:#06B6D4;" aria-hidden="true"><use href="#lucide-gem"/></svg>)
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button type="button" class="btn-outlined" style="font-size:0.78rem;padding:6px 11px;" onclick="window.duoResetScramble()" title="Reset constructed sentence">
+              <svg class="ui-icon" style="width:13px;height:13px;margin-right:4px;"><use href="#lucide-rotate-ccw"/></svg> Clear
+            </button>
+            <button type="button" class="btn-outlined" style="font-size:0.78rem;padding:6px 11px;color:#0284C7;border-color:rgba(2,132,199,0.3);" onclick="window.duoUseScrambleHint(${JSON.stringify(correctWords).replace(/"/g, "&quot;")})" title="Reveal next word (-10 Gems)">
+              <svg class="ui-icon" style="color:#F59E0B;width:13px;height:13px;margin-right:3px;"><use href="#lucide-lightbulb"/></svg> Hint (10 <svg class="ui-icon" style="color:#06B6D4;width:12px;height:12px;"><use href="#lucide-gem"/></svg>)
+            </button>
+            <button type="button" class="btn-outlined" style="font-size:0.78rem;padding:6px 11px;color:var(--accent);border-color:rgba(234,88,12,0.3);" onclick="window.openDuoWordScrambleModal('next')" title="Try another academic sentence">
+              <svg class="ui-icon" style="width:13px;height:13px;margin-right:3px;"><use href="#lucide-sparkles"/></svg> ${isTodayMastered || !isDaily ? "Next Drill" : "Practice Another"}
             </button>
           </div>
-          <button type="button" class="btn-accent-solid" id="duoCheckScrambleBtn" style="padding:10px 22px;font-size:0.88rem;font-weight:800;" onclick="window.duoCheckScrambleAnswer(${JSON.stringify(pick.target).replace(/"/g, "&quot;")})">
-            Check Answer <svg class="ui-icon" aria-hidden="true"><use href="#lucide-check"/></svg>
+          <button type="button" class="btn-accent-solid" id="duoCheckScrambleBtn" style="padding:9px 20px;font-size:0.86rem;font-weight:800;" onclick="window.duoCheckScrambleAnswer(${JSON.stringify(pick.target).replace(/"/g, "&quot;")}, ${targetIndex}, ${isDaily})">
+            Check Answer <svg class="ui-icon" style="width:14px;height:14px;margin-left:4px;" aria-hidden="true"><use href="#lucide-check"/></svg>
           </button>
         </div>
       </div>
     `;
 
     window.duoCurrentPickedChips = [];
+    if (syntaxCountdownInterval) clearInterval(syntaxCountdownInterval);
+    syntaxCountdownInterval = setInterval(updateSyntaxCountdown, 60000);
   };
 
   window.duoPickChip = function (chipIdx, word) {
@@ -546,7 +869,7 @@
     tokenBtn.id = pickedId;
     tokenBtn.className = "duo-word-chip";
     tokenBtn.style.borderColor = "var(--accent-gold,#F59E0B)";
-    tokenBtn.innerHTML = `${escapeHtml(word)} <small style="color:var(--text-secondary);margin-left:3px;">&times;</small>`;
+    tokenBtn.innerHTML = `${escapeHtml(word)} <svg class="ui-icon" style="width:12px;height:12px;color:var(--text-secondary);margin-left:4px;" aria-hidden="true"><use href="#lucide-x"/></svg>`;
     tokenBtn.onclick = () => window.duoReturnChip(chipIdx, word);
 
     slot.appendChild(tokenBtn);
@@ -580,6 +903,8 @@
     const placeholder = document.getElementById("duoScramblePlaceholder");
     if (placeholder) placeholder.style.display = "block";
     window.duoCurrentPickedChips = [];
+    if (syntaxCountdownInterval) clearInterval(syntaxCountdownInterval);
+    syntaxCountdownInterval = setInterval(updateSyntaxCountdown, 60000);
   };
 
   window.duoUseScrambleHint = function (correctWords) {
@@ -587,7 +912,7 @@
     if ((st.gems || 0) < 10) {
       duoPlaySound("warn");
       if (typeof showStudioNotification === "function") {
-        showStudioNotification("Need at least 10 Gems for a Hint! Earn gems by practicing.");
+        showStudioNotification("Need at least 10 Gems for a Hint! Earn gems by completing daily practice.");
       }
       return;
     }
@@ -596,7 +921,6 @@
     if (currentCount >= correctWords.length) return;
 
     const nextWord = correctWords[currentCount];
-    // Find unpicked chip matching nextWord
     const allChips = document.querySelectorAll("#duoChipsBank .duo-word-chip:not(.used)");
     let targetChip = null;
     for (const chip of allChips) {
@@ -613,13 +937,13 @@
       if (match) {
         window.duoPickChip(match[0], nextWord);
         if (typeof showStudioNotification === "function") {
-          showStudioNotification(`Hint used: "${nextWord}" placed (-10 Gems)`);
+          showStudioNotification(`Hint placed: "${nextWord}" (-10 Gems)`);
         }
       }
     }
   };
 
-  window.duoCheckScrambleAnswer = function (targetSentence) {
+  window.duoCheckScrambleAnswer = function (targetSentence, drillIdx, isDaily) {
     const pickedWords = (window.duoCurrentPickedChips || []).map((c) => c.word);
     const candidateStr = pickedWords.join(" ").trim().toLowerCase();
     const cleanTarget = targetSentence.replace(/[.]/g, "").trim().toLowerCase();
@@ -628,30 +952,62 @@
 
     if (candidateStr === cleanTarget) {
       duoPlaySound("success");
-      slot.classList.add("duo-pop");
-      slot.style.borderColor = "#10B981";
-      slot.style.background = "rgba(16,185,129,0.12)";
+      if (slot) {
+        slot.classList.add("duo-pop");
+        slot.style.borderColor = "#10B981";
+        slot.style.background = "rgba(16,185,129,0.12)";
+      }
 
       window.duoCelebrate();
-      window.duoAddXp(25, "Vocab Scramble Drill");
 
-      setTimeout(() => {
-        const modal = document.getElementById("duoScrambleModalBackdrop");
-        if (modal) {
-          modal.classList.remove("open");
-          modal.style.display = "none";
-        }
-        duoShowFeedback({
-          title: "Flawless Syntax! +25 XP & +5 Gems",
-          message: `Mastered Collocation: "${targetSentence}"`,
-          type: "success"
-        });
-      }, 700);
+      const todayStr = getTodayDateString();
+      const alreadyMastered = localStorage.getItem("ips_daily_syntax_completed_date") === todayStr;
+
+      if (isDaily && !alreadyMastered) {
+        localStorage.setItem("ips_daily_syntax_completed_date", todayStr);
+        window.duoAddXp(25, "Daily Academic Syntax Drill");
+        const st = getGamifyState();
+        st.gems = (st.gems || 0) + 5;
+        saveGamifyState(st);
+
+        // Update Overview hub immediately so button reflects completed state
+        renderOverviewDuoHub();
+
+        setTimeout(() => {
+          const modal = document.getElementById("duoScrambleModalBackdrop");
+          if (modal) {
+            modal.classList.remove("open");
+            modal.style.display = "none";
+          }
+          duoShowFeedback({
+            title: "Daily Syntax Mastered! +25 XP & +5 Gems",
+            message: `Mastered Band 9.0 Sentence: "${targetSentence}"`,
+            type: "success"
+          });
+        }, 700);
+      } else {
+        // Bonus practice completion
+        window.duoAddXp(10, "Bonus Academic Syntax Drill");
+        setTimeout(() => {
+          const modal = document.getElementById("duoScrambleModalBackdrop");
+          if (modal) {
+            modal.classList.remove("open");
+            modal.style.display = "none";
+          }
+          duoShowFeedback({
+            title: "Bonus Syntax Practice Complete! +10 XP",
+            message: `Constructed: "${targetSentence}"`,
+            type: "success"
+          });
+        }, 700);
+      }
     } else {
       duoPlaySound("warn");
-      slot.classList.add("duo-shake");
-      slot.style.borderColor = "#EF4444";
-      setTimeout(() => slot.classList.remove("duo-shake"), 400);
+      if (slot) {
+        slot.classList.add("duo-shake");
+        slot.style.borderColor = "#EF4444";
+        setTimeout(() => slot.classList.remove("duo-shake"), 400);
+      }
 
       const st = getGamifyState();
       st.hearts = Math.max(1, (st.hearts || 5) - 1);
@@ -662,6 +1018,7 @@
       }
     }
   };
+
 
   // ==========================================================================
   // 6. ACADEMIC STUDY ECONOMY & SCHOLAR GEM STORE MODAL
@@ -826,7 +1183,7 @@
             Open Full Studio Guide
           </button>
           <button type="button" class="btn-accent-solid" style="padding:8px 18px;font-size:0.82rem;font-weight:800;" onclick="window.openDuoWordScrambleModal()">
-            Play Syntax Builder (+25 XP)
+            Play Daily Syntax Drill (+25 XP)
           </button>
         </div>
       </div>
@@ -1147,9 +1504,19 @@
               <button type="button" class="btn-outlined" style="padding:4px 9px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openStudioGuideModal(1)">
                 <svg class="ui-icon" style="width:14px;height:14px;"><use href="#lucide-book-open"/></svg> Guide
               </button>
-              <button type="button" class="btn-accent-solid" style="padding:4px 10px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openDuoWordScrambleModal()">
-                <svg class="ui-icon" style="width:14px;height:14px;"><use href="#lucide-puzzle"/></svg> Syntax Drill
-              </button>
+              ${(function(){
+                const todayStr = getTodayDateString();
+                const isDailyDone = localStorage.getItem("ips_daily_syntax_completed_date") === todayStr;
+                return isDailyDone ? `
+                  <button type="button" class="btn-outlined" style="padding:4px 10px;font-size:0.74rem;font-weight:700;flex-shrink:0;color:#10B981;border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.06);" onclick="window.openDuoWordScrambleModal()" title="Today's Syntax Drill completed (+25 XP). Click to practice more.">
+                    <svg class="ui-icon" style="width:14px;height:14px;margin-right:4px;color:#10B981;"><use href="#lucide-check-circle-2"/></svg> Syntax (Done)
+                  </button>
+                ` : `
+                  <button type="button" class="btn-accent-solid" style="padding:4px 10px;font-size:0.74rem;font-weight:700;flex-shrink:0;" onclick="window.openDuoWordScrambleModal()" title="Today's Academic Syntax Challenge (+25 XP &amp; +5 Gems)">
+                    <svg class="ui-icon" style="width:14px;height:14px;margin-right:4px;"><use href="#lucide-puzzle"/></svg> Syntax Drill
+                  </button>
+                `;
+              })()}
             </div>
           </div>
           <p style="font-size:0.79rem;color:var(--text-secondary);margin:0 0 12px 0;line-height:1.45;word-break:break-word;">
