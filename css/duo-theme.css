@@ -708,3 +708,126 @@ body.topbar-collapsed .at-subnav-bar {
     z-index: 140 !important;
   }
 }
+
+/* ==========================================================================
+   6. OPEN DESIGN: ACADEMIC METRICS BENTO GRID (Linear / Stripe Standard)
+   ========================================================================== */
+.telemetry-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .telemetry-bento-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.telemetry-bento-card {
+  padding: 16px 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.telemetry-bento-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="dark"] .telemetry-bento-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.telemetry-bento-card:active {
+  transform: translateY(1px);
+}
+
+.bento-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bento-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-orange {
+  color: #EA580C;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+:root[data-theme="dark"] .badge-orange {
+  color: #FBBF24;
+}
+
+.badge-blue {
+  color: #0284C7;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.25);
+}
+
+:root[data-theme="dark"] .badge-blue {
+  color: #38BDF8;
+}
+
+.badge-emerald {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+:root[data-theme="dark"] .badge-emerald {
+  color: #34D399;
+}
+
+.bento-arrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: transform 0.16s ease, color 0.16s ease;
+}
+
+.telemetry-bento-card:hover .bento-arrow {
+  transform: translate(2px, -2px);
+  color: var(--accent);
+}
+
+.bento-metric-val {
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.bento-metric-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.bento-metric-sub {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
