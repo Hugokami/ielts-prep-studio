@@ -1221,7 +1221,7 @@
 
     renderHudPills();
     renderOverviewDuoHub();
-    initTopbarAutoCollapse();
+    initTopbarManualToggle();
     initTopUtilsDragScroll();
 
     // 4. First-time user onboarding guide auto-prompt (3.8s after launch, once only)
@@ -1237,72 +1237,53 @@
   }
 
   // ==========================================================================
-  // 10. TOPBAR AUTO-COLLAPSE ON SCROLL & MOBILE HORIZONTAL SLIDE CONTROLLER
+  // 10. TOPBAR MANUAL COLLAPSE / EXPAND TOGGLE & HORIZONTAL DRAG SCROLLER
   // ==========================================================================
-  function initTopbarAutoCollapse() {
-    let lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    let ticking = false;
-    const COLLAPSE_MIN_Y = 54;
-    const DELTA_THRESHOLD = 8;
+  window.toggleTopbarCollapse = function(forceState) {
+    const isCurrentlyCollapsed = document.body.classList.contains("topbar-collapsed");
+    const nextState = (typeof forceState === "boolean") ? forceState : !isCurrentlyCollapsed;
 
-    function onScrollTick() {
-      const currentY = Math.max(0, window.scrollY || window.pageYOffset || 0);
-
-      // Always show topbar at or near the very top of the page
-      if (currentY <= COLLAPSE_MIN_Y) {
-        if (document.body.classList.contains("topbar-collapsed")) {
-          document.body.classList.remove("topbar-collapsed");
-        }
-        lastScrollY = currentY;
-        ticking = false;
-        return;
-      }
-
-      // Do NOT collapse if user is actively typing in an input/textarea or if a modal/drawer is open
-      const activeEl = document.activeElement;
-      const isTyping = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.isContentEditable);
-      const isModalOpen = document.querySelector(".modal.active, .modal.show, .drawer.open, #settingsDrawer.open, #vipPassModal[style*='display: flex']");
-
-      if (isTyping || isModalOpen) {
-        lastScrollY = currentY;
-        ticking = false;
-        return;
-      }
-
-      const delta = currentY - lastScrollY;
-
-      if (delta > DELTA_THRESHOLD) {
-        // Scrolling DOWN -> Auto collapse
-        if (!document.body.classList.contains("topbar-collapsed")) {
-          document.body.classList.add("topbar-collapsed");
-        }
-      } else if (delta < -DELTA_THRESHOLD) {
-        // Scrolling UP -> Reveal
-        if (document.body.classList.contains("topbar-collapsed")) {
-          document.body.classList.remove("topbar-collapsed");
-        }
-      }
-
-      lastScrollY = currentY;
-      ticking = false;
+    if (nextState) {
+      document.body.classList.add("topbar-collapsed");
+    } else {
+      document.body.classList.remove("topbar-collapsed");
     }
 
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        window.requestAnimationFrame(onScrollTick);
-        ticking = true;
-      }
-    }, { passive: true });
+    const toggleBtn = document.getElementById("topbarCollapseBtn");
+    if (toggleBtn) {
+      toggleBtn.innerHTML = nextState ? "▾" : "▴";
+      toggleBtn.title = nextState ? "Expand Top Bar" : "Collapse Top Bar";
+      toggleBtn.setAttribute("aria-expanded", nextState ? "false" : "true");
+    }
 
-    window.addEventListener("resize", () => {
-      document.body.classList.remove("topbar-collapsed");
-      lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    }, { passive: true });
+    const expandPill = document.getElementById("topbarExpandPill");
+    if (expandPill) {
+      expandPill.style.display = nextState ? "inline-flex" : "none";
+    }
 
-    window.revealTopbar = function() {
-      document.body.classList.remove("topbar-collapsed");
-      lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    };
+    try {
+      localStorage.setItem("ips_topbar_collapsed", nextState ? "1" : "0");
+    } catch (e) {}
+
+    if (typeof studioHaptic === "function") studioHaptic(10);
+  };
+
+  window.revealTopbar = function() {
+    window.toggleTopbarCollapse(false);
+  };
+
+  function initTopbarManualToggle() {
+    // Check saved user preference (default: expanded)
+    let savedState = false;
+    try {
+      savedState = localStorage.getItem("ips_topbar_collapsed") === "1";
+    } catch (e) {}
+
+    if (savedState) {
+      window.toggleTopbarCollapse(true);
+    } else {
+      window.toggleTopbarCollapse(false);
+    }
   }
 
   function initTopUtilsDragScroll() {

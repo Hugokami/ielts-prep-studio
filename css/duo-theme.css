@@ -598,6 +598,57 @@ body.topbar-collapsed .topbar {
   pointer-events: none !important;
 }
 
+.topbar-collapse-btn {
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  padding: 3px 8px !important;
+  min-width: 26px !important;
+  min-height: 26px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  border-radius: 999px !important;
+}
+
+.topbar-expand-pill {
+  position: fixed;
+  top: max(8px, env(safe-area-inset-top, 8px));
+  right: 14px;
+  z-index: 1600;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--bg-card, #FFFFFF);
+  border: 1.5px solid var(--border-mid, rgba(15, 23, 42, 0.12));
+  color: var(--text, #0F172A);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root[data-theme="dark"] .topbar-expand-pill {
+  background: rgba(15, 23, 42, 0.92);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #F8FAFC;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.topbar-expand-pill:active {
+  transform: scale(0.96);
+}
+
+body.topbar-collapsed .topbar-expand-pill {
+  display: inline-flex !important;
+  animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 body.topbar-collapsed .subtab-bar,
 body.topbar-collapsed .subnav-strip,
 body.topbar-collapsed .mobile-cbt-toggle-bar,
