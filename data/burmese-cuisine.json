@@ -1798,5 +1798,1855 @@
       "ancient forest cooking technique"
     ],
     "speakingCueHook": "Eating Kauk Hnyin Kyidauk is a sensory delight because the sticky rice absorbs the delicate, paper-thin inner membrane of the roasted bamboo."
+  },
+  {
+    "id": "bur_food_21",
+    "nameEn": "Nga Thalaut Paung",
+    "nameMm": "ငါးသလောက်ပေါင်း",
+    "category": "Signature Dishes",
+    "ipa": "/ŋá θəlaʊʔ páʊɴ/",
+    "tagline": "Slow-Braised Hilsa Fish in Aromatic Vinegar, Soy Sauce & Garlic Gravy",
+    "burmeseTagline": "အရိုးပါ နူးအိနေအောင် နာရီပေါင်းများစွာ နှပ်ထားသော မြန်မာ့ရိုးရာ ငါးသလောက်ပေါင်း",
+    "ingredientsEn": [
+      "Fresh Hilsa Fish (Nga Thalaut)",
+      "Cane Vinegar",
+      "Dark Sweet Soy Sauce",
+      "Minced Garlic & Shallots",
+      "Turmeric & Chili Powder",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ငါးသလောက် လတ်လတ်ဆတ်ဆတ်",
+      "ကြံသကာ ရှာလကာရည်",
+      "ပဲငံပြာရည် အကြည်/အနောက်",
+      "ကြက်သွန်ဖြူ/နီ",
+      "နနွင်းမှုန့် နှင့် ငရုတ်သီးမှုန့်",
+      "မြေပဲဆီသန့်"
+    ],
+    "ieltsBandDescription": "Nga Thalaut Paung is an esteemed Burmese culinary masterpiece featuring hilsa shad stewed gently over simmering charcoal embers for twelve hours until its fine, needle-like bones completely soften into tender, melt-in-the-mouth perfection, yielding a deeply savoury reduction enriched with tart cane vinegar and caramelised shallot oil.",
+    "ieltsCollocations": [
+      "esteemed culinary masterpiece",
+      "tender melt-in-the-mouth texture",
+      "simmering charcoal embers",
+      "caramelised shallot oil reduction",
+      "gastronomic heritage"
+    ],
+    "speakingCueHook": "Whenever I am asked to introduce an emblematic Burmese dish to foreign guests, I immediately describe Nga Thalaut Paung because of its astonishing 12-hour braising technique that dissolves the fish bones into rich, buttery marrow."
+  },
+  {
+    "id": "bur_food_22",
+    "nameEn": "Wet Tha Chin Baung",
+    "nameMm": "ဝက်သားချဉ်ပေါင်ဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/wɛʔ θá tɕʰɪ̀ɴ bàʊɴ hɪ́ɴ/",
+    "tagline": "Braised Pork Belly with Sour Roselle Leaves, Bamboo Shoots & Green Chilies",
+    "burmeseTagline": "ချဉ်၊ စပ်၊ မွှေး ရသစုံလင်ပြီး အဆီအစိမ့်ကို ချေဖျက်ပေးသော ဝက်သားချဉ်ပေါင်ဟင်း",
+    "ingredientsEn": [
+      "Pork Belly Chunks",
+      "Fresh Roselle Leaves (Chin Baung)",
+      "Tender Bamboo Shoots",
+      "Green Bird's Eye Chilies",
+      "Shallots & Garlic Paste",
+      "Fish Sauce & Turmeric"
+    ],
+    "ingredientsMm": [
+      "ဝက်သုံးထပ်သား",
+      "ချဉ်ပေါင်ရွက် လတ်လတ်ဆတ်ဆတ်",
+      "မျှစ်နု",
+      "ငရုတ်သီးစိမ်း",
+      "ကြက်သွန်နီ/ဖြူ ထောင်း",
+      "ငံပြာရည် နှင့် နနွင်း"
+    ],
+    "ieltsBandDescription": "Wet Tha Chin Baung exemplifies the quintessential Burmese flavour pairing of rich, unctuous pork belly juxtaposed against the bracing, natural acidity of fresh roselle leaves, punctuated by fiery bird's eye chilies and earthy bamboo shoots to produce a harmonious palate-cleansing stew.",
+    "ieltsCollocations": [
+      "unctuous pork belly",
+      "bracing natural acidity",
+      "palate-cleansing stew",
+      "quintessential flavour pairing",
+      "culinary juxtaposition"
+    ],
+    "speakingCueHook": "In Burmese domestic culture, pork cooked with tangy roselle leaves is the undisputed comfort food that cuts through rich dietary oils with extraordinary citrus-like freshness."
+  },
+  {
+    "id": "bur_food_23",
+    "nameEn": "Pa Zun See Pyan",
+    "nameMm": "ပုဇွန်ဆီပြန်ဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/pəzʊ̀ɴ sʰì bjàɴ hɪ́ɴ/",
+    "tagline": "Giant Freshwater River Prawn Curry Simmered in Aromatic Shallot Oil Reduction",
+    "burmeseTagline": "ပုဇွန်ဦးခေါင်းမှ ဆီများဖြင့် လှပစွာ ဆီပြန်နေသော မြန်မာ့ရိုးရာ ပုဇွန်ဆီပြန်ဟင်း",
+    "ingredientsEn": [
+      "Giant River Prawns (Pa Zun Htoke)",
+      "Prawn Head Tomalley (Pazun Hsi)",
+      "Minced Shallots & Garlic",
+      "Kashmiri Mild Chili Powder",
+      "Pure Peanut Oil",
+      "Aromatic Fish Sauce"
+    ],
+    "ingredientsMm": [
+      "မြစ်ပုဇွန်ထုပ်ကြီးများ",
+      "ပုဇွန်ဦးခေါင်း အဆီ",
+      "ကြက်သွန်နီ/ဖြူ ထောင်း",
+      "အရောင်တင် ငရုတ်သီးမှုန့်",
+      "မြေပဲဆီ",
+      "ငါးငံပြာရည်"
+    ],
+    "ieltsBandDescription": "Pa Zun See Pyan is a prestigious banquet staple where succulent jumbo river prawns are braised in aromatic shallot and garlic oil until the rich orange tomalley from the prawn heads emulsifies into the gravy, creating the definitive glossy 'see-pyan' oil reduction characteristic of aristocratic Burmese gastronomy.",
+    "ieltsCollocations": [
+      "prestigious banquet staple",
+      "succulent river prawns",
+      "emulsified prawn tomalley",
+      "definitive oil reduction",
+      "aristocratic gastronomy"
+    ],
+    "speakingCueHook": "The distinguishing marker of an authentic Burmese prawn curry is the 'see-pyan' cooking method, where the oil separates cleanly from the aromatic sauce to seal in moisture and profound umami depth."
+  },
+  {
+    "id": "bur_food_24",
+    "nameEn": "Ame Thar Hnat",
+    "nameMm": "အမဲသားနှပ်",
+    "category": "Signature Dishes",
+    "ipa": "/ʔəmɛ́ θá n̥aʔ/",
+    "tagline": "Slow-Simmered Burmese Spiced Beef Curry with Star Anise, Cinnamon & Shallots",
+    "burmeseTagline": "နံ့သာမျိုးစုံဖြင့် နူးအိမွှေးကြိုင်နေအောင် နှပ်ထားသော မြန်မာ့ရိုးရာ အမဲသားနှပ်ဟင်း",
+    "ingredientsEn": [
+      "Beef Shin or Brisket",
+      "Star Anise & Cinnamon Bark",
+      "Crushed Shallots & Ginger",
+      "Roasted Coriander Seed",
+      "Bay Leaves",
+      "Peanut Oil & Soy Sauce"
+    ],
+    "ingredientsMm": [
+      "အမဲဂျိုင်းသား သို့မဟုတ် တွဲသား",
+      "စမုန်စပါးပွင့် နှင့် သစ်ကြံပိုးခေါက်",
+      "ကြက်သွန်နီ နှင့် ဂျင်းထောင်း",
+      "နံနံစေ့ လှော်မှုန့်",
+      "ကရဝေးရွက်",
+      "မြေပဲဆီ နှင့် ပဲငံပြာရည်"
+    ],
+    "ieltsBandDescription": "Ame Thar Hnat showcases the historical Mughal and Maritime influences on Upper Myanmar cuisine, utilising fragrant warm spices like star anise, cassia bark, and toasted coriander to slow-braise tough cuts of beef shank into fork-tender, aromatically complex medallions.",
+    "ieltsCollocations": [
+      "aromatically complex medallions",
+      "fragrant warm spices",
+      "fork-tender texture",
+      "historical maritime influences",
+      "slow-braised delicacy"
+    ],
+    "speakingCueHook": "Unlike European beef stews that rely on wine reductions, Burmese braised beef achieves its deep aromatic mahogany hue through caramelised shallots and whole roasted spices."
+  },
+  {
+    "id": "bur_food_25",
+    "nameEn": "Seik Thar Hin",
+    "nameMm": "ဆိတ်သားဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/seɪʔ θá hɪ́ɴ/",
+    "tagline": "Tender Aromatic Mutton Curry Infused with Cumin, Cardamom & Garam Masala",
+    "burmeseTagline": "ဆိတ်သားညှီနံ့ ကင်းဝေးစေရန် မဆလာ၊ စမုန်စပါးတို့ဖြင့် အထူးချက်ပြုတ်ထားသော ဆိတ်သားဟင်း",
+    "ingredientsEn": [
+      "Tender Goat Meat or Mutton",
+      "Burmese Garam Masala (Masala Hmont)",
+      "Black Cardamom Pods",
+      "Lemongrass & Ginger Paste",
+      "Curd or Lime Juice",
+      "Turmeric & Mustard Oil"
+    ],
+    "ingredientsMm": [
+      "ဆိတ်သားနုနု",
+      "မြန်မာ့မဆလာမှုန့်",
+      "ဖာလာစေ့ အနက်",
+      "စပါးလင် နှင့် ဂျင်းထောင်း",
+      "ဒိန်ချဉ် သို့မဟုတ် သံပရာရည်",
+      "နနွင်းမှုန့် နှင့် မုန်ညင်းဆီ"
+    ],
+    "ieltsBandDescription": "Seik Thar Hin is an intensely aromatic mutton curry marinated in yoghurt and freshly ground warming spices, then braised with lemongrass and ginger to eliminate gamey overtones, resulting in a rich, velvety gravy revered during religious festivals and wedding banquets.",
+    "ieltsCollocations": [
+      "intensely aromatic curry",
+      "eliminate gamey overtones",
+      "velvety spiced gravy",
+      "revered festive banquet",
+      "warming aromatic spices"
+    ],
+    "speakingCueHook": "In Myanmar, mutton curry is traditionally reserved for festive occasions because the meticulous spice blend requires hours of slow braising to tenderise the meat."
+  },
+  {
+    "id": "bur_food_26",
+    "nameEn": "Kyet Thar Aloo Hin",
+    "nameMm": "ကြက်သားအာလူးဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/tɕɛʔ θá ʔàlù hɪ́ɴ/",
+    "tagline": "Homestyle Burmese Golden Chicken & Potato Curry in Turmeric Shallot Gravy",
+    "burmeseTagline": "မြန်မာမိသားစုတိုင်း၏ ထမင်းဝိုင်းတွင် မပါမဖြစ် နွေးထွေးသော ကြက်သားအာလူးဟင်း",
+    "ingredientsEn": [
+      "Free-Range Chicken",
+      "Starchy Shan Potatoes",
+      "Pure Turmeric Powder",
+      "Shallots, Garlic & Ginger Base",
+      "Fish Sauce",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ဗမာကြက်သား",
+      "ရှမ်းအာလူး မွမွ",
+      "နနွင်းစစ်စစ်",
+      "ကြက်သွန်နီ/ဖြူ၊ ဂျင်း အနှစ်",
+      "ငံပြာရည်",
+      "မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Kyet Thar Aloo Hin represents the consummate quintessential homestyle comfort food across Myanmar households, pairing free-range chicken drumettes with fluffy mountain potatoes simmered gently in a golden turmeric, shallot, and garlic emulsion.",
+    "ieltsCollocations": [
+      "quintessential homestyle comfort",
+      "consummate family dining",
+      "golden turmeric emulsion",
+      "free-range chicken",
+      "simmered gently"
+    ],
+    "speakingCueHook": "If you ask any Burmese person what dish instantly evokes childhood memories of home cooking, the unanimous response is inevitably chicken and potato curry with hot jasmine rice."
+  },
+  {
+    "id": "bur_food_27",
+    "nameEn": "Nga Gyi See Pyan",
+    "nameMm": "ငါးရံ့ဆီပြန်ဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/ŋá dʑì sʰì bjàɴ hɪ́ɴ/",
+    "tagline": "Freshwater Snakehead Fish Steaks in Red Shallot Oil Reduction",
+    "burmeseTagline": "ငါးအသား တင်းတင်းရင်းရင်းဖြင့် ဆီပြန်ဟင်းအဖြစ် ချက်ပြုတ်ထားသော ငါးရံ့ဆီပြန်ဟင်း",
+    "ingredientsEn": [
+      "Striped Snakehead Fish Steaks (Nga Gyi)",
+      "Turmeric & Salt Marinade",
+      "Shallot & Garlic Puree",
+      "Chili Flakes",
+      "Aromatic Fish Sauce",
+      "Crispy Garlic Oil"
+    ],
+    "ingredientsMm": [
+      "ငါးရံ့တုံးများ",
+      "နနွင်း၊ ဆား နယ်ထားသောငါး",
+      "ကြက်သွန်နီ/ဖြူ အနှစ်",
+      "ငရုတ်သီး အစိမ်းမှုန့်",
+      "ငံပြာရည်",
+      "ကြက်သွန်ဖြူဆီချက်"
+    ],
+    "ieltsBandDescription": "Nga Gyi See Pyan highlights the firm, meaty texture of wild-caught freshwater snakehead, seared lightly in turmeric oil and simmered until the shallot-infused gravy clings lustrously to each succulent steak without disintegrating the delicate fish flakes.",
+    "ieltsCollocations": [
+      "firm meaty texture",
+      "wild-caught freshwater fish",
+      "lustrously clinging gravy",
+      "succulent steaks",
+      "delicate fish flakes"
+    ],
+    "speakingCueHook": "The snakehead fish holds cultural pre-eminence in Myanmar both as the prime foundation for mohinga broth and as the star of luxurious oil-reduced dinner curries."
+  },
+  {
+    "id": "bur_food_28",
+    "nameEn": "Nga Khu Hin",
+    "nameMm": "ငါးခူဟင်း",
+    "category": "Signature Dishes",
+    "ipa": "/ŋá kʰù hɪ́ɴ/",
+    "tagline": "Freshwater Walking Catfish Curry Simmered with Bruised Lemongrass & Dried Chili",
+    "burmeseTagline": "စပါးလင်နံ့သင်းသင်းဖြင့် အဆီအစိမ့် ပြည့်ဝသော မြန်မာ့ရိုးရာ ငါးခူဟင်း",
+    "ingredientsEn": [
+      "Broadhead Catfish (Nga Khu)",
+      "Knotted Lemongrass Stalks",
+      "Crushed Fresh Ginger",
+      "Shallot & Garlic Paste",
+      "Turmeric & Chili",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ငါးခူ လတ်လတ်ဆတ်ဆတ်",
+      "စပါးလင် ထုံးထားသော အပင်",
+      "ဂျင်းထောင်း",
+      "ကြက်သွန်နီ/ဖြူ အနှစ်",
+      "နနွင်း နှင့် ငရုတ်သီး",
+      "မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Nga Khu Hin features tender freshwater catfish steaks cooked with bruised lemongrass and ginger roots to counter the rich unctuousness of the catfish, producing a hearty golden sauce bursting with herbal vitality.",
+    "ieltsCollocations": [
+      "bruised lemongrass stalks",
+      "counter rich unctuousness",
+      "herbal vitality",
+      "tender freshwater catfish",
+      "hearty golden sauce"
+    ],
+    "speakingCueHook": "Catfish curry is prized in traditional Burmese medicine for its high nutritive value and restorative vitality for convalescing family members."
+  },
+  {
+    "id": "bur_food_29",
+    "nameEn": "Kayan Thee Hnat",
+    "nameMm": "ခရမ်းသီးနှပ်",
+    "category": "Signature Dishes",
+    "ipa": "/kʰəjàɴ θí n̥aʔ/",
+    "tagline": "Braised Purple Eggplants Simmered with Ripe Plum Tomatoes & Turmeric",
+    "burmeseTagline": "ခရမ်းသီး အိစက်ညက်ညောစွာ နှပ်ထားသော သက်သတ်လွတ်လည်း စားသုံးနိုင်သည့် ဟင်းလျာ",
+    "ingredientsEn": [
+      "Asian Long Purple Eggplants",
+      "Tart Plum Tomatoes",
+      "Minced Shallots & Garlic",
+      "Turmeric Powder",
+      "Dried Shrimp or Soy Sauce",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ခရမ်းသီးရှည် ခရမ်းရောင်",
+      "ခရမ်းချဉ်သီး မှည့်",
+      "ကြက်သွန်နီ/ဖြူ",
+      "နနွင်းမှုန့်",
+      "ပုဇွန်ခြောက် သို့မဟုတ် ပဲငံပြာရည်",
+      "မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Kayan Thee Hnat transforms humble Asian eggplants into a velvety, melt-in-the-mouth vegetable braise, stewed slowly with tart local tomatoes and turmeric until the aubergine absorbs all the savoury, aromatic shallot juices.",
+    "ieltsCollocations": [
+      "velvety vegetable braise",
+      "humble Asian eggplants",
+      "savoury aromatic juices",
+      "melt-in-the-mouth consistency",
+      "homestyle vegetarian staple"
+    ],
+    "speakingCueHook": "This braised eggplant dish proves that Burmese vegetable cookery elevates simple garden produce into rich, multi-layered culinary accompaniments."
+  },
+  {
+    "id": "bur_food_30",
+    "nameEn": "Thee Sone Hincho",
+    "nameMm": "သီးစုံဟင်းချို",
+    "category": "Signature Dishes",
+    "ipa": "/θí zòʊɴ hɪ́ɴdʑò/",
+    "tagline": "Assorted Seasonal Vegetable Consommé with Bottle Gourd, Pumpkin & Dried Shrimp",
+    "burmeseTagline": "ဟင်းသီးဟင်းရွက် စုံလင်စွာဖြင့် ချက်ပြုတ်ထားသော လန်းဆန်းချိုမြိန်သည့် သီးစုံဟင်းချို",
+    "ingredientsEn": [
+      "Bottle Gourd Cubes",
+      "Sweet Pumpkin Slices",
+      "Ivy Gourd Tendrils (Kin Mon)",
+      "Sweet Dried Prawns",
+      "Cracked White Pepper",
+      "Fish Sauce Broth"
+    ],
+    "ingredientsMm": [
+      "ဘူးသီးတုံးများ",
+      "ရွှေဖရုံသီး အချပ်",
+      "ကင်းမုံရွက်ညွန့်",
+      "ပုဇွန်ခြောက် အချို",
+      "ငရုတ်ကောင်းစေ့ ထောင်း",
+      "ငံပြာရည် ဟင်းချိုရည်"
+    ],
+    "ieltsBandDescription": "Thee Sone Hincho is an indispensable clear broth served alongside spicy Burmese curries, combining naturally sweet garden vegetables such as calabash, squash, and ivy leaves with dried shrimp to provide a soothing, nutrient-dense counterpoint to oily main courses.",
+    "ieltsCollocations": [
+      "indispensable clear broth",
+      "soothing nutrient-dense counterpoint",
+      "naturally sweet garden vegetables",
+      "oily main courses",
+      "cleansing palate refresher"
+    ],
+    "speakingCueHook": "A traditional Burmese meal is considered incomplete without a bowl of 'hincho', which serves as an essential palate cleanser between heavy, spiced dishes."
+  },
+  {
+    "id": "bur_food_31",
+    "nameEn": "Gin Thoke (Pickled Ginger Salad)",
+    "nameMm": "ဂျင်းသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/dʑɪ́ɴ θoʊʔ/",
+    "tagline": "Zesty Fermented Shredded Ginger Salad with Roasted Peanuts, Toasted Sesame & Crunchy Beans",
+    "burmeseTagline": "ဂျင်းချဉ်နုနု၊ မြေပဲလှော်၊ နှမ်းလှော်၊ ကြက်သွန်ဖြူကြော်တို့ဖြင့် သုပ်ထားသော အစာကြေ ဂျင်းသုပ်",
+    "ingredientsEn": [
+      "Fermented Pickled Young Ginger",
+      "Roasted Split Peanuts",
+      "Toasted White Sesame Seeds",
+      "Crispy Fried Chickpeas & Lima Beans",
+      "Crisp Sliced Garlic",
+      "Fresh Lime Juice & Garlic Oil"
+    ],
+    "ingredientsMm": [
+      "ဂျင်းချဉ်နုနု ပါးပါးလှီးထားသည်",
+      "မြေပဲစေ့ လှော်",
+      "နှမ်းဖြူ လှော်",
+      "ပဲကြော်စုံ (ကုလားပဲ/ပဲလွန်း)",
+      "ကြက်သွန်ဖြူကြော်",
+      "သံပရာရည် နှင့် ကြက်သွန်ဖြူဆီချက်"
+    ],
+    "ieltsBandDescription": "Gin Thoke is an invigorating Burmese digestif salad showcasing finely julienned fermented young ginger tossed with a kinetic symphony of crunchy roasted legumes, toasted sesame, and fried garlic chips, providing a sharp, peppery crunch that revitalises the senses after a rich repast.",
+    "ieltsCollocations": [
+      "invigorating digestif salad",
+      "finely julienned fermented ginger",
+      "kinetic symphony of textures",
+      "crunchy roasted legumes",
+      "revitalises the senses"
+    ],
+    "speakingCueHook": "Similar to laphet thoke, pickled ginger salad is customarily served at the conclusion of formal meals as a communal hospitality offering to aid digestion."
+  },
+  {
+    "id": "bur_food_32",
+    "nameEn": "Kayan Thee Poke Thoke",
+    "nameMm": "ခရမ်းသီးဖုတ်သုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/kʰəjàɴ θí pʰoʊʔ θoʊʔ/",
+    "tagline": "Charcoal-Roasted Smoky Eggplant Mash with Sliced Shallots, Green Chilies & Lime",
+    "burmeseTagline": "မီးဖုတ်ထားသော ခရမ်းသီးအသားနုနုကို ကြက်သွန်နီ၊ ငရုတ်သီးစိမ်း၊ သံပရာရည်ဖြင့် သုပ်ထားသော ခရမ်းသီးဖုတ်သုပ်",
+    "ingredientsEn": [
+      "Fire-Roasted Whole Eggplants",
+      "Finely Sliced Red Shallots",
+      "Chopped Green Bird's Eye Chilies",
+      "Fresh Squeezed Lime Juice",
+      "Pure Toasted Peanut Oil",
+      "Roasted Shrimp Powder or Salt"
+    ],
+    "ingredientsMm": [
+      "မီးသွေးဖြင့် မီးဖုတ်ထားသော ခရမ်းသီး",
+      "ကြက်သွန်နီ ပါးပါးလှီး",
+      "ငရုတ်သီးစိမ်း ပါးပါးတောက်တောက်",
+      "သံပရာရည် စစ်စစ်",
+      "မြေပဲဆီ စိမ်း/ချက်",
+      "ပုဇွန်ခြောက်မှုန့် သို့မဟုတ် ဆား"
+    ],
+    "ieltsBandDescription": "Kayan Thee Poke Thoke elevates rustic outdoor cooking by blistering whole eggplants over wood embers until their flesh turns unctuously tender and infused with deep woodsmoke, whereupon it is peeled, mashed, and seasoned simply with raw pungent shallots, zesty lime, and cold-pressed peanut oil.",
+    "ieltsCollocations": [
+      "rustic outdoor cooking",
+      "deep woodsmoke infusion",
+      "unctuously tender flesh",
+      "blistered over wood embers",
+      "culinary simplicity"
+    ],
+    "speakingCueHook": "The enchanting dimension of roasted eggplant salad lies in its artisanal smokiness, which proves that minimal ingredients can yield transcendent gastronomic depth."
+  },
+  {
+    "id": "bur_food_33",
+    "nameEn": "Nan Pyar Thoke",
+    "nameMm": "နန်းပြားသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/nàɴ bjá θoʊʔ/",
+    "tagline": "Wide Flat Wheat Noodle Salad Dressed in Roasted Chickpea Flour, Turmeric Oil & Chicken",
+    "burmeseTagline": "နန်းပြားခေါက်ဆွဲအပြားကြီးများကို ပဲမှုန့်၊ ဆီချက်၊ ကြက်သားဟင်းအနှစ်တို့ဖြင့် အရသာစုံလင်စွာ သုပ်ထားသော နန်းပြားသုပ်",
+    "ingredientsEn": [
+      "Broad Flat Wheat Noodles (Nan Pyar)",
+      "Toasted Chickpea Flour (Pe Hmont)",
+      "Shredded Curried Chicken",
+      "Fragrant Turmeric-Shallot Oil",
+      "Crisp Wonton Chips or Split Peas",
+      "Fresh Coriander & Lime Wedges"
+    ],
+    "ingredientsMm": [
+      "ဂျုံခေါက်ဆွဲပြားကြီးများ",
+      "ကုလားပဲလှော်မှုန့်",
+      "ကြက်သားဟင်းအနှစ် နွှင်ထားသည်",
+      "နနွင်းကြက်သွန်နီဆီချက်",
+      "ဝမ်တန်ကြော် သို့မဟုတ် ပဲကြော်",
+      "နံနံပင် နှင့် သံပရာခြမ်း"
+    ],
+    "ieltsBandDescription": "Nan Pyar Thoke is an opulent street-food classic featuring supple, broad ribbon noodles thoroughly hand-tossed with aromatic curried chicken shreds, nutty toasted chickpea flour, and golden shallot oil, garnished with crispy fritters for an exquisite interplay of chew and crunch.",
+    "ieltsCollocations": [
+      "opulent street-food classic",
+      "supple broad ribbon noodles",
+      "hand-tossed delicacy",
+      "nutty toasted chickpea flour",
+      "exquisite interplay of textures"
+    ],
+    "speakingCueHook": "While foreigners are familiar with Thai pad thai or Italian fettuccine, Burma's Nan Pyar Thoke offers a unique dry-tossed savoury sensation powered by toasted chickpea flour."
+  },
+  {
+    "id": "bur_food_34",
+    "nameEn": "Khauk Swe Thoke",
+    "nameMm": "ခေါက်ဆွဲသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/kʰaʊʔ sʰwɛ́ θoʊʔ/",
+    "tagline": "Hand-Tossed Egg Noodle Salad with Tangy Tamarind Sauce, Fried Garlic & Shredded Cabbage",
+    "burmeseTagline": "ဂျုံခေါက်ဆွဲလုံး၊ ဂေါ်ဖီ၊ ကြက်သွန်ဖြူဆီချက်၊ မန်ကျည်းမှည့်အရည်တို့ဖြင့် အချဉ်အစပ် သုပ်ထားသော ခေါက်ဆွဲသုပ်",
+    "ingredientsEn": [
+      "Yellow Wheat Egg Noodles",
+      "Tangy Tamarind Puree",
+      "Toasted Gram Flour",
+      "Finely Shredded White Cabbage",
+      "Golden Garlic Oil & Chili Powder",
+      "Crispy Fried Onions"
+    ],
+    "ingredientsMm": [
+      "ဂျုံခေါက်ဆွဲ အဝါ",
+      "မန်ကျည်းမှည့်ရည် ချဉ်ချဉ်",
+      "ကုလားပဲမှုန့်",
+      "ဂေါ်ဖီထုပ် ပါးပါးလှီး",
+      "ကြက်သွန်ဖြူဆီချက် နှင့် ငရုတ်သီးမှုန့်",
+      "ကြက်သွန်နီကြော်"
+    ],
+    "ieltsBandDescription": "Khauk Swe Thoke is an omnipresent lunchtime comfort salad where bouncy egg noodles are emulsified with sweet-and-sour tamarind extract, nutty gram flour, and pungent garlic oil, creating a multi-dimensional flavour spectrum that is simultaneously savory, tangy, and subtly spicy.",
+    "ieltsCollocations": [
+      "omnipresent lunchtime comfort",
+      "bouncy egg noodles",
+      "multi-dimensional flavour spectrum",
+      "sweet-and-sour tamarind extract",
+      "subtly spicy undertones"
+    ],
+    "speakingCueHook": "Street vendors across Yangon prepare Khauk Swe Thoke with bare hands in oversized ceramic bowls, calibrating the balance of tamarind, chili, and garlic oil according to each patron's personal preference."
+  },
+  {
+    "id": "bur_food_35",
+    "nameEn": "Let Thoke Sone (Rainbow Hand Salad)",
+    "nameMm": "လက်သုပ်စုံ",
+    "category": "Signature Dishes",
+    "ipa": "/lɛʔ θoʊʔ zòʊɴ/",
+    "tagline": "Grand Hand-Tossed Mosaic Salad of Rice, Noodles, Potatoes, Papaya & Tamarind Dressing",
+    "burmeseTagline": "ထမင်း၊ ခေါက်ဆွဲ၊ ကြာဆံ၊ သင်္ဘောသီး၊ အာလူး စုံလင်စွာဖြင့် လက်ဖြင့် သမအောင်သုပ်ထားသော လက်သုပ်စုံ",
+    "ingredientsEn": [
+      "Steamed Jasmine Rice",
+      "Wheat Noodles & Rice Vermicelli",
+      "Boiled Diced Potatoes",
+      "Shredded Green Papaya",
+      "Tamarind Dressing & Chili Oil",
+      "Toasted Sesame & Crushed Peanuts"
+    ],
+    "ingredientsMm": [
+      "ထမင်း",
+      "ဂျုံခေါက်ဆွဲ နှင့် ကြာဆံ",
+      "အာလူးပြုတ်",
+      "သင်္ဘောသီးစိမ်း ခြစ်ထားသည်",
+      "မန်ကျည်းရည် နှင့် ငရုတ်ဆီ",
+      "နှမ်းလှော် နှင့် မြေပဲထောင်း"
+    ],
+    "ieltsBandDescription": "Let Thoke Sone, literally translating to 'hand-tossed medley', is a flamboyant celebration of carbohydrate diversity, bringing together steamed rice, vermicelli, egg noodles, and julienned vegetables in a sweet-and-sour tamarind and chili dressing that delivers a kaleidoscopic explosion of tastes in every mouthful.",
+    "ieltsCollocations": [
+      "flamboyant celebration of diversity",
+      "hand-tossed medley",
+      "kaleidoscopic explosion of tastes",
+      "sweet-and-sour tamarind dressing",
+      "carbohydrate synergy"
+    ],
+    "speakingCueHook": "The beauty of Let Thoke Sone is its democratic ethos: it combines humble staple carbohydrates into a rich mosaic of textures that appeals universally across social strata."
+  },
+  {
+    "id": "bur_food_36",
+    "nameEn": "Kya Zan Thoke",
+    "nameMm": "ကြာဆံသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/tɕà zàɴ θoʊʔ/",
+    "tagline": "Delicate Mung Bean Glass Noodle Salad with Wood Ear Mushrooms, Dried Shrimp & Herbs",
+    "burmeseTagline": "ကြာဆံနူးနူးညံ့ညံ့၊ မှိုနားရွက်၊ ပုဇွန်ခြောက်၊ သံပရာရည်တို့ဖြင့် သုပ်ထားသော ကြာဆံသုပ်",
+    "ingredientsEn": [
+      "Mung Bean Glass Noodles (Kya Zan)",
+      "Hydrated Wood Ear Mushrooms (Hmo Na Ywet)",
+      "Dried Shrimp Powder (Pazun Chauk)",
+      "Crisp Garlic Oil",
+      "Fresh Coriander & Lime",
+      "Thinly Sliced Red Onions"
+    ],
+    "ingredientsMm": [
+      "ပဲကြာဆံ",
+      "မှိုနားရွက် အခြောက်စိမ်",
+      "ပုဇွန်ခြောက်မှုန့်",
+      "ကြက်သွန်ဖြူဆီချက်",
+      "နံနံပင် နှင့် သံပရာရည်",
+      "ကြက်သွန်နီ ပါးပါးလှီး"
+    ],
+    "ieltsBandDescription": "Kya Zan Thoke is a light, translucent salad composed of springy glass noodles tossed with crunchy black wood ear mushrooms, sweet dried prawn powder, and citrusy lime dressing, favoured for ceremonial tea parties and elegant auspicious banquets.",
+    "ieltsCollocations": [
+      "springy glass noodles",
+      "delicate translucent salad",
+      "citrusy lime dressing",
+      "crunchy wood ear mushrooms",
+      "auspicious ceremonial banquets"
+    ],
+    "speakingCueHook": "Whenever a refreshing, gluten-free snack is required on hot tropical afternoons, Kya Zan Thoke provides the ideal equilibrium of crisp hydration and savoury depth."
+  },
+  {
+    "id": "bur_food_37",
+    "nameEn": "Magyi Ywet Thoke",
+    "nameMm": "မန်ကျည်းရွက်နုသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/mədʑí jwɛʔ nṵ θoʊʔ/",
+    "tagline": "Tender Young Tamarind Leaf Salad with Roasted Peanuts, Sesame & Garlic Oil",
+    "burmeseTagline": "နွေဦးရာသီထွက် မန်ကျည်းရွက်နုလေးများကို မြေပဲလှော်၊ နှမ်း၊ ကြက်သွန်နီတို့ဖြင့် သုပ်ထားသော မန်ကျည်းရွက်နုသုပ်",
+    "ingredientsEn": [
+      "Tender Spring Tamarind Leaves",
+      "Crushed Roasted Peanuts",
+      "Toasted White Sesame",
+      "Thinly Sliced Red Shallots",
+      "Virgin Peanut Oil",
+      "Roasted Chili Powder"
+    ],
+    "ingredientsMm": [
+      "မန်ကျည်းရွက်နု စစ်စစ်",
+      "မြေပဲစေ့ လှော်ထောင်း",
+      "နှမ်းဖြူ လှော်",
+      "ကြက်သွန်နီ လတ်လတ်ဆတ်ဆတ်",
+      "မြေပဲဆီသန့်",
+      "ငရုတ်သီး လှော်မှုန့်"
+    ],
+    "ieltsBandDescription": "Magyi Ywet Thoke celebrates the seasonal foraging tradition of Central Myanmar's dry zone, where delicate young tamarind shoots harvested during spring provide a brisk, natural citrus tang that harmonises faultlessly with roasted groundnuts and fragrant sesame oil.",
+    "ieltsCollocations": [
+      "seasonal foraging tradition",
+      "delicate young tamarind shoots",
+      "brisk natural citrus tang",
+      "harmonises faultlessly",
+      "agrarian heritage"
+    ],
+    "speakingCueHook": "Tamarind leaf salad is a seasonal jewel that connects contemporary urban dining with Myanmar's rural agrarian rhythm of gathering wild forest canopies."
+  },
+  {
+    "id": "bur_food_38",
+    "nameEn": "Thin Baw Thee Thoke",
+    "nameMm": "သင်္ဘောသီးသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/θɪ́ɴ bɔ́ θí θoʊʔ/",
+    "tagline": "Crisp Shredded Green Papaya Salad with Lime Juice, Fish Sauce, Garlic & Chilies",
+    "burmeseTagline": "သင်္ဘောသီးစိမ်း ခြစ်ထားသည်ကို ငံပြာရည်၊ သံပရာရည်၊ မြေပဲဆံ၊ ငရုတ်သီးတို့ဖြင့် စပ်စပ်လေး သုပ်ထားသော သင်္ဘောသီးသုပ်",
+    "ingredientsEn": [
+      "Julienned Green Unripe Papaya",
+      "Fish Sauce & Fresh Lime Juice",
+      "Crushed Roasted Peanuts",
+      "Mashed Garlic & Bird's Eye Chilies",
+      "Dried Shrimp Powder",
+      "Fresh Mint Leaves"
+    ],
+    "ingredientsMm": [
+      "သင်္ဘောသီးစိမ်း ပါးပါးခြစ်",
+      "ငံပြာရည် နှင့် သံပရာရည်",
+      "မြေပဲထောင်း",
+      "ကြက်သွန်ဖြူ နှင့် ငရုတ်သီးစိမ်းထောင်း",
+      "ပုဇွန်ခြောက်မှုန့်",
+      "ပူဒီနာရွက်"
+    ],
+    "ieltsBandDescription": "Thin Baw Thee Thoke presents the Burmese interpretation of green papaya salad, distinctly less sugary than Thai Som Tum, focusing instead on the pristine, refreshing crunch of shredded papaya balanced by the robust umami of dried shrimp and the brisk acidity of fresh lime juice.",
+    "ieltsCollocations": [
+      "pristine refreshing crunch",
+      "robust umami depth",
+      "brisk citrus acidity",
+      "unripe green papaya",
+      "street-stall staple"
+    ],
+    "speakingCueHook": "What distinguishes Burmese papaya salad from other Southeast Asian variants is the restrained use of sugar, prioritising pure savoury salinity and electric citrus freshness."
+  },
+  {
+    "id": "bur_food_39",
+    "nameEn": "Shauk Thee Thoke",
+    "nameMm": "ရှောက်သီးသုပ်",
+    "category": "Signature Dishes",
+    "ipa": "/ʃaʊʔ θí θoʊʔ/",
+    "tagline": "Wild Indigenous Citron Salad with Toasted Gram Flour, Chili Oil & Fried Garlic",
+    "burmeseTagline": "ရှောက်သီး အခွံပါးပါးလှီး၍ ပဲမှုန့်၊ ဆီချက်၊ ငရုတ်သီးစပ်စပ်ဖြင့် သုပ်ထားသော ခံတွင်းမြိန် ရှောက်သီးသုပ်",
+    "ingredientsEn": [
+      "Wild Citron Pulp & Rind (Shauk Thee)",
+      "Toasted Chickpea Flour",
+      "Golden Garlic Oil",
+      "Fresh Bird's Eye Chilies",
+      "Fish Sauce & Salt",
+      "Crispy Fried Garlic Chips"
+    ],
+    "ingredientsMm": [
+      "ရှောက်သီး အသား နှင့် အခွံပါး",
+      "ကုလားပဲလှော်မှုန့်",
+      "ကြက်သွန်ဖြူဆီချက်",
+      "ငရုတ်သီးစိမ်း ထောင်း",
+      "ငံပြာရည် နှင့် ဆား",
+      "ကြက်သွန်ဖြူကြော် မွှေးမွှေး"
+    ],
+    "ieltsBandDescription": "Shauk Thee Thoke is a pungent, astringent salad highlighting the aromatic zest of wild indigenous citrons, where the bitter-sweet pith and juicy vesicles are tempered with toasted gram flour and fragrant garlic oil to create an invigorating, appetite-stimulating concoction.",
+    "ieltsCollocations": [
+      "appetite-stimulating concoction",
+      "wild indigenous citrons",
+      "aromatic zest",
+      "astringent flavour profile",
+      "bitter-sweet citrus pith"
+    ],
+    "speakingCueHook": "The citron salad is celebrated among traditional Myanmar physicians as an effective tonic to combat fever, lethargy, and loss of appetite during monsoon transitions."
+  },
+  {
+    "id": "bur_food_40",
+    "nameEn": "Chin Baung Kyaw",
+    "nameMm": "ချဉ်ပေါင်ကြော်",
+    "category": "Signature Dishes",
+    "ipa": "/tɕʰɪ̀ɴ bàʊɴ dʑɔ̀/",
+    "tagline": "Stir-Fried Tangy Roselle Leaves with Tender Bamboo Shoots, Shrimp & Bird's Eye Chilies",
+    "burmeseTagline": "ချဉ်ပေါင်ရွက်၊ မျှစ်၊ ပုဇွန်ခြောက်၊ ငရုတ်သီးစိမ်းတို့ဖြင့် ဆီပြန်အောင် ကြော်ထားသော နာမည်ကျော် ချဉ်ပေါင်ကြော်",
+    "ingredientsEn": [
+      "Fresh Roselle Leaves (Chin Baung)",
+      "Tender Shredded Bamboo Shoots",
+      "Dried or Small Fresh Shrimp",
+      "Whole Green Bird's Eye Chilies",
+      "Shallots & Garlic Puree",
+      "Turmeric & Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ချဉ်ပေါင်ရွက် လတ်လတ်ဆတ်ဆတ်",
+      "မျှစ်နု အမျှင်",
+      "ပုဇွန်ခြောက် သို့မဟုတ် ပုဇွန်ဆိတ်",
+      "ငရုတ်သီးစိမ်း အတောင့်လိုက်",
+      "ကြက်သွန်နီ/ဖြူ ထောင်း",
+      "နနွင်းမှုန့် နှင့် မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Chin Baung Kyaw is universally celebrated as the national stir-fry of Myanmar, reducing tart roselle leaves into an intensely savoury, dark green compote combined with crunchy bamboo shoots, sweet dried shrimp, and blistering whole chilies that stimulate the salivary glands.",
+    "ieltsCollocations": [
+      "universally celebrated stir-fry",
+      "intensely savoury compote",
+      "stimulate salivary glands",
+      "blistering whole chilies",
+      "national culinary icon"
+    ],
+    "speakingCueHook": "It is widely joked in Myanmar that as long as a family has a jar of Chin Baung Kyaw, they can happily consume unlimited bowls of steamed rice without requiring meat."
+  },
+  {
+    "id": "bur_food_41",
+    "nameEn": "Ngapi Chet",
+    "nameMm": "ငါးပိချက်",
+    "category": "Signature Dishes",
+    "ipa": "/ŋəpḭ tɕʰɛʔ/",
+    "tagline": "Simmered Fermented Fish Paste Relish with Shallots, Ripe Tomatoes & Dried Chili Flakes",
+    "burmeseTagline": "ငါးပိကောင်းကောင်းကို ခရမ်းချဉ်သီး၊ ကြက်သွန်နီ/ဖြူ၊ ငရုတ်သီးမှုန့်တို့ဖြင့် မွှေးကြိုင်အောင် ချက်ထားသော ငါးပိချက်",
+    "ingredientsEn": [
+      "High-Grade Fermented Fish Paste (Ngapi)",
+      "Plum Tomatoes (Cooked down)",
+      "Finely Diced Shallots & Garlic",
+      "Crushed Chili Flakes",
+      "Turmeric & Salt",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ငါးပိအကောင်းစား",
+      "ခရမ်းချဉ်သီး မှည့်မှည့်",
+      "ကြက်သွန်နီ/ဖြူ နုပ်နုပ်စဉ်း",
+      "ငရုတ်သီးအကြမ်းဖတ်",
+      "နနွင်းမှုန့်",
+      "မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Ngapi Chet is the quintessential umami-laden relish that anchors traditional Burmese family meals, simmered patiently until the pungent fermented fish paste dissolves into sweet stewed tomatoes, caramelised shallots, and fiery chilies into a thick, rust-coloured paste.",
+    "ieltsCollocations": [
+      "quintessential umami-laden relish",
+      "pungent fermented fish paste",
+      "caramelised shallots",
+      "thick rust-coloured paste",
+      "anchors traditional meals"
+    ],
+    "speakingCueHook": "To truly comprehend the palate of the Burmese people, one must experience Ngapi Chet, which acts as the flavour engine transforming ordinary boiled vegetables into a gastronomic feast."
+  },
+  {
+    "id": "bur_food_42",
+    "nameEn": "Ngapi Yay Toh-Zayar",
+    "nameMm": "ငါးပိရည် တို့စရာ",
+    "category": "Signature Dishes",
+    "ipa": "/ŋəpḭ jè do̰ zəjà/",
+    "tagline": "Boiled Savory Fish Paste Dip Platter Accompanied by Seasonal Forest & Garden Vegetables",
+    "burmeseTagline": "ငါးပိရည်ကျို မွှေးမွှေးနှင့် ဟင်းသီးဟင်းရွက် စိမ်း/ပြုတ်/ဖုတ် စုံလင်စွာ တွဲဖက်စားသုံးသော တို့စရာဗန်း",
+    "ingredientsEn": [
+      "Boiled Ngapi Broth with Garlic & Chili",
+      "Raw Garden Cucumbers & Long Beans",
+      "Blanched Ivy Gourd & Morning Glory",
+      "Char-Grilled Eggplants & Bitter Gourds",
+      "Young Tamarind & Acacia Leaves",
+      "Fresh Wild Mint & Coriander"
+    ],
+    "ingredientsMm": [
+      "ငါးပိရည်ကျို ငရုတ်သီးစပ်စပ်",
+      "သခွားသီး၊ ပဲတောင့်ရှည် အစိမ်း",
+      "ကင်းမုံရွက်၊ ကန်စွန်းရွက် ရေနွေးဖျော",
+      "ခရမ်းသီးဖုတ်၊ ကြက်ဟင်းခါးသီး",
+      "မန်ကျည်းရွက်နု၊ ဆူးပုပ်ရွက်",
+      "ပူဒီနာ နှင့် နံနံပင်"
+    ],
+    "ieltsBandDescription": "Ngapi Yay Toh-Zayar represents the heart and soul of Myanmar's agrarian nutrition, pairing a pungent, chili-spiked broth of boiled fermented fish with a bountiful cornucopia of raw, blanched, and flame-blistered forest greens that demonstrate remarkable botanical diversity.",
+    "ieltsCollocations": [
+      "heart and soul of agrarian nutrition",
+      "bountiful cornucopia of greens",
+      "flame-blistered vegetables",
+      "remarkable botanical diversity",
+      "chili-spiked fermented broth"
+    ],
+    "speakingCueHook": "Foreign visitors are often amazed by the platter of Toh-Zayar, which resembles a vibrant botanical display of fifty wild tropical leaves, shoots, and pods eaten fresh."
+  },
+  {
+    "id": "bur_food_43",
+    "nameEn": "Ka Nyut Pa Zun Kyaw",
+    "nameMm": "ကညွတ်ပုဇွန်ကြော်",
+    "category": "Signature Dishes",
+    "ipa": "/kəɲʊʔ pəzʊ̀ɴ dʑɔ̀/",
+    "tagline": "Stir-Fried Wild Asparagus & River Prawns with Crushed Garlic & Light Soy Sauce",
+    "burmeseTagline": "ကညွတ်နုနုနှင့် ပုဇွန်လတ်လတ်ဆတ်ဆတ်ကို ကြက်သွန်ဖြူဖြင့် အမြန်ကြော်ထားသော ကညွတ်ပုဇွန်ကြော်",
+    "ingredientsEn": [
+      "Tender Wild Asparagus Spears (Ka Nyut)",
+      "Fresh Shell-on River Prawns",
+      "Crushed Fresh Garlic Cloves",
+      "Fish Sauce & Light Soy Sauce",
+      "White Pepper",
+      "Peanut Oil"
+    ],
+    "ingredientsMm": [
+      "ကညွတ်နုနု",
+      "မြစ်ပုဇွန် လတ်လတ်ဆတ်ဆတ်",
+      "ကြက်သွန်ဖြူ ဓားပြားရိုက်",
+      "ငံပြာရည် နှင့် ပဲငံပြာရည်အကြည်",
+      "ငရုတ်ကောင်းဖြူမှုန့်",
+      "မြေပဲဆီ"
+    ],
+    "ieltsBandDescription": "Ka Nyut Pa Zun Kyaw showcases the delicate side of Burmese wok craft, flash-frying crisp young asparagus spears with sweet river prawns and crushed garlic to preserve the vegetables' vibrant emerald crunch and oceanic freshness.",
+    "ieltsCollocations": [
+      "delicate wok craft",
+      "vibrant emerald crunch",
+      "succulent river prawns",
+      "oceanic freshness",
+      "flash-fried perfection"
+    ],
+    "speakingCueHook": "This dish highlights the seasonality of wild riverbank produce, appearing in markets only during brief spring harvest windows when asparagus spears are exquisitely tender."
+  },
+  {
+    "id": "bur_food_44",
+    "nameEn": "Pa Zun Chauk Hmont Kyaw",
+    "nameMm": "ပုဇွန်ခြောက်မှုန့်ကြော်",
+    "category": "Signature Dishes",
+    "ipa": "/pəzʊ̀ɴ dʑaʊʔ m̥o̰ʊɴ dʑɔ̀/",
+    "tagline": "Crispy Roasted Dried Shrimp Floss with Golden Crispy Shallots & Chili Oil",
+    "burmeseTagline": "ပုဇွန်ခြောက်ထောင်းကို ကြက်သွန်နီကြော်၊ ငရုတ်သီးတို့ဖြင့် မွှေးကြိုင်ခြောက်သွေ့စွာ ကြော်ထားသော ပုဇွန်ခြောက်မှုန့်ကြော်",
+    "ingredientsEn": [
+      "Stone-Pounded Dried Prawns",
+      "Crispy Golden Fried Shallots",
+      "Sun-Dried Red Chili Powder",
+      "Garlic-Shallot Oil",
+      "Turmeric & Salt"
+    ],
+    "ingredientsMm": [
+      "ဆုံထောင်း ပုဇွန်ခြောက်မှုန့်",
+      "ကြက်သွန်နီကြော် ကြွပ်ကြွပ်",
+      "ငရုတ်သီးအကြမ်းဖတ် လှော်",
+      "ကြက်သွန်နီဆီချက်",
+      "နနွင်း နှင့် ဆား"
+    ],
+    "ieltsBandDescription": "Pa Zun Chauk Hmont Kyaw is a gourmet dry condiment crafted by painstakingly pounding sun-dried sea prawns in stone mortars and frying the fluffy seafood floss with sweet shallot crisps and roasted chilies, functioning as a concentrated savoury seasoning sprinkled over rice.",
+    "ieltsCollocations": [
+      "gourmet dry condiment",
+      "painstakingly pounded seafood floss",
+      "concentrated savoury seasoning",
+      "sweet shallot crisps",
+      "culinary versatility"
+    ],
+    "speakingCueHook": "Burmese travelers and diaspora students almost always carry jars of homemade shrimp floss abroad because a single spoonful instantly transforms plain rice into a comforting home feast."
+  },
+  {
+    "id": "bur_food_45",
+    "nameEn": "Kachin Si Pa",
+    "nameMm": "ကချင်ဆီပါ",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/kətɕʰɪ̀ɴ sì pà/",
+    "tagline": "Fragrant Kachin Highland Chicken & Mountain Herb Broth with Bamboo Shoots & Wild Pepper",
+    "burmeseTagline": "ကချင်ရိုးရာ တောထွက်ဆေးဖက်ဝင် ဟင်းသီးဟင်းရွက်များနှင့် မာချစ်တို့ဖြင့် ချက်ပြုတ်ထားသော ကချင်ဆီပါဟင်း",
+    "ingredientsEn": [
+      "Free-Range Highland Chicken",
+      "Wild Kachin Peppercorns (Machit)",
+      "Fermented Bamboo Shoots",
+      "Sawtooth Coriander & Mint",
+      "Pounded Forest Ginger & Garlic",
+      "Fresh Bird's Eye Chilies"
+    ],
+    "ingredientsMm": [
+      "ကချင်တောင်ပေါ်ကြက်",
+      "ကချင်မာချစ် (တောစပါးလင်စေ့)",
+      "မျှစ်ချဉ်",
+      "ရှမ်းနံနံ နှင့် ပူဒီနာ",
+      "တောဂျင်း နှင့် ကြက်သွန်ဖြူထောင်း",
+      "ငရုတ်သီးစိမ်း"
+    ],
+    "ieltsBandDescription": "Kachin Si Pa embodies the northern mountain cuisine of Myanmar, foregoing heavy edible oils in favour of clear mountain water, aromatic wild prickly ash peppercorns, fermented bamboo shoots, and a multitude of freshly gathered alpine herbs that create an electric, palate-tingling broth.",
+    "ieltsCollocations": [
+      "northern mountain cuisine",
+      "electric palate-tingling broth",
+      "wild prickly ash peppercorns",
+      "alpine herbs",
+      "foregoing heavy edible oils"
+    ],
+    "speakingCueHook": "The distinguishing sensation of Kachin Si Pa is the subtle numbing citric warmth imparted by wild machit pepper, making it remarkably distinct from central Myanmar's oil-based curries."
+  },
+  {
+    "id": "bur_food_46",
+    "nameEn": "Kachin Wet Tha Hpa-t Lu",
+    "nameMm": "ကချင်ဝက်သားဖက်လိပ်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/kətɕʰɪ̀ɴ wɛʔ θá pʰaʔ lṵ/",
+    "tagline": "Spiced Minced Pork Wrapped in Jungle Leaves and Flame-Grilled over Hardwood Charcoal",
+    "burmeseTagline": "ဝက်သားနုပ်နုပ်စဉ်းကို တောနံနံ၊ မာချစ်တို့ဖြင့် ရောနယ်ကာ ငှက်ပျောဖက်ဖြင့် ပတ်၍ မီးကင်ထားသော ဟင်းလျာ",
+    "ingredientsEn": [
+      "Minced Pork Belly & Shoulder",
+      "Wild Kachin Lemon Pepper",
+      "Sawtooth Coriander Leaves",
+      "Crushed Fresh Garlic & Ginger",
+      "Banana Leaves for Wrapping",
+      "Coarse Mountain Salt"
+    ],
+    "ingredientsMm": [
+      "ဝက်သားနုပ်နုပ်စဉ်း",
+      "ကချင်မာချစ်မှုန့်",
+      "ရှမ်းနံနံပင်",
+      "ကြက်သွန်ဖြူ၊ ဂျင်းထောင်း",
+      "ငှက်ပျောဖက်",
+      "တောင်ပေါ်ဆားကြမ်း"
+    ],
+    "ieltsBandDescription": "Kachin Wet Tha Hpa-t Lu is an ancient highland culinary tradition where finely minced pork is seasoned with wild herbs and indigenous citrus-peppercorns, parcelled tightly within thick forest leaves, and grilled slowly over glowing embers so the succulent meat steams gently in its natural herbaceous juices.",
+    "ieltsCollocations": [
+      "ancient highland culinary tradition",
+      "natural herbaceous juices",
+      "parcelled within forest leaves",
+      "glowing charcoal embers",
+      "succulent steamed meat"
+    ],
+    "speakingCueHook": "Unwrapping a charred banana leaf packet of Hpa-t Lu releases an intoxicating wave of forest woodsmoke and citrus herbal fragrance that defines the culinary spirit of Kachin State."
+  },
+  {
+    "id": "bur_food_47",
+    "nameEn": "Rakhine Mont Di Thoke",
+    "nameMm": "ရခိုင်မုန့်တီသုပ်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/ɹəkʰaɪɴ mo̰ʊɴ tì θoʊʔ/",
+    "tagline": "Fiery Dry-Tossed Rakhine Rice Vermicelli with Pungent Fermented Fish Paste & Fish Cakes",
+    "burmeseTagline": "ငရုတ်သီးစိမ်းထောင်း၊ ငါးပိရည် အနှစ်၊ ငါးဖယ်ကြော်တို့ဖြင့် စပ်စပ်လေး သုပ်ထားသော ရခိုင်မုန့်တီသုပ်",
+    "ingredientsEn": [
+      "Thin Fermented Rice Vermicelli",
+      "Concentrated Spicy Ngapi Paste",
+      "Fresh Boiled Marine Eel or Catfish",
+      "Pan-Fried Featherback Fish Cakes (Nga Phe)",
+      "Crushed Bird's Eye Chilies",
+      "Crispy Garlic Oil & Tamarind"
+    ],
+    "ingredientsMm": [
+      "ရခိုင်မုန့်တီဖတ်",
+      "ငါးပိရည် အနှစ်ကျို",
+      "ငါးလတ်လတ်ဆတ်ဆတ် နွှင်ထားသည်",
+      "ငါးဖယ်ကြော်",
+      "ငရုတ်သီးစိမ်း ထောင်း",
+      "ကြက်သွန်ဖြူဆီချက် နှင့် မန်ကျည်းရည်"
+    ],
+    "ieltsBandDescription": "Rakhine Mont Di Thoke represents the coastal western palate of Myanmar, famously known as the spiciest dish in the nation, where delicate fermented rice noodles are tossed vigorously with concentrated marine fish paste, boiled fish flakes, and blistering green chili relish.",
+    "ieltsCollocations": [
+      "coastal western palate",
+      "spiciest dish in the nation",
+      "blistering green chili relish",
+      "concentrated marine fish paste",
+      "vigorous tossing technique"
+    ],
+    "speakingCueHook": "For locals who crave fiery, endorphin-inducing heat, dry Rakhine Mont Di is the ultimate street delicacy that leaves the tongue tingling and forehead glowing."
+  },
+  {
+    "id": "bur_food_48",
+    "nameEn": "Rakhine Nga Paung",
+    "nameMm": "ရခိုင်ငါးပေါင်း",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/ɹəkʰaɪɴ ŋá páʊɴ/",
+    "tagline": "Coastal Rakhine Steamed Marine Fish Parcels with Green Chilies, Garlic & Wild Sour Leaves",
+    "burmeseTagline": "ကမ်းရိုးတန်း ငါးလတ်လတ်ဆတ်ဆတ်ကို ငရုတ်သီးစိမ်း၊ ကြက်သွန်ဖြူ၊ အရွက်ချဉ်များဖြင့် ပေါင်းထားသော ရခိုင်ငါးပေါင်း",
+    "ingredientsEn": [
+      "Fresh Marine Sea Bass or Pomfret",
+      "Pounded Green Bird's Eye Chilies",
+      "Pungent Coastal Ngapi",
+      "Fresh Galangal & Garlic",
+      "Sour Wild Fruit or Tamarind",
+      "Banana Leaf Envelopes"
+    ],
+    "ingredientsMm": [
+      "ပင်လယ်ငါးလတ်လတ်ဆတ်ဆတ်",
+      "ငရုတ်သီးစိမ်းထောင်း",
+      "ရခိုင်ငါးပိကောင်းကောင်း",
+      "ပဒဲကော နှင့် ကြက်သွန်ဖြူ",
+      "မန်ကျည်းသီး သို့မဟုတ် သစ်သီးချဉ်",
+      "ငှက်ပျောဖက်"
+    ],
+    "ieltsBandDescription": "Rakhine Nga Paung exemplifies coastal culinary purity by steaming fresh maritime fish parcels marinated in galangal, spicy fermented seafood paste, and wild sour leaves, preserving the marine sweetness of the fish while delivering a sharp, electrifying chili finish.",
+    "ieltsCollocations": [
+      "coastal culinary purity",
+      "fresh maritime fish parcels",
+      "electrifying chili finish",
+      "wild sour leaves",
+      "marinated in galangal"
+    ],
+    "speakingCueHook": "Unlike Indian curries that rely on heavy dairy and coconut, Rakhine fish parcels preserve the pristine briny sweetness of the Bay of Bengal through aromatic steaming."
+  },
+  {
+    "id": "bur_food_49",
+    "nameEn": "Shan Khauk Swe Kyaw",
+    "nameMm": "ရှမ်းခေါက်ဆွဲကြော်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/ʃáɴ kʰaʊʔ sʰwɛ́ dʑɔ̀/",
+    "tagline": "Wok-Fried Shan Rice Noodles with Marinated Pork Strips, Sweet Soy Sauce & Pickled Greens",
+    "burmeseTagline": "ရှမ်းဆန်ခေါက်ဆွဲပြား၊ ဝက်သားစင်းကော၊ မုန်ညင်းချဉ်၊ ပဲငံပြာရည်တို့ဖြင့် အမြန်ကြော်ထားသော ရှမ်းခေါက်ဆွဲကြော်",
+    "ingredientsEn": [
+      "Shan Flat Rice Noodles",
+      "Tender Sliced Pork Shoulder",
+      "Sweet Dark Soy Sauce & Garlic Oil",
+      "Fermented Mustard Greens (Mon Nyin Chin)",
+      "Crispy Garlic Chive Roots (Ju Myit)",
+      "Roasted Crushed Peanuts"
+    ],
+    "ingredientsMm": [
+      "ရှမ်းဆန်ခေါက်ဆွဲပြား",
+      "ဝက်သားလွှာ",
+      "ပဲငံပြာရည် အနောက်ချို နှင့် ဆီချက်",
+      "မုန်ညင်းချဉ်",
+      "ဂျူးမြစ်",
+      "မြေပဲထောင်း"
+    ],
+    "ieltsBandDescription": "Shan Khauk Swe Kyaw features flat, chewy artisanal rice noodles stir-fried over roaring wok burners with marinated pork ribbons, sweet treacly soy sauce, and crunchy pickled mustard greens, offering a sublime equilibrium of savoury caramel notes and tart acidity.",
+    "ieltsCollocations": [
+      "artisanal flat rice noodles",
+      "roaring wok burners",
+      "sublime equilibrium of flavours",
+      "savoury caramel notes",
+      "crunchy pickled mustard greens"
+    ],
+    "speakingCueHook": "The secret to authentic Shan fried noodles lies in the contrast between sweet caramelised dark soy and the tart acidity of homemade pickled highland greens."
+  },
+  {
+    "id": "bur_food_50",
+    "nameEn": "Taunggyi Meeshay",
+    "nameMm": "တောင်ကြီးမြီးရှည်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/tàʊɴdʑì míʃè/",
+    "tagline": "Northern Shan Rice Noodles in Rich Fermented Soybean Paste, Stewed Pork & Pickled Radish",
+    "burmeseTagline": "တောင်ကြီးဒေသထွက် ပဲပုပ်အနှစ်၊ ဝက်သားဟင်းနှစ်၊ မုန်လာချဉ်တို့ဖြင့် ထူးခြားစွာ စားသုံးရသော တောင်ကြီးမြီးရှည်",
+    "ingredientsEn": [
+      "Medium Round Rice Noodles",
+      "Fermented Soybean Gravy (Pe Poke)",
+      "Savory Stewed Pork Mince",
+      "Pickled White Radish & Mustard",
+      "Crispy Rice Cracklings",
+      "Chili Oil & Garlic Chives"
+    ],
+    "ingredientsMm": [
+      "ဆန်နန်းလတ် ခေါက်ဆွဲ",
+      "ပဲပုပ်ဟင်းရည် အနှစ်",
+      "ဝက်သားစင်းကော အနှစ်",
+      "မုန်လာချဉ် နှင့် မုန်ညင်းချဉ်",
+      "ဆန်မုန့်ကြွပ်ကြော်",
+      "ငရုတ်ဆီ နှင့် ဂျူးမြစ်"
+    ],
+    "ieltsBandDescription": "Taunggyi Meeshay is a beloved cool-climate highland delicacy where slippery rice noodles are dressed in a rich, deeply savoury sauce derived from roasted fermented soybeans (pe poke) and tender minced pork, accented with tangy pickled daikon radish for textural brilliance.",
+    "ieltsCollocations": [
+      "cool-climate highland delicacy",
+      "deeply savoury soybean sauce",
+      "fermented soybean gravy",
+      "tangy pickled daikon",
+      "textural brilliance"
+    ],
+    "speakingCueHook": "In the chilly misty mornings of the Shan plateau, enjoying a piping hot bowl of Taunggyi Meeshay with crisp garlic roots provides unmatched comfort and energy."
+  },
+  {
+    "id": "bur_food_51",
+    "nameEn": "Mandalay Meeshay",
+    "nameMm": "မန္တလေးမြီးရှည်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/màɴdəlé míʃè/",
+    "tagline": "Central Plain Rice Vermicelli Coated in Thick Meat Gravy, Rice Gel & Crispy Fritters",
+    "burmeseTagline": "မန္တလေးမြို့၏ နာမည်ကျော် မုန့်ဖတ်၊ ကြက်သားအနှစ်၊ ဆန်ကော်ရည်၊ မုန့်ကြွပ်ကြော်တို့ဖြင့် သုပ်ထားသော မန္တလေးမြီးရှည်",
+    "ingredientsEn": [
+      "Rice Vermicelli Noodles",
+      "Thick Braised Chicken Gravy",
+      "Silky Rice Starch Gel (Kawt Yay)",
+      "Toasted Gram Flour & Garlic Oil",
+      "Crispy Deep-Fried Bean Fritters",
+      "Salted Sliced Pork Loaf"
+    ],
+    "ingredientsMm": [
+      "မုန့်ဟင်းခါးဖတ် သို့မဟုတ် နန်းလတ်ဖတ်",
+      "ကြက်သားဟင်းရည်ပျစ်ပျစ်",
+      "ဆန်ကော်ရည် အိအိ",
+      "ပဲမှုန့် နှင့် ဆီချက်",
+      "ပဲကြော်ကြွပ်ကြွပ်",
+      "ဝက်သားပြုတ်လွှာ"
+    ],
+    "ieltsBandDescription": "Mandalay Meeshay showcases central Burmese urban gastronomy, employing a translucent, silky rice-flour gel that coats every strand of vermicelli to ensure the spiced meat gravy, nutty chickpea powder, and crunchy fritter shards adhere in harmonious unity.",
+    "ieltsCollocations": [
+      "central urban gastronomy",
+      "silky rice-flour gel",
+      "harmonious textural unity",
+      "nutty chickpea powder",
+      "crunchy fritter shards"
+    ],
+    "speakingCueHook": "The hallmark of Mandalay Meeshay is the velvety rice-starch emulsion that binds all the spices and crispy elements together without requiring heavy cooking creams."
+  },
+  {
+    "id": "bur_food_52",
+    "nameEn": "Dawei Mont Hin Ga",
+    "nameMm": "ထားဝယ်မုန့်ဟင်းခါး",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/dəwɛ̀ mo̰ʊɴ hɪ́ɴ ɡá/",
+    "tagline": "Coastal Tanintharyi Sour-Spicy Mackerel Fish Broth with Tamarind, Black Pepper & Herbs",
+    "burmeseTagline": "ငါးမဲလုံး၊ မန်ကျည်းမှည့်၊ ငရုတ်ကောင်းတို့ဖြင့် ချဉ်ချဉ်စပ်စပ် ချက်ထားသော တနင်္သာရီတိုင်း ထားဝယ်မုန့်ဟင်းခါး",
+    "ingredientsEn": [
+      "Fresh Short Mackerel Fish (Nga Me Lone)",
+      "Sour Tamarind Juice",
+      "Coarsely Cracked Black Peppercorns",
+      "Fresh Ginger & Bruised Lemongrass",
+      "Rice Noodles",
+      "Fresh Coriander & Pennywort"
+    ],
+    "ingredientsMm": [
+      "ငါးမဲလုံး လတ်လတ်ဆတ်ဆတ်",
+      "မန်ကျည်းမှည့် အနှစ်ရည်",
+      "ငရုတ်ကောင်း အကြမ်းထောင်း",
+      "ဂျင်း နှင့် စပါးလင်",
+      "မုန့်ဟင်းခါးဖတ်",
+      "နံနံပင် နှင့် မြင်းခွာရွက်"
+    ],
+    "ieltsBandDescription": "Dawei Mont Hin Ga diverges dramatically from standard Yangon fish soup by completely omitting chickpea flour thickeners in favour of an unclouded, highly peppery ocean broth fortified with fresh mackerel, sour tamarind, and warming black pepper.",
+    "ieltsCollocations": [
+      "diverges dramatically",
+      "unclouded peppery ocean broth",
+      "coastal culinary tradition",
+      "warming black pepper",
+      "fortified with fresh mackerel"
+    ],
+    "speakingCueHook": "Unlike the rich, thick, stew-like mohinga of the Delta, Dawei's version is a fiery, transparent marine broth that jolts the morning senses with tamarind and black pepper."
+  },
+  {
+    "id": "bur_food_53",
+    "nameEn": "Kayah Sausage",
+    "nameMm": "ကယားဝက်အူချောင်း",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/kəjà wɛʔ ʔù dʑáʊɴ/",
+    "tagline": "Highland Kayah Cured Pork Sausage Infused with Mountain Herbs, Garlic & Wild Sichuan Pepper",
+    "burmeseTagline": "ကယားရိုးရာ မာချစ်၊ ကြက်သွန်ဖြူ၊ တောနံ့သာတို့ဖြင့် အထူးစီမံကျပ်တင်ထားသော ကယားဝက်အူချောင်း",
+    "ingredientsEn": [
+      "Coarsely Ground Heritage Pork",
+      "Wild Prickly Ash / Sichuan Pepper (Kachin/Kayah Machit)",
+      "Pounded Garlic & Sea Salt",
+      "Natural Hog Casings",
+      "Woodsmoke Curing"
+    ],
+    "ingredientsMm": [
+      "ဒေသဝက်သား အကြမ်းကြိတ်",
+      "ကယားမာချစ်စေ့",
+      "ကြက်သွန်ဖြူ နှင့် ပင်လယ်ဆား",
+      "သဘာဝ ဝက်အူချောင်းအိတ်",
+      "သစ်မာမီးခိုး ကျပ်တင်ထားသည်"
+    ],
+    "ieltsBandDescription": "Kayah Sausage is an artisan highland charcuterie crafted by hand-stuffing heritage pork into natural casings, seasoned with pungent wild mountain citrus peppercorns and garlic, then slowly smoke-cured over kitchen hearths to produce a rustic, snappy, and aromatic cured sausage.",
+    "ieltsCollocations": [
+      "artisan highland charcuterie",
+      "slowly smoke-cured over hearths",
+      "wild mountain citrus peppercorns",
+      "rustic snappy casing",
+      "heritage pork"
+    ],
+    "speakingCueHook": "Kayah sausage represents Myanmar's rich tradition of indigenous charcuterie, pairing the rich fat of local pigs with numbing mountain spices and aromatic woodsmoke."
+  },
+  {
+    "id": "bur_food_54",
+    "nameEn": "Kat Kyi Kaik (Mergui Scissor Noodles)",
+    "nameMm": "ကတ်ကြေးကိုက်",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/kaʔ tɕí kaɪʔ/",
+    "tagline": "Coastal Mergui Stir-Fried Flat Rice Noodles with Squid, River Prawns, Yellow Peas & Dark Soy",
+    "burmeseTagline": "မြိတ်ဒေသထွက် ပင်လယ်စာ ပြည်ကြီးငါး၊ ပုဇွန်၊ ပဲပြုတ်တို့ဖြင့် မီးပြင်းပြင်း ကြော်ထားသော ကတ်ကြေးကိုက်",
+    "ingredientsEn": [
+      "Wide Fresh Rice Noodles (Scissor-cut)",
+      "Fresh Squid & Sea Prawns",
+      "Boiled Salted Yellow Peas (Pe Byouk)",
+      "Garlic, Eggs & Bean Sprouts",
+      "Dark Sweet Soy Sauce & Chili Flakes",
+      "Fresh Lime Wedges"
+    ],
+    "ingredientsMm": [
+      "ဆန်ခေါက်ဆွဲပြား ကတ်ကြေးဖြင့်ညှပ်ထားသည်",
+      "ပြည်ကြီးငါး နှင့် ပင်လယ်ပုဇွန်",
+      "ပဲပြုတ်",
+      "ကြက်သွန်ဖြူ၊ ကြက်ဥ နှင့် ပဲပင်ပေါက်",
+      "ပဲငံပြာရည်အနောက်ချို၊ ငရုတ်သီး",
+      "သံပရာခြမ်း"
+    ],
+    "ieltsBandDescription": "Kat Kyi Kaik, originating from the southern archipelago port of Myeik (Mergui), is a dramatic seafood stir-fry where wide rice ribbons are snip-cut with scissors during cooking and wok-tossed over blazing heat with squid, prawns, boiled yellow peas, and sweet soy sauce.",
+    "ieltsCollocations": [
+      "dramatic seafood stir-fry",
+      "southern archipelago gastronomy",
+      "snip-cut with scissors",
+      "blazing wok heat",
+      "subtle smoky char"
+    ],
+    "speakingCueHook": "Watching Myeik street chefs wield shears directly inside blistering woks to slice the noodles while tossing fresh seafood is an exhilarating spectacle of coastal culinary theater."
+  },
+  {
+    "id": "bur_food_55",
+    "nameEn": "Chin Sa-bu-ti",
+    "nameMm": "ချင်းဆာဗူးတီး",
+    "category": "Regional & Ethnic Specialties",
+    "ipa": "/tɕʰɪ́ɴ sʰàbùtí/",
+    "tagline": "Traditional Highland Chin Hominy Corn & Beef Stew Simmered to Porridge-Like Heartiness",
+    "burmeseTagline": "ပြောင်းဖူးစေ့ ပြုတ်နှင့် အမဲသား၊ နံနံပင်၊ ငရုတ်သီးစိမ်းတို့ဖြင့် သောက်သုံးရသော ချင်းရိုးရာ ဆာဗူးတီး",
+    "ingredientsEn": [
+      "Dried Crushed Hominy Maize / Corn",
+      "Beef Brisket or Shin on Bone",
+      "Crushed Fresh Ginger & Garlic",
+      "Green Chilies & Fresh Coriander",
+      "Salt & Spring Water"
+    ],
+    "ingredientsMm": [
+      "ပြောင်းဖူးစေ့ ခြောက်ထောင်း",
+      "အမဲရိုး သို့မဟုတ် အမဲသား",
+      "ဂျင်း နှင့် ကြက်သွန်ဖြူ",
+      "ငရုတ်သီးစိမ်း နှင့် နံနံပင်",
+      "ဆား"
+    ],
+    "ieltsBandDescription": "Chin Sa-bu-ti is an ancient mountainous comfort soup of the Chin people, slow-stewed for hours with hominy corn kernels and bone-in beef until the corn starches dissolve into a hearty, porridge-like elixir seasoned minimally with salt, green chilies, and coriander.",
+    "ieltsCollocations": [
+      "ancient mountainous comfort soup",
+      "hearty porridge-like elixir",
+      "hominy corn kernels",
+      "minimalist seasoning",
+      "nourishing highland staple"
+    ],
+    "speakingCueHook": "In the freezing winter altitudes of the Chin Hills, Sa-bu-ti provides continuous bodily warmth and sustained energy through the natural nutrition of field corn and beef bone broth."
+  },
+  {
+    "id": "bur_food_56",
+    "nameEn": "Kyay Oh",
+    "nameMm": "ကြေးအိုး",
+    "category": "Signature Dishes",
+    "ipa": "/tɕé ʔóʊ/",
+    "tagline": "Celebrated Yangon Brass-Claypot Noodle Soup with Minced Pork Balls, Offal & Quail Eggs",
+    "burmeseTagline": "ကြေးအိုးခွက်ဖြင့် ချက်ပြုတ်ထားသော ကြာဆံ သို့မဟုတ် ခေါက်ဆွဲ၊ ဝက်သားလုံး၊ ဘဲဥပန်းဆန်၊ မုန်ညင်းရွက် စုံလင်သည့် ကြေးအိုး",
+    "ingredientsEn": [
+      "Vermicelli or Flat Rice Noodles",
+      "Hand-Rolled Minced Pork Dumplings",
+      "Pork Liver & Intestines (Optional)",
+      "Boiled Quail Eggs",
+      "Crisp Mustard Greens & Scallions",
+      "Clear Savory Bone Broth"
+    ],
+    "ingredientsMm": [
+      "ကြာဆံ သို့မဟုတ် ဆန်ခေါက်ဆွဲ",
+      "ဝက်သားလုံး စင်းကော",
+      "ဝက်အသည်း နှင့် ဝက်အူနု",
+      "ငုံးဥပြုတ်",
+      "မုန်ညင်းရွက် နှင့် ကြက်သွန်မိတ်",
+      "ဝက်ရိုးပြုတ်ရည်ကြည်"
+    ],
+    "ieltsBandDescription": "Kyay Oh is a distinguished Sino-Burmese culinary staple, named after the traditional brass pots in which individual servings of translucent vermicelli, tender minced pork globes, quail eggs, and mustard greens are simmered in a shimmering, clear bone broth.",
+    "ieltsCollocations": [
+      "distinguished culinary staple",
+      "shimmering clear bone broth",
+      "tender minced pork globes",
+      "translucent vermicelli",
+      "individual brass-pot cooking"
+    ],
+    "speakingCueHook": "Unlike street food served from communal vats, Kyay Oh is cooked exclusively to order in individual brass vessels, guaranteeing optimal freshness and boiling temperature."
+  },
+  {
+    "id": "bur_food_57",
+    "nameEn": "Kyay Oh Sikyet",
+    "nameMm": "ကြေးအိုးဆီချက်",
+    "category": "Signature Dishes",
+    "ipa": "/tɕé ʔóʊ sʰì tɕʰɛʔ/",
+    "tagline": "Dry-Tossed Claypot Egg Noodles with Garlic Oil, Pork Meatballs, Crispy Wontons & Side Broth",
+    "burmeseTagline": "ကြက်သွန်ဖြူဆီချက်၊ ပဲငံပြာရည်၊ ဝက်သားလုံး၊ မုန်ညင်းရွက်တို့ဖြင့် သုပ်ထားပြီး ဟင်းချိုရည်ကြည် တွဲဖက်စားသုံးသော ကြေးအိုးဆီချက်",
+    "ingredientsEn": [
+      "Egg Noodles or Glass Noodles",
+      "Golden Fried Garlic & Infused Oil",
+      "Sweet Dark & Light Soy Sauces",
+      "Minced Pork Dumplings & Quail Eggs",
+      "Crispy Fried Wonton Crackers",
+      "Separate Bowl of Peppery Broth"
+    ],
+    "ingredientsMm": [
+      "ဂျုံခေါက်ဆွဲ သို့မဟုတ် ကြာဆံ",
+      "ကြက်သွန်ဖြူဆီချက် မွှေးမွှေး",
+      "ပဲငံပြာရည် အကြည်/အနောက်",
+      "ဝက်သားလုံး နှင့် ငုံးဥ",
+      "ဝမ်တန်ကြော် ကြွပ်ကြွပ်",
+      "ငရုတ်ကောင်းခတ် ဟင်းချိုရည်"
+    ],
+    "ieltsBandDescription": "Kyay Oh Sikyet is the dry-tossed manifestation of the claypot classic, where springy noodles are coated in aromatic garlic oil and dark soy, topped with succulent pork dumplings and accompanied by a separate bowl of piping-hot, pepper-infused consommé.",
+    "ieltsCollocations": [
+      "dry-tossed manifestation",
+      "aromatic garlic-infused oil",
+      "succulent pork dumplings",
+      "piping-hot consommé",
+      "dynamic duality of textures"
+    ],
+    "speakingCueHook": "Many food enthusiasts prefer the Sikyet variant because the absence of broth allows the toasted garlic oil and sweet soy reduction to coat every single strand of noodle with intense flavour."
+  },
+  {
+    "id": "bur_food_58",
+    "nameEn": "Sikyet Khauk Swe",
+    "nameMm": "ဆီချက်ခေါက်ဆွဲ",
+    "category": "Signature Dishes",
+    "ipa": "/sʰì tɕʰɛʔ kʰaʊʔ sʰwɛ́/",
+    "tagline": "Cantonese-Burmese Garlic Oil Noodles with Tender Roast Duck or Shredded Chicken & Scallions",
+    "burmeseTagline": "ကြက်သွန်ဖြူဆီချက်မွှေးမွှေး၊ ကြက်သားနွှင် သို့မဟုတ် ဘဲကင်၊ ကြက်သွန်မိတ်တို့ဖြင့် သုပ်ထားသော ဆီချက်ခေါက်ဆွဲ",
+    "ingredientsEn": [
+      "Fresh Steamed Egg Noodles",
+      "Slow-Cooked Garlic-Infused Peanut Oil",
+      "Tender Shredded Chicken or Roast Duck",
+      "Chopped Spring Scallions",
+      "Light Soy Sauce & Toasted White Pepper",
+      "Crispy Garlic Cracklings"
+    ],
+    "ingredientsMm": [
+      "ဂျုံခေါက်ဆွဲနု",
+      "ကြက်သွန်ဖြူဆီချက်",
+      "ကြက်သားနွှင် သို့မဟုတ် ဘဲကင်",
+      "ကြက်သွန်မိတ်",
+      "ပဲငံပြာရည် နှင့် ငရုတ်ကောင်းဖြူ",
+      "ကြက်သွန်ဖြူဖတ်ကြော်"
+    ],
+    "ieltsBandDescription": "Sikyet Khauk Swe represents the seamless cross-pollination between Cantonese immigrant techniques and Burmese culinary sensibilities, featuring tender egg noodles tossed in fragrant, slow-steeped garlic oil, served with shredded poultry and a liberal shower of fresh green scallions.",
+    "ieltsCollocations": [
+      "seamless cross-pollination",
+      "fragrant slow-steeped garlic oil",
+      "liberal shower of scallions",
+      "tender egg noodles",
+      "Sino-Burmese heritage"
+    ],
+    "speakingCueHook": "This dish is the quintessential late-night fuel in Yangon's Chinatown, where woks sizzle with golden garlic oil until the early hours of dawn."
+  },
+  {
+    "id": "bur_food_59",
+    "nameEn": "Hsi Htamin",
+    "nameMm": "ဆီထမင်း",
+    "category": "Signature Dishes",
+    "ipa": "/sʰì tʰəmɪ́ɴ/",
+    "tagline": "Golden Turmeric Sticky Rice with Crispy Fried Yellow Split Peas & Grated Fresh Coconut",
+    "burmeseTagline": "နနွင်းနံ့သင်းသော ကောက်ညှင်းဝါ၊ ပဲကြော်ကြွပ်ကြွပ်၊ အုန်းသီးဆံတို့ဖြင့် စားသုံးရသော ရိုးရာ ဆီထမင်း",
+    "ingredientsEn": [
+      "Glutinous Sticky Rice (Kauk Hnyin)",
+      "Pure Ground Turmeric",
+      "Peanut Oil & Fried Shallot Slices",
+      "Crispy Split Yellow Peas (Pe Gyaw)",
+      "Freshly Grated White Coconut Flesh",
+      "Pinch of Sea Salt"
+    ],
+    "ingredientsMm": [
+      "ကောက်ညှင်းဆန်",
+      "နနွင်းစစ်စစ်",
+      "မြေပဲဆီ နှင့် ကြက်သွန်နီကြော်",
+      "ပဲကြော်ကြွပ်ကြွပ်",
+      "အုန်းသီးခြစ် အဖြူ",
+      "ဆားအနည်းငယ်"
+    ],
+    "ieltsBandDescription": "Hsi Htamin is a revered traditional breakfast staple across Upper and Lower Myanmar, where sticky glutinous rice is steamed to glossy, tender perfection with golden turmeric and shallot oil, served alongside crunchy fried yellow peas and shredded tropical coconut.",
+    "ieltsCollocations": [
+      "revered traditional breakfast",
+      "glossy tender perfection",
+      "golden turmeric sticky rice",
+      "crunchy fried yellow peas",
+      "delicate tropical sweetness"
+    ],
+    "speakingCueHook": "Wrapped in fresh green banana leaves and sold by street vendors at dawn, Hsi Htamin is the ultimate rustic, carb-rich energy breakfast for farmers and monks alike."
+  },
+  {
+    "id": "bur_food_60",
+    "nameEn": "Pe Byouk Naan Bya",
+    "nameMm": "ပဲပြုတ် နံပြား",
+    "category": "Signature Dishes",
+    "ipa": "/pɛ́ bjoʊʔ nàɴ bjá/",
+    "tagline": "Tandoor-Baked Fluffy Flatbread with Steamed Salted Yellow Peas Drizzled in Peanut Oil",
+    "burmeseTagline": "မီးဖိုဆောင်တွင် ကပ်ထားသော နံပြားပူပူနှင့် ဆီဆမ်းထားသော ပဲပြုတ်မွမွ တွဲဖက်စားသုံးသည့် နံပြားပဲပြုတ်",
+    "ingredientsEn": [
+      "Tandoor-Baked Naan Bread (Naan Bya)",
+      "Soft-Steamed Yellow Split Peas (Pe Byouk)",
+      "Unrefined Fragrant Peanut Oil",
+      "Flaky Sea Salt",
+      "Hot Burmese Milk Tea (Laphet Yay)"
+    ],
+    "ingredientsMm": [
+      "မြေဖိုကပ် နံပြားပူပူ",
+      "ကုလားပဲပြုတ် နူးနူးမွမွ",
+      "မြေပဲဆီစိမ်း သန့်သန့်",
+      "ဆား",
+      "လက်ဖက်ရည် ချိုစိမ့်"
+    ],
+    "ieltsBandDescription": "Pe Byouk Naan Bya illustrates the profound South Asian heritage interwoven into daily Burmese life, pairing blistered flatbreads slapped against the clay walls of tandoor ovens with velvety, salted yellow peas drizzled in golden cold-pressed peanut oil.",
+    "ieltsCollocations": [
+      "profound South Asian heritage",
+      "blistered clay-oven flatbread",
+      "velvety salted yellow peas",
+      "cold-pressed peanut oil",
+      "morning teahouse ritual"
+    ],
+    "speakingCueHook": "Sitting in an open-air teahouse at 6:30 AM with hot naan, steamed peas, and sweet milk tea is the defining cultural snapshot of everyday urban Myanmar life."
+  },
+  {
+    "id": "bur_snk_12",
+    "nameEn": "Ba-yar Kyaw",
+    "nameMm": "ဗယာကြော်",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/bəjà dʑɔ̀/",
+    "tagline": "Crispy Golden Split Yellow Pea Fritters with Fresh Coriander, Ginger & Green Chilies",
+    "burmeseTagline": "ကုလားပဲခြမ်း၊ ဂျင်း၊ ငရုတ်သီးစိမ်း၊ နံနံပင်တို့ဖြင့် ရောစပ်ကာ မီးပြင်းပြင်းကြော်ထားသော အကြော်ဆိုင် ဗယာကြော်",
+    "ingredientsEn": [
+      "Coarsely Ground Yellow Split Peas",
+      "Finely Minced Fresh Ginger",
+      "Fresh Coriander Stems & Leaves",
+      "Chopped Green Bird's Eye Chilies",
+      "Baking Soda & Sea Salt",
+      "Peanut Frying Oil"
+    ],
+    "ingredientsMm": [
+      "ကုလားပဲခြမ်း အကြမ်းကြိတ်",
+      "ဂျင်း နုပ်နုပ်စဉ်း",
+      "နံနံပင်ရိုး",
+      "ငရုတ်သီးစိမ်း",
+      "မုန့်ဖုတ်ဆော်ဒါ နှင့် ဆား",
+      "မြေပဲကြော်ဆီ"
+    ],
+    "ieltsBandDescription": "Ba-yar Kyaw is Myanmar's beloved street-side legume fritter, akin to Mediterranean falafel or South Indian vada, featuring soaked, coarsely stone-ground yellow chickpeas seasoned with fresh ginger, cilantro, and green chilies, deep-fried to a shatteringly crisp exterior and a tender, nutty crumb.",
+    "ieltsCollocations": [
+      "shatteringly crisp exterior",
+      "beloved street-side legume fritter",
+      "stone-ground yellow chickpeas",
+      "tender nutty crumb",
+      "teahouse afternoon accompaniment"
+    ],
+    "speakingCueHook": "No afternoon teahouse session in Myanmar is complete without a plate of piping-hot Ba-yar Kyaw dipped into spicy sour tamarind sauce alongside sweet milk tea."
+  },
+  {
+    "id": "bur_snk_13",
+    "nameEn": "Mont Pyar Thalet",
+    "nameMm": "မုန့်ပြားသလက်",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/mo̰ʊɴ bjá θəlɛʔ/",
+    "tagline": "Savory Fermented Rice Griddle Pancake Topped with Steamed Peas, Scallions & Chili Flakes",
+    "burmeseTagline": "မြေအိုးပြားတွင် ဖုတ်ထားသော ဆန်မုန့်နှစ်၊ ပဲပြုတ်၊ ကြက်သွန်မိတ်၊ နှမ်းဆီတို့ဖြင့် မွှေးကြိုင်လှသော မုန့်ပြားသလက်",
+    "ingredientsEn": [
+      "Fermented White Rice Batter",
+      "Soft Steamed Yellow Split Peas",
+      "Chopped Green Scallions",
+      "Roasted Red Chili Flakes",
+      "Fragrant Toasted Sesame Oil",
+      "Coarse Sea Salt"
+    ],
+    "ingredientsMm": [
+      "ဆန်မုန့်နှစ် အချဉ်ဖောက်",
+      "ပဲပြုတ်နူးနူး",
+      "ကြက်သွန်မိတ်",
+      "ငရုတ်သီးလှော်မှုန့်",
+      "နှမ်းဆီမွှေး",
+      "ဆားကြမ်း"
+    ],
+    "ieltsBandDescription": "Mont Pyar Thalet is an ancient griddled street pancake cooked in miniature clay saucers, developing a honeycomb-textured, blistered underside and a soft, pillowy crown studded with creamy yellow peas, verdant scallions, and a drizzle of rich sesame oil.",
+    "ieltsCollocations": [
+      "honeycomb-textured crumb",
+      "blistered clay-griddled underside",
+      "ancient street pancake",
+      "soft pillowy crown",
+      "artisanal roadside technique"
+    ],
+    "speakingCueHook": "Watching street vendors lift the clay lids to reveal bubbling, steam-vented rice pancakes at dawn is one of the most hypnotic sights of traditional Myanmar street life."
+  },
+  {
+    "id": "bur_snk_14",
+    "nameEn": "Faluda",
+    "nameMm": "ဖာလူဒါ",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/pʰàlùdà/",
+    "tagline": "Decadent Cold Dessert Beverage with Sweet Milk, Rose Syrup, Egg Custard, Tapioca & Ice Cream",
+    "burmeseTagline": "နို့စိမ်း၊ နှင်းဆီရည်၊ သာကူစေ့၊ ကျောက်ကျော၊ ပူဒင်း နှင့် ရေခဲမုန့်တို့ဖြင့် စီမံထားသော နာမည်ကျော် ဖာလူဒါ",
+    "ingredientsEn": [
+      "Whole Sweetened Milk & Condensed Milk",
+      "Aromatic Rosewater Syrup",
+      "Baked Egg Custard Pudding",
+      "Chewy Green Agar-Agar Jelly Strips",
+      "Tapioca Pearls & Basil Seeds",
+      "Scoop of Vanilla Ice Cream"
+    ],
+    "ingredientsMm": [
+      "နို့စိမ်း နှင့် နို့ဆီ",
+      "နှင်းဆီရနံ့ သကြားရည်",
+      "ဥပူဒင်း",
+      "ကျောက်ကျောမျှင် အစိမ်း",
+      "သာကူစေ့ နှင့် ပင်ပွားစေ့",
+      "ဗနီလာ ရေခဲမုန့်"
+    ],
+    "ieltsBandDescription": "Faluda is a lavish, multi-layered celebratory confection introduced through maritime trade routes, offering a magnificent sensory cascade of floral rose syrup, chilled evaporated milk, springy tapioca pearls, velvety egg pudding, and melting ice cream.",
+    "ieltsCollocations": [
+      "magnificent sensory cascade",
+      "lavish multi-layered confection",
+      "floral rose syrup",
+      "springy tapioca pearls",
+      "chilled velvety dessert"
+    ],
+    "speakingCueHook": "On blistering hot pre-monsoon afternoons in Yangon, a towering frosted glass of Faluda is the ultimate celebratory indulgence that cools the soul."
+  },
+  {
+    "id": "bur_snk_15",
+    "nameEn": "Mont Kywe The",
+    "nameMm": "မုန့်ကျွဲသည်း",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/mo̰ʊɴ tɕwɛ́ ðɛ́/",
+    "tagline": "Chewy Steamed Dark Palm Jaggery Rice Pudding Slices with Fresh Grated Coconut",
+    "burmeseTagline": "ထန်းလျက်ရည်အနက်၊ ဆန်မှုန့်တို့ဖြင့် ပေါင်းထားသော မာကျောကျော ကျွဲသည်းကဲ့သို့ မုန့်ကျွဲသည်း",
+    "ingredientsEn": [
+      "Dark Palmyra Palm Jaggery (Htanyet)",
+      "Pure Rice Flour & Lime Water",
+      "Fresh Grated White Coconut Flesh",
+      "Sesame Salt (Hnan Pyit)",
+      "Banana Leaf Steaming Lining"
+    ],
+    "ingredientsMm": [
+      "ထန်းလျက်ရည် အမည်း",
+      "ဆန်မှုန့် နှင့် ထုံးရည်ကြည်",
+      "အုန်းသီးခြစ် အဖြူ",
+      "နှမ်းဆား",
+      "ငှက်ပျောဖက်"
+    ],
+    "ieltsBandDescription": "Mont Kywe The, colloquially named 'buffalo liver' due to its dark, glossy amber hue and bouncy density, is a traditional steamed confection made from dark toddy palm jaggery, sliced into geometric diamonds and served with freshly shredded tropical coconut.",
+    "ieltsCollocations": [
+      "dark glossy amber hue",
+      "bouncy chew density",
+      "traditional steamed confection",
+      "toddy palm jaggery",
+      "geometric diamond slices"
+    ],
+    "speakingCueHook": "This traditional sweet highlights the indigenous utility of the palmyra palm, transforming unrefined tree nectar into a bouncy, caramel-like tea-time snack."
+  },
+  {
+    "id": "bur_snk_16",
+    "nameEn": "Kyauk Kyaw",
+    "nameMm": "ကျောက်ကျော",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/tɕaʊʔ tɕɔ̀/",
+    "tagline": "Two-Layered Coconut Cream & Translucent Pandan Agar-Agar Jelly",
+    "burmeseTagline": "အောက်လွှာကြည်လင်ပြီး အပေါ်လွှာ အုန်းနို့ပျစ်ပျစ်ဖြင့် စီမံထားသော နှစ်လွှာကျောက်ကျော",
+    "ingredientsEn": [
+      "Natural Seaweed Agar-Agar (Kyauk Kyaw Hmont)",
+      "Rich First-Press Coconut Cream",
+      "Pure Cane Sugar or Jaggery",
+      "Fresh Pandan Leaf Extract",
+      "Pinch of Salt"
+    ],
+    "ingredientsMm": [
+      "ကျောက်ကျောမှုန့် သဘာဝ",
+      "အုန်းနို့ခေါင်းရည်",
+      "သကြားဖြူ သို့မဟုတ် ထန်းလျက်",
+      "ဆွမ်းမွှေးရွက်ရည်",
+      "ဆားအနည်းငယ်"
+    ],
+    "ieltsBandDescription": "Kyauk Kyaw is an elegant dual-layered chilled dessert crafted from red marine algae agar-agar, featuring a crystal-clear, pandan-scented translucent base topped with a rich, opaque, salted coconut milk crest, cut into diamond lozenges for ceremonial Buddhist feasts.",
+    "ieltsCollocations": [
+      "elegant dual-layered dessert",
+      "crystal-clear pandan-scented base",
+      "rich opaque coconut milk crest",
+      "marine algae agar-agar",
+      "ceremonial Buddhist feasts"
+    ],
+    "speakingCueHook": "Kyauk Kyaw is the staple offering at temple donation ceremonies because its refreshing, dairy-free firmness holds up impeccably in tropical monastery temperatures."
+  },
+  {
+    "id": "bur_snk_17",
+    "nameEn": "Mont Si Gyaw",
+    "nameMm": "မုန့်ဆီကြော်",
+    "category": "Street Snacks & Desserts",
+    "ipa": "/mo̰ʊɴ sʰì dʑɔ̀/",
+    "tagline": "Golden Crisp Glutinous Rice Beignets with Puffed Edges & Chewy Jaggery Center",
+    "burmeseTagline": "ကောက်ညှင်းမုန့်နှစ်ကို ဆီပူပူတွင် ကြော်ထားသော ဘေးသားကြွပ်ပြီး အလယ်သားအိသော မုန့်ဆီကြော်",
+    "ingredientsEn": [
+      "Glutinous Rice Flour",
+      "Melted Toddy Palm Jaggery",
+      "Toasted White Sesame Seeds",
+      "Pure Frying Peanut Oil",
+      "Banana Leaf Drainers"
+    ],
+    "ingredientsMm": [
+      "ကောက်ညှင်းမှုန့်",
+      "ထန်းလျက်ရည်",
+      "နှမ်းဖြူ",
+      "မြေပဲကြော်ဆီ",
+      "ငှက်ပျောဖက်"
+    ],
+    "ieltsBandDescription": "Mont Si Gyaw is a traditional festive beignet made from sweet jaggery-infused glutinous rice dough, ladle-dropped into shallow cauldrons of boiling oil until its perimeter puffs into lacy golden crisps while maintaining a dense, satisfyingly chewy core.",
+    "ieltsCollocations": [
+      "traditional festive beignet",
+      "lacy golden crisp perimeter",
+      "satisfyingly chewy core",
+      "jaggery-infused glutinous dough",
+      "festive street frying"
+    ],
+    "speakingCueHook": "During pagoda festival fairs, the aroma of caramelising palm sugar from bubbling vats of Mont Si Gyaw fills the nocturnal fairgrounds with irresistible warmth."
+  },
+  {
+    "id": "bur_ing_31",
+    "nameEn": "Ju Myit (Wild Garlic Chive Roots)",
+    "nameMm": "ဂျူးမြစ်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/dʑú mjɪʔ/",
+    "tagline": "Prized Crunchy Mountain Roots from Shan State Eaten Raw with Dips or Stir-Fried",
+    "burmeseTagline": "ရှမ်းတောင်တန်းထွက် အမြစ်ဖြူဖြူ မွှေးမွှေးကြွပ်ကြွပ် ဂျူးမြစ် (အတို့အမြှုပ် နှင့် ဟင်းလျာများအတွက်)",
+    "ingredientsEn": [
+      "Wild Garlic Chive Roots (Allium tuberosum roots)",
+      "Highland Mountain Soil Cultivation",
+      "Pungent Natural Sulfur Compounds",
+      "Raw or Quick-Pickled Preparation"
+    ],
+    "ingredientsMm": [
+      "ဂျူးပင်၏ အမြစ်ဖြူ",
+      "တောင်ပေါ်မြေဩဇာထွက်",
+      "သဘာဝအနံ့သင်း",
+      "အစိမ်း သို့မဟုတ် ချဉ်စိမ်"
+    ],
+    "ieltsBandDescription": "Ju Myit refers to the subterranean root clusters of wild garlic chives native to the Shan plateau, universally cherished for their crisp, watery snap and pleasant allium pungency, served raw with fermented dips or flash-fried with pork belly.",
+    "ieltsCollocations": [
+      "pleasant allium pungency",
+      "crisp watery snap",
+      "subterranean root clusters",
+      "wild highland produce",
+      "esteemed culinary garnish"
+    ],
+    "speakingCueHook": "Foreigners familiar only with garlic bulbs are often enchanted by Ju Myit, which provides all the garlicky aroma in the form of a crunchy, refreshing white root."
+  },
+  {
+    "id": "bur_ing_32",
+    "nameEn": "Ju Hpe (Flowering Garlic Chive Shoots)",
+    "nameMm": "ဂျူးဖူး",
+    "category": "Ingredients & Condiments",
+    "ipa": "/dʑú pʰú/",
+    "tagline": "Tender Flowering Bud Stalks of Garlic Chives Used in High-Heat Stir-Fries",
+    "burmeseTagline": "ဂျူးပင်၏ အဖူးအပွင့် ရိုးတံနုနု (အသားနှင့် ကြော်ချက်စားသုံးသည့် ဟင်းသီးဟင်းရွက်)",
+    "ingredientsEn": [
+      "Flowering Garlic Chive Bud Stems",
+      "Tender Emerald Stalks",
+      "High-Heat Wok Stir-Fry Compatible",
+      "Mild Chive Aromatics"
+    ],
+    "ingredientsMm": [
+      "ဂျူးဖူး ရိုးတံနု",
+      "မြစိမ်းရောင် အညွန့်",
+      "မီးပြင်းပြင်း ကြော်ရန် သင့်တော်",
+      "ကြက်သွန်မိတ်နံ့သင်း"
+    ],
+    "ieltsBandDescription": "Ju Hpe comprises the slender flowering scapes and tender buds of highland chives, offering a sweet, delicate garlicky sweetness when quick-seared with river prawns, eggs, or pork liver.",
+    "ieltsCollocations": [
+      "slender flowering scapes",
+      "delicate garlicky sweetness",
+      "quick-seared wok technique",
+      "sweet tender emerald stalks",
+      "highland vegetable specialty"
+    ],
+    "speakingCueHook": "Ju Hpe is the spring vegetable of choice in Shan restaurants, prized for maintaining its vibrant green hue and firm, snappy texture under intense wok heat."
+  },
+  {
+    "id": "bur_ing_33",
+    "nameEn": "Kyet-hin-kha Thee (Bitter Gourd)",
+    "nameMm": "ကြက်ဟင်းခါးသီး",
+    "category": "Ingredients & Condiments",
+    "ipa": "/tɕɛʔ hɪ́ɴ kʰà θí/",
+    "tagline": "Medicinal Bitter Melon Sliced for Savory Stir-Fries or Eaten Blanched with Dips",
+    "burmeseTagline": "သွေးတိုး၊ ဆီးချို ကျစေပြီး ခံတွင်းရှင်းစေသော ဆေးဖက်ဝင် ကြက်ဟင်းခါးသီး",
+    "ingredientsEn": [
+      "Bitter Gourd / Bitter Melon (Momordica charantia)",
+      "High Quinine & Charantin Content",
+      "Blanched, Stuffed or Stir-Fried",
+      "Sliced Raw for Ngapi Dips"
+    ],
+    "ingredientsMm": [
+      "ကြက်ဟင်းခါးသီး စိမ်းစိမ်း",
+      "ဆေးဖက်ဝင် အခါးဓာတ်",
+      "ပြုတ်/ကြော်/အစာသွပ်",
+      "ငါးပိရည် တို့စရာ"
+    ],
+    "ieltsBandDescription": "Kyet-hin-kha Thee is a celebrated bitter vegetable revered in Burmese dietary theory for its cooling medicinal virtues, expertly tempered by domestic cooks through salt-rubbing and frying with sweet shallots, dried shrimp, or egg scrambles.",
+    "ieltsCollocations": [
+      "cooling medicinal virtues",
+      "celebrated bitter vegetable",
+      "tempered through salt-rubbing",
+      "dietary holistic balance",
+      "medicinal gastronomy"
+    ],
+    "speakingCueHook": "In Burmese culture, bitterness is not considered an off-putting flaw, but rather an indispensable taste dimension essential for maintaining balanced physiological health."
+  },
+  {
+    "id": "bur_ing_34",
+    "nameEn": "Yon-ba-de Thee (Fresh Okra)",
+    "nameMm": "ရုံးပတီသီး",
+    "category": "Ingredients & Condiments",
+    "ipa": "/jòʊɴ bədè θí/",
+    "tagline": "Tender Emerald Lady's Fingers Boiled for Broths or Blanched for Savory Dips",
+    "burmeseTagline": "ဟင်းချို၊ ဟင်းခါးနှင့် ငါးပိရည်တို့စရာတွင် မပါမဖြစ် နူးညံ့ချွဲပျစ်သော ရုံးပတီသီး",
+    "ingredientsEn": [
+      "Fresh Okra Pods (Abelmoschus esculentus)",
+      "Natural Mucilaginous Thickening Agent",
+      "Boiled, Steamed or Curried",
+      "High Dietary Fiber"
+    ],
+    "ingredientsMm": [
+      "ရုံးပတီသီးနုနု",
+      "သဘာဝအချွဲဓာတ်",
+      "ပြုတ်/ပေါင်း/ဟင်းချက်",
+      "အမျှင်ဓာတ်ကြွယ်ဝ"
+    ],
+    "ieltsBandDescription": "Yon-ba-de Thee is a versatile garden vegetable featured extensively across Myanmar, steamed whole to accompany fiery fish paste dips or simmered in tamarind curries where its natural soluble fiber gently enriches the body of the sauce.",
+    "ieltsCollocations": [
+      "versatile garden vegetable",
+      "fiery fish paste accompaniment",
+      "natural soluble fiber",
+      "gently enriches sauces",
+      "steamed garden produce"
+    ],
+    "speakingCueHook": "Freshly harvested young okra pods, boiled for just ninety seconds and plunged into ice water, provide the ultimate cooling vessel for spicy fermented relishes."
+  },
+  {
+    "id": "bur_ing_35",
+    "nameEn": "Dan-da-lun Ywet (Fresh Moringa Leaves)",
+    "nameMm": "ဒန့်ဒလွန်ရွက်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/dàɴdəlʊ̀ɴ jwɛʔ/",
+    "tagline": "Nutrient-Dense Drumstick Tree Leaves Boiled into Peppery Clearing Broths",
+    "burmeseTagline": "ဗီတာမင်ဓာတ် ကြွယ်ဝပြီး ဟင်းချိုအဖြစ် ချက်သောက်ရသော ဆေးဖက်ဝင် ဒန့်ဒလွန်ရွက်",
+    "ingredientsEn": [
+      "Fresh Moringa Oleifera Leaflets",
+      "High Calcium, Iron & Vitamin A",
+      "Simmered in Clear Dried Shrimp Broths",
+      "Traditional Anti-Hypertensive Tonic"
+    ],
+    "ingredientsMm": [
+      "ဒန့်ဒလွန်ရွက်နု",
+      "ကယ်လ်ဆီယမ်၊ သံဓာတ် ကြွယ်ဝ",
+      "ပုဇွန်ခြောက် ဟင်းချို",
+      "သွေးတိုးကျ ဆေးဖက်ဝင်"
+    ],
+    "ieltsBandDescription": "Dan-da-lun Ywet, harvested from the ubiquitous backyard moringa tree, is celebrated in Myanmar culinary lore as a nutritional powerhouse, simmered into comforting, peppery soups that fortify nursing mothers and regulate blood pressure.",
+    "ieltsCollocations": [
+      "nutritional powerhouse",
+      "ubiquitous backyard tree",
+      "comforting peppery soup",
+      "medicinal herbal lore",
+      "traditional domestic remedy"
+    ],
+    "speakingCueHook": "Long before Western health outlets labeled moringa a modern 'superfood', Burmese families were plucking its tender leaves daily to cook soothing evening broths."
+  },
+  {
+    "id": "bur_ing_36",
+    "nameEn": "Pyin-daw-thein Ywet (Burmese Curry Leaves)",
+    "nameMm": "ပျဉ်းတော်သိမ်ရွက်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/pjɪ́ɴ dɔ̀ θeɪɴ jwɛʔ/",
+    "tagline": "Fragrant Fresh Curry Leaves Sizzled in Hot Oil to Release Citrus-Herbal Aromas",
+    "burmeseTagline": "ဆီသတ်ရာတွင် ထည့်သွင်း၍ မွှေးပျံ့စေသော ဟင်းခတ် ပျဉ်းတော်သိမ်ရွက်",
+    "ingredientsEn": [
+      "Fresh Curry Leaves (Murraya koenigii)",
+      "Essential Herbal Volatile Oils",
+      "Sizzled in Hot Peanut Oil Base",
+      "Used in Mutton, Beef & Samosa Fillings"
+    ],
+    "ingredientsMm": [
+      "ပျဉ်းတော်သိမ်ရွက် လတ်လတ်ဆတ်ဆတ်",
+      "ရနံ့မွှေး အဆီဓာတ်",
+      "ဆီပူထိုး အသုံးပြု",
+      "ဆိတ်သား၊ အမဲသား၊ စမူဆာအစာတွင် အသုံးပြု"
+    ],
+    "ieltsBandDescription": "Pyin-daw-thein Ywet provides the signature warm, citrus-pine fragrance in central Myanmar meat curries and samosa stuffings, tempered directly into hot peanut oil during the initial aromatics phase to unlock fat-soluble flavour molecules.",
+    "ieltsCollocations": [
+      "signature citrus-pine fragrance",
+      "fat-soluble flavour molecules",
+      "tempered in hot peanut oil",
+      "initial aromatics phase",
+      "savoury depth enhancer"
+    ],
+    "speakingCueHook": "The instant fresh curry leaves hit shimmering peanut oil, the kitchen fills with an unmistakable aroma that signals an authentic feast is underway."
+  },
+  {
+    "id": "bur_ing_37",
+    "nameEn": "Hmyit-chin (Sour Fermented Bamboo Shoots)",
+    "nameMm": "မျှစ်ချဉ်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/m̥jɪʔ tɕʰɪ̀ɴ/",
+    "tagline": "Naturally Fermented Bamboo Shoots Imparting Tangy Umami Pungency to Curries",
+    "burmeseTagline": "သဘာဝအတိုင်း အချဉ်ဖောက်ထားသော၊ ဟင်းလျာများကို ချဉ်စပ်မွှေးစေသည့် မျှစ်ချဉ်",
+    "ingredientsEn": [
+      "Sliced Young Bamboo Shoots",
+      "Lactic Acid Fermentation in Brine",
+      "Pungent Sour Aroma & Crisp Fiber",
+      "Key Base for Pork, Duck & Fish Curries"
+    ],
+    "ingredientsMm": [
+      "မျှစ်နု အလွှာများ",
+      "ဆားရည်ဖြင့် သဘာဝအချဉ်ဖောက်ထားသည်",
+      "စူးရှမွှေးကြိုင်သော အချဉ်နံ့",
+      "ဝက်သား၊ ဘဲသား၊ ငါးဟင်းများတွင် အသုံးပြု"
+    ],
+    "ieltsBandDescription": "Hmyit-chin is a transformative fermented ingredient across Myanmar, providing an earthy, pungent lactic tang that cuts effortlessly through fatty proteins like duck, pork belly, and catfish in hearty regional stews.",
+    "ieltsCollocations": [
+      "transformative fermented ingredient",
+      "pungent lactic tang",
+      "cuts effortlessly through fatty proteins",
+      "hearty regional stews",
+      "indigenous preservation craft"
+    ],
+    "speakingCueHook": "The unmistakable tang of fermented bamboo shoots is an acquired taste for some foreigners, but to Burmese palates, it represents the very essence of rustic homestyle cooking."
+  },
+  {
+    "id": "bur_ing_38",
+    "nameEn": "Pazun-hsi (River Prawn Head Tomalley)",
+    "nameMm": "ပုဇွန်ဆီ",
+    "category": "Ingredients & Condiments",
+    "ipa": "/pəzʊ̀ɴ sʰì/",
+    "tagline": "Concentrated Orange River Prawn Hepatopancreas Fat Used to Enrich Luxury Curries",
+    "burmeseTagline": "မြစ်ပုဇွန်ဦးခေါင်းတွင်းမှ ထုတ်ယူထားသော ရွှေဝါရောင် အဆီအနှစ် ပုဇွန်ဆီ",
+    "ingredientsEn": [
+      "Fresh Giant River Prawn Head Fat",
+      "Natural Astaxanthin Orange Pigment",
+      "Intense Marine Umami Essence",
+      "Gourmet Curry Emulsifier"
+    ],
+    "ingredientsMm": [
+      "မြစ်ပုဇွန်ထုပ် ခေါင်းတွင်းအဆီ",
+      "သဘာဝ ရွှေဝါရောင်ခြယ်",
+      "ပင်လယ်ငါးပိထက် စိမ့်သောအရသာ",
+      "ဟင်းအနှစ်ပျစ်စေရန် သုံးသည်"
+    ],
+    "ieltsBandDescription": "Pazun-hsi is the coveted golden-orange tomalley harvested from the carapaces of giant freshwater prawns, deployed by master chefs as a luxurious natural emulsifier that imparts an incomparable velvety richness and radiant amber hue to royal curries.",
+    "ieltsCollocations": [
+      "coveted golden-orange tomalley",
+      "luxurious natural emulsifier",
+      "incomparable velvety richness",
+      "radiant amber hue",
+      "gastronomic treasure"
+    ],
+    "speakingCueHook": "Prawn tomalley is regarded in Burmese haute cuisine as liquid gold: a small spoonful melted into shallot gravy creates a depth of seafood richness that artificial stocks can never replicate."
+  },
+  {
+    "id": "bur_ing_39",
+    "nameEn": "Ta-la-baw Hmont (Toasted Sticky Rice Flour)",
+    "nameMm": "တာလပေါမှုန့်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/tàləbɔ̀ m̥o̰ʊɴ/",
+    "tagline": "Traditional Toasted Glutinous Rice Flour Used to Thicken Karen Ethnic Broths",
+    "burmeseTagline": "ကောက်ညှင်းဆန်ကို လှော်၍ အမှုန့်ကြိတ်ထားသော ကရင်ရိုးရာ တာလပေါဟင်းပျစ်မှုန့်",
+    "ingredientsEn": [
+      "Slow-Toasted Glutinous Rice",
+      "Finely Stone-Milled Powder",
+      "Smoky Toasted Cereal Aroma",
+      "Soup Thickener for Bamboo & Herbs"
+    ],
+    "ingredientsMm": [
+      "ကောက်ညှင်းဆန် လှော်",
+      "ကျောက်ဆုံကြိတ် အမှုန့်နု",
+      "မီးအေးအေး လှော်ထားသောရနံ့",
+      "တာလပေါဟင်းရည် ပျစ်စေရန် သုံးသည်"
+    ],
+    "ieltsBandDescription": "Ta-la-baw Hmont is an indigenous thickening powder perfected by the Karen ethnic community, produced by dry-roasting aromatic sticky rice grains over wood ash before grinding, imparting a subtle toasted cereal aroma and velvety consistency to wild forest soups.",
+    "ieltsCollocations": [
+      "indigenous thickening powder",
+      "subtle toasted cereal aroma",
+      "velvety soup consistency",
+      "dry-roasting sticky rice",
+      "ethnic culinary heritage"
+    ],
+    "speakingCueHook": "Unlike French roux made with wheat and butter, Karen cuisine achieves luscious soup body using stone-ground roasted sticky rice."
+  },
+  {
+    "id": "bur_ing_40",
+    "nameEn": "Kachin Machit (Highland Prickly Ash)",
+    "nameMm": "ကချင်မာချစ်",
+    "category": "Ingredients & Condiments",
+    "ipa": "/kətɕʰɪ̀ɴ màtɕʰɪʔ/",
+    "tagline": "Wild Forest Citrus Peppercorns Imparting Electric Numbing Citric Vibrations",
+    "burmeseTagline": "ကချင်တောင်တန်းထွက် လျှာဖျားထုံကျင်မွှေးကြိုင်စေသော သဘာဝ တောမာချစ်စေ့",
+    "ingredientsEn": [
+      "Wild Zanthoxylum Peppercorns",
+      "High Hydroxy-alpha-sanshool Compound",
+      "Citric, Woodsy Herbal Profile",
+      "Ground into Kachin & Kayah Meat Seasonings"
+    ],
+    "ingredientsMm": [
+      "တောမာချစ်စေ့ သဘာဝ",
+      "လျှာဖျားထုံစေသော အစွမ်း",
+      "သံပရာနံ့သင်း တောနံ့သာ",
+      "ကချင်နှင့် ကယား အသားဟင်းများတွင် အသုံးပြု"
+    ],
+    "ieltsBandDescription": "Kachin Machit is a rare wild citrus-peppercorn harvested in the sub-Himalayan rainforests of northern Myanmar, famous for inducing a gentle, tingling vibration on the tongue accompanied by intense notes of wild grapefruit and crushed pine needles.",
+    "ieltsCollocations": [
+      "rare wild citrus-peppercorn",
+      "sub-Himalayan rainforest harvest",
+      "gentle tingling vibration",
+      "intense notes of wild grapefruit",
+      "botanical distinction"
+    ],
+    "speakingCueHook": "To taste Kachin Machit is to experience culinary electricity: it transforms simple chicken broth into an exhilarating sensory journey through the northern cloud forests."
   }
 ]
