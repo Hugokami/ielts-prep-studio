@@ -17,6 +17,7 @@
 <script src="js/examiner-studio-pro.js?v=10.0"></script>
 <script src="js/duo-motion.js?v=10.0"></script>
   <script src="js/burmese-cuisine.js?v=10.0"></script>
+  <script src="js/band-surgery.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -9535,6 +9536,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <button class="btn-accent-solid" onclick="saveCurrentEssay()">Save Draft</button>
             <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-sparkles"/></svg> AI Examiner Grade</button>
             <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()"><svg class="ui-icon"><use href="#lucide-search"/></svg> Full CEFR &amp; Trap Audit (5 Free/Mo)</button>
+            <button class="btn-outlined" style="border-color:#D97706; color:#D97706; font-weight:700;" onclick="window.openBandSurgeryFromEditor()" title="Open Live Band Surgery (5.5 &rarr; 8.5+ Sentence Upgrader)"><svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Band Surgery</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
@@ -10071,6 +10073,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-folder"/></svg> <span>Error Vault</span> (<span class="error-vault-count-pill">0</span>)</button>
         <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-calculator"/></svg> <span>Band Calculator</span></button>
         <button class="at-subnav-btn" id="at-tab-culinary" onclick="switchAcademicToolsTab('culinary')"><svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> <span>Burmese Culinary</span></button>
+        <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
       </div>
 
       <!-- Pane 1: Collocations -->
@@ -10295,6 +10298,50 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
       <!-- Pane 9: Burmese Traditional Culinary Heritage & Ingredients Lexicon -->
       <div id="at-pane-culinary" class="at-pane"></div>
+
+      <!-- Pane 10: Live Band Surgery (Sentence Upgrader 5.5 -> 8.5+) -->
+      <div id="at-pane-surgery" class="at-pane">
+        <div class="occ-card" style="padding:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <span style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFF; font-weight:900; font-size:0.75rem; padding:3px 10px; border-radius:4px; letter-spacing:0.04em;">ACADEMIC VIP</span>
+                <h3 style="margin:0; font-size:1.15rem; color:var(--text); font-weight:800; display:inline-flex; align-items:center; gap:8px;">
+                  <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Live Band Surgery (Sentence Upgrader 5.5 &rarr; 8.5+)
+                </h3>
+              </div>
+              <p style="margin:0; font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+                Transform basic or colloquial essay sentences into 3 Cambridge-calibrated variations: <strong>Academic Passive</strong>, <strong>Negative Inversion</strong>, and <strong>Cleft Nominalisation</strong> with word diffs and authentic Burmese examiner commentary.
+              </p>
+            </div>
+          </div>
+
+          <div class="at-search-bar-wrap" style="align-items:flex-start;">
+            <textarea id="at-surgery-input" class="at-input-box" rows="2" style="resize:vertical; min-height:56px; font-family:inherit; font-size:15px; border-radius:8px;" placeholder="Enter or paste any basic essay sentence (e.g. 'Many people think government should spend more money on public transport to stop traffic jams')..."></textarea>
+            <button class="btn-accent-solid" onclick="executeBandSurgery('workspace')" style="padding:12px 22px; font-weight:800; font-size:0.9rem; white-space:nowrap; flex-shrink:0; align-self:stretch; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+              <svg class="ui-icon"><use href="#lucide-sparkles"/></svg> Upgrade Sentence
+            </button>
+          </div>
+
+          <div class="at-quick-chips" style="margin-bottom:16px;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center; margin-right:4px; font-weight:700;">1-Tap Sample Sentences:</span>
+            <button class="at-chip-btn" onclick="setSurgeryInput('Many people think government should spend more money on public transport to stop traffic jams.', 'workspace')">Public Transport</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('The internet has both good and bad effects on young children.', 'workspace')">Kids &amp; Internet</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('If students study abroad they can get better job opportunities.', 'workspace')">Study Abroad</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('Pollution is becoming worse because more cars are on the roads.', 'workspace')">Car Pollution</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('Schools should teach practical financial skills to teenagers.', 'workspace')">Financial Skills</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('Companies should allow employees to work from home to increase productivity.', 'workspace')">Remote Work</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('AI will take away many jobs so workers need to learn new tech skills.', 'workspace')">AI &amp; Automation</button>
+            <button class="at-chip-btn" onclick="setSurgeryInput('Fast food causes obesity and health problems so government should tax it more.', 'workspace')">Fast Food Tax</button>
+          </div>
+
+          <div id="at-surgery-results" class="at-results-card">
+            <div style="color:var(--text-secondary); font-size:0.86rem; padding:28px 16px; text-align:center; background:rgba(0,0,0,0.03); border-radius:8px; border:1px dashed var(--border);">
+              Enter any basic sentence above or select a 1-tap sample to see the instant 3-way Band 8.5/9.0 syntactic transformation!
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
       <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
@@ -18389,7 +18436,7 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
@@ -18403,6 +18450,31 @@ function switchAcademicToolsTab(tabName) {
     if (vtPane) vtPane.style.display = (t === tabName) ? 'block' : 'none';
   });
 }
+
+window.openBandSurgeryFromEditor = function() {
+  const el = document.getElementById('essayArea');
+  let selected = '';
+  if (el) {
+    if (el.selectionStart !== undefined && el.selectionStart !== el.selectionEnd) {
+      selected = el.value.substring(el.selectionStart, el.selectionEnd).trim();
+    }
+  }
+  if (typeof window.switchTab === 'function') {
+    window.switchTab('tools');
+  }
+  if (typeof window.switchAcademicToolsTab === 'function') {
+    window.switchAcademicToolsTab('surgery');
+  }
+  if (selected) {
+    const atInp = document.getElementById('at-surgery-input');
+    if (atInp) {
+      atInp.value = selected;
+      if (typeof window.executeBandSurgery === 'function') {
+        window.executeBandSurgery('workspace');
+      }
+    }
+  }
+};
 
 function switchVipToolsTab(tabName) {
   switchAcademicToolsTab(tabName);
@@ -19995,6 +20067,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <button class="nav-link" id="vt-tab-dict" onclick="switchVipToolsTab('dict')"><svg class="ui-icon"><use href="#lucide-book-open"/></svg> Academic Dictionary</button>
         <button class="nav-link" id="vt-tab-quote" onclick="switchVipToolsTab('quote')"><svg class="ui-icon"><use href="#lucide-brain"/></svg> Scholar Quote</button>
         <button class="nav-link" id="vt-tab-culinary" onclick="switchVipToolsTab('culinary')"><svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> Burmese Culinary</button>
+        <button class="nav-link" id="vt-tab-surgery" onclick="switchVipToolsTab('surgery')"><svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Band Surgery</button>
       </div>
 
       <!-- Tab 1: Collocations Pane -->
@@ -20083,6 +20156,38 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
       <!-- Tab 5: Scholar Quote Pane -->
       <div id="vt-pane-culinary" class="vt-pane" style="display:none;"></div>
+
+      <!-- Tab: Band Surgery Pane in Modal -->
+      <div id="vt-pane-surgery" class="vt-pane" style="display:none;">
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+            <span style="background:#D97706; color:#FFF; font-weight:800; font-size:0.72rem; padding:2px 8px; border-radius:4px;">VIP SUITE</span>
+            <h4 style="margin:0; font-size:1.05rem; color:var(--text); font-weight:800;">Live Band Surgery (5.5 &rarr; 8.5+)</h4>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin:0;">
+            Upgrades basic essay sentences into Academic Passive, Inversion, and Cleft structures with Burmese examiner notes.
+          </p>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-bottom:10px; align-items:flex-start;">
+          <textarea id="vt-surgery-input" class="search-input" rows="2" style="flex:1; resize:vertical; min-height:50px; font-family:inherit; font-size:14px; border-radius:6px;" placeholder="Enter or paste any basic essay sentence..."></textarea>
+          <button class="btn-accent-solid" onclick="executeBandSurgery('modal')" style="padding:10px 18px; font-weight:700; white-space:nowrap; flex-shrink:0;">Upgrade</button>
+        </div>
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; font-size:0.75rem;">
+          <span style="color:var(--text-secondary); align-self:center;">Try 1-Tap:</span>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setSurgeryInput('Many people think government should spend more money on public transport to stop traffic jams.', 'modal')">Public Transport</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setSurgeryInput('The internet has both good and bad effects on young children.', 'modal')">Kids &amp; Internet</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setSurgeryInput('If students study abroad they can get better job opportunities.', 'modal')">Study Abroad</button>
+          <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="setSurgeryInput('Pollution is becoming worse because more cars are on the roads.', 'modal')">Pollution</button>
+        </div>
+
+        <div id="vt-surgery-results" style="min-height:100px;">
+          <div style="color:var(--text-secondary); font-size:0.85rem; padding:18px; text-align:center; background:rgba(0,0,0,0.05); border-radius:8px;">
+            Enter a sentence above or click a 1-tap chip to generate Band 8.5+ upgrades!
+          </div>
+        </div>
+      </div>
       <div id="vt-pane-quote" class="vt-pane" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <span style="font-size:0.85rem; color:var(--text-secondary);">Draw inspiration from thinkers, scientists, and rhetoricians:</span>
