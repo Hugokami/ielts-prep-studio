@@ -117,16 +117,16 @@ function getQuotaExceededMessage() {
   return `⚠️ *DAILY FREE QUOTA LIMIT REACHED (10/10 USED)*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
     `Free tier accounts are allocated 10 Academic AI searches per day.\n\n` +
-    `👑 *Target Band 7.5+ Lifetime Studio VIP Pass (750 ★ Stars / 55,000 MMK)*\n` +
-    `• ⚡ *UNLIMITED* Academic Collocations (/collocate)\n` +
-    `• 💎 *UNLIMITED* Band 8.5+ Synonyms (/syn)\n` +
-    `• 📖 *UNLIMITED* Academic Topic Briefs (/read)\n` +
-    `• 📚 *UNLIMITED* Live Academic Dictionary (/dict)\n` +
-    `• 🧠 *UNLIMITED* Scholar Quotes & Rhetoric (/quote)\n` +
-    `• 🔤 All 1,162 Vocabulary items, Audio & 1-3-7 Spaced Repetition\n` +
-    `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)\n` +
-    `• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Scorer\n` +
-    `• 💻 Personal Desktop Activation Voucher for PC & Laptop\n\n` +
+    `👑 *Target Band 8.5+ Lifetime Studio VIP Pass (750 ★ Stars / 55,000 MMK)*\n` +
+    `• ⚡ *UNLIMITED* Academic AI Searches (/collocate, /syn, /dict, /read, /quote)\n` +
+    `• 🔬 Live Band Surgery (5.5 ➔ 8.5+), 18-Trap X-Ray & 12-Theme Argument Matrix\n` +
+    `• 🎙️ 60s Cue Card Lifeline, Speech Diagnostics 2.0 & TFNG Decisive Arbiter\n` +
+    `• 🔤 All 1,162 Lexicon Items & 117 Burmese Culinary Dishes + 1-3-7 SRS\n` +
+    `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions) & Burmese Citations\n` +
+    `• ✍️ All 40 Writing Models + CEFR 90/10 AI Evaluator\n` +
+    `• 📊 Cambridge 4-Axis Radar & 1-Click Night-Before Exam Cheat Sheet PDF\n` +
+    `• 👑 Obsidian & Gold Fellow Prestige Theme, Infinite Hearts & 2x XP Multiplier\n` +
+    `• 💻 Personal Desktop Activation Voucher for PC, Laptop & Mobile\n\n` +
     `👇 *Tap below to upgrade instantly with Telegram Stars or Mobile Wallets:*`;
 }
 
@@ -387,19 +387,27 @@ bot.command('start', async (ctx) => {
       ? `🎓 **IELTS Prep Studio (@IELTSPrepStudioBot)**\n\n` +
         `👑 **VIP LIFETIME MEMBER (ACTIVE)**\n` +
         `သင်သည် Lifetime VIP Pass အသုံးပြုသူဖြစ်ပြီး ဖြစ်ပါသည်။ Premium Features အားလုံး အပြည့်အစုံ ဖွင့်လှစ်ထားပြီး ဖြစ်ပါသည်!\n\n` +
-        `• 🔤 1,162 Academic Lexicon & 1-3-7 Spaced Repetition Flashcards\n` +
-        `• 📖 23 Cambridge Reading CBT Passages (231 Questions) & Burmese Citations\n` +
-        `• ✍️ 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator\n` +
-        `• 🎙️ 30 Speaking Forecast Topics & 5 Strategic Frameworks\n` +
+        `• 🔤 1,162 Academic Lexicon & 1-3-7 SRS Flashcards + 117 Burmese Culinary Lexicon\n` +
+        `• 📖 23 Cambridge Reading CBT Passages (231 Questions) & TFNG Decisive Arbiter\n` +
+        `• ✍️ 40 Writing Models + Live Band Surgery (5.5 ➔ 8.5+) & 18 Cliche Trap X-Ray\n` +
+        `• 💡 12-Theme Argument Matrix (Pro/Con/Thesis) for Task 2 Academic Essays\n` +
+        `• 🎙️ 30 Speaking Forecast Topics + 60s Cue Card Lifeline (PPF & STORY Framework)\n` +
+        `• ⏱️ Speech Diagnostics 2.0 (130–150 WPM Sweet Spot & Filler Word Radar)\n` +
+        `• 📊 Cambridge 4-Axis Competency Radar, Target Countdown & Night-Before Cheat Sheet PDF\n` +
+        `• ✨ Obsidian & Gold Fellow Prestige Theme, Infinite Focus Hearts & 2x XP Multiplier\n` +
         `• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read, /quote)\n\n` +
         `👇 **အောက်ပါ Start Menu ကို နှိပ်၍ Study Menu အား ဖွင့်ပါ:**`
       : `🎓 *Welcome back to IELTS Prep Studio (@IELTSPrepStudioBot)!*\n\n` +
         `👑 *YOU ARE ALREADY A VIP USER!*\n` +
-        `Your account has full Lifetime VIP Access permanently active!\n\n` +
-        `• 🔤 All 1,162 Academic Lexicon items with Native Pronunciation & 1-3-7 SRS\n` +
-        `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)\n` +
-        `• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Scorer\n` +
-        `• 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks\n` +
+        `Your account has full Lifetime VIP Access permanently active with all latest suite weapons!\n\n` +
+        `• 🔤 All 1,162 Academic Lexicon items + 117 Burmese Culinary Terms with Native Audio & 1-3-7 SRS\n` +
+        `• 📖 All 23 Cambridge Reading CBT Passages (231 Questions) + TFNG Decisive Arbiter\n` +
+        `• ✍️ All 40 Writing Task 1 & 2 Models + Live Band Surgery (5.5 ➔ 8.5+) & 18 Trap X-Ray\n` +
+        `• 💡 12-Theme Argument Matrix (Pro/Con/Thesis) for Instant Academic Task 2 Arguments\n` +
+        `• 🎙️ All 30 Speaking Forecast Topics + 60s Cue Card Lifeline (PPF & STORY Mind-Maps)\n` +
+        `• ⏱️ Speech Diagnostics 2.0 (130–150 WPM Sweet Spot & Real-Time Filler Radar)\n` +
+        `• 📊 Cambridge 4-Axis Competency Radar, Target Exam Countdown & Night-Before Cheat Sheet PDF\n` +
+        `• ✨ Obsidian & Gold Fellow Prestige Theme, Infinite Focus Hearts & 2x XP Multiplier\n` +
         `• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read)\n\n` +
         `👇 *Tap 🚀 Start Menu below to explore:*`;
 
@@ -418,31 +426,35 @@ bot.command('start', async (ctx) => {
         `📌 **Payment Details (ငွေပေးချေရန် နည်းလမ်းများ):**\n` +
         `• ⭐️ **Telegram Stars:** \`750 ★ Stars\` (တစ်ကမ္ဘာလုံး 1-Click ချက်ချင်းဖွင့်နိုင်)\n` +
         `• 🇲🇲 **KBZPay / WavePay:** \`${PAYMENT_PHONE}\` (${ACCOUNT_NAME}) — \`${PRICE_MMK}\`\n\n` +
-        `✨ **VIP Pass တွင် ပါဝင်သော Deliverables (8 ခုလုံး):**\n` +
-        `1. Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + Burmese Evidence\n` +
-        `2. Writing Band 8.5/9.0 Models 40 ခုလုံး + Skeletons\n` +
-        `3. Gemini AI Examiner Evaluations တစ်လ 60 ကြိမ် (တစ်နေ့ 2 ပုဒ် တိုက်ရိုက်စစ်ဆေးခွင့်)\n` +
-        `4. Speaking 2026 Forecast Topics 30 ခုလုံး + 5 Strategic Frameworks\n` +
-        `5. Lexicon & Trap Bank 1,162 ခုလုံး (Collocations, 538 Reading Traps, 179 Distractors)\n` +
-        `6. Live Microphone Speaking Recorder & Voice Analyzer\n` +
-        `7. Multi-Device Cloud Sync via Google Account\n` +
-        `8. VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
+        `✨ **VIP Pass တွင် ပါဝင်သော Deliverables အပြည့်အစုံ (10 ခုလုံး):**\n` +
+        `1. 📖 Reading CBT Mock Exam 23 ခုလုံး (231 Questions) + TFNG Decisive Arbiter\n` +
+        `2. ✍️ Writing Band 8.5/9.0 Models 40 ခုလုံး + Live Band Surgery (5.5 ➔ 8.5+)\n` +
+        `3. 🎯 18 Deadly Band-6.0 Cliche & Trap X-Ray Scanner\n` +
+        `4. 💡 12 Cambridge Themes Argument Matrix (Pro/Con/Thesis Synthesizer)\n` +
+        `5. 🎙️ Speaking Forecast 30 Topics + 60s Cue Card Lifeline (PPF & STORY)\n` +
+        `6. ⏱️ Speech Diagnostics 2.0 (130–150 WPM Sweet Spot & Filler Radar)\n` +
+        `7. 🔤 1,162 Academic Lexicon & 1-3-7 SRS + 117 Burmese Culinary Lexicon\n` +
+        `8. 📊 Cambridge 4-Axis Competency Radar & 1-Click Night-Before Exam Cheat Sheet PDF\n` +
+        `9. ✨ Obsidian & Gold Fellow Prestige Theme, Infinite Hearts & 2x XP Multiplier\n` +
+        `10. ⚡ VIP Academic AI Tools (/collocate, /syn, /read, /dict, /quote) Unlimited အသုံးပြုခွင့်\n\n` +
         `👇 **Tap 🚀 Start Menu below to explore:**`
-      : `🎓 *IELTS Prep Studio — Band 7.5+ VIP Studio Pass*\n` +
+      : `🎓 *IELTS Prep Studio — Band 8.5+ VIP Studio Pass*\n` +
         `Cambridge CBT Mock Simulator • Band 9.0 AI Examiner • 1,162 Academic Lexicon\n\n` +
         `✨ *Welcome International Scholar! Studio VIP Pass is available worldwide.*\n\n` +
         `📌 *Available Payment Rails:*\n` +
         `• ⭐️ *Telegram Stars:* *750 ★ Stars* (Instant 1-Click Global Automated Activation)\n` +
         `• 🇲🇲 *Myanmar Mobile Wallets:* *${PRICE_MMK}* (KBZPay / WavePay: \`${PAYMENT_PHONE}\`)\n\n` +
-        `✨ *VIP Pass Deliverables (All 8 Full Modules):*\n` +
-        `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions)\n` +
-        `2. ✍️ Writing Band 8.5/9.0 Models — All 40 Tasks + High-Scoring Skeletons\n` +
-        `3. 🤖 Gemini AI Examiner — 60 Automated Band 9 Assessments / Month\n` +
-        `4. 🎙️ Speaking Forecast Topics — All 30 Topics + 5 Strategic Frameworks & Audio\n` +
-        `5. 📚 Curated Lexicon & Trap Bank — 1,162 Vocabulary items, 538 Traps & Distractors\n` +
-        `6. 🎙️ Live Mic Voice Analyzer — Speech Pace & Pronunciation Metrics\n` +
-        `7. 🔄 Multi-Device Cloud Sync — Google Account & Telegram Mini App\n` +
-        `8. ⚡ VIP Academic AI Tools — Unlimited Collocations, Synonyms, Topic Briefs & Dictionary\n\n` +
+        `✨ *VIP Pass Deliverables (Complete Academic Arsenal):*\n` +
+        `1. 📖 Reading CBT Mock Exam — All 23 Cambridge Passages (231 Questions) + TFNG Arbiter\n` +
+        `2. ✍️ Writing Band 8.5/9.0 Models — All 40 Tasks + Live Band Surgery (5.5 ➔ 8.5+)\n` +
+        `3. 🎯 18 Deadly Band-6.0 Cliche & Trap X-Ray — Real-time Lexical & Register Scanner\n` +
+        `4. 💡 12 Cambridge Themes Argument Matrix — Instant Pro/Con/Thesis Arguments\n` +
+        `5. 🎙️ Speaking Forecast Topics — All 30 Topics + 60s Cue Card Lifeline (PPF & STORY)\n` +
+        `6. ⏱️ Speech Diagnostics 2.0 — 130–150 WPM Sweet Spot & Filler Word Radar\n` +
+        `7. 📚 Curated Lexicon & Trap Bank — 1,162 Vocabulary items + 117 Burmese Culinary Terms\n` +
+        `8. 📊 Cambridge 4-Axis Competency Radar & 1-Click Night-Before Exam Cheat Sheet PDF\n` +
+        `9. ✨ Obsidian & Gold Fellow Prestige Theme, Infinite Focus Hearts & 2x XP Multiplier\n` +
+        `10. ⚡ VIP Academic AI Tools — Unlimited Collocations, Synonyms, Topic Briefs & Dictionary\n\n` +
         `👇 *Tap 🚀 Start Menu below to explore:*`;
 
     inlineKeyboard
@@ -636,7 +648,7 @@ async function sendStarsInvoice(ctx) {
   try {
     await ctx.replyWithInvoice(
       'IELTS Prep Studio — Lifetime VIP Pass',
-      'Lifetime access to all 23 Cambridge Reading CBT Tests, 40 Band 8.5/9.0 Writing Models, 1,162 Academic Lexicon items, and Unlimited AI Tools.',
+      'Lifetime access: 23 Reading CBT Passages, 40 Writing Models, Live Band Surgery, 18-Trap X-Ray, Argument Matrix, 60s Speaking Lifeline, Speech Diagnostics 2.0, TFNG Arbiter, 1,162 Lexicon Items & Cheat Sheet PDF.',
       `stars_vip_${userId}_${Date.now()}`,
       'XTR',
       [{ label: 'Lifetime VIP Studio Pass', amount: 750 }]
@@ -684,11 +696,15 @@ bot.on('message:successful_payment', async (ctx) => {
     `Tap the **1-Click Magic Link** below to immediately activate your Lifetime VIP Studio Pass:\n\n` +
     `👉 *1-Click Magic Link:*\n${magicLink}\n\n` +
     `👑 *Unlocked Privileges:*\n` +
-    `• All 23 Cambridge Reading CBT Tests + Explanations\n` +
-    `• All 40 Band 8.5/9.0 Writing Models & Skeletons\n` +
-    `• 60 Gemini AI Examiner Essay Audits / Month\n` +
-    `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
-    `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n` +
+    `• All 23 Cambridge Reading CBT Tests + TFNG Decisive Arbiter\n` +
+    `• Live Band Surgery (5.5 ➔ 8.5+) & 18 Cliche Trap X-Ray\n` +
+    `• 12 Cambridge Themes Argument Matrix (Pro/Con/Thesis)\n` +
+    `• All 40 Band 8.5/9.0 Writing Models & CEFR 90/10 AI Evaluator\n` +
+    `• All 30 Speaking Forecast Topics + 60s Cue Card Lifeline\n` +
+    `• Speech Diagnostics 2.0 (130–150 WPM Pace & Filler Radar)\n` +
+    `• All 1,162 Vocabulary Items & 117 Burmese Culinary Lexicon\n` +
+    `• Cambridge 4-Axis Competency Radar & Night-Before Cheat Sheet PDF\n` +
+    `• Obsidian & Gold Fellow Prestige Theme, Infinite Hearts & 2x XP\n` +
     `• Unlimited Academic AI Tools (/collocate, /syn, /read, /dict, /quote)\n\n` +
     `Best wishes on achieving your target band score with IELTS Prep Studio!`;
 
@@ -800,11 +816,15 @@ bot.on('callback_query:data', async (ctx) => {
         `👉 **1-Click Activate Link:**\n` +
         `${voucher.magicLink}\n\n` +
         `👑 **Unlocked Privileges:**\n` +
-        `• All 23 Cambridge Reading CBT Tests + Burmese Citations\n` +
-        `• All 40 Band 8.5/9.0 Writing Models & Frameworks\n` +
-        `• 60 Gemini AI Examiner Essay Audits / Month\n` +
-        `• All 30 Speaking Forecast Topics & Live Mic Recorder\n` +
-        `• All 1,162 Vocabulary & Reading CBT Distractor Banks\n\n` +
+        `• All 23 Cambridge Reading CBT Tests + TFNG Decisive Arbiter\n` +
+        `• Live Band Surgery (5.5 ➔ 8.5+) & 18 Deadly Cliche Trap X-Ray\n` +
+        `• 12 Cambridge Themes Argument Matrix (Pro/Con/Thesis)\n` +
+        `• All 40 Band 8.5/9.0 Writing Models & CEFR 90/10 AI Evaluator\n` +
+        `• All 30 Speaking Topics + 60s Cue Card Lifeline & Speech Diagnostics 2.0\n` +
+        `• All 1,162 Vocabulary Items + 117 Burmese Culinary Lexicon\n` +
+        `• Cambridge 4-Axis Radar & 1-Click Night-Before Exam Cheat Sheet PDF\n` +
+        `• Obsidian & Gold Fellow Prestige Theme, Infinite Hearts & 2x XP Multiplier\n` +
+        `• Unlimited Academic AI Tools (/collocate, /syn, /read, /dict, /quote)\n\n` +
         `_(Website တွင် ကိုယ်တိုင် Code ရိုက်ထည့်လိုပါက Voucher Code: \`${voucher.code}\` ဖြစ်ပါသည်)_\n\n` +
         `IELTS Prep Studio ဖြင့် အောင်မြင်သော ရလဒ်ကောင်းများ ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းအပ်ပါသည်။`;
 
@@ -1362,7 +1382,7 @@ async function handleBuy(ctx) {
   if (isVip) {
     return ctx.reply(
       `👑 *YOU ARE ALREADY A VIP USER!*\n━━━━━━━━━━━━━━━━━━━━\n` +
-      `✅ Your account has full Lifetime VIP Access permanently active. All Cambridge CBT tests, 1,162 AWL flashcards, Academic AI tools, and Speaking mocks are completely unlocked!\n\n` +
+      `✅ Your account has full Lifetime VIP Access permanently active! All 23 Cambridge CBT tests, Live Band Surgery, 18-Trap X-Ray, Argument Matrix, 60s Speaking Lifeline, Speech Diagnostics 2.0, 1,162 Lexicon Items, 117 Culinary Terms, Cheat Sheet PDF, and Obsidian Gold Prestige Theme are completely unlocked!\n\n` +
       `No further payment is required. Launch the Studio below to continue practicing:`,
       {
         parse_mode: 'Markdown',
@@ -1376,7 +1396,7 @@ async function handleBuy(ctx) {
   const text =
     `👑 *IELTS PREP STUDIO — LIFETIME VIP PASS*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
-    `Unlock unlimited access to Cambridge CBT mocks, Band 9 writing models, automated AI scoring, and all 1,162 academic vocabulary items.\n\n` +
+    `Unlock unlimited lifetime access to 23 Cambridge Reading CBT Mocks, Live Band Surgery (5.5 ➔ 8.5+), 18-Trap X-Ray, 12-Theme Argument Matrix, 40 Writing Models, 60s Speaking Lifeline, Speech Diagnostics 2.0, TFNG Decisive Arbiter, 1,162 Academic Lexicon & 117 Burmese Culinary Terms, 4-Axis Radar & Night-Before Cheat Sheet PDF.\n\n` +
     `💳 *Select Your Payment Rail:*\n\n` +
     `⭐️ *Option 1: Telegram Stars (Worldwide)*\n` +
     `• Price: *750 ★ Stars* (~$15 USD)\n` +
