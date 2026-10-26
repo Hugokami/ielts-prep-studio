@@ -456,7 +456,7 @@
       <div class="ips-modal-shell" style="max-width:540px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:1.4rem;">🧩</span>
+            <svg class="ui-icon" style="width:24px;height:24px;color:#3B82F6;" aria-hidden="true"><use href="#lucide-puzzle"/></svg>
             <div>
               <strong style="font-size:1.02rem;color:var(--text);">Cambridge Academic Syntax Builder</strong>
               <div style="font-size:0.75rem;color:var(--accent-gold,#F59E0B);font-weight:700;">DAILY COLLOCATION CHALLENGE • +25 XP &amp; +5 💎</div>
@@ -492,11 +492,11 @@
           <div style="display:flex;gap:6px;">
             <button type="button" class="btn-outlined" style="font-size:0.8rem;" onclick="window.duoResetScramble()">↺ Clear</button>
             <button type="button" class="btn-outlined" style="font-size:0.8rem;color:#0284C7;border-color:rgba(2,132,199,0.3);" onclick="window.duoUseScrambleHint(${JSON.stringify(correctWords).replace(/"/g, "&quot;")})">
-              💡 Hint (10 💎)
+              <svg class="ui-icon" style="color:#F59E0B;" aria-hidden="true"><use href="#lucide-lightbulb"/></svg> Hint (10 <svg class="ui-icon" style="color:#06B6D4;" aria-hidden="true"><use href="#lucide-gem"/></svg>)
             </button>
           </div>
           <button type="button" class="btn-accent-solid" id="duoCheckScrambleBtn" style="padding:10px 22px;font-size:0.88rem;font-weight:800;" onclick="window.duoCheckScrambleAnswer(${JSON.stringify(pick.target).replace(/"/g, "&quot;")})">
-            Check Answer ✓
+            Check Answer <svg class="ui-icon" aria-hidden="true"><use href="#lucide-check"/></svg>
           </button>
         </div>
       </div>
@@ -666,7 +666,7 @@
       <div class="ips-modal-shell">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1.5px solid var(--border);padding-bottom:10px;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:1.6rem;">🏛️</span>
+            <svg class="ui-icon" style="width:28px;height:28px;color:#EA580C;" aria-hidden="true"><use href="#lucide-landmark"/></svg>
             <div>
               <strong style="font-size:1.06rem;color:var(--text);">Academic Economy &amp; Scholar Rewards</strong>
               <div style="font-size:0.75rem;color:var(--text-secondary);">How Consistency, XP, Focus Hearts, and Gems power your IELTS Band 8.5+</div>
@@ -758,7 +758,7 @@
 
           <div class="ips-shop-row">
             <div>
-              <strong style="font-size:0.84rem;color:var(--text);">❤️ Instant Full Heart Refill</strong>
+              <strong style="font-size:0.84rem;color:var(--text);"><svg class="ui-icon" style="color:#EF4444;fill:#EF4444;" aria-hidden="true"><use href="#lucide-heart"/></svg> Instant Full Heart Refill</strong>
               <div style="font-size:0.73rem;color:var(--text-secondary);">Restores Focus Hearts back to 5/5 immediately.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#E11D48;border-color:rgba(225,29,72,0.3);" onclick="window.duoBuyStoreItem('refill_hearts')">
@@ -768,7 +768,7 @@
 
           <div class="ips-shop-row">
             <div>
-              <strong style="font-size:0.84rem;color:var(--text);">⚡ 2× Double XP Boost (15 Mins)</strong>
+              <strong style="font-size:0.84rem;color:var(--text);"><svg class="ui-icon" style="color:#F59E0B;" aria-hidden="true"><use href="#lucide-zap"/></svg> 2× Double XP Boost (15 Mins)</strong>
               <div style="font-size:0.73rem;color:var(--text-secondary);">Doubles all XP earned across the studio for 15 minutes of intensive study.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#D97706;border-color:rgba(217,119,6,0.3);" onclick="window.duoBuyStoreItem('double_xp')">
@@ -778,7 +778,7 @@
 
           <div class="ips-shop-row">
             <div>
-              <strong style="font-size:0.84rem;color:var(--text);">🧊 Streak Freeze Shield</strong>
+              <strong style="font-size:0.84rem;color:var(--text);"><svg class="ui-icon" style="color:#38BDF8;" aria-hidden="true"><use href="#lucide-snowflake"/></svg> Streak Freeze Shield</strong>
               <div style="font-size:0.73rem;color:var(--text-secondary);">Protects your daily consistency streak if you miss a study day.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#0284C7;border-color:rgba(2,132,199,0.3);" onclick="window.duoBuyStoreItem('streak_freeze')">
@@ -788,7 +788,7 @@
 
           <div class="ips-shop-row">
             <div>
-              <strong style="font-size:0.84rem;color:var(--text);">🎯 Band 9 Examiner Collocation Card</strong>
+              <strong style="font-size:0.84rem;color:var(--text);"><svg class="ui-icon" style="color:#10B981;" aria-hidden="true"><use href="#lucide-target"/></svg> Band 9 Examiner Collocation Card</strong>
               <div style="font-size:0.73rem;color:var(--text-secondary);">Unlock a secret Band 9 Golden Academic Expression with audio and Burmese analysis.</div>
             </div>
             <button type="button" class="btn-outlined" style="font-size:0.76rem;font-weight:800;color:#10B981;border-color:rgba(16,185,129,0.3);" onclick="window.duoBuyStoreItem('booster_card')">
@@ -1064,22 +1064,22 @@
     mount.innerHTML = `
       <div class="duo-hud-bar">
         <div class="duo-hud-pill streak" title="Consistency Streak: ${streakDays} Consecutive Days" onclick="window.openAcademicEconomyModal('streak')">
-          <span>🔥</span> <span>${streakDays}</span>
+          <svg class="ui-icon" style="color:#F97316;" aria-hidden="true"><use href="#lucide-flame"/></svg> <span>${streakDays}</span>
         </div>
         <div class="duo-hud-pill xp" title="Academic XP (${st.xp} Total) — Click for Scholar Rank" onclick="window.openAcademicEconomyModal('xp')">
-          <span>⭐</span> <span>${st.xp || 120} XP</span>
+          <svg class="ui-icon" style="color:#EAB308;" aria-hidden="true"><use href="#lucide-star"/></svg> <span>${st.xp || 120} XP</span>
         </div>
         <div class="duo-hud-pill hearts" title="Focus Hearts: ${st.hearts}/${st.maxHearts || 5} Lives" onclick="window.openAcademicEconomyModal('hearts')">
-          <span>❤️</span> <span>${st.hearts || 5}</span>
+          <svg class="ui-icon" style="color:#EF4444; fill:#EF4444;" aria-hidden="true"><use href="#lucide-heart"/></svg> <span>${st.hearts || 5}</span>
         </div>
         <div class="duo-hud-pill gems" title="Scholar Gems (${st.gems || 45}) — Click for Gem Store" onclick="window.openAcademicEconomyModal('gems')">
-          <span>💎</span> <span>${st.gems || 45}</span>
+          <svg class="ui-icon" style="color:#06B6D4;" aria-hidden="true"><use href="#lucide-gem"/></svg> <span>${st.gems || 45}</span>
         </div>
         <div class="duo-hud-pill guide-pill" title="Open Student Quick Guide" onclick="window.openStudioGuideModal(1)">
-          <span>📖</span> <span>Guide</span>
+          <svg class="ui-icon" style="color:#3B82F6;" aria-hidden="true"><use href="#lucide-book-marked"/></svg> <span>Guide</span>
         </div>
         <button type="button" class="btn-outlined" style="padding:2px 7px;font-size:0.72rem;border-radius:999px;border:none;" title="Toggle Sound Effects" onclick="window.duoToggleSound()">
-          ${st.soundEnabled !== false ? "🔊" : "🔇"}
+          ${st.soundEnabled !== false ? '<svg class="ui-icon" aria-hidden="true"><use href="#lucide-volume-2"/></svg>' : '<svg class="ui-icon" aria-hidden="true"><use href="#lucide-volume-x"/></svg>'}
         </button>
       </div>
     `;
@@ -1134,29 +1134,29 @@
 
           <div class="duo-path-nodes">
             <div class="duo-path-node completed" onclick="switchView('lexicon')" title="Step 1: Academic Collocations (AWL Sublist 1)">
-              <div class="duo-node-circle">🏛️</div>
+              <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#EA580C;" aria-hidden="true"><use href="#lucide-landmark"/></svg></div>
               <div class="duo-node-label">Lexicon</div>
-              <div class="duo-node-crowns">👑 5/5</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="color:#F59E0B;width:11px;height:11px;" aria-hidden="true"><use href="#lucide-crown"/></svg> 5/5</div>
             </div>
             <div class="duo-path-node completed" onclick="switchView('listening')" title="Step 2: Listening Section 1 Dialogue Drill">
-              <div class="duo-node-circle">🎧</div>
+              <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#3B82F6;" aria-hidden="true"><use href="#lucide-headphones"/></svg></div>
               <div class="duo-node-label">Listening</div>
-              <div class="duo-node-crowns">👑 4/4</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="color:#F59E0B;width:11px;height:11px;" aria-hidden="true"><use href="#lucide-crown"/></svg> 4/4</div>
             </div>
             <div class="duo-path-node active-node" onclick="switchView('reading')" title="Step 3: Cambridge Reading CBT Simulation">
-              <div class="duo-node-circle">📖</div>
+              <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#10B981;" aria-hidden="true"><use href="#lucide-book"/></svg></div>
               <div class="duo-node-label">Reading</div>
-              <div class="duo-node-crowns">⭐ Now</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="color:#EAB308;width:11px;height:11px;" aria-hidden="true"><use href="#lucide-star"/></svg> Now</div>
             </div>
             <div class="duo-path-node" onclick="switchView('speaking')" title="Step 4: Speaking 3-Part Mock Simulator">
-              <div class="duo-node-circle">🎙️</div>
+              <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#8B5CF6;" aria-hidden="true"><use href="#lucide-mic"/></svg></div>
               <div class="duo-node-label">Speaking</div>
-              <div class="duo-node-crowns">🔒 Next</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="width:11px;height:11px;" aria-hidden="true"><use href="#lucide-lock"/></svg> Next</div>
             </div>
             <div class="duo-path-node" onclick="switchView('writing')" title="Step 5: Task 2 Academic Essay Lab">
-              <div class="duo-node-circle">✍️</div>
+              <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#EC4899;" aria-hidden="true"><use href="#lucide-pen-tool"/></svg></div>
               <div class="duo-node-label">Writing</div>
-              <div class="duo-node-crowns">🔒 Lab</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="width:11px;height:11px;" aria-hidden="true"><use href="#lucide-lock"/></svg> Lab</div>
             </div>
           </div>
         </div>
@@ -1247,6 +1247,16 @@
       document.body.classList.add("topbar-collapsed");
     } else {
       document.body.classList.remove("topbar-collapsed");
+    }
+
+    const hangBtn = document.getElementById("topbarHangToggleBtn");
+    const hangLabel = document.getElementById("topbarHangLabel");
+    if (hangBtn) {
+      hangBtn.setAttribute("aria-expanded", nextState ? "false" : "true");
+      hangBtn.title = nextState ? "Show Top Bar" : "Hide Top Bar";
+    }
+    if (hangLabel) {
+      hangLabel.textContent = nextState ? "Show Top Bar" : "Hide Top Bar";
     }
 
     const toggleBtn = document.getElementById("topbarCollapseBtn");

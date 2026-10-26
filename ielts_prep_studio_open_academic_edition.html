@@ -7112,6 +7112,98 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
+
+  /* ==========================================================================
+     LUCIDE VECTOR ICON SYSTEM (60 FPS HARDWARE ACCELERATED SVG SPRITES)
+     ========================================================================== */
+  .ui-icon {
+    display: inline-block;
+    vertical-align: -0.15em;
+    width: 1.1em;
+    height: 1.1em;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, stroke 0.15s ease;
+  }
+  .ui-icon-xs { width: 0.85em; height: 0.85em; }
+  .ui-icon-sm { width: 0.95em; height: 0.95em; }
+  .ui-icon-md { width: 1.15em; height: 1.15em; }
+  .ui-icon-lg { width: 1.35em; height: 1.35em; }
+  .ui-icon-xl { width: 1.75em; height: 1.75em; }
+
+  /* HANGING TOPBAR TOGGLE TAB (PERFECT VISIBILITY & ZERO OVERLAP) */
+  .topbar-hang-tab {
+    position: absolute !important;
+    top: 100% !important;
+    right: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 3px 12px 4px 12px !important;
+    height: 24px !important;
+    line-height: 1 !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    border-top: none !important;
+    border-radius: 0 0 9px 9px !important;
+    font-family: inherit !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 1550 !important;
+    user-select: none !important;
+  }
+  .topbar-hang-tab:hover {
+    color: #0284C7 !important;
+    background: #F8FAFC !important;
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.16) !important;
+  }
+  :root[data-theme="dark"] .topbar-hang-tab {
+    background: #0B0F19 !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    border-top: none !important;
+    color: #94A3B8 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  }
+  :root[data-theme="dark"] .topbar-hang-tab:hover {
+    color: #38BDF8 !important;
+    background: #131B2E !important;
+  }
+  .topbar-hang-tab .hang-chevron-svg {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  body.topbar-collapsed .topbar-hang-tab {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+    border-color: #0284C7 !important;
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+    padding: 4px 14px 5px 14px !important;
+    height: 26px !important;
+  }
+  :root[data-theme="dark"] body.topbar-collapsed .topbar-hang-tab {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+    border-color: #0284C7 !important;
+  }
+  body.topbar-collapsed .topbar-hang-tab .hang-chevron-svg {
+    transform: rotate(180deg) !important;
+  }
+
+  @media (max-width: 600px) {
+    .topbar-hang-tab {
+      right: 14px !important;
+      padding: 3px 9px 4px 9px !important;
+      font-size: 0.68rem !important;
+    }
+  }
 </style>
   <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
@@ -7120,6 +7212,93 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body class="hide-burmese">
+<svg id="lucide-sprites" style="display:none; position:absolute; width:0; height:0;" aria-hidden="true">
+  <symbol id="lucide-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12l7-7l7 7m-7 7V5"/></symbol>
+  <symbol id="lucide-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m15.477 12.89l1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></g></symbol>
+  <symbol id="lucide-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="lucide-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol>
+  <symbol id="lucide-book-marked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 2v8l3-3l3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></g></symbol>
+  <symbol id="lucide-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v16m8.001-2A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2a5 5 0 0 1 4-2z"/></symbol>
+  <symbol id="lucide-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2m16 0h2m-7-1v2m-6-2v2"/></g></symbol>
+  <symbol id="lucide-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 18V5m3 8a4.17 4.17 0 0 1-3-4a4.17 4.17 0 0 1-3 4m8.707-6.706A3 3 0 1 0 12 5a3 3 0 1 0-5.707 1.294"/><path d="M17.996 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.465"/><path d="M19.967 17.482a4 4 0 1 1-7.967.517a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.465"/><path d="M6.004 5.125a4 4 0 0 0-2.526 5.77"/></g></symbol>
+  <symbol id="lucide-calculator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8m0 8v4m0-8h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></g></symbol>
+  <symbol id="lucide-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 2v3m8-3v3"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/></g></symbol>
+  <symbol id="lucide-chart-no-axes-column" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 21v-6m7 6V3m7 18V9"/></symbol>
+  <symbol id="lucide-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="lucide-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"/></symbol>
+  <symbol id="lucide-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 15l-6-6l-6 6"/></symbol>
+  <symbol id="lucide-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></symbol>
+  <symbol id="lucide-circle-question-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></symbol>
+  <symbol id="lucide-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></g></symbol>
+  <symbol id="lucide-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></g></symbol>
+  <symbol id="lucide-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9"/></symbol>
+  <symbol id="lucide-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294zM5 21h14"/></symbol>
+  <symbol id="lucide-dices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14l3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6M6 18h.01M10 14h.01M15 6h.01M18 9h.01"/></g></symbol>
+  <symbol id="lucide-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10l5 5l5-5"/></g></symbol>
+  <symbol id="lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 3h6v6m-11 5L21 3m-3 10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="lucide-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.062 12.348a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 19.876 0a1 1 0 0 1 0 .696a10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="lucide-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575a1 1 0 0 1 0 .696a10.8 10.8 0 0 1-1.444 2.49m-6.41-.679a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 4.446-5.143M2 2l20 20"/></g></symbol>
+  <symbol id="lucide-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></g></symbol>
+  <symbol id="lucide-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 9H8m8 4H8m8 4H8"/></g></symbol>
+  <symbol id="lucide-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
+  <symbol id="lucide-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0a5 5 0 0 1 1-3a1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></symbol>
+  <symbol id="lucide-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="lucide-gem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10.5 3L8 9l4 13l4-13l-2.5-6"/><path d="M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3zM2 9h20"/></g></symbol>
+  <symbol id="lucide-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20a14.5 14.5 0 0 0 0-20M2 12h20"/></g></symbol>
+  <symbol id="lucide-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="lucide-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></symbol>
+  <symbol id="lucide-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
+  <symbol id="lucide-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></g></symbol>
+  <symbol id="lucide-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m2 21l9.6-9.6m-4.1 4.1l2.3 2.3a1 1 0 0 1 0 1.4l-2.1 2.1a1 1 0 0 1-1.4 0L4 19"/><circle cx="15.5" cy="7.5" r="5.5"/></g></symbol>
+  <symbol id="lucide-landmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 18v-7m1.119-8.795a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949zM14 18v-7m4 7v-7M3 22h18M6 18v-7"/></symbol>
+  <symbol id="lucide-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></g></symbol>
+  <symbol id="lucide-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 14c.2-1 .7-1.7 1.5-2.5c1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5c.7.7 1.3 1.5 1.5 2.5m0 4h6m-5 4h4"/></symbol>
+  <symbol id="lucide-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></g></symbol>
+  <symbol id="lucide-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></g></symbol>
+  <symbol id="lucide-lock-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></g></symbol>
+  <symbol id="lucide-maximize-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 3h6v6m0-6l-7 7M3 21l7-7m-1 7H3v-6"/></symbol>
+  <symbol id="lucide-medal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M7.21 15L2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15M11 12L5.12 2.2M13 12l5.88-9.8M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></g></symbol>
+  <symbol id="lucide-message-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="lucide-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 19v3m7-12v2a7 7 0 0 1-14 0v-2"/><rect width="6" height="13" x="9" y="2" rx="3"/></g></symbol>
+  <symbol id="lucide-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 22a1 1 0 0 1 0-20a10 9 0 0 1 10 9a5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></g></symbol>
+  <symbol id="lucide-party-popper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5.8 11.3L2 22l10.7-3.79M4 3h.01M22 8h.01M15 2h.01M22 20h.01M22 2l-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10m8 3l-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17M11 2l.33.82c.34.86-.2 1.82-1.11 1.98c-.7.1-1.22.72-1.22 1.43V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5s-3.07-.07-5-2s-2.83-4.17-2-5s3.07.07 5 2"/></g></symbol>
+  <symbol id="lucide-pen-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m18 13l-.654-4.736a4 4 0 0 0-2.756-3.266l-9.163-2.9a2 2 0 0 0-2.017.493l-.82.819a2 2 0 0 0-.492 2.017l2.9 9.163a4 4 0 0 0 3.266 2.756L13 18"/><path d="M18.648 12.352a1.205 1.205 0 0 1 1.704 0l1.296 1.296a1.205 1.205 0 0 1 0 1.704l-6.296 6.296a1.205 1.205 0 0 1-1.704 0l-1.296-1.296a1.205 1.205 0 0 1 0-1.704zM3 3l6.586 6.586"/><circle cx="11" cy="11" r="2"/></g></symbol>
+  <symbol id="lucide-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.39 4.39a1 1 0 0 0 1.68-.474a2.5 2.5 0 1 1 3.014 3.015a1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474a2.5 2.5 0 1 0-3.014 3.015a1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474a2.5 2.5 0 1 1-3.014-3.015a1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474a2.5 2.5 0 1 0 3.014-3.015a1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/></symbol>
+  <symbol id="lucide-refresh-cw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9a9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5m5 4a9 9 0 0 1-9 9a9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></g></symbol>
+  <symbol id="lucide-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></g></symbol>
+  <symbol id="lucide-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Zm-6.8-2.8l2-2m-5-1l2-2m-5-1l2-2m7 11l2-2"/></symbol>
+  <symbol id="lucide-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 3v18m7-13l3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2a17 17 0 0 0 8 2h1M5 8l3 8a5 5 0 0 1-6 0zV7m2 14h10"/></g></symbol>
+  <symbol id="lucide-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></symbol>
+  <symbol id="lucide-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="lucide-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="lucide-sliders-vertical" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 8h4m-2 13v-9m0-4V3m5 13h4m-2-4V3m0 18v-5M3 14h4m-2-4V3m0 18v-7"/></symbol>
+  <symbol id="lucide-snowflake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m10 20l-1.25-2.5L6 18m4-14L8.75 6.5L6 6m8 14l1.25-2.5L18 18M14 4l1.25 2.5L18 6"/><path d="m17 21l-3-6h-4m7-12l-3 6l1.5 3M2 12h6.5L10 9m10 1l-1.5 2l1.5 2"/><path d="M22 12h-6.5L14 15M4 10l1.5 2L4 14m3 7l3-6l-1.5-3M7 3l3 6h4"/></g></symbol>
+  <symbol id="lucide-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594zM20 2v4m2-2h-4"/><circle cx="4" cy="20" r="2"/></g></symbol>
+  <symbol id="lucide-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4a4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3M4 9a5 5 0 0 1 8 4a5 5 0 0 1-8-4m1 12h14"/></symbol>
+  <symbol id="lucide-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2"/></symbol>
+  <symbol id="lucide-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/></symbol>
+  <symbol id="lucide-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></g></symbol>
+  <symbol id="lucide-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Zm11-4v2m0 10v2m0-8v2"/></symbol>
+  <symbol id="lucide-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 2h4m-2 12l3-3"/><circle cx="12" cy="14" r="8"/></g></symbol>
+  <symbol id="lucide-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="lucide-triangle-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
+  <symbol id="lucide-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 14.66V17a1 1 0 0 1-1 1a2 2 0 0 0-2 2v2m7-7.34V17a1 1 0 0 0 1 1a2 2 0 0 1 2 2v2m.916-12H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/></g></symbol>
+  <symbol id="lucide-type" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2M9 20h6"/></symbol>
+  <symbol id="lucide-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></g></symbol>
+  <symbol id="lucide-volume-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298zM16 9a5 5 0 0 1 0 6m3.364 3.364a9 9 0 0 0 0-12.728"/></symbol>
+  <symbol id="lucide-volume-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298zm5.5 9.798l5-5m-5 0l5 5"/></symbol>
+  <symbol id="lucide-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
+  <symbol id="lucide-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="lucide-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></symbol>
+  <symbol id="lucide-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
+  <symbol id="lucide-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></symbol>
+  <symbol id="lucide-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
+  <symbol id="lucide-bar-chart-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 21v-6m7 6V3m7 18V9"/></symbol>
+  <symbol id="lucide-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 8h4m-2 13v-9m0-4V3m5 13h4m-2-4V3m0 18v-5M3 14h4m-2-4V3m0 18v-7"/></symbol>
+  <symbol id="lucide-trash-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="lucide-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></g></symbol>
+</svg>
+
 
 <!-- CINEMATIC MOTION INTRO OVERLAY: PENCIL + KINETIC TEXT -->
 <div id="ips-intro-splash" role="dialog" aria-modal="true" aria-label="IELTS Prep Studio Intro">
@@ -7186,26 +7365,12 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   </defs>
 </svg>
 
-<button id="topbarExpandPill" class="topbar-expand-pill" onclick="toggleTopbarCollapse(false)" title="Expand Top Bar" aria-label="Expand Top Bar">
-  <span class="cambridge-mini-orb"></span>
-  <span class="pill-label">IELTS Studio</span>
-  <span class="pill-chevron">▾</span>
-</button>
-
 <header class="topbar" role="banner">
   <div class="topbar-inner">
     <!-- ROW 1: Brand & Actions on Left, Utilities on Right -->
     <div class="topbar-row-top">
       <div class="topbar-left-wrap">
         <button class="brand" onclick="switchView('overview')" aria-label="Go to IELTS Prep Studio Overview">
-          <div class="topbar-brand-orb-wrap" title="IELTS Prep Studio Academic Engine">
-            <div class="cambridge-orb-loader topbar-orb">
-              <svg width="100" height="100">
-                <use href="#cambridgeOrbClipping" />
-              </svg>
-              <div class="box"></div>
-            </div>
-          </div>
           <span class="brand-box">IELTS</span>
           <span class="brand-text">Prep Studio</span>
           <span class="brand-badge">Academic 8.5+</span>
@@ -7213,10 +7378,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
         <div class="tma-bar-actions" id="tmaBarActions" style="display:none;">
           <button class="util-icon-btn" id="tgFullscreenBtn" onclick="toggleTmaFullscreen()" title="Maximize / Fullscreen WebApp" style="color:var(--accent); font-weight:700; border-color:var(--border-accent); padding:4px 9px;">
-            ⛶ Maximize
+            <svg class="ui-icon"><use href="#lucide-maximize-2"/></svg> Maximize
           </button>
           <button class="util-icon-btn" id="tgBrowserBtn" onclick="openTmaInBrowser()" title="Open in Full Desktop Browser" style="color:var(--text); padding:4px 9px;">
-            🌐 Browser ↗
+            <svg class="ui-icon"><use href="#lucide-globe"/></svg> Browser ↗
           </button>
         </div>
       </div>
@@ -7224,12 +7389,11 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <!-- Top Right Utilities -->
       <div class="top-utils">
         <div id="duoTopHudMount" class="duo-top-hud-mount"></div>
-        <button class="util-icon-btn topbar-collapse-btn" id="topbarCollapseBtn" onclick="toggleTopbarCollapse()" title="Collapse Top Bar" aria-label="Collapse Top Bar">▴</button>
         <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
-          🔍 <span class="search-btn-label">Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
+          <svg class="ui-icon"><use href="#lucide-search"/></svg> <span class="search-btn-label">Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">⌘K</kbd>
         </button>
         <button class="util-icon-btn" onclick="jumpToDueSRS()" id="srsDueTopBtn" title="Review Spaced Repetition Words Due Today">
-          Due <strong id="srsDueCountBadge" class="badge-accent">0</strong>
+          <svg class="ui-icon"><use href="#lucide-clock"/></svg> Due <strong id="srsDueCountBadge" class="badge-accent">0</strong>
         </button>
 
         <div class="auth-widget-box" id="authWidgetBox">
@@ -7241,7 +7405,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
         <!-- Top Language Toggle Pill (Default: English Only, Click for Bilingual) -->
         <button class="util-icon-btn lang-nav-btn" onclick="toggleLanguageMode()" id="topLangBtn" title="Language: English Only (Default). Click for Bilingual (English + Burmese)">
-          🌐 <span id="topLangLabel">EN</span>
+          <svg class="ui-icon"><use href="#lucide-globe"/></svg> <span id="topLangLabel">EN</span>
         </button>
 
         <!-- Tactile 3-Bar Slider Setting Button -->
@@ -7255,7 +7419,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
             <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z" />
           </svg>
-          <span id="vipBtnText"><span class="vip-btn-full">⭐ VIP Pass (55,000 MMK)</span><span class="vip-btn-compact">⭐ VIP Pass</span></span>
+          <span id="vipBtnText"><span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (55,000 MMK)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span></span>
         </button>
       </div>
     </div>
@@ -7263,31 +7427,40 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <!-- ROW 2: 7 Core Hub Navigation (Desktop) -->
     <nav class="nav-links" role="tablist" aria-label="Main Study Hubs">
       <button class="nav-link active" role="tab" aria-selected="true" id="tab-overview" data-target-tab="overview" onclick="switchView('overview')">
-        🏠 Home
+        <svg class="ui-icon"><use href="#lucide-house"/></svg> <span>Home</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-lexicon" data-target-tab="lexicon" onclick="switchView('lexicon')">
-        📚 Lexicon &amp; Drills
+        <svg class="ui-icon"><use href="#lucide-book-open"/></svg> <span>Lexicon &amp; Drills</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-listening" data-target-tab="listening" onclick="switchView('listening')">
-        🎧 Listening CBT
+        <svg class="ui-icon"><use href="#lucide-headphones"/></svg> <span>Listening CBT</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-reading" data-target-tab="reading" onclick="switchView('reading')">
-        📖 CBT Reading
+        <svg class="ui-icon"><use href="#lucide-book"/></svg> <span>CBT Reading</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-writing" data-target-tab="writing" onclick="switchView('writing')">
-        ✍️ Writing Lab
+        <svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Writing Lab</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-speaking" data-target-tab="speaking" onclick="switchView('speaking')">
-        🎙️ Speaking Studio
+        <svg class="ui-icon"><use href="#lucide-mic"/></svg> <span>Speaking Studio</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-tools" data-target-tab="tools" onclick="switchView('tools')">
-        ⚡ Academic Tools
+        <svg class="ui-icon"><use href="#lucide-zap"/></svg> <span>Academic Tools</span>
       </button>
       <button class="nav-link" role="tab" aria-selected="false" id="tab-aichat" data-target-tab="aichat" onclick="switchView('aichat')">
-        🤖 AI Mentor
+        <svg class="ui-icon"><use href="#lucide-bot"/></svg> <span>AI Mentor</span>
       </button>
     </nav>
   </div>
+  <!-- HANGING TOPBAR TOGGLE TAB (HANGS FROM BOTTOM BORDER) -->
+  <button id="topbarHangToggleBtn" class="topbar-hang-tab" onclick="toggleTopbarCollapse()" title="Hide Top Bar" aria-label="Toggle Top Bar" aria-expanded="true">
+    <span class="hang-chevron-wrap">
+      <svg class="hang-chevron-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </span>
+    <span class="hang-tab-text" id="topbarHangLabel">Hide Top Bar</span>
+  </button>
 </header>
 
 <!-- SETTINGS & PREFERENCES SLIDE-OUT DRAWER -->
@@ -7298,7 +7471,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       <span>Settings &amp; Preferences</span>
     </div>
-    <button class="drawer-close-btn" onclick="toggleSettingsDrawer(false)" aria-label="Close settings">✕</button>
+    <button class="drawer-close-btn" onclick="toggleSettingsDrawer(false)" aria-label="Close settings"><svg class="ui-icon"><use href="#lucide-x"/></svg></button>
   </div>
   <div class="drawer-content">
     <div class="drawer-section">
@@ -7308,7 +7481,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="drawer-item-sub">Default: English Only. Enable for Burmese glosses &amp; citations</div>
         </div>
         <button class="util-icon-btn" id="langBtn" onclick="toggleLanguageMode()" title="Current: English Only. Click to enable Bilingual (English + Burmese)">
-          🌐 EN ONLY
+          <svg class="ui-icon"><use href="#lucide-globe"/></svg> EN ONLY
         </button>
       </div>
     </div>
@@ -7344,14 +7517,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="drawer-item-sub">Review incorrect drill answers &amp; traps</div>
         </div>
         <button class="util-icon-btn" onclick="toggleSettingsDrawer(false); openErrorLogModal();" title="View Weak Spots">
-          ⚠ Mistakes: <strong id="errorLogCountBadge" style="color:var(--crimson);">0</strong>
+          <svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg> Mistakes: <strong id="errorLogCountBadge" style="color:var(--crimson);">0</strong>
         </button>
       </div>
     </div>
 
     <div class="drawer-section">
       <div class="drawer-item-label" style="color:var(--accent);font-weight:800;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
-        <span>🔑 BYOK API Key (Free Unlimited AI)</span>
+        <span><svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-key"/></svg> BYOK API Key (Free Unlimited AI)</span>
         <span id="drawerByokStatusBadge" class="occ-ver-pill" style="font-size:0.64rem;">NOT SET</span>
       </div>
       <div class="drawer-item-sub" style="margin-bottom:8px;">
@@ -7379,7 +7552,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="drawer-item-label" style="margin-bottom:6px;">Academic Support &amp; Instructor</div>
       <div class="drawer-item-sub" style="margin-bottom:10px;">Chat with lead instructor for essay reviews, feedback &amp; VIP passes</div>
       <a href="https://t.me/hyuguo" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:6px 12px; font-size:0.8rem;">
-        <span>💬 Contact Lead Instructor (@hyuguo) ↗</span>
+        <span><svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-message-square"/></svg> Contact Lead Instructor (@hyuguo) ↗</span>
       </a>
     </div>
   </div>
@@ -7388,7 +7561,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 <!-- TELEGRAM DESKTOP EXPAND TIP BANNER -->
 <div id="tdesktopTipBanner" style="display:none; background:rgba(224,108,53,0.12); border-bottom:1px solid var(--accent); padding:7px 14px; font-size:0.75rem; color:var(--text); align-items:center; justify-content:space-between; gap:10px; z-index:1400; position:relative;">
   <div style="line-height:1.4;">
-    💡 <strong>Desktop Notice:</strong> Click <strong style="color:var(--accent);">⛶ Maximize</strong> or drag this window's borders to expand to full size! Or switch to <a href="javascript:void(0)" onclick="openTmaInBrowser()" style="color:var(--accent); font-weight:700; text-decoration:underline;">Chrome / Edge (Full Desktop) ↗</a>
+    <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-lightbulb"/></svg> <strong>Desktop Notice:</strong> Click <strong style="color:var(--accent);"><svg class="ui-icon"><use href="#lucide-maximize-2"/></svg> Maximize</strong> or drag this window's borders to expand to full size! Or switch to <a href="javascript:void(0)" onclick="openTmaInBrowser()" style="color:var(--accent); font-weight:700; text-decoration:underline;">Chrome / Edge (Full Desktop) ↗</a>
   </div>
   <button onclick="dismissTdesktopTip()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1rem; padding:0 4px; line-height:1;" title="Dismiss Tip">✕</button>
 </div>
@@ -7508,7 +7681,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <span class="occ-ver-pill" style="height:36px; padding:0 14px; font-size:0.8rem; font-weight:800; border-radius:9999px; display:inline-flex; align-items:center; gap:6px; background:var(--well-orange, #FFF7ED); color:var(--accent); border:1px solid rgba(245,158,11,0.35);">
-          🎯 Target: Band 8.5+ Academic
+          <svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-target"/></svg> Target: Band 8.5+ Academic
         </span>
       </div>
     </div>
@@ -7535,7 +7708,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     <!-- 3. STUDY PROGRESS STREAK BANNER -->
     <div class="speak-progress-banner uiv-animate-enter uiv-delay-3">
-        <div class="speak-streak-flame">🔥</div>
+        <div class="speak-streak-flame"><svg class="ui-icon" style="width:22px; height:22px; color:#F97316;"><use href="#lucide-flame"/></svg></div>
         <div style="flex:1;">
           <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> <span class="shiny-text">Study Streak</span></div>
           <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> <span class="rot" data-words="academic collocations | high-yield IELTS traps | C1/C2 CEFR vocabulary | Band 8.5–9.0 expressions">academic collocations</span>. Paraphrase accuracy on track.</div>
@@ -7602,7 +7775,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
       <div class="speak-jumpin-grid uiv-animate-enter uiv-delay-4">
         <div class="speak-jumpin-card" onclick="switchView('lexicon')">
-          <div class="speak-well well-peach">🏛️</div>
+          <div class="speak-well well-peach"><svg class="ui-icon ui-icon-xl" style="color:#EA580C;"><use href="#lucide-landmark"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Word Smart</div>
             <div class="speak-jumpin-sub">1,162 Must-know academic words &amp; AWL sublists</div>
@@ -7611,7 +7784,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
 
         <div class="speak-jumpin-card" onclick="switchView('lexicon'); switchSubTab('lexicon', 'grammar');">
-          <div class="speak-well well-purple">📐</div>
+          <div class="speak-well well-purple"><svg class="ui-icon ui-icon-xl" style="color:#7C3AED;"><use href="#lucide-ruler"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Verb &amp; Grammar Master</div>
             <div class="speak-jumpin-sub">Inversions, conditionals &amp; nominalization</div>
@@ -7620,7 +7793,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
 
         <div class="speak-jumpin-card" onclick="switchView('speaking')">
-          <div class="speak-well well-blue">🎙️</div>
+          <div class="speak-well well-blue"><svg class="ui-icon ui-icon-xl" style="color:#0284C7;"><use href="#lucide-mic"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Speaking Forecast</div>
             <div class="speak-jumpin-sub">50 Real exam topics &amp; 160 questions</div>
@@ -7629,7 +7802,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
 
         <div class="speak-jumpin-card" onclick="switchView('writing')">
-          <div class="speak-well well-mint">📝</div>
+          <div class="speak-well well-mint"><svg class="ui-icon ui-icon-xl" style="color:#059669;"><use href="#lucide-file-text"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Writing Lab</div>
             <div class="speak-jumpin-sub">40 High-scoring model essays &amp; CEFR practice evaluator</div>
@@ -7644,7 +7817,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <details class="uiv-guide-collapsible">
       <summary>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:1.05rem;">📖</span>
+          <svg class="ui-icon"><use href="#lucide-book-open"/></svg>
           <span>STUDY HUB GUIDE <span class="burmese" style="font-size:0.8rem; font-weight:400; opacity:0.85;">// အသုံးပြုပုံ လမ်းညွှန်</span></span>
         </div>
         <span style="font-size:0.75rem; color:var(--accent); font-weight:700;">Tap to open ▾</span>
@@ -7734,10 +7907,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </p>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px;">
             <button class="btn-accent-solid" style="padding:14px 28px; font-size:1rem;" onclick="openBandAssessmentModal()">
-              🎯 Take Band Assessment (1 Min)
+              <svg class="ui-icon"><use href="#lucide-target"/></svg> Take Band Assessment (1 Min)
             </button>
             <button class="btn-outlined" style="padding:14px 24px; font-size:0.92rem;" onclick="switchView('speaking')">
-              🎙️ Launch Speaking Studio
+              <svg class="ui-icon"><use href="#lucide-mic"/></svg> Launch Speaking Studio
             </button>
           </div>
         </div>
@@ -7903,8 +8076,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
           <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
             <button id="pod-mic-btn-home" onclick="window.togglePodcastSpeechRecognition('home')" class="btn-accent-solid" style="padding:5px 12px; font-size:0.75rem; font-weight:800; cursor:pointer; white-space:nowrap;">🎙️ Practice Shadowing (Mic)</button>
-            <button onclick="window.copyCurrentPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">📋 Copy Spoken Text</button>
-            <button onclick="window.clearPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;">🗑️ Clear</button>
+            <button onclick="window.copyCurrentPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;"><svg class="ui-icon"><use href="#lucide-clipboard"/></svg> Copy Spoken Text</button>
+            <button onclick="window.clearPodcastTranscript('home')" class="speak-pill-btn secondary" style="padding:4px 10px; font-size:0.72rem; cursor:pointer;"><svg class="ui-icon"><use href="#lucide-trash"/></svg> Clear</button>
           </div>
           <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
             <button id="pod-autoscroll-btn-home" onclick="window.togglePodcastAutoScroll('home')" class="speak-pill-btn secondary" style="padding:3px 8px; font-size:0.7rem; cursor:pointer;">Auto-Scroll: ON</button>
@@ -8389,13 +8562,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="sec-eyebrow">VOCABULARY &amp; SYNONYM ARCHITECTURE</div>
       <div class="sec-header-row">
         <h2 class="sec-title">High-Frequency IELTS Lexicon &amp; Traps <span class="ver-muted">1,162 Entries · 26 Varieties · 1-3-7 Day SRS</span></h2>
-        <div class="sec-timestamp">Click 🔊 to hear British pronunciation • Click any synonym to pronounce</div>
+        <div class="sec-timestamp">Click <svg class="ui-icon"><use href="#lucide-volume-2"/></svg> to hear British pronunciation • Click any synonym to pronounce</div>
       </div>
 
       <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; align-items:center;">
         <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">Quick Filters:</span>
         <button class="btn-outlined is-active" id="btn-trap-all" onclick="filterLexiconByTrap('ALL')" style="padding:2px 8px; font-size:0.72rem;">All (1,162)</button>
-        <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;">💬 Band 9 Collocations</button>
+        <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;"><svg class="ui-icon"><use href="#lucide-message-square"/></svg> Band 9 Collocations</button>
       </div>
 
       <!-- A to Z Alphabet Quick Jump Strip -->
@@ -8404,18 +8577,18 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="occ-toolbar">
         <input type="text" id="lexSearch" class="occ-input" style="flex:1; min-width:200px;" placeholder="Search English word, synonym, collocation, or Burmese meaning..." oninput="renderLexiconGrid()" aria-label="Search Lexicon">
         <select id="lexSort" class="occ-select" onchange="handleLexSortChange()" aria-label="Sort Lexicon" title="Sort Lexicon Order">
-          <option value="A-Z">🔤 Sort: A to Z (Alphabetical)</option>
-          <option value="Z-A">🔤 Sort: Z to A (Reverse)</option>
-          <option value="BAND_DESC">⭐ Sort: Band 9.0 → 7.0</option>
-          <option value="BAND_ASC">⭐ Sort: Band 7.0 → 9.0</option>
-          <option value="DUE_FIRST">⏳ Sort: SRS Due First</option>
-          <option value="DEFAULT">📋 Sort: Curated Syllabus</option>
+          <option value="A-Z">Sort: A to Z (Alphabetical)</option>
+          <option value="Z-A">Sort: Z to A (Reverse)</option>
+          <option value="BAND_DESC">Sort: Band 9.0 → 7.0</option>
+          <option value="BAND_ASC">Sort: Band 7.0 → 9.0</option>
+          <option value="DUE_FIRST">Sort: SRS Due First</option>
+          <option value="DEFAULT">Sort: Curated Syllabus</option>
         </select>
         <select id="lexVariety" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Variety"></select>
         <select id="lexCat" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Category"></select>
         <select id="lexStatus" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Mastery or SRS Status">
           <option value="ALL">All Status (1,162 Entries)</option>
-          <option value="DUE">⏳ Due Today (SRS Queue)</option>
+          <option value="DUE">Due Today (SRS Queue)</option>
           <option value="UNMASTERED">To Review Only</option>
           <option value="MASTERED">Mastered (Easy 7d) Only</option>
         </select>
@@ -8502,7 +8675,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
         <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;" onclick="event.stopPropagation()">
           <button class="btn-outlined" onclick="stepFlashcard(-1)">← Prev</button>
-          <button class="btn-outlined" onclick="speakCurrentFC()">🔊 Pronounce</button>
+          <button class="btn-outlined" onclick="speakCurrentFC()"><svg class="ui-icon"><use href="#lucide-volume-2"/></svg> Pronounce</button>
           <button class="srs-btn srs-again" onclick="rateCurrentFCSRS(1)">Again (1d)</button>
           <button class="srs-btn srs-good" onclick="rateCurrentFCSRS(3)">Good (3d)</button>
           <button class="srs-btn srs-easy" id="fcMasterBtn" onclick="rateCurrentFCSRS(7)">Easy / Master (7d)</button>
@@ -8707,7 +8880,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button type="button" id="btn-heading-lock" class="btn-outlined" style="padding:6px 10px; border-radius:4px; font-size:0.75rem; border-color:rgba(99,102,241,0.5); color:#818cf8; cursor:pointer;">
-              🔒 1. Lock Official Headings (Write Own Summary First)
+              <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-lock"/></svg> 1. Lock Official Headings (Write Own Summary First)
             </button>
             <button type="button" id="btn-scan-names" class="btn-outlined" style="padding:6px 10px; border-radius:4px; font-size:0.75rem; border-color:rgba(16,185,129,0.5); color:#34d399; cursor:pointer;">
               🔍 2. Auto-Count Researcher Mentions (1-Mention Rule)
@@ -8726,7 +8899,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <input type="text" class="para-sum-input occ-input" placeholder="Para C: 4–6 word summary..." style="font-size:0.78rem; padding:6px 8px;">
           </div>
           <div id="heading-unlock-status" style="margin-top:8px; font-size:0.78rem; font-weight:600; color:#ef4444;">
-            🔒 Official Headings Blurred (0 / 3 paragraphs summarized with 3+ words)
+            <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-lock"/></svg> Official Headings Blurred (0 / 3 paragraphs summarized with 3+ words)
           </div>
         </div>
 
@@ -8737,16 +8910,16 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <!-- Mobile Dual-Tab Switcher (Reading CBT Anti-Fatigue) -->
       <div class="mobile-cbt-toggle-bar" id="mobileCbtToggleBar" role="tablist" aria-label="Reading CBT View Mode">
         <button type="button" class="mobile-cbt-tab-btn active" id="cbtTabPassageBtn" role="tab" aria-selected="true" onclick="setMobileCbtView('passage')">
-          <span class="cbt-tab-icon">📄</span>
+          <span class="cbt-tab-icon"><svg class="ui-icon"><use href="#lucide-file"/></svg></span>
           <span>Passage</span>
         </button>
         <button type="button" class="mobile-cbt-tab-btn" id="cbtTabQuestionsBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('questions')">
-          <span class="cbt-tab-icon">📝</span>
+          <span class="cbt-tab-icon"><svg class="ui-icon"><use href="#lucide-file-text"/></svg></span>
           <span>Questions</span>
           <span class="cbt-tab-badge" id="cbtAnsweredBadge">0/13</span>
         </button>
         <button type="button" class="mobile-cbt-tab-btn" id="cbtTabSplitBtn" role="tab" aria-selected="false" onclick="setMobileCbtView('split')">
-          <span class="cbt-tab-icon">⚖️</span>
+          <span class="cbt-tab-icon"><svg class="ui-icon"><use href="#lucide-scale"/></svg></span>
           <span>Split View</span>
         </button>
       </div>
@@ -9230,7 +9403,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:10px;">
                 <div id="sr-filler-breakdown" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()">📋 Copy Transcript</button>
+                  <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="copySpeakingTranscript()"><svg class="ui-icon"><use href="#lucide-clipboard"/></svg> Copy Transcript</button>
                   <button class="btn-outlined" style="padding:4px 10px; font-size:0.76rem;" onclick="sendSpeakingTranscriptToWriting()">✍️ Send to Writing Editor</button>
                   <button class="btn-accent-solid" id="aiSpeakingGradeBtn" style="padding:4px 12px; font-size:0.76rem;" onclick="gradeSpeakingWithGemini()">✨ AI Examiner Feedback &amp; Part 3 Challenge</button>
                 </div>
@@ -10700,7 +10873,7 @@ window.updateTmaFullscreenUI = function() {
   }
 
   if (btn && tg) {
-    btn.innerHTML = tg.isFullscreen ? "🗗 Restore" : "⛶ Maximize";
+    btn.innerHTML = tg.isFullscreen ? "🗗 Restore" : "<svg class="ui-icon"><use href="#lucide-maximize-2"/></svg> Maximize";
     btn.title = tg.isFullscreen ? "Exit Fullscreen" : "Maximize / Fullscreen Mini App";
   }
 
@@ -11135,7 +11308,7 @@ function updateAuthUI() {
       vipBtn.style.borderColor = "";
       vipBtn.style.color = "";
       vipBtn.title = "Upgrade to VIP Studio Pass";
-      vipText.innerHTML = `<span class="vip-btn-full">⭐ VIP Pass (55,000 MMK)</span><span class="vip-btn-compact">⭐ VIP Pass</span>`;
+      vipText.innerHTML = `<span class="vip-btn-full"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass (55,000 MMK)</span><span class="vip-btn-compact"><svg class="ui-icon" style="color:#F59E0B; margin-right:3px;"><use href="#lucide-crown"/></svg> VIP Pass</span>`;
     }
   }
 
@@ -11188,7 +11361,7 @@ function updateAuthUI() {
             🌐 Open in Desktop Browser (Chrome/Edge) ↗
           </button>
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="triggerCloudSync()">
-            ☁️ Sync Progress Now ${isVip ? '✓' : ''}
+            <svg class="ui-icon"><use href="#lucide-cloud"/></svg> Sync Progress Now ${isVip ? '✓' : ''}
           </button>
           ${isVip ? `
           <div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(34,197,94,0.12); border:1px solid var(--green); border-radius:6px; color:var(--green); font-size:0.8rem; font-weight:700;">
@@ -11277,7 +11450,29 @@ function updateAuthUI() {
   updateLexiconCounters();
 }
 
+function formatWithLucideIcons(str) {
+  if (typeof str !== 'string') return str;
+  return str
+    .replace(/⏳/g, '<svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-clock"/></svg>')
+    .replace(/✓/g, '<svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg>')
+    .replace(/🎉/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-party-popper"/></svg>')
+    .replace(/⚠️|⚠/g, '<svg class="ui-icon" style="color:var(--crimson);"><use href="#lucide-triangle-alert"/></svg>')
+    .replace(/☁️|☁/g, '<svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-cloud"/></svg>')
+    .replace(/👑/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-crown"/></svg>')
+    .replace(/🔊/g, '<svg class="ui-icon"><use href="#lucide-volume-2"/></svg>')
+    .replace(/🔇/g, '<svg class="ui-icon"><use href="#lucide-volume-x"/></svg>')
+    .replace(/💡/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-lightbulb"/></svg>')
+    .replace(/💎/g, '<svg class="ui-icon" style="color:#06B6D4;"><use href="#lucide-gem"/></svg>')
+    .replace(/❤️|❤/g, '<svg class="ui-icon" style="color:#EF4444;"><use href="#lucide-heart"/></svg>')
+    .replace(/⭐|⭐️|★/g, '<svg class="ui-icon" style="color:#EAB308;"><use href="#lucide-star"/></svg>')
+    .replace(/🔥/g, '<svg class="ui-icon" style="color:#F97316;"><use href="#lucide-flame"/></svg>')
+    .replace(/📋/g, '<svg class="ui-icon"><use href="#lucide-clipboard"/></svg>')
+    .replace(/🔑/g, '<svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-key"/></svg>')
+    .replace(/🎟️|🎟/g, '<svg class="ui-icon" style="color:#8B5CF6;"><use href="#lucide-ticket"/></svg>');
+}
+
 function showStudioNotification(msg, duration = 3500) {
+  msg = formatWithLucideIcons(msg);
   let toast = document.getElementById("studio-toast");
   if (!toast) {
     toast = document.createElement("div");
@@ -11409,7 +11604,7 @@ function applyLanguageUI() {
   document.body.classList.toggle("hide-burmese", !appState.showBurmese);
   const btn = document.getElementById("langBtn");
   if (btn) {
-    btn.textContent = appState.showBurmese ? "文A မြန်မာ ON" : "🌐 EN ONLY";
+    btn.textContent = appState.showBurmese ? "文A မြန်မာ ON" : "<svg class="ui-icon"><use href="#lucide-globe"/></svg> EN ONLY";
     btn.classList.toggle("active-lang", appState.showBurmese);
     btn.title = appState.showBurmese ? "Bilingual mode active. Click for English only." : "English only mode active. Click for Bilingual (Burmese).";
   }
@@ -12096,7 +12291,7 @@ function renderSkillRadar(mCount, drillScore, rCount, wCount) {
       </svg>
       ${!isVip ? `
         <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:rgba(11,11,11,0.92); border:1px solid var(--accent); padding:3px 8px; border-radius:4px; font-size:0.68rem; font-weight:700; color:var(--accent); white-space:nowrap; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.5);" onclick="openVipPassModal()" title="Unlock full 5-pillar diagnostics">
-          🔒 VIP 5-Pillar Diagnostics ↗
+          <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-lock"/></svg> VIP 5-Pillar Diagnostics ↗
         </div>
       ` : ''}
     </div>
@@ -12507,7 +12702,7 @@ function renderLexiconGrid(keepPage) {
         <div>
           <div class="occ-card-top">
             <div class="occ-card-identity">
-              <div class="occ-icon-box" onclick="speakText('${(item.word || '').replace(/'/g, "")}')" title="Pronounce ${item.word}">🔊</div>
+              <div class="occ-icon-box" title="Pronounce" onclick="speakText('${(item.word || '').replace(/'/g, "")}')" title="Pronounce ${item.word}">🔊</div>
               <div>
                 <div class="occ-word-title">${item.word}</div>
                 <div class="occ-word-sub">${item.pos} · ${item.ipa}</div>
@@ -12559,7 +12754,7 @@ function renderLexiconGrid(keepPage) {
 
   const vipUnlockCard = (!isVip && (lexCurrentPage === totalPages || fullList.length <= lexPageSize)) ? `
     <article class="occ-card" style="border:2px dashed var(--accent); background:rgba(224,108,53,0.06); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:24px; grid-column: 1 / -1;">
-      <div style="font-size:2rem; margin-bottom:8px;">🔒</div>
+      <div style="margin-bottom:8px;"><svg class="ui-icon" style="width:40px; height:40px; color:#D97706;"><use href="#lucide-lock"/></svg></div>
       <div style="font-weight:800; font-size:1rem; color:var(--text); margin-bottom:4px;">${LEXICON_FREE_LIMIT} Free Entries Displayed</div>
       <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px; max-width:320px; line-height:1.45;">
         Unlock all <strong>${VOCAB_DATA.length} Band 8.5 Academic Collocations, 538 Reading Traps &amp; Academic Lexicon</strong>, 1-3-7 Day Spaced Repetition Queue, and Burmese contextual notes with Lifetime VIP Pass.
@@ -13469,7 +13664,7 @@ function renderSpeakingFramework(idx) {
     pane.innerHTML = `
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
-          <div class="vip-lock-banner-title">🔒 VIP Framework: ${fw.name}</div>
+          <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Framework: ${fw.name}</div>
           <div class="vip-lock-banner-desc">Framework 1 (PELL) is free. Unlock all 5 Band 8.5 Speaking Scaffolding Frameworks (PELL, 123, AAA, STAR, PARA) + Full Band 9 Candidate Model Scripts with Lifetime VIP Pass!</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 5 Frameworks (55,000 MMK)</button>
@@ -14215,7 +14410,7 @@ function loadReadingMock() {
     document.getElementById("rPassageBox").innerHTML = `
       <div class="vip-lock-banner">
         <div class="vip-lock-banner-text">
-          <div class="vip-lock-banner-title">🔒 VIP Cambridge Reading Mock [${m.code}]</div>
+          <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Cambridge Reading Mock [${m.code}]</div>
           <div class="vip-lock-banner-desc">Passages 1, 2 &amp; 3 are free. Unlock all 23 Cambridge Academic Reading CBT Mocks (231 Questions) + Burmese Answer Evidence with Lifetime VIP Pass!</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 23 CBT Passages (55,000 MMK)</button>
@@ -14232,7 +14427,7 @@ function loadReadingMock() {
     document.getElementById("rQuestionsBox").innerHTML = `
       <div class="vip-lock-banner" style="margin-top:0;">
         <div class="vip-lock-banner-text">
-          <div class="vip-lock-banner-title">🔒 Questions Locked for VIP Pass</div>
+          <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> Questions Locked for VIP Pass</div>
           <div class="vip-lock-banner-desc">Full ${m.questions ? m.questions.length : 13}-item authentic IELTS question sets, real-time band grading, and Burmese answer evidence across 23 CBT mocks are reserved for VIP members.</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700;">Get Lifetime VIP Pass (55,000 MMK)</button>
@@ -14538,7 +14733,7 @@ function loadWritingMock() {
     document.getElementById("wOutlineBox").innerHTML = `
       <div class="vip-lock-banner" style="margin:8px 0;">
         <div class="vip-lock-banner-text">
-          <div class="vip-lock-banner-title">🔒 Structural Outline Locked [VIP]</div>
+          <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> Structural Outline Locked [VIP]</div>
           <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock structural paragraph frameworks &amp; templates for all 40 Band 8.5/9.0 Writing Models with Lifetime VIP Pass.</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:700;">Unlock All 40 Models</button>
@@ -14547,7 +14742,7 @@ function loadWritingMock() {
     document.getElementById("wModelContent").innerHTML = `
       <div class="vip-lock-banner" style="margin:8px 0;">
         <div class="vip-lock-banner-text">
-          <div class="vip-lock-banner-title">🔒 Band 9.0 Model Essay Locked [VIP]</div>
+          <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> Band 9.0 Model Essay Locked [VIP]</div>
           <div class="vip-lock-banner-desc">This authentic Band 9.0 essay sample, examiner commentary, and vocabulary upgrades are exclusive to Lifetime VIP Pass holders.</div>
         </div>
         <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:700;">Unlock Full Essay (55,000 MMK)</button>
@@ -15208,7 +15403,7 @@ function toggleModelDrawer() {
         contentEl.innerHTML = `
           <div class="vip-lock-banner" style="margin-bottom:12px;">
             <div class="vip-lock-banner-text">
-              <div class="vip-lock-banner-title">🔒 VIP Examiner Model: [${w.code}] ${w.title}</div>
+              <div class="vip-lock-banner-title"><svg class="ui-icon" style="color:#D97706; margin-right:4px;"><use href="#lucide-lock"/></svg> VIP Examiner Model: [${w.code}] ${w.title}</div>
               <div class="vip-lock-banner-desc">Models 1, 2 &amp; 3 are free. Unlock all 40 High-Scoring IELTS-Style Model Essays, Structural Skeletons &amp; Burmese Linguistic Breakdowns with Lifetime VIP Pass!</div>
             </div>
             <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.8rem; font-weight:700; white-space:nowrap;">Unlock All 30 Models (55,000 MMK)</button>
@@ -15779,7 +15974,7 @@ function initReadingProtocols() {
           }
         } else {
           statusEl.style.color = '#ef4444';
-          statusEl.textContent = `🔒 Official Headings Blurred (${completed} / 3 paragraphs summarized with 3+ words)`;
+          statusEl.textContent = `<svg class="ui-icon" style="color:#D97706;"><use href="#lucide-lock"/></svg> Official Headings Blurred (${completed} / 3 paragraphs summarized with 3+ words)`;
         }
       }
     });
@@ -17320,7 +17515,7 @@ async function executeVipTopicSearch() {
           </div>
         </div>
         <div style="display:flex; gap:6px;">
-          <button class="btn-outlined" id="vt-copy-topic-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="copyVipTopicContent()">📋 Copy Article</button>
+          <button class="btn-outlined" id="vt-copy-topic-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="copyVipTopicContent()"><svg class="ui-icon"><use href="#lucide-clipboard"/></svg> Copy Article</button>
           <a href="${articleUrl}" target="_blank" rel="noopener" class="btn-accent-solid" style="padding:4px 12px; font-size:0.78rem; text-decoration:none; display:inline-flex; align-items:center;">Full Reference ↗</a>
         </div>
       </div>
@@ -17466,19 +17661,19 @@ YOUR MISSION:
 
 STUDIO NAVIGATION SHORTCUTS MATRIX:
 Always format these as [Label](action:target):
-- [🏠 Home Dashboard](action:overview) -> Overview of all hubs, readiness score, and quick launch.
+- [<svg class="ui-icon"><use href="#lucide-house"/></svg> <span>Home</span> Dashboard](action:overview) -> Overview of all hubs, readiness score, and quick launch.
 - [📖 Exam Strategy Playbook](action:playbook) -> Complete exam architecture, timing protocols, and official band descriptors (TR, CC, LR, GRA).
 - [📅 Study Plans](action:plans) -> 7-Day Sprint, 30-Day Intensive, and 90-Day Foundation schedules.
 - [📚 Academic Lexicon](action:lexicon) -> 1,162 Academic words with CEFR tags (C1/C2), AWL Sublists 1-10, definitions, collocations, and Burmese glosses.
 - [🗂️ SRS Flashcards](action:flashcards) -> Spaced Repetition System with Leitner intervals (1-day, 3-day, 7-day).
 - [✏️ Paraphrase Drills](action:drills) -> Contextual Synonym Drills and Collocation Cloze Gates.
 - [📝 Grammar Master](action:grammar) -> Complex sentence architecture, inversions, conditionals, and nominalization.
-- [📖 CBT Reading Studio](action:reading) -> 23 Authentic Cambridge-style Reading tests (Tests 1–23, 231 total questions) with timer, instant scoring, and Burmese evidence notes.
+- [<svg class="ui-icon"><use href="#lucide-book"/></svg> <span>CBT Reading</span> Studio](action:reading) -> 23 Authentic Cambridge-style Reading tests (Tests 1–23, 231 total questions) with timer, instant scoring, and Burmese evidence notes.
 - [🎯 Reading Tactics](action:tactics) -> Proven scanning and keyword mapping strategies for True/False/Not Given, Headings, and Summary Completion.
-- [✍️ Writing Lab](action:writing) -> Task 1 & Task 2 live composition desk with real-time word counter, CEFR analyzer, and AI Examiner.
+- [<svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Writing Lab</span>](action:writing) -> Task 1 & Task 2 live composition desk with real-time word counter, CEFR analyzer, and AI Examiner.
 - [🏆 Band 9 Model Essays](action:models) -> 40 Band 9 Model Essays with detailed examiner breakdown.
 - [🔗 Academic Collocations & Phrases](action:phrases) -> Academic linking phrases, signposting language, and cohesive devices.
-- [🎙️ Speaking Studio](action:speaking) -> Full Speaking test simulator with live microphone recording, WPM tracking, and AI Examiner.
+- [<svg class="ui-icon"><use href="#lucide-mic"/></svg> <span>Speaking Studio</span>](action:speaking) -> Full Speaking test simulator with live microphone recording, WPM tracking, and AI Examiner.
 - [📋 Speaking Forecast & Cue Cards](action:forecast) -> 50 Speaking Topics, 160 specific questions (Parts 1, 2, and 3) with full Band 9 answers and 1-minute prep notes.
 - [💡 Speaking Frameworks](action:frameworks) -> 5 Band 9 Master Frameworks: PEEL, PAST-PRESENT-FUTURE, OREO, 5W1H, DIRECT-EXTEND.
 - [⚡ VIP Academic Tools](action:tools) -> VIP Collocations, Band 8.5+ Synonyms, Comprehensive Multi-Paragraph Academic Topic Briefs, Live Dictionary, and Scholar Rhetoric.
@@ -18371,7 +18566,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
     <div class="modal-card" style="max-width:480px; width:92%; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; padding:18px; box-sizing:border-box;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div style="font-weight:700; font-size:0.95rem; color:var(--text); display:flex; align-items:center; gap:6px;">
-          <span>🔒</span> Active Collocation Cloze Gate <span class="occ-ver-pill" style="font-size:0.65rem;">100% Rule</span>
+          <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-lock"/></svg> Active Collocation Cloze Gate <span class="occ-ver-pill" style="font-size:0.65rem;">100% Rule</span>
         </div>
         <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="closeClozeGateModal()">✕</button>
       </div>
@@ -18595,10 +18790,10 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       <!-- VIP Active Member Status Section (Shown for Active VIP Users) -->
       <div id="vipActiveSection" style="display:none; padding:6px 0;">
         <div style="background:linear-gradient(135deg, rgba(34,197,94,0.12) 0%, rgba(224,108,53,0.06) 100%); border:2px solid var(--green); border-radius:8px; padding:22px; text-align:center; margin-bottom:16px;">
-          <div style="font-size:2.8rem; margin-bottom:6px;">👑</div>
+          <div style="margin-bottom:8px;"><svg class="ui-icon" style="width:52px; height:52px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
           <h2 style="font-size:1.4rem; font-weight:900; color:var(--text); margin:0 0 6px 0;">VIP Lifetime Active</h2>
           <div style="display:inline-flex; align-items:center; gap:6px; background:var(--green); color:#000; font-weight:800; font-size:0.75rem; padding:3px 14px; border-radius:12px; margin-bottom:14px;">
-            ✓ ALL 1,162 VOCABULARY ITEMS &amp; CBT MODULES UNLOCKED
+            <svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg> ALL 1,162 VOCABULARY ITEMS &amp; CBT MODULES UNLOCKED
           </div>
           <p style="font-size:0.86rem; color:var(--text-secondary); max-width:500px; margin:0 auto 16px; line-height:1.55;">
             You have permanent, unrestricted lifetime access across all official Cambridge CBT reading mocks, Band 8.5/9.0 lexicon, writing models, speaking topic forecasts, and cross-device cloud sync.
@@ -18606,27 +18801,27 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-bottom:18px; font-size:0.82rem; text-align:left;">
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ 1,162 Lexicon Items</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> 1,162 Lexicon Items</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">Full 1-3-7 Spaced Repetition (SRS)</span>
             </div>
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ 23 Reading CBT Passages</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> 23 Reading CBT Passages</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">231 Questions + Burmese Notes</span>
             </div>
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ 40 Writing Models</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> 40 Writing Models</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">Task 1 &amp; 2 + CEFR 90/10 AI Evaluator</span>
             </div>
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ 30 Speaking Forecast Topics</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> 30 Speaking Forecast Topics</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">5 Strategic Response Frameworks</span>
             </div>
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ Unlimited Multi-Device Sync</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> Unlimited Multi-Device Sync</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">Telegram Mini App &amp; Desktop Browser</span>
             </div>
             <div style="background:var(--bg-card); padding:12px; border-radius:6px; border:1px solid var(--border-mid);">
-              <span style="color:var(--green); font-weight:800;">✓ Academic AI Tools</span><br>
+              <span style="color:var(--green); font-weight:800;"><svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> Academic AI Tools</span><br>
               <span style="color:var(--text-secondary); font-size:0.75rem;">Unlimited Collocations &amp; Synonyms</span>
             </div>
           </div>
@@ -18637,10 +18832,10 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
           <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <button class="btn-outlined" onclick="triggerCloudSync()" style="font-size:0.82rem; font-weight:700;">
-              ☁️ Sync Progress Now
+              <svg class="ui-icon"><use href="#lucide-cloud"/></svg> Sync Progress Now
             </button>
             <button class="btn-accent-solid" onclick="closeVipPassModal()" style="font-size:0.82rem; font-weight:700;">
-              🚀 Continue Learning
+              <svg class="ui-icon"><use href="#lucide-rocket"/></svg> Continue Learning
             </button>
           </div>
         </div>
@@ -18696,22 +18891,22 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <!-- The Core Deliverables -->
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px 16px; margin:14px 0; padding:12px; background:var(--bg-card); border:1px solid var(--border-mid); border-radius:6px; font-size:0.82rem;">
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 1,162 Band 8.0–9.0 Lexicon Items</strong> (Collocations &amp; 1-3-7 Day SRS)</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 1,162 Band 8.0–9.0 Lexicon Items</strong> (Collocations &amp; 1-3-7 Day SRS)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + Burmese Notes)</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + Burmese Notes)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 40 Task 1 &amp; Task 2 Writing Models</strong> + Live CEFR 90/10 Scorer</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 40 Task 1 &amp; Task 2 Writing Models</strong> + Live CEFR 90/10 Scorer</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 30 Speaking Forecast Topics</strong> &amp; 5 Strategic Frameworks</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Reading Strategy &amp; Question Tactics</strong> (TFNG, Headings &amp; Distractor Traps)</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>Reading Strategy &amp; Question Tactics</strong> (TFNG, Headings &amp; Distractor Traps)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <span style="color:var(--green); font-weight:900;">✓</span> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>Automatic Cross-Device Progress Sync</strong> via Telegram Mini App</span>
               </div>
             </div>
           </div>
@@ -18743,7 +18938,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
               Ideal for international students outside Myanmar. Purchase directly in Telegram using your Stars balance, Apple Pay, Google Pay, or debit card. Your account is upgraded automatically in under 3 seconds.
             </p>
             <button id="starsCheckoutBtn" class="btn-accent-solid" onclick="handleStarsCheckout()" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:0.9rem; padding:12px; font-weight:800; cursor:pointer;">
-              ⭐️ Pay 750 Stars via Telegram (Instant Lifetime VIP)
+              <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-star"/></svg> Pay 750 Stars via Telegram (Instant Lifetime VIP)
             </button>
           </div>
 
@@ -18762,7 +18957,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <div style="font-size:0.84rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.7;">
               Account Name: <strong>Lyan Htet</strong><br>
               KBZPay / WavePay Phone: <code style="font-size:1rem; color:var(--accent); font-weight:700;">09-768691939</code>
-              <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;">📋 Copy Number</button><br>
+              <button class="btn-outlined" onclick="copyPaymentPhone()" style="padding:2px 8px; font-size:0.74rem; margin-left:8px; vertical-align:middle;"><svg class="ui-icon"><use href="#lucide-clipboard"/></svg> Copy Number</button><br>
               Amount: <strong id="checkoutMmkAmount" style="color:var(--accent); font-size:0.95rem;">55,000 MMK</strong> (One-Time Lifetime Pass)
             </div>
             <div class="burmese" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; line-height:1.6;">
@@ -18777,7 +18972,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <!-- Voucher Code Redemption -->
         <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px; box-sizing:border-box;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-            <span style="font-size:0.82rem; font-weight:700; color:var(--text);">🎟️ Have a VIP Activation Code or Partner Voucher?</span>
+            <span style="font-size:0.82rem; font-weight:700; color:var(--text);"><svg class="ui-icon"><use href="#lucide-ticket"/></svg> Have a VIP Activation Code or Partner Voucher?</span>
             <span style="font-size:0.75rem; color:var(--green); font-weight:600;">✓ Instant 1-Click Activation</span>
           </div>
           <div class="voucher-input-row" style="display:flex; gap:8px; align-items:center;">
@@ -18848,15 +19043,15 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 <!-- Mobile Floating Action Button (FAB) -->
 <div id="mobileFabContainer">
   <div class="mobile-fab-menu" id="mobileFabMenu">
-    <button class="mobile-fab-item" onclick="switchView('aichat'); toggleMobileFab();">🤖 AI Mentor</button>
-    <button class="mobile-fab-item" onclick="switchView('tools'); toggleMobileFab();">⚡ VIP Academic Tools</button>
-    <button class="mobile-fab-item" onclick="switchView('speaking'); toggleMobileFab();">🎙️ Speaking Studio</button>
-    <button class="mobile-fab-item" onclick="switchView('lexicon'); toggleMobileFab();">🔤 Vocab Flashcards</button>
-    <button class="mobile-fab-item" onclick="switchView('reading'); toggleMobileFab();">📖 Reading CBT</button>
-    <button class="mobile-fab-item" onclick="switchView('writing'); toggleMobileFab();">✍️ Writing Lab</button>
-    <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();">🔝 Back to Top</button>
+    <button class="mobile-fab-item" onclick="switchView('aichat'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-bot"/></svg> <span>AI Mentor</span></button>
+    <button class="mobile-fab-item" onclick="switchView('tools'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-zap"/></svg> VIP Academic Tools</button>
+    <button class="mobile-fab-item" onclick="switchView('speaking'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-mic"/></svg> <span>Speaking Studio</span></button>
+    <button class="mobile-fab-item" onclick="switchView('lexicon'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-type"/></svg> Vocab Flashcards</button>
+    <button class="mobile-fab-item" onclick="switchView('reading'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-book"/></svg> Reading CBT</button>
+    <button class="mobile-fab-item" onclick="switchView('writing'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Writing Lab</span></button>
+    <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-arrow-up"/></svg> Back to Top</button>
   </div>
-  <button class="mobile-fab-main" id="mobileFabBtn" onclick="toggleMobileFab()" aria-label="Quick Actions">⚡</button>
+  <button class="mobile-fab-main" id="mobileFabBtn" onclick="toggleMobileFab()" aria-label="Quick Actions"><svg class="ui-icon" style="width:20px; height:20px;"><use href="#lucide-zap"/></svg></button>
 </div>
 
 
@@ -18876,7 +19071,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
     <div class="speak-levels-list">
       <div class="speak-level-item" data-level="1" onclick="selectBandLevel(1, this)">
-        <div class="speak-level-badge">🌱</div>
+        <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#10B981;"><use href="#lucide-sprout"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 1 (Band 5.5 - 6.0)</div>
           <div class="speak-level-desc">I know basic vocabulary and can express simple everyday ideas.</div>
@@ -18885,7 +19080,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       </div>
 
       <div class="speak-level-item" data-level="2" onclick="selectBandLevel(2, this)">
-        <div class="speak-level-badge">🌿</div>
+        <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#10B981;"><use href="#lucide-sprout"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 2 (Band 6.5)</div>
           <div class="speak-level-desc">I understand academic topics and can explain opinions with some errors.</div>
@@ -18894,16 +19089,16 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       </div>
 
       <div class="speak-level-item active" data-level="3" onclick="selectBandLevel(3, this)">
-        <div class="speak-level-badge">🌳</div>
+        <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#059669;"><use href="#lucide-award"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 3 (Band 7.0 - 7.5)</div>
           <div class="speak-level-desc">I handle complex syntax, explain nuanced arguments, and use academic collocations.</div>
         </div>
-        <div class="speak-level-radio">✓</div>
+        <div class="speak-level-radio"><svg class="ui-icon" style="color:#0284C7; width:14px; height:14px;"><use href="#lucide-check"/></svg></div>
       </div>
 
       <div class="speak-level-item" data-level="4" onclick="selectBandLevel(4, this)">
-        <div class="speak-level-badge">🌲</div>
+        <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#059669;"><use href="#lucide-medal"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 4 (Band 8.0 - 8.5)</div>
           <div class="speak-level-desc">I speak and write with natural fluency, idiomatic phrasing, and rare minor slips.</div>
@@ -18912,7 +19107,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       </div>
 
       <div class="speak-level-item" data-level="5" onclick="selectBandLevel(5, this)">
-        <div class="speak-level-badge">👑</div>
+        <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 5 (Band 9.0 Expert Master)</div>
           <div class="speak-level-desc">Full academic mastery, nuanced modal hedging, C2 lexicon, and effortless fluency.</div>
