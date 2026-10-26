@@ -808,4 +808,465 @@
     }
   };
 
+
+  // ==========================================
+  // STEP 1.2: 18 DEADLY BAND-6.0 CLICHÉ & TRAP X-RAY SCANNER
+  // ==========================================
+  const BAND6_TRAP_RULES = [
+    {
+      id: "nowadays",
+      name: '"Nowadays" Cliché Opener',
+      rx: /\bnowadays\b/gi,
+      severity: "High",
+      category: "Memorized Cliché",
+      suggested: "in contemporary society",
+      alternatives: ["in contemporary society", "in the modern era", "in recent decades"],
+      reason: "Examiners see 'Nowadays' in over 70% of Band 5.5-6.0 scripts. It flags memorized template writing immediately.",
+      burmese: "စာမေးပွဲဖြေဆိုသူ အများစု အလွန်အကျွံသုံးသော စကားလုံးဖြစ်သဖြင့် Band 6.0 တွင် ပိတ်မိစေပါသည်။ 'in contemporary society' ဖြင့် အစားထိုးပါ။"
+    },
+    {
+      id: "coin_two_sides",
+      name: '"Every Coin Has Two Sides"',
+      rx: /\b(every\s+coin\s+has\s+two\s+sides|two\s+sides\s+of\s+(the|a)\s+coin)\b/gi,
+      severity: "Critical",
+      category: "Informal Idiom",
+      suggested: "this issue engenders divergent perspectives",
+      alternatives: ["this issue engenders divergent perspectives", "this debate encompasses polarized viewpoints"],
+      reason: "Colloquial idiom severely penalized under Lexical Resource. Academic writing requires formal debate framing.",
+      burmese: "အလွတ်ကျက်ထားသော အီဒီယမ်ဖြစ်၍ Academic Essay တွင် မသုံးသင့်ပါ။ 'this issue engenders divergent perspectives' ဖြင့် ပြောင်းပါ။"
+    },
+    {
+      id: "in_a_nutshell",
+      name: '"In a Nutshell" Conclusion Cliché',
+      rx: /\bin\s+a\s+nutshell\b/gi,
+      severity: "High",
+      category: "Casual Spoken Idiom",
+      suggested: "in the final analysis,",
+      alternatives: ["in the final analysis,", "to synthesize the aforementioned points,", "in conclusion,"],
+      reason: "Casual spoken English. Using conversational idioms in academic conclusions caps Task Achievement and LR.",
+      burmese: "နှုတ်ပြောအသုံးအနှုန်းဖြစ်၍ Academic Writing တွင် အမှတ်လျှော့ခံရတတ်ပါသည်။ 'in the final analysis' ဖြင့် အစားထိုးပါ။"
+    },
+    {
+      id: "a_lot_of",
+      name: '"A Lot of / Lots of" Conversational Quantifier',
+      rx: /\b(a\s+lot\s+of|lots\s+of)\b/gi,
+      severity: "Medium",
+      category: "Imprecise Quantifier",
+      suggested: "a substantial proportion of",
+      alternatives: ["a substantial proportion of", "numerous", "a multitude of"],
+      reason: "Imprecise spoken quantifier. High-band academic essays require formal quantifiers like 'substantial' or 'numerous'.",
+      burmese: "စကားပြောစတိုင်ဖြစ်သဖြင့် ပညာရပ်ဆိုင်ရာ အသုံးဖြစ်သော 'a substantial proportion of' သို့မဟုတ် 'numerous' သို့ ပြောင်းပါ။"
+    },
+    {
+      id: "more_and_more",
+      name: '"More and More" Repetitive Phrasing',
+      rx: /\bmore\s+and\s+more\b/gi,
+      severity: "Medium",
+      category: "Repetitive Phrasing",
+      suggested: "an increasing demographic of",
+      alternatives: ["an increasing demographic of", "a burgeoning number of", "progressively more"],
+      reason: "Elementary phrasing lacking lexical precision. Replace with formal demographic terminology.",
+      burmese: "မူလတန်းအဆင့် စကားလုံးဖြစ်သဖြင့် 'an increasing demographic of' ဟု ပြောင်းလဲပါ။"
+    },
+    {
+      id: "important_role",
+      name: '"Plays an Important Role" Exhausted Collocation',
+      rx: /\b(plays?|played)\s+(an?\s+)?important\s+role\b/gi,
+      severity: "High",
+      category: "Tired Collocation",
+      suggested: "serves as a pivotal catalyst for",
+      alternatives: ["serves as a pivotal catalyst for", "exercises a profound influence upon", "is instrumental in"],
+      reason: "Exhausted cliché that examiners read thousands of times. Upgrades to C2 collocations instantly boost LR.",
+      burmese: "စာစစ်သူများ ငြီးငွေ့နေသော စကားတွဲဖြစ်၍ 'serves as a pivotal catalyst for' ဖြင့် အဆင့်မြှင့်ပါ။"
+    },
+    {
+      id: "contractions",
+      name: "Informal Contractions (don't, can't, it's)",
+      rx: /\b(don't|can't|won't|shouldn't|couldn't|wouldn't|doesn't|haven't|hasn't|isn't|aren't|it's)\b/gi,
+      severity: "Critical",
+      category: "Register Violation",
+      suggested: "Formal Expanded Form",
+      reason: "Contractions are strictly prohibited in formal Academic IELTS Task 1 & Task 2. Direct penalty under Register.",
+      burmese: "Academic Essay တွင် အတိုကောက် (Contractions) များ သုံးစွဲခွင့် မရှိပါ။ စာလုံးအပြည့်သို့ ချက်ချင်းပြောင်းပါ။"
+    },
+    {
+      id: "solve_the_problem",
+      name: '"Solve the Problem" Kindergarten Collocation',
+      rx: /\b(solve|solving|solves|solved)\s+the\s+problem\b/gi,
+      severity: "Medium",
+      category: "Elementary Collocation",
+      suggested: "ameliorate the dilemma",
+      alternatives: ["ameliorate the dilemma", "mitigate the crisis", "resolve the impediment"],
+      reason: "Basic verb-noun pairing typical of B1 writers. Replace with nuanced academic synonyms.",
+      burmese: "ရိုးရှင်းလွန်းသော Collocation ဖြစ်၍ 'ameliorate the dilemma' သို့မဟုတ် 'mitigate the crisis' သို့ ပြောင်းပါ။"
+    },
+    {
+      id: "all_in_all",
+      name: '"All in All" Spoken Signpost',
+      rx: /\ball\s+in\s+all\b/gi,
+      severity: "High",
+      category: "Spoken Linker",
+      suggested: "in the final analysis,",
+      alternatives: ["in the final analysis,", "to synthesize the discussion,", "on balance,"],
+      reason: "Conversational oral connective unfit for formal discourse.",
+      burmese: "စကားပြောချိတ်ဆက်စကားလုံးဖြစ်၍ 'in the final analysis' ဖြင့် အစားထိုးပါ။"
+    },
+    {
+      id: "as_everyone_knows",
+      name: '"As Everyone Knows / Well-Known Fact"',
+      rx: /\b(as\s+everyone\s+knows|it\s+is\s+a\s+well[-\s]known\s+fact)\b/gi,
+      severity: "Critical",
+      category: "Sweeping Generalization",
+      suggested: "extensive empirical evidence indicates that",
+      alternatives: ["extensive empirical evidence indicates that", "it is widely acknowledged that"],
+      reason: "Sweeping unsupported generalizations irritate examiners. Academic writing demands empirical framing.",
+      burmese: "အထောက်အထားမပါသော ခြုံငုံပြောဆိုချက်ဖြစ်၍ 'extensive empirical evidence indicates that' ဖြင့် ပြောင်းပါ။"
+    },
+    {
+      id: "dawn_of_time",
+      name: '"Since the Dawn of Time" Melodrama Opener',
+      rx: /\b(since\s+the\s+dawn\s+of\s+time|since\s+ancient\s+times)\b/gi,
+      severity: "Critical",
+      category: "Melodramatic Cliché",
+      suggested: "historically,",
+      alternatives: ["historically,", "over the past half-century,", "in modern human history,"],
+      reason: "Grandiose historical exaggeration flagged by every examiner training manual.",
+      burmese: "ဇာတ်ဆန်လွန်းသော အလွတ်ကျက် နိဒါန်းစကားဖြစ်၍ 'historically' ဟု တိုတိုရှင်းရှင်း ပြောင်းပါ။"
+    },
+    {
+      id: "i_think_that",
+      name: 'Overused "I think that / I believe that"',
+      rx: /\b(i\s+think\s+that|i\s+believe\s+that)\b/gi,
+      severity: "Medium",
+      category: "Excessive Subjectivity",
+      suggested: "it can be cogently argued that",
+      alternatives: ["it can be cogently argued that", "the evidence strongly suggests that", "it is my considered contention that"],
+      reason: "Excessive 1st-person phrasing weakens academic tone. Use impersonal evaluative structures.",
+      burmese: "ပုဂ္ဂိုလ်ရေးဆန်လွန်းသော အသုံးဖြစ်၍ 'it can be cogently argued that' သို့ ပြောင်းပါ။"
+    },
+    {
+      id: "rich_and_poor",
+      name: '"Rich and Poor" Informal Polarization',
+      rx: /\brich\s+and\s+poor\b/gi,
+      severity: "Medium",
+      category: "Elementary Vocabulary",
+      suggested: "affluent households and socioeconomically disadvantaged cohorts",
+      alternatives: ["affluent households and socioeconomically disadvantaged cohorts", "higher- and lower-income demographics"],
+      reason: "Simplistic colloquial grouping. Academic sociology requires precise economic classification.",
+      burmese: "အလွန်ရိုးစင်းသော စကားလုံးများဖြစ်၍ 'affluent demographics and socioeconomically disadvantaged cohorts' ဟု သုံးပါ။"
+    },
+    {
+      id: "big_problem",
+      name: '"Big Problem / Huge Impact" Vague Intensifier',
+      rx: /\b(big\s+problem|huge\s+impact)\b/gi,
+      severity: "Medium",
+      category: "Weak Collocation",
+      suggested: "pressing systemic challenge",
+      alternatives: ["pressing systemic challenge", "profound structural dilemma", "substantial ramifications"],
+      reason: "'Big' and 'huge' lack academic nuance. Upgrade to precision adjectives.",
+      burmese: "စကားပြော adjectives များကို အဆင့်မြင့် academic collocations ဖြင့် အစားထိုးပါ။"
+    },
+    {
+      id: "empty_very",
+      name: 'Empty Intensifiers ("Very / Really")',
+      rx: /\b(very|really)\s+(important|bad|good|hard|big|difficult)\b/gi,
+      severity: "Medium",
+      category: "Low Lexical Density",
+      suggested: "imperative / detrimental / formidable",
+      reason: "Weakening filler adverbs. Cambridge rewards substituting two weak words with one rich C1/C2 adjective.",
+      burmese: "စာသားတန်ဖိုး လျော့ကျစေသော filler စကားလုံးဖြစ်၍ တိကျသော C1/C2 adjective တစ်ခုတည်းဖြင့် အစားထိုးပါ။"
+    },
+    {
+      id: "get_verb",
+      name: 'Chameleon Verb "Get / Getting"',
+      rx: /\b(get|gets|getting)\s+(a\s+job|an\s+opportunity|money|success)\b/gi,
+      severity: "Medium",
+      category: "Informal Verb",
+      suggested: "secure / acquire / attain",
+      alternatives: ["secure gainful employment", "acquire financial resources", "attain success"],
+      reason: "'Get' is the single most common spoken English chameleon verb. In formal writing, use specific action verbs.",
+      burmese: "စကားပြော verb ဖြစ်၍ 'secure' သို့မဟုတ် 'acquire' သို့ ပြောင်းပါ။"
+    },
+    {
+      id: "two_sides_argument",
+      name: '"There Are Two Sides of Argument" Template Filler',
+      rx: /\b(there\s+are\s+two\s+sides\s+of\s+(this\s+)?argument|both\s+sides\s+have\s+good\s+points)\b/gi,
+      severity: "High",
+      category: "Robotic Template Filler",
+      suggested: "this controversy encompasses bifurcated viewpoints",
+      alternatives: ["this controversy encompasses bifurcated viewpoints", "this discourse involves compelling arguments on both sides"],
+      reason: "Robotic canned template phrase that examiners instantly recognize and deduct marks for formulaic memorization.",
+      burmese: "စာစစ်သူများ အလွတ်ရနေသော template စာကြောင်းဖြစ်၍ 'this controversy encompasses bifurcated viewpoints' ဖြင့် ပြောင်းပါ။"
+    },
+    {
+      id: "to_sum_up",
+      name: '"To Sum Up / To Wrap Up" Conversational Signpost',
+      rx: /\b(to\s+sum\s+up|to\s+wrap\s+up)\b/gi,
+      severity: "High",
+      category: "Casual Spoken Linker",
+      suggested: "in the final analysis, having evaluated both perspectives,",
+      alternatives: ["in the final analysis, having evaluated both perspectives,", "to conclude,"],
+      reason: "Informal signposting unsuited for university-level academic writing.",
+      burmese: "ပေါ့ပေါ့ပါးပါး စကားပြောနိဂုံးစကားဖြစ်၍ တရားဝင် Academic နိဂုံးစကားသို့ ပြောင်းပါ။"
+    }
+  ];
+
+  const CONTRACTION_EXPANSIONS = {
+    "don't": "do not",
+    "can't": "cannot",
+    "won't": "will not",
+    "shouldn't": "should not",
+    "couldn't": "could not",
+    "wouldn't": "would not",
+    "doesn't": "does not",
+    "haven't": "have not",
+    "hasn't": "has not",
+    "isn't": "is not",
+    "aren't": "are not",
+    "it's": "it is"
+  };
+
+  /**
+   * Scan text against all 18 Band-6.0 Traps
+   */
+  window.scanBand6Traps = function(text) {
+    if (!text || !text.trim()) {
+      return { totalTraps: 0, riskScore: 0, riskLevel: 'Clean', detections: [] };
+    }
+
+    const detections = [];
+    BAND6_TRAP_RULES.forEach(rule => {
+      rule.rx.lastIndex = 0;
+      let match;
+      while ((match = rule.rx.exec(text)) !== null) {
+        let cleanRep = rule.suggested;
+        const matchedLower = match[0].toLowerCase();
+        
+        // Handle contraction auto-expansion
+        if (rule.id === "contractions" && CONTRACTION_EXPANSIONS[matchedLower]) {
+          cleanRep = CONTRACTION_EXPANSIONS[matchedLower];
+        } else if (rule.id === "empty_very") {
+          const adj = match[2]?.toLowerCase();
+          if (adj === 'important') cleanRep = 'imperative';
+          else if (adj === 'bad') cleanRep = 'detrimental';
+          else if (adj === 'good') cleanRep = 'advantageous';
+          else if (adj === 'hard' || adj === 'difficult') cleanRep = 'formidable';
+          else if (adj === 'big') cleanRep = 'paramount';
+          else cleanRep = `exceedingly ${match[2]}`;
+        }
+
+        detections.push({
+          ruleId: rule.id,
+          name: rule.name,
+          matchedText: match[0],
+          startIndex: match.index,
+          endIndex: match.index + match[0].length,
+          severity: rule.severity,
+          category: rule.category,
+          suggested: cleanRep,
+          reason: rule.reason,
+          burmese: rule.burmese
+        });
+      }
+    });
+
+    const total = detections.length;
+    let riskLevel = 'Clean';
+    let riskScore = 0;
+
+    if (total === 0) {
+      riskLevel = 'Clean (Band 8.0+ Polish)';
+      riskScore = 0;
+    } else if (total <= 2) {
+      riskLevel = 'Moderate Risk (Band 6.5 Warning)';
+      riskScore = 45;
+    } else {
+      riskLevel = 'Critical Risk (Band 5.5-6.0 Formulaic Penalty)';
+      riskScore = Math.min(100, 50 + total * 10);
+    }
+
+    return {
+      totalTraps: total,
+      riskScore: riskScore,
+      riskLevel: riskLevel,
+      detections: detections
+    };
+  };
+
+  /**
+   * Auto-fix single trap in #essayArea
+   */
+  window.autoFixTrap = function(origText, repText) {
+    const el = document.getElementById('essayArea');
+    if (!el || !origText || !repText) return;
+
+    const cur = el.value;
+    // Replace first occurrence of exact matched text (case insensitive)
+    const escaped = origText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const rx = new RegExp(escaped, 'i');
+    if (rx.test(cur)) {
+      el.value = cur.replace(rx, repText);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      if (typeof window.runLiveWritingDiagnostics === 'function') {
+        window.runLiveWritingDiagnostics();
+      }
+      window.runBand6TrapXRay();
+      if (window.showAppToast) {
+        window.showAppToast(`Auto-fixed: "${origText}" -> "${repText}"`, 'success');
+      }
+    }
+  };
+
+  /**
+   * Auto-fix all detected traps in #essayArea
+   */
+  window.autoFixAllTraps = function() {
+    const el = document.getElementById('essayArea');
+    if (!el) return;
+
+    let text = el.value;
+    let fixCount = 0;
+
+    BAND6_TRAP_RULES.forEach(rule => {
+      rule.rx.lastIndex = 0;
+      if (rule.id === "contractions") {
+        Object.keys(CONTRACTION_EXPANSIONS).forEach(c => {
+          const rx = new RegExp('\\b' + c + '\\b', 'gi');
+          if (rx.test(text)) {
+            text = text.replace(rx, CONTRACTION_EXPANSIONS[c]);
+            fixCount++;
+          }
+        });
+      } else {
+        if (rule.rx.test(text)) {
+          text = text.replace(rule.rx, (m) => {
+            fixCount++;
+            return rule.suggested;
+          });
+        }
+      }
+    });
+
+    el.value = text;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    if (typeof window.runLiveWritingDiagnostics === 'function') {
+      window.runLiveWritingDiagnostics();
+    }
+    window.runBand6TrapXRay();
+
+    if (window.showAppToast) {
+      window.showAppToast(`Surgically cleansed ${fixCount} Band-6 traps! Essay register elevated.`, 'success');
+    }
+  };
+
+  /**
+   * Run Band-6 Trap X-Ray and render interactive report in Writing Lab
+   */
+  window.runBand6TrapXRay = function() {
+    const el = document.getElementById('essayArea');
+    const container = document.getElementById('writingTrapXrayDrawer');
+    if (!container) return;
+
+    const text = el ? el.value : '';
+    const report = window.scanBand6Traps(text);
+
+    container.style.display = 'block';
+
+    const isClean = report.totalTraps === 0;
+    const isCritical = report.totalTraps >= 3;
+    const meterColor = isClean ? '#10B981' : (isCritical ? '#EF4444' : '#F59E0B');
+
+    let detectionsHtml = '';
+    if (isClean) {
+      detectionsHtml = `
+        <div style="padding:22px; text-align:center; background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.2); border-radius:8px;">
+          <div style="font-size:1.1rem; font-weight:800; color:#10B981; margin-bottom:4px;">
+            <svg class="ui-icon" style="color:#10B981;"><use href="#lucide-check"/></svg> Clean Academic Register
+          </div>
+          <p style="margin:0; font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">
+            Zero memorized clichés, informal contractions, or conversational quantifiers detected. Your essay satisfies Band 8.0+ academic style standards.
+          </p>
+        </div>
+      `;
+    } else {
+      detectionsHtml = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:0.85rem; font-weight:700; color:var(--text);">
+            Detected ${report.totalTraps} Cambridge Penalty Trap${report.totalTraps > 1 ? 's' : ''}:
+          </span>
+          <button class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; background:#10B981; border:none;" onclick="window.autoFixAllTraps()">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-sparkles"/></svg> Auto-Fix All Traps (1-Click)
+          </button>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${report.detections.map((d, i) => `
+            <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:${d.severity === 'Critical' ? '#EF4444' : '#F59E0B'}; color:#FFF; font-weight:800; font-size:0.7rem; padding:2px 6px; border-radius:4px;">
+                    ${d.severity.toUpperCase()}
+                  </span>
+                  <strong style="font-size:0.88rem; color:var(--text);">${escapeHtml(d.name)}</strong>
+                </div>
+                <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem; font-weight:700; border-color:#10B981; color:#10B981;" onclick="window.autoFixTrap(${JSON.stringify(d.matchedText)}, ${JSON.stringify(d.suggested)})">
+                  <svg class="ui-icon ui-icon-xs"><use href="#lucide-check"/></svg> Auto-Fix &rarr; "${escapeHtml(d.suggested)}"
+                </button>
+              </div>
+
+              <div style="font-size:0.84rem; color:var(--text-secondary); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span>Found: <strong style="color:var(--danger); text-decoration:line-through;">"${escapeHtml(d.matchedText)}"</strong></span>
+                <span>&rarr;</span>
+                <span>Replace with: <strong style="color:var(--success); font-weight:700;">"${escapeHtml(d.suggested)}"</strong></span>
+              </div>
+
+              <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.45; margin-top:2px;">
+                ${escapeHtml(d.reason)}
+              </div>
+
+              <div style="font-size:0.78rem; color:var(--text-secondary); font-family:'Pyidaungsu', 'Myanmar3', sans-serif; background:rgba(0,0,0,0.02); padding:4px 8px; border-radius:4px; border-left:2px solid #F59E0B;">
+                ${escapeHtml(d.burmese)}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    container.innerHTML = `
+      <div class="occ-card" style="padding:18px; margin-top:14px; border:1px solid ${meterColor}; background:var(--bg-card); border-radius:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg class="ui-icon" style="color:${meterColor};"><use href="#lucide-target"/></svg>
+            <h4 style="margin:0; font-size:1.05rem; font-weight:800; color:var(--text);">Examiner Band-6 Trap X-Ray</h4>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.82rem; font-weight:800; color:${meterColor};">
+              ${report.riskLevel}
+            </span>
+            <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="document.getElementById('writingTrapXrayDrawer').style.display='none'">
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-x"/></svg> Hide
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-secondary); margin-bottom:4px;">
+            <span>Examiner Penalty Risk</span>
+            <strong>${report.riskScore}% Risk</strong>
+          </div>
+          <div style="height:6px; background:rgba(0,0,0,0.08); border-radius:3px; overflow:hidden;">
+            <div style="width:${report.riskScore}%; height:100%; background:${meterColor}; transition:width 0.3s ease;"></div>
+          </div>
+        </div>
+
+        ${detectionsHtml}
+      </div>
+    `;
+
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  window.BAND6_TRAP_RULES = BAND6_TRAP_RULES;
+
 })(window);

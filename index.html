@@ -9537,9 +9537,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-sparkles"/></svg> AI Examiner Grade</button>
             <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()"><svg class="ui-icon"><use href="#lucide-search"/></svg> Full CEFR &amp; Trap Audit (5 Free/Mo)</button>
             <button class="btn-outlined" style="border-color:#D97706; color:#D97706; font-weight:700;" onclick="window.openBandSurgeryFromEditor()" title="Open Live Band Surgery (5.5 &rarr; 8.5+ Sentence Upgrader)"><svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Band Surgery</button>
+            <button class="btn-accent-solid" id="btnTrapXray" onclick="window.runBand6TrapXRay()" style="background:linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color:#FFF; font-weight:800; border:none; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon" style="color:#FFF;"><use href="#lucide-target"/></svg> Band-6 Trap X-Ray</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
           </div>
+
+          <!-- Examiner Band-6 Trap X-Ray Drawer -->
+          <div id="writingTrapXrayDrawer" style="display:none;"></div>
 
           <!-- Free-Tier BYOK Inline Configuration Bar -->
           <div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
