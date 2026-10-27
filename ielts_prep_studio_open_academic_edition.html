@@ -7722,6 +7722,26 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   100% { border-color: var(--accent, #0284c7); box-shadow: 0 0 12px rgba(2, 132, 199, 0.45); }
 }
 
+
+  /* Mobile Button Wrap & Anti-Overflow Guard */
+  @media (max-width: 600px) {
+    .modal-card .btn-accent-solid,
+    .modal-card .btn-outlined,
+    #vipCheckoutStep .btn-accent-solid,
+    #vipCheckoutStep .btn-outlined {
+      white-space: normal !important;
+      height: auto !important;
+      min-height: 44px !important;
+      padding: 10px 14px !important;
+      line-height: 1.35 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+    }
+  }
 </style>
   <link rel="stylesheet" href="css/duo-theme.css?v=9.8">
   <link rel="manifest" href="manifest.json">
@@ -8619,6 +8639,33 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
     </div>
 
+    <!-- FEATURED SCHOLARLY AI RESEARCH (OPENALEX PEER-REVIEWED CLOZE GENERATOR ON MAIN TAB) -->
+    <div class="sec-block" id="ov-openalex-feature" style="margin-top:24px;">
+      <div class="sec-eyebrow">FEATURED SCHOLARLY AI RESEARCH // OPENALEX 250M+ CORPUS</div>
+      <div class="sec-header-row">
+        <h2 class="sec-title">Peer–Reviewed Abstract &amp; Cloze Drill <span class="ver-muted">OpenAlex API</span></h2>
+        <div class="sec-timestamp">Real Research Abstracts &bull; Summary Completion Cloze</div>
+        <button class="btn-outlined" onclick="switchView('tools'); switchAcademicToolsTab('collocations'); setTimeout(function(){ var el = document.getElementById('tool-card-openalex'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 120);" style="margin-left:auto;">
+          Open in Tools Tab &rarr;
+        </button>
+      </div>
+
+      <div class="speak-v6-card" style="margin-top:14px; background:var(--bg-card); border:1.5px solid var(--border-accent); border-radius:12px; padding:20px; box-sizing:border-box;">
+        <div class="speak-v6-title" style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span class="speak-icon-well purple" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:8px; background:rgba(147, 51, 234, 0.15); color:#9333EA;"><svg class="ui-icon"><use href="#lucide-search"/></svg></span>
+          <span style="font-weight:800; font-size:1.1rem; color:var(--text);">Scholarly Cloze Drill Generator</span>
+        </div>
+        <p style="font-size:0.86rem; color:var(--text-secondary); margin:4px 0 14px 0; line-height:1.6;">
+          Fetch authentic peer-reviewed academic abstracts and generate instant Band 8.5+ summary completion cloze drills with auto-verification and Burmese definitions.
+        </p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+          <input id="v6-openalex-topic-ov" class="speak-input-pill" style="flex:1; min-width:220px; padding:10px 14px; font-size:0.88rem; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text);" type="text" placeholder="Topic (e.g. urban sustainability, artificial intelligence, climate adaptation)" />
+          <button id="v6-openalex-btn-ov" class="btn-accent-solid" style="padding:10px 18px; font-size:0.86rem; font-weight:800; cursor:pointer;" onclick="triggerOpenAlexFromMain()">Generate Cloze Passage &rarr;</button>
+        </div>
+        <div id="v6-openalex-output-ov" style="font-size:0.9rem; line-height:1.6;"></div>
+      </div>
+    </div>
+
     <!-- FULL-WIDTH INTERACTIVE VISUALIZATION: SYNONYM CONSTELLATION -->
     <div class="sec-block" id="ov-constellation">
       <div class="sec-eyebrow">INTERACTIVE VISUALIZATION</div>
@@ -9083,6 +9130,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         <span>Speed Drills</span>
       </button>
+      <button class="subtab-btn" data-subtab="culinary" onclick="switchSubTab('lexicon', 'culinary')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#lucide-utensils"/></svg>
+        <span>Burmese Culinary (117)</span>
+      </button>
     </div>
 
     <!-- SUBTAB 1: VOCABULARY -->
@@ -9326,7 +9377,12 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   
       </div>
     </div>
-  </section>
+  
+    <!-- SUBTAB 5: BURMESE CULINARY HERITAGE & INGREDIENTS LEXICON -->
+    <div class="subtab-panel" data-subtab="culinary" id="subtab-culinary" style="padding:16px 0;">
+      <div id="at-pane-culinary" class="at-pane active" style="display:block;"></div>
+    </div>
+</section>
 
 
   <!-- =========================================================
@@ -10217,7 +10273,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-traps" onclick="switchAcademicToolsTab('traps')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-target"/></svg> <span>Paraphrase Traps</span></button>
         <button class="at-subnav-btn" id="at-tab-vault" onclick="switchAcademicToolsTab('vault')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-folder"/></svg> <span>Error Vault</span> (<span class="error-vault-count-pill">0</span>)</button>
         <button class="at-subnav-btn" id="at-tab-bandcalc" onclick="switchAcademicToolsTab('bandcalc')"><svg class="ui-icon ui-icon-xs"><use href="#lucide-calculator"/></svg> <span>Band Calculator</span></button>
-        <button class="at-subnav-btn" id="at-tab-culinary" onclick="switchAcademicToolsTab('culinary')"><svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-utensils"/></svg> <span>Burmese Culinary</span></button>
         <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
         <button class="at-subnav-btn" id="at-tab-cheatsheet" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon ui-icon-xs" style="color:#059669;"><use href="#lucide-file-text"/></svg> <span>Cheat Sheet PDF</span></button>
         <button class="at-subnav-btn" id="at-tab-transformation" onclick="switchAcademicToolsTab('transformation')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-sliders"/></svg> <span>Band 6-8.5 Mutation</span></button>
@@ -10256,6 +10311,50 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
           </div>
           <div id="atCollocationsMasterMount" style="margin-top:24px;"></div>
+
+          <!-- SCHOLARLY RESEARCH & PODCASTS (CONTAINED INSIDE FIRST TOOLS SUBTAB) -->
+          <div style="margin-top:28px; border-top:1.5px solid var(--border-accent); padding-top:20px;">
+            <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+              <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-zap"/></svg> Flagship Academic Research &amp; Native Audio Tools
+            </div>
+            <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
+      <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
+        <div class="speak-v6-title">
+          <span class="speak-icon-well purple"><svg class="ui-icon"><use href="#lucide-search"/></svg></span>
+          <span>Peer-Reviewed Abstract &amp; Cloze Drill (OpenAlex API)</span>
+        </div>
+        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
+          Fetch authentic academic research abstracts and generate instant Band 8.5+ summary completion cloze drills. Double-click any word for Burmese &amp; SRS save.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <input id="v6-openalex-topic" class="speak-input-pill" style="flex:1;min-width:200px;" type="text" placeholder="Topic (e.g. urban ecology, artificial intelligence, public health)" />
+          <button id="v6-openalex-btn" class="speak-pill-btn">Generate Cloze Passage &rarr;</button>
+        </div>
+        <div id="v6-openalex-output" style="font-size:0.9rem;line-height:1.6;"></div>
+      </div>
+
+      <!-- TOOL 7: NATIVE PODCAST SHADOWING STUDIO (ITUNES API) -->
+      <div class="speak-v6-card" id="tool-card-podcasts">
+        <div class="speak-v6-title">
+          <span class="speak-icon-well peach"><svg class="ui-icon"><use href="#lucide-headphones"/></svg></span>
+          <span>Cambridge &amp; BBC Native Podcasts &amp; Transcripts</span>
+        </div>
+        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
+          Stream authentic British &amp; Cambridge English episodes with variable speed (0.75x / 1.0x / 1.25x) and read along with precise word-for-word transcripts &amp; captions.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <select id="v6-podcast-query" class="speak-input-pill">
+            <option value="BBC 6 Minute English">BBC 6 Minute English (Native UK)</option>
+            <option value="BBC The English We Speak">BBC The English We Speak (Idiomatic)</option>
+            <option value="Cambridge Assessment English Podcast">Cambridge Assessment English Podcast</option>
+            <option value="IELTS Speaking Band 9">IELTS Speaking &amp; Academic Discourse</option>
+          </select>
+          <button id="v6-podcast-btn" class="speak-pill-btn secondary">Load Episodes</button>
+          <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Refresh Live Feed</button>
+        </div>
+        <div id="v6-podcast-output"></div>
+      </div>
+          </div>
         </div>
       </div>
 
@@ -10452,9 +10551,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
       </div>
 
-      <!-- Pane 9: Burmese Traditional Culinary Heritage & Ingredients Lexicon -->
-      <div id="at-pane-culinary" class="at-pane"></div>
-
       <!-- Pane 10: Live Band Surgery (Sentence Upgrader 5.5 -> 8.5+) -->
       <div id="at-pane-surgery" class="at-pane">
         <div class="occ-card" style="padding:20px;">
@@ -10532,44 +10628,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
-      <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
-        <div class="speak-v6-title">
-          <span class="speak-icon-well purple"><svg class="ui-icon"><use href="#lucide-search"/></svg></span>
-          <span>Peer-Reviewed Abstract &amp; Cloze Drill (OpenAlex API)</span>
-        </div>
-        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
-          Fetch authentic academic research abstracts and generate instant Band 8.5+ summary completion cloze drills. Double-click any word for Burmese &amp; SRS save.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-          <input id="v6-openalex-topic" class="speak-input-pill" style="flex:1;min-width:200px;" type="text" placeholder="Topic (e.g. urban ecology, artificial intelligence, public health)" />
-          <button id="v6-openalex-btn" class="speak-pill-btn">Generate Cloze Passage &rarr;</button>
-        </div>
-        <div id="v6-openalex-output" style="font-size:0.9rem;line-height:1.6;"></div>
-      </div>
-
-      <!-- TOOL 7: NATIVE PODCAST SHADOWING STUDIO (ITUNES API) -->
-      <div class="speak-v6-card" id="tool-card-podcasts">
-        <div class="speak-v6-title">
-          <span class="speak-icon-well peach"><svg class="ui-icon"><use href="#lucide-headphones"/></svg></span>
-          <span>Cambridge &amp; BBC Native Podcasts &amp; Transcripts</span>
-        </div>
-        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
-          Stream authentic British &amp; Cambridge English episodes with variable speed (0.75x / 1.0x / 1.25x) and read along with precise word-for-word transcripts &amp; captions.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-          <select id="v6-podcast-query" class="speak-input-pill">
-            <option value="BBC 6 Minute English">BBC 6 Minute English (Native UK)</option>
-            <option value="BBC The English We Speak">BBC The English We Speak (Idiomatic)</option>
-            <option value="Cambridge Assessment English Podcast">Cambridge Assessment English Podcast</option>
-            <option value="IELTS Speaking Band 9">IELTS Speaking &amp; Academic Discourse</option>
-          </select>
-          <button id="v6-podcast-btn" class="speak-pill-btn secondary">Load Episodes</button>
-          <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Refresh Live Feed</button>
-        </div>
-        <div id="v6-podcast-output"></div>
       </div>
 
       <!-- Pane 11: Band 6.0 -> 8.5 Transformation Lab -->
@@ -17638,6 +17696,11 @@ function switchSubTab(hubId, subTabId) {
 
   try {
     if (hubId === 'lexicon') {
+      if (subTabId === 'culinary') {
+        if (typeof window.initBurmeseCulinaryLexicon === 'function') {
+          window.initBurmeseCulinaryLexicon();
+        }
+      }
       if (subTabId === 'flashcards') {
         const dr = document.getElementById("fcDrawer");
         if (dr) dr.style.display = "block";
@@ -19061,6 +19124,11 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
+  if (tabName === 'culinary') {
+    if (typeof switchView === 'function') switchView('lexicon');
+    if (typeof switchSubTab === 'function') switchSubTab('lexicon', 'culinary');
+    return;
+  }
   const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation', 'cefr', 'planner'];
   tabs.forEach(t => {
     // Dedicated Workspace View
@@ -21172,7 +21240,10 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
               </div>
             </div>
           </div>
-          <button class="btn-accent-solid" style="width:100%; font-size:0.95rem; font-weight:800; padding:12px; cursor:pointer;" onclick="openVipCheckout('lifetime')"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Get Lifetime VIP Pass (1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars / 97,000 MMK)</button>
+          <button class="btn-accent-solid" style="width:100%; font-size:0.92rem; font-weight:800; padding:12px 14px; min-height:46px; height:auto; white-space:normal !important; line-height:1.35; display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; text-align:center; box-sizing:border-box; cursor:pointer;" onclick="openVipCheckout('lifetime')">
+            <svg class="ui-icon" style="color:var(--accent-gold); flex-shrink:0;"><use href="#lucide-crown"/></svg>
+            <span>Get Lifetime VIP Pass (1,350 <svg class="ui-icon" style="color:var(--accent-gold); vertical-align:-2px;"><use href="#lucide-star"/></svg> Stars / 97,000 MMK)</span>
+          </button>
         </div>
 
         <!-- Payment & Activation Details -->
@@ -21199,8 +21270,9 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <p style="font-size:0.82rem; color:var(--text-secondary); margin:0 0 12px 0; line-height:1.5;">
               Ideal for international students outside Myanmar. Purchase directly in Telegram using your Stars balance, Apple Pay, Google Pay, or debit card. Your account is upgraded automatically in under 3 seconds.
             </p>
-            <button id="starsCheckoutBtn" class="btn-accent-solid" onclick="handleStarsCheckout()" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:0.9rem; padding:12px; font-weight:800; cursor:pointer;">
-              <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-star"/></svg> Pay 1,350 Stars via Telegram (Instant Lifetime VIP)
+            <button id="starsCheckoutBtn" class="btn-accent-solid" onclick="handleStarsCheckout()" style="display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; width:100%; font-size:0.88rem; min-height:46px; height:auto; padding:12px 14px; font-weight:800; white-space:normal !important; line-height:1.35; text-align:center; box-sizing:border-box; cursor:pointer;">
+              <svg class="ui-icon" style="color:#F59E0B; flex-shrink:0;"><use href="#lucide-star"/></svg>
+              <span>Pay 1,350 Stars via Telegram (Instant Lifetime VIP)</span>
             </button>
           </div>
 
@@ -21304,14 +21376,58 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
 <!-- Mobile Floating Action Button (FAB) -->
 <div id="mobileFabContainer">
-  <div class="mobile-fab-menu" id="mobileFabMenu">
-    <button class="mobile-fab-item" onclick="switchView('aichat'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-bot"/></svg> <span>AI Mentor</span></button>
-    <button class="mobile-fab-item" onclick="switchView('tools'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-zap"/></svg> VIP Academic Tools</button>
-    <button class="mobile-fab-item" onclick="switchView('speaking'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-mic"/></svg> <span>Speaking Studio</span></button>
-    <button class="mobile-fab-item" onclick="switchView('lexicon'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-type"/></svg> Vocab Flashcards</button>
-    <button class="mobile-fab-item" onclick="switchView('reading'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-book"/></svg> Reading CBT</button>
-    <button class="mobile-fab-item" onclick="switchView('writing'); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-pen-tool"/></svg> <span>Writing Lab</span></button>
-    <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();"><svg class="ui-icon"><use href="#lucide-arrow-up"/></svg> Back to Top</button>
+  <div class="mobile-fab-menu" id="mobileFabMenu" style="max-height:85vh; overflow-y:auto;">
+    <div style="font-size:0.72rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; padding:8px 14px 4px 14px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px;">
+      <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-zap"/></svg> Quick Academic API Tools
+    </div>
+
+    <!-- 1. OpenAlex Peer-Reviewed Cloze Drill -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('openalex')">
+      <svg class="ui-icon" style="color:#9333EA;"><use href="#lucide-search"/></svg>
+      <span>🔬 Peer-Reviewed Cloze Drill (OpenAlex API)</span>
+    </button>
+
+    <!-- 2. Cambridge & BBC Podcasts -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('podcasts')">
+      <svg class="ui-icon" style="color:#F59E0B;"><use href="#lucide-headphones"/></svg>
+      <span>🎧 Cambridge &amp; BBC Podcasts</span>
+    </button>
+
+    <!-- 3. Collocations Engine (Datamuse API) -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('collocations')">
+      <svg class="ui-icon" style="color:#10B981;"><use href="#lucide-link"/></svg>
+      <span>⚡ Collocations Engine (Datamuse)</span>
+    </button>
+
+    <!-- 4. Band 6-8.5 Cliché Trap X-Ray -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('traps')">
+      <svg class="ui-icon" style="color:#EF4444;"><use href="#lucide-target"/></svg>
+      <span>🎯 Band 6–8.5 Cliché Trap X-Ray</span>
+    </button>
+
+    <!-- 5. Live Band Surgery -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('surgery')">
+      <svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg>
+      <span>✨ Live Band Surgery (5.5&rarr;8.5)</span>
+    </button>
+
+    <!-- 6. Burmese Culinary Lexicon -->
+    <button class="mobile-fab-item" onclick="window.openFabTool('culinary')">
+      <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-utensils"/></svg>
+      <span>🍜 Burmese Culinary Lexicon (117)</span>
+    </button>
+
+    <!-- 7. Cambridge AI Mentor -->
+    <button class="mobile-fab-item" onclick="switchView('aichat'); toggleMobileFab();">
+      <svg class="ui-icon" style="color:#3B82F6;"><use href="#lucide-bot"/></svg>
+      <span>🤖 Cambridge AI Mentor Copilot</span>
+    </button>
+
+    <!-- 8. Back to Top -->
+    <button class="mobile-fab-item" onclick="window.scrollTo({top:0, behavior:'smooth'}); toggleMobileFab();" style="border-top:1px solid var(--border); margin-top:4px;">
+      <svg class="ui-icon"><use href="#lucide-arrow-up"/></svg>
+      <span>⬆️ Back to Top</span>
+    </button>
   </div>
   <button class="mobile-fab-main" id="mobileFabBtn" onclick="toggleMobileFab()" aria-label="Quick Actions"><svg class="ui-icon" style="width:20px; height:20px;"><use href="#lucide-zap"/></svg></button>
 </div>
@@ -21686,6 +21802,127 @@ function animateNumberTicker(el, endVal, duration = 400, suffix = "") {
   requestAnimationFrame(step);
 }
 
+
+// Global Handlers for API Tools & Mobile FAB Navigation
+window.openFabTool = function(toolType) {
+  if (typeof toggleMobileFab === 'function') toggleMobileFab();
+  if (toolType === 'openalex') {
+    switchView('tools');
+    switchAcademicToolsTab('collocations');
+    setTimeout(() => {
+      const el = document.getElementById('tool-card-openalex');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const inp = document.getElementById('v6-openalex-topic');
+        if (inp) inp.focus();
+      }
+    }, 150);
+  } else if (toolType === 'podcasts') {
+    switchView('tools');
+    switchAcademicToolsTab('collocations');
+    setTimeout(() => {
+      const el = document.getElementById('tool-card-podcasts');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  } else if (toolType === 'collocations') {
+    switchView('tools');
+    switchAcademicToolsTab('collocations');
+    setTimeout(() => {
+      const inp = document.getElementById('at-collocations-input');
+      if (inp) {
+        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        inp.focus();
+      }
+    }, 150);
+  } else if (toolType === 'traps') {
+    switchView('tools');
+    switchAcademicToolsTab('traps');
+    setTimeout(() => {
+      const el = document.getElementById('at-pane-traps');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  } else if (toolType === 'surgery') {
+    switchView('tools');
+    switchAcademicToolsTab('surgery');
+    setTimeout(() => {
+      const el = document.getElementById('at-pane-surgery');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  } else if (toolType === 'culinary') {
+    switchView('lexicon');
+    switchSubTab('lexicon', 'culinary');
+    setTimeout(() => {
+      const el = document.getElementById('subtab-culinary');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  }
+};
+
+window.triggerOpenAlexFromMain = async function() {
+  const inp = document.getElementById('v6-openalex-topic-ov');
+  const out = document.getElementById('v6-openalex-output-ov');
+  const topic = (inp ? inp.value.trim() : '') || 'urban sustainability';
+  if (!out) return;
+
+  const toolsInp = document.getElementById('v6-openalex-topic');
+  if (toolsInp) toolsInp.value = topic;
+
+  if (window.IELTSApiV6 && typeof window.IELTSApiV6.fetchAcademicPapers === 'function') {
+    const quota = window.IELTSApiV6.checkAndConsumeQuota(true);
+    if (!quota.allowed) {
+      out.innerHTML = `<div style="padding:16px; border-radius:8px; border:1px solid rgba(239, 68, 68, 0.4); background:rgba(239, 68, 68, 0.1); color:#EF4444; font-size:0.85rem; text-align:center;">Daily Academic AI quota reached. Upgrade to VIP for unlimited access!</div>`;
+      return;
+    }
+    out.innerHTML = `<p style="color:var(--text-secondary); font-size:0.88rem;">🔎 Searching 250M+ OpenAlex scholarly papers on <strong>${escapeHtml(topic)}</strong>...</p>`;
+    try {
+      const papers = await window.IELTSApiV6.fetchAcademicPapers(topic, 2);
+      if (!papers || !papers.length) throw new Error('No papers found');
+      
+      const htmlOutput = papers.map(p => {
+        const words = p.abstract.split(/\s+/);
+        const blankIndexes = new Set();
+        for (let i = 3; i < words.length; i += 7) {
+          if (words[i].length >= 5) blankIndexes.add(i);
+          if (blankIndexes.size >= 5) break;
+        }
+        let wordIdx = 0;
+        const clozeHtml = words.map((w, idx) => {
+          if (blankIndexes.has(idx)) {
+            const clean = w.replace(/[^a-zA-Z]/g, '');
+            wordIdx++;
+            return `<input type="text" class="cloze-drill-input" data-ans="${clean}" placeholder="(${wordIdx})" style="width:85px; padding:2px 6px; font-weight:700; border:1px solid var(--border); border-radius:4px; text-align:center; font-size:0.84rem; background:var(--bg); color:var(--text);" />`;
+          }
+          return escapeHtml(w);
+        }).join(' ');
+
+        return `
+          <div style="background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:12px;">
+            <div style="font-weight:800; font-size:0.98rem; color:var(--text); margin-bottom:4px;">${escapeHtml(p.title)}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">📅 Published: ${p.year} &bull; 🏆 Cited by ${p.citations} peer scholars &bull; Source: OpenAlex Corpus</div>
+            <div style="font-size:0.9rem; line-height:1.7; color:var(--text);">${clozeHtml}</div>
+          </div>
+        `;
+      }).join('');
+
+      out.innerHTML = htmlOutput + `
+        <div style="display:flex; gap:8px; align-items:center; margin-top:12px; flex-wrap:wrap;">
+          <button class="btn-accent-solid" onclick="checkOpenAlexClozeAnswers()" style="padding:7px 16px; font-size:0.82rem; font-weight:800;">✓ Verify My Answers</button>
+          <button class="btn-outlined" onclick="revealOpenAlexClozeAnswers()" style="padding:7px 14px; font-size:0.82rem;">👁 Reveal Answers</button>
+          <span id="cloze-score-badge" style="font-size:0.85rem; font-weight:800; margin-left:auto;"></span>
+        </div>
+      `;
+    } catch (e) {
+      out.innerHTML = `<div style="padding:14px; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); font-size:0.84rem;">Could not load abstract. Check connection or try another topic.</div>`;
+    }
+  } else {
+    switchView('tools');
+    switchAcademicToolsTab('collocations');
+    setTimeout(() => {
+      const el = document.getElementById('tool-card-openalex');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  }
+};
 </script>
 
 
