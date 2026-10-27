@@ -755,7 +755,9 @@ function getDeviceId() {
   const V6_SYNC_KEYS = [
     'ips_srs_deck_v6',
     'ips_daily_tool_quota',
-    'ips_learner_track'
+    'ips_learner_track',
+    'ips_user_target_band',
+    'ielts_target_band'
   ];
 
   function collectV6State() {
@@ -783,6 +785,12 @@ function getDeviceId() {
         localStorage.setItem(key, val);
       }
     });
+    try {
+      const b = localStorage.getItem('ips_user_target_band') || localStorage.getItem('ielts_target_band');
+      if (b && typeof window.applyUserTargetBand === 'function') {
+        window.applyUserTargetBand(b, true);
+      }
+    } catch (e) {}
   }
 
   // Merge into existing global StorageManager if present

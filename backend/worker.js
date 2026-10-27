@@ -2372,7 +2372,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
         await editTelegramMessageText(botToken, cbChatId, cbMessageId, countdownCard, {
           inline_keyboard: [
             [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
-            [{ text: "🎯 Target: Band 7.5", callback_data: "set_band:7.5" }, { text: "🎯 Target: Band 8.0+", callback_data: "set_band:8.0" }],
+            [{ text: `🎯 Target Band: ${updatedUser.target_band || 7.5} (Change)`, callback_data: "target_band_menu" }],
             [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
           ]
         });
@@ -2413,7 +2413,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
         await editTelegramMessageText(botToken, cbChatId, cbMessageId, countdownCard, {
           inline_keyboard: [
             [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
-            [{ text: "🎯 Target: Band 7.5", callback_data: "set_band:7.5" }, { text: "🎯 Target: Band 8.0+", callback_data: "set_band:8.0" }],
+            [{ text: `🎯 Target Band: ${band} (Change)`, callback_data: "target_band_menu" }],
             [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
           ]
         });
@@ -2430,8 +2430,10 @@ Select your required score to optimize your daily study quota:`;
       if (cbMessageId) {
         await editTelegramMessageText(botToken, cbChatId, cbMessageId, bandMsg, {
           inline_keyboard: [
-            [{ text: "🎯 Band 6.5", callback_data: "set_band:6.5" }, { text: "🎯 Band 7.0", callback_data: "set_band:7.0" }],
-            [{ text: "🎯 Band 7.5 (Standard)", callback_data: "set_band:7.5" }, { text: "🎯 Band 8.0+", callback_data: "set_band:8.0" }],
+            [{ text: "🎯 Band 6.0", callback_data: "set_band:6.0" }, { text: "🎯 Band 6.5", callback_data: "set_band:6.5" }],
+            [{ text: "🎯 Band 7.0", callback_data: "set_band:7.0" }, { text: "🎯 Band 7.5", callback_data: "set_band:7.5" }],
+            [{ text: "🎯 Band 8.0", callback_data: "set_band:8.0" }, { text: "🎯 Band 8.5", callback_data: "set_band:8.5" }],
+            [{ text: "🎯 Band 9.0 Expert Master", callback_data: "set_band:9.0" }],
             [{ text: "⏪ Back to Countdown", callback_data: "reset_exam_prompt" }]
           ]
         });
@@ -3737,7 +3739,7 @@ async function handleExamCountdown(chatId, userId, dateArg, env, botToken) {
   await sendTelegramMessage(botToken, chatId, countdownCard, {
     inline_keyboard: [
       [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
-      [{ text: "🎯 Target: Band 7.5", callback_data: "set_band:7.5" }, { text: "🎯 Target: Band 8.0+", callback_data: "set_band:8.0" }],
+      [{ text: `🎯 Target Band: ${user && user.target_band ? user.target_band : 7.5} (Change)`, callback_data: "target_band_menu" }],
       [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
     ]
   });

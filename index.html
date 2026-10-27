@@ -20296,26 +20296,73 @@ const TARGET_BAND_LEVELS = {
   '5': { level: 5, band: '9.0', label: 'Band 9.0', range: 'Band 9.0 Expert', desc: 'Expert Academic Master' }
 };
 
-window.getUserTargetBandLevel = function () {
+window.normalizeTargetBand = function (val) {
+  if (!val) return '8.5';
+  let str = String(val).trim().replace(/^[Bb]and\s*/i, '').replace(/\+$/, '').trim();
+  if (str === '1') return '6.0';
+  if (str === '2') return '6.5';
+  if (str === '3') return '7.5';
+  if (str === '4') return '8.5';
+  if (str === '5') return '9.0';
+  const num = parseFloat(str);
+  if (!isNaN(num)) {
+    if (num <= 6.0) return '6.0';
+    if (num <= 6.5) return '6.5';
+    if (num <= 7.5) return '7.5';
+    if (num <= 8.5) return '8.5';
+    return '9.0';
+  }
+  return '8.5';
+};
+
+window.bandToTargetLevel = function (bandVal) {
+  const norm = window.normalizeTargetBand(bandVal);
+  if (norm === '6.0') return '1';
+  if (norm === '6.5') return '2';
+  if (norm === '7.5') return '3';
+  if (norm === '8.5') return '4';
+  if (norm === '9.0') return '5';
+  return '4';
+};
+
+window.getUserResolvedTargetBand = function () {
   try {
-    const saved = localStorage.getItem('ips_user_target_band');
-    if (saved && TARGET_BAND_LEVELS[saved]) return String(saved);
+    const s2 = localStorage.getItem('ielts_target_band');
+    if (s2) return window.normalizeTargetBand(s2);
+    const s1 = localStorage.getItem('ips_user_target_band');
+    if (s1) {
+      if (TARGET_BAND_LEVELS[s1]) return TARGET_BAND_LEVELS[s1].band;
+      return window.normalizeTargetBand(s1);
+    }
+    if (window.currentUser) {
+      const b = window.currentUser.targetBand || window.currentUser.target_band;
+      if (b) return window.normalizeTargetBand(b);
+    }
   } catch (e) {}
-  return '4'; // default Band 8.5
+  return '8.5';
+};
+
+window.getUserTargetBandLevel = function () {
+  const band = window.getUserResolvedTargetBand();
+  return window.bandToTargetLevel(band);
 };
 
 window.getUserTargetBandInfo = function () {
   const lvl = window.getUserTargetBandLevel();
-  return TARGET_BAND_LEVELS[lvl] || TARGET_BAND_LEVELS['4'];
+  const info = TARGET_BAND_LEVELS[lvl] || TARGET_BAND_LEVELS['4'];
+  const band = window.getUserResolvedTargetBand();
+  return { ...info, band: band, label: 'Band ' + band };
 };
 
 window.applyUserTargetBand = function (level, silent = false) {
-  const lvlStr = String(level);
+  const lvlStr = window.bandToTargetLevel(level);
   const info = TARGET_BAND_LEVELS[lvlStr] || TARGET_BAND_LEVELS['4'];
+  const bandStr = info.band;
   
-  // 1. Persist to storage
+  // 1. Persist to storage (both keys for 100% compatibility across old and new modules)
   try {
     localStorage.setItem('ips_user_target_band', lvlStr);
+    localStorage.setItem('ielts_target_band', bandStr);
     localStorage.setItem('ips_target_score_onboarded', '1');
   } catch (e) {}
 
@@ -20323,13 +20370,13 @@ window.applyUserTargetBand = function (level, silent = false) {
   // A. Cirrus stage button (top bar)
   const topBtn = document.getElementById('cirrusTargetBandBtn');
   if (topBtn) {
-    topBtn.innerHTML = `Target ${info.label} ▾`;
+    topBtn.innerHTML = `Target ${info.label} \u25be`;
   }
 
   // B. Scholar welcome subtitle
   const welcomeSub = document.getElementById('speakTargetSub');
   if (welcomeSub) {
-    welcomeSub.textContent = `Target: ${info.label}+ Academic • Next Cambridge drill ready`;
+    welcomeSub.textContent = `Target: ${info.label}+ Academic \u2022 Next Cambridge drill ready`;
   }
 
   // C. Scholar welcome badge pill
@@ -20347,6 +20394,11 @@ window.applyUserTargetBand = function (level, silent = false) {
   // E. Any generic .user-target-band-text elements
   document.querySelectorAll('.user-target-band-text').forEach(el => {
     el.textContent = `${info.label}+`;
+  });
+
+  // E2. Any generic .user-target-band-val elements (pure number or band string)
+  document.querySelectorAll('.user-target-band-val').forEach(el => {
+    el.textContent = bandStr;
   });
 
   // F. Synchronize modal items
@@ -20367,6 +20419,7 @@ window.applyUserTargetBand = function (level, silent = false) {
   // G. Update currentUser profile if active
   if (window.currentUser) {
     window.currentUser.targetBand = info.label;
+    window.currentUser.target_band = bandStr;
     try {
       if (typeof saveUserProfileLocally === 'function') {
         saveUserProfileLocally();
@@ -20374,7 +20427,20 @@ window.applyUserTargetBand = function (level, silent = false) {
     } catch (e) {}
   }
 
-  // H. Tactile and visual feedback
+  // H. Reactive re-renders: refresh Exam Readiness Banner & Today's Plan Card
+  try {
+    if (typeof window.renderExamReadinessBanner === 'function') {
+      window.renderExamReadinessBanner('examReadinessBanner');
+    }
+  } catch (e) {}
+
+  try {
+    if (typeof window.renderTodayPlanCard === 'function') {
+      window.renderTodayPlanCard('todayPlanMount');
+    }
+  } catch (e) {}
+
+  // I. Tactile and visual feedback
   if (!silent) {
     if (typeof studioHaptic === 'function') studioHaptic(20);
     if (typeof showStudioNotification === 'function') {
@@ -21121,13 +21187,13 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <div class="speak-level-radio"></div>
       </div>
 
-      <div class="speak-level-item active" data-level="3" onclick="selectBandLevel(3, this)">
+      <div class="speak-level-item" data-level="3" onclick="selectBandLevel(3, this)">
         <div class="speak-level-badge"><svg class="ui-icon" style="width:20px; height:20px; color:#059669;"><use href="#lucide-award"/></svg></div>
         <div class="speak-level-info">
           <div class="speak-level-name">Level 3 (Band 7.0 - 7.5)</div>
           <div class="speak-level-desc">I handle complex syntax, explain nuanced arguments, and use academic collocations.</div>
         </div>
-        <div class="speak-level-radio"><svg class="ui-icon" style="color:#0284C7; width:14px; height:14px;"><use href="#lucide-check"/></svg></div>
+        <div class="speak-level-radio"></div>
       </div>
 
       <div class="speak-level-item" data-level="4" onclick="selectBandLevel(4, this)">

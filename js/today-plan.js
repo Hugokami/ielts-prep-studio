@@ -57,11 +57,13 @@
 
     // 4. Telemetry: Exam Countdown
     let daysRemaining = 30;
-    let targetBand = '7.5+';
+    let targetBand = (typeof window.getUserResolvedTargetBand === 'function')
+      ? window.getUserResolvedTargetBand()
+      : '8.5';
     if (typeof window.getExamCountdownData === 'function') {
       const ed = window.getExamCountdownData();
       daysRemaining = ed.daysRemaining || 30;
-      targetBand = ed.targetBand || '7.5+';
+      if (ed.targetBand) targetBand = ed.targetBand;
     }
 
     // Build Weak-Spot Drill Task by Lowest Cambridge Axis
@@ -291,7 +293,7 @@
                 ${isAllDone ? 'SESSION COMPLETE' : "TODAY'S 25-MIN SPRINT"}
               </span>
               <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">
-                ${escapeHtml(plan.date)} • Target Band ${escapeHtml(plan.targetBand)}
+                ${escapeHtml(plan.date)} • Target Band <span class="user-target-band-val" style="font-weight:800; color:var(--accent); cursor:pointer;" onclick="if(typeof openBandAssessmentModal==='function') openBandAssessmentModal();" title="Change Target Band">${escapeHtml(plan.targetBand)}</span>
               </span>
             </div>
             <h3 style="margin:0; font-size:1.1rem; font-weight:800; color:var(--text); letter-spacing:-0.01em;">

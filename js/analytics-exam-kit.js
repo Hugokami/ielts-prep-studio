@@ -372,8 +372,12 @@
   };
 
   window.saveExamTargetBand = function(band) {
-    localStorage.setItem('ielts_target_band', String(band));
-    window.renderExamReadinessBanner('examReadinessBanner');
+    if (typeof window.applyUserTargetBand === 'function') {
+      window.applyUserTargetBand(band);
+    } else {
+      localStorage.setItem('ielts_target_band', String(band));
+      window.renderExamReadinessBanner('examReadinessBanner');
+    }
   };
 
   window.saveExamTargetDate = function(dateStr) {
@@ -385,8 +389,55 @@
   // 3.3: TARGET BAND EXAM COUNTDOWN & BURN-DOWN READINESS ENGINE
   // ==========================================
 
+  if (typeof window.normalizeTargetBand !== 'function') {
+    window.normalizeTargetBand = function (val) {
+      if (!val) return '8.5';
+      let str = String(val).trim().replace(/^[Bb]and\s*/i, '').replace(/\+$/, '').trim();
+      if (str === '1') return '6.0';
+      if (str === '2') return '6.5';
+      if (str === '3') return '7.5';
+      if (str === '4') return '8.5';
+      if (str === '5') return '9.0';
+      const num = parseFloat(str);
+      if (!isNaN(num)) {
+        if (num <= 6.0) return '6.0';
+        if (num <= 6.5) return '6.5';
+        if (num <= 7.5) return '7.5';
+        if (num <= 8.5) return '8.5';
+        return '9.0';
+      }
+      return '8.5';
+    };
+  }
+
+  if (typeof window.getUserResolvedTargetBand !== 'function') {
+    window.getUserResolvedTargetBand = function () {
+      try {
+        const s2 = localStorage.getItem('ielts_target_band');
+        if (s2) return window.normalizeTargetBand(s2);
+        const s1 = localStorage.getItem('ips_user_target_band');
+        if (s1) return window.normalizeTargetBand(s1);
+        if (window.currentUser) {
+          const b = window.currentUser.targetBand || window.currentUser.target_band;
+          if (b) return window.normalizeTargetBand(b);
+        }
+      } catch (e) {}
+      return '8.5';
+    };
+  }
+
   window.getExamCountdownData = function() {
-    let targetBand = localStorage.getItem('ielts_target_band') || '7.5';
+    let targetBand = '8.5';
+    if (typeof window.getUserResolvedTargetBand === 'function') {
+      targetBand = window.getUserResolvedTargetBand();
+    } else {
+      const s1 = localStorage.getItem('ips_user_target_band');
+      const s2 = localStorage.getItem('ielts_target_band');
+      targetBand = s2 || (s1 === '5' ? '9.0' : s1 === '4' ? '8.5' : s1 === '3' ? '7.5' : s1 === '2' ? '6.5' : s1 === '1' ? '6.0' : s1) || '8.5';
+    }
+    if (typeof window.normalizeTargetBand === 'function') {
+      targetBand = window.normalizeTargetBand(targetBand);
+    }
     let targetDateStr = localStorage.getItem('ielts_target_exam_date');
 
     // Default to 21 days from now if not set
@@ -451,7 +502,10 @@
           <span class="occ-ver-pill" style="background:${isUrgent ? '#EF4444' : '#D97706'}; color:#FFF; font-weight:900; font-size:0.72rem; padding:3px 8px; border-radius:4px; white-space:nowrap; flex-shrink:0;">
             ${data.daysRemaining} DAYS TO EXAM
           </span>
-          <strong style="color:var(--text); font-size:0.92rem; line-height:1.3; flex:1; min-width:180px;">Target Band: ${data.targetBand} Readiness Engine</strong>
+          <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:180px;">
+            <strong style="color:var(--text); font-size:0.92rem; line-height:1.3;">Target Band: <span class="user-target-band-val" style="color:var(--accent); font-weight:800;">${escapeHtml(data.targetBand)}</span> Readiness Engine</strong>
+            <button class="btn-outlined" style="padding:2px 8px; font-size:0.7rem; font-weight:700; border-radius:4px; cursor:pointer;" onclick="if(typeof openBandAssessmentModal==='function') openBandAssessmentModal();" title="Change Target Band">Edit</button>
+          </div>
         </div>
 
         <!-- Row 2: Timeline buttons & Cheat Sheet Action -->
@@ -479,7 +533,7 @@
         </div>
 
         <div style="font-size:0.74rem; color:var(--text-secondary); line-height:1.45;">
-          Daily Velocity Target: <strong>1 Writing Mock + 2 Speaking Drills + 15 Lexicon words</strong> to guarantee Band ${data.targetBand} readiness.
+          Daily Velocity Target: <strong>1 Writing Mock + 2 Speaking Drills + 15 Lexicon words</strong> to guarantee Band <span class="user-target-band-val" style="font-weight:700;">${escapeHtml(data.targetBand)}</span> readiness.
         </div>
       </div>
     `;
