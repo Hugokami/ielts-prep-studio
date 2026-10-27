@@ -8575,7 +8575,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="sec-header-row">
         <h2 class="sec-title">Cambridge &amp; BBC Native Podcasts <span class="ver-muted">Live Speech Recognition</span></h2>
         <div class="sec-timestamp">IELTS Speaking Band 9 Real Test + BBC 6 Minute English</div>
-        <button class="btn-outlined" onclick="switchView('tools'); setTimeout(function(){ var el = document.getElementById('tool-card-podcasts'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 100);" style="margin-left:auto;">
+        <button class="btn-outlined" onclick="switchView('tools'); switchAcademicToolsTab('podcasts');" style="margin-left:auto;">
           Open Full Podcast Deck ↗
         </button>
       </div>
@@ -8645,7 +8645,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div class="sec-header-row">
         <h2 class="sec-title">Peer–Reviewed Abstract &amp; Cloze Drill <span class="ver-muted">OpenAlex API</span></h2>
         <div class="sec-timestamp">Real Research Abstracts &bull; Summary Completion Cloze</div>
-        <button class="btn-outlined" onclick="switchView('tools'); switchAcademicToolsTab('collocations'); setTimeout(function(){ var el = document.getElementById('tool-card-openalex'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 120);" style="margin-left:auto;">
+        <button class="btn-outlined" onclick="switchView('tools'); switchAcademicToolsTab('openalex');" style="margin-left:auto;">
           Open in Tools Tab &rarr;
         </button>
       </div>
@@ -10278,6 +10278,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-transformation" onclick="switchAcademicToolsTab('transformation')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-sliders"/></svg> <span>Band 6-8.5 Mutation</span></button>
         <button class="at-subnav-btn" id="at-tab-cefr" onclick="switchAcademicToolsTab('cefr')"><svg class="ui-icon ui-icon-xs" style="color:#0284C7;"><use href="#lucide-award"/></svg> <span>CEFR Diagnostic</span></button>
         <button class="at-subnav-btn" id="at-tab-planner" onclick="switchAcademicToolsTab('planner')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-calendar"/></svg> <span>Band 8.0+ Planner</span></button>
+        <button class="at-subnav-btn" id="at-tab-openalex" onclick="switchAcademicToolsTab('openalex')"><svg class="ui-icon ui-icon-xs" style="color:#9333EA;"><use href="#lucide-search"/></svg> <span>Cloze Drills (OpenAlex)</span></button>
+        <button class="at-subnav-btn" id="at-tab-podcasts" onclick="switchAcademicToolsTab('podcasts')"><svg class="ui-icon ui-icon-xs" style="color:#F59E0B;"><use href="#lucide-headphones"/></svg> <span>BBC &amp; Cambridge Podcasts</span></button>
 
       </div>
 
@@ -10312,49 +10314,56 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           </div>
           <div id="atCollocationsMasterMount" style="margin-top:24px;"></div>
 
-          <!-- SCHOLARLY RESEARCH & PODCASTS (CONTAINED INSIDE FIRST TOOLS SUBTAB) -->
-          <div style="margin-top:28px; border-top:1.5px solid var(--border-accent); padding-top:20px;">
-            <div style="font-size:0.75rem; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
-              <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-zap"/></svg> Flagship Academic Research &amp; Native Audio Tools
-            </div>
-            <!-- TOOL 6: OPENALEX PEER-REVIEWED ABSTRACT & CLOZE GENERATOR -->
-      <div class="speak-v6-card" id="tool-card-openalex" style="margin-top:20px;">
-        <div class="speak-v6-title">
-          <span class="speak-icon-well purple"><svg class="ui-icon"><use href="#lucide-search"/></svg></span>
-          <span>Peer-Reviewed Abstract &amp; Cloze Drill (OpenAlex API)</span>
         </div>
-        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
-          Fetch authentic academic research abstracts and generate instant Band 8.5+ summary completion cloze drills. Double-click any word for Burmese &amp; SRS save.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-          <input id="v6-openalex-topic" class="speak-input-pill" style="flex:1;min-width:200px;" type="text" placeholder="Topic (e.g. urban ecology, artificial intelligence, public health)" />
-          <button id="v6-openalex-btn" class="speak-pill-btn">Generate Cloze Passage &rarr;</button>
-        </div>
-        <div id="v6-openalex-output" style="font-size:0.9rem;line-height:1.6;"></div>
       </div>
 
-      <!-- TOOL 7: NATIVE PODCAST SHADOWING STUDIO (ITUNES API) -->
-      <div class="speak-v6-card" id="tool-card-podcasts">
-        <div class="speak-v6-title">
-          <span class="speak-icon-well peach"><svg class="ui-icon"><use href="#lucide-headphones"/></svg></span>
-          <span>Cambridge &amp; BBC Native Podcasts &amp; Transcripts</span>
-        </div>
-        <p style="font-size:0.86rem;opacity:0.8;margin:4px 0 12px 0;">
-          Stream authentic British &amp; Cambridge English episodes with variable speed (0.75x / 1.0x / 1.25x) and read along with precise word-for-word transcripts &amp; captions.
-        </p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-          <select id="v6-podcast-query" class="speak-input-pill">
-            <option value="BBC 6 Minute English">BBC 6 Minute English (Native UK)</option>
-            <option value="BBC The English We Speak">BBC The English We Speak (Idiomatic)</option>
-            <option value="Cambridge Assessment English Podcast">Cambridge Assessment English Podcast</option>
-            <option value="IELTS Speaking Band 9">IELTS Speaking &amp; Academic Discourse</option>
-          </select>
-          <button id="v6-podcast-btn" class="speak-pill-btn secondary">Load Episodes</button>
-          <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:6px 14px; font-size:0.78rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Refresh Live Feed</button>
-        </div>
-        <div id="v6-podcast-output"></div>
-      </div>
+      <!-- Dedicated Pane: OpenAlex Peer-Reviewed Cloze Generator -->
+      <div id="at-pane-openalex" class="at-pane">
+        <div class="occ-card" id="tool-card-openalex" style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span class="speak-icon-well purple" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:8px; background:rgba(147, 51, 234, 0.15); color:#9333EA;"><svg class="ui-icon"><use href="#lucide-search"/></svg></span>
+            <h3 style="margin:0; font-size:1.1rem; color:var(--text); font-weight:800;">Peer-Reviewed Abstract &amp; Cloze Drill (OpenAlex API)</h3>
           </div>
+          <p style="margin:0 0 16px 0; font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+            Fetch authentic academic research abstracts and generate instant Band 8.5+ summary completion cloze drills with auto-verification and Burmese definitions. Double-click any word for instant dictionary lookup and SRS save.
+          </p>
+          <div class="at-search-bar-wrap">
+            <input id="v6-openalex-topic" class="at-input-box" type="text" placeholder="Topic (e.g. urban ecology, artificial intelligence, public health, climate change)..." onkeydown="if(event.key==='Enter') document.getElementById('v6-openalex-btn').click();" />
+            <button id="v6-openalex-btn" class="btn-accent-solid" style="padding:10px 20px; font-weight:700; font-size:0.9rem; white-space:nowrap;">Generate Cloze &rarr;</button>
+          </div>
+          <div class="at-quick-chips" style="gap:6px; flex-wrap:wrap; margin-bottom:16px;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); align-self:center; margin-right:4px; font-weight:700;">1-Tap Topics:</span>
+            <button class="at-chip-btn" onclick="document.getElementById('v6-openalex-topic').value='artificial intelligence in education'; document.getElementById('v6-openalex-btn').click();">AI in Education</button>
+            <button class="at-chip-btn" onclick="document.getElementById('v6-openalex-topic').value='renewable energy transition economics'; document.getElementById('v6-openalex-btn').click();">Renewable Energy</button>
+            <button class="at-chip-btn" onclick="document.getElementById('v6-openalex-topic').value='climate change mitigation biodiversity'; document.getElementById('v6-openalex-btn').click();">Climate Change</button>
+            <button class="at-chip-btn" onclick="document.getElementById('v6-openalex-topic').value='urban planning sustainable transit'; document.getElementById('v6-openalex-btn').click();">Urban Transit</button>
+            <button class="at-chip-btn" onclick="document.getElementById('v6-openalex-topic').value='second language acquisition cognition'; document.getElementById('v6-openalex-btn').click();">Language Acquisition</button>
+          </div>
+          <div id="v6-openalex-output" style="font-size:0.9rem; line-height:1.7;"></div>
+        </div>
+      </div>
+
+      <!-- Dedicated Pane: Cambridge & BBC Native Podcasts & Shadowing Studio -->
+      <div id="at-pane-podcasts" class="at-pane">
+        <div class="occ-card" id="tool-card-podcasts" style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span class="speak-icon-well peach" style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:8px; background:rgba(245, 158, 11, 0.15); color:#F59E0B;"><svg class="ui-icon"><use href="#lucide-headphones"/></svg></span>
+            <h3 style="margin:0; font-size:1.1rem; color:var(--text); font-weight:800;">Cambridge &amp; BBC Native Podcasts &amp; Transcripts</h3>
+          </div>
+          <p style="margin:0 0 16px 0; font-size:0.84rem; color:var(--text-secondary); line-height:1.6;">
+            Stream authentic British &amp; Cambridge English episodes with variable speed (0.75x / 1.0x / 1.25x) and read along with precise word-for-word transcripts &amp; speech shadowing.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+            <select id="v6-podcast-query" class="at-input-box" style="flex:1; min-width:240px; padding:9px 12px;">
+              <option value="BBC 6 Minute English">BBC 6 Minute English (Native UK)</option>
+              <option value="BBC The English We Speak">BBC The English We Speak (Idiomatic)</option>
+              <option value="Cambridge Assessment English Podcast">Cambridge Assessment English Podcast</option>
+              <option value="IELTS Speaking Band 9">IELTS Speaking &amp; Academic Discourse</option>
+            </select>
+            <button id="v6-podcast-btn" class="speak-pill-btn secondary" style="padding:9px 18px; font-weight:700;">Load Episodes</button>
+            <button id="v6-podcast-btn-refresh" class="btn-accent-solid" style="padding:9px 18px; font-size:0.82rem; font-weight:800; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon"><use href="#lucide-refresh-cw"/></svg> Refresh Live Feed</button>
+          </div>
+          <div id="v6-podcast-output"></div>
         </div>
       </div>
 
@@ -12362,6 +12371,14 @@ window.handleAuthAction = function() {
 function handleAuthAction() {
   return window.handleAuthAction();
 }
+
+window.signInWithGoogle = function() {
+  if (typeof showStudioNotification === 'function') {
+    showStudioNotification('ℹ️ Google Sign-In is coming soon. Please use 1-Click Telegram Bot Login or enter your VIP voucher.');
+  } else {
+    alert('Please use the 1-Click Telegram Bot Login or enter your VIP voucher to access IELTS Prep Studio.');
+  }
+};
 
 window.closeAccountModal = function() {
   const modal = document.getElementById("accountModalBackdrop");
@@ -19278,7 +19295,7 @@ function switchAcademicToolsTab(tabName) {
     if (typeof switchSubTab === 'function') switchSubTab('lexicon', 'culinary');
     return;
   }
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation', 'cefr', 'planner'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation', 'cefr', 'planner', 'openalex', 'podcasts'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
@@ -19306,6 +19323,12 @@ function switchAcademicToolsTab(tabName) {
   } else if (tabName === 'collocations') {
     if (typeof window.initCollocationsMasterBank === 'function') {
       window.initCollocationsMasterBank('atCollocationsMasterMount');
+    }
+  } else if (tabName === 'podcasts') {
+    const podOut = document.getElementById('v6-podcast-output');
+    if (podOut && !podOut.innerHTML.trim()) {
+      const podBtn = document.getElementById('v6-podcast-btn');
+      if (podBtn) podBtn.click();
     }
   }
 }
@@ -19870,7 +19893,13 @@ function openStudioInExternalBrowser(targetTab = 'aichat') {
 
   if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openLink === 'function') {
     try {
-      window.Telegram.WebApp.openLink(fullUrl);
+      if (navigator && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(fullUrl).catch(() => {});
+      }
+      window.Telegram.WebApp.openLink(fullUrl, { try_instant_view: false });
+      if (typeof showStudioNotification === 'function') {
+        showStudioNotification('🌐 Link copied! Paste into Chrome or Safari if Telegram opened inside app.');
+      }
       return;
     } catch (e) {
       console.warn('[Telegram openLink fallback]', e);
@@ -21952,22 +21981,14 @@ window.openFabTool = function(toolType) {
   if (typeof toggleMobileFab === 'function') toggleMobileFab();
   if (toolType === 'openalex') {
     switchView('tools');
-    switchAcademicToolsTab('collocations');
+    switchAcademicToolsTab('openalex');
     setTimeout(() => {
-      const el = document.getElementById('tool-card-openalex');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const inp = document.getElementById('v6-openalex-topic');
-        if (inp) inp.focus();
-      }
+      const inp = document.getElementById('v6-openalex-topic');
+      if (inp) inp.focus();
     }, 150);
   } else if (toolType === 'podcasts') {
     switchView('tools');
-    switchAcademicToolsTab('collocations');
-    setTimeout(() => {
-      const el = document.getElementById('tool-card-podcasts');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 150);
+    switchAcademicToolsTab('podcasts');
   } else if (toolType === 'collocations') {
     switchView('tools');
     switchAcademicToolsTab('collocations');
@@ -22060,11 +22081,7 @@ window.triggerOpenAlexFromMain = async function() {
     }
   } else {
     switchView('tools');
-    switchAcademicToolsTab('collocations');
-    setTimeout(() => {
-      const el = document.getElementById('tool-card-openalex');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 150);
+    switchAcademicToolsTab('openalex');
   }
 };
 </script>

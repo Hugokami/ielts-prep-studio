@@ -405,7 +405,7 @@ function getDeviceId() {
       const isVip = (typeof window !== 'undefined' && ((typeof window.isVipActive === 'function' && window.isVipActive()) || window.isVipUser || (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true')));
       const voucher = (typeof window !== 'undefined' && window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
                       (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) ||
-                      (isVip ? 'VIPPASS2026' : '');
+                      '';
       if (voucher && !targetUrl.searchParams.has('voucher')) targetUrl.searchParams.set('voucher', voucher);
       if (isVip && !targetUrl.searchParams.has('vip')) targetUrl.searchParams.set('vip', '1');
       const token = typeof localStorage !== 'undefined' ? localStorage.getItem('ips_session_token') : null;
@@ -414,7 +414,11 @@ function getDeviceId() {
       const finalTarget = targetUrl.toString();
       if (tg && typeof tg.openLink === 'function') {
         try {
-          tg.openLink(finalTarget);
+          // Auto-copy URL to clipboard so if Telegram opens built-in browser, user can easily paste in Chrome/Safari
+          if (navigator && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(finalTarget).catch(() => {});
+          }
+          tg.openLink(finalTarget, { try_instant_view: false });
           return;
         } catch (e) {}
       }

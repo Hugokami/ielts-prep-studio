@@ -76,9 +76,21 @@ function getYangonDateStr() {
 }
 
 function isUserVip(userId) {
-  const adminId = String(process.env.ADMIN_CHAT_ID || '').trim(); if (adminId && String(userId) === adminId) return true;
+  const adminId = String(process.env.ADMIN_CHAT_ID || '').trim();
+  if (adminId && String(userId) === adminId) return true;
   if (ADMIN_CHAT_ID && String(userId) === ADMIN_CHAT_ID) return true;
-  return voucherPool.vouchers.some(v => String(v.telegramId) === String(userId) && v.status === 'Issued');
+
+  const now = Date.now();
+  return voucherPool.vouchers.some(v => {
+    if (String(v.telegramId) !== String(userId) || v.status !== 'Issued') return false;
+    if (v.plan === 'sprint') {
+      const issueTime = v.issuedAt ? new Date(v.issuedAt).getTime() : 0;
+      if (issueTime > 0 && (now - issueTime) > 7 * 24 * 60 * 60 * 1000) {
+        return false; // 7-Day Sprint Pass expired!
+      }
+    }
+    return true;
+  });
 }
 
 function checkAndConsumeQuota(userId) {
@@ -622,11 +634,14 @@ Support both English and Burmese (မြန်မာဘာသာ) when appropria
     `⏰ **Submitted At:** ${timeStr} MMT\n\n` +
     `Tap below to instantly issue a Lifetime VIP Pass to this student:`;
 
-  const approveData = `appr:${user.id}:${encodeURIComponent(studentName.slice(0, 20))}`;
+  const approveLifeData = `appr:${user.id}:${encodeURIComponent(studentName.slice(0, 20))}:life`;
+  const approveSprintData = `appr:${user.id}:${encodeURIComponent(studentName.slice(0, 20))}:sprint`;
   const rejectData = `rej:${user.id}`;
 
   const adminKeyboard = new InlineKeyboard()
-    .text('✅ Approve & Issue Pass', approveData)
+    .text('👑 Approve Lifetime (97k Ks)', approveLifeData)
+    .text('⚡ Approve 7-Day Sprint (5k Ks)', approveSprintData)
+    .row()
     .text('❌ Reject', rejectData);
 
   try {
@@ -682,22 +697,42 @@ bot.on('message:successful_payment', async (ctx) => {
   const studentUsername = ctx.from?.username ? `@${ctx.from.username}` : '';
   const chargeId = payment.telegram_payment_charge_id || payment.provider_payment_charge_id || `stars_${Date.now()}`;
 
-  console.log(`[Successful Payment] User ${studentId} paid ${payment.total_amount} ${payment.currency} (Charge: ${chargeId})`);
+  const isSprint = (payment.total_amount === 75 || (payment.invoice_payload && payment.invoice_payload.includes('sprint')));
+  const starsAmount = isSprint ? 75 : 1350;
 
-  // Claim next voucher from voucher pool
+  console.log(`[Successful Payment] User ${studentId} paid ${payment.total_amount} ${payment.currency} (Charge: ${chargeId}, Plan: ${isSprint ? 'sprint' : 'lifetime'})`);
+
+  // Claim next voucher matching plan
   const voucher = voucherPool.claimNextVoucher({
     id: studentId,
     name: studentName,
     username: ctx.from?.username || ''
-  });
+  }, isSprint ? 'sprint' : 'lifetime');
 
-  const magicLink = voucher ? voucher.magicLink : `${WEB_URL}/?redeem=VIPPASS2026`;
-  const code = voucher ? voucher.code : 'VIPPASS2026';
+  const magicLink = voucher ? voucher.magicLink : `${WEB_URL}/?redeem=IPS-${isSprint ? 'SPRINT' : 'VIP'}-PASS`;
+  const code = voucher ? voucher.code : `IPS-${isSprint ? 'SPRINT' : 'VIP'}-PASS`;
 
   // 1. Deliver to student
-  const successMsg =
+  const successMsg = isSprint ?
+    `🎉 *PAYMENT RECEIVED! 75 STARS CONFIRMED*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `⚡ *Your 7-Day Sprint VIP Pass is ACTIVE!*\n\n` +
+    `⭐️ *Amount Paid:* \`${payment.total_amount} ${payment.currency}\` (75 Stars)\n` +
+    `🎟️ *Sprint Voucher Code:* \`${code}\`\n` +
+    `📅 *Validity:* 7 Full Days\n\n` +
+    `Tap the **1-Click Magic Link** below to immediately activate your 7-Day Sprint Pass:\n\n` +
+    `👉 *1-Click Magic Link:*\n${magicLink}\n\n` +
+    `✨ *Unlocked Features:*\n` +
+    `• All 23 Cambridge Reading CBT Tests\n` +
+    `• All 40 Band 8.5/9.0 Writing Models & CEFR 90/10 AI Evaluator\n` +
+    `• All 1,162 Vocabulary Items + Native Audio + 1-3-7 SRS\n` +
+    `• All Speaking Forecast Topics + 60s Cue Card Lifeline\n` +
+    `• Unlimited Academic AI Tools (/collocate, /syn, /read, /dict, /quote)\n\n` +
+    `Best wishes on your preparation sprint with IELTS Prep Studio!`
+    :
     `🎉 *PAYMENT RECEIVED! YOUR LIFETIME VIP PASS IS ACTIVE!*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
+    `👑 *Lifetime VIP Studio Pass (Permanent)*\n\n` +
     `⭐️ *Amount Paid:* \`${payment.total_amount} ${payment.currency}\` (1,350 Stars)\n` +
     `🎟️ *Voucher Code:* \`${code}\`\n\n` +
     `Tap the **1-Click Magic Link** below to immediately activate your Lifetime VIP Studio Pass:\n\n` +
@@ -729,7 +764,7 @@ bot.on('message:successful_payment', async (ctx) => {
         `⭐ *NEW TELEGRAM STARS VIP PURCHASE!*\n` +
         `━━━━━━━━━━━━━━━━━━━━\n` +
         `👤 *Student:* ${studentName} (${studentUsername || studentId})\n` +
-        `💰 *Amount:* \`${payment.total_amount} ${payment.currency}\` (1,350 Stars)\n` +
+        `💰 *Amount:* \`${payment.total_amount} ${payment.currency}\` (${isSprint ? '75 Stars / 7-Day Sprint' : '1,350 Stars / Lifetime'})\n` +
         `🎟️ *Issued Voucher:* \`${code}\`\n` +
         `🆔 *Charge ID:* \`${chargeId}\`\n` +
         `⏰ *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
@@ -757,11 +792,13 @@ bot.on('callback_query:data', async (ctx) => {
       });
     }
 
-    // Handle Approval: appr:<studentId>:<studentName>
+    // Handle Approval: appr:<studentId>:<studentName>:<planTier>
     if (data.startsWith('appr:')) {
       const parts = data.split(':');
       const studentId = parts[1];
       const studentName = decodeURIComponent(parts[2] || 'Scholar');
+      const planTier = parts[3] || 'life';
+      const isSprint = (planTier === 'sprint');
 
       const msgId = ctx.callbackQuery.message?.message_id;
       const lockKey = `${msgId}:${studentId}`;
@@ -780,12 +817,12 @@ bot.on('callback_query:data', async (ctx) => {
         await ctx.editMessageReplyMarkup({ reply_markup: new InlineKeyboard() });
       } catch (_) {}
 
-      // Claim next voucher from pool
+      // Claim next voucher from pool for the requested plan
       const voucher = voucherPool.claimNextVoucher({
         id: studentId,
         name: studentName,
         username: ''
-      });
+      }, isSprint ? 'sprint' : 'lifetime');
 
       if (!voucher) {
         activeApprovalLocks.delete(lockKey);
@@ -801,7 +838,7 @@ bot.on('callback_query:data', async (ctx) => {
       const updatedCaption =
         currentCaption +
         `\n\n━━━━━━━━━━━━━━━━━━━━\n` +
-        `🎉 **APPROVED by Admin**\n` +
+        `🎉 **${isSprint ? '7-DAY SPRINT' : 'LIFETIME VIP'} APPROVED by Admin**\n` +
         `🎟️ **Issued Code:** \`${voucher.code}\`\n` +
         `🔗 **Magic Link:** ${voucher.magicLink}\n` +
         `⏰ **Processed At:** ${new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Yangon' })} MMT`;
@@ -817,8 +854,27 @@ bot.on('callback_query:data', async (ctx) => {
       }
 
       // 2. Deliver Magic Link to Student
-      const studentDeliveryMessage =
+      const studentDeliveryMessage = isSprint ?
+        `🎉 **Congratulations! သင်၏ 7-Day Sprint VIP Pass အား အတည်ပြုပြီးပါပြီခင်ဗျာ။**\n\n` +
+        `⚡ **Sprint Access:** 7 ရက် တိတိ အသုံးပြုနိုင်ပါသည်\n` +
+        `အောက်ပါ **1-Click Magic Link** ကို နှိပ်ပြီး Google Account ဖြင့် Sign In ပြုလုပ်ရုံဖြင့် VIP Modules အားလုံး ချက်ချင်း ပွင့်သွားပါမည်:\n\n` +
+        `👉 **1-Click Activate Link:**\n` +
+        `${voucher.magicLink}\n\n` +
+        `👑 **Unlocked Privileges:**\n` +
+        `• All 23 Cambridge Reading CBT Tests + TFNG Decisive Arbiter\n` +
+        `• Live Band Surgery (5.5 ➔ 8.5+) & 18 Deadly Cliche Trap X-Ray\n` +
+        `• 12 Cambridge Themes Argument Matrix (Pro/Con/Thesis)\n` +
+        `• All 40 Band 8.5/9.0 Writing Models & CEFR 90/10 AI Evaluator\n` +
+        `• All 30 Speaking Topics + 60s Cue Card Lifeline & Speech Diagnostics 2.0\n` +
+        `• All 1,162 Vocabulary Items + 117 Burmese Culinary Lexicon\n` +
+        `• Cambridge 4-Axis Radar & 1-Click Night-Before Exam Cheat Sheet PDF\n` +
+        `• Obsidian & Gold Fellow Prestige Theme, Infinite Hearts & 2x XP Multiplier\n` +
+        `• Unlimited Academic AI Tools (/collocate, /syn, /read, /dict, /quote)\n\n` +
+        `_(Website တွင် ကိုယ်တိုင် Code ရိုက်ထည့်လိုပါက Voucher Code: \`${voucher.code}\` ဖြစ်ပါသည်)_\n\n` +
+        `IELTS Prep Studio ဖြင့် အောင်မြင်သော ရလဒ်ကောင်းများ ပိုင်ဆိုင်နိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းအပ်ပါသည်။`
+        :
         `🎉 **Congratulations! သင်၏ Lifetime Studio VIP Pass အား အတည်ပြုပြီးပါပြီခင်ဗျာ။**\n\n` +
+        `✨ **Access:** သက်တမ်း အကန့်အသတ်မရှိ (Permanent Lifetime)\n` +
         `အောက်ပါ **1-Click Magic Link** ကို နှိပ်ပြီး Google Account ဖြင့် Sign In ပြုလုပ်ရုံဖြင့် VIP Modules အားလုံး ချက်ချင်း ပွင့်သွားပါမည်:\n\n` +
         `👉 **1-Click Activate Link:**\n` +
         `${voucher.magicLink}\n\n` +
@@ -842,7 +898,7 @@ bot.on('callback_query:data', async (ctx) => {
             .webApp('🚀 Open & Activate in Telegram', voucher.magicLink)
             .url('💻 Open on Computer ↗', voucher.magicLink)
         });
-        await ctx.answerCallbackQuery({ text: `✓ Pass Issued: ${voucher.code}` });
+        await ctx.answerCallbackQuery({ text: `✓ ${isSprint ? '7-Day Sprint' : 'Lifetime'} Pass Issued: ${voucher.code}` });
       } catch (err) {
         console.error('[Student Delivery Error]:', err.message);
         await ctx.answerCallbackQuery({ text: `⚠️ Approved, but failed to message student directly.` });
@@ -2236,6 +2292,7 @@ async function handleCloze(ctx, topic) {
 
   return ctx.reply(messageText, {
     parse_mode: 'Markdown',
+    disable_web_page_preview: true,
     reply_markup: new InlineKeyboard()
       .text('👁️ Reveal Answer Key', `cloze_ans:${clozeId}`)
       .row()
@@ -2617,6 +2674,83 @@ bot.command('chart', ctx => {
   const c = ctx.message?.text?.replace(/^\/chart/i, '').trim() || '';
   handleChart(ctx, c);
 });
+bot.command('redeem', async (ctx) => {
+  const text = ctx.message?.text || '';
+  const code = text.replace(/^\/redeem\s*/i, '').trim().toUpperCase();
+  const userId = String(ctx.from?.id);
+  const fullName = (ctx.from?.first_name || '') + (ctx.from?.last_name ? ` ${ctx.from.last_name}` : '') || 'Scholar';
+
+  if (!code) {
+    return ctx.reply('🎟️ *Please provide a voucher code.*\n\nUsage: `/redeem IPS-SPRINT-701` or `/redeem IPS-VIP-101`', { parse_mode: 'Markdown' });
+  }
+
+  const isChecksumValid = (typeof verifyVoucherChecksum === 'function') ? verifyVoucherChecksum(code) : false;
+  let voucher = voucherPool.vouchers.find(v => v.code === code);
+  const isSprint = code.includes('SPRINT') || (voucher && voucher.plan === 'sprint');
+
+  if (!voucher && !isChecksumValid) {
+    return ctx.reply(`❌ *Invalid voucher code:* \`${code}\`\n\nPlease check your code or contact @hyuguo.`, { parse_mode: 'Markdown' });
+  }
+
+  if (voucher && voucher.status === 'Issued' && String(voucher.telegramId) !== userId) {
+    return ctx.reply('❌ *This voucher code has already been redeemed.*\n\nPlease contact @hyuguo if you need help with your pass.', { parse_mode: 'Markdown' });
+  }
+
+  if (!voucher) {
+    voucher = {
+      code,
+      plan: isSprint ? 'sprint' : 'lifetime',
+      name: isSprint ? '7-Day Sprint Pass' : 'Lifetime Studio Pass',
+      price: isSprint ? '5,000 MMK' : '97,000 MMK',
+      status: 'Issued',
+      magicLink: `${WEB_URL}/?redeem=${code}`,
+      issuedTo: fullName,
+      issuedAt: new Date().toISOString(),
+      telegramId: userId,
+      telegramHandle: ctx.from?.username ? `@${ctx.from.username}` : fullName
+    };
+    voucherPool.vouchers.push(voucher);
+    voucherPool.saveState();
+  } else {
+    voucher.status = 'Issued';
+    voucher.issuedTo = fullName;
+    voucher.telegramId = userId;
+    voucher.telegramHandle = ctx.from?.username ? `@${ctx.from.username}` : fullName;
+    voucher.issuedAt = new Date().toISOString();
+    voucherPool.saveState();
+  }
+
+  const successMsg = isSprint ?
+`🎉 *7-DAY SPRINT VIP PASS ACTIVATED!*
+━━━━━━━━━━━━━━━━━━━━
+Code \`${code}\` successfully applied to your account!
+
+⚡ *Sprint Access:* Active for 7 full days
+✨ *Unlocked Features:*
+• All 23 Cambridge Reading CBT Passages
+• All 40 Band 9 Writing Models + Evaluator
+• 1,162 Academic Lexicon Items & SRS Traps
+• Unlimited AI Academic Tools & Speaking Drills
+
+Tap below to start your 7-day preparation sprint:`
+:
+`👑 *LIFETIME VIP PASS ACTIVATED!*
+━━━━━━━━━━━━━━━━━━━━
+Code \`${code}\` successfully applied to your account!
+
+✨ *Access:* Permanent Lifetime (Never Expires)
+All Cambridge CBTs, Writing Models, 1,162 Vocabulary items, and Unlimited Academic AI Tools are unlocked forever!
+
+Tap below to launch the studio:`;
+
+  await ctx.reply(successMsg, {
+    parse_mode: 'Markdown',
+    reply_markup: new InlineKeyboard()
+      .webApp('🚀 Launch IELTS Prep Studio', voucher.magicLink)
+      .url('💻 Open on Computer ↗', voucher.magicLink)
+  });
+});
+
 bot.command('podcast', ctx => {
   const q = ctx.message?.text?.replace(/^\/podcast/i, '').trim() || '';
   handlePodcast(ctx, q);
