@@ -11706,7 +11706,8 @@ window.applyTelegramSafeAreas = function() {
 };
 
 window.openTmaInBrowser = function(url) {
-  const target = url || "https://hugokami.github.io/ielts-prep-studio/";
+  const currentOrigin = (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin !== "null" && window.location.protocol.startsWith("http")) ? (window.location.origin + window.location.pathname) : "https://hugokami.github.io/ielts-prep-studio/";
+  const target = url || currentOrigin;
   if (window.StorageManager && typeof window.StorageManager.openSystemBrowser === "function") {
     window.StorageManager.openSystemBrowser(target);
     return;
@@ -19522,7 +19523,7 @@ function isTelegramMiniApp() {
 }
 
 function openStudioInExternalBrowser(targetTab = 'aichat') {
-  let base = 'https://hugokami.github.io/ielts-prep-studio/';
+  let base = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null' && window.location.protocol.startsWith('http')) ? (window.location.origin + window.location.pathname) : 'https://hugokami.github.io/ielts-prep-studio/';
   const params = new URLSearchParams();
   if (targetTab) params.set('tab', targetTab);
 

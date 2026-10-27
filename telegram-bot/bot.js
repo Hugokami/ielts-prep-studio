@@ -27,7 +27,7 @@ const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID ? String(process.env.ADMIN_CHAT_
 const PAYMENT_PHONE = process.env.PAYMENT_PHONE || '09-768691939';
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME || 'Lyan Htet';
 const PRICE_MMK = process.env.PRICE_MMK || '97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)';
-const WEB_URL = process.env.STUDIO_WEB_URL || 'https://hugokami.github.io/ielts-prep-studio';
+const WEB_URL = process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio-olive.vercel.app';
 
 function getLaunchUrl(userId = null, voucher = null) {
   const base = WEB_URL.replace(/\/+$/, '');
@@ -1124,7 +1124,7 @@ bot.on('callback_query:data', async (ctx) => {
     const keyboard = new InlineKeyboard()
       .text('🧠 Try Another Drill', 'cmd_quiz')
       .row()
-      .webApp('⚡ Open Studio Mini App', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev');
+      .webApp('⚡ Open Studio Mini App', WEB_URL);
 
     await ctx.reply(reply, { parse_mode: 'Markdown', reply_markup: keyboard });
     return;
@@ -2504,7 +2504,7 @@ When any student opens the app using your referral link, *BOTH OF YOU instantly 
   const keyboard = new InlineKeyboard()
     .url('📤 Share Link via Telegram', `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Join IELTS Prep Studio for Cambridge CBT mocks, Band 8.5 Collocations & AI writing diagnostics! Use my invite link to get +7 Days Free VIP Access:")}`)
     .row()
-    .webApp('🚀 Open Studio Mini App', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev');
+    .webApp('🚀 Open Studio Mini App', WEB_URL);
 
   await ctx.reply(inviteMsg, { parse_mode: 'Markdown', reply_markup: keyboard });
 }
@@ -2519,7 +2519,7 @@ IELTS examiners report that candidates studying *25 minutes daily* achieve Band 
 Complete today's 4 prescribed drills in the Mini App to extend your streak!`;
 
   const keyboard = new InlineKeyboard()
-    .webApp('⚡ Launch Today\'s 25-Min Circuit', process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio.pages.dev')
+    .webApp('⚡ Launch Today\'s 25-Min Circuit', WEB_URL)
     .row()
     .text('🧠 3-Question Daily Quiz', 'cmd_quiz');
 

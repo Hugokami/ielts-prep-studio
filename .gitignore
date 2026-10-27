@@ -35,3 +35,6 @@ scripts/mint-vouchers.cjs
 telegram-bot/voucherPool.js
 telegram-bot/vouchers_state.json
 telegram-bot/slips_state.json
+.vercel
+
+.vercel

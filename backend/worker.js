@@ -1316,7 +1316,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
           inline_keyboard: [
             [{ text: "💬 Chat with Lead Instructor (@hyuguo)", url: "https://t.me/hyuguo" }],
             [{ text: "⚡ VIP Academic Tools", callback_data: "menu_tools" }],
-            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
           ]
         });
         return jsonResponse({ ok: true });
@@ -1339,7 +1339,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 
       await sendTelegramMessage(botToken, chatId, payMsg, {
         inline_keyboard: [
-          [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+          [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
           [{ text: "💬 Contact Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });
@@ -1360,7 +1360,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
       await sendTelegramMessage(botToken, chatId, tipMsg, {
         inline_keyboard: [
           [{ text: "💡 Next Band 9 Tip ⏭️", callback_data: `tip:${tipData.nextIndex}` }],
-          [{ text: "🚀 Practice in Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          [{ text: "🚀 Practice in Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -1411,7 +1411,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 
       await sendTelegramMessage(botToken, chatId, profileMsg, {
         inline_keyboard: [
-          [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+          [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
           [{ text: "💬 Chat with Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
         ]
       });
@@ -1436,12 +1436,12 @@ Choose a module below to inspect full syllabus details, practice questions, and 
 • CEFR 90/10 Evaluator ဖြင့် သင့်စာစီစာကုံး၏ Vocabulary level ကို တိုင်းတာပါ။
 
 4️⃣ *Computer / Laptop တွင် အသုံးပြုနည်း:*
-• ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} ကို Desktop Chrome / Edge တွင် ဖွင့်ပါ။
+• ${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/"} ကို Desktop Chrome / Edge တွင် ဖွင့်ပါ။
 • Telegram Login (သို့) VIP Desktop Voucher Code ဖြင့် အကောင့်ကို ချိတ်ဆက်ပါ။`;
 
       await sendTelegramMessage(botToken, chatId, helpMsg, {
         inline_keyboard: [
-          [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+          [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
           [{ text: "💡 Band 9 Tip of the Day", callback_data: "next_tip" }]
         ]
       });
@@ -1738,7 +1738,7 @@ _🔑 BYOK Vision (${visionResult.model}) • Cambridge AI Core_`,
             {
               inline_keyboard: [
                 [{ text: "🤖 Ask Follow-up Question", callback_data: "prompt_tool:ai" }],
-                [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+                [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
                 [{ text: "👑 Submit as VIP Payment Slip instead", callback_data: `slip_submit:${fileId}` }]
               ]
             }
@@ -1765,7 +1765,7 @@ Tap the button below to submit this screenshot to Admin for Lifetime VIP activat
             [{ text: "🔑 create your api key here(100% free) ↗", url: "https://aistudio.google.com/api-keys" }],
             [{ text: "⚙️ How to Set Free BYOK Key", callback_data: "byok_setup" }],
             [{ text: "👑 Submit as VIP Payment Slip (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))", callback_data: `slip_submit:${fileId}` }],
-            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
           ]
         }
       );
@@ -2216,7 +2216,7 @@ _One-Time Investment • Lifetime Access • Zero Subscriptions_
         inline_keyboard: [
           [{ text: "🇲🇲 KBZPay / WavePay Slip (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint) — Myanmar)", callback_data: "info_payment" }],
           [{ text: "⭐️ Pay with Telegram Stars (750 ★ Instant Worldwide)", callback_data: "pay_stars" }],
-          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
         ]
       });
       return jsonResponse({ ok: true });
@@ -2246,7 +2246,7 @@ No payment is required.
         if (cbMessageId) {
           await editTelegramMessageText(botToken, cbChatId, cbMessageId, activeMsg, {
             inline_keyboard: [
-              [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+              [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
               [{ text: "⚡ VIP Academic Tools", callback_data: "menu_tools" }],
               [{ text: "💬 Chat with Lead Instructor (@hyuguo)", url: "https://t.me/hyuguo" }]
             ]
@@ -2297,12 +2297,12 @@ No payment is required.
 • ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /dict, /read)
 
 💻 *Desktop PC Access:*
-Open ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"} on computer and log in with Telegram!`;
+Open ${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/"} on computer and log in with Telegram!`;
 
       if (cbMessageId) {
         await editTelegramMessageText(botToken, cbChatId, cbMessageId, statusMsg, {
           inline_keyboard: [
-            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+            [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
             [{ text: "📚 View Curriculum Syllabus", callback_data: "mod_catalog_back" }],
             [
               { text: "⚡ VIP Academic Tools", callback_data: "menu_tools" },
@@ -2347,7 +2347,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
         await editTelegramMessageText(botToken, cbChatId, cbMessageId, tipMsg, {
           inline_keyboard: [
             [{ text: "💡 Next Band 9 Tip ⏭️", callback_data: `tip:${tipData.nextIndex}` }],
-            [{ text: "🚀 Practice in Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            [{ text: "🚀 Practice in Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
           ]
         });
       }
@@ -2373,7 +2373,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
           inline_keyboard: [
             [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
             [{ text: `🎯 Target Band: ${updatedUser.target_band || 7.5} (Change)`, callback_data: "target_band_menu" }],
-            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
           ]
         });
       }
@@ -2414,7 +2414,7 @@ Choose a module below to inspect full syllabus details, practice questions, and 
           inline_keyboard: [
             [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
             [{ text: `🎯 Target Band: ${band} (Change)`, callback_data: "target_band_menu" }],
-            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+            [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
           ]
         });
       }
@@ -2565,12 +2565,12 @@ All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models
 Your Personal Desktop Activation Pass:
 \`${desktopVoucher}\`
 
-Visit: ${env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/"}
+Visit: ${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/"}
 Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly!`,
           {
             inline_keyboard: [
-              [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
-              [{ text: "🌐 Open on Web Browser ↗", url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" }]
+              [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
+              [{ text: "🌐 Open on Web Browser ↗", url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" }]
             ]
           }
         );
@@ -2689,7 +2689,7 @@ ${tipData.tip.explanation}`;
 
       await sendTelegramMessage(botToken, row.telegram_id, msg, {
         inline_keyboard: [
-          [{ text: "🧠 Review SRS Cards Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+          [{ text: "🧠 Review SRS Cards Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
           [{ text: "💡 More Band 9 Tips", callback_data: `tip:${tipData.nextIndex}` }]
         ]
       });
@@ -3196,14 +3196,14 @@ async function getUserVipVoucher(env, userId) {
 }
 
 function getStudioLaunchUrl(env, userId = null, voucher = null) {
-  const base = (env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio").replace(/\/+$/, "");
+  const base = (env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app").replace(/\/+$/, "");
   const params = [];
   if (voucher) params.push(`voucher=${encodeURIComponent(voucher)}`);
   if (userId) params.push(`tg_user=${encodeURIComponent(userId)}`);
   return params.length ? `${base}/?${params.join("&")}` : `${base}/`;
 }
 
-async function registerBotCommands(botToken, studioUrl = "https://hugokami.github.io/ielts-prep-studio/") {
+async function registerBotCommands(botToken, studioUrl = "https://ielts-prep-studio-olive.vercel.app/") {
   if (!botToken) return { ok: false, error: "No bot token" };
   try {
     const resp = await fetch(`https://api.telegram.org/bot${botToken}/setMyCommands`, {
@@ -3307,7 +3307,7 @@ function getCurriculumCatalogKeyboard(env, isVip = false) {
         { text: "👑 Full Lifetime VIP", callback_data: isVip ? "vip_status" : "mod_vip" }
       ],
       [
-        { text: "🚀 Launch Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } },
+        { text: "🚀 Launch Mini App", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } },
         ctaButton
       ]
     ]
@@ -3321,7 +3321,7 @@ function getModuleKeyboard(moduleId, env, isVip = false) {
   return {
     inline_keyboard: [
       topButton,
-      [{ text: "🚀 Open in IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }],
+      [{ text: "🚀 Open in IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
       [
         { text: "◀️ Back to Curriculum", callback_data: "mod_catalog_back" },
         { text: "⚡ VIP Tools", callback_data: "menu_tools" }
@@ -3740,7 +3740,7 @@ async function handleExamCountdown(chatId, userId, dateArg, env, botToken) {
     inline_keyboard: [
       [{ text: "✏️ Change Exam Date", callback_data: "reset_exam_prompt" }],
       [{ text: `🎯 Target Band: ${user && user.target_band ? user.target_band : 7.5} (Change)`, callback_data: "target_band_menu" }],
-      [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      [{ text: "🚀 Launch Studio Now", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
     ]
   });
 }
@@ -3784,7 +3784,7 @@ async function handleAdminBroadcast(chatId, adminId, text, env, botToken) {
     try {
       const resp = await sendTelegramMessage(botToken, user.telegram_id, `📢 *ANNOUNCEMENT FROM IELTS PREP STUDIO*\n━━━━━━━━━━━━━━━━━━━━\n${broadcastMsg}\n\n_— IELTS Prep Studio Academic Team_`, {
         inline_keyboard: [
-          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+          [{ text: "🚀 Open IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
         ]
       });
       if (resp && resp.ok) sent++;
@@ -4728,7 +4728,7 @@ function getQuotaExceededKeyboard(env) {
   return {
     inline_keyboard: [
       [{ text: "⭐ Upgrade to Lifetime VIP (97,000 Ks (Lifetime) / 5,000 Ks (Sprint))", callback_data: "info_payment" }],
-      [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
     ]
   };
 }
@@ -4961,7 +4961,7 @@ ${formatQuotaFooter(quota)}`;
       ],
       [
         { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
-        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }
       ]
     ]
   });
@@ -5017,7 +5017,7 @@ ${formatQuotaFooter(quota)}`;
       ],
       [
         { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
-        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }
       ]
     ]
   });
@@ -5084,7 +5084,7 @@ ${formatQuotaFooter(quota)}`;
   ]);
   buttons.push([
     { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
-    { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+    { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }
   ]);
 
   await sendTelegramMessage(botToken, chatId, text, { inline_keyboard: buttons });
@@ -5134,7 +5134,7 @@ ${pageText}
       ],
       [
         { text: "⚡ VIP Academic Menu", callback_data: "menu_tools" },
-        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }
+        { text: "🚀 Open Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }
       ]
     ]
   };
@@ -5213,7 +5213,7 @@ ${formatQuotaFooter(quota)}`;
   await sendTelegramMessage(botToken, chatId, text, {
     inline_keyboard: [
       [{ text: "🔄 Another Quote ⏭️", callback_data: "tool_quote" }],
-      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
     ]
   });
 }
@@ -5240,7 +5240,7 @@ async function handlePaperCommand(chatId, userId, topic, env, botToken) {
     const text = `🔬 *Peer-Reviewed Study (${work.publication_year || 2025})*\n*Title:* ${work.title}\n*Citations:* ${work.cited_by_count || 0}\n\n${abstract}...\n\n${formatQuotaFooter(quota)}`;
     await sendTelegramMessage(botToken, chatId, text, {
       inline_keyboard: [
-        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
       ]
     });
   } catch (e) {
@@ -5268,7 +5268,7 @@ async function handleChartCommand(chatId, userId, country, env, botToken) {
     const text = `📊 *Writing Task 1 Live Data (${rows[0].country.value})*\n*Indicator:* Internet Users (% of Population)\n\n${lines}\n\n_Write a 2-sentence overview comparing the trend from ${rows[rows.length - 1].date} to ${rows[0].date}._\n\n${formatQuotaFooter(quota)}`;
     await sendTelegramMessage(botToken, chatId, text, {
       inline_keyboard: [
-        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/" } }]
+        [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }, { text: "🚀 Launch Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }]
       ]
     });
   } catch (e) {
@@ -5425,7 +5425,7 @@ async function handleClozeCommand(chatId, userId, topic, env, botToken) {
     answerKey = answers.join("\n");
   }
 
-  const launchUrl = env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/";
+  const launchUrl = env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/";
   const text =
 `📖 *FULL SCHOLARLY ARTICLE CLOZE DRILL*
 ━━━━━━━━━━━━━━━━━━━━
@@ -5543,7 +5543,7 @@ async function handlePodcastCommand(chatId, userId, query, env, botToken) {
     mp3Url = fallback.audioUrl;
   }
 
-  const launchUrl = env.STUDIO_WEB_URL || "https://hugokami.github.io/ielts-prep-studio/";
+  const launchUrl = env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/";
   const text =
 `🎙️ *NATIVE PODCAST AUDIO STREAM*
 ━━━━━━━━━━━━━━━━━━━━
