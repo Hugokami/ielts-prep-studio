@@ -1,0 +1,262 @@
+[
+  {
+    "id": "cefr_1",
+    "level": "B1",
+    "bandRange": "Band 4.5 - 5.0",
+    "question": "We bought some new gym _______ last week.",
+    "options": [
+      "equipment",
+      "equipments"
+    ],
+    "answer": "equipment",
+    "rationale": "'Equipment' is an uncountable noun in English and never takes a plural '-s'.",
+    "rationaleMm": "'Equipment' သည် ရေတွက်မရသော နာမ် (uncountable noun) ဖြစ်၍ 's' ပေါင်းစရာမလိုပါ။"
+  },
+  {
+    "id": "cefr_2",
+    "level": "B1",
+    "bandRange": "Band 4.5 - 5.0",
+    "question": "I write my daily thoughts in my _______ .",
+    "options": [
+      "diary",
+      "dairy"
+    ],
+    "answer": "diary",
+    "rationale": "'Diary' is a daily record of personal thoughts/events; 'dairy' relates to milk and milk products.",
+    "rationaleMm": "'Diary' (ဒိုင်ယာရီမှတ်တမ်း) နှင့် 'Dairy' (နို့ထွက်ပစ္စည်း) ကို ခွဲခြားအသုံးပြုရပါမည်။"
+  },
+  {
+    "id": "cefr_3",
+    "level": "B1",
+    "bandRange": "Band 4.5 - 5.0",
+    "question": "She made a chocolate _______ for dinner.",
+    "options": [
+      "desert",
+      "dessert"
+    ],
+    "answer": "dessert",
+    "rationale": "'Dessert' (with double 's') is a sweet dish eaten after dinner; 'desert' is an arid dry land.",
+    "rationaleMm": "'Dessert' (အချိုပွဲ) သည် 's' နှစ်လုံးဖြစ်ပြီး 'Desert' (သဲကန္တာရ) နှင့် ကွဲပြားပါသည်။"
+  },
+  {
+    "id": "cefr_4",
+    "level": "B1",
+    "bandRange": "Band 4.5 - 5.0",
+    "question": "The football team hired a new _______ .",
+    "options": [
+      "coach",
+      "couch"
+    ],
+    "answer": "coach",
+    "rationale": "'Coach' is a sports trainer/instructor; 'couch' is a sofa for sitting or lying on.",
+    "rationaleMm": "'Coach' (နည်းပြ) ဖြစ်ပြီး 'Couch' (ဆိုဖာထိုင်ခုံ) မဟုတ်ပါ။"
+  },
+  {
+    "id": "cefr_5",
+    "level": "B1",
+    "bandRange": "Band 4.5 - 5.0",
+    "question": "That building is a famous tourist _______ .",
+    "options": [
+      "sight",
+      "site"
+    ],
+    "answer": "site",
+    "rationale": "'Tourist site' refers to a location or venue visited by tourists; 'sight' is the ability to see or a visible view.",
+    "rationaleMm": "ခရီးသွားလည်ပတ်ရာ နေရာဒေသကို ရည်ညွှန်းလိုလျှင် 'Tourist site' ကို သုံးရပါမည်။"
+  },
+  {
+    "id": "cefr_6",
+    "level": "B2",
+    "bandRange": "Band 5.5 - 6.5",
+    "question": "I saw _______ in the sky last night.",
+    "options": [
+      "lighting",
+      "lightning"
+    ],
+    "answer": "lightning",
+    "rationale": "'Lightning' is the electrical flash in thunderstorms; 'lighting' is artificial room or stage illumination.",
+    "rationaleMm": "မိုးကြိုးလျှပ်စီးကို 'lightning' ဟု ခေါ်ပြီး 'lighting' မှာ မီးထွန်းညှိခြင်းကို ဆိုလိုပါသည်။"
+  },
+  {
+    "id": "cefr_7",
+    "level": "B2",
+    "bandRange": "Band 5.5 - 6.5",
+    "question": "There is a water _______ in this region.",
+    "options": [
+      "shortage",
+      "deficiency"
+    ],
+    "answer": "shortage",
+    "rationale": "'Shortage' is used for insufficient physical supplies (water, food, housing); 'deficiency' is used for medical/nutritional lack.",
+    "rationaleMm": "ပစ္စည်း၊ ရေ၊ လျှပ်စစ် ပြတ်လပ်မှုအတွက် 'shortage' ကို သုံးပြီး အာဟာရချို့တဲ့မှုအတွက် 'deficiency' ကို သုံးပါသည်။"
+  },
+  {
+    "id": "cefr_8",
+    "level": "B2",
+    "bandRange": "Band 5.5 - 6.5",
+    "question": "He suffers from a vitamin _______ .",
+    "options": [
+      "shortage",
+      "deficiency"
+    ],
+    "answer": "deficiency",
+    "rationale": "'Vitamin deficiency' is the established medical collocation for lack of vitamins in the body.",
+    "rationaleMm": "ဗီတာမင်ချို့တဲ့မှုအတွက် 'Vitamin deficiency' ဟူသော collocation ကို သုံးရပါမည်။"
+  },
+  {
+    "id": "cefr_9",
+    "level": "B2",
+    "bandRange": "Band 5.5 - 6.5",
+    "question": "The country is facing serious _______ problems.",
+    "options": [
+      "economic",
+      "economical"
+    ],
+    "answer": "economic",
+    "rationale": "'Economic' refers to the economy and monetary system; 'economical' means thrifty, budget-friendly, or cost-saving.",
+    "rationaleMm": "'Economic' (စီးပွားရေးဆိုင်ရာ) ဖြစ်ပြီး 'Economical' (ငွေကုန်ကြေးကျသက်သာသော) နှင့် မတူပါ။"
+  },
+  {
+    "id": "cefr_10",
+    "level": "B2",
+    "bandRange": "Band 5.5 - 6.5",
+    "question": "The _______ officer made the final decision.",
+    "options": [
+      "chief",
+      "chef"
+    ],
+    "answer": "chief",
+    "rationale": "'Chief officer' means leader or head of an organisation (e.g. CEO); 'chef' is a professional cook.",
+    "rationaleMm": "'Chief officer' (အကြီးအကဲ) ဖြစ်ပြီး 'Chef' (စားဖိုမှူး) မဟုတ်ပါ။"
+  },
+  {
+    "id": "cefr_11",
+    "level": "C1",
+    "bandRange": "Band 7.0 - 8.0",
+    "question": "Classes will _______ next Monday.",
+    "options": [
+      "resign",
+      "resume"
+    ],
+    "answer": "resume",
+    "rationale": "'Resume' means to restart or begin again after an interruption; 'resign' means to voluntarily leave a job.",
+    "rationaleMm": "'Resume' (ပြန်လည်စတင်သည်) ဖြစ်ပြီး 'Resign' (ရာထူးမှနုတ်ထွက်သည်) နှင့် ကွဲပြားပါသည်။"
+  },
+  {
+    "id": "cefr_12",
+    "level": "C1",
+    "bandRange": "Band 7.0 - 8.0",
+    "question": "His speech had a _______ impact on everyone in the room.",
+    "options": [
+      "deep",
+      "profound"
+    ],
+    "answer": "profound",
+    "rationale": "'Profound impact' is a high-level C1 academic collocation expressing deep emotional or intellectual resonance.",
+    "rationaleMm": "အလေးအနက် သက်ရောက်မှုအတွက် Band 7+ Collocation ဖြစ်သော 'Profound impact' ကို သုံးရပါမည်။"
+  },
+  {
+    "id": "cefr_13",
+    "level": "C1",
+    "bandRange": "Band 7.0 - 8.0",
+    "question": "The city built a _______ in the park to remember the soldiers who died in the war.",
+    "options": [
+      "statue",
+      "monument"
+    ],
+    "answer": "monument",
+    "rationale": "'Monument' is specifically a structure commemorating persons or historic events; 'statue' is merely a carved sculpture.",
+    "rationaleMm": "စစ်ပွဲတွင် ကျဆုံးသွားသော စစ်သည်များကို ဂုဏ်ပြုအောက်မေ့သည့် အထိမ်းအမှတ် အဆောက်အအုံကို 'Monument' ဟု ခေါ်ပါသည်။"
+  },
+  {
+    "id": "cefr_14",
+    "level": "C1",
+    "bandRange": "Band 7.0 - 8.0",
+    "question": "A situation in which people suffer from extreme hunger is called \"_______ \".",
+    "options": [
+      "malnutrition",
+      "famine"
+    ],
+    "answer": "famine",
+    "rationale": "'Famine' is widespread acute scarcity of food; 'malnutrition' is poor health caused by lack of proper diet.",
+    "rationaleMm": "လူထုတစ်ရပ်လုံး ပြင်းထန်စွာ အငတ်ဘေးကြုံတွေ့ရခြင်းကို 'Famine' ဟု သုံးပါသည်။"
+  },
+  {
+    "id": "cefr_15",
+    "level": "C1",
+    "bandRange": "Band 7.0 - 8.0",
+    "question": "What does \"it is not uncommon\" mean?",
+    "options": [
+      "occasional / fairly common",
+      "very rare"
+    ],
+    "answer": "occasional / fairly common",
+    "rationale": "Litotes construction: 'not uncommon' is a double negative meaning it happens fairly often or is relatively common.",
+    "rationaleMm": "အနုတ်သဘောနှစ်ခု ပေါင်းစပ်ထားသော Litotes ဖြစ်ပြီး 'မဖြစ်ခဲပါ / မကြာခဏဖြစ်လေ့ရှိသည်' ဟု အဓိပ္ပာယ်ရပါသည်။"
+  },
+  {
+    "id": "cefr_16",
+    "level": "C2",
+    "bandRange": "Band 8.5 - 9.0",
+    "question": "Are you _______ that I'm lying?",
+    "options": [
+      "inferring",
+      "implying"
+    ],
+    "answer": "implying",
+    "rationale": "The speaker implies (hints/suggests); the listener infers (deduces/concludes). The speaker here asks if the other person is hinting.",
+    "rationaleMm": "ပြောသူက အရိပ်အမြွက် ပြောကြားခြင်းဖြစ်၍ 'implying' ကို သုံးရပါမည် ('inferring' မှာ ကြားသူက ကောက်ချက်ချခြင်း ဖြစ်သည်)။"
+  },
+  {
+    "id": "cefr_17",
+    "level": "C2",
+    "bandRange": "Band 8.5 - 9.0",
+    "question": "The lawyer decided to _______ the suspect in court.",
+    "options": [
+      "persecute",
+      "prosecute"
+    ],
+    "answer": "prosecute",
+    "rationale": "'Prosecute' means to bring legal action against someone in court; 'persecute' means to harass or oppress based on race/creed.",
+    "rationaleMm": "တရားရုံးတွင် တရားစွဲဆိုခြင်းအတွက် 'Prosecute' ကို သုံးရပါမည် ('Persecute' မှာ နှိပ်စက်ညှဉ်းပန်းခြင်း ဖြစ်သည်)။"
+  },
+  {
+    "id": "cefr_18",
+    "level": "C2",
+    "bandRange": "Band 8.5 - 9.0",
+    "question": "What does \"He is nothing if not honest\" mean?",
+    "options": [
+      "He is extremely honest.",
+      "He is a big liar."
+    ],
+    "answer": "He is extremely honest.",
+    "rationale": "'Nothing if not X' is an emphatic rhetorical idiom meaning someone possesses quality X to an exceptional degree.",
+    "rationaleMm": "'Nothing if not [Adj]' သည် အဆိုပါ အရည်အသွေး ထူးကဲစွာ ရှိကြောင်း လေးနက်စေသော C2 အသုံးဖြစ်ပါသည်။"
+  },
+  {
+    "id": "cefr_19",
+    "level": "C2",
+    "bandRange": "Band 8.5 - 9.0",
+    "question": "What does this phrase mean? \"I couldn't care less\".",
+    "options": [
+      "I don't care at all",
+      "It matters a lot to me"
+    ],
+    "answer": "I don't care at all",
+    "rationale": "'I couldn't care less' means my care level is at absolute zero, so it is impossible to care any less.",
+    "rationaleMm": "'ငါ လုံးဝ စိတ်မဝင်စားပါ / လုံးဝ ဂရုမစိုက်ပါ' ဟု အဓိပ္ပာယ်ရပါသည်။"
+  },
+  {
+    "id": "cefr_20",
+    "level": "C2",
+    "bandRange": "Band 8.5 - 9.0",
+    "question": "He was fined for creating _______ money.",
+    "options": [
+      "hollow",
+      "counterfeit"
+    ],
+    "answer": "counterfeit",
+    "rationale": "'Counterfeit money' is the exact legal collocation for forged or fake banknotes made with intent to deceive.",
+    "rationaleMm": "ငွေစက္ကူအတု ပြုလုပ်ခြင်းအတွက် 'Counterfeit money' ဟူသော တရားဝင် collocation ကို သုံးရပါမည်။"
+  }
+]

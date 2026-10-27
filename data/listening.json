@@ -5987,1095 +5987,1811 @@
   {
     "id": "cbt_listening_11",
     "title": "Cambridge Authentic Listening Mock 11 (Test 15)",
-    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "subtitle": "4 Sections · 40 Questions · Real Audio Stream · Official Scoring",
     "duration_minutes": 30,
     "source": "Cambridge IELTS Academic Master Series",
     "sections": [
       {
         "section": 1,
-        "title": "Section 1: Cambridge Authentic Listening Section 1",
-        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 1: Section 1",
+        "context": "Conversation on Everyday Social Context",
         "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 1–10: Listen and answer questions.",
+        "instructions": "Questions 1-10 Complete the notes below. Write ONE WORD AND/OR A NUMBER for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_11_1",
-            "num": 1,
-            "type": "Form/Note Completion",
-            "question": "Question 1",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 1."
+            "id": 1,
+            "local_id": 1,
+            "type": "fill",
+            "prompt": "• Company name: Hotel Chains ______",
+            "options": [],
+            "answer": "central",
+            "acceptable": [
+              "central"
+            ],
+            "explanation": "Official IELTS Answer Key: central."
           },
           {
-            "id": "q_cbt_listening_11_2",
-            "num": 2,
-            "type": "Form/Note Completion",
-            "question": "Question 2",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 2."
+            "id": 2,
+            "local_id": 2,
+            "type": "fill",
+            "prompt": "• Letters of the should be bigger. ______",
+            "options": [],
+            "answer": "address",
+            "acceptable": [
+              "address"
+            ],
+            "explanation": "Official IELTS Answer Key: address."
           },
           {
-            "id": "q_cbt_listening_11_3",
-            "num": 3,
-            "type": "Form/Note Completion",
-            "question": "Question 3",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 3."
+            "id": 3,
+            "local_id": 3,
+            "type": "fill",
+            "prompt": "• The information of the should be removed. ______",
+            "options": [],
+            "answer": "pool",
+            "acceptable": [
+              "pool"
+            ],
+            "explanation": "Official IELTS Answer Key: pool."
           },
           {
-            "id": "q_cbt_listening_11_4",
-            "num": 4,
-            "type": "Form/Note Completion",
-            "question": "Question 4",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 4."
+            "id": 4,
+            "local_id": 4,
+            "type": "fill",
+            "prompt": "• Change the description under the top photo to ______",
+            "options": [],
+            "answer": "reception",
+            "acceptable": [
+              "reception"
+            ],
+            "explanation": "Official IELTS Answer Key: reception."
           },
           {
-            "id": "q_cbt_listening_11_5",
-            "num": 5,
-            "type": "Form/Note Completion",
-            "question": "Question 5",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 5."
+            "id": 5,
+            "local_id": 5,
+            "type": "fill",
+            "prompt": "• Use the picture with the of the hotel. ______",
+            "options": [],
+            "answer": "view",
+            "acceptable": [
+              "view"
+            ],
+            "explanation": "Official IELTS Answer Key: view."
           },
           {
-            "id": "q_cbt_listening_11_6",
-            "num": 6,
-            "type": "Form/Note Completion",
-            "question": "Question 6",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 6."
+            "id": 6,
+            "local_id": 6,
+            "type": "fill",
+            "prompt": "• The should be in red print. ______",
+            "options": [],
+            "answer": "price",
+            "acceptable": [
+              "price",
+              "prices"
+            ],
+            "explanation": "Official IELTS Answer Key: price."
           },
           {
-            "id": "q_cbt_listening_11_7",
-            "num": 7,
-            "type": "Form/Note Completion",
-            "question": "Question 7",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 7."
+            "id": 7,
+            "local_id": 7,
+            "type": "fill",
+            "prompt": "• Translate into ______",
+            "options": [],
+            "answer": "spanish",
+            "acceptable": [
+              "spanish"
+            ],
+            "explanation": "Official IELTS Answer Key: spanish."
           },
           {
-            "id": "q_cbt_listening_11_8",
-            "num": 8,
-            "type": "Form/Note Completion",
-            "question": "Question 8",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 8."
+            "id": 8,
+            "local_id": 8,
+            "type": "fill",
+            "prompt": "• Deadline: by the end of ______",
+            "options": [],
+            "answer": "july",
+            "acceptable": [
+              "july"
+            ],
+            "explanation": "Official IELTS Answer Key: july."
           },
           {
-            "id": "q_cbt_listening_11_9",
-            "num": 9,
-            "type": "Form/Note Completion",
-            "question": "Question 9",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 9."
+            "id": 9,
+            "local_id": 9,
+            "type": "fill",
+            "prompt": "• Address: No. Green Drive, , NY21300 ______",
+            "options": [],
+            "answer": "903036602",
+            "acceptable": [
+              "903036602"
+            ],
+            "explanation": "Official IELTS Answer Key: 903036602."
           },
           {
-            "id": "q_cbt_listening_11_10",
-            "num": 10,
-            "type": "Form/Note Completion",
-            "question": "Question 10",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 10."
+            "id": 10,
+            "local_id": 10,
+            "type": "fill",
+            "prompt": "• Address: No. Green Drive, , NY21300 ______",
+            "options": [],
+            "answer": "cliffton",
+            "acceptable": [
+              "cliffton"
+            ],
+            "explanation": "Official IELTS Answer Key: cliffton."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 2,
-        "title": "Section 2: Cambridge Authentic Listening Section 2",
-        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 2: Section 2",
+        "context": "Monologue on General Interest / Public Orientation",
         "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 11–20: Listen and answer questions.",
+        "instructions": "Questions 11-15 Choose the correct option. Questions 16-20 Choose FIVE answers from the box and write the correct letter next to Questions 16-20.",
         "questions": [
           {
-            "id": "q_cbt_listening_11_11",
-            "num": 11,
-            "type": "Form/Note Completion",
-            "question": "Question 11",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 11."
+            "id": 11,
+            "local_id": 11,
+            "type": "mcq",
+            "prompt": "Questions 11-15",
+            "options": [
+              "Because it is quite comfortable.",
+              "Because it provides ski and snowboard equipment rentals.",
+              "Because it has health and sports club."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_12",
-            "num": 12,
-            "type": "Form/Note Completion",
-            "question": "Question 12",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 12."
+            "id": 12,
+            "local_id": 12,
+            "type": "mcq",
+            "prompt": "Questions 11-15",
+            "options": [
+              "photos of top ski resorts worldwide",
+              "ski equipment",
+              "computer simulation"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_11_13",
-            "num": 13,
-            "type": "Form/Note Completion",
-            "question": "Question 13",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 13."
+            "id": 13,
+            "local_id": 13,
+            "type": "mcq",
+            "prompt": "Questions 11-15",
+            "options": [
+              "They can send emails to the committee.",
+              "They can fill out the back of the entrance ticket.",
+              "They can check out the exhibition newsletter"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_11_14",
-            "num": 14,
-            "type": "Form/Note Completion",
-            "question": "Question 14",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 14."
+            "id": 14,
+            "local_id": 14,
+            "type": "mcq",
+            "prompt": "Questions 11-15",
+            "options": [
+              "not enough snow",
+              "reduction in fee",
+              "the decline of participants"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_11_15",
-            "num": 15,
-            "type": "Form/Note Completion",
-            "question": "Question 15",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 15."
+            "id": 15,
+            "local_id": 15,
+            "type": "mcq",
+            "prompt": "Questions 11-15",
+            "options": [
+              "The instructors are quite friendly and patient.",
+              "It includes lessons and sessions that suit only beginners",
+              "It provides special offers at the moment."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_11_16",
-            "num": 16,
-            "type": "Form/Note Completion",
-            "question": "Question 16",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 16."
+            "id": 16,
+            "local_id": 16,
+            "type": "fill",
+            "prompt": "Question 16: Complete the notes",
+            "options": [],
+            "answer": "F",
+            "acceptable": [
+              "F"
+            ],
+            "explanation": "Official IELTS Answer Key: F."
           },
           {
-            "id": "q_cbt_listening_11_17",
-            "num": 17,
-            "type": "Form/Note Completion",
-            "question": "Question 17",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 17."
+            "id": 17,
+            "local_id": 17,
+            "type": "fill",
+            "prompt": "Question 17: Complete the notes",
+            "options": [],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_11_18",
-            "num": 18,
-            "type": "Form/Note Completion",
-            "question": "Question 18",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 18."
+            "id": 18,
+            "local_id": 18,
+            "type": "fill",
+            "prompt": "Question 18: Complete the notes",
+            "options": [],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_19",
-            "num": 19,
-            "type": "Form/Note Completion",
-            "question": "Question 19",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 19."
+            "id": 19,
+            "local_id": 19,
+            "type": "fill",
+            "prompt": "Question 19: Complete the notes",
+            "options": [],
+            "answer": "E",
+            "acceptable": [
+              "E"
+            ],
+            "explanation": "Official IELTS Answer Key: E."
           },
           {
-            "id": "q_cbt_listening_11_20",
-            "num": 20,
-            "type": "Form/Note Completion",
-            "question": "Question 20",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 20."
+            "id": 20,
+            "local_id": 20,
+            "type": "fill",
+            "prompt": "Question 20: Complete the notes",
+            "options": [],
+            "answer": "D",
+            "acceptable": [
+              "D"
+            ],
+            "explanation": "Official IELTS Answer Key: D."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 3,
-        "title": "Section 3: Cambridge Authentic Listening Section 3",
-        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 3: Section 3",
+        "context": "Academic Discussion / University Seminar",
         "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 21–30: Listen and answer questions.",
+        "instructions": "Questions 21-24 Choose the correct option. Questions 25-30 What are the suggestions offered by the speakers? Choose SIX answers from the box and write the correct letter next to Questions 25-30.",
         "questions": [
           {
-            "id": "q_cbt_listening_11_21",
-            "num": 21,
-            "type": "Form/Note Completion",
-            "question": "Question 21",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 21."
+            "id": 21,
+            "local_id": 21,
+            "type": "mcq",
+            "prompt": "Questions 21-24",
+            "options": [
+              "They are teenagers.",
+              "They are in their twenties",
+              "They belong to different age groups"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_11_22",
-            "num": 22,
-            "type": "Form/Note Completion",
-            "question": "Question 22",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 22."
+            "id": 22,
+            "local_id": 22,
+            "type": "mcq",
+            "prompt": "Questions 21-24",
+            "options": [
+              "It helps to improve relationship among different classmates.",
+              "It helps to develop problem solving skills.",
+              "It provides supportive learning environment."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_23",
-            "num": 23,
-            "type": "Form/Note Completion",
-            "question": "Question 23",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 23."
+            "id": 23,
+            "local_id": 23,
+            "type": "mcq",
+            "prompt": "Questions 21-24",
+            "options": [
+              "There's a number of essays to write.",
+              "There's a lot of practical work.",
+              "There's internship provided."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_24",
-            "num": 24,
-            "type": "Form/Note Completion",
-            "question": "Question 24",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 24."
+            "id": 24,
+            "local_id": 24,
+            "type": "mcq",
+            "prompt": "Questions 21-24",
+            "options": [
+              "It is essential training.",
+              "It is too theoretical.",
+              "It takes up too much time."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_25",
-            "num": 25,
-            "type": "Form/Note Completion",
-            "question": "Question 25",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 25."
+            "id": 25,
+            "local_id": 25,
+            "type": "fill",
+            "prompt": "Question 25: Complete the notes",
+            "options": [],
+            "answer": "E",
+            "acceptable": [
+              "E"
+            ],
+            "explanation": "Official IELTS Answer Key: E."
           },
           {
-            "id": "q_cbt_listening_11_26",
-            "num": 26,
-            "type": "Form/Note Completion",
-            "question": "Question 26",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 26."
+            "id": 26,
+            "local_id": 26,
+            "type": "fill",
+            "prompt": "Question 26: Complete the notes",
+            "options": [],
+            "answer": "G",
+            "acceptable": [
+              "G"
+            ],
+            "explanation": "Official IELTS Answer Key: G."
           },
           {
-            "id": "q_cbt_listening_11_27",
-            "num": 27,
-            "type": "Form/Note Completion",
-            "question": "Question 27",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 27."
+            "id": 27,
+            "local_id": 27,
+            "type": "fill",
+            "prompt": "Question 27: Complete the notes",
+            "options": [],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_11_28",
-            "num": 28,
-            "type": "Form/Note Completion",
-            "question": "Question 28",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 28."
+            "id": 28,
+            "local_id": 28,
+            "type": "fill",
+            "prompt": "Question 28: Complete the notes",
+            "options": [],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_11_29",
-            "num": 29,
-            "type": "Form/Note Completion",
-            "question": "Question 29",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 29."
+            "id": 29,
+            "local_id": 29,
+            "type": "fill",
+            "prompt": "Question 29: Complete the notes",
+            "options": [],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_11_30",
-            "num": 30,
-            "type": "Form/Note Completion",
-            "question": "Question 30",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 30."
+            "id": 30,
+            "local_id": 30,
+            "type": "fill",
+            "prompt": "Question 30: Complete the notes",
+            "options": [],
+            "answer": "H",
+            "acceptable": [
+              "H"
+            ],
+            "explanation": "Official IELTS Answer Key: H."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 4,
-        "title": "Section 4: Cambridge Authentic Listening Section 4",
-        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 4: Section 4",
+        "context": "Academic Lecture / Scientific Monologue",
         "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 31–40: Listen and answer questions.",
+        "instructions": "Questions 31-40 Complete the notes below. Write ONE WORD ONLY for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_11_31",
-            "num": 31,
-            "type": "Form/Note Completion",
-            "question": "Question 31",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 31."
+            "id": 31,
+            "local_id": 31,
+            "type": "fill",
+            "prompt": "• The of their body remains constant. ______",
+            "options": [],
+            "answer": "temperature",
+            "acceptable": [
+              "temperature"
+            ],
+            "explanation": "Official IELTS Answer Key: temperature."
           },
           {
-            "id": "q_cbt_listening_11_32",
-            "num": 32,
-            "type": "Form/Note Completion",
-            "question": "Question 32",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 32."
+            "id": 32,
+            "local_id": 32,
+            "type": "fill",
+            "prompt": "• They restrict their on land from dusk till dawn. ______",
+            "options": [],
+            "answer": "movements",
+            "acceptable": [
+              "movements"
+            ],
+            "explanation": "Official IELTS Answer Key: movements."
           },
           {
-            "id": "q_cbt_listening_11_33",
-            "num": 33,
-            "type": "Form/Note Completion",
-            "question": "Question 33",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 33."
+            "id": 33,
+            "local_id": 33,
+            "type": "fill",
+            "prompt": "• They cannot fly because they have heavy ______",
+            "options": [],
+            "answer": "bones",
+            "acceptable": [
+              "bones"
+            ],
+            "explanation": "Official IELTS Answer Key: bones."
           },
           {
-            "id": "q_cbt_listening_11_34",
-            "num": 34,
-            "type": "Form/Note Completion",
-            "question": "Question 34",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 34."
+            "id": 34,
+            "local_id": 34,
+            "type": "fill",
+            "prompt": "• They nest under ______",
+            "options": [],
+            "answer": "bushes",
+            "acceptable": [
+              "bushes"
+            ],
+            "explanation": "Official IELTS Answer Key: bushes."
           },
           {
-            "id": "q_cbt_listening_11_35",
-            "num": 35,
-            "type": "Form/Note Completion",
-            "question": "Question 35",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 35."
+            "id": 35,
+            "local_id": 35,
+            "type": "fill",
+            "prompt": "• They eat tree ______",
+            "options": [],
+            "answer": "roots",
+            "acceptable": [
+              "roots"
+            ],
+            "explanation": "Official IELTS Answer Key: roots."
           },
           {
-            "id": "q_cbt_listening_11_36",
-            "num": 36,
-            "type": "Form/Note Completion",
-            "question": "Question 36",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 36."
+            "id": 36,
+            "local_id": 36,
+            "type": "fill",
+            "prompt": "• ______",
+            "options": [],
+            "answer": "sharks",
+            "acceptable": [
+              "sharks"
+            ],
+            "explanation": "Official IELTS Answer Key: sharks."
           },
           {
-            "id": "q_cbt_listening_11_37",
-            "num": 37,
-            "type": "Form/Note Completion",
-            "question": "Question 37",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 37."
+            "id": 37,
+            "local_id": 37,
+            "type": "fill",
+            "prompt": "• seagulls (eat the penguin ) ______",
+            "options": [],
+            "answer": "chicks",
+            "acceptable": [
+              "chicks"
+            ],
+            "explanation": "Official IELTS Answer Key: chicks."
           },
           {
-            "id": "q_cbt_listening_11_38",
-            "num": 38,
-            "type": "Form/Note Completion",
-            "question": "Question 38",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 38."
+            "id": 38,
+            "local_id": 38,
+            "type": "fill",
+            "prompt": "• They lose in winter. ______",
+            "options": [],
+            "answer": "feathers",
+            "acceptable": [
+              "feathers"
+            ],
+            "explanation": "Official IELTS Answer Key: feathers."
           },
           {
-            "id": "q_cbt_listening_11_39",
-            "num": 39,
-            "type": "Form/Note Completion",
-            "question": "Question 39",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 39."
+            "id": 39,
+            "local_id": 39,
+            "type": "fill",
+            "prompt": "• They are fighting for nesting and food because of human activities ______",
+            "options": [],
+            "answer": "space",
+            "acceptable": [
+              "space",
+              "spaces"
+            ],
+            "explanation": "Official IELTS Answer Key: space."
           },
           {
-            "id": "q_cbt_listening_11_40",
-            "num": 40,
-            "type": "Form/Note Completion",
-            "question": "Question 40",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 40."
+            "id": 40,
+            "local_id": 40,
+            "type": "fill",
+            "prompt": "• In order to improve survivorship, it is helpful to increase the of their genes. ______",
+            "options": [],
+            "answer": "diversity",
+            "acceptable": [
+              "diversity"
+            ],
+            "explanation": "Official IELTS Answer Key: diversity."
           }
-        ]
+        ],
+        "transcript": ""
       }
     ]
   },
   {
     "id": "cbt_listening_12",
     "title": "Cambridge Authentic Listening Mock 12 (Test 16)",
-    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "subtitle": "4 Sections · 40 Questions · Real Audio Stream · Official Scoring",
     "duration_minutes": 30,
     "source": "Cambridge IELTS Academic Master Series",
     "sections": [
       {
         "section": 1,
-        "title": "Section 1: Cambridge Authentic Listening Section 1",
-        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 1: Section 1",
+        "context": "Conversation on Everyday Social Context",
         "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 1–10: Listen and answer questions.",
+        "instructions": "Questions 1-6 Complete the form below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer. Questions 7-10 Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_12_1",
-            "num": 1,
-            "type": "Form/Note Completion",
-            "question": "Question 1",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 1."
+            "id": 1,
+            "local_id": 1,
+            "type": "fill",
+            "prompt": "Simon ______",
+            "options": [],
+            "answer": "Anthony",
+            "acceptable": [
+              "Anthony"
+            ],
+            "explanation": "Official IELTS Answer Key: Anthony."
           },
           {
-            "id": "q_cbt_listening_12_2",
-            "num": 2,
-            "type": "Form/Note Completion",
-            "question": "Question 2",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 2."
+            "id": 2,
+            "local_id": 2,
+            "type": "fill",
+            "prompt": "1989 ______",
+            "options": [],
+            "answer": "1st June",
+            "acceptable": [
+              "1st June",
+              "1 June",
+              "June 1st",
+              "June 1",
+              "first June"
+            ],
+            "explanation": "Official IELTS Answer Key: 1st June."
           },
           {
-            "id": "q_cbt_listening_12_3",
-            "num": 3,
-            "type": "Form/Note Completion",
-            "question": "Question 3",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 3."
+            "id": 3,
+            "local_id": 3,
+            "type": "fill",
+            "prompt": "Adams Terrace, Wellington ______",
+            "options": [],
+            "answer": "University Hall",
+            "acceptable": [
+              "University Hall",
+              "university hall"
+            ],
+            "explanation": "Official IELTS Answer Key: University Hall."
           },
           {
-            "id": "q_cbt_listening_12_4",
-            "num": 4,
-            "type": "Form/Note Completion",
-            "question": "Question 4",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 4."
+            "id": 4,
+            "local_id": 4,
+            "type": "fill",
+            "prompt": " ______",
+            "options": [],
+            "answer": "Health for Life",
+            "acceptable": [
+              "Health for Life",
+              "health for life"
+            ],
+            "explanation": "Official IELTS Answer Key: Health for Life."
           },
           {
-            "id": "q_cbt_listening_12_5",
-            "num": 5,
-            "type": "Form/Note Completion",
-            "question": "Question 5",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 5."
+            "id": 5,
+            "local_id": 5,
+            "type": "fill",
+            "prompt": " ______",
+            "options": [],
+            "answer": "September 2006",
+            "acceptable": [
+              "September 2006"
+            ],
+            "explanation": "Official IELTS Answer Key: September 2006."
           },
           {
-            "id": "q_cbt_listening_12_6",
-            "num": 6,
-            "type": "Form/Note Completion",
-            "question": "Question 6",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 6."
+            "id": 6,
+            "local_id": 6,
+            "type": "fill",
+            "prompt": "Problems seeing . ______",
+            "options": [],
+            "answer": "in the distance",
+            "acceptable": [
+              "in the distance",
+              "distance"
+            ],
+            "explanation": "Official IELTS Answer Key: in the distance."
           },
           {
-            "id": "q_cbt_listening_12_7",
-            "num": 7,
-            "type": "Form/Note Completion",
-            "question": "Question 7",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 7."
+            "id": 7,
+            "local_id": 7,
+            "type": "fill",
+            "prompt": "______ Simon must wear his glasses when",
+            "options": [],
+            "answer": "driving",
+            "acceptable": [
+              "driving"
+            ],
+            "explanation": "Official IELTS Answer Key: driving."
           },
           {
-            "id": "q_cbt_listening_12_8",
-            "num": 8,
-            "type": "Form/Note Completion",
-            "question": "Question 8",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 8."
+            "id": 8,
+            "local_id": 8,
+            "type": "fill",
+            "prompt": "______ The least expensive type of glasses is",
+            "options": [],
+            "answer": "full frame",
+            "acceptable": [
+              "full frame",
+              "full-frame"
+            ],
+            "explanation": "Official IELTS Answer Key: full frame."
           },
           {
-            "id": "q_cbt_listening_12_9",
-            "num": 9,
-            "type": "Form/Note Completion",
-            "question": "Question 9",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 9."
+            "id": 9,
+            "local_id": 9,
+            "type": "fill",
+            "prompt": "______ The glasses Simon chooses are",
+            "options": [],
+            "answer": "strong",
+            "acceptable": [
+              "strong"
+            ],
+            "explanation": "Official IELTS Answer Key: strong."
           },
           {
-            "id": "q_cbt_listening_12_10",
-            "num": 10,
-            "type": "Form/Note Completion",
-            "question": "Question 10",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 10."
+            "id": 10,
+            "local_id": 10,
+            "type": "fill",
+            "prompt": "______ Simon decides to pay",
+            "options": [],
+            "answer": "in cash",
+            "acceptable": [
+              "in cash",
+              "by cash",
+              "cash"
+            ],
+            "explanation": "Official IELTS Answer Key: in cash."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 2,
-        "title": "Section 2: Cambridge Authentic Listening Section 2",
-        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 2: Section 2",
+        "context": "Monologue on General Interest / Public Orientation",
         "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 11–20: Listen and answer questions.",
+        "instructions": "Questions 11-14 Which counsellor should you see? Questions 15-20 Complete the table below. Write NO MORE THAN TWO WORDS for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_12_11",
-            "num": 11,
-            "type": "Form/Note Completion",
-            "question": "Question 11",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 11."
+            "id": 11,
+            "local_id": 11,
+            "type": "fill",
+            "prompt": "Question 11: Complete the notes",
+            "options": [],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_12_12",
-            "num": 12,
-            "type": "Form/Note Completion",
-            "question": "Question 12",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 12."
+            "id": 12,
+            "local_id": 12,
+            "type": "fill",
+            "prompt": "Question 12: Complete the notes",
+            "options": [],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_12_13",
-            "num": 13,
-            "type": "Form/Note Completion",
-            "question": "Question 13",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 13."
+            "id": 13,
+            "local_id": 13,
+            "type": "fill",
+            "prompt": "Question 13: Complete the notes",
+            "options": [],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_12_14",
-            "num": 14,
-            "type": "Form/Note Completion",
-            "question": "Question 14",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 14."
+            "id": 14,
+            "local_id": 14,
+            "type": "fill",
+            "prompt": "Question 14: Complete the notes",
+            "options": [],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_12_15",
-            "num": 15,
-            "type": "Form/Note Completion",
-            "question": "Question 15",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 15."
+            "id": 15,
+            "local_id": 15,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "first year",
+            "acceptable": [
+              "first year"
+            ],
+            "explanation": "Official IELTS Answer Key: first year."
           },
           {
-            "id": "q_cbt_listening_12_16",
-            "num": 16,
-            "type": "Form/Note Completion",
-            "question": "Question 16",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 16."
+            "id": 16,
+            "local_id": 16,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "right balance",
+            "acceptable": [
+              "right balance",
+              "balance"
+            ],
+            "explanation": "Official IELTS Answer Key: right balance."
           },
           {
-            "id": "q_cbt_listening_12_17",
-            "num": 17,
-            "type": "Form/Note Completion",
-            "question": "Question 17",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 17."
+            "id": 17,
+            "local_id": 17,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "international",
+            "acceptable": [
+              "international",
+              "foreign",
+              "international students",
+              "foreign students"
+            ],
+            "explanation": "Official IELTS Answer Key: international."
           },
           {
-            "id": "q_cbt_listening_12_18",
-            "num": 18,
-            "type": "Form/Note Completion",
-            "question": "Question 18",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 18."
+            "id": 18,
+            "local_id": 18,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "relaxation",
+            "acceptable": [
+              "relaxation"
+            ],
+            "explanation": "Official IELTS Answer Key: relaxation."
           },
           {
-            "id": "q_cbt_listening_12_19",
-            "num": 19,
-            "type": "Form/Note Completion",
-            "question": "Question 19",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 19."
+            "id": 19,
+            "local_id": 19,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "motivation",
+            "acceptable": [
+              "motivation"
+            ],
+            "explanation": "Official IELTS Answer Key: motivation."
           },
           {
-            "id": "q_cbt_listening_12_20",
-            "num": 20,
-            "type": "Form/Note Completion",
-            "question": "Question 20",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 20."
+            "id": 20,
+            "local_id": 20,
+            "type": "fill",
+            "prompt": "Workshop Content Target group Adjusting what you need to succeed academically students Getting Organised use time effectively, find between study and leisure all students Communica",
+            "options": [],
+            "answer": "research",
+            "acceptable": [
+              "research",
+              "advanced"
+            ],
+            "explanation": "Official IELTS Answer Key: research."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 3,
-        "title": "Section 3: Cambridge Authentic Listening Section 3",
-        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 3: Section 3",
+        "context": "Academic Discussion / University Seminar",
         "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 21–30: Listen and answer questions.",
+        "instructions": "Questions 21-25 Choose the correct answer. Questions 26-30 Which statement applies to each of the following situations?",
         "questions": [
           {
-            "id": "q_cbt_listening_12_21",
-            "num": 21,
-            "type": "Form/Note Completion",
-            "question": "Question 21",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 21."
+            "id": 21,
+            "local_id": 21,
+            "type": "mcq",
+            "prompt": "Questions 21-25",
+            "options": [
+              "do not collect primary statistics.",
+              "copy other people's work.",
+              "do not follow the instructions."
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_12_22",
-            "num": 22,
-            "type": "Form/Note Completion",
-            "question": "Question 22",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 22."
+            "id": 22,
+            "local_id": 22,
+            "type": "mcq",
+            "prompt": "Questions 21-25",
+            "options": [
+              "They are not attractive.",
+              "The time is limited.",
+              "People have never heard of it."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_12_23",
-            "num": 23,
-            "type": "Form/Note Completion",
-            "question": "Question 23",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 23."
+            "id": 23,
+            "local_id": 23,
+            "type": "mcq",
+            "prompt": "Questions 21-25",
+            "options": [
+              "they should not use inaccurate information in the presentation.",
+              "they should use another example.",
+              "it does not matter where the volcano is."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_12_24",
-            "num": 24,
-            "type": "Form/Note Completion",
-            "question": "Question 24",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 24."
+            "id": 24,
+            "local_id": 24,
+            "type": "mcq",
+            "prompt": "Questions 21-25",
+            "options": [
+              "it covers most of the important points.",
+              "It was formed a long time ago.",
+              "it has stunning views."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_12_25",
-            "num": 25,
-            "type": "Form/Note Completion",
-            "question": "Question 25",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 25."
+            "id": 25,
+            "local_id": 25,
+            "type": "mcq",
+            "prompt": "Questions 21-25",
+            "options": [
+              "other students have used it before.",
+              "it is irrelevant to their topic.",
+              "there is nothing special about this volcano."
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_12_26",
-            "num": 26,
-            "type": "Form/Note Completion",
-            "question": "Question 26",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 26."
+            "id": 26,
+            "local_id": 26,
+            "type": "mcq",
+            "prompt": "Question 26: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_12_27",
-            "num": 27,
-            "type": "Form/Note Completion",
-            "question": "Question 27",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 27."
+            "id": 27,
+            "local_id": 27,
+            "type": "mcq",
+            "prompt": "Question 27: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_12_28",
-            "num": 28,
-            "type": "Form/Note Completion",
-            "question": "Question 28",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 28."
+            "id": 28,
+            "local_id": 28,
+            "type": "mcq",
+            "prompt": "Question 28: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_12_29",
-            "num": 29,
-            "type": "Form/Note Completion",
-            "question": "Question 29",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 29."
+            "id": 29,
+            "local_id": 29,
+            "type": "mcq",
+            "prompt": "Question 29: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "answer": "E",
+            "acceptable": [
+              "E"
+            ],
+            "explanation": "Official IELTS Answer Key: E."
           },
           {
-            "id": "q_cbt_listening_12_30",
-            "num": 30,
-            "type": "Form/Note Completion",
-            "question": "Question 30",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 30."
+            "id": 30,
+            "local_id": 30,
+            "type": "mcq",
+            "prompt": "Question 30: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F"
+            ],
+            "answer": "F",
+            "acceptable": [
+              "F"
+            ],
+            "explanation": "Official IELTS Answer Key: F."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 4,
-        "title": "Section 4: Cambridge Authentic Listening Section 4",
-        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 4: Section 4",
+        "context": "Academic Lecture / Scientific Monologue",
         "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 31–40: Listen and answer questions.",
+        "instructions": "Questions 31-40 Complete the table below. Write NO MORE THAN THREE WORDS for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_12_31",
-            "num": 31,
-            "type": "Form/Note Completion",
-            "question": "Question 31",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 31."
+            "id": 31,
+            "local_id": 31,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "the Atlantic",
+            "acceptable": [
+              "the Atlantic",
+              "Atlantic",
+              "the Atlantic Ocean",
+              "Atlantic Ocean"
+            ],
+            "explanation": "Official IELTS Answer Key: the Atlantic."
           },
           {
-            "id": "q_cbt_listening_12_32",
-            "num": 32,
-            "type": "Form/Note Completion",
-            "question": "Question 32",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 32."
+            "id": 32,
+            "local_id": 32,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "luxury food",
+            "acceptable": [
+              "luxury food",
+              "food",
+              "luxury food source",
+              "food source"
+            ],
+            "explanation": "Official IELTS Answer Key: luxury food."
           },
           {
-            "id": "q_cbt_listening_12_33",
-            "num": 33,
-            "type": "Form/Note Completion",
-            "question": "Question 33",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 33."
+            "id": 33,
+            "local_id": 33,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "gardens",
+            "acceptable": [
+              "gardens",
+              "in gardens"
+            ],
+            "explanation": "Official IELTS Answer Key: gardens."
           },
           {
-            "id": "q_cbt_listening_12_34",
-            "num": 34,
-            "type": "Form/Note Completion",
-            "question": "Question 34",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 34."
+            "id": 34,
+            "local_id": 34,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "earthworm",
+            "acceptable": [
+              "earthworm",
+              "earth worm"
+            ],
+            "explanation": "Official IELTS Answer Key: earthworm."
           },
           {
-            "id": "q_cbt_listening_12_35",
-            "num": 35,
-            "type": "Form/Note Completion",
-            "question": "Question 35",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 35."
+            "id": 35,
+            "local_id": 35,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "soil",
+            "acceptable": [
+              "soil",
+              "soil condition"
+            ],
+            "explanation": "Official IELTS Answer Key: soil."
           },
           {
-            "id": "q_cbt_listening_12_36",
-            "num": 36,
-            "type": "Form/Note Completion",
-            "question": "Question 36",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 36."
+            "id": 36,
+            "local_id": 36,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "Northwest",
+            "acceptable": [
+              "Northwest",
+              "North-west",
+              "northwest",
+              "north-west"
+            ],
+            "explanation": "Official IELTS Answer Key: Northwest."
           },
           {
-            "id": "q_cbt_listening_12_37",
-            "num": 37,
-            "type": "Form/Note Completion",
-            "question": "Question 37",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 37."
+            "id": 37,
+            "local_id": 37,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "plant pots",
+            "acceptable": [
+              "plant pots"
+            ],
+            "explanation": "Official IELTS Answer Key: plant pots."
           },
           {
-            "id": "q_cbt_listening_12_38",
-            "num": 38,
-            "type": "Form/Note Completion",
-            "question": "Question 38",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 38."
+            "id": 38,
+            "local_id": 38,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "seaweed",
+            "acceptable": [
+              "seaweed",
+              "seaweeds",
+              "sea weed",
+              "sea weeds"
+            ],
+            "explanation": "Official IELTS Answer Key: seaweed."
           },
           {
-            "id": "q_cbt_listening_12_39",
-            "num": 39,
-            "type": "Form/Note Completion",
-            "question": "Question 39",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 39."
+            "id": 39,
+            "local_id": 39,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "the United States",
+            "acceptable": [
+              "the United States",
+              "the USA"
+            ],
+            "explanation": "Official IELTS Answer Key: the United States."
           },
           {
-            "id": "q_cbt_listening_12_40",
-            "num": 40,
-            "type": "Form/Note Completion",
-            "question": "Question 40",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 40."
+            "id": 40,
+            "local_id": 40,
+            "type": "fill",
+            "prompt": "Origin Name New habitat Notes Australia red-backed spider New Zealand and Japan Even so island in middle of England rabbit Australia 800 years ago: imported into England to be used",
+            "options": [],
+            "answer": "new competitors",
+            "acceptable": [
+              "new competitors",
+              "competitors"
+            ],
+            "explanation": "Official IELTS Answer Key: new competitors."
           }
-        ]
+        ],
+        "transcript": ""
       }
     ]
   },
   {
     "id": "cbt_listening_13",
     "title": "Cambridge Authentic Listening Mock 13 (Test 17)",
-    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "subtitle": "4 Sections · 40 Questions · Real Audio Stream · Official Scoring",
     "duration_minutes": 30,
     "source": "Cambridge IELTS Academic Master Series",
     "sections": [
       {
         "section": 1,
-        "title": "Section 1: Cambridge Authentic Listening Section 1",
-        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 1: Section 1",
+        "context": "Conversation on Everyday Social Context",
         "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 1–10: Listen and answer questions.",
+        "instructions": "Questions 1-5 Complete the form below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer. Questions 6-10 Choose the correct answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_13_1",
-            "num": 1,
-            "type": "Form/Note Completion",
-            "question": "Question 1",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 1."
+            "id": 1,
+            "local_id": 1,
+            "type": "fill",
+            "prompt": "Oakham Surgery New Patient Form Example: New Patient's Road Answer: Dawson Road Full name: Mike Wife's first name: Janet Children's first names: ______st 2nd 3rd 4th Address: 52 Da",
+            "options": [],
+            "answer": "Jacobs",
+            "acceptable": [
+              "Jacobs"
+            ],
+            "explanation": "Official IELTS Answer Key: Jacobs."
           },
           {
-            "id": "q_cbt_listening_13_2",
-            "num": 2,
-            "type": "Form/Note Completion",
-            "question": "Question 2",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 2."
+            "id": 2,
+            "local_id": 2,
+            "type": "fill",
+            "prompt": "Oakham Surgery New Patient Form Example: New Patient's Road Answer: Dawson Road Full name: Mike Wife's first name: Janet Children's first names: 1st ______nd 3rd 4th Address: 52 Da",
+            "options": [],
+            "answer": "Rod",
+            "acceptable": [
+              "Rod"
+            ],
+            "explanation": "Official IELTS Answer Key: Rod."
           },
           {
-            "id": "q_cbt_listening_13_3",
-            "num": 3,
-            "type": "Form/Note Completion",
-            "question": "Question 3",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 3."
+            "id": 3,
+            "local_id": 3,
+            "type": "fill",
+            "prompt": "Oakham Surgery New Patient Form Example: New Patient's Road Answer: Dawson Road Full name: Mike Wife's first name: Janet Children's first names: 1st 2nd ______rd 4th Address: 52 Da",
+            "options": [],
+            "answer": "highfield",
+            "acceptable": [
+              "highfield"
+            ],
+            "explanation": "Official IELTS Answer Key: highfield."
           },
           {
-            "id": "q_cbt_listening_13_4",
-            "num": 4,
-            "type": "Form/Note Completion",
-            "question": "Question 4",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 4."
+            "id": 4,
+            "local_id": 4,
+            "type": "fill",
+            "prompt": "Oakham Surgery New Patient Form Example: New Patient's Road Answer: Dawson Road Full name: Mike Wife's first name: Janet Children's first names: 1st 2nd 3rd ______th Address: 52 Da",
+            "options": [],
+            "answer": "NH871812C",
+            "acceptable": [
+              "NH871812C"
+            ],
+            "explanation": "Official IELTS Answer Key: NH871812C."
           },
           {
-            "id": "q_cbt_listening_13_5",
-            "num": 5,
-            "type": "Form/Note Completion",
-            "question": "Question 5",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 5."
+            "id": 5,
+            "local_id": 5,
+            "type": "fill",
+            "prompt": "Oakham Surgery New Patient Form Example: New Patient's Road Answer: Dawson Road Full name: Mike Wife's first name: Janet Children's first names: 1st 2nd 3rd 4th Address: ______2 Da",
+            "options": [],
+            "answer": "Dr.Kevin",
+            "acceptable": [
+              "Dr.Kevin"
+            ],
+            "explanation": "Official IELTS Answer Key: Dr.Kevin."
           },
           {
-            "id": "q_cbt_listening_13_6",
-            "num": 6,
-            "type": "Form/Note Completion",
-            "question": "Question 6",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 6."
+            "id": 6,
+            "local_id": 6,
+            "type": "mcq",
+            "prompt": "Questions 6-10",
+            "options": [
+              "Friday 21st at 2.00pm.",
+              "Friday 21st at 2.30pm.",
+              "Friday 21st at 3.30pm."
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_13_7",
-            "num": 7,
-            "type": "Form/Note Completion",
-            "question": "Question 7",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 7."
+            "id": 7,
+            "local_id": 7,
+            "type": "mcq",
+            "prompt": "Questions 6-10",
+            "options": [
+              "7253 9819",
+              "7253 9829",
+              "7523 9829"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           },
           {
-            "id": "q_cbt_listening_13_8",
-            "num": 8,
-            "type": "Form/Note Completion",
-            "question": "Question 8",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 8."
+            "id": 8,
+            "local_id": 8,
+            "type": "mcq",
+            "prompt": "Questions 6-10",
+            "options": [
+              "Rachel",
+              "Elizabeth",
+              "Angela"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_9",
-            "num": 9,
-            "type": "Form/Note Completion",
-            "question": "Question 9",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 9."
+            "id": 9,
+            "local_id": 9,
+            "type": "mcq",
+            "prompt": "Questions 6-10",
+            "options": [
+              "0506 759 3856",
+              "0506 759 3857",
+              "0506 758 3856"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_13_10",
-            "num": 10,
-            "type": "Form/Note Completion",
-            "question": "Question 10",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 10."
+            "id": 10,
+            "local_id": 10,
+            "type": "mcq",
+            "prompt": "Questions 6-10",
+            "options": [
+              "Travel vaccinations",
+              "Consultations",
+              "Insurance reports"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 2,
-        "title": "Section 2: Cambridge Authentic Listening Section 2",
-        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 2: Section 2",
+        "context": "Monologue on General Interest / Public Orientation",
         "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 11–20: Listen and answer questions.",
+        "instructions": "Questions 11-16 Choose the correct answer. Questions 17-20 Label the plan below.",
         "questions": [
           {
-            "id": "q_cbt_listening_13_11",
-            "num": 11,
-            "type": "Form/Note Completion",
-            "question": "Question 11",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 11."
+            "id": 11,
+            "local_id": 11,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "the largest waterfall worldwide.",
+              "the longest river in the world.",
+              "the biggest sub-tropical rainforest in the world."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_12",
-            "num": 12,
-            "type": "Form/Note Completion",
-            "question": "Question 12",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 12."
+            "id": 12,
+            "local_id": 12,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "having a picnic",
+              "taking photos",
+              "strolling about"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_13_13",
-            "num": 13,
-            "type": "Form/Note Completion",
-            "question": "Question 13",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 13."
+            "id": 13,
+            "local_id": 13,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "the mountain trail",
+              "the Bush Track",
+              "the Creek Circuit"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_14",
-            "num": 14,
-            "type": "Form/Note Completion",
-            "question": "Question 14",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 14."
+            "id": 14,
+            "local_id": 14,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "Bicycles can be hired.",
+              "Trams are available for tourists.",
+              "It is included in the bill."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_15",
-            "num": 15,
-            "type": "Form/Note Completion",
-            "question": "Question 15",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 15."
+            "id": 15,
+            "local_id": 15,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "abseiling",
+              "bungee jumping",
+              "paragliding"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_13_16",
-            "num": 16,
-            "type": "Form/Note Completion",
-            "question": "Question 16",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 16."
+            "id": 16,
+            "local_id": 16,
+            "type": "mcq",
+            "prompt": "Questions 11-16",
+            "options": [
+              "make bookings",
+              "inquire about availability",
+              "collect the meal ticket at the reception"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_17",
-            "num": 17,
-            "type": "Form/Note Completion",
-            "question": "Question 17",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 17."
+            "id": 17,
+            "local_id": 17,
+            "type": "mcq",
+            "prompt": "Question 17: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I"
+            ],
+            "answer": "E",
+            "acceptable": [
+              "E"
+            ],
+            "explanation": "Official IELTS Answer Key: E."
           },
           {
-            "id": "q_cbt_listening_13_18",
-            "num": 18,
-            "type": "Form/Note Completion",
-            "question": "Question 18",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 18."
+            "id": 18,
+            "local_id": 18,
+            "type": "mcq",
+            "prompt": "Question 18: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "A"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": "q_cbt_listening_13_19",
-            "num": 19,
-            "type": "Form/Note Completion",
-            "question": "Question 19",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 19."
+            "id": 19,
+            "local_id": 19,
+            "type": "mcq",
+            "prompt": "Question 19: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I"
+            ],
+            "answer": "G",
+            "acceptable": [
+              "G"
+            ],
+            "explanation": "Official IELTS Answer Key: G."
           },
           {
-            "id": "q_cbt_listening_13_20",
-            "num": 20,
-            "type": "Form/Note Completion",
-            "question": "Question 20",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 20."
+            "id": 20,
+            "local_id": 20,
+            "type": "mcq",
+            "prompt": "Question 20: Select the correct matching option",
+            "options": [
+              "Select",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I"
+            ],
+            "answer": "D",
+            "acceptable": [
+              "D"
+            ],
+            "explanation": "Official IELTS Answer Key: D."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 3,
-        "title": "Section 3: Cambridge Authentic Listening Section 3",
-        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 3: Section 3",
+        "context": "Academic Discussion / University Seminar",
         "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 21–30: Listen and answer questions.",
+        "instructions": "Questions 21-24 Answer the questions.Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer. Questions 25-27 Complete the sentences below. Write NO MORE THAN THREE WORDS for each answer. Questions 28-30 Complete the tutor's summary notes on Melanie below. Write NO MORE THAN THREE WORDS for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_13_21",
-            "num": 21,
-            "type": "Form/Note Completion",
-            "question": "Question 21",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 21."
+            "id": 21,
+            "local_id": 21,
+            "type": "fill",
+            "prompt": "______ When will Simon begin writing his essay?",
+            "options": [],
+            "answer": "tomorrow",
+            "acceptable": [
+              "tomorrow"
+            ],
+            "explanation": "Official IELTS Answer Key: tomorrow."
           },
           {
-            "id": "q_cbt_listening_13_22",
-            "num": 22,
-            "type": "Form/Note Completion",
-            "question": "Question 22",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 22."
+            "id": 22,
+            "local_id": 22,
+            "type": "fill",
+            "prompt": "______ According to Simon, what kind of problems did Jaguar have in the 1970s and 80s?",
+            "options": [],
+            "answer": "reliability",
+            "acceptable": [
+              "reliability"
+            ],
+            "explanation": "Official IELTS Answer Key: reliability."
           },
           {
-            "id": "q_cbt_listening_13_23",
-            "num": 23,
-            "type": "Form/Note Completion",
-            "question": "Question 23",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 23."
+            "id": 23,
+            "local_id": 23,
+            "type": "fill",
+            "prompt": "______ What is the word limit for the essay?",
+            "options": [],
+            "answer": "4000",
+            "acceptable": [
+              "4000",
+              "4,000"
+            ],
+            "explanation": "Official IELTS Answer Key: 4000."
           },
           {
-            "id": "q_cbt_listening_13_24",
-            "num": 24,
-            "type": "Form/Note Completion",
-            "question": "Question 24",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 24."
+            "id": 24,
+            "local_id": 24,
+            "type": "fill",
+            "prompt": "______ What is the preferable method for handing in the essay?",
+            "options": [],
+            "answer": "e-mail attachment",
+            "acceptable": [
+              "e-mail attachment",
+              "email attachment",
+              "attachment"
+            ],
+            "explanation": "Official IELTS Answer Key: e-mail attachment."
           },
           {
-            "id": "q_cbt_listening_13_25",
-            "num": 25,
-            "type": "Form/Note Completion",
-            "question": "Question 25",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 25."
+            "id": 25,
+            "local_id": 25,
+            "type": "fill",
+            "prompt": "Jennifer wants to write about how are used by supermarkets. ______",
+            "options": [],
+            "answer": "market surveys",
+            "acceptable": [
+              "market surveys"
+            ],
+            "explanation": "Official IELTS Answer Key: market surveys."
           },
           {
-            "id": "q_cbt_listening_13_26",
-            "num": 26,
-            "type": "Form/Note Completion",
-            "question": "Question 26",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 26."
+            "id": 26,
+            "local_id": 26,
+            "type": "fill",
+            "prompt": "Jennifer found some publications in the library to help her analysis. ______",
+            "options": [],
+            "answer": "stack system",
+            "acceptable": [
+              "stack system"
+            ],
+            "explanation": "Official IELTS Answer Key: stack system."
           },
           {
-            "id": "q_cbt_listening_13_27",
-            "num": 27,
-            "type": "Form/Note Completion",
-            "question": "Question 27",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 27."
+            "id": 27,
+            "local_id": 27,
+            "type": "fill",
+            "prompt": "The tutor warned Jennifer about in her work. ______",
+            "options": [],
+            "answer": "plagiarism",
+            "acceptable": [
+              "plagiarism"
+            ],
+            "explanation": "Official IELTS Answer Key: plagiarism."
           },
           {
-            "id": "q_cbt_listening_13_28",
-            "num": 28,
-            "type": "Form/Note Completion",
-            "question": "Question 28",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 28."
+            "id": 28,
+            "local_id": 28,
+            "type": "fill",
+            "prompt": "Student Melanie needs an as she has been unwell with the flu. She will get a from the doctor. She's going to write about in the UK and their effect on housing trends. She should be",
+            "options": [],
+            "answer": "extension",
+            "acceptable": [
+              "extension"
+            ],
+            "explanation": "Official IELTS Answer Key: extension."
           },
           {
-            "id": "q_cbt_listening_13_29",
-            "num": 29,
-            "type": "Form/Note Completion",
-            "question": "Question 29",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 29."
+            "id": 29,
+            "local_id": 29,
+            "type": "fill",
+            "prompt": "Student Melanie needs an as she has been unwell with the flu. She will get a from the doctor. She's going to write about in the UK and their effect on housing trends. She should be",
+            "options": [],
+            "answer": "certificate",
+            "acceptable": [
+              "certificate"
+            ],
+            "explanation": "Official IELTS Answer Key: certificate."
           },
           {
-            "id": "q_cbt_listening_13_30",
-            "num": 30,
-            "type": "Form/Note Completion",
-            "question": "Question 30",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 30."
+            "id": 30,
+            "local_id": 30,
+            "type": "fill",
+            "prompt": "Student Melanie needs an as she has been unwell with the flu. She will get a from the doctor. She's going to write about in the UK and their effect on housing trends. She should be",
+            "options": [],
+            "answer": "mortgage interest rates",
+            "acceptable": [
+              "mortgage interest rates"
+            ],
+            "explanation": "Official IELTS Answer Key: mortgage interest rates."
           }
-        ]
+        ],
+        "transcript": ""
       },
       {
         "section": 4,
-        "title": "Section 4: Cambridge Authentic Listening Section 4",
-        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "title": "Section 4: Section 4",
+        "context": "Academic Lecture / Scientific Monologue",
         "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
-        "instructions": "Questions 31–40: Listen and answer questions.",
+        "instructions": "Questions 31-32 Choose the correct answer. Questions 33-35 Choose THREE correct answers. 33-35 Which THREE factors are typical of modern farming? Questions 36-40 Complete the table. Write NO MORE THAN TWO WORDS for each answer.",
         "questions": [
           {
-            "id": "q_cbt_listening_13_31",
-            "num": 31,
-            "type": "Form/Note Completion",
-            "question": "Question 31",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 31."
+            "id": 31,
+            "local_id": 31,
+            "type": "mcq",
+            "prompt": "Questions 31-32",
+            "options": [
+              "required fewer workers.",
+              "had lots of animals.",
+              "were more interesting places."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_32",
-            "num": 32,
-            "type": "Form/Note Completion",
-            "question": "Question 32",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 32."
+            "id": 32,
+            "local_id": 32,
+            "type": "mcq",
+            "prompt": "Questions 31-32",
+            "options": [
+              "can be solved.",
+              "are numerous.",
+              "are expected."
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
           },
           {
-            "id": "q_cbt_listening_13_33",
-            "num": 33,
-            "type": "Form/Note Completion",
-            "question": "Question 33",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 33."
+            "id": 33,
+            "local_id": 33,
+            "type": "fill",
+            "prompt": "Question 33: Complete the notes",
+            "options": [],
+            "answer": "",
+            "acceptable": [],
+            "explanation": "Official IELTS Answer Key: ."
           },
           {
-            "id": "q_cbt_listening_13_34",
-            "num": 34,
-            "type": "Form/Note Completion",
-            "question": "Question 34",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 34."
+            "id": 34,
+            "local_id": 34,
+            "type": "fill",
+            "prompt": "Question 34: Complete the notes",
+            "options": [],
+            "answer": "",
+            "acceptable": [],
+            "explanation": "Official IELTS Answer Key: ."
           },
           {
-            "id": "q_cbt_listening_13_35",
-            "num": 35,
-            "type": "Form/Note Completion",
-            "question": "Question 35",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 35."
+            "id": 35,
+            "local_id": 35,
+            "type": "fill",
+            "prompt": "Question 35: Complete the notes",
+            "options": [],
+            "answer": "",
+            "acceptable": [],
+            "explanation": "Official IELTS Answer Key: ."
           },
           {
-            "id": "q_cbt_listening_13_36",
-            "num": 36,
-            "type": "Form/Note Completion",
-            "question": "Question 36",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 36."
+            "id": 36,
+            "local_id": 36,
+            "type": "fill",
+            "prompt": "Possible Solution Important Factor Examples tourism Locals must Daylesford area uses its using the – is by its distinctive product Shepparton is known for its – must market the ide",
+            "options": [],
+            "answer": "participate",
+            "acceptable": [
+              "participate"
+            ],
+            "explanation": "Official IELTS Answer Key: participate."
           },
           {
-            "id": "q_cbt_listening_13_37",
-            "num": 37,
-            "type": "Form/Note Completion",
-            "question": "Question 37",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 37."
+            "id": 37,
+            "local_id": 37,
+            "type": "fill",
+            "prompt": "Possible Solution Important Factor Examples tourism Locals must Daylesford area uses its using the – is by its distinctive product Shepparton is known for its – must market the ide",
+            "options": [],
+            "answer": "natural springs",
+            "acceptable": [
+              "natural springs"
+            ],
+            "explanation": "Official IELTS Answer Key: natural springs."
           },
           {
-            "id": "q_cbt_listening_13_38",
-            "num": 38,
-            "type": "Form/Note Completion",
-            "question": "Question 38",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 38."
+            "id": 38,
+            "local_id": 38,
+            "type": "fill",
+            "prompt": "Possible Solution Important Factor Examples tourism Locals must Daylesford area uses its using the – is by its distinctive product Shepparton is known for its – must market the ide",
+            "options": [],
+            "answer": "local product",
+            "acceptable": [
+              "local product"
+            ],
+            "explanation": "Official IELTS Answer Key: local product."
           },
           {
-            "id": "q_cbt_listening_13_39",
-            "num": 39,
-            "type": "Form/Note Completion",
-            "question": "Question 39",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 39."
+            "id": 39,
+            "local_id": 39,
+            "type": "fill",
+            "prompt": "Possible Solution Important Factor Examples tourism Locals must Daylesford area uses its using the – is by its distinctive product Shepparton is known for its – must market the ide",
+            "options": [],
+            "answer": "characterized",
+            "acceptable": [
+              "characterized",
+              "characterised"
+            ],
+            "explanation": "Official IELTS Answer Key: characterized."
           },
           {
-            "id": "q_cbt_listening_13_40",
-            "num": 40,
-            "type": "Form/Note Completion",
-            "question": "Question 40",
-            "answer": "Standard Cambridge Key",
-            "explanation": "Official Cambridge Recording Key for Question 40."
+            "id": 40,
+            "local_id": 40,
+            "type": "fill",
+            "prompt": "Possible Solution Important Factor Examples tourism Locals must Daylesford area uses its using the – is by its distinctive product Shepparton is known for its – must market the ide",
+            "options": [],
+            "answer": "mature cheeses",
+            "acceptable": [
+              "mature cheeses"
+            ],
+            "explanation": "Official IELTS Answer Key: mature cheeses."
           }
-        ]
+        ],
+        "transcript": ""
       }
     ]
   }
