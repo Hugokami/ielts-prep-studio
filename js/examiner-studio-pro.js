@@ -60,7 +60,7 @@
         localStorage.setItem("ielts_gemini_api_key", rawKey);
         localStorage.setItem(BYOK_MODEL_STORAGE, model);
         if (typeof showStudioNotification === "function") {
-          showStudioNotification("🔑 Personal API Key Saved! Unlimited Free-Tier AI Examiner unlocked.");
+          showStudioNotification("Personal API Key Saved! Unlimited Free-Tier AI Examiner unlocked.");
         }
       } else {
         localStorage.removeItem(BYOK_KEY_STORAGE);
@@ -124,7 +124,7 @@
     const chatBadge = document.getElementById("aiChatModelBadge");
     if (chatBadge) {
       if (active) {
-        chatBadge.textContent = "🔑 BYOK UNLIMITED";
+        chatBadge.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:3px;"><use href="#lucide-key"/></svg> BYOK UNLIMITED';
         chatBadge.style.background = "rgba(16,185,129,0.18)";
         chatBadge.style.color = "#10b981";
       } else {
@@ -631,7 +631,7 @@
         ${(d.corrections || [])
           .map(
             (c) =>
-              `<div class="diff-item"><strong>[${escapeSafe(c.type.toUpperCase())}]</strong> ❌ <strike>${escapeSafe(c.wrong)}</strike> &rarr; ✅ <strong>${escapeSafe(c.correct)}</strong><br><small>${escapeSafe(c.explanation)}</small></div>`
+              `<div class="diff-item"><strong>[${escapeSafe(c.type.toUpperCase())}]</strong> <svg class="ui-icon ui-icon-xs" style="color:var(--crimson); vertical-align:-1px; margin-right:2px;"><use href="#lucide-x"/></svg> <strike>${escapeSafe(c.wrong)}</strike> &rarr; <svg class="ui-icon ui-icon-xs" style="color:#10B981; vertical-align:-1px; margin-right:2px;"><use href="#lucide-check"/></svg> <strong>${escapeSafe(c.correct)}</strong><br><small>${escapeSafe(c.explanation)}</small></div>`
           )
           .join("")}
         <h2>Band 9.0 Examiner Upgraded Rewrite</h2>
@@ -651,7 +651,7 @@
     if (!lastWritingEvalData || !lastWritingEvalData.band9Rewrite) return;
     navigator.clipboard?.writeText(lastWritingEvalData.band9Rewrite);
     if (typeof showStudioNotification === "function") {
-      showStudioNotification("📋 Copied Band 9.0 Rewrite to clipboard!");
+      showStudioNotification("Copied Band 9.0 Rewrite to clipboard!");
     }
   };
 
@@ -745,11 +745,11 @@
                   </button>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.88rem;line-height:1.55;margin-bottom:6px;">
-                  <span style="color:#ef4444;background:rgba(239,68,68,0.1);padding:2px 8px;border-radius:4px;text-decoration:line-through;">❌ ${wEsc}</span>
+                  <span style="color:#ef4444;background:rgba(239,68,68,0.1);padding:2px 8px;border-radius:4px;text-decoration:line-through;"><svg class="ui-icon ui-icon-xs" style="color:var(--crimson); vertical-align:-1px; margin-right:3px;"><use href="#lucide-x"/></svg>${wEsc}</span>
                   <span style="color:var(--text-secondary);font-weight:800;">→</span>
-                  <span style="color:#10b981;background:rgba(16,185,129,0.12);padding:2px 8px;border-radius:4px;font-weight:700;">✅ ${cEsc}</span>
+                  <span style="color:#10b981;background:rgba(16,185,129,0.12);padding:2px 8px;border-radius:4px;font-weight:700;"><svg class="ui-icon ui-icon-xs" style="color:#10B981; vertical-align:-1px; margin-right:3px;"><use href="#lucide-check"/></svg>${cEsc}</span>
                 </div>
-                <div style="font-size:0.79rem;color:var(--text-secondary);line-height:1.5;">💡 <strong>Examiner Note:</strong> ${expEsc}</div>
+                <div style="font-size:0.79rem;color:var(--text-secondary);line-height:1.5;"><svg class="ui-icon ui-icon-xs" style="color:#F59E0B; vertical-align:-1px; margin-right:3px;"><use href="#lucide-lightbulb"/></svg> <strong>Examiner Note:</strong> ${expEsc}</div>
               </div>
             `;
           })
@@ -784,16 +784,16 @@
       <!-- 4-Tab Interactive Sub-Navigation -->
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:8px;">
         <button type="button" class="subtab-btn weval-tab-btn active" data-weval-tab="rubric" onclick="switchWritingEvalTab('rubric')" style="font-size:0.78rem;padding:6px 12px;">
-          📊 1. Rubric &amp; Scores (Band ${escapeSafe(s.overall)})
+          <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-chart-no-axes-column"/></svg> 1. Rubric &amp; Scores (Band ${escapeSafe(s.overall)})
         </button>
         <button type="button" class="subtab-btn weval-tab-btn" data-weval-tab="diffs" onclick="switchWritingEvalTab('diffs')" style="font-size:0.78rem;padding:6px 12px;">
-          ❌→✅ 2. Granular Error Diffs (${corrections.length})
+          <svg class="ui-icon ui-icon-xs" style="color:var(--crimson);"><use href="#lucide-x"/></svg><span style="margin:0 2px;">&rarr;</span><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-check"/></svg> 2. Granular Error Diffs (${corrections.length})
         </button>
         <button type="button" class="subtab-btn weval-tab-btn" data-weval-tab="rewrite" onclick="switchWritingEvalTab('rewrite')" style="font-size:0.78rem;padding:6px 12px;">
-          ✨ 3. Side-by-Side Band 9 Rewrite
+          <svg class="ui-icon ui-icon-xs" style="color:#F59E0B; margin-right:4px;"><use href="#lucide-sparkles"/></svg> 3. Side-by-Side Band 9 Rewrite
         </button>
         <button type="button" class="subtab-btn weval-tab-btn" data-weval-tab="burmese" onclick="switchWritingEvalTab('burmese')" style="font-size:0.78rem;padding:6px 12px;">
-          🇲🇲 4. Burmese Advice &amp; Export
+          <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-file-text"/></svg> 4. Burmese Advice &amp; Export
         </button>
       </div>
 

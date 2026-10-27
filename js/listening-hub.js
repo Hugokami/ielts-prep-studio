@@ -52,7 +52,7 @@
       <div style="padding: 32px; text-align: center; color: var(--text-secondary);">
         <div class="uiv-kinetic-loader" style="margin: 0 auto 16px auto;"></div>
         <p style="font-weight:700; font-size: 1rem;">Loading Authentic Cambridge Listening Audio & Simulations...</p>
-        <p style="font-size:0.8rem; color:var(--text-secondary);">Accessing 10 Full Tests • 40 Sections • Studio MP3 Audio Recordings</p>
+        <p style="font-size:0.8rem; color:var(--text-secondary);">Accessing 13 Full Tests • 52 Sections • Studio MP3 Audio Recordings</p>
       </div>
     `;
 
@@ -86,9 +86,9 @@
         <div>
           <h2 class="sec-title" style="margin-bottom:4px;">${exam.title}</h2>
           <div style="font-size:0.82rem; color:var(--text-secondary); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-            <span>🎧 40 Questions • Official Band 1–9 Scoring</span>
-            <span>⏱️ 30 Minutes + 2 Mins Review</span>
-            <span class="occ-ver-pill" style="font-size:0.7rem; background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3);">✓ 100% Studio Recorded Audio</span>
+            <span><svg class="ui-icon ui-icon-xs"><use href="#lucide-headphones"/></svg> 40 Questions • Official Band 1–9 Scoring</span>
+            <span><svg class="ui-icon ui-icon-xs"><use href="#lucide-clock"/></svg> 30 Minutes + 2 Mins Review</span>
+            <span class="occ-ver-pill" style="font-size:0.7rem; background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3);"><svg class="ui-icon ui-icon-xs" style="color:#10B981; margin-right:3px;"><use href="#lucide-check"/></svg> 100% Studio Recorded Audio</span>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@
       <!-- Main Toolbar -->
       <div class="occ-toolbar" style="margin-bottom:16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
         <button type="button" class="${showDirectory ? 'btn-accent-solid' : 'btn-outlined'}" onclick="window.toggleListeningDirectory()" style="padding:6px 12px; font-size:0.78rem; font-weight:800;">
-          📚 ${showDirectory ? 'Hide Test Directory' : 'Browse All 10 Tests'}
+          <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-book"/></svg> ${showDirectory ? 'Hide Test Directory' : 'Browse All 13 Tests'}
         </button>
 
         <select id="listeningExamSelect" class="occ-select" style="flex:1; min-width:0; max-width:100%; text-overflow:ellipsis; overflow:hidden; font-weight:600;" onchange="window.switchListeningExam(this.value)" aria-label="Select Listening Test">
@@ -120,7 +120,7 @@
           </div>
 
           <button type="button" class="btn-accent-solid" id="listeningGradeBtn" onclick="window.gradeListeningMock()" style="padding:7px 18px; font-size:0.82rem; font-weight:800;">
-            ✓ Grade Test
+            <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-check"/></svg> Grade Test
           </button>
         </div>
       </div>
@@ -191,29 +191,29 @@
         <!-- Audio Action Controls -->
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <button type="button" id="btnPlayListeningAudio" class="btn-accent-solid" onclick="window.toggleListeningAudio()" style="padding:8px 22px; font-size:0.86rem; font-weight:800; min-width:130px;">
-            ▶ Play Audio
+            <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-play"/></svg> Play Audio
           </button>
           
           <button type="button" class="btn-outlined" onclick="window.stopListeningAudio()" style="padding:8px 14px; font-size:0.84rem;">
-            ⏹ Stop
+            <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-square"/></svg> Stop
           </button>
 
           ${examMode === 'practice' ? `
             <button type="button" class="btn-outlined" onclick="window.skipListeningAudio(-10)" style="padding:8px 12px; font-size:0.84rem;" title="Rewind 10 Seconds">
-              ⏪ -10s
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-rewind"/></svg> -10s
             </button>
             <button type="button" class="btn-outlined" onclick="window.skipListeningAudio(10)" style="padding:8px 12px; font-size:0.84rem;" title="Fast Forward 10 Seconds">
-              ⏩ +10s
+              <svg class="ui-icon ui-icon-xs"><use href="#lucide-fast-forward"/></svg> +10s
             </button>
           ` : ''}
 
           <a href="${activeSecObj.audio_url}" download="IELTS_Listening_Test${exam.id}_Sec${activeSecObj.section}.mp3" target="_blank" rel="noopener noreferrer" class="btn-outlined" style="padding:8px 14px; font-size:0.82rem; text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:var(--text);">
-            📥 Download MP3
+            <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-download"/></svg> Download MP3
           </a>
 
           ${activeSecObj.transcript ? `
             <button type="button" class="btn-outlined" id="btnToggleTranscript" onclick="window.toggleListeningTranscript()" style="padding:8px 14px; font-size:0.82rem; margin-left:auto;">
-              📄 Reveal Transcript
+              <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-file-text"/></svg> Reveal Transcript
             </button>
           ` : ''}
         </div>
@@ -260,6 +260,16 @@
 
     audioPlayer.playbackRate = playbackSpeed;
 
+    audioPlayer.onerror = function() {
+      const status = document.getElementById("listeningAudioStatus");
+      const btn = document.getElementById("btnPlayListeningAudio");
+      if (status) {
+        status.textContent = "• Stream Connecting / Fallback Available";
+        status.style.color = "var(--accent-gold, #F59E0B)";
+      }
+      if (btn) btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-play"/></svg> Retry Audio';
+    };
+
     audioPlayer.ontimeupdate = function() {
       const cur = audioPlayer.currentTime || 0;
       const dur = audioPlayer.duration || 0;
@@ -284,7 +294,7 @@
     audioPlayer.onplay = function() {
       const btn = document.getElementById("btnPlayListeningAudio");
       const status = document.getElementById("listeningAudioStatus");
-      if (btn) btn.innerHTML = "⏸ Pause Audio";
+      if (btn) btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-pause"/></svg> Pause Audio';
       if (status) {
         status.textContent = `• Playing (${playbackSpeed}x)`;
         status.style.color = "var(--green, #10B981)";
@@ -294,7 +304,7 @@
     audioPlayer.onpause = function() {
       const btn = document.getElementById("btnPlayListeningAudio");
       const status = document.getElementById("listeningAudioStatus");
-      if (btn) btn.innerHTML = "▶ Resume Audio";
+      if (btn) btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-play"/></svg> Resume Audio';
       if (status) {
         status.textContent = "• Paused";
         status.style.color = "var(--text-secondary)";
@@ -304,7 +314,7 @@
     audioPlayer.onended = function() {
       const btn = document.getElementById("btnPlayListeningAudio");
       const status = document.getElementById("listeningAudioStatus");
-      if (btn) btn.innerHTML = "▶ Replay Audio";
+      if (btn) btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-play"/></svg> Replay Audio';
       if (status) {
         status.textContent = "• Completed";
         status.style.color = "var(--text-secondary)";
@@ -413,7 +423,7 @@
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:10px;">
                 <strong style="color:var(--accent); font-size:0.9rem; letter-spacing:0.02em;">Question ${q.id}</strong>
                 <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})" style="border:none; background:transparent; font-size:0.75rem; cursor:pointer; color:${isFlagged ? 'var(--crimson)' : 'var(--text-secondary)'};">
-                  🚩 ${isFlagged ? 'Flagged' : 'Flag'}
+                  <svg class="ui-icon ui-icon-xs" style="margin-right:3px;"><use href="#lucide-flag"/></svg> ${isFlagged ? 'Flagged' : 'Flag'}
                 </button>
               </div>
               <p style="font-size:0.92rem; font-weight:700; color:var(--text); margin-bottom:12px; line-height:1.5;">${q.prompt}</p>
@@ -428,7 +438,7 @@
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:10px;">
                 <strong style="color:var(--accent); font-size:0.9rem; letter-spacing:0.02em;">Question ${q.id}</strong>
                 <button type="button" class="flag-q-btn ${isFlagged ? 'is-flagged' : ''}" onclick="window.toggleListeningFlag(${q.id})" style="border:none; background:transparent; font-size:0.75rem; cursor:pointer; color:${isFlagged ? 'var(--crimson)' : 'var(--text-secondary)'};">
-                  🚩 ${isFlagged ? 'Flagged' : 'Flag'}
+                  <svg class="ui-icon ui-icon-xs" style="margin-right:3px;"><use href="#lucide-flag"/></svg> ${isFlagged ? 'Flagged' : 'Flag'}
                 </button>
               </div>
               <p style="font-size:0.9rem; color:var(--text); margin-bottom:12px; line-height:1.6; font-weight:600;">${q.prompt}</p>
@@ -531,7 +541,7 @@
     }
     const btn = document.getElementById("btnPlayListeningAudio");
     const status = document.getElementById("listeningAudioStatus");
-    if (btn) btn.innerHTML = "▶ Play Audio";
+    if (btn) btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-play"/></svg> Play Audio';
     if (status) {
       status.textContent = "• Idle";
       status.style.color = "var(--text-secondary)";
@@ -582,10 +592,10 @@
         </div>
         <div>${(secObj && secObj.transcript ? secObj.transcript : "Transcript recording context available in audio stream.").replace(/\\n/g, "<br>")}</div>
       `;
-      btn.textContent = "🙈 Hide Transcript";
+      btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-eye-off"/></svg> Hide Transcript';
     } else {
       box.style.display = "none";
-      btn.textContent = "📄 Reveal Transcript";
+      btn.innerHTML = '<svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-file-text"/></svg> Reveal Transcript';
     }
   };
 
@@ -622,12 +632,12 @@
             expBox.style.background = "rgba(16,185,129,0.1)";
             expBox.style.border = "1px solid rgba(16,185,129,0.35)";
             expBox.style.color = "var(--text)";
-            expBox.innerHTML = `<strong>✓ Correct!</strong> Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
+            expBox.innerHTML = `<strong><svg class="ui-icon ui-icon-xs" style="color:#10B981; margin-right:2px;"><use href="#lucide-check"/></svg> Correct!</strong> Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
           } else {
             expBox.style.background = "rgba(239,68,68,0.1)";
             expBox.style.border = "1px solid rgba(239,68,68,0.35)";
             expBox.style.color = "var(--text)";
-            expBox.innerHTML = `<strong>✕ Incorrect.</strong> Your answer: <em style="color:var(--crimson);">${userAns || '(Empty)'}</em> • Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
+            expBox.innerHTML = `<strong><svg class="ui-icon ui-icon-xs" style="color:var(--crimson); margin-right:2px;"><use href="#lucide-x"/></svg> Incorrect.</strong> Your answer: <em style="color:var(--crimson);">${userAns || '(Empty)'}</em> • Official Answer: <strong style="color:#10B981;">${q.answer}</strong>.<br><span style="color:var(--text-secondary); font-size:0.8rem;">${q.explanation || ''}</span>`;
           }
         }
       });

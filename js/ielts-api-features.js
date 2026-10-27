@@ -2192,13 +2192,13 @@
         if (!quota.allowed) {
           out.innerHTML = `
             <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
-              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="margin-bottom:6px;"><svg class="ui-icon" style="width:36px; height:36px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
               <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
               <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
                 You have reached your daily limit for scholarly cloze drills. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, research abstracts, and exam tools.
               </p>
               <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
-                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+                <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-crown"/></svg> Unlock Lifetime VIP Pass (1,350 Stars / 97,000 MMK)
               </button>
             </div>
           `;
@@ -2627,13 +2627,13 @@
         if (!quota.allowed) {
           out.innerHTML = `
             <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
-              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="margin-bottom:6px;"><svg class="ui-icon" style="width:36px; height:36px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
               <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
               <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
                 You have reached your daily limit for podcast streaming. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, live speech transcription, and exam tools.
               </p>
               <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
-                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+                <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-crown"/></svg> Unlock Lifetime VIP Pass (1,350 Stars / 97,000 MMK)
               </button>
             </div>
           `;
@@ -2661,13 +2661,13 @@
         if (!quota.allowed) {
           out.innerHTML = `
             <div style="padding:22px; border-radius:18px; border:1.5px solid rgba(255, 59, 92, 0.35); background:rgba(255, 59, 92, 0.05); text-align:center; margin-top:10px;">
-              <div style="font-size:1.6rem; margin-bottom:6px;">👑</div>
+              <div style="margin-bottom:6px;"><svg class="ui-icon" style="width:36px; height:36px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
               <div style="font-weight:800; font-size:1.05rem; color:#FF3B5C; margin-bottom:6px;">Daily Free Quota (10/10) Reached</div>
               <p style="font-size:0.84rem; color:var(--text-secondary); max-width:46ch; margin:0 auto 16px auto;">
                 You have reached your daily limit for podcast streaming. Upgrade to the Lifetime VIP Pass for unlimited Cambridge &amp; BBC feeds, live speech transcription, and exam tools.
               </p>
               <button class="btn-accent-solid" onclick="if(typeof openVipPassModal==='function'){openVipPassModal();}else{alert('Unlock Lifetime VIP Pass');}" style="padding:10px 24px; font-weight:800; border-radius:9999px;">
-                👑 Unlock Lifetime VIP Pass (750 ★ / 55,000 MMK)
+                <svg class="ui-icon ui-icon-xs" style="margin-right:4px;"><use href="#lucide-crown"/></svg> Unlock Lifetime VIP Pass (1,350 Stars / 97,000 MMK)
               </button>
             </div>
           `;

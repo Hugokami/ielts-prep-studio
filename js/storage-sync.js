@@ -757,7 +757,9 @@ function getDeviceId() {
     'ips_daily_tool_quota',
     'ips_learner_track',
     'ips_user_target_band',
-    'ielts_target_band'
+    'ielts_target_band',
+    'ielts_target_exam_date',
+    'ips_target_score_onboarded'
   ];
 
   function collectV6State() {
@@ -789,6 +791,12 @@ function getDeviceId() {
       const b = localStorage.getItem('ips_user_target_band') || localStorage.getItem('ielts_target_band');
       if (b && typeof window.applyUserTargetBand === 'function') {
         window.applyUserTargetBand(b, true);
+      }
+      if (typeof window.renderExamReadinessBanner === 'function') {
+        window.renderExamReadinessBanner('examReadinessBanner');
+      }
+      if (typeof window.renderTodayPlanCard === 'function') {
+        window.renderTodayPlanCard('todayPlanMount');
       }
     } catch (e) {}
   }
