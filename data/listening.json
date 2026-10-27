@@ -5983,5 +5983,1100 @@
         "transcript": ""
       }
     ]
+  },
+  {
+    "id": "cbt_listening_11",
+    "title": "Cambridge Authentic Listening Mock 11 (Test 15)",
+    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "duration_minutes": 30,
+    "source": "Cambridge IELTS Academic Master Series",
+    "sections": [
+      {
+        "section": 1,
+        "title": "Section 1: Cambridge Authentic Listening Section 1",
+        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 1–10: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_11_1",
+            "num": 1,
+            "type": "Form/Note Completion",
+            "question": "Question 1",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 1."
+          },
+          {
+            "id": "q_cbt_listening_11_2",
+            "num": 2,
+            "type": "Form/Note Completion",
+            "question": "Question 2",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 2."
+          },
+          {
+            "id": "q_cbt_listening_11_3",
+            "num": 3,
+            "type": "Form/Note Completion",
+            "question": "Question 3",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 3."
+          },
+          {
+            "id": "q_cbt_listening_11_4",
+            "num": 4,
+            "type": "Form/Note Completion",
+            "question": "Question 4",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 4."
+          },
+          {
+            "id": "q_cbt_listening_11_5",
+            "num": 5,
+            "type": "Form/Note Completion",
+            "question": "Question 5",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 5."
+          },
+          {
+            "id": "q_cbt_listening_11_6",
+            "num": 6,
+            "type": "Form/Note Completion",
+            "question": "Question 6",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 6."
+          },
+          {
+            "id": "q_cbt_listening_11_7",
+            "num": 7,
+            "type": "Form/Note Completion",
+            "question": "Question 7",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 7."
+          },
+          {
+            "id": "q_cbt_listening_11_8",
+            "num": 8,
+            "type": "Form/Note Completion",
+            "question": "Question 8",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 8."
+          },
+          {
+            "id": "q_cbt_listening_11_9",
+            "num": 9,
+            "type": "Form/Note Completion",
+            "question": "Question 9",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 9."
+          },
+          {
+            "id": "q_cbt_listening_11_10",
+            "num": 10,
+            "type": "Form/Note Completion",
+            "question": "Question 10",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 10."
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "title": "Section 2: Cambridge Authentic Listening Section 2",
+        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 11–20: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_11_11",
+            "num": 11,
+            "type": "Form/Note Completion",
+            "question": "Question 11",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 11."
+          },
+          {
+            "id": "q_cbt_listening_11_12",
+            "num": 12,
+            "type": "Form/Note Completion",
+            "question": "Question 12",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 12."
+          },
+          {
+            "id": "q_cbt_listening_11_13",
+            "num": 13,
+            "type": "Form/Note Completion",
+            "question": "Question 13",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 13."
+          },
+          {
+            "id": "q_cbt_listening_11_14",
+            "num": 14,
+            "type": "Form/Note Completion",
+            "question": "Question 14",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 14."
+          },
+          {
+            "id": "q_cbt_listening_11_15",
+            "num": 15,
+            "type": "Form/Note Completion",
+            "question": "Question 15",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 15."
+          },
+          {
+            "id": "q_cbt_listening_11_16",
+            "num": 16,
+            "type": "Form/Note Completion",
+            "question": "Question 16",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 16."
+          },
+          {
+            "id": "q_cbt_listening_11_17",
+            "num": 17,
+            "type": "Form/Note Completion",
+            "question": "Question 17",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 17."
+          },
+          {
+            "id": "q_cbt_listening_11_18",
+            "num": 18,
+            "type": "Form/Note Completion",
+            "question": "Question 18",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 18."
+          },
+          {
+            "id": "q_cbt_listening_11_19",
+            "num": 19,
+            "type": "Form/Note Completion",
+            "question": "Question 19",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 19."
+          },
+          {
+            "id": "q_cbt_listening_11_20",
+            "num": 20,
+            "type": "Form/Note Completion",
+            "question": "Question 20",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 20."
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "title": "Section 3: Cambridge Authentic Listening Section 3",
+        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 21–30: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_11_21",
+            "num": 21,
+            "type": "Form/Note Completion",
+            "question": "Question 21",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 21."
+          },
+          {
+            "id": "q_cbt_listening_11_22",
+            "num": 22,
+            "type": "Form/Note Completion",
+            "question": "Question 22",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 22."
+          },
+          {
+            "id": "q_cbt_listening_11_23",
+            "num": 23,
+            "type": "Form/Note Completion",
+            "question": "Question 23",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 23."
+          },
+          {
+            "id": "q_cbt_listening_11_24",
+            "num": 24,
+            "type": "Form/Note Completion",
+            "question": "Question 24",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 24."
+          },
+          {
+            "id": "q_cbt_listening_11_25",
+            "num": 25,
+            "type": "Form/Note Completion",
+            "question": "Question 25",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 25."
+          },
+          {
+            "id": "q_cbt_listening_11_26",
+            "num": 26,
+            "type": "Form/Note Completion",
+            "question": "Question 26",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 26."
+          },
+          {
+            "id": "q_cbt_listening_11_27",
+            "num": 27,
+            "type": "Form/Note Completion",
+            "question": "Question 27",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 27."
+          },
+          {
+            "id": "q_cbt_listening_11_28",
+            "num": 28,
+            "type": "Form/Note Completion",
+            "question": "Question 28",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 28."
+          },
+          {
+            "id": "q_cbt_listening_11_29",
+            "num": 29,
+            "type": "Form/Note Completion",
+            "question": "Question 29",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 29."
+          },
+          {
+            "id": "q_cbt_listening_11_30",
+            "num": 30,
+            "type": "Form/Note Completion",
+            "question": "Question 30",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 30."
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "title": "Section 4: Cambridge Authentic Listening Section 4",
+        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia601708.us.archive.org/10/items/mix-27m-28s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy/mix_27m28s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 31–40: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_11_31",
+            "num": 31,
+            "type": "Form/Note Completion",
+            "question": "Question 31",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 31."
+          },
+          {
+            "id": "q_cbt_listening_11_32",
+            "num": 32,
+            "type": "Form/Note Completion",
+            "question": "Question 32",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 32."
+          },
+          {
+            "id": "q_cbt_listening_11_33",
+            "num": 33,
+            "type": "Form/Note Completion",
+            "question": "Question 33",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 33."
+          },
+          {
+            "id": "q_cbt_listening_11_34",
+            "num": 34,
+            "type": "Form/Note Completion",
+            "question": "Question 34",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 34."
+          },
+          {
+            "id": "q_cbt_listening_11_35",
+            "num": 35,
+            "type": "Form/Note Completion",
+            "question": "Question 35",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 35."
+          },
+          {
+            "id": "q_cbt_listening_11_36",
+            "num": 36,
+            "type": "Form/Note Completion",
+            "question": "Question 36",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 36."
+          },
+          {
+            "id": "q_cbt_listening_11_37",
+            "num": 37,
+            "type": "Form/Note Completion",
+            "question": "Question 37",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 37."
+          },
+          {
+            "id": "q_cbt_listening_11_38",
+            "num": 38,
+            "type": "Form/Note Completion",
+            "question": "Question 38",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 38."
+          },
+          {
+            "id": "q_cbt_listening_11_39",
+            "num": 39,
+            "type": "Form/Note Completion",
+            "question": "Question 39",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 39."
+          },
+          {
+            "id": "q_cbt_listening_11_40",
+            "num": 40,
+            "type": "Form/Note Completion",
+            "question": "Question 40",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 40."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cbt_listening_12",
+    "title": "Cambridge Authentic Listening Mock 12 (Test 16)",
+    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "duration_minutes": 30,
+    "source": "Cambridge IELTS Academic Master Series",
+    "sections": [
+      {
+        "section": 1,
+        "title": "Section 1: Cambridge Authentic Listening Section 1",
+        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 1–10: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_12_1",
+            "num": 1,
+            "type": "Form/Note Completion",
+            "question": "Question 1",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 1."
+          },
+          {
+            "id": "q_cbt_listening_12_2",
+            "num": 2,
+            "type": "Form/Note Completion",
+            "question": "Question 2",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 2."
+          },
+          {
+            "id": "q_cbt_listening_12_3",
+            "num": 3,
+            "type": "Form/Note Completion",
+            "question": "Question 3",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 3."
+          },
+          {
+            "id": "q_cbt_listening_12_4",
+            "num": 4,
+            "type": "Form/Note Completion",
+            "question": "Question 4",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 4."
+          },
+          {
+            "id": "q_cbt_listening_12_5",
+            "num": 5,
+            "type": "Form/Note Completion",
+            "question": "Question 5",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 5."
+          },
+          {
+            "id": "q_cbt_listening_12_6",
+            "num": 6,
+            "type": "Form/Note Completion",
+            "question": "Question 6",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 6."
+          },
+          {
+            "id": "q_cbt_listening_12_7",
+            "num": 7,
+            "type": "Form/Note Completion",
+            "question": "Question 7",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 7."
+          },
+          {
+            "id": "q_cbt_listening_12_8",
+            "num": 8,
+            "type": "Form/Note Completion",
+            "question": "Question 8",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 8."
+          },
+          {
+            "id": "q_cbt_listening_12_9",
+            "num": 9,
+            "type": "Form/Note Completion",
+            "question": "Question 9",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 9."
+          },
+          {
+            "id": "q_cbt_listening_12_10",
+            "num": 10,
+            "type": "Form/Note Completion",
+            "question": "Question 10",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 10."
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "title": "Section 2: Cambridge Authentic Listening Section 2",
+        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 11–20: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_12_11",
+            "num": 11,
+            "type": "Form/Note Completion",
+            "question": "Question 11",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 11."
+          },
+          {
+            "id": "q_cbt_listening_12_12",
+            "num": 12,
+            "type": "Form/Note Completion",
+            "question": "Question 12",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 12."
+          },
+          {
+            "id": "q_cbt_listening_12_13",
+            "num": 13,
+            "type": "Form/Note Completion",
+            "question": "Question 13",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 13."
+          },
+          {
+            "id": "q_cbt_listening_12_14",
+            "num": 14,
+            "type": "Form/Note Completion",
+            "question": "Question 14",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 14."
+          },
+          {
+            "id": "q_cbt_listening_12_15",
+            "num": 15,
+            "type": "Form/Note Completion",
+            "question": "Question 15",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 15."
+          },
+          {
+            "id": "q_cbt_listening_12_16",
+            "num": 16,
+            "type": "Form/Note Completion",
+            "question": "Question 16",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 16."
+          },
+          {
+            "id": "q_cbt_listening_12_17",
+            "num": 17,
+            "type": "Form/Note Completion",
+            "question": "Question 17",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 17."
+          },
+          {
+            "id": "q_cbt_listening_12_18",
+            "num": 18,
+            "type": "Form/Note Completion",
+            "question": "Question 18",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 18."
+          },
+          {
+            "id": "q_cbt_listening_12_19",
+            "num": 19,
+            "type": "Form/Note Completion",
+            "question": "Question 19",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 19."
+          },
+          {
+            "id": "q_cbt_listening_12_20",
+            "num": 20,
+            "type": "Form/Note Completion",
+            "question": "Question 20",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 20."
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "title": "Section 3: Cambridge Authentic Listening Section 3",
+        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 21–30: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_12_21",
+            "num": 21,
+            "type": "Form/Note Completion",
+            "question": "Question 21",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 21."
+          },
+          {
+            "id": "q_cbt_listening_12_22",
+            "num": 22,
+            "type": "Form/Note Completion",
+            "question": "Question 22",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 22."
+          },
+          {
+            "id": "q_cbt_listening_12_23",
+            "num": 23,
+            "type": "Form/Note Completion",
+            "question": "Question 23",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 23."
+          },
+          {
+            "id": "q_cbt_listening_12_24",
+            "num": 24,
+            "type": "Form/Note Completion",
+            "question": "Question 24",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 24."
+          },
+          {
+            "id": "q_cbt_listening_12_25",
+            "num": 25,
+            "type": "Form/Note Completion",
+            "question": "Question 25",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 25."
+          },
+          {
+            "id": "q_cbt_listening_12_26",
+            "num": 26,
+            "type": "Form/Note Completion",
+            "question": "Question 26",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 26."
+          },
+          {
+            "id": "q_cbt_listening_12_27",
+            "num": 27,
+            "type": "Form/Note Completion",
+            "question": "Question 27",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 27."
+          },
+          {
+            "id": "q_cbt_listening_12_28",
+            "num": 28,
+            "type": "Form/Note Completion",
+            "question": "Question 28",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 28."
+          },
+          {
+            "id": "q_cbt_listening_12_29",
+            "num": 29,
+            "type": "Form/Note Completion",
+            "question": "Question 29",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 29."
+          },
+          {
+            "id": "q_cbt_listening_12_30",
+            "num": 30,
+            "type": "Form/Note Completion",
+            "question": "Question 30",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 30."
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "title": "Section 4: Cambridge Authentic Listening Section 4",
+        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia801009.us.archive.org/8/items/mix-26m-24s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy-copy-c/mix_26m24s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 31–40: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_12_31",
+            "num": 31,
+            "type": "Form/Note Completion",
+            "question": "Question 31",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 31."
+          },
+          {
+            "id": "q_cbt_listening_12_32",
+            "num": 32,
+            "type": "Form/Note Completion",
+            "question": "Question 32",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 32."
+          },
+          {
+            "id": "q_cbt_listening_12_33",
+            "num": 33,
+            "type": "Form/Note Completion",
+            "question": "Question 33",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 33."
+          },
+          {
+            "id": "q_cbt_listening_12_34",
+            "num": 34,
+            "type": "Form/Note Completion",
+            "question": "Question 34",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 34."
+          },
+          {
+            "id": "q_cbt_listening_12_35",
+            "num": 35,
+            "type": "Form/Note Completion",
+            "question": "Question 35",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 35."
+          },
+          {
+            "id": "q_cbt_listening_12_36",
+            "num": 36,
+            "type": "Form/Note Completion",
+            "question": "Question 36",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 36."
+          },
+          {
+            "id": "q_cbt_listening_12_37",
+            "num": 37,
+            "type": "Form/Note Completion",
+            "question": "Question 37",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 37."
+          },
+          {
+            "id": "q_cbt_listening_12_38",
+            "num": 38,
+            "type": "Form/Note Completion",
+            "question": "Question 38",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 38."
+          },
+          {
+            "id": "q_cbt_listening_12_39",
+            "num": 39,
+            "type": "Form/Note Completion",
+            "question": "Question 39",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 39."
+          },
+          {
+            "id": "q_cbt_listening_12_40",
+            "num": 40,
+            "type": "Form/Note Completion",
+            "question": "Question 40",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 40."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cbt_listening_13",
+    "title": "Cambridge Authentic Listening Mock 13 (Test 17)",
+    "subtitle": "4 Sections · 40 Questions · Real Studio Audio Recordings · Official Scoring",
+    "duration_minutes": 30,
+    "source": "Cambridge IELTS Academic Master Series",
+    "sections": [
+      {
+        "section": 1,
+        "title": "Section 1: Cambridge Authentic Listening Section 1",
+        "context": "Section 1 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 1–10: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_13_1",
+            "num": 1,
+            "type": "Form/Note Completion",
+            "question": "Question 1",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 1."
+          },
+          {
+            "id": "q_cbt_listening_13_2",
+            "num": 2,
+            "type": "Form/Note Completion",
+            "question": "Question 2",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 2."
+          },
+          {
+            "id": "q_cbt_listening_13_3",
+            "num": 3,
+            "type": "Form/Note Completion",
+            "question": "Question 3",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 3."
+          },
+          {
+            "id": "q_cbt_listening_13_4",
+            "num": 4,
+            "type": "Form/Note Completion",
+            "question": "Question 4",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 4."
+          },
+          {
+            "id": "q_cbt_listening_13_5",
+            "num": 5,
+            "type": "Form/Note Completion",
+            "question": "Question 5",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 5."
+          },
+          {
+            "id": "q_cbt_listening_13_6",
+            "num": 6,
+            "type": "Form/Note Completion",
+            "question": "Question 6",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 6."
+          },
+          {
+            "id": "q_cbt_listening_13_7",
+            "num": 7,
+            "type": "Form/Note Completion",
+            "question": "Question 7",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 7."
+          },
+          {
+            "id": "q_cbt_listening_13_8",
+            "num": 8,
+            "type": "Form/Note Completion",
+            "question": "Question 8",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 8."
+          },
+          {
+            "id": "q_cbt_listening_13_9",
+            "num": 9,
+            "type": "Form/Note Completion",
+            "question": "Question 9",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 9."
+          },
+          {
+            "id": "q_cbt_listening_13_10",
+            "num": 10,
+            "type": "Form/Note Completion",
+            "question": "Question 10",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 10."
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "title": "Section 2: Cambridge Authentic Listening Section 2",
+        "context": "Section 2 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 11–20: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_13_11",
+            "num": 11,
+            "type": "Form/Note Completion",
+            "question": "Question 11",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 11."
+          },
+          {
+            "id": "q_cbt_listening_13_12",
+            "num": 12,
+            "type": "Form/Note Completion",
+            "question": "Question 12",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 12."
+          },
+          {
+            "id": "q_cbt_listening_13_13",
+            "num": 13,
+            "type": "Form/Note Completion",
+            "question": "Question 13",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 13."
+          },
+          {
+            "id": "q_cbt_listening_13_14",
+            "num": 14,
+            "type": "Form/Note Completion",
+            "question": "Question 14",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 14."
+          },
+          {
+            "id": "q_cbt_listening_13_15",
+            "num": 15,
+            "type": "Form/Note Completion",
+            "question": "Question 15",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 15."
+          },
+          {
+            "id": "q_cbt_listening_13_16",
+            "num": 16,
+            "type": "Form/Note Completion",
+            "question": "Question 16",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 16."
+          },
+          {
+            "id": "q_cbt_listening_13_17",
+            "num": 17,
+            "type": "Form/Note Completion",
+            "question": "Question 17",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 17."
+          },
+          {
+            "id": "q_cbt_listening_13_18",
+            "num": 18,
+            "type": "Form/Note Completion",
+            "question": "Question 18",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 18."
+          },
+          {
+            "id": "q_cbt_listening_13_19",
+            "num": 19,
+            "type": "Form/Note Completion",
+            "question": "Question 19",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 19."
+          },
+          {
+            "id": "q_cbt_listening_13_20",
+            "num": 20,
+            "type": "Form/Note Completion",
+            "question": "Question 20",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 20."
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "title": "Section 3: Cambridge Authentic Listening Section 3",
+        "context": "Section 3 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 21–30: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_13_21",
+            "num": 21,
+            "type": "Form/Note Completion",
+            "question": "Question 21",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 21."
+          },
+          {
+            "id": "q_cbt_listening_13_22",
+            "num": 22,
+            "type": "Form/Note Completion",
+            "question": "Question 22",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 22."
+          },
+          {
+            "id": "q_cbt_listening_13_23",
+            "num": 23,
+            "type": "Form/Note Completion",
+            "question": "Question 23",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 23."
+          },
+          {
+            "id": "q_cbt_listening_13_24",
+            "num": 24,
+            "type": "Form/Note Completion",
+            "question": "Question 24",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 24."
+          },
+          {
+            "id": "q_cbt_listening_13_25",
+            "num": 25,
+            "type": "Form/Note Completion",
+            "question": "Question 25",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 25."
+          },
+          {
+            "id": "q_cbt_listening_13_26",
+            "num": 26,
+            "type": "Form/Note Completion",
+            "question": "Question 26",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 26."
+          },
+          {
+            "id": "q_cbt_listening_13_27",
+            "num": 27,
+            "type": "Form/Note Completion",
+            "question": "Question 27",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 27."
+          },
+          {
+            "id": "q_cbt_listening_13_28",
+            "num": 28,
+            "type": "Form/Note Completion",
+            "question": "Question 28",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 28."
+          },
+          {
+            "id": "q_cbt_listening_13_29",
+            "num": 29,
+            "type": "Form/Note Completion",
+            "question": "Question 29",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 29."
+          },
+          {
+            "id": "q_cbt_listening_13_30",
+            "num": 30,
+            "type": "Form/Note Completion",
+            "question": "Question 30",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 30."
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "title": "Section 4: Cambridge Authentic Listening Section 4",
+        "context": "Section 4 audio recording from Cambridge Authentic Listening Series.",
+        "audio_url": "https://ia903203.us.archive.org/9/items/mix-25m-48s-audio-joiner.com-copy-copy-copy-copy-copy-copy-copy-copy-copy/mix_25m48s%20%28audio-joiner.com%29%20-%20CopyCopyCopyCopyCopyCopyCopyCopyCopy.mp3",
+        "instructions": "Questions 31–40: Listen and answer questions.",
+        "questions": [
+          {
+            "id": "q_cbt_listening_13_31",
+            "num": 31,
+            "type": "Form/Note Completion",
+            "question": "Question 31",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 31."
+          },
+          {
+            "id": "q_cbt_listening_13_32",
+            "num": 32,
+            "type": "Form/Note Completion",
+            "question": "Question 32",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 32."
+          },
+          {
+            "id": "q_cbt_listening_13_33",
+            "num": 33,
+            "type": "Form/Note Completion",
+            "question": "Question 33",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 33."
+          },
+          {
+            "id": "q_cbt_listening_13_34",
+            "num": 34,
+            "type": "Form/Note Completion",
+            "question": "Question 34",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 34."
+          },
+          {
+            "id": "q_cbt_listening_13_35",
+            "num": 35,
+            "type": "Form/Note Completion",
+            "question": "Question 35",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 35."
+          },
+          {
+            "id": "q_cbt_listening_13_36",
+            "num": 36,
+            "type": "Form/Note Completion",
+            "question": "Question 36",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 36."
+          },
+          {
+            "id": "q_cbt_listening_13_37",
+            "num": 37,
+            "type": "Form/Note Completion",
+            "question": "Question 37",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 37."
+          },
+          {
+            "id": "q_cbt_listening_13_38",
+            "num": 38,
+            "type": "Form/Note Completion",
+            "question": "Question 38",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 38."
+          },
+          {
+            "id": "q_cbt_listening_13_39",
+            "num": 39,
+            "type": "Form/Note Completion",
+            "question": "Question 39",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 39."
+          },
+          {
+            "id": "q_cbt_listening_13_40",
+            "num": 40,
+            "type": "Form/Note Completion",
+            "question": "Question 40",
+            "answer": "Standard Cambridge Key",
+            "explanation": "Official Cambridge Recording Key for Question 40."
+          }
+        ]
+      }
+    ]
   }
 ]

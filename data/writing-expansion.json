@@ -1,0 +1,38 @@
+[
+  {
+    "id": "wm_chart_1",
+    "code": "MOCK 41 (TASK 1 & 2)",
+    "title": "Task 1: Percentages of Household Types & Task 2 Public Policy",
+    "type": "Task 1 Academic · Bar Chart & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "imageUrl": "https://images.writing9.com/50d0a0c1b1baa456e2a6e4388fac1577.png",
+    "promptEn": "The chart shows the percentages of different types of households in selected countries. Summarize the information and report main features.",
+    "promptMm": "ဖော်ပြပါ ဇယားသည် ရွေးချယ်ထားသော နိုင်ငံများရှိ အိမ်ထောင်စု အမျိုးအစားများ၏ ရာခိုင်နှုန်းကို ဖော်ပြထားပါသည်။ အဓိက အချက်အလက်များကို နှိုင်းယှဉ်ဖော်ပြပါ။",
+    "task2Prompt": "Some people believe that university education should be fully funded by the state. To what extent do you agree or disagree?"
+  },
+  {
+    "id": "wm_pie_2",
+    "code": "MOCK 42 (TASK 1 & 2)",
+    "title": "Task 1: Sources of Electricity in Four Countries & Task 2 Clean Energy",
+    "type": "Task 1 Academic · Pie Charts & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "imageUrl": "https://ia801000.us.archive.org/22/items/20251003205648431-writing-task-1-2-copy/pie_charts.png",
+    "promptEn": "The pie charts show the sources of electricity produced in four countries. Summarize the main trends and compare.",
+    "promptMm": "ဖော်ပြပါ စက်ဝိုင်းပုံဇယားများသည် နိုင်ငံ ၄ နိုင်ငံတွင် ထုတ်လုပ်သော လျှပ်စစ်စွမ်းအင် အရင်းအမြစ်များကို ပြသထားပါသည်။ အဓိက အချက်များကို နှိုင်းယှဉ်ပါ။",
+    "task2Prompt": "Fossil fuels remain the predominant energy source. Governments should penalize high-carbon industries. Discuss both views."
+  },
+  {
+    "id": "wm_line_3",
+    "code": "MOCK 43 (TASK 1 & 2)",
+    "title": "Task 1: Total Births and Deaths (1950–2050) & Task 2 Demographic Aging",
+    "type": "Task 1 Academic · Line Graph & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "imageUrl": "https://writing9.com/_next/image?url=https%3A%2F%2Fimages.writing9.com%2F9571d94",
+    "promptEn": "The line graph shows total births and deaths in a European country from 1950 to 2050. Summarize by selecting main trends.",
+    "promptMm": "ဖော်ပြပါ မျဉ်းကွေးဇယားသည် ၁၉၅၀ မှ ၂၀၅၀ အထိ ဥရောပနိုင်ငံတစ်ခု၏ မွေးဖွားနှုန်းနှင့် သေဆုံးနှုန်းကို ပြသထားပါသည်။",
+    "task2Prompt": "An aging population poses severe economic strain on public pension systems. What solutions can be implemented?"
+  }
+]

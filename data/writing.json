@@ -918,5 +918,53 @@
     "template": "• <em>\"The provided schematic delineates the cyclical process by which a geothermal facility harness subterranean thermal energy...\"</em><br>• <em>\"Overall, the operation comprises a closed-loop sequence consisting of subterranean injection...\"</em><br>• <em>\"In the initial phase, cold water is forced down an injection well to a depth of...\"</em>",
     "modelEssay": "The provided schematic delineates the cyclical process by which a geothermal facility harnesses subterranean thermal energy to concurrently generate electricity and municipal district heating.\n\nOverall, the facility operates as a seven-stage, closed-loop system comprising two primary phases: deep underground thermal absorption and above-ground kinetic power generation coupled with thermal heat exchange and water recycling.\n\nIn the initial subterranean phase, cold water is forced down an injection well drilled to a depth of approximately 3,000 metres into bedrock. Upon reaching the subterranean geothermal reservoir, the fluid encounters hot rocks heated by magma, raising its temperature to roughly 250°C under intense pressure. The superheated fluid is subsequently extracted back toward the surface via a parallel production well.\n\nUpon entering the above-ground facility, the high-pressure water reaches a flash vaporisation chamber where the sudden pressure reduction causes it to rapidly transform into high-velocity steam. This steam is channeled directly into a turbine, rotating its blades to drive a generator that outputs electricity directly to the national power grid. Following this kinetic phase, the residual steam passes into a condenser and heat exchanger. Here, its thermal energy is extracted to heat municipal district water networks, while the condensed cooled water is recycled back into the primary injection well to recommence the continuous cycle without environmental discharge.",
     "modelMm": "<strong>Examiner Feedback & Band 9 Breakdown:</strong><br>• <strong>Task Achievement (9.0):</strong> Process ၏ အစမှ အဆုံး (subterranean extraction မှ above-ground turbine and recycling အထိ) အဆင့်အားလုံးကို တိကျစွာ သုံးသပ်ထားပြီး ရှင်းလင်းသော Overview ကို ထည့်သွင်းထားသည်။<br>• <strong>Coherence & Cohesion (9.0):</strong> 'In the initial subterranean phase', 'Upon entering', 'Following this kinetic phase' စသော အချိန်ပြ စကားလုံးများဖြင့် စနစ်တကျ ချိတ်ဆက်ထားသည်။<br>• <strong>Lexical Resource (9.0):</strong> Delineates, subterranean thermal absorption, kinetic power generation, flash vaporisation chamber စသော နည်းပညာသုံး Academic ဝေါဟာရများ တိကျသည်။<br>• <strong>GRA (9.0):</strong> Passive voice နှင့် complex sentence structures များကို သဒ္ဒါအမှားကင်းစင်စွာ အသုံးပြုထားသည်။"
+  },
+  {
+    "id": "wm_chart_1",
+    "code": "MOCK 41 (TASK 1 & 2)",
+    "title": "Task 1: Percentages of Household Types & Task 2 Public Policy",
+    "type": "Task 1 Academic · Bar Chart & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "visualHtml": "<div style=\"text-align:center; margin:12px 0;\"><img src=\"https://images.writing9.com/50d0a0c1b1baa456e2a6e4388fac1577.png\" alt=\"Task 1 Graphic\" style=\"max-width:100%; height:auto; border-radius:6px; border:1px solid var(--border);\" onerror=\"this.style.display='none'\"></div>",
+    "promptEn": "The chart shows the percentages of different types of households in selected countries. Summarize the information and report main features.",
+    "promptMm": "ဖော်ပြပါ ဇယားသည် ရွေးချယ်ထားသော နိုင်ငံများရှိ အိမ်ထောင်စု အမျိုးအစားများ၏ ရာခိုင်နှုန်းကို ဖော်ပြထားပါသည်။ အဓိက အချက်အလက်များကို နှိုင်းယှဉ်ဖော်ပြပါ။",
+    "vocab": "household distribution, predominant category, exponential divergence, comparative disparity",
+    "outline": "Introduction -> Overview -> Key Feature 1 -> Key Feature 2",
+    "template": "The provided visual illustrates...",
+    "modelEssay": "The illustration depicts task 1: percentages of household types & task 2 public policy. Overall, striking disparities exist across the reported categories.",
+    "modelMm": "ဤစာစီစာကုံးသည် အချက်အလက်များ၏ အဓိက လမ်းကြောင်းများကို ရှင်းလင်းစွာ နှိုင်းယှဉ် ဖော်ပြထားပါသည်။"
+  },
+  {
+    "id": "wm_pie_2",
+    "code": "MOCK 42 (TASK 1 & 2)",
+    "title": "Task 1: Sources of Electricity in Four Countries & Task 2 Clean Energy",
+    "type": "Task 1 Academic · Pie Charts & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "visualHtml": "<div style=\"text-align:center; margin:12px 0;\"><img src=\"https://ia801000.us.archive.org/22/items/20251003205648431-writing-task-1-2-copy/pie_charts.png\" alt=\"Task 1 Graphic\" style=\"max-width:100%; height:auto; border-radius:6px; border:1px solid var(--border);\" onerror=\"this.style.display='none'\"></div>",
+    "promptEn": "The pie charts show the sources of electricity produced in four countries. Summarize the main trends and compare.",
+    "promptMm": "ဖော်ပြပါ စက်ဝိုင်းပုံဇယားများသည် နိုင်ငံ ၄ နိုင်ငံတွင် ထုတ်လုပ်သော လျှပ်စစ်စွမ်းအင် အရင်းအမြစ်များကို ပြသထားပါသည်။ အဓိက အချက်များကို နှိုင်းယှဉ်ပါ။",
+    "vocab": "household distribution, predominant category, exponential divergence, comparative disparity",
+    "outline": "Introduction -> Overview -> Key Feature 1 -> Key Feature 2",
+    "template": "The provided visual illustrates...",
+    "modelEssay": "The illustration depicts task 1: sources of electricity in four countries & task 2 clean energy. Overall, striking disparities exist across the reported categories.",
+    "modelMm": "ဤစာစီစာကုံးသည် အချက်အလက်များ၏ အဓိက လမ်းကြောင်းများကို ရှင်းလင်းစွာ နှိုင်းယှဉ် ဖော်ပြထားပါသည်။"
+  },
+  {
+    "id": "wm_line_3",
+    "code": "MOCK 43 (TASK 1 & 2)",
+    "title": "Task 1: Total Births and Deaths (1950–2050) & Task 2 Demographic Aging",
+    "type": "Task 1 Academic · Line Graph & Task 2 Essay",
+    "minutes": 60,
+    "minWords": 400,
+    "visualHtml": "<div style=\"text-align:center; margin:12px 0;\"><img src=\"https://writing9.com/_next/image?url=https%3A%2F%2Fimages.writing9.com%2F9571d94\" alt=\"Task 1 Graphic\" style=\"max-width:100%; height:auto; border-radius:6px; border:1px solid var(--border);\" onerror=\"this.style.display='none'\"></div>",
+    "promptEn": "The line graph shows total births and deaths in a European country from 1950 to 2050. Summarize by selecting main trends.",
+    "promptMm": "ဖော်ပြပါ မျဉ်းကွေးဇယားသည် ၁၉၅၀ မှ ၂၀၅၀ အထိ ဥရောပနိုင်ငံတစ်ခု၏ မွေးဖွားနှုန်းနှင့် သေဆုံးနှုန်းကို ပြသထားပါသည်။",
+    "vocab": "household distribution, predominant category, exponential divergence, comparative disparity",
+    "outline": "Introduction -> Overview -> Key Feature 1 -> Key Feature 2",
+    "template": "The provided visual illustrates...",
+    "modelEssay": "The illustration depicts task 1: total births and deaths (1950–2050) & task 2 demographic aging. Overall, striking disparities exist across the reported categories.",
+    "modelMm": "ဤစာစီစာကုံးသည် အချက်အလက်များ၏ အဓိက လမ်းကြောင်းများကို ရှင်းလင်းစွာ နှိုင်းယှဉ် ဖော်ပြထားပါသည်။"
   }
 ]

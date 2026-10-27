@@ -22,6 +22,9 @@
   <script src="js/analytics-exam-kit.js?v=10.0"></script>
   <script src="js/today-plan.js?v=10.0"></script>
   <script src="js/conversion-prestige.js?v=10.0"></script>
+  <script src="js/cefr-diagnostic.js?v=10.0"></script>
+  <script src="js/collocations-bank.js?v=10.0"></script>
+  <script src="js/daily-master-planner.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -10208,6 +10211,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <button class="at-subnav-btn" id="at-tab-surgery" onclick="switchAcademicToolsTab('surgery')"><svg class="ui-icon ui-icon-xs" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> <span>Live Band Surgery</span></button>
         <button class="at-subnav-btn" id="at-tab-cheatsheet" onclick="openNightBeforeCheatSheet()"><svg class="ui-icon ui-icon-xs" style="color:#059669;"><use href="#lucide-file-text"/></svg> <span>Cheat Sheet PDF</span></button>
         <button class="at-subnav-btn" id="at-tab-transformation" onclick="switchAcademicToolsTab('transformation')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-sliders"/></svg> <span>Band 6-8.5 Mutation</span></button>
+        <button class="at-subnav-btn" id="at-tab-cefr" onclick="switchAcademicToolsTab('cefr')"><svg class="ui-icon ui-icon-xs" style="color:#0284C7;"><use href="#lucide-award"/></svg> <span>CEFR Diagnostic</span></button>
+        <button class="at-subnav-btn" id="at-tab-planner" onclick="switchAcademicToolsTab('planner')"><svg class="ui-icon ui-icon-xs" style="color:#10B981;"><use href="#lucide-calendar"/></svg> <span>Band 8.0+ Planner</span></button>
 
       </div>
 
@@ -10240,6 +10245,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
               Enter an academic word above or tap any quick chip to discover native high-scoring collocations!
             </div>
           </div>
+          <div id="atCollocationsMasterMount" style="margin-top:24px;"></div>
         </div>
       </div>
 
@@ -10561,6 +10567,16 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div id="atBandTransformationMount"></div>
       </div>
 
+      <!-- Pane 12: CEFR Diagnostic Placement Test -->
+      <div id="at-pane-cefr" class="at-pane">
+        <div id="atCefrMount"></div>
+      </div>
+
+      <!-- Pane 13: Band 8.0+ Daily Master Planner -->
+      <div id="at-pane-planner" class="at-pane">
+        <div id="atPlannerMount"></div>
+      </div>
+
     </div>
   </section>
 
@@ -10667,6 +10683,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
                     <!-- 4 Suggestion Cards -->
           <div class="gemini-suggestions-grid">
+            <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Act like a certified Cambridge IELTS Speaking examiner and senior IELTS speaking coach. Help me prepare for IELTS Speaking Part 1. For the topic [Hometown, Work/Study, Leisure, or Technology], ask 3 realistic Part 1 questions. For each question, provide 3 to 4 varied sample answers (2-4 sentences each) demonstrating Band 8.5+ Lexical Resource and Grammatical Range, and finish with 10 topic-specific academic collocations.')">
+              <div class="gemini-sugg-icon"><svg class="ui-icon" style="color:#0284C7;"><use href="#lucide-user-check"/></svg></div>
+              <div class="gemini-sugg-content">
+                <div class="gemini-sugg-title">Examiner Simulation (Part 1)</div>
+                <div class="gemini-sugg-desc">Cambridge Speaking examiner mock &amp; 3–4 Band 8.5+ model answers with collocations</div>
+              </div>
+            </button>
             <button class="gemini-sugg-card" onclick="sendAiChatWithPrompt('Explain the 4 scoring criteria of IELTS Speaking Band 9 with real exam examples')">
               <div class="gemini-sugg-icon"><svg class="ui-icon"><use href="#lucide-mic"/></svg></div>
               <div class="gemini-sugg-content">
@@ -15167,17 +15190,17 @@ function initReadingMocks() {
   const isVip = isVipActive();
 
   const groups = [
- { label: " Foundation & Diagnostic CBT Mocks (Passages 1–8)", start: 0, end: 8 },
- { label: " Full-Length Academic CBT Passages (Passages 9–23)", start: 8, end: 18 },
- { label: " Full-Length IELTS-Style CBT Passages (Passages 9–23)", start: 8, end: READING_MOCKS.length }
+    { label: "Series 1: Foundation & Diagnostic CBT Mocks (Passages 1–8)", start: 0, end: 8 },
+    { label: "Series 2: Full-Length Academic CBT Passages (Passages 9–23)", start: 8, end: 23 },
+    { label: "Series 3: Cambridge Master CBT Series (Passages 24–47)", start: 23, end: READING_MOCKS.length }
   ];
 
   sel.innerHTML = groups.map(g => {
     const opts = [];
     for (let i = g.start; i < Math.min(g.end, READING_MOCKS.length); i++) {
       const m = READING_MOCKS[i];
-      const locked = '';
-      opts.push(`<option value="${i}">${locked}[${m.code}] ${m.title} (${m.questionTypes})</option>`);
+      const locked = (!isVip && i >= 3) ? '[VIP] ' : '';
+      opts.push(`<option value="${i}">${locked}[${m.code || ('RM-' + (i+1))}] ${m.title} (${m.questionTypes || 'CBT MOCK'})</option>`);
     }
     return opts.length > 0 ? `<optgroup label="${g.label}">${opts.join("")}</optgroup>` : '';
   }).join("");
@@ -18911,7 +18934,7 @@ function closeVipToolsModal() {
 }
 
 function switchAcademicToolsTab(tabName) {
-  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation'];
+  const tabs = ['collocations', 'synonyms', 'topic', 'dict', 'quote', 'traps', 'vault', 'bandcalc', 'culinary', 'surgery', 'transformation', 'cefr', 'planner'];
   tabs.forEach(t => {
     // Dedicated Workspace View
     const atBtn = document.getElementById(`at-tab-${t}`);
@@ -18927,6 +18950,18 @@ function switchAcademicToolsTab(tabName) {
   if (tabName === 'transformation') {
     if (typeof window.initBandTransformationSlider === 'function') {
       window.initBandTransformationSlider('atBandTransformationMount');
+    }
+  } else if (tabName === 'cefr') {
+    if (typeof window.initCefrDiagnosticTest === 'function') {
+      window.initCefrDiagnosticTest('atCefrMount');
+    }
+  } else if (tabName === 'planner') {
+    if (typeof window.initDailyMasterPlanner === 'function') {
+      window.initDailyMasterPlanner('atPlannerMount');
+    }
+  } else if (tabName === 'collocations') {
+    if (typeof window.initCollocationsMasterBank === 'function') {
+      window.initCollocationsMasterBank('atCollocationsMasterMount');
     }
   }
 }

@@ -1,0 +1,2485 @@
+{
+  "idioms": [
+    {
+      "phrase": "Time flies",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Time passes quickly.",
+      "example": "Time flies when you're preparing for an exam."
+    },
+    {
+      "phrase": "Once in a blue moon",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Very rarely.",
+      "example": "I only eat fast food once in a blue moon."
+    },
+    {
+      "phrase": "Around the clock",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "All day and night, continuously.",
+      "example": "The team worked around the clock before the deadline."
+    },
+    {
+      "phrase": "In the nick of time",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "At the last possible moment.",
+      "example": "I submitted my application in the nick of time."
+    },
+    {
+      "phrase": "Beat the clock",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "To finish something before a deadline.",
+      "example": "She managed to beat the clock and finish the essay."
+    },
+    {
+      "phrase": "Race against time",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "To try to do something before a deadline.",
+      "example": "Researchers are in a race against time to find a cure."
+    },
+    {
+      "phrase": "Time is money",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Time is a valuable resource.",
+      "example": "For busy professionals, time is money."
+    },
+    {
+      "phrase": "Time will tell",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "The truth will become clear eventually.",
+      "example": "Whether this policy works, only time will tell."
+    },
+    {
+      "phrase": "At the eleventh hour",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "At the last possible moment.",
+      "example": "The deal was signed at the eleventh hour."
+    },
+    {
+      "phrase": "Day in, day out",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Repeatedly, every day.",
+      "example": "He commutes for two hours, day in, day out."
+    },
+    {
+      "phrase": "From time to time",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "Occasionally.",
+      "example": "I still review my old notes from time to time."
+    },
+    {
+      "phrase": "In the blink of an eye",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Very quickly.",
+      "example": "Technology has changed our lives in the blink of an eye."
+    },
+    {
+      "phrase": "Take your time",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "To not rush.",
+      "example": "Take your time answering — accuracy matters more than speed."
+    },
+    {
+      "phrase": "Behind the times",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "Outdated, not modern.",
+      "example": "Some teaching methods are behind the times."
+    },
+    {
+      "phrase": "Ahead of your time",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Having ideas more advanced than others of the era.",
+      "example": "The inventor was ahead of his time."
+    },
+    {
+      "phrase": "On the dot",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "Exactly on time.",
+      "example": "The exam started at 9 a.m. on the dot."
+    },
+    {
+      "phrase": "Better late than never",
+      "type": "SPEAKING",
+      "theme": "Time",
+      "meaning": "It's better to do something late than not at all.",
+      "example": "He finally apologized — better late than never."
+    },
+    {
+      "phrase": "Turn back the clock",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "To return to a previous time.",
+      "example": "We can't turn back the clock on climate change."
+    },
+    {
+      "phrase": "The time has come",
+      "type": "BOTH",
+      "theme": "Time",
+      "meaning": "The right moment has arrived.",
+      "example": "The time has come to make a decision."
+    },
+    {
+      "phrase": "Cost an arm and a leg",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To be very expensive.",
+      "example": "A university degree abroad can cost an arm and a leg."
+    },
+    {
+      "phrase": "Make ends meet",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To have just enough money to live on.",
+      "example": "Many families struggle to make ends meet."
+    },
+    {
+      "phrase": "Break the bank",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To cost more money than one can afford.",
+      "example": "You don't need to break the bank to eat healthily."
+    },
+    {
+      "phrase": "Cost a fortune",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To be very expensive.",
+      "example": "That laptop must have cost a fortune."
+    },
+    {
+      "phrase": "Save for a rainy day",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To save money for future difficulties.",
+      "example": "It's wise to save for a rainy day."
+    },
+    {
+      "phrase": "Tighten your belt",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To spend less money.",
+      "example": "During the recession, households had to tighten their belts."
+    },
+    {
+      "phrase": "Live beyond your means",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To spend more than you earn.",
+      "example": "Many young people live beyond their means using credit cards."
+    },
+    {
+      "phrase": "Cut costs",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To reduce expenses.",
+      "example": "The company cut costs by going remote."
+    },
+    {
+      "phrase": "Foot the bill",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To pay for something.",
+      "example": "The government footed the bill for the new hospital."
+    },
+    {
+      "phrase": "In the red",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "In debt.",
+      "example": "The company has been in the red for two years."
+    },
+    {
+      "phrase": "In the black",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "Making a profit.",
+      "example": "After restructuring, the firm is finally in the black."
+    },
+    {
+      "phrase": "Pay through the nose",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To pay much more than something is worth.",
+      "example": "We paid through the nose for last-minute flight tickets."
+    },
+    {
+      "phrase": "Money talks",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "Money gives people power or influence.",
+      "example": "In some industries, money talks louder than merit."
+    },
+    {
+      "phrase": "Nest egg",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "Savings kept for the future.",
+      "example": "She built a nest egg before starting her own business."
+    },
+    {
+      "phrase": "Bring home the bacon",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To earn money for the family.",
+      "example": "Both parents now bring home the bacon in most households."
+    },
+    {
+      "phrase": "Go for broke",
+      "type": "SPEAKING",
+      "theme": "Money",
+      "meaning": "To risk everything for success.",
+      "example": "He quit his job and went for broke on his startup."
+    },
+    {
+      "phrase": "Worth its weight in gold",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "Extremely valuable.",
+      "example": "A good mentor is worth their weight in gold."
+    },
+    {
+      "phrase": "Cash in on something",
+      "type": "BOTH",
+      "theme": "Money",
+      "meaning": "To take advantage of a situation for profit.",
+      "example": "Companies cashed in on the remote-work trend."
+    },
+    {
+      "phrase": "Bite the bullet",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "To force yourself to do something unpleasant but necessary.",
+      "example": "I finally bit the bullet and booked my IELTS exam."
+    },
+    {
+      "phrase": "Cut corners",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To do something poorly to save time or money.",
+      "example": "Some builders cut corners on safety to save costs."
+    },
+    {
+      "phrase": "Go the extra mile",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To make additional effort.",
+      "example": "Good teachers always go the extra mile for their students."
+    },
+    {
+      "phrase": "Burn the midnight oil",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "To work or study late into the night.",
+      "example": "Students often burn the midnight oil before exams."
+    },
+    {
+      "phrase": "An uphill battle",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "A difficult struggle.",
+      "example": "Reducing plastic waste is an uphill battle."
+    },
+    {
+      "phrase": "Sink or swim",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To fail or succeed depending on your own efforts.",
+      "example": "New employees are often left to sink or swim."
+    },
+    {
+      "phrase": "Push the envelope",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To go beyond normal limits.",
+      "example": "The design team is pushing the envelope with new materials."
+    },
+    {
+      "phrase": "Blood, sweat and tears",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "Great effort and hard work.",
+      "example": "The project succeeded thanks to blood, sweat and tears."
+    },
+    {
+      "phrase": "No pain, no gain",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "Success requires hard work or discomfort.",
+      "example": "She reminds herself: no pain, no gain."
+    },
+    {
+      "phrase": "Give it your all",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "To try as hard as possible.",
+      "example": "He gave it his all in the final speaking test."
+    },
+    {
+      "phrase": "Roll up your sleeves",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "To prepare to work hard.",
+      "example": "It's time to roll up our sleeves and finish the report."
+    },
+    {
+      "phrase": "Jump through hoops",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To complete many difficult steps.",
+      "example": "Applicants have to jump through hoops to get a visa."
+    },
+    {
+      "phrase": "A tough nut to crack",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "A difficult problem or person.",
+      "example": "This grammar rule is a tough nut to crack."
+    },
+    {
+      "phrase": "Easier said than done",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "Something that sounds simple but is actually hard.",
+      "example": "Reducing stress is easier said than done."
+    },
+    {
+      "phrase": "Climb the ladder",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To advance in a career.",
+      "example": "She worked hard to climb the ladder at her company."
+    },
+    {
+      "phrase": "Hit a wall",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "To reach a point where no more progress can be made.",
+      "example": "I hit a wall while writing my essay conclusion."
+    },
+    {
+      "phrase": "Back against the wall",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "In a difficult situation with few options.",
+      "example": "With his back against the wall, he had to ask for help."
+    },
+    {
+      "phrase": "In over your head",
+      "type": "SPEAKING",
+      "theme": "Effort & Difficulty",
+      "meaning": "Involved in something too difficult to handle.",
+      "example": "He felt in over his head managing the whole project alone."
+    },
+    {
+      "phrase": "Bear the brunt of",
+      "type": "BOTH",
+      "theme": "Effort & Difficulty",
+      "meaning": "To suffer the main impact of something negative.",
+      "example": "Small businesses bore the brunt of the economic downturn."
+    },
+    {
+      "phrase": "Under the weather",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Feeling ill.",
+      "example": "I performed badly because I was under the weather that day."
+    },
+    {
+      "phrase": "Get cold feet",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To become nervous and back out.",
+      "example": "She got cold feet before her speaking test."
+    },
+    {
+      "phrase": "Pull yourself together",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To calm down and regain control.",
+      "example": "He told himself to pull himself together before the interview."
+    },
+    {
+      "phrase": "Keep your chin up",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To stay positive.",
+      "example": "Keep your chin up, your score will improve next time."
+    },
+    {
+      "phrase": "On cloud nine",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Extremely happy.",
+      "example": "She was on cloud nine after receiving her acceptance letter."
+    },
+    {
+      "phrase": "Down in the dumps",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Feeling sad.",
+      "example": "He's been down in the dumps since failing the test."
+    },
+    {
+      "phrase": "Blow off steam",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To release built-up stress or anger.",
+      "example": "Exercise helps me blow off steam after a long day."
+    },
+    {
+      "phrase": "Lose your temper",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To become suddenly angry.",
+      "example": "He lost his temper during the debate."
+    },
+    {
+      "phrase": "Keep your cool",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To stay calm under pressure.",
+      "example": "It's important to keep your cool during the speaking test."
+    },
+    {
+      "phrase": "Have mixed feelings",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To feel both positive and negative about something.",
+      "example": "I have mixed feelings about moving abroad."
+    },
+    {
+      "phrase": "Hit rock bottom",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To reach the lowest possible point.",
+      "example": "He hit rock bottom before finally seeking help."
+    },
+    {
+      "phrase": "Over the moon",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Extremely pleased.",
+      "example": "They were over the moon about the scholarship offer."
+    },
+    {
+      "phrase": "In high spirits",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Feeling happy and enthusiastic.",
+      "example": "The team was in high spirits after the win."
+    },
+    {
+      "phrase": "Fed up with",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Annoyed or tired of something.",
+      "example": "I'm fed up with the constant traffic in the city."
+    },
+    {
+      "phrase": "On edge",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "Nervous or tense.",
+      "example": "Everyone was on edge before the results were announced."
+    },
+    {
+      "phrase": "Get a grip",
+      "type": "SPEAKING",
+      "theme": "Emotions & Attitude",
+      "meaning": "To control your emotions.",
+      "example": "He told himself to get a grip before the presentation."
+    },
+    {
+      "phrase": "Bottle up your feelings",
+      "type": "BOTH",
+      "theme": "Emotions & Attitude",
+      "meaning": "To hide your emotions instead of expressing them.",
+      "example": "Bottling up your feelings can affect mental health."
+    },
+    {
+      "phrase": "On the same page",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "In agreement.",
+      "example": "My teammates and I weren't on the same page about the plan."
+    },
+    {
+      "phrase": "Break the ice",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To initiate conversation in an awkward situation.",
+      "example": "The interviewer asked a light question to break the ice."
+    },
+    {
+      "phrase": "See eye to eye",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To agree with someone.",
+      "example": "My parents and I don't always see eye to eye on career choices."
+    },
+    {
+      "phrase": "Get to the point",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To say the main idea directly.",
+      "example": "In Writing Task 2, always get to the point quickly."
+    },
+    {
+      "phrase": "Beat around the bush",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To avoid saying something directly.",
+      "example": "Stop beating around the bush and tell me the results."
+    },
+    {
+      "phrase": "Speak your mind",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To say what you really think.",
+      "example": "She always speaks her mind in class discussions."
+    },
+    {
+      "phrase": "Food for thought",
+      "type": "BOTH",
+      "theme": "Communication & Agreement",
+      "meaning": "Something worth thinking about seriously.",
+      "example": "The lecture gave us plenty of food for thought."
+    },
+    {
+      "phrase": "In a nutshell",
+      "type": "BOTH",
+      "theme": "Communication & Agreement",
+      "meaning": "Summarized briefly.",
+      "example": "In a nutshell, technology has changed how we communicate."
+    },
+    {
+      "phrase": "Long story short",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To summarize briefly.",
+      "example": "Long story short, I passed the exam on my second attempt."
+    },
+    {
+      "phrase": "Get your point across",
+      "type": "BOTH",
+      "theme": "Communication & Agreement",
+      "meaning": "To make people understand your idea.",
+      "example": "Good writers know how to get their point across clearly."
+    },
+    {
+      "phrase": "Agree to disagree",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To accept different opinions without further argument.",
+      "example": "We decided to agree to disagree on the topic."
+    },
+    {
+      "phrase": "Drop a hint",
+      "type": "SPEAKING",
+      "theme": "Communication & Agreement",
+      "meaning": "To suggest something indirectly.",
+      "example": "He dropped a hint about wanting a promotion."
+    },
+    {
+      "phrase": "Keep someone in the loop",
+      "type": "BOTH",
+      "theme": "Communication & Agreement",
+      "meaning": "To keep someone informed.",
+      "example": "Please keep me in the loop about the schedule changes."
+    },
+    {
+      "phrase": "Make yourself clear",
+      "type": "BOTH",
+      "theme": "Communication & Agreement",
+      "meaning": "To communicate without confusion.",
+      "example": "Make sure you make yourself clear in your introduction."
+    },
+    {
+      "phrase": "A piece of cake",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "Very easy.",
+      "example": "The Listening section was a piece of cake for me."
+    },
+    {
+      "phrase": "Miss the boat",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To miss an opportunity.",
+      "example": "He missed the boat on applying for the scholarship."
+    },
+    {
+      "phrase": "Back to square one",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To start over.",
+      "example": "My visa was rejected, so I'm back to square one."
+    },
+    {
+      "phrase": "Hit the jackpot",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To have great, often unexpected, success.",
+      "example": "They hit the jackpot with their new business idea."
+    },
+    {
+      "phrase": "Go down in flames",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To fail dramatically.",
+      "example": "The proposal went down in flames after criticism."
+    },
+    {
+      "phrase": "Learn from your mistakes",
+      "type": "BOTH",
+      "theme": "Success & Failure",
+      "meaning": "To improve by understanding past errors.",
+      "example": "The best students learn from their mistakes."
+    },
+    {
+      "phrase": "Practice makes perfect",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "Repeated practice improves skill.",
+      "example": "Practice makes perfect when learning a language."
+    },
+    {
+      "phrase": "Third time's the charm",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "Success often comes after two failed attempts.",
+      "example": "He finally passed on his third attempt — third time's the charm."
+    },
+    {
+      "phrase": "Fall flat on your face",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To fail completely, often embarrassingly.",
+      "example": "The plan fell flat on its face due to poor timing."
+    },
+    {
+      "phrase": "Rise to the occasion",
+      "type": "BOTH",
+      "theme": "Success & Failure",
+      "meaning": "To perform well under pressure.",
+      "example": "She rose to the occasion during the final interview."
+    },
+    {
+      "phrase": "Beginner's luck",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "Unexpected success by someone new to an activity.",
+      "example": "His first investment worked out — pure beginner's luck."
+    },
+    {
+      "phrase": "Cut your losses",
+      "type": "BOTH",
+      "theme": "Success & Failure",
+      "meaning": "To stop doing something that is failing before it gets worse.",
+      "example": "It's sometimes wiser to cut your losses early."
+    },
+    {
+      "phrase": "Come out on top",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To succeed or win despite difficulty.",
+      "example": "Despite the competition, she came out on top."
+    },
+    {
+      "phrase": "Bounce back",
+      "type": "BOTH",
+      "theme": "Success & Failure",
+      "meaning": "To recover quickly from a setback.",
+      "example": "The economy bounced back faster than expected."
+    },
+    {
+      "phrase": "Reach for the stars",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To aim very high.",
+      "example": "Teachers encourage students to reach for the stars."
+    },
+    {
+      "phrase": "Sweep the board",
+      "type": "SPEAKING",
+      "theme": "Success & Failure",
+      "meaning": "To win everything in a competition.",
+      "example": "Their team swept the board at the championship."
+    },
+    {
+      "phrase": "Get the ball rolling",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To start something.",
+      "example": "Let's get the ball rolling on the project."
+    },
+    {
+      "phrase": "Best of both worlds",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "Advantages of two different things at once.",
+      "example": "Online learning offers the best of both worlds."
+    },
+    {
+      "phrase": "Hang in there",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To persevere.",
+      "example": "Hang in there, the results will come soon."
+    },
+    {
+      "phrase": "Stand by someone",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To support someone during hard times.",
+      "example": "Her friends stood by her throughout the illness."
+    },
+    {
+      "phrase": "Go hand in hand",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To be closely connected.",
+      "example": "Good health and good diet go hand in hand."
+    },
+    {
+      "phrase": "Team up with",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To join forces with someone.",
+      "example": "The two companies teamed up to develop the product."
+    },
+    {
+      "phrase": "Burn bridges",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To destroy a relationship, making reconciliation impossible.",
+      "example": "Don't burn bridges when leaving a job."
+    },
+    {
+      "phrase": "Build bridges",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To create positive relationships.",
+      "example": "The event was designed to build bridges between communities."
+    },
+    {
+      "phrase": "On good terms with",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "Having a friendly relationship with someone.",
+      "example": "I'm still on good terms with my former manager."
+    },
+    {
+      "phrase": "Fall out with someone",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To have an argument that damages a relationship.",
+      "example": "They fell out over a business disagreement."
+    },
+    {
+      "phrase": "Give and take",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "Mutual compromise.",
+      "example": "A healthy relationship requires give and take."
+    },
+    {
+      "phrase": "Bury the hatchet",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To end a conflict and make peace.",
+      "example": "The two neighbours finally buried the hatchet."
+    },
+    {
+      "phrase": "Break the news",
+      "type": "BOTH",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To tell someone important, often difficult, information.",
+      "example": "She had to break the news of the delay to her team."
+    },
+    {
+      "phrase": "Lend a hand",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "To help someone.",
+      "example": "Neighbours lent a hand after the flood."
+    },
+    {
+      "phrase": "In the same boat",
+      "type": "SPEAKING",
+      "theme": "Relationships & Cooperation",
+      "meaning": "In the same difficult situation as others.",
+      "example": "Many students are in the same boat during exam season."
+    },
+    {
+      "phrase": "On the fence",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "Undecided.",
+      "example": "I'm still on the fence about studying abroad."
+    },
+    {
+      "phrase": "Jump on the bandwagon",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To join a popular trend.",
+      "example": "Many companies jumped on the bandwagon of remote work."
+    },
+    {
+      "phrase": "Take the plunge",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To decide to do something significant, often risky.",
+      "example": "They finally took the plunge and started their own business."
+    },
+    {
+      "phrase": "Weigh the pros and cons",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To consider advantages and disadvantages.",
+      "example": "Always weigh the pros and cons before a big decision."
+    },
+    {
+      "phrase": "Cross your fingers",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To hope for good luck.",
+      "example": "I'm crossing my fingers for good exam results."
+    },
+    {
+      "phrase": "A window of opportunity",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "A limited period when something is possible.",
+      "example": "There's a small window of opportunity to apply this year."
+    },
+    {
+      "phrase": "Seize the day",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To make the most of the present moment.",
+      "example": "Her motto is simple: seize the day."
+    },
+    {
+      "phrase": "Think twice",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To consider carefully before acting.",
+      "example": "You should think twice before quitting your job."
+    },
+    {
+      "phrase": "Make up your mind",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To reach a final decision.",
+      "example": "I still haven't made up my mind about the offer."
+    },
+    {
+      "phrase": "Take a leap of faith",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To try something uncertain, trusting it will work out.",
+      "example": "Moving abroad was a leap of faith for her."
+    },
+    {
+      "phrase": "Go out on a limb",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To take a risk by doing or saying something unusual.",
+      "example": "She went out on a limb by proposing a bold new idea."
+    },
+    {
+      "phrase": "Play it safe",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To avoid risks.",
+      "example": "He decided to play it safe and choose a stable career."
+    },
+    {
+      "phrase": "Take a chance",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To do something risky, hoping for a good result.",
+      "example": "She took a chance and applied to a top university."
+    },
+    {
+      "phrase": "Go with the flow",
+      "type": "SPEAKING",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To accept things as they happen without resistance.",
+      "example": "He prefers to go with the flow rather than plan everything."
+    },
+    {
+      "phrase": "Weigh your options",
+      "type": "BOTH",
+      "theme": "Decisions & Opportunities",
+      "meaning": "To consider all possible choices carefully.",
+      "example": "Take time to weigh your options before committing."
+    },
+    {
+      "phrase": "Learn the ropes",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To learn how to do a new job.",
+      "example": "It takes a few months to learn the ropes in a new career."
+    },
+    {
+      "phrase": "Call it a day",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To stop working.",
+      "example": "After six hours of revision, we decided to call it a day."
+    },
+    {
+      "phrase": "Face the music",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To accept consequences.",
+      "example": "He had to face the music after missing the deadline."
+    },
+    {
+      "phrase": "Wear many hats",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To perform multiple roles or responsibilities.",
+      "example": "Startup founders often wear many hats."
+    },
+    {
+      "phrase": "Think outside the box",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To think creatively.",
+      "example": "Employers value people who think outside the box."
+    },
+    {
+      "phrase": "Take the lead",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To assume a leadership role.",
+      "example": "He took the lead on the group project."
+    },
+    {
+      "phrase": "Pull your weight",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To do your fair share of work.",
+      "example": "Every team member needs to pull their weight."
+    },
+    {
+      "phrase": "In charge of",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "Responsible for something.",
+      "example": "She's in charge of the marketing department."
+    },
+    {
+      "phrase": "Get down to business",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To start focusing seriously on work.",
+      "example": "After introductions, let's get down to business."
+    },
+    {
+      "phrase": "Cut to the chase",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To get to the main point quickly.",
+      "example": "Let's cut to the chase and discuss the budget."
+    },
+    {
+      "phrase": "Keep your eye on the ball",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To stay focused on the goal.",
+      "example": "Success requires you to keep your eye on the ball."
+    },
+    {
+      "phrase": "Raise the bar",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To set a higher standard.",
+      "example": "The new manager raised the bar for the entire team."
+    },
+    {
+      "phrase": "Touch base with someone",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To make brief contact to update each other.",
+      "example": "Let's touch base next week about the project."
+    },
+    {
+      "phrase": "On the same team",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "Working together toward a shared goal.",
+      "example": "Despite the disagreement, we're on the same team."
+    },
+    {
+      "phrase": "Streamline the process",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To make a process more efficient.",
+      "example": "The new software helped streamline the process."
+    },
+    {
+      "phrase": "Land a job",
+      "type": "SPEAKING",
+      "theme": "Work & Business",
+      "meaning": "To successfully get a job.",
+      "example": "She landed a job right after graduation."
+    },
+    {
+      "phrase": "Punch above your weight",
+      "type": "BOTH",
+      "theme": "Work & Business",
+      "meaning": "To perform better than expected given your size or",
+      "example": "resources."
+    },
+    {
+      "phrase": "Better safe than sorry",
+      "type": "SPEAKING",
+      "theme": "Advice & Wisdom",
+      "meaning": "It's wiser to be cautious than to regret later.",
+      "example": "Bring an umbrella — better safe than sorry."
+    },
+    {
+      "phrase": "Curiosity killed the cat",
+      "type": "SPEAKING",
+      "theme": "Advice & Wisdom",
+      "meaning": "Being too curious can lead to trouble.",
+      "example": "He was warned that curiosity killed the cat."
+    },
+    {
+      "phrase": "Every dog has its day",
+      "type": "SPEAKING",
+      "theme": "Advice & Wisdom",
+      "meaning": "Everyone gets a chance to succeed eventually.",
+      "example": "He finally got recognition — every dog has its day."
+    },
+    {
+      "phrase": "Live and learn",
+      "type": "SPEAKING",
+      "theme": "Advice & Wisdom",
+      "meaning": "You gain wisdom through experience, including mistakes.",
+      "example": "I made the wrong choice, but live and learn."
+    }
+  ],
+  "collocations": [
+    {
+      "phrase": "Acquire knowledge",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "To gain information or skills.",
+      "example": "Students acquire knowledge through formal and informal learning."
+    },
+    {
+      "phrase": "Academic performance",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "How well a student does in school.",
+      "example": "Sleep quality directly affects academic performance."
+    },
+    {
+      "phrase": "Higher education",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "University-level education.",
+      "example": "Access to higher education has increased worldwide."
+    },
+    {
+      "phrase": "Lifelong learning",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Continuous learning throughout life.",
+      "example": "Lifelong learning is essential in a fast-changing job market."
+    },
+    {
+      "phrase": "Vocational training",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Practical training for a specific job.",
+      "example": "Vocational training equips young people with hands-on skills."
+    },
+    {
+      "phrase": "Curriculum design",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The planning of what is taught in a course.",
+      "example": "Modern curriculum design focuses on critical thinking."
+    },
+    {
+      "phrase": "Rote learning",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Memorization without deep understanding.",
+      "example": "Rote learning is common but often criticized in education systems."
+    },
+    {
+      "phrase": "Academic achievement",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Success in academic study.",
+      "example": "Parental involvement often boosts academic achievement."
+    },
+    {
+      "phrase": "Extracurricular activities",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Activities outside the regular curriculum.",
+      "example": "Extracurricular activities help develop soft skills."
+    },
+    {
+      "phrase": "Student engagement",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "How involved and interested students are.",
+      "example": "Interactive teaching methods increase student engagement."
+    },
+    {
+      "phrase": "Educational attainment",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The highest level of education completed.",
+      "example": "Educational attainment strongly correlates with income."
+    },
+    {
+      "phrase": "Critical thinking skills",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The ability to analyze and evaluate information.",
+      "example": "Universities aim to develop critical thinking skills."
+    },
+    {
+      "phrase": "Tuition fees",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The cost of education.",
+      "example": "Rising tuition fees discourage some students from higher education."
+    },
+    {
+      "phrase": "Distance learning",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Education delivered remotely.",
+      "example": "Distance learning became widespread during the pandemic."
+    },
+    {
+      "phrase": "Peer pressure",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "Influence from people of the same age group.",
+      "example": "Peer pressure can affect academic choices."
+    },
+    {
+      "phrase": "Literacy rate",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The percentage of people who can read and write.",
+      "example": "The country's literacy rate has improved significantly."
+    },
+    {
+      "phrase": "Academic curriculum",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The subjects and content taught in school.",
+      "example": "The academic curriculum was updated to include coding."
+    },
+    {
+      "phrase": "Learning outcomes",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "What students are expected to know after a course.",
+      "example": "Clear learning outcomes help guide lesson planning."
+    },
+    {
+      "phrase": "Private tutoring",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "One-on-one paid instruction.",
+      "example": "Many students rely on private tutoring to prepare for exams."
+    },
+    {
+      "phrase": "School dropout rate",
+      "type": "WRITING & SPEAKING",
+      "theme": "Education",
+      "meaning": "The percentage of students who leave school early.",
+      "example": "Poverty is linked to a higher school dropout rate."
+    },
+    {
+      "phrase": "Renewable energy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Energy from sustainable sources.",
+      "example": "Governments are investing heavily in renewable energy."
+    },
+    {
+      "phrase": "Carbon footprint",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The amount of carbon emissions caused by an activity.",
+      "example": "Flying frequently increases your carbon footprint."
+    },
+    {
+      "phrase": "Environmental degradation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The decline of environmental quality.",
+      "example": "Deforestation is a major cause of environmental degradation."
+    },
+    {
+      "phrase": "Greenhouse gas emissions",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Gases that trap heat in the atmosphere.",
+      "example": "Factories are a major source of greenhouse gas emissions."
+    },
+    {
+      "phrase": "Natural resources",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Materials from nature used by humans.",
+      "example": "Overconsumption is depleting the planet's natural resources."
+    },
+    {
+      "phrase": "Climate change",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Long-term shifts in temperatures and weather.",
+      "example": "Climate change is causing more extreme weather events."
+    },
+    {
+      "phrase": "Air pollution",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Harmful substances in the air.",
+      "example": "Air pollution levels in cities have reached dangerous highs."
+    },
+    {
+      "phrase": "Deforestation rates",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The speed at which forests are cleared.",
+      "example": "Deforestation rates in the Amazon remain a global concern."
+    },
+    {
+      "phrase": "Endangered species",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Species at risk of extinction.",
+      "example": "Poaching threatens many endangered species."
+    },
+    {
+      "phrase": "Sustainable development",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Growth that meets present needs without harming the",
+      "example": "future."
+    },
+    {
+      "phrase": "Fossil fuels",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "Non-renewable energy from coal, oil, and gas.",
+      "example": "Reducing dependence on fossil fuels is a global priority."
+    },
+    {
+      "phrase": "Global warming",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The rise in Earth's average temperature.",
+      "example": "Global warming is accelerating the melting of glaciers."
+    },
+    {
+      "phrase": "Ecological balance",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The natural equilibrium among living things.",
+      "example": "Human activity often disrupts ecological balance."
+    },
+    {
+      "phrase": "Waste management",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The handling and disposal of waste.",
+      "example": "Effective waste management reduces landfill pollution."
+    },
+    {
+      "phrase": "Water scarcity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "A shortage of available water.",
+      "example": "Water scarcity affects millions in arid regions."
+    },
+    {
+      "phrase": "Wildlife conservation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The protection of animal species and habitats.",
+      "example": "Wildlife conservation efforts have saved several species from extinction."
+    },
+    {
+      "phrase": "Carbon emissions",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The release of carbon dioxide into the atmosphere.",
+      "example": "Countries have pledged to cut carbon emissions by 2050."
+    },
+    {
+      "phrase": "Ozone layer",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The atmospheric layer that protects Earth from UV radiation.",
+      "example": "The ozone layer has recovered thanks to international agreements."
+    },
+    {
+      "phrase": "Biodiversity loss",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The decline in variety of living species.",
+      "example": "Biodiversity loss threatens ecosystem stability."
+    },
+    {
+      "phrase": "Environmental impact",
+      "type": "WRITING & SPEAKING",
+      "theme": "Environment",
+      "meaning": "The effect of an activity on nature.",
+      "example": "Companies must assess the environmental impact of new projects."
+    },
+    {
+      "phrase": "Cutting-edge technology",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The most advanced technology available.",
+      "example": "Hospitals now rely on cutting-edge technology for diagnosis."
+    },
+    {
+      "phrase": "Artificial intelligence",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Computer systems that simulate human intelligence.",
+      "example": "Artificial intelligence is transforming the job market."
+    },
+    {
+      "phrase": "Digital divide",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The gap between those with and without technology access.",
+      "example": "The digital divide worsened during remote learning."
+    },
+    {
+      "phrase": "Technological advancement",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Progress in technology.",
+      "example": "Technological advancement has reshaped how we work."
+    },
+    {
+      "phrase": "Online platform",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "A website or app for a specific service.",
+      "example": "Many students now study through online platforms."
+    },
+    {
+      "phrase": "Social media addiction",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Excessive, compulsive use of social media.",
+      "example": "Social media addiction is a growing concern among teenagers."
+    },
+    {
+      "phrase": "Data privacy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The protection of personal information.",
+      "example": "Data privacy laws have tightened in recent years."
+    },
+    {
+      "phrase": "Automated systems",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Processes performed by machines without human input.",
+      "example": "Automated systems have replaced many manual jobs."
+    },
+    {
+      "phrase": "Virtual reality",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "A simulated, computer-generated environment.",
+      "example": "Virtual reality is being used in medical training."
+    },
+    {
+      "phrase": "Digital literacy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The ability to use digital technology effectively.",
+      "example": "Digital literacy is now considered a basic life skill."
+    },
+    {
+      "phrase": "Cyber security",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Protection against digital attacks.",
+      "example": "Cyber security has become a top priority for businesses."
+    },
+    {
+      "phrase": "Technological innovation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The creation of new technology or methods.",
+      "example": "Technological innovation drives economic competitiveness."
+    },
+    {
+      "phrase": "Smart devices",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Internet-connected electronic devices.",
+      "example": "Smart devices are increasingly common in modern homes."
+    },
+    {
+      "phrase": "Screen time",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The amount of time spent using digital screens.",
+      "example": "Excessive screen time is linked to sleep problems in children."
+    },
+    {
+      "phrase": "E-commerce industry",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The business of buying and selling online.",
+      "example": "The e-commerce industry has grown rapidly since 2020."
+    },
+    {
+      "phrase": "Remote work",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Working from a location outside a traditional office.",
+      "example": "Remote work has become the norm in many industries."
+    },
+    {
+      "phrase": "Digital footprint",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "The trail of data left by online activity.",
+      "example": "Employers sometimes check a candidate's digital footprint."
+    },
+    {
+      "phrase": "Machine learning",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "A branch of AI where systems learn from data.",
+      "example": "Machine learning powers many recommendation systems."
+    },
+    {
+      "phrase": "Information overload",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Being overwhelmed by too much information.",
+      "example": "Information overload makes it hard to focus."
+    },
+    {
+      "phrase": "Technological dependency",
+      "type": "WRITING & SPEAKING",
+      "theme": "Technology",
+      "meaning": "Over-reliance on technology.",
+      "example": "Technological dependency has changed how children play and learn."
+    },
+    {
+      "phrase": "Mental health",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Psychological well-being.",
+      "example": "Social media use has been linked to declining mental health."
+    },
+    {
+      "phrase": "Physical fitness",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Bodily health and strength.",
+      "example": "Regular exercise improves physical fitness."
+    },
+    {
+      "phrase": "Balanced diet",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "A diet with the right mix of nutrients.",
+      "example": "A balanced diet reduces the risk of chronic disease."
+    },
+    {
+      "phrase": "Sedentary lifestyle",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "A lifestyle with little physical activity.",
+      "example": "Office jobs often lead to a sedentary lifestyle."
+    },
+    {
+      "phrase": "Public health",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The health of the population as a whole.",
+      "example": "Vaccination programs are vital for public health."
+    },
+    {
+      "phrase": "Life expectancy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The average length of life.",
+      "example": "Life expectancy has risen due to medical advances."
+    },
+    {
+      "phrase": "Chronic disease",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "A long-lasting health condition.",
+      "example": "Poor diet contributes to chronic disease."
+    },
+    {
+      "phrase": "Healthcare system",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The organization providing medical services.",
+      "example": "The healthcare system is under pressure from an aging population."
+    },
+    {
+      "phrase": "Preventive medicine",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Care aimed at preventing illness.",
+      "example": "Preventive medicine reduces long-term healthcare costs."
+    },
+    {
+      "phrase": "Obesity rates",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The percentage of a population classified as obese.",
+      "example": "Obesity rates have risen alongside processed food consumption."
+    },
+    {
+      "phrase": "Stress levels",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The degree of psychological pressure experienced.",
+      "example": "High stress levels can weaken the immune system."
+    },
+    {
+      "phrase": "Healthy lifestyle",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Habits that promote well-being.",
+      "example": "Schools encourage students to adopt a healthy lifestyle."
+    },
+    {
+      "phrase": "Medical treatment",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Care given to treat an illness.",
+      "example": "Access to medical treatment varies widely between countries."
+    },
+    {
+      "phrase": "Physical activity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Bodily movement that uses energy.",
+      "example": "Regular physical activity lowers the risk of heart disease."
+    },
+    {
+      "phrase": "Nutritional value",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The health benefit contained in food.",
+      "example": "Processed foods often have low nutritional value."
+    },
+    {
+      "phrase": "Health awareness",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Knowledge and understanding of health issues.",
+      "example": "Public campaigns have raised health awareness significantly."
+    },
+    {
+      "phrase": "Quality of life",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The general well-being of individuals.",
+      "example": "Access to green spaces improves quality of life."
+    },
+    {
+      "phrase": "Health insurance",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Coverage for medical costs.",
+      "example": "Not everyone has access to affordable health insurance."
+    },
+    {
+      "phrase": "Junk food",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "Food with low nutritional value, often high in sugar or fat.",
+      "example": "Junk food consumption among children is rising."
+    },
+    {
+      "phrase": "Immune system",
+      "type": "WRITING & SPEAKING",
+      "theme": "Health",
+      "meaning": "The body's defense against illness.",
+      "example": "A balanced diet strengthens the immune system."
+    },
+    {
+      "phrase": "Social cohesion",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Unity and solidarity within a community.",
+      "example": "Community events help strengthen social cohesion."
+    },
+    {
+      "phrase": "Crime rate",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The frequency of crime in an area.",
+      "example": "Poverty is often linked to a higher crime rate."
+    },
+    {
+      "phrase": "Law-abiding citizen",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "A person who obeys the law.",
+      "example": "Most people are law-abiding citizens who rarely break rules."
+    },
+    {
+      "phrase": "Income inequality",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The unequal distribution of income.",
+      "example": "Income inequality has widened in many countries."
+    },
+    {
+      "phrase": "Social mobility",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The ability to move between social classes.",
+      "example": "Education is key to improving social mobility."
+    },
+    {
+      "phrase": "Juvenile delinquency",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Criminal behavior by young people.",
+      "example": "Juvenile delinquency is often linked to family instability."
+    },
+    {
+      "phrase": "Social isolation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "A lack of contact with others.",
+      "example": "Social isolation among the elderly is a growing concern."
+    },
+    {
+      "phrase": "Domestic violence",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Violence occurring within the home.",
+      "example": "Domestic violence remains underreported in many societies."
+    },
+    {
+      "phrase": "Cultural values",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The beliefs and standards shared within a culture.",
+      "example": "Cultural values shape how societies view education."
+    },
+    {
+      "phrase": "Gender equality",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Equal rights and opportunities regardless of gender.",
+      "example": "Gender equality in the workplace remains an ongoing challenge."
+    },
+    {
+      "phrase": "Social welfare",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Government support for citizens' well-being.",
+      "example": "Social welfare programs help reduce poverty."
+    },
+    {
+      "phrase": "Community engagement",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Active participation in local community life.",
+      "example": "Community engagement improves neighborhood safety."
+    },
+    {
+      "phrase": "Social norms",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Unwritten rules of behavior in a society.",
+      "example": "Social norms around work have shifted since the pandemic."
+    },
+    {
+      "phrase": "Criminal justice system",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The institutions that enforce law.",
+      "example": "The criminal justice system faces criticism over sentencing."
+    },
+    {
+      "phrase": "Social stigma",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Disapproval attached to a certain characteristic.",
+      "example": "Social stigma prevents many from seeking mental health support."
+    },
+    {
+      "phrase": "Generation gap",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Differences in attitudes between age groups.",
+      "example": "The generation gap is evident in attitudes toward technology."
+    },
+    {
+      "phrase": "Social integration",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The process of including diverse groups into society.",
+      "example": "Language programs support the social integration of immigrants."
+    },
+    {
+      "phrase": "Poverty line",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "The minimum income needed for basic needs.",
+      "example": "Millions of people live below the poverty line."
+    },
+    {
+      "phrase": "Social unrest",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "Public disorder due to dissatisfaction.",
+      "example": "Economic hardship has fueled social unrest in several regions."
+    },
+    {
+      "phrase": "Aging population",
+      "type": "WRITING & SPEAKING",
+      "theme": "Society & Crime",
+      "meaning": "A population with an increasing proportion of older people.",
+      "example": "An aging population puts pressure on pension systems."
+    },
+    {
+      "phrase": "Economic growth",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "An increase in a country's production of goods and services.",
+      "example": "Economic growth has slowed due to inflation."
+    },
+    {
+      "phrase": "Job satisfaction",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "Contentment with one's work.",
+      "example": "Flexible hours often increase job satisfaction."
+    },
+    {
+      "phrase": "Career prospects",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "Future opportunities in a career.",
+      "example": "A degree improves career prospects significantly."
+    },
+    {
+      "phrase": "Work-life balance",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The balance between work and personal life.",
+      "example": "Remote work has improved work-life balance for many."
+    },
+    {
+      "phrase": "Unemployment rate",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The percentage of people without jobs.",
+      "example": "The unemployment rate rose sharply during the recession."
+    },
+    {
+      "phrase": "Job security",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The assurance of keeping one's job.",
+      "example": "Job security has declined in the gig economy."
+    },
+    {
+      "phrase": "Minimum wage",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The lowest legal pay rate.",
+      "example": "Raising the minimum wage remains a debated policy."
+    },
+    {
+      "phrase": "Economic recession",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "A period of economic decline.",
+      "example": "The economic recession led to widespread layoffs."
+    },
+    {
+      "phrase": "Labour market",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The supply and demand for workers.",
+      "example": "The labour market has shifted toward remote-friendly roles."
+    },
+    {
+      "phrase": "Job creation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The generation of new employment opportunities.",
+      "example": "Government investment aims to boost job creation."
+    },
+    {
+      "phrase": "Skilled workforce",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "Workers with specialized training or expertise.",
+      "example": "A skilled workforce attracts foreign investment."
+    },
+    {
+      "phrase": "Economic downturn",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "A decline in economic activity.",
+      "example": "Small businesses struggle most during an economic downturn."
+    },
+    {
+      "phrase": "Financial stability",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "A secure and consistent financial situation.",
+      "example": "Financial stability is a key factor in life satisfaction."
+    },
+    {
+      "phrase": "Cost of living",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The amount needed to cover basic expenses.",
+      "example": "The cost of living has risen sharply in major cities."
+    },
+    {
+      "phrase": "Standard of living",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The level of wealth and comfort available.",
+      "example": "Economic growth has raised the standard of living."
+    },
+    {
+      "phrase": "Corporate culture",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The values and practices within a company.",
+      "example": "A positive corporate culture improves employee retention."
+    },
+    {
+      "phrase": "Economic disparity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The unequal distribution of wealth.",
+      "example": "Economic disparity between regions remains significant."
+    },
+    {
+      "phrase": "Business venture",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "A new commercial project or enterprise.",
+      "example": "She launched a business venture straight out of university."
+    },
+    {
+      "phrase": "Entrepreneurial spirit",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "The willingness to take business risks and innovate.",
+      "example": "The country is known for its entrepreneurial spirit."
+    },
+    {
+      "phrase": "Consumer spending",
+      "type": "WRITING & SPEAKING",
+      "theme": "Work & Economy",
+      "meaning": "Money spent by households on goods and services.",
+      "example": "Consumer spending drives much of the economy."
+    },
+    {
+      "phrase": "Cultural diversity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The variety of cultures within a society.",
+      "example": "Cultural diversity enriches a country's identity."
+    },
+    {
+      "phrase": "Global economy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The interconnected economy of all countries.",
+      "example": "The global economy was disrupted by the pandemic."
+    },
+    {
+      "phrase": "International trade",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Trade between countries.",
+      "example": "International trade has boosted economic development."
+    },
+    {
+      "phrase": "Foreign investment",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Investment from overseas sources.",
+      "example": "Foreign investment has fueled infrastructure growth."
+    },
+    {
+      "phrase": "Cultural exchange",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The sharing of ideas between cultures.",
+      "example": "Studying abroad promotes cultural exchange."
+    },
+    {
+      "phrase": "Multinational corporations",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Companies operating in multiple countries.",
+      "example": "Multinational corporations dominate the global market."
+    },
+    {
+      "phrase": "Global market",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The worldwide system of trade.",
+      "example": "Small businesses now compete in the global market."
+    },
+    {
+      "phrase": "Cultural assimilation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The process of adopting the culture of a dominant group.",
+      "example": "Cultural assimilation can be a challenge for immigrants."
+    },
+    {
+      "phrase": "Cross-border cooperation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Collaboration between countries.",
+      "example": "Cross-border cooperation is essential to tackle climate change."
+    },
+    {
+      "phrase": "Economic globalization",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The increasing integration of world economies.",
+      "example": "Economic globalization has increased competition among firms."
+    },
+    {
+      "phrase": "Cultural identity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "A sense of belonging to a particular culture.",
+      "example": "Migration can challenge one's cultural identity."
+    },
+    {
+      "phrase": "Trade barriers",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Restrictions that limit international trade.",
+      "example": "Trade barriers protect domestic industries but raise prices."
+    },
+    {
+      "phrase": "Global workforce",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Workers spread across different countries.",
+      "example": "Remote technology has enabled a truly global workforce."
+    },
+    {
+      "phrase": "Cultural homogenization",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The blending of cultures into a uniform one.",
+      "example": "Critics warn of cultural homogenization caused by global media."
+    },
+    {
+      "phrase": "International cooperation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Countries working together toward shared goals.",
+      "example": "International cooperation is vital for pandemic response."
+    },
+    {
+      "phrase": "Global supply chain",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The network involved in producing and delivering goods",
+      "example": "worldwide."
+    },
+    {
+      "phrase": "Foreign direct investment",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Investment made by a company in another country.",
+      "example": "Foreign direct investment has driven industrial growth."
+    },
+    {
+      "phrase": "Cultural heritage",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Traditions and history passed down through generations.",
+      "example": "Preserving cultural heritage is important amid globalization."
+    },
+    {
+      "phrase": "Global connectivity",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "The ease of communication across the world.",
+      "example": "Global connectivity has transformed international business."
+    },
+    {
+      "phrase": "Economic interdependence",
+      "type": "WRITING & SPEAKING",
+      "theme": "Globalization",
+      "meaning": "Countries relying on each other economically.",
+      "example": "Economic interdependence discourages conflict between nations."
+    },
+    {
+      "phrase": "Public policy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Decisions made by government to address issues.",
+      "example": "Public policy should reflect the needs of citizens."
+    },
+    {
+      "phrase": "Government intervention",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Actions taken by government to influence outcomes.",
+      "example": "Government intervention helped stabilize the housing market."
+    },
+    {
+      "phrase": "Tax revenue",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Income",
+      "example": "Tax revenue funds public services like healthcare and education."
+    },
+    {
+      "phrase": "Legislative reform",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Changes made to existing laws.",
+      "example": "Legislative reform is needed to address outdated regulations."
+    },
+    {
+      "phrase": "Public spending",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Money spent by the government.",
+      "example": "Public spending on infrastructure boosts local economies."
+    },
+    {
+      "phrase": "Government subsidy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Financial support given by the state.",
+      "example": "Farmers rely on government subsidies during poor harvests."
+    },
+    {
+      "phrase": "Political stability",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "A lack of major disruption in government.",
+      "example": "Political stability attracts foreign investors."
+    },
+    {
+      "phrase": "Policy implementation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Putting a plan or law into action.",
+      "example": "Successful policy implementation requires public support."
+    },
+    {
+      "phrase": "Regulatory framework",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The system of rules governing an industry.",
+      "example": "A strong regulatory framework protects consumers."
+    },
+    {
+      "phrase": "Public sector",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The part of the economy controlled by government.",
+      "example": "The public sector employs a large share of the workforce."
+    },
+    {
+      "phrase": "Civic responsibility",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The duties of individuals to their community.",
+      "example": "Voting is considered a civic responsibility."
+    },
+    {
+      "phrase": "Government funding",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Financial resources provided by the state.",
+      "example": "Universities depend partly on government funding."
+    },
+    {
+      "phrase": "Bureaucratic process",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The formal procedures within an organization.",
+      "example": "The bureaucratic process for visas can be slow."
+    },
+    {
+      "phrase": "Political corruption",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The abuse of power for personal gain.",
+      "example": "Political corruption undermines public trust."
+    },
+    {
+      "phrase": "Democratic values",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Principles associated with democracy, such as equality and",
+      "example": "freedom."
+    },
+    {
+      "phrase": "Government regulation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Rules imposed by authorities.",
+      "example": "Government regulation ensures workplace safety."
+    },
+    {
+      "phrase": "Welfare state",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "A system where government protects citizens' well-being.",
+      "example": "The welfare state provides a safety net for the unemployed."
+    },
+    {
+      "phrase": "Public infrastructure",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "Facilities like roads and utilities provided by government.",
+      "example": "Investment in public infrastructure improves quality of life."
+    },
+    {
+      "phrase": "National security",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "The protection of a country from threats.",
+      "example": "National security concerns have shaped immigration policy."
+    },
+    {
+      "phrase": "Foreign policy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Government & Policy",
+      "meaning": "A government's strategy in dealing with other nations.",
+      "example": "Foreign policy decisions can affect international trade."
+    },
+    {
+      "phrase": "Mass media",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Communication channels reaching large audiences.",
+      "example": "Mass media shapes public perception of events."
+    },
+    {
+      "phrase": "Freedom of speech",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The right to express opinions without censorship.",
+      "example": "Freedom of speech is protected under most democratic constitutions."
+    },
+    {
+      "phrase": "Media coverage",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "How an event is reported by news outlets.",
+      "example": "The election received extensive media coverage."
+    },
+    {
+      "phrase": "Public opinion",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The collective views of the general population.",
+      "example": "Public opinion often shifts after major news events."
+    },
+    {
+      "phrase": "Fake news",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "False information presented as news.",
+      "example": "Fake news spreads quickly on social media."
+    },
+    {
+      "phrase": "Media literacy",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The ability to critically evaluate media content.",
+      "example": "Media literacy helps people identify misinformation."
+    },
+    {
+      "phrase": "Censorship laws",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Regulations restricting published or broadcast content.",
+      "example": "Censorship laws vary greatly between countries."
+    },
+    {
+      "phrase": "Advertising industry",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The business of promoting products and services.",
+      "example": "The advertising industry has shifted heavily toward digital platforms."
+    },
+    {
+      "phrase": "Media influence",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The effect media has on beliefs and behavior.",
+      "example": "Media influence on body image has drawn criticism."
+    },
+    {
+      "phrase": "Breaking news",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Urgent, newly reported information.",
+      "example": "Breaking news alerts now reach phones instantly."
+    },
+    {
+      "phrase": "Media bias",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "A lack of objectivity in reporting.",
+      "example": "Media bias can distort public understanding of issues."
+    },
+    {
+      "phrase": "Investigative journalism",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "In-depth reporting uncovering hidden facts.",
+      "example": "Investigative journalism exposed the corruption scandal."
+    },
+    {
+      "phrase": "Public relations",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Managing public image and communication for",
+      "example": "organizations."
+    },
+    {
+      "phrase": "Media consumption",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The amount and type of media people engage with.",
+      "example": "Media consumption habits have shifted toward mobile devices."
+    },
+    {
+      "phrase": "Viral content",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Content that spreads rapidly online.",
+      "example": "Viral content can shape trends within days."
+    },
+    {
+      "phrase": "Media outlet",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "An organization that publishes or broadcasts news.",
+      "example": "Several media outlets covered the story differently."
+    },
+    {
+      "phrase": "Press freedom",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The right of journalists to report without government",
+      "example": "interference."
+    },
+    {
+      "phrase": "Digital media",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Media content distributed through digital platforms.",
+      "example": "Digital media has overtaken print in popularity."
+    },
+    {
+      "phrase": "Media manipulation",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "The deliberate distortion of information.",
+      "example": "Media manipulation can influence election outcomes."
+    },
+    {
+      "phrase": "Broadcast media",
+      "type": "WRITING & SPEAKING",
+      "theme": "Media & Communication",
+      "meaning": "Television and radio communication.",
+      "example": "Broadcast media still plays a role in public information."
+    },
+    {
+      "phrase": "Draw a conclusion",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To form a judgment based on evidence.",
+      "example": "It's difficult to draw a conclusion from limited data."
+    },
+    {
+      "phrase": "Play a significant role",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To be an important factor.",
+      "example": "Parents play a significant role in a child's development."
+    },
+    {
+      "phrase": "Raise awareness",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To increase public understanding of an issue.",
+      "example": "Campaigns aim to raise awareness about climate change."
+    },
+    {
+      "phrase": "Pose a threat",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To be a danger to something.",
+      "example": "Rising sea levels pose a threat to coastal cities."
+    },
+    {
+      "phrase": "Have a profound impact",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To affect something deeply.",
+      "example": "The internet has had a profound impact on communication."
+    },
+    {
+      "phrase": "Address the issue",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To deal with a problem.",
+      "example": "Governments must address the issue of housing shortages."
+    },
+    {
+      "phrase": "Take measures",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To take action to achieve something.",
+      "example": "Authorities are taking measures to reduce pollution."
+    },
+    {
+      "phrase": "Strike a balance",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To find a compromise between two things.",
+      "example": "It's important to strike a balance between work and rest."
+    },
+    {
+      "phrase": "Tackle the problem",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To deal with a difficult issue.",
+      "example": "New policies aim to tackle the problem of youth unemployment."
+    },
+    {
+      "phrase": "Reach a consensus",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To come to a general agreement.",
+      "example": "It's hard for nations to reach a consensus on climate policy."
+    },
+    {
+      "phrase": "Exacerbate the problem",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To make a problem worse.",
+      "example": "Poor infrastructure exacerbates the problem of traffic congestion."
+    },
+    {
+      "phrase": "Alleviate poverty",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To reduce the severity of poverty.",
+      "example": "Microfinance has helped alleviate poverty in rural areas."
+    },
+    {
+      "phrase": "Implement a policy",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To put a policy into action.",
+      "example": "The government plans to implement a new education policy."
+    },
+    {
+      "phrase": "Bridge the gap",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To reduce the difference between two things.",
+      "example": "Scholarships help bridge the gap between rich and poor students."
+    },
+    {
+      "phrase": "Foster innovation",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To encourage new ideas and creativity.",
+      "example": "Startups thrive in environments that foster innovation."
+    },
+    {
+      "phrase": "Mitigate the risk",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To reduce the severity of a potential danger.",
+      "example": "Insurance helps mitigate the risk of financial loss."
+    },
+    {
+      "phrase": "Undermine confidence",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To weaken trust or belief in something.",
+      "example": "Scandals can undermine confidence in public institutions."
+    },
+    {
+      "phrase": "Yield positive results",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To produce good outcomes.",
+      "example": "The new teaching method yielded positive results."
+    },
+    {
+      "phrase": "Trigger a debate",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To cause discussion or controversy.",
+      "example": "The proposal triggered a debate among lawmakers."
+    },
+    {
+      "phrase": "Set a precedent",
+      "type": "WRITING & SPEAKING",
+      "theme": "General Academic (Writing Task 2)",
+      "meaning": "To establish an example for future situations.",
+      "example": "The court ruling set a precedent for similar cases."
+    }
+  ],
+  "total": 354
+}

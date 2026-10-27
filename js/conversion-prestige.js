@@ -17,28 +17,28 @@
       category: "Environment & Urban Ecology",
       topic: "Automobile Emissions & Public Health",
       bands: {
-        6.0: {
+        "6.0": {
           band: "6.0",
           text: "Pollution is bad because cars make smoke and it hurts people in cities.",
           html: "<span class=\"token-base\">Pollution is bad</span> because <span class=\"token-base\">cars make smoke</span> and it <span class=\"token-base\">hurts people</span> in cities.",
           ta: 6.0, cc: 6.0, lr: 5.5, gra: 5.5,
           burmese: "ဝေါဟာရ အားနည်းပြီး 'bad', 'smoke', 'hurts people' စသည့် စကားပြောအသုံးများသာ ပါဝင်သည်။ ရိုးရှင်းလွန်းသော Compound sentence သာ ဖြစ်သည်။"
         },
-        7.0: {
+        "7.0": {
           band: "7.0",
           text: "Car pollution has become a serious problem in modern cities, damaging the environment and public health.",
           html: "<span class=\"token-lr\">Car pollution</span> has become a <span class=\"token-lr\">serious problem</span> in modern cities, <span class=\"token-gra\">damaging the environment</span> and <span class=\"token-lr\">public health</span>.",
           ta: 7.0, cc: 7.0, lr: 7.0, gra: 6.5,
           burmese: "Participle clause ('damaging the environment') သုံးထား၍ Band 7.0 ရသော်လည်း Academic Collocation များ C1/C2 အဆင့်အထိ ကြွယ်ဝမှု မရှိသေးပါ။"
         },
-        8.5: {
+        "8.5": {
           band: "8.5",
           text: "Automobile emissions precipitate severe ecological degradation, thereby exacerbating urban pulmonary ailments amongst vulnerable demographics.",
           html: "<span class=\"token-lr\">Automobile emissions</span> <span class=\"token-lr\">precipitate severe ecological degradation</span>, <span class=\"token-cc\">thereby exacerbating</span> <span class=\"token-lr\">urban pulmonary ailments</span> amongst <span class=\"token-lr\">vulnerable demographics</span>.",
           ta: 8.5, cc: 8.5, lr: 8.5, gra: 8.5,
           burmese: "C2 Academic Collocations ('precipitate ecological degradation', 'pulmonary ailments') နှင့် Adverbial Consequence ('thereby exacerbating') တို့ဖြင့် Band 8.5 သို့ အဆင့်မြင့်တက်လာသည်။"
         },
-        9.0: {
+        "9.0": {
           band: "9.0",
           text: "Seldom can the ramifications of anthropogenic vehicle emissions be overstated, given their propensity to precipitate irreparable environmental degradation whilst compromising civic health.",
           html: "<span class=\"token-gra\">Seldom can the ramifications</span> of <span class=\"token-lr\">anthropogenic vehicle emissions</span> <span class=\"token-gra\">be overstated</span>, <span class=\"token-cc\">given their propensity</span> to <span class=\"token-lr\">precipitate irreparable environmental degradation</span> <span class=\"token-gra\">whilst compromising</span> <span class=\"token-lr\">civic health</span>.",
@@ -52,28 +52,28 @@
       category: "Technology & The Workplace",
       topic: "Artificial Intelligence & Automation",
       bands: {
-        6.0: {
+        "6.0": {
           band: "6.0",
           text: "Robots and AI will take human jobs so many people will be unemployed in the future.",
           html: "<span class=\"token-base\">Robots and AI</span> will <span class=\"token-base\">take human jobs</span> so many people will be <span class=\"token-base\">unemployed</span> in the future.",
           ta: 6.0, cc: 5.5, lr: 6.0, gra: 5.5,
           burmese: "'take human jobs', 'many people' စသည့် generic စကားလုံးများသုံးထားပြီး ချိတ်ဆက်စကားလုံးမှာ 'so' တစ်လုံးတည်းသာ ရှိသည်။"
         },
-        7.0: {
+        "7.0": {
           band: "7.0",
           text: "The rapid development of artificial intelligence is likely to replace many traditional jobs, creating high unemployment.",
           html: "The <span class=\"token-lr\">rapid development</span> of artificial intelligence is <span class=\"token-gra\">likely to replace</span> many traditional jobs, <span class=\"token-gra\">creating high unemployment</span>.",
           ta: 7.0, cc: 7.0, lr: 7.0, gra: 7.0,
           burmese: "Likely to infinitive နှင့် participle clause သုံးထား၍ ဖွဲ့စည်းပုံကောင်းသော်လည်း စိတ်လှုပ်ရှားဖွယ် Lexical Resource မပါသေးပါ။"
         },
-        8.5: {
+        "8.5": {
           band: "8.5",
           text: "The relentless proliferation of automated intelligence threatens to displace substantial segments of the conventional workforce, thereby necessitating radical socioeconomic re-skilling.",
           html: "The <span class=\"token-lr\">relentless proliferation</span> of <span class=\"token-lr\">automated intelligence</span> <span class=\"token-lr\">threatens to displace</span> <span class=\"token-lr\">substantial segments</span> of the <span class=\"token-lr\">conventional workforce</span>, <span class=\"token-cc\">thereby necessitating</span> <span class=\"token-lr\">radical socioeconomic re-skilling</span>.",
           ta: 8.5, cc: 8.5, lr: 9.0, gra: 8.5,
           burmese: "C2 Nominalisations ('relentless proliferation', 'conventional workforce', 'socioeconomic re-skilling') ဖြင့် Examiner အား ချက်ချင်း အထင်ကြီးစေသည်။"
         },
-        9.0: {
+        "9.0": {
           band: "9.0",
           text: "Not only does the unchecked proliferation of generative algorithms threaten conventional vocations, but it also mandates an unprecedented paradigm shift across global labour infrastructure.",
           html: "<span class=\"token-gra\">Not only does the unchecked proliferation</span> of <span class=\"token-lr\">generative algorithms</span> threaten <span class=\"token-lr\">conventional vocations</span>, <span class=\"token-gra\">but it also mandates</span> an <span class=\"token-lr\">unprecedented paradigm shift</span> across <span class=\"token-lr\">global labour infrastructure</span>.",
@@ -87,28 +87,28 @@
       category: "Education & Public Policy",
       topic: "State Subsidisation of University Tuition",
       bands: {
-        6.0: {
+        "6.0": {
           band: "6.0",
           text: "University should be free because poor students cannot pay high fees to study.",
           html: "<span class=\"token-base\">University should be free</span> because <span class=\"token-base\">poor students</span> cannot <span class=\"token-base\">pay high fees</span> to study.",
           ta: 6.0, cc: 6.0, lr: 5.5, gra: 6.0,
           burmese: "အလွန်ရိုးစင်းသော အဆင့်ဖြစ်ပြီး 'poor students', 'pay high fees' ဟူသော စကားပြောဟန် ဝေါဟာရများ ဖြစ်သည်။"
         },
-        7.0: {
+        "7.0": {
           band: "7.0",
           text: "Tertiary education should be subsidised by governments to ensure equal opportunities for underprivileged students.",
           html: "<span class=\"token-lr\">Tertiary education</span> should be <span class=\"token-lr\">subsidised by governments</span> to ensure <span class=\"token-lr\">equal opportunities</span> for <span class=\"token-lr\">underprivileged students</span>.",
           ta: 7.0, cc: 7.0, lr: 7.5, gra: 7.0,
           burmese: "Passive voice နှင့် 'tertiary education', 'subsidised', 'underprivileged' စသည့် ပညာရပ်ဆန်သော စကားလုံးများ ပါဝင်လာသည်။"
         },
-        8.5: {
+        "8.5": {
           band: "8.5",
           text: "State-sponsored tertiary subsidisation is imperative to democratise academic accession and mitigate systemic socioeconomic disparities.",
           html: "<span class=\"token-lr\">State-sponsored tertiary subsidisation</span> is <span class=\"token-lr\">imperative</span> to <span class=\"token-lr\">democratise academic accession</span> and <span class=\"token-lr\">mitigate systemic socioeconomic disparities</span>.",
           ta: 8.5, cc: 8.5, lr: 9.0, gra: 8.5,
           burmese: "High-level Academic Collocations ('democratise academic accession', 'mitigate systemic disparities') ဖြင့် Band 8.5 Lexical Resource အမှတ်ပြည့် ရရှိသည်။"
         },
-        9.0: {
+        "9.0": {
           band: "9.0",
           text: "It is through the comprehensive subsidisation of higher education that nation-states can dismantle entrenched class barriers and cultivate meritocratic socioeconomic mobility.",
           html: "<span class=\"token-gra\">It is through</span> the <span class=\"token-lr\">comprehensive subsidisation</span> of higher education <span class=\"token-gra\">that nation-states can</span> <span class=\"token-lr\">dismantle entrenched class barriers</span> and <span class=\"token-lr\">cultivate meritocratic socioeconomic mobility</span>.",
@@ -122,28 +122,28 @@
       category: "Urban Planning & Transport",
       topic: "Traffic Congestion & Transit Networks",
       bands: {
-        6.0: {
+        "6.0": {
           band: "6.0",
           text: "There are too many cars on the road, which causes big traffic jams every day.",
           html: "There are <span class=\"token-base\">too many cars</span> on the road, which causes <span class=\"token-base\">big traffic jams</span> every day.",
           ta: 6.0, cc: 6.0, lr: 5.5, gra: 6.0,
           burmese: "'big traffic jams', 'too many cars' စသည့် အခြေခံဝေါဟာရများ ဖြစ်ပြီး သာမန် Relative clause သာ ရှိသည်။"
         },
-        7.0: {
+        "7.0": {
           band: "7.0",
           text: "Excessive vehicular density leads to severe traffic congestion in metropolitan centers during peak hours.",
           html: "<span class=\"token-lr\">Excessive vehicular density</span> leads to <span class=\"token-lr\">severe traffic congestion</span> in <span class=\"token-lr\">metropolitan centers</span> during peak hours.",
           ta: 7.0, cc: 7.0, lr: 7.5, gra: 7.0,
           burmese: "'vehicular density', 'metropolitan centers' ကဲ့သို့သော Band 7+ Topic-specific vocabulary သုံးထားသည်။"
         },
-        8.5: {
+        "8.5": {
           band: "8.5",
           text: "Chronic gridlock in metropolitan epicentres stems predominantly from inadequate public transit infrastructure coupled with exponential commuter density.",
           html: "<span class=\"token-lr\">Chronic gridlock</span> in <span class=\"token-lr\">metropolitan epicentres</span> stems predominantly from <span class=\"token-lr\">inadequate public transit infrastructure</span> <span class=\"token-cc\">coupled with</span> <span class=\"token-lr\">exponential commuter density</span>.",
           ta: 8.5, cc: 8.5, lr: 9.0, gra: 8.5,
           burmese: "Precise Academic Verb & Collocations ('chronic gridlock', 'metropolitan epicentres', 'coupled with exponential density') ဖြင့် အဆင့်မြင့်တင်ထားသည်။"
         },
-        9.0: {
+        "9.0": {
           band: "9.0",
           text: "Were municipal administrations to implement stringent congestion tariffs in tandem with rapid-transit expansion, the chronic paralysis of urban commuter arteries would be significantly alleviated.",
           html: "<span class=\"token-gra\">Were municipal administrations to implement</span> <span class=\"token-lr\">stringent congestion tariffs</span> <span class=\"token-cc\">in tandem with</span> rapid-transit expansion, the <span class=\"token-lr\">chronic paralysis</span> of <span class=\"token-lr\">urban commuter arteries</span> <span class=\"token-gra\">would be significantly alleviated</span>.",
@@ -157,28 +157,28 @@
       category: "Culture & Globalisation",
       topic: "Westernization & Indigenous Heritage",
       bands: {
-        6.0: {
+        "6.0": {
           band: "6.0",
           text: "Western culture is spreading everywhere and young people forget their traditions.",
           html: "<span class=\"token-base\">Western culture</span> is <span class=\"token-base\">spreading everywhere</span> and <span class=\"token-base\">young people forget</span> their traditions.",
           ta: 6.0, cc: 5.5, lr: 5.5, gra: 5.5,
           burmese: "စကားပြောသံပေါက်နေပြီး 'spreading everywhere', 'young people forget' စသည့် မရေရာသော အသုံးများ ပါဝင်သည်။"
         },
-        7.0: {
+        "7.0": {
           band: "7.0",
           text: "Western media influences youth globally, leading to the gradual erosion of local cultural customs.",
           html: "Western media influences youth globally, <span class=\"token-gra\">leading to the gradual erosion</span> of <span class=\"token-lr\">local cultural customs</span>.",
           ta: 7.0, cc: 7.0, lr: 7.5, gra: 7.0,
           burmese: "'gradual erosion of cultural customs' ဟူသော collocation ပါဝင်လာပြီး Participle clause ချိတ်ဆက်မှု ကောင်းမွန်သည်။"
         },
-        8.5: {
+        "8.5": {
           band: "8.5",
           text: "The pervasive homogenisation of western cultural paradigms threatens to dilute indigenous linguistic and artistic heritage amongst impressionable youths.",
           html: "The <span class=\"token-lr\">pervasive homogenisation</span> of western <span class=\"token-lr\">cultural paradigms</span> <span class=\"token-lr\">threatens to dilute</span> <span class=\"token-lr\">indigenous linguistic and artistic heritage</span> amongst <span class=\"token-lr\">impressionable youths</span>.",
           ta: 8.5, cc: 8.5, lr: 9.0, gra: 8.5,
           burmese: "C2 Abstract Academic Lexicon ('pervasive homogenisation', 'cultural paradigms', 'threatens to dilute indigenous heritage') ဖြင့် ခြွင်းချက်မရှိ Band 8.5+ ရရှိစေသည်။"
         },
-        9.0: {
+        "9.0": {
           band: "9.0",
           text: "Scarcely can contemporary societies safeguard their ancestral heritage without proactively insulating domestic cultural traditions against the homogenising tide of western globalisation.",
           html: "<span class=\"token-gra\">Scarcely can contemporary societies</span> <span class=\"token-lr\">safeguard their ancestral heritage</span> without <span class=\"token-gra\">proactively insulating</span> <span class=\"token-lr\">domestic cultural traditions</span> against the <span class=\"token-lr\">homogenising tide of western globalisation</span>.",
@@ -206,6 +206,18 @@
   let currentScenarioIdx = 0;
   let currentBandIdx = 2; // Default to Band 8.5
   let currentBandStep = 8.5; // Backwards-compatible float
+
+  function getScenarioBandData(scenario, bandKey) {
+    if (!scenario || !scenario.bands) return null;
+    const k = String(bandKey || '8.5');
+    const shortK = k.replace(/\.0$/, '');
+    return scenario.bands[k] || 
+           scenario.bands[shortK] || 
+           scenario.bands[parseFloat(k)] || 
+           scenario.bands['8.5'] || 
+           scenario.bands['8'] || 
+           Object.values(scenario.bands)[0];
+  }
 
   function stepToBandIndex(step) {
     if (typeof step === 'number') {
@@ -258,7 +270,7 @@
   window.getCurrentTransformationText = function() {
     const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
     const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
-    const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
+    const currentData = getScenarioBandData(scenario, bandKey);
     return currentData ? currentData.text : '';
   };
 
@@ -272,7 +284,7 @@
 
     const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
     const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
-    const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
+    const currentData = getScenarioBandData(scenario, bandKey);
     const activeColor = BAND_COLORS[bandKey] || '#10B981';
     const bandLevel = BAND_LEVELS[bandKey] || 'C2 MASTERY';
 
@@ -373,7 +385,7 @@
 
     const scenario = TRANSFORMATION_SCENARIOS[currentScenarioIdx] || TRANSFORMATION_SCENARIOS[0];
     const bandKey = BAND_KEYS[currentBandIdx] || '8.5';
-    const currentData = scenario.bands[bandKey] || scenario.bands['8.5'];
+    const currentData = getScenarioBandData(scenario, bandKey);
     const activeColor = BAND_COLORS[bandKey] || '#10B981';
     const bandLevel = BAND_LEVELS[bandKey] || 'C2 MASTERY';
 
