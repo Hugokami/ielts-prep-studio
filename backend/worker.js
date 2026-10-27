@@ -346,8 +346,14 @@ async function handleTelegramWidgetAuth(request, env) {
   `).bind(user.id).first();
 
   let isVip = 0;
+  let vipExpiresAt = 0;
   if (existing) {
     isVip = existing.is_vip || 0;
+    vipExpiresAt = existing.vip_expires_at || 0;
+    if (isVip === 1 && vipExpiresAt > 0 && Date.now() > vipExpiresAt) {
+      isVip = 0;
+      await env.DB.prepare("UPDATE users SET is_vip = 0, updated_at = unixepoch() WHERE telegram_id = ?").bind(user.id).run();
+    }
     // Update profile info in D1
     await env.DB.prepare(`
       UPDATE users SET username = ?, first_name = ?, updated_at = unixepoch() WHERE telegram_id = ?
@@ -369,6 +375,7 @@ async function handleTelegramWidgetAuth(request, env) {
   return jsonResponse({
     success: true,
     isVip: isVip === 1,
+    vipExpiresAt: vipExpiresAt,
     savedProgress: existing && existing.progress_json ? JSON.parse(existing.progress_json) : null,
     vipData: vipData,
     user: user
@@ -417,10 +424,18 @@ async function handleSync(request, env) {
 
   // Query D1 user record
   let userRow = null;
+  let vipExpiresAt = 0;
   if (telegramId) {
-    userRow = await env.DB.prepare("SELECT is_vip, progress_json FROM users WHERE telegram_id = ?").bind(telegramId).first();
+    userRow = await env.DB.prepare("SELECT is_vip, vip_expires_at, progress_json FROM users WHERE telegram_id = ?").bind(telegramId).first();
     if (userRow && userRow.is_vip === 1) {
-      isVip = true;
+      vipExpiresAt = userRow.vip_expires_at || 0;
+      if (vipExpiresAt > 0 && Date.now() > vipExpiresAt) {
+        // Expired 7-day pass
+        isVip = false;
+        await env.DB.prepare("UPDATE users SET is_vip = 0 WHERE telegram_id = ?").bind(telegramId).run();
+      } else {
+        isVip = true;
+      }
     }
   }
 
@@ -459,6 +474,7 @@ async function handleSync(request, env) {
     success: true,
     telegramId: telegramId || null,
     isVip: !!isVip,
+    vipExpiresAt: vipExpiresAt,
     sessionToken: sessionToken,
     savedProgress: userRow && userRow.progress_json ? JSON.parse(userRow.progress_json) : null,
     vipData: vipData
@@ -480,22 +496,37 @@ async function handleRedeemCode(request, env) {
 
   const codeHash = await sha256Hex(cleanCode);
   const devId = (deviceId || "web-client").trim().slice(0, 64);
+  const nowMs = Date.now();
+  const bonusMs = 7 * 24 * 60 * 60 * 1000;
+  let isSprint = cleanCode.includes("SPRINT");
 
   // 1. Check in vouchers table
   let voucher = await env.DB.prepare("SELECT * FROM vouchers WHERE code_hash = ?").bind(codeHash).first();
 
   // Backward-compat check in promo_codes table
+  let legacyPromo = null;
   if (!voucher) {
-    const legacyPromo = await env.DB.prepare("SELECT * FROM promo_codes WHERE code = ?").bind(cleanCode).first();
+    legacyPromo = await env.DB.prepare("SELECT * FROM promo_codes WHERE code = ?").bind(cleanCode).first();
     if (legacyPromo) {
-      await env.DB.prepare("INSERT OR IGNORE INTO vouchers (code_hash, tier, max_devices, revoked, created_at) VALUES (?, 'vip', 3, 0, unixepoch())").bind(codeHash).run();
-      voucher = { code_hash: codeHash, tier: "vip", max_devices: 3, revoked: 0 };
+      if (legacyPromo.plan_type === "sprint") isSprint = true;
+      const expAt = isSprint ? (nowMs + bonusMs) : 0;
+      await env.DB.prepare("INSERT OR IGNORE INTO vouchers (code_hash, tier, max_devices, revoked, created_at, expires_at) VALUES (?, ?, 3, 0, unixepoch(), ?)").bind(codeHash, isSprint ? "sprint" : "vip", expAt).run();
+      voucher = { code_hash: codeHash, tier: isSprint ? "sprint" : "vip", max_devices: 3, revoked: 0, expires_at: expAt };
     }
   }
 
   if (!voucher || voucher.revoked === 1) {
     return jsonResponse({ success: false, error: "Invalid, expired, or revoked voucher code." }, 400);
   }
+
+  if (voucher.tier === "sprint") isSprint = true;
+
+  // Check voucher expiration if any
+  if (voucher.expires_at && voucher.expires_at > 0 && nowMs > voucher.expires_at) {
+    return jsonResponse({ success: false, error: "This 7-Day Sprint Pass has expired." }, 400);
+  }
+
+  const vipExpiresAt = isSprint ? (nowMs + bonusMs) : 0;
 
   // 2. Multi-device tracking in voucher_devices table (max 3 devices)
   const existingDev = await env.DB.prepare("SELECT * FROM voucher_devices WHERE code_hash = ? AND device_id = ?").bind(codeHash, devId).first();
@@ -514,21 +545,41 @@ async function handleRedeemCode(request, env) {
     const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
     if (user && user.id) {
       telegramId = user.id;
-      await env.DB.prepare(`
-        INSERT INTO users (telegram_id, is_vip, vip_activated_at, updated_at)
-        VALUES (?, 1, unixepoch(), unixepoch())
-        ON CONFLICT(telegram_id) DO UPDATE SET
-          is_vip = 1,
-          vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
-          updated_at = unixepoch()
-      `).bind(telegramId).run();
+      if (isSprint) {
+        await env.DB.prepare(`
+          INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+          VALUES (?, 1, unixepoch(), ?, unixepoch())
+          ON CONFLICT(telegram_id) DO UPDATE SET
+            is_vip = 1,
+            vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+            vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
+            updated_at = unixepoch()
+        `).bind(telegramId, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
+      } else {
+        await env.DB.prepare(`
+          INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+          VALUES (?, 1, unixepoch(), 0, unixepoch())
+          ON CONFLICT(telegram_id) DO UPDATE SET
+            is_vip = 1,
+            vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+            vip_expires_at = 0,
+            updated_at = unixepoch()
+        `).bind(telegramId).run();
+      }
       await env.DB.prepare("UPDATE vouchers SET telegram_id = ? WHERE code_hash = ?").bind(telegramId, codeHash).run();
     }
   }
 
-  // 4. Issue signed 30-day session token
+  if (legacyPromo) {
+    try {
+      await env.DB.prepare("UPDATE promo_codes SET is_used = 1, used_by_tg_id = ?, used_at = unixepoch() WHERE code = ?").bind(telegramId || 0, cleanCode).run();
+    } catch (e) {}
+  }
+
+  // 4. Issue signed session token
   const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
-  const sessionToken = await createSessionToken({ sub: telegramId || devId, tier: "vip" }, signingKey);
+  const expSeconds = isSprint ? Math.floor((nowMs + bonusMs) / 1000) : Math.floor(nowMs / 1000) + (30 * 24 * 3600);
+  const sessionToken = await createSessionToken({ sub: telegramId || devId, tier: "vip", plan: isSprint ? "sprint" : "lifetime", exp: expSeconds }, signingKey);
 
   let vipData = null;
   if (env.VIP_KV) {
@@ -540,16 +591,15 @@ async function handleRedeemCode(request, env) {
   return jsonResponse({
     success: true,
     isVip: true,
+    plan: isSprint ? "sprint" : "lifetime",
+    days: isSprint ? 7 : "lifetime",
+    vipExpiresAt: vipExpiresAt,
     sessionToken: sessionToken,
-    message: "Lifetime VIP Pass activated successfully!",
+    message: isSprint ? "7-Day Sprint VIP Pass activated successfully!" : "Lifetime VIP Pass activated successfully!",
     vipData: vipData
   });
 }
 
-
-// ==========================================
-// 5. TELEGRAM BOT WEBHOOK (POST /webhook)
-// ==========================================
 async function handleWebhook(request, env, ctx = null) {
   // Verify Telegram Webhook Secret Token if configured
   if (env.WEBHOOK_SECRET) {
@@ -603,38 +653,83 @@ async function handleWebhook(request, env, ctx = null) {
       } catch (e) {}
 
       if (!existingTx) {
+        let payloadData = {};
+        try { payloadData = JSON.parse(sp.invoice_payload || "{}"); } catch (e) {}
+        const isSprint = (payloadData.plan === "sprint" || payloadData.type === "vip_sprint" || sp.total_amount === 75);
+        const nowMs = Date.now();
+        const bonusMs = 7 * 24 * 60 * 60 * 1000;
+        const expiresAt = isSprint ? (nowMs + bonusMs) : 0;
+        const starsAmount = isSprint ? 75 : (sp.total_amount || 1350);
+
         try {
-          await env.DB.prepare(`
-            INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, updated_at)
-            VALUES (?, ?, ?, 1, unixepoch(), unixepoch())
-            ON CONFLICT(telegram_id) DO UPDATE SET
-              is_vip = 1,
-              vip_activated_at = unixepoch(),
-              updated_at = unixepoch()
-          `).bind(userId, username, fullName).run();
+          if (isSprint) {
+            await env.DB.prepare(`
+              INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, vip_expires_at, updated_at)
+              VALUES (?, ?, ?, 1, unixepoch(), ?, unixepoch())
+              ON CONFLICT(telegram_id) DO UPDATE SET
+                is_vip = 1,
+                vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+                vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
+                updated_at = unixepoch()
+            `).bind(userId, username, fullName, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
+          } else {
+            await env.DB.prepare(`
+              INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, vip_expires_at, updated_at)
+              VALUES (?, ?, ?, 1, unixepoch(), 0, unixepoch())
+              ON CONFLICT(telegram_id) DO UPDATE SET
+                is_vip = 1,
+                vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+                vip_expires_at = 0,
+                updated_at = unixepoch()
+            `).bind(userId, username, fullName).run();
+          }
         } catch (e) {
           console.error("[Stars User Activation Error]", e);
         }
 
-        const voucherCode = generateRandomCode();
+        const voucherCode = isSprint ? `IPS-SPRINT-${Math.floor(100 + Math.random() * 900)}` : generateRandomCode();
         try {
-          await env.DB.prepare("INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at) VALUES (?, 1, ?, unixepoch())").bind(voucherCode, userId).run();
+          await env.DB.prepare("INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at, plan_type) VALUES (?, 1, ?, unixepoch(), ?)").bind(voucherCode, userId, isSprint ? "sprint" : "lifetime").run();
         } catch (e) {
           console.error("[Stars Voucher Mint Error]", e);
         }
 
         try {
           await env.DB.prepare(`
-            INSERT INTO payments (telegram_id, username, caption_note, amount_mmk, stars_amount, currency, payment_method, stars_charge_id, status, created_at)
-            VALUES (?, ?, ?, 0, 750, 'XTR', 'stars', ?, 'approved', unixepoch())
-          `).bind(userId, username, "Telegram Stars Lifetime VIP Pass", chargeId).run();
+            INSERT INTO payments (telegram_id, username, caption_note, amount_mmk, stars_amount, currency, payment_method, stars_charge_id, status, plan_tier, created_at)
+            VALUES (?, ?, ?, ?, ?, 'XTR', 'stars', ?, 'approved', ?, unixepoch())
+          `).bind(userId, username, isSprint ? "Telegram Stars 7-Day Sprint Pass" : "Telegram Stars Lifetime VIP Pass", isSprint ? 5000 : 97000, starsAmount, chargeId, isSprint ? "sprint" : "lifetime").run();
         } catch (e) {
           console.error("[Stars Payment Insert Error]", e);
         }
 
-        const magicUrl = `${env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app"}/?voucher=${voucherCode}`;
-        const confirmMsg =
-`🎉 *PAYMENT SUCCESSFUL! 750 TELEGRAM STARS RECEIVED*
+        const magicUrl = `${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app"}/?voucher=${voucherCode}`;
+        const expiryDateStr = isSprint ? new Date(nowMs + bonusMs).toLocaleDateString("en-GB", { timeZone: "Asia/Yangon" }) : "Never (Lifetime)";
+
+        const confirmMsg = isSprint ?
+`🎉 *PAYMENT SUCCESSFUL! 75 TELEGRAM STARS RECEIVED*
+━━━━━━━━━━━━━━━━━━━━
+⚡ *7-Day VIP Sprint Pass Activated!*
+
+Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has 7 full days of unrestricted access to the entire IELTS Prep Studio curriculum.
+
+📅 *Valid Until:* ${expiryDateStr} (7 Full Days)
+✨ *What is now unlocked for you:*
+• 🔤 All 1,162 Vocabulary items, Native Audio & 1-3-7 Spaced Repetition (SRS)
+• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
+• 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
+• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+
+💻 *Your Desktop / PC Activation Voucher:*
+Code: \`${voucherCode}\`
+
+🔗 *1-Click Magic Activation Link:*
+[Click to Launch Studio on Mobile or PC](${magicUrl})
+
+_Need assistance? Lead Instructor: @hyuguo_`
+:
+`🎉 *PAYMENT SUCCESSFUL! ${starsAmount} TELEGRAM STARS RECEIVED*
 ━━━━━━━━━━━━━━━━━━━━
 👑 *Lifetime VIP Studio Pass Activated!*
 
@@ -669,7 +764,7 @@ _Need assistance? Lead Instructor: @hyuguo_`;
 ━━━━━━━━━━━━━━━━━━━━
 👤 *Student:* ${fullName} (@${username || "no_username"})
 🆔 *User ID:* \`${userId}\`
-⭐️ *Amount:* 750 XTR (Telegram Stars)
+⭐️ *Amount:* ${starsAmount} XTR (${isSprint ? "7-Day Sprint" : "Lifetime"})
 🔖 *Charge ID:* \`${chargeId}\`
 🎟️ *Minted Voucher:* \`${voucherCode}\`
 ✅ *Status:* Auto-Approved & VIP Activated`;
@@ -1255,6 +1350,17 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
       return jsonResponse({ ok: true });
     }
 
+    // 2.10b. /redeem <code>
+    if (text.startsWith("/redeem")) {
+      const code = text.replace(/^\/redeem\s*/i, "").trim().toUpperCase();
+      if (!code) {
+        await sendTelegramMessage(botToken, chatId, "🎟️ *Please provide a voucher code.*\n\nUsage: `/redeem IPS-SPRINT-701` or `/redeem IPS-VIP-101`");
+        return jsonResponse({ ok: true });
+      }
+      await handleTelegramBotRedeem(chatId, userId, from, code, env, botToken);
+      return jsonResponse({ ok: true });
+    }
+
     // 2.11. /sprint or "⏱️ Study Sprint"
     if (text.startsWith("/sprint") || text === "⏱️ Study Sprint") {
       await handleSprintCommand(chatId, text, botToken);
@@ -1740,7 +1846,8 @@ Screenshot received! Admin မှ 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprin
           await sendTelegramPhoto(botToken, adminId, fileId, adminCaption, {
             inline_keyboard: [
               [
-                { text: "✅ Approve VIP (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))", callback_data: `approve:${msg.from.id}:${paymentId}` },
+                { text: "👑 Approve Lifetime (97k Ks)", callback_data: `approve:${msg.from.id}:${paymentId}:lifetime` },
+                { text: "⚡ Approve 7-Day Sprint (5k Ks)", callback_data: `approve:${msg.from.id}:${paymentId}:sprint` },
                 { text: "❌ Reject", callback_data: `reject:${msg.from.id}:${paymentId}` }
               ]
             ]
@@ -1953,7 +2060,8 @@ Screenshot received! Admin မှ 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprin
         await sendTelegramPhoto(botToken, adminId, fileId, adminCaption, {
           inline_keyboard: [
             [
-              { text: "✅ Approve VIP (97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))", callback_data: `approve:${cbUser.id}:${paymentId}` },
+              { text: "👑 Approve Lifetime (97k Ks)", callback_data: `approve:${cbUser.id}:${paymentId}:lifetime` },
+              { text: "⚡ Approve 7-Day Sprint (5k Ks)", callback_data: `approve:${cbUser.id}:${paymentId}:sprint` },
               { text: "❌ Reject", callback_data: `reject:${cbUser.id}:${paymentId}` }
             ]
           ]
@@ -2544,8 +2652,15 @@ Select your required score to optimize your daily study quota:`;
         return jsonResponse({ ok: true });
       }
       if (data.startsWith("approve:")) {
-        const [, targetTgId, paymentId] = data.split(":");
+        const parts = data.split(":");
+        const targetTgId = parts[1];
+        const paymentId = parts[2];
+        const planTier = parts[3] || "lifetime";
+        const isSprint = (planTier === "sprint");
         const numTgId = parseInt(targetTgId, 10);
+        const nowMs = Date.now();
+        const bonusMs = 7 * 24 * 60 * 60 * 1000;
+        const expiresAt = isSprint ? (nowMs + bonusMs) : 0;
 
         // Check if payment was already processed
         if (paymentId && paymentId !== "pending") {
@@ -2560,24 +2675,37 @@ Select your required score to optimize your daily study quota:`;
         }
 
         // Generate a personal Desktop VIP voucher code for the student
-        const desktopVoucher = generateRandomCode();
+        const desktopVoucher = isSprint ? `IPS-SPRINT-${Math.floor(100 + Math.random() * 900)}` : generateRandomCode();
         await env.DB.prepare(`
-          INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at)
-          VALUES (?, 1, ?, unixepoch())
-        `).bind(desktopVoucher, numTgId).run();
+          INSERT INTO promo_codes (code, is_used, used_by_tg_id, used_at, plan_type)
+          VALUES (?, 1, ?, unixepoch(), ?)
+        `).bind(desktopVoucher, numTgId, isSprint ? "sprint" : "lifetime").run();
 
         // Update D1: users and payments
-        await env.DB.prepare(`
-          INSERT INTO users (telegram_id, is_vip, vip_activated_at, updated_at)
-          VALUES (?, 1, unixepoch(), unixepoch())
-          ON CONFLICT(telegram_id) DO UPDATE SET
-            is_vip = 1,
-            vip_activated_at = unixepoch(),
-            updated_at = unixepoch()
-        `).bind(numTgId).run();
+        if (isSprint) {
+          await env.DB.prepare(`
+            INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+            VALUES (?, 1, unixepoch(), ?, unixepoch())
+            ON CONFLICT(telegram_id) DO UPDATE SET
+              is_vip = 1,
+              vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+              vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
+              updated_at = unixepoch()
+          `).bind(numTgId, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
+        } else {
+          await env.DB.prepare(`
+            INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+            VALUES (?, 1, unixepoch(), 0, unixepoch())
+            ON CONFLICT(telegram_id) DO UPDATE SET
+              is_vip = 1,
+              vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+              vip_expires_at = 0,
+              updated_at = unixepoch()
+          `).bind(numTgId).run();
+        }
 
         if (paymentId && paymentId !== "pending") {
-          await env.DB.prepare("UPDATE payments SET status = 'approved' WHERE id = ?").bind(paymentId).run();
+          await env.DB.prepare("UPDATE payments SET status = 'approved', plan_tier = ?, amount_mmk = ? WHERE id = ?").bind(isSprint ? "sprint" : "lifetime", isSprint ? 5000 : 97000, paymentId).run();
         }
 
         // Get target student info for admin quick link
@@ -2634,28 +2762,42 @@ Select your required score to optimize your daily study quota:`;
           );
         }
 
-        await answerCallbackQuery(botToken, cb.id, "✅ User upgraded to Lifetime VIP!");
+        await answerCallbackQuery(botToken, cb.id, isSprint ? "⚡ User upgraded to 7-Day Sprint!" : "✅ User upgraded to Lifetime VIP!");
         
         // Notify Student with Telegram unlock + Desktop Voucher
-        await sendTelegramMessage(botToken, numTgId,
-`🎉 *Congratulations! Your Lifetime VIP Pass is ACTIVE!*
+        const expiryDateStr = isSprint ? new Date(nowMs + bonusMs).toLocaleDateString("en-GB", { timeZone: "Asia/Yangon" }) : "Never (Lifetime)";
+        const notifyMsg = isSprint ?
+`🎉 *Congratulations! Your 7-Day Sprint VIP Pass is ACTIVE!*
 
-Your 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint) payment has been verified.
-All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models, and Speaking Forecasts are now unlocked forever! 🚀
+Your 5,000 MMK payment has been verified.
+⚡ *Sprint Duration:* 7 Full Days (Valid until ${expiryDateStr} MMT)
+All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models, and Speaking Forecasts are now unlocked for your sprint! 🚀
 
 💻 *Study on Computer / Laptop (Chrome or Edge):*
-Your Personal Desktop Activation Pass:
+Your Personal Desktop Sprint Pass:
 \`${desktopVoucher}\`
 
 Visit: ${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/"}
-Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly!`,
-          {
-            inline_keyboard: [
-              [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
-              [{ text: "🌐 Open on Web Browser ↗", url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" }]
-            ]
-          }
-        );
+Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly!`
+:
+`🎉 *Congratulations! Your Lifetime VIP Pass is ACTIVE!*
+
+Your 97,000 MMK payment has been verified.
+All 1,162 Vocabulary items, 23 Cambridge Reading CBT Passages, 40 Writing Models, and Speaking Forecasts are now unlocked forever! 🚀
+
+💻 *Study on Computer / Laptop (Chrome or Edge):*
+Your Personal Desktop Lifetime Pass:
+\`${desktopVoucher}\`
+
+Visit: ${env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/"}
+Click **⭐ VIP Pass** > Enter Voucher: \`${desktopVoucher}\` > Unlock Instantly!`;
+
+        await sendTelegramMessage(botToken, numTgId, notifyMsg, {
+          inline_keyboard: [
+            [{ text: "👑 Launch IELTS Prep Studio", web_app: { url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" } }],
+            [{ text: "🌐 Open on Web Browser ↗", url: env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/" }]
+          ]
+        });
 
         return jsonResponse({ ok: true });
       }
@@ -3946,13 +4088,30 @@ async function resolveIsVip(env, telegramId, voucherCode) {
     return true;
   }
   if (telegramId && parseInt(telegramId, 10) > 0) {
-    const user = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(parseInt(telegramId, 10)).first();
-    if (user && user.is_vip === 1) return true;
+    const user = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ?").bind(parseInt(telegramId, 10)).first();
+    if (user && user.is_vip === 1) {
+      if (user.vip_expires_at && user.vip_expires_at > 0) {
+        if (Date.now() > user.vip_expires_at) {
+          // 7-Day Sprint Pass has expired! Lazily update DB
+          try {
+            await env.DB.prepare("UPDATE users SET is_vip = 0 WHERE telegram_id = ?").bind(parseInt(telegramId, 10)).run();
+          } catch (e) {}
+          return false;
+        }
+      }
+      return true;
+    }
   }
   if (voucherCode) {
-    const codeHash = await sha256Hex(String(voucherCode).trim().toUpperCase());
+    const cleanCode = String(voucherCode).trim().toUpperCase();
+    const codeHash = await sha256Hex(cleanCode);
     const v = await env.DB.prepare("SELECT * FROM vouchers WHERE code_hash = ? AND revoked = 0").bind(codeHash).first();
-    if (v) return true;
+    if (v) {
+      if (v.expires_at && v.expires_at > 0 && Date.now() > v.expires_at) {
+        return false;
+      }
+      return true;
+    }
   }
   return false;
 }
@@ -6831,3 +6990,182 @@ async function sendTelegramDocument(botToken, chatId, fileContent, fileName, cap
 }
 
 
+
+
+
+
+async function handleTelegramBotRedeem(chatId, userId, from, code, env, botToken) {
+
+  const cleanCode = (code || "").trim().toUpperCase();
+
+  const codeHash = await sha256Hex(cleanCode);
+
+  const nowMs = Date.now();
+
+  const bonusMs = 7 * 24 * 60 * 60 * 1000;
+
+
+
+  let isSprint = cleanCode.includes("SPRINT");
+
+  let promo = await env.DB.prepare("SELECT * FROM promo_codes WHERE code = ?").bind(cleanCode).first();
+
+  let voucher = await env.DB.prepare("SELECT * FROM vouchers WHERE code_hash = ?").bind(codeHash).first();
+
+
+
+  if (promo && promo.is_used === 1 && promo.used_by_tg_id !== userId) {
+
+    await sendTelegramMessage(botToken, chatId, "❌ *This voucher code has already been redeemed.*\n\nPlease contact @hyuguo if you need help with your pass.");
+
+    return;
+
+  }
+
+
+
+  if (!promo && !voucher) {
+
+    await sendTelegramMessage(botToken, chatId, `❌ *Invalid code:* \`${cleanCode}\`\n\nPlease verify your code or contact @hyuguo.`);
+
+    return;
+
+  }
+
+
+
+  if (promo && promo.plan_type === "sprint") isSprint = true;
+
+  if (voucher && voucher.tier === "sprint") isSprint = true;
+
+
+
+  const vipExpiresAt = isSprint ? (nowMs + bonusMs) : 0;
+
+  const fullName = (from.first_name || "") + (from.last_name ? " " + from.last_name : "");
+
+
+
+  if (isSprint) {
+
+    await env.DB.prepare(`
+
+      INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, vip_expires_at, updated_at)
+
+      VALUES (?, ?, ?, 1, unixepoch(), ?, unixepoch())
+
+      ON CONFLICT(telegram_id) DO UPDATE SET
+
+        is_vip = 1,
+
+        vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+
+        vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
+
+        updated_at = unixepoch()
+
+    `).bind(userId, from.username || "", fullName, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
+
+  } else {
+
+    await env.DB.prepare(`
+
+      INSERT INTO users (telegram_id, username, first_name, is_vip, vip_activated_at, vip_expires_at, updated_at)
+
+      VALUES (?, ?, ?, 1, unixepoch(), 0, unixepoch())
+
+      ON CONFLICT(telegram_id) DO UPDATE SET
+
+        is_vip = 1,
+
+        vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+
+        vip_expires_at = 0,
+
+        updated_at = unixepoch()
+
+    `).bind(userId, from.username || "", fullName).run();
+
+  }
+
+
+
+  if (promo) {
+
+    try {
+
+      await env.DB.prepare("UPDATE promo_codes SET is_used = 1, used_by_tg_id = ?, used_at = unixepoch() WHERE code = ?").bind(userId, cleanCode).run();
+
+    } catch (e) {}
+
+  }
+
+
+
+  const launchUrl = env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/";
+
+  const expiryDateStr = isSprint ? new Date(nowMs + bonusMs).toLocaleDateString("en-GB", { timeZone: "Asia/Yangon" }) : "Never (Lifetime)";
+
+
+
+  const successMsg = isSprint ?
+
+`🎉 *7-DAY SPRINT VIP PASS ACTIVATED!*
+
+━━━━━━━━━━━━━━━━━━━━
+
+Code \`${cleanCode}\` successfully applied to your account!
+
+
+
+⚡ *Sprint Access:* Active for 7 full days
+
+📅 *Valid Until:* ${expiryDateStr} MMT
+
+✨ *Unlocked Features:*
+
+• All 23 Cambridge Reading CBT Passages
+
+• All 40 Band 9 Writing Models + Evaluator
+
+• 1,162 Academic Lexicon Items & SRS Traps
+
+• Unlimited AI Academic Tools & Speaking Drills
+
+
+
+Tap below to start your 7-day preparation sprint:`
+
+:
+
+`👑 *LIFETIME VIP PASS ACTIVATED!*
+
+━━━━━━━━━━━━━━━━━━━━
+
+Code \`${cleanCode}\` successfully applied to your account!
+
+
+
+✨ *Access:* Permanent Lifetime (Never Expires)
+
+All Cambridge CBTs, Writing Models, 1,162 Vocabulary items, and Unlimited Academic AI Tools are unlocked forever!
+
+
+
+Tap below to launch the studio:`;
+
+
+
+  await sendTelegramMessage(botToken, chatId, successMsg, {
+
+    inline_keyboard: [
+
+      [{ text: "🚀 Launch IELTS Prep Studio", web_app: { url: launchUrl } }],
+
+      [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+
+    ]
+
+  });
+
+}

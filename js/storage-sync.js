@@ -522,17 +522,26 @@ function getDeviceId() {
         console.log('[StorageManager] Sync response:', data.isVip ? '👑 VIP User' : 'Free Mode');
 
         // If server verified user is VIP and returned VIP bundle, merge it
+        const isSprint = (data.plan === 'sprint' || (data.vipExpiresAt && data.vipExpiresAt > 0));
         if (data.isVip && data.vipData && typeof window.mergeVipBundle === 'function') {
           window.mergeVipBundle(data.vipData);
         }
         if (data.isVip && typeof window.activateVipPass === 'function') {
           // Pass isNewActivation = false to prevent toast popup spam and infinite sync loops on restore
-          window.activateVipPass('lifetime', data.vipVoucher || clientVoucher, false);
+          window.activateVipPass(isSprint ? 'sprint' : 'lifetime', data.vipVoucher || clientVoucher, false);
+          if (isSprint && data.vipExpiresAt) {
+            try { localStorage.setItem('ips_vip_expires_at', String(data.vipExpiresAt)); } catch (e) {}
+          }
         }
         if (data.isVip) {
           window.isVipUser = true;
           try {
             localStorage.setItem('ips_vip_active', 'true');
+            if (isSprint && data.vipExpiresAt) {
+              localStorage.setItem('ips_vip_expires_at', String(data.vipExpiresAt));
+            } else if (!isSprint) {
+              localStorage.setItem('ips_vip_expires_at', 'lifetime');
+            }
             if (data.vipVoucher) localStorage.setItem('occ_vip_voucher', data.vipVoucher);
           } catch (e) {}
           if (typeof window.refreshAllVipViews === 'function') {
@@ -541,6 +550,19 @@ function getDeviceId() {
             if (typeof window.populateDynamicLexiconFilters === 'function') window.populateDynamicLexiconFilters();
             if (typeof window.updateLexiconCounters === 'function') window.updateLexiconCounters();
             if (typeof window.renderLexiconGrid === 'function') window.renderLexiconGrid(true);
+          }
+        } else {
+          // Server explicitly returned isVip = false (e.g. 7-day sprint pass expired)
+          window.isVipUser = false;
+          try {
+            localStorage.removeItem('ips_vip_active');
+            localStorage.removeItem('occ_vip_voucher');
+            localStorage.removeItem('ips_vip_expires_at');
+          } catch (e) {}
+          if (typeof window.appState !== 'undefined' && window.appState && window.appState.userProfile) {
+            window.appState.userProfile.tier = 'free';
+            window.appState.userProfile.isVip = false;
+            window.appState.userProfile.vipExpiresAt = 0;
           }
         }
         if (typeof window.updateAuthUI === 'function') {
@@ -584,7 +606,13 @@ function getDeviceId() {
         if (data.vipData && typeof window.mergeVipBundle === 'function') {
           window.mergeVipBundle(data.vipData);
         }
-        return { success: true, message: 'VIP Activated Successfully!' };
+        return { 
+          success: true, 
+          message: data.message || 'VIP Activated Successfully!',
+          plan: data.plan,
+          days: data.days,
+          vipExpiresAt: data.vipExpiresAt
+        };
       } catch (err) {
         return { success: false, error: err.message };
       }
@@ -612,13 +640,17 @@ function getDeviceId() {
         } catch (e) {}
 
         // If user is VIP on server, unlock VIP pass & merge bundle
+        const isWidgetSprint = (data.plan === 'sprint' || (data.vipExpiresAt && data.vipExpiresAt > 0));
         if (data.isVip) {
           if (data.vipData && typeof window.mergeVipBundle === 'function') {
             window.mergeVipBundle(data.vipData);
           }
           if (typeof window.activateVipPass === 'function') {
             // Pass isNewActivation = false to prevent toast popup spam and infinite sync loops on restore
-            window.activateVipPass('lifetime', data.vipVoucher || clientVoucher, false);
+            window.activateVipPass(isWidgetSprint ? 'sprint' : 'lifetime', data.vipVoucher || clientVoucher, false);
+            if (isWidgetSprint && data.vipExpiresAt) {
+              try { localStorage.setItem('ips_vip_expires_at', String(data.vipExpiresAt)); } catch (e) {}
+            }
           }
         }
 

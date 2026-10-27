@@ -11254,6 +11254,11 @@ const VALID_VOUCHER_CODES = {
   "IPS-SPRINT-110": { plan: "sprint", name: "7-Day Sprint Pass" }
 };
 
+// Pre-Minted 7-Day Sprint Customer Passes (Batch 701-710)
+for (let i = 701; i <= 710; i++) {
+  VALID_VOUCHER_CODES[`IPS-SPRINT-${i}`] = { plan: "sprint", name: "7-Day Sprint Pass" };
+}
+
 // Batch 2: Unified Standard Lifetime Series (IPS-VIP-101 through IPS-VIP-150)
 for (let i = 101; i <= 150; i++) {
   VALID_VOUCHER_CODES[`IPS-VIP-${i}`] = { plan: "lifetime", name: "Lifetime Studio Pass" };
@@ -11395,6 +11400,40 @@ function ensureUserProfileInitialized() {
 }
 
 function isVipActive() {
+  // 1. Strict Expiry Check for 7-Day Sprint Passes
+  try {
+    if (typeof localStorage !== "undefined") {
+      const expStr = localStorage.getItem("ips_vip_expires_at");
+      if (expStr && expStr !== "0" && expStr !== "lifetime") {
+        const expMs = parseInt(expStr, 10);
+        if (expMs > 0 && Date.now() > expMs) {
+          // 7-Day Sprint pass has expired! Clean local VIP state
+          localStorage.removeItem("ips_vip_active");
+          localStorage.removeItem("occ_vip_voucher");
+          localStorage.removeItem("ips_vip_expires_at");
+          localStorage.removeItem("ips_session_token");
+          window.isVipUser = false;
+          if (typeof appState !== "undefined" && appState && appState.userProfile) {
+            appState.userProfile.tier = "free";
+            appState.userProfile.isVip = false;
+            appState.userProfile.vipExpiresAt = 0;
+          }
+          return false;
+        }
+      }
+    }
+  } catch (e) {}
+
+  if (typeof appState !== "undefined" && appState && appState.userProfile) {
+    const pExp = appState.userProfile.vipExpiresAt;
+    if (pExp && pExp !== "lifetime" && pExp > 0 && Date.now() > pExp) {
+      window.isVipUser = false;
+      appState.userProfile.tier = "free";
+      appState.userProfile.isVip = false;
+      return false;
+    }
+  }
+
   if (window.isVipUser) return true;
 
   try {
@@ -11966,17 +12005,33 @@ window.ensureVipBundleLoaded = async function() {
 };
 
 function activateVipPass(planType, voucherCode, isNewActivation = false) {
-  const plan = VIP_PASS_PLANS[planType] || VIP_PASS_PLANS.intensive || { days: "lifetime", name: "Lifetime Studio VIP Pass" };
+  const isSprint = (planType === "sprint" || (voucherCode && voucherCode.includes("SPRINT")));
+  const plan = VIP_PASS_PLANS[isSprint ? "sprint" : planType] || VIP_PASS_PLANS.intensive || { days: "lifetime", name: "Lifetime Studio VIP Pass" };
   ensureUserProfileInitialized();
   window.isVipUser = true;
   appState.userProfile.tier = "vip";
   appState.userProfile.verified = true;
   if (voucherCode) appState.userProfile.voucherCode = voucherCode;
-  appState.userProfile.vipExpiresAt = "lifetime";
-  try {
-    localStorage.setItem("ips_vip_active", "true");
-    if (voucherCode) localStorage.setItem("occ_vip_voucher", voucherCode);
-  } catch (e) {}
+  
+  if (isSprint) {
+    const expiresAt = Date.now() + (7 * 24 * 60 * 60 * 1000);
+    appState.userProfile.vipExpiresAt = expiresAt;
+    appState.userProfile.plan = "sprint";
+    try {
+      localStorage.setItem("ips_vip_active", "true");
+      localStorage.setItem("ips_vip_expires_at", String(expiresAt));
+      if (voucherCode) localStorage.setItem("occ_vip_voucher", voucherCode);
+    } catch (e) {}
+  } else {
+    appState.userProfile.vipExpiresAt = "lifetime";
+    appState.userProfile.plan = "lifetime";
+    try {
+      localStorage.setItem("ips_vip_active", "true");
+      localStorage.setItem("ips_vip_expires_at", "lifetime");
+      if (voucherCode) localStorage.setItem("occ_vip_voucher", voucherCode);
+    } catch (e) {}
+  }
+  
   saveAppState();
   if (typeof window.ensureVipBundleLoaded === "function") {
     window.ensureVipBundleLoaded();
@@ -12015,8 +12070,9 @@ async function redeemVoucherCode(explicitCode) {
     try {
       const res = await window.StorageManager.redeemActivationCode(code);
       if (res && res.success) {
-        activateVipPass("lifetime", code, true);
- if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;"> Valid Code! Lifetime VIP Pass Unlocked.</span>`;
+        const isSprint = (res.plan === "sprint" || code.includes("SPRINT"));
+        activateVipPass(isSprint ? "sprint" : "lifetime", code, true);
+        if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✅ Valid Code! ${isSprint ? "7-Day Sprint Pass" : "Lifetime VIP Pass"} Unlocked.</span>`;
         return true;
       }
     } catch (e) {}
@@ -12066,7 +12122,9 @@ async function redeemVoucherCode(explicitCode) {
 
   if (found || isAlgorithmicValid) {
     const passName = (found && found.name) || "Lifetime Studio Pass";
-    activateVipPass("lifetime", code, true);
+    const planType = (found && found.plan) || (code.includes("SPRINT") ? "sprint" : "lifetime");
+    const passName = (found && found.name) || (planType === "sprint" ? "7-Day Sprint Pass" : "Lifetime Studio Pass");
+    activateVipPass(planType, code, true);
  if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;"> Valid Code! ${passName} applied to your account.</span>`;
     return true;
   } else {
@@ -12396,12 +12454,24 @@ function updateAuthUI() {
 
   if (vipBtn && vipText) {
     if (isVip) {
+      const expStr = (typeof localStorage !== "undefined" ? localStorage.getItem("ips_vip_expires_at") : null) || (appState && appState.userProfile && appState.userProfile.vipExpiresAt);
+      const isSprint = expStr && expStr !== "0" && expStr !== "lifetime";
+      let sprintBadge = "⚡ 7-Day Sprint Active";
+      if (isSprint) {
+        const expMs = parseInt(expStr, 10);
+        const msLeft = expMs - Date.now();
+        if (msLeft > 0) {
+          const d = Math.ceil(msLeft / (24 * 60 * 60 * 1000));
+          sprintBadge = `⚡ Sprint (${d}d left)`;
+        }
+      }
+
       vipBtn.classList.add("vip-active");
-      vipBtn.style.background = "rgba(34,197,94,0.15)";
-      vipBtn.style.borderColor = "var(--green)";
-      vipBtn.style.color = "var(--green)";
-      vipBtn.title = "Lifetime VIP Active — All 1,162 Vocabulary Items & CBT Modules Unlocked";
- vipText.innerHTML = `<span style="color:var(--green); font-weight:800;"> VIP Lifetime Active</span>`;
+      vipBtn.style.background = isSprint ? "rgba(245,158,11,0.15)" : "rgba(34,197,94,0.15)";
+      vipBtn.style.borderColor = isSprint ? "#F59E0B" : "var(--green)";
+      vipBtn.style.color = isSprint ? "#F59E0B" : "var(--green)";
+      vipBtn.title = isSprint ? "7-Day Sprint VIP Active — All 1,162 Items Unlocked" : "Lifetime VIP Active — All 1,162 Vocabulary Items & CBT Modules Unlocked";
+      vipText.innerHTML = `<span style="color:${isSprint ? '#F59E0B' : 'var(--green)'}; font-weight:800;">${isSprint ? sprintBadge : '👑 VIP Lifetime Active'}</span>`;
     } else {
       vipBtn.classList.remove("vip-active");
       vipBtn.style.background = "";
@@ -12437,7 +12507,18 @@ function updateAuthUI() {
           <div style="min-width:0;">
             <div class="account-dropdown-name">${escapeHtml(displayName)}</div>
             <div class="account-dropdown-email" style="color:var(--accent);">${escapeHtml(displayHandle)}</div>
- <span class="account-tier-badge ${isVip ? 'vip' : 'free'}">${isVip ? ' LIFETIME VIP PASS' : 'FREE TIER (250 ENTRIES)'}</span>
+ ${(() => {
+              if (!isVip) return '<span class="account-tier-badge free">FREE TIER (250 ENTRIES)</span>';
+              const expStr = (typeof localStorage !== "undefined" ? localStorage.getItem("ips_vip_expires_at") : null) || (appState && appState.userProfile && appState.userProfile.vipExpiresAt);
+              const isSprint = expStr && expStr !== "0" && expStr !== "lifetime";
+              if (isSprint) {
+                const expMs = parseInt(expStr, 10);
+                const msLeft = expMs - Date.now();
+                const d = msLeft > 0 ? Math.ceil(msLeft / (24 * 60 * 60 * 1000)) : 0;
+                return `<span class="account-tier-badge vip" style="background:#F59E0B;color:#000;">⚡ 7-DAY SPRINT (${d}D LEFT)</span>`;
+              }
+              return '<span class="account-tier-badge vip">👑 LIFETIME VIP PASS</span>';
+            })()}
           </div>
         </div>
 
