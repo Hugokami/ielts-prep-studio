@@ -61,6 +61,19 @@ if (url.pathname === "/webhook" && request.method === "POST") {
         return await handleApiQuota(request, env, url);
       }
 
+
+
+      if (url.pathname === "/api/tools/podcast" || url.pathname === "/api/tools/podcasts") {
+        const chan = resolvePodcastChannel(url.searchParams.get("channel") || url.searchParams.get("show") || url.searchParams.get("q") || "ielts");
+        const eps = await fetchLatestPodcastEpisodes(chan);
+        return jsonResponse({
+          ok: true,
+          channel: chan,
+          info: PODCAST_CHANNELS[chan],
+          episodes: eps
+        });
+      }
+
       if (url.pathname === "/api/ai/chat" && request.method === "POST") {
         return await handleAiChat(request, env);
       }
@@ -1212,7 +1225,7 @@ Interactive Cambridge CBT reader, Spaced Repetition flashcards, native audio pro
     if (text === "/podcast" || text.startsWith("/podcast ") || text === "🎙️ Native Podcasts" || text === "🎙️ Cambridge & BBC Podcasts" || text === "Native Podcasts" || text === "Podcasts") {
       let query = text.replace(/^\/podcast\s*/i, "").trim();
       if (!query || query === "🎙️ Native Podcasts" || query === "🎙️ Cambridge & BBC Podcasts" || query === "Native Podcasts" || query === "Podcasts") {
-        query = "bbc";
+        query = "ielts";
       }
       await handlePodcastCommand(chatId, userId, query, env, botToken);
       return jsonResponse({ ok: true });
@@ -2139,16 +2152,40 @@ Have a lifetime voucher code (e.g. \`IPS-VIP-XXXX-YYYY\`)?
       return jsonResponse({ ok: true });
     }
 
-    if (data === "tool_podcast" || data === "pod_bbc") {
+    if (data === "tool_podcast" || data === "pod_ielts" || data === "pod_bbc" || data === "pod_energy" || data === "pod_cambridge" || data === "pod_speak") {
+
       await answerCallbackQuery(botToken, cb.id);
-      await handlePodcastCommand(cbChatId, cbUserId, "bbc", env, botToken);
+
+      let chan = "ielts";
+
+      if (data === "pod_bbc") chan = "bbc";
+
+      else if (data === "pod_energy") chan = "energy";
+
+      else if (data === "pod_cambridge" || data === "pod_speak") chan = "speak";
+
+      await handlePodcastCommand(cbChatId, cbUserId, chan, env, botToken);
+
       return jsonResponse({ ok: true });
+
     }
 
-    if (data === "pod_cambridge") {
-      await answerCallbackQuery(botToken, cb.id);
-      await handlePodcastCommand(cbChatId, cbUserId, "cambridge", env, botToken);
+
+
+    if (data.startsWith("pod_play:")) {
+
+      await answerCallbackQuery(botToken, cb.id, "Streaming English episode to Telegram...");
+
+      const parts = data.split(":");
+
+      const chan = parts[1] || "ielts";
+
+      const idx = parseInt(parts[2] || "0", 10);
+
+      await handlePlayPodcastEpisode(cbChatId, cbUserId, chan, idx, env, botToken);
+
       return jsonResponse({ ok: true });
+
     }
 
     if (data === "tool_quote") {
@@ -3005,12 +3042,13 @@ The Cambridge AI Mentor is experiencing high traffic. Please try asking again in
   });
 }
 
-async function sendTelegramMessage(botToken, chatId, text, replyMarkup = null) {
+async function sendTelegramMessage(botToken, chatId, text, replyMarkup = null, disablePreview = false) {
   const payload = {
     chat_id: chatId,
     text: text,
     parse_mode: "Markdown"
   };
+  if (disablePreview) payload.disable_web_page_preview = true;
   if (replyMarkup) payload.reply_markup = replyMarkup;
 
   let res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -3049,6 +3087,44 @@ async function sendTelegramPhoto(botToken, chatId, photoFileId, caption, replyMa
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
+}
+
+
+
+async function sendTelegramAudio(botToken, chatId, audioUrl, title, performer, caption = "", duration = 0, replyMarkup = null) {
+
+  const payload = {
+
+    chat_id: chatId,
+
+    audio: audioUrl,
+
+    title: title,
+
+    performer: performer,
+
+    caption: caption,
+
+    parse_mode: "Markdown"
+
+  };
+
+  if (duration > 0) payload.duration = duration;
+
+  if (replyMarkup) payload.reply_markup = replyMarkup;
+
+
+
+  return fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
+
+    method: "POST",
+
+    headers: { "Content-Type": "application/json" },
+
+    body: JSON.stringify(payload)
+
+  });
+
 }
 
 async function answerCallbackQuery(botToken, callbackQueryId, text) {
@@ -5492,120 +5568,720 @@ ${formatQuotaFooter(quota)}`;
   });
 }
 
-const FALLBACK_PODCAST_BANK = [
-  {
-    searchTerm: "speaking",
-    show: "IELTS Band 9 Speaking Simulation",
-    title: "EP. 2 IELTS Speaking Interview 2023 | IELTS BAND 9| Real Test!",
-    date: "2026-10-20",
-    durationMin: 15,
-    audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111"
+const PODCAST_CHANNELS = {
+
+  ielts: {
+
+    key: "ielts",
+
+    name: "IELTS Speaking Band 9 (Real Exam Interviews)",
+
+    tagline: "Authentic candidate & examiner interviews for Part 1, 2 & 3 fluency",
+
+    searchTerm: "IELTS Speaking Band 9",
+
+    note: "💡 *100% Native English Discourse:* Real exam mock tests, candidate answers & Band 9 scoring feedback.",
+
+    episodes: [
+
+      {
+
+        id: "ielts_ep15",
+
+        title: "EP. 15 IELTS Speaking Test | BAND 9 | Real Exam Simulation",
+
+        show: "IELTS Speaking Band 9",
+
+        date: "2026-10-26",
+
+        durationMin: 15,
+
+        audioUrl: "https://traffic.megaphone.fm/PODAGEN5116923529.mp3?updated=1778656091"
+
+      },
+
+      {
+
+        id: "ielts_ep2",
+
+        title: "EP. 2 IELTS Speaking Interview | BAND 9 | Full Real Test",
+
+        show: "IELTS Speaking Band 9",
+
+        date: "2026-10-26",
+
+        durationMin: 15,
+
+        audioUrl: "https://traffic.megaphone.fm/PODAGEN2263951416.mp3?updated=1778656111"
+
+      },
+
+      {
+
+        id: "ielts_ep20",
+
+        title: "EP. 20 IELTS Speaking Test | BAND 8+ Advanced Lexicon",
+
+        show: "IELTS Speaking Band 9",
+
+        date: "2026-10-26",
+
+        durationMin: 15,
+
+        audioUrl: "https://traffic.megaphone.fm/PODAGEN2922136104.mp3?updated=1778656084"
+
+      }
+
+    ]
+
   },
-  {
-    searchTerm: "bbc",
-    show: "BBC 6 Minute English",
-    title: "Why has gold got so expensive?",
-    date: "2026-10-15",
-    durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3"
+
+  bbc: {
+
+    key: "bbc",
+
+    name: "BBC 6 Minute English (Native British Vocabulary)",
+
+    tagline: "Topical UK discussions on science, society & modern English idioms",
+
+    searchTerm: "BBC 6 Minute English",
+
+    note: "*(Official BBC international broadcast feed: includes a brief ~20s opening sponsor before British dialogue)*",
+
+    episodes: [
+
+      {
+
+        id: "bbc_sleep",
+
+        title: "What should you eat for a better night's sleep?",
+
+        show: "BBC 6 Minute English",
+
+        date: "2026-10-22",
+
+        durationMin: 6,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0phyzz9.mp3"
+
+      },
+
+      {
+
+        id: "bbc_gold",
+
+        title: "Why has gold got so expensive?",
+
+        show: "BBC 6 Minute English",
+
+        date: "2026-10-15",
+
+        durationMin: 6,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgs15w.mp3"
+
+      },
+
+      {
+
+        id: "bbc_alcohol",
+
+        title: "Are people drinking less alcohol?",
+
+        show: "BBC 6 Minute English",
+
+        date: "2026-10-08",
+
+        durationMin: 6,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3"
+
+      },
+
+      {
+
+        id: "bbc_heartbreak",
+
+        title: "Why does heartbreak hurt so much?",
+
+        show: "BBC 6 Minute English",
+
+        date: "2026-10-01",
+
+        durationMin: 6,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pdc7mz.mp3"
+
+      }
+
+    ]
+
   },
-  {
-    searchTerm: "alcohol",
-    show: "BBC 6 Minute English",
-    title: "Are people drinking less alcohol?",
-    date: "2026-10-08",
-    durationMin: 7,
-    audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pfllv6.mp3"
-  }
-];
 
-async function handlePodcastCommand(chatId, userId, query, env, botToken) {
-  const isVip = (await resolveIsVip(env, userId));
-  const quota = await checkAndConsumeQuota(env, userId, isVip);
-  if (!quota.allowed) {
-    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
-    return;
+  energy: {
+
+    key: "energy",
+
+    name: "IELTS Energy English 7+ (Examiner Strategies)",
+
+    tagline: "High-scoring vocabulary & exam mastery from former IELTS examiners",
+
+    searchTerm: "IELTS Energy English",
+
+    note: "💡 *Examiner Strategy:* Aubrey Carter & Jessica Beck on Band 8+ scoring criteria.",
+
+    episodes: [
+
+      {
+
+        id: "energy_halloween",
+
+        title: "Holidays on IELTS Part 1: Boost Vocabulary Scores",
+
+        show: "IELTS Energy English 7+",
+
+        date: "2026-10-27",
+
+        durationMin: 18,
+
+        audioUrl: "https://traffic.megaphone.fm/ALLE3646384363.mp3"
+
+      },
+
+      {
+
+        id: "energy_launch",
+
+        title: "Launching Answers Part 1: Start With a Bang!",
+
+        show: "IELTS Energy English 7+",
+
+        date: "2026-10-23",
+
+        durationMin: 16,
+
+        audioUrl: "https://traffic.megaphone.fm/ALLE1914174882.mp3"
+
+      },
+
+      {
+
+        id: "energy_opinions",
+
+        title: "How to Evaluate Opinions for Higher IELTS Scores",
+
+        show: "IELTS Energy English 7+",
+
+        date: "2026-10-20",
+
+        durationMin: 17,
+
+        audioUrl: "https://traffic.megaphone.fm/ALLE2089373638.mp3"
+
+      }
+
+    ]
+
+  },
+
+  speak: {
+
+    key: "speak",
+
+    name: "BBC The English We Speak & Cambridge Discourse",
+
+    tagline: "3-minute real UK everyday idioms, expressions & Cambridge discourse",
+
+    searchTerm: "BBC The English We Speak",
+
+    note: "*(Official BBC / Cambridge feeds: 100% authentic British idiomatic phrasing)*",
+
+    episodes: [
+
+      {
+
+        id: "speak_breath",
+
+        title: "The English We Speak: In the same breath",
+
+        show: "BBC The English We Speak",
+
+        date: "2026-10-27",
+
+        durationMin: 3,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pjsmsb.mp3"
+
+      },
+
+      {
+
+        id: "speak_devices",
+
+        title: "The English We Speak: Leave to one's own devices",
+
+        show: "BBC The English We Speak",
+
+        date: "2026-10-20",
+
+        durationMin: 3,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0phlwk0.mp3"
+
+      },
+
+      {
+
+        id: "speak_patience",
+
+        title: "The English We Speak: Try one's patience",
+
+        show: "BBC The English We Speak",
+
+        date: "2026-10-13",
+
+        durationMin: 3,
+
+        audioUrl: "http://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/http/vpid/p0pgdrn8.mp3"
+
+      },
+
+      {
+
+        id: "cambridge_first",
+
+        title: "The first Cambridge English exams",
+
+        show: "Cambridge Assessment Podcasts",
+
+        date: "2020-11-26",
+
+        durationMin: 12,
+
+        audioUrl: "https://sphinx.acast.com/p/open/s/60ba0653b349f90012ecd19c/e/https%3A%2F%2Fs3-eu-west-1.amazonaws.com%2Fprod.ca%2F2020%2FPodcasts%2Fthe-first-cambridge-english-exams-podcast.mp3/media.mp3"
+
+      }
+
+    ]
+
   }
 
-  let rawQ = (query || "").trim().toLowerCase();
-  let searchTerm = "BBC 6 Minute English";
-  if (rawQ.includes("cambridge") || rawQ.includes("cam")) {
-    searchTerm = "Cambridge Assessment English Podcast";
-  } else if (rawQ.includes("alcohol") || rawQ.includes("drink")) {
-    searchTerm = "alcohol";
-  } else if (rawQ.includes("gold")) {
-    searchTerm = "gold";
-  } else if (rawQ.includes("bbc") || rawQ.includes("idiom") || rawQ.includes("speak")) {
-    searchTerm = "BBC The English We Speak";
-  } else if (rawQ.length > 2) {
-    searchTerm = query.trim();
+};
+
+
+
+function resolvePodcastChannel(query) {
+
+  const q = (query || "").trim().toLowerCase();
+
+  if (q.includes("bbc") || q.includes("6min") || q.includes("sleep") || q.includes("gold") || q.includes("alcohol") || q.includes("heartbreak")) {
+
+    return "bbc";
+
   }
 
-  let showName = "";
-  let epTitle = "";
-  let durationMin = 6;
-  let releaseDate = "2026-10-15";
-  let mp3Url = "";
-  let dialogueLines = "";
-  let vocabLines = "";
+  if (q.includes("energy") || q.includes("allears") || q.includes("strategy") || q.includes("examiner") || q.includes("halloween")) {
+
+    return "energy";
+
+  }
+
+  if (q.includes("cambridge") || q.includes("speak") || q.includes("idiom") || q.includes("device") || q.includes("breath") || q.includes("patience")) {
+
+    return "speak";
+
+  }
+
+  return "ielts";
+
+}
+
+
+
+async function fetchLatestPodcastEpisodes(channelKey) {
+
+  const channel = PODCAST_CHANNELS[channelKey] || PODCAST_CHANNELS.ielts;
+
+  let liveEpisodes = [];
+
+
 
   try {
-    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=podcast&entity=podcastEpisode&limit=3`, {
+
+    const itunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(channel.searchTerm)}&media=podcast&entity=podcastEpisode&limit=6`;
+
+    const ctrl = new AbortController();
+
+    const timeoutId = setTimeout(() => ctrl.abort(), 2800);
+
+    const res = await fetch(itunesUrl, {
+
+      signal: ctrl.signal,
+
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
+
         "Accept": "application/json"
+
       }
+
     });
 
+    clearTimeout(timeoutId);
+
+
+
     if (res.ok) {
+
       const data = await res.json();
-      const ep = data.results && data.results.find((e) => e.previewUrl || e.episodeUrl);
-      if (ep) {
-        showName = ep.collectionName || "BBC Learning English";
-        epTitle = ep.trackName || "Native English Episode";
-        durationMin = ep.trackTimeMillis ? Math.round(ep.trackTimeMillis / 60000) : 6;
-        releaseDate = (ep.releaseDate || "").slice(0, 10) || "2026-10-15";
-        mp3Url = ep.previewUrl || ep.episodeUrl;
-        
+
+      if (data.results && Array.isArray(data.results)) {
+
+        liveEpisodes = data.results
+
+          .filter(e => (e.previewUrl || e.episodeUrl) && e.trackName)
+
+          .map((e, idx) => ({
+
+            id: `${channelKey}_live_${idx}`,
+
+            title: e.trackName,
+
+            show: e.collectionName || channel.name,
+
+            date: (e.releaseDate || "").slice(0, 10) || "2026-10-25",
+
+            durationMin: e.trackTimeMillis ? Math.round(e.trackTimeMillis / 60000) : 10,
+
+            audioUrl: e.previewUrl || e.episodeUrl
+
+          }));
+
       }
+
     }
+
   } catch (err) {
-    console.warn("[iTunes Podcast Fetch Notice]", err);
+
+    console.warn(`[Podcast Fetch Notice - ${channelKey}]`, err ? err.message : "timeout");
+
   }
 
-  // Resilient fallback if iTunes failed or audio is empty
-  if (!mp3Url) {
-    const fallback = FALLBACK_PODCAST_BANK.find(f => rawQ.includes(f.searchTerm)) || FALLBACK_PODCAST_BANK[0];
-    showName = fallback.show;
-    epTitle = fallback.title;
-    durationMin = fallback.durationMin;
-    releaseDate = fallback.date;
-    mp3Url = fallback.audioUrl;
+
+
+  const fallbackList = channel.episodes || [];
+
+  const combined = [];
+
+  const seenUrls = new Set();
+
+
+
+  for (const ep of liveEpisodes) {
+
+    if (ep.audioUrl && !seenUrls.has(ep.audioUrl)) {
+
+      seenUrls.add(ep.audioUrl);
+
+      combined.push(ep);
+
+    }
+
+    if (combined.length >= 4) break;
+
   }
+
+
+
+  for (const ep of fallbackList) {
+
+    if (ep.audioUrl && !seenUrls.has(ep.audioUrl)) {
+
+      seenUrls.add(ep.audioUrl);
+
+      combined.push(ep);
+
+    }
+
+    if (combined.length >= 4) break;
+
+  }
+
+
+
+  return combined.length > 0 ? combined : fallbackList;
+
+}
+
+
+
+async function handlePodcastCommand(chatId, userId, query, env, botToken) {
+
+  const isVip = (await resolveIsVip(env, userId));
+
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+
+  if (!quota.allowed) {
+
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+
+    return;
+
+  }
+
+
+
+  const channelKey = resolvePodcastChannel(query);
+
+  const channel = PODCAST_CHANNELS[channelKey] || PODCAST_CHANNELS.ielts;
+
+  const episodes = await fetchLatestPodcastEpisodes(channelKey);
+
+
+
+  const numIcons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"];
+
+  const epLines = episodes.slice(0, 4).map((ep, i) => {
+
+    return `${numIcons[i]} *${ep.title}*\n   📅 ${ep.date} • ⏱️ ~${ep.durationMin} min • 🇬🇧 English\n   🔗 [Play Stream Audio](${ep.audioUrl})`;
+
+  }).join("\n\n");
+
+
 
   const launchUrl = env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/";
+
+  const extraNote = channel.note ? `\n${channel.note}\n` : "";
+
+
+
   const text =
-`🎙️ *NATIVE PODCAST AUDIO STREAM*
+
+`🎙️ *NATIVE ENGLISH PODCAST HUB // MULTI-STREAM*
+
 ━━━━━━━━━━━━━━━━━━━━
-📻 *Show:* ${showName}
-🎧 *Episode:* *${epTitle}*
-⏱️ *Duration:* ~${durationMin} min • 📅 *Date:* ${releaseDate}
 
-🔗 *Direct Audio Stream (MP3):*
-${mp3Url}
+📻 *Channel:* ${channel.name}
 
-💡 *Audio Immersion:*
-Listen directly to the official British/Cambridge broadcast via the direct stream above, or open the Web App for real-time live speech recognition and pace tracking.
+💡 *Focus:* ${channel.tagline}
+
+${extraNote}
+
+🎧 *LATEST WORKING EPISODES (100% ENGLISH):*
+
+${epLines}
+
+
+
+👇 *Tap below to STREAM directly into Telegram or switch channels:*
+
+
 
 ${formatQuotaFooter(quota)}`;
 
-  await sendTelegramMessage(botToken, chatId, text, {
+
+
+  const playButtons = episodes.slice(0, 3).map((ep, i) => ({
+
+    text: `▶️ Ep ${i + 1}`,
+
+    callback_data: `pod_play:${channelKey}:${i}`
+
+  }));
+
+
+
+  const inline_keyboard = [
+
+    playButtons,
+
+    [
+
+      { text: channelKey === "ielts" ? "✅ 🗣️ IELTS Band 9" : "🗣️ IELTS Band 9", callback_data: "pod_ielts" },
+
+      { text: channelKey === "bbc" ? "✅ 🇬🇧 BBC 6-Min" : "🇬🇧 BBC 6-Min", callback_data: "pod_bbc" }
+
+    ],
+
+    [
+
+      { text: channelKey === "energy" ? "✅ ⚡ IELTS Energy" : "⚡ IELTS Energy", callback_data: "pod_energy" },
+
+      { text: channelKey === "speak" ? "✅ 📻 Idioms & Cam" : "📻 Idioms & Cam", callback_data: "pod_cambridge" }
+
+    ],
+
+    [{ text: "🚀 Open in Studio App (Live Transcribe)", web_app: { url: launchUrl } }],
+
+    [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+
+  ];
+
+
+
+  await sendTelegramMessage(botToken, chatId, text, { inline_keyboard }, true);
+
+}
+
+
+
+async function handlePlayPodcastEpisode(chatId, userId, channelKey, epIndex, env, botToken) {
+
+  const isVip = (await resolveIsVip(env, userId));
+
+  const quota = await checkAndConsumeQuota(env, userId, isVip);
+
+  if (!quota.allowed) {
+
+    await sendTelegramMessage(botToken, chatId, getQuotaExceededMessage(), getQuotaExceededKeyboard(env));
+
+    return;
+
+  }
+
+
+
+  const channel = PODCAST_CHANNELS[channelKey] || PODCAST_CHANNELS.ielts;
+
+  const episodes = await fetchLatestPodcastEpisodes(channelKey);
+
+  const ep = episodes[epIndex] || episodes[0] || (channel.episodes && channel.episodes[0]);
+
+
+
+  if (!ep || !ep.audioUrl) {
+
+    await sendTelegramMessage(botToken, chatId, "❌ Could not retrieve audio stream. Please try another episode or channel.", {
+
+      inline_keyboard: [[{ text: "📻 Back to Podcasts", callback_data: "tool_podcast" }]]
+
+    });
+
+    return;
+
+  }
+
+
+
+  await sendTelegramChatAction(botToken, chatId, "upload_voice");
+
+
+
+  const launchUrl = env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app/";
+
+  const caption =
+
+`🎧 *${ep.title}*
+
+━━━━━━━━━━━━━━━━━━━━
+
+📻 *Show:* ${ep.show}
+
+⏱️ *Duration:* ~${ep.durationMin} min • 📅 *Date:* ${ep.date}
+
+
+
+💡 *Speaking & Listening Drill:*
+
+Shadow the native speaker's phrasing, sentence stress, and natural pauses. Notice C1/C2 collocations in context!
+
+
+
+🚀 *Live Speech Recognition:* Open in Studio Web App for real-time speech transcription, WPM pace metrics, and pause analytics.
+
+
+
+${formatQuotaFooter(quota)}`;
+
+
+
+  const playKeyboard = {
+
     inline_keyboard: [
+
       [{ text: "🚀 Open in Studio App (Live Transcribe)", web_app: { url: launchUrl } }],
-      [{ text: "📻 Cambridge Audio", callback_data: "pod_cambridge" }, { text: "📻 BBC English Audio", callback_data: "pod_bbc" }],
+
+      [
+
+        { text: `📻 ${channel.name.slice(0, 18)}...`, callback_data: `pod_${channelKey}` },
+
+        { text: "🔄 Switch Channel", callback_data: "tool_podcast" }
+
+      ],
+
       [{ text: "⚡ VIP Academic Menu", callback_data: "menu_tools" }]
+
     ]
-  });
+
+  };
+
+
+
+  try {
+
+    const audioRes = await sendTelegramAudio(
+
+      botToken,
+
+      chatId,
+
+      ep.audioUrl,
+
+      ep.title,
+
+      ep.show,
+
+      caption,
+
+      (ep.durationMin || 6) * 60,
+
+      playKeyboard
+
+    );
+
+
+
+    if (!audioRes.ok) {
+
+      const fallbackMsg =
+
+`🎧 *${ep.title}*
+
+━━━━━━━━━━━━━━━━━━━━
+
+📻 *Show:* ${ep.show}
+
+⏱️ *Duration:* ~${ep.durationMin} min • 📅 *Date:* ${ep.date}
+
+
+
+🔗 *Direct Audio Stream (MP3):*
+
+${ep.audioUrl}
+
+
+
+💡 *Audio Immersion:*
+
+Listen via the link above or tap below to open in the Studio App for live transcription.
+
+
+
+${formatQuotaFooter(quota)}`;
+
+      await sendTelegramMessage(botToken, chatId, fallbackMsg, playKeyboard);
+
+    }
+
+  } catch (err) {
+
+    console.error("[sendTelegramAudio Error]", err);
+
+    await sendTelegramMessage(botToken, chatId, `🔗 *Audio Stream:* ${ep.audioUrl}\n\n${formatQuotaFooter(quota)}`, playKeyboard);
+
+  }
+
 }
 
 async function handleQuotaCheck(chatId, userId, env, botToken) {
