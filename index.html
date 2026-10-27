@@ -12121,7 +12121,6 @@ async function redeemVoucherCode(explicitCode) {
   const isAlgorithmicValid = (typeof verifyVoucherChecksum === 'function') ? verifyVoucherChecksum(code) : false;
 
   if (found || isAlgorithmicValid) {
-    const passName = (found && found.name) || "Lifetime Studio Pass";
     const planType = (found && found.plan) || (code.includes("SPRINT") ? "sprint" : "lifetime");
     const passName = (found && found.name) || (planType === "sprint" ? "7-Day Sprint Pass" : "Lifetime Studio Pass");
     activateVipPass(planType, code, true);
