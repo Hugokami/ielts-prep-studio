@@ -26,5 +26,7 @@ BOT_USERNAME = "IELTSPrepStudioBot"
 PAYMENT_PHONE = "09-768691939"
 ACCOUNT_NAME = "Lyan Htet"
 STUDIO_WEB_URL = "https://ielts-prep-studio-olive.vercel.app"
+ADMIN_TG_ID = "7468650530"
+ADMIN_CHAT_ID = "7468650530"
 # Set via wrangler secret put BOT_TOKEN
 # Set via wrangler secret put ADMIN_TG_ID

@@ -54,6 +54,16 @@ window.initFirebaseServices = function() {
       window.firebaseAuthInstance = firebase.auth();
       window.firebaseDbInstance = firebase.firestore();
 
+      if (typeof window.firebaseAuthInstance.getRedirectResult === "function") {
+        window.firebaseAuthInstance.getRedirectResult().then((result) => {
+          if (result && result.user) {
+            handleAuthState(result.user);
+          }
+        }).catch((err) => {
+          console.warn("[Firebase Redirect Auth Notice]", err);
+        });
+      }
+
       window.firebaseAuthInstance.onAuthStateChanged((user) => {
         handleAuthState(user);
       });
@@ -113,12 +123,39 @@ window.signInWithGoogle = async function() {
       const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope("profile");
       provider.addScope("email");
-      const result = await window.firebaseAuthInstance.signInWithPopup(provider);
-      return result.user;
+      let result;
+      try {
+        result = await window.firebaseAuthInstance.signInWithPopup(provider);
+        return result.user;
+      } catch (popupErr) {
+        if (popupErr.code === "auth/popup-blocked") {
+          console.log("[Firebase] Popup blocked, attempting signInWithRedirect...");
+          await window.firebaseAuthInstance.signInWithRedirect(provider);
+          return null;
+        }
+        throw popupErr;
+      }
     } catch (error) {
       console.error("[Firebase Auth Error]:", error);
       if (error.code === "auth/unauthorized-domain") {
-        alert(`Google Sign-In Domain Warning:\n${window.location.hostname} is not in your Firebase Authorized Domains.\nAdd it in Firebase Console > Authentication > Settings > Authorized domains.`);
+        const host = window.location.hostname;
+        const msg = `⚠️ Google Sign-In Setup Required for this Domain:
+
+` +
+          `"${host}" is not yet listed in your Firebase Authorized Domains.
+
+` +
+          `To fix this in 1 minute:
+` +
+          `1. Go to Firebase Console (https://console.firebase.google.com)
+` +
+          `2. Project: ielts-20309 > Build > Authentication > Settings
+` +
+          `3. Click "Authorized domains" > Add "${host}"
+
+` +
+          `💡 Tip: You can also log in instantly using the "Log in with Telegram" button or your VIP Voucher!`;
+        alert(msg);
       } else if (error.code !== "auth/popup-closed-by-user") {
         alert(`Google Sign-In error: ${error.message}`);
       }

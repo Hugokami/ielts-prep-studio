@@ -335,8 +335,21 @@ function getDeviceId() {
         return window.telegramUser;
       }
       if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        window.telegramUser = tg.initDataUnsafe.user;
         return tg.initDataUnsafe.user;
       }
+      try {
+        if (typeof localStorage !== 'undefined') {
+          const savedTgUser = localStorage.getItem('ips_browser_tg_user');
+          if (savedTgUser) {
+            const parsed = JSON.parse(savedTgUser);
+            if (parsed && parsed.id) {
+              window.telegramUser = parsed;
+              return parsed;
+            }
+          }
+        }
+      } catch (e) {}
       return null;
     },
 
@@ -373,15 +386,40 @@ function getDeviceId() {
     },
 
     openSystemBrowser(url) {
-      const target = url || (typeof window !== 'undefined' && window.location.href) || 'https://hugokami.github.io/ielts-prep-studio/';
+      let targetUrl;
+      try {
+        const origin = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null' && window.location.protocol.startsWith('http'))
+          ? (window.location.origin + window.location.pathname)
+          : 'https://ielts-prep-studio-olive.vercel.app/';
+        targetUrl = new URL(url || origin, (typeof window !== 'undefined' && window.location) ? window.location.href : 'https://ielts-prep-studio-olive.vercel.app/');
+      } catch (e) {
+        targetUrl = new URL('https://ielts-prep-studio-olive.vercel.app/');
+      }
+
+      const tgUser = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (typeof window !== 'undefined' && window.telegramUser) || this.getTelegramUser();
+      if (tgUser && tgUser.id && !targetUrl.searchParams.has('tg_user')) {
+        targetUrl.searchParams.set('tg_user', String(tgUser.id));
+        if (tgUser.first_name && !targetUrl.searchParams.has('name')) targetUrl.searchParams.set('name', tgUser.first_name);
+        if (tgUser.username && !targetUrl.searchParams.has('username')) targetUrl.searchParams.set('username', tgUser.username);
+      }
+      const isVip = (typeof window !== 'undefined' && ((typeof window.isVipActive === 'function' && window.isVipActive()) || window.isVipUser || (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true')));
+      const voucher = (typeof window !== 'undefined' && window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
+                      (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) ||
+                      (isVip ? 'VIPPASS2026' : '');
+      if (voucher && !targetUrl.searchParams.has('voucher')) targetUrl.searchParams.set('voucher', voucher);
+      if (isVip && !targetUrl.searchParams.has('vip')) targetUrl.searchParams.set('vip', '1');
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('ips_session_token') : null;
+      if (token && !targetUrl.searchParams.has('token')) targetUrl.searchParams.set('token', token);
+
+      const finalTarget = targetUrl.toString();
       if (tg && typeof tg.openLink === 'function') {
         try {
-          tg.openLink(target);
+          tg.openLink(finalTarget);
           return;
         } catch (e) {}
       }
       if (typeof window !== 'undefined') {
-        window.open(target, '_blank');
+        window.open(finalTarget, '_blank');
       }
     },
 

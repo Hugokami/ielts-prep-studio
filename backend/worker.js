@@ -766,6 +766,29 @@ _Or simply reply directly with any IELTS question below!_`,
       return jsonResponse({ ok: true });
     }
 
+    // 1-Click Desktop Browser Login Handshake (/login or /start desktop_login)
+    if (text === "/login" || text.startsWith("/start desktop_login") || text.startsWith("/start web_login") || text.startsWith("/start login")) {
+      const voucher = (await getUserVipVoucher(env, userId)) || (isVip ? "VIPPASS2026" : "");
+      const studioBase = (env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app").replace(/\/+$/, "");
+      const params = new URLSearchParams();
+      params.set("tg_user", String(userId));
+      if (msg.from && msg.from.first_name) params.set("name", msg.from.first_name);
+      if (msg.from && msg.from.username) params.set("username", msg.from.username);
+      if (voucher) params.set("voucher", voucher);
+      if (isVip) params.set("vip", "1");
+      const magicLoginUrl = `${studioBase}/?${params.toString()}`;
+
+      const scholarName = (msg.from && msg.from.first_name) ? msg.from.first_name : "Scholar";
+      const loginMsg = `🚀 *1-Click Instant Desktop Browser Login*\n\nHello *${scholarName}*! Tap the button below to instantly authenticate and unlock your account in Chrome, Edge, or Firefox on this computer.\n\n${isVip ? `⭐ *VIP Status:* Active (Lifetime VIP Pass)\n🔑 *Your Voucher Code:* \`${voucher || "VIPPASS2026"}\`\n\n` : ""}_Tap the button below to open your session:_`;
+
+      await sendTelegramMessage(botToken, chatId, loginMsg, {
+        inline_keyboard: [
+          [{ text: "🚀 Open & Log In on Desktop Chrome", url: magicLoginUrl }]
+        ]
+      });
+      return jsonResponse({ ok: true });
+    }
+
     if (text === "/buy_stars" || text.startsWith("/start buy_stars")) {
       await sendStarsInvoice(botToken, chatId, userId);
       return jsonResponse({ ok: true });
@@ -3157,6 +3180,7 @@ async function editTelegramMessageText(botToken, chatId, messageId, text, replyM
 // Telegram Bot Command Menu specifications
 const BOT_COMMANDS = [
   { command: "start", description: "🚀 Main Menu & Launch Studio" },
+  { command: "login", description: "🚀 1-Click Desktop Browser Login (Chrome/Edge)" },
   { command: "app", description: "⚡ Open Telegram Mini App" },
   { command: "tools", description: "⚡ VIP Academic Lexicon & Topic Tools" },
   { command: "cloze", description: "📖 Scholarly Cloze Drill (/cloze <topic>)" },

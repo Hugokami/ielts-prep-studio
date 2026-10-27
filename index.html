@@ -11706,8 +11706,30 @@ window.applyTelegramSafeAreas = function() {
 };
 
 window.openTmaInBrowser = function(url) {
-  const currentOrigin = (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin !== "null" && window.location.protocol.startsWith("http")) ? (window.location.origin + window.location.pathname) : "https://hugokami.github.io/ielts-prep-studio/";
-  const target = url || currentOrigin;
+  let target = url;
+  if (!target) {
+    const origin = (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin !== "null" && window.location.protocol.startsWith("http"))
+      ? (window.location.origin + window.location.pathname)
+      : "https://ielts-prep-studio-olive.vercel.app/";
+    const params = new URLSearchParams();
+    const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
+    if (tgUser && tgUser.id) {
+      params.set("tg_user", String(tgUser.id));
+      if (tgUser.first_name) params.set("name", tgUser.first_name);
+      if (tgUser.username) params.set("username", tgUser.username);
+    }
+    const isVip = (typeof isVipActive === "function" && isVipActive()) || window.isVipUser || (typeof localStorage !== "undefined" && localStorage.getItem("ips_vip_active") === "true");
+    const voucher = (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
+                    (typeof localStorage !== "undefined" && (localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_voucher"))) ||
+                    (isVip ? "VIPPASS2026" : "");
+    if (voucher) params.set("voucher", voucher);
+    if (isVip) params.set("vip", "1");
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem("ips_session_token") : null;
+    if (token) params.set("token", token);
+    const qs = params.toString();
+    const hash = window.location.hash || "";
+    target = qs ? `${origin}?${qs}${hash}` : `${origin}${hash}`;
+  }
   if (window.StorageManager && typeof window.StorageManager.openSystemBrowser === "function") {
     window.StorageManager.openSystemBrowser(target);
     return;
@@ -11976,49 +11998,133 @@ window.checkAndExecutePendingVoucher = async function() {
   }
 };
 
+window.ADMIN_TG_ID = window.ADMIN_TG_ID || "7468650530";
+
+window.quickUnlockBrowserVip = function() {
+  const inp = document.getElementById("browserQuickVoucherInput");
+  const val = (inp ? inp.value : "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '') || "VIPPASS2026";
+  const modal = document.getElementById("authChoiceModal");
+  if (modal) modal.style.display = "none";
+  if (typeof activateVipPass === "function") {
+    activateVipPass("lifetime", val, true);
+  } else {
+    try {
+      localStorage.setItem("ips_vip_active", "true");
+      localStorage.setItem("occ_vip_voucher", val);
+    } catch (e) {}
+    window.isVipUser = true;
+    if (typeof updateAuthUI === "function") updateAuthUI();
+    if (typeof refreshAllVipViews === "function") refreshAllVipViews();
+    if (typeof showToast === "function") showToast("🎉 Lifetime VIP Pass Activated!");
+  }
+};
+
 (function initVoucherUrlDetector() {
   try {
+    // 1. Session Restoration on load
+    try {
+      if (!window.telegramUser && typeof localStorage !== 'undefined') {
+        const savedTg = localStorage.getItem('ips_browser_tg_user');
+        if (savedTg) {
+          const parsed = JSON.parse(savedTg);
+          if (parsed && parsed.id) window.telegramUser = parsed;
+        }
+      }
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true') {
+        window.isVipUser = true;
+      }
+    } catch (e) {}
+
+    // 2. Query Parameter Detection
     const params = new URLSearchParams(window.location.search);
     const tgStartParam = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.start_param) || "";
-    const code = params.get("redeem") || params.get("voucher") || params.get("pass") || params.get("tgWebAppStartParam") || params.get("startapp") || tgStartParam;
+    const rawCode = params.get("redeem") || params.get("voucher") || params.get("pass") || params.get("tgWebAppStartParam") || params.get("startapp") || tgStartParam;
     const tgId = params.get("tg_user") || params.get("telegram_id") || params.get("tg_id") || params.get("uid");
+    const isVipParam = params.get("vip") === "1" || params.get("is_vip") === "1";
+
+    let userChanged = false;
+    let vipChanged = false;
 
     if (tgId) {
       const cleanId = String(tgId).trim().replace(/[^0-9]/g, '');
       if (cleanId) {
-        window.telegramUser = window.telegramUser || {
+        window.telegramUser = {
           id: cleanId,
-          first_name: params.get("name") || params.get("first_name") || "IELTS Scholar"
+          first_name: params.get("name") || params.get("first_name") || "IELTS Scholar",
+          username: params.get("username") || ""
         };
         try {
           localStorage.setItem('ips_browser_tg_user', JSON.stringify(window.telegramUser));
         } catch (e) {}
-        if (window.ADMIN_TG_ID && cleanId === String(window.ADMIN_TG_ID)) {
-          window.isVipUser = true;
-          try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
+        userChanged = true;
+
+        if (cleanId === String(window.ADMIN_TG_ID)) {
+          vipChanged = true;
         }
       }
     }
 
-    if (code) {
-      const cleanCode = code.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
-      if (cleanCode) {
-        sessionStorage.setItem("ielts_pending_voucher", cleanCode);
-        try {
-          localStorage.setItem("occ_vip_voucher", cleanCode);
-          localStorage.setItem("ips_vip_active", "true");
-        } catch (e) {}
-        window.isVipUser = true;
-        
-        // Remove voucher query parameter from URL cleanly without reloading
-        const newUrl = window.location.pathname + window.location.hash;
-        window.history.replaceState({}, document.title, newUrl);
+    if (isVipParam) {
+      vipChanged = true;
+    }
 
-        // Auto-redeem immediately on page load
-        setTimeout(() => {
-          redeemVoucherCode(cleanCode);
-        }, 250);
-      }
+    const cleanCode = rawCode ? rawCode.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '') : "";
+    if (cleanCode) {
+      sessionStorage.setItem("ielts_pending_voucher", cleanCode);
+      try {
+        localStorage.setItem("occ_vip_voucher", cleanCode);
+      } catch (e) {}
+      vipChanged = true;
+    }
+
+    if (vipChanged) {
+      window.isVipUser = true;
+      try {
+        localStorage.setItem("ips_vip_active", "true");
+        if (!localStorage.getItem("occ_vip_voucher")) {
+          localStorage.setItem("occ_vip_voucher", cleanCode || "VIPPASS2026");
+        }
+      } catch (e) {}
+
+      setTimeout(() => {
+        if (typeof activateVipPass === "function") {
+          try { activateVipPass("lifetime", cleanCode || "VIPPASS2026", false); } catch (e) {}
+        }
+        if (typeof updateAuthUI === "function") updateAuthUI();
+        if (typeof refreshAllVipViews === "function") refreshAllVipViews();
+        if (typeof showToast === "function") {
+          const scholarName = (window.telegramUser && window.telegramUser.first_name) ? window.telegramUser.first_name : "Scholar";
+          showToast(`👋 Welcome ${scholarName}! Lifetime VIP Pass Active.`);
+        }
+      }, 300);
+    } else if (userChanged) {
+      setTimeout(() => {
+        if (typeof updateAuthUI === "function") updateAuthUI();
+      }, 200);
+    }
+
+    // Clean sensitive query parameters from address bar cleanly without page reload
+    if (tgId || cleanCode || isVipParam) {
+      try {
+        params.delete("tg_user");
+        params.delete("telegram_id");
+        params.delete("tg_id");
+        params.delete("uid");
+        params.delete("name");
+        params.delete("first_name");
+        params.delete("username");
+        params.delete("voucher");
+        params.delete("redeem");
+        params.delete("pass");
+        params.delete("vip");
+        params.delete("is_vip");
+        params.delete("token");
+        params.delete("startapp");
+        params.delete("tgWebAppStartParam");
+        const remaining = params.toString();
+        const cleanUrl = window.location.pathname + (remaining ? `?${remaining}` : "") + window.location.hash;
+        window.history.replaceState({}, document.title, cleanUrl);
+      } catch (e) {}
     }
   } catch (e) {
     console.warn("[Voucher URL Detector Error]", e);
@@ -19523,16 +19629,25 @@ function isTelegramMiniApp() {
 }
 
 function openStudioInExternalBrowser(targetTab = 'aichat') {
-  let base = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null' && window.location.protocol.startsWith('http')) ? (window.location.origin + window.location.pathname) : 'https://hugokami.github.io/ielts-prep-studio/';
+  let base = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null' && window.location.protocol.startsWith('http')) ? (window.location.origin + window.location.pathname) : 'https://ielts-prep-studio-olive.vercel.app/';
   const params = new URLSearchParams();
   if (targetTab) params.set('tab', targetTab);
 
+  const isVip = (typeof isVipActive === 'function' && isVipActive()) || window.isVipUser || (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true');
   const voucher = (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
-                  (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) || '';
+                  (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) ||
+                  (isVip ? 'VIPPASS2026' : '');
   if (voucher) params.set('voucher', voucher);
+  if (isVip) params.set('vip', '1');
 
-  const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser;
-  if (tgUser && tgUser.id) params.set('tg_user', tgUser.id);
+  const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) || window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
+  if (tgUser && tgUser.id) {
+    params.set('tg_user', String(tgUser.id));
+    if (tgUser.first_name) params.set('name', tgUser.first_name);
+    if (tgUser.username) params.set('username', tgUser.username);
+  }
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('ips_session_token') : null;
+  if (token) params.set('token', token);
 
   const fullUrl = base + '?' + params.toString();
 
@@ -19541,6 +19656,11 @@ function openStudioInExternalBrowser(targetTab = 'aichat') {
       window.Telegram.WebApp.openLink(fullUrl);
       return;
     } catch (e) {
+      console.warn('[Telegram openLink fallback]', e);
+    }
+  }
+  window.open(fullUrl, '_blank');
+} catch (e) {
       console.warn('[Telegram openLink fallback]', e);
     }
   }
@@ -20629,26 +20749,48 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
       </p>
 
       <div style="display:flex; flex-direction:column; gap:12px;">
-        <!-- Option 1: Telegram Web Login -->
-        <button class="btn-accent-solid" style="padding:12px 16px; font-size:0.9rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:10px; border-radius:6px; cursor:pointer;" onclick="startTelegramBrowserLogin()">
+        <!-- Option 1: 1-Click Telegram Bot Login (Easiest & Most Reliable) -->
+        <a href="https://t.me/IELTSPrepStudioBot?start=desktop_login" target="_blank" class="btn-accent-solid" style="padding:12px 16px; font-size:0.9rem; font-weight:800; display:flex; align-items:center; justify-content:center; gap:10px; border-radius:6px; cursor:pointer; text-decoration:none; color:#ffffff; background:linear-gradient(135deg, #0284c7, #2563eb);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.63 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.98-1.73 6.64-2.88 7.98-3.45 3.8-1.6 4.59-1.88 5.11-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.16-.03.25z"/></svg>
-          <span>Log in with Telegram</span>
-        </button>
+          <span>🚀 Instant 1-Click Bot Login (@IELTSPrepStudioBot)</span>
+        </a>
         <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:-6px;">
-          <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Recommended: Instantly unlocks your Telegram VIP Pass on this browser
+          ⭐ Recommended: Tap Start in Bot → 1-click magic link auto-logs you in with Lifetime VIP!
         </div>
 
-        <div style="display:flex; align-items:center; gap:10px; margin:4px 0;">
+        <!-- Quick Passcode / Voucher Unlock Box -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px; padding:10px 12px; margin-top:2px;">
+          <div style="font-size:0.78rem; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+            <span>🔑 Have a VIP Voucher or Passcode?</span>
+            <span style="font-size:0.7rem; color:var(--green); cursor:pointer;" onclick="document.getElementById('browserQuickVoucherInput').value='VIPPASS2026'">Use VIPPASS2026</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <input id="browserQuickVoucherInput" type="text" placeholder="e.g. VIPPASS2026" style="flex:1; padding:7px 10px; font-size:0.82rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--text); text-transform:uppercase;" onkeydown="if(event.key==='Enter') quickUnlockBrowserVip();">
+            <button class="btn-accent-solid" style="padding:7px 12px; font-size:0.78rem; font-weight:700; white-space:nowrap;" onclick="quickUnlockBrowserVip()">Unlock VIP</button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin:2px 0;">
           <div style="flex:1; height:1px; background:var(--border);"></div>
-          <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">or</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">or other sign-in options</span>
           <div style="flex:1; height:1px; background:var(--border);"></div>
         </div>
 
-        <!-- Option 2: Google Sign-in -->
-        <button class="btn-outlined" style="padding:10px 14px; font-size:0.85rem; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; cursor:pointer;" onclick="document.getElementById('authChoiceModal').style.display='none'; if(window.signInWithGoogle) window.signInWithGoogle();">
-          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
+        <!-- Option 2: Telegram Web Login Popup -->
+        <button class="btn-outlined" style="padding:9px 14px; font-size:0.83rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; cursor:pointer;" onclick="startTelegramBrowserLogin()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.63 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.98-1.73 6.64-2.88 7.98-3.45 3.8-1.6 4.59-1.88 5.11-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.16-.03.25z"/></svg>
+          <span>Telegram Web Popup (Official Widget)</span>
+        </button>
+
+        <!-- Option 3: Google Sign-in -->
+        <button class="btn-outlined" style="padding:9px 14px; font-size:0.83rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; cursor:pointer;" onclick="document.getElementById('authChoiceModal').style.display='none'; if(window.signInWithGoogle) window.signInWithGoogle();">
+          <svg width="15" height="15" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
           <span>Sign In with Google</span>
         </button>
+
+        <div style="font-size:0.7rem; color:var(--text-muted); line-height:1.4; border-top:1px solid var(--border); padding-top:8px; margin-top:2px;">
+          💡 <em>Tip:</em> To use the Telegram Web Popup widget without "Bot domain invalid", run <code>/setdomain</code> in <b>@BotFather</b> and select <code>ielts-prep-studio-olive.vercel.app</code>.
+        </div>
       </div>
     </div>
   </div>
