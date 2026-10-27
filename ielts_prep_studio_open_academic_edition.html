@@ -11219,14 +11219,7 @@ const VIP_PASS_PLANS = {
 };
 
 const VALID_VOUCHER_CODES = {
-  // Campaign & Partner Master Codes (All Lifetime Access)
-  "VIPPASS2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "BAND9VIP": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "SCHOLAR9": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "BURMA2026": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "ENGNOVATE": { plan: "lifetime", name: "Lifetime Studio Pass" },
-
-  // Batch 1: Customer Passes (All Unified Lifetime Access)
+  // Pre-Minted Lifetime Customer Passes
   "IPS-LIFE-901": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-902": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-LIFE-903": { plan: "lifetime", name: "Lifetime Studio Pass" },
@@ -11247,16 +11240,18 @@ const VALID_VOUCHER_CODES = {
   "IPS-INT-308": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-INT-309": { plan: "lifetime", name: "Lifetime Studio Pass" },
   "IPS-INT-310": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-101": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-102": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-103": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-104": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-105": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-106": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-107": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-108": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-109": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-SPRINT-110": { plan: "lifetime", name: "Lifetime Studio Pass" }
+
+  // Pre-Minted 7-Day Sprint Customer Passes
+  "IPS-SPRINT-101": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-102": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-103": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-104": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-105": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-106": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-107": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-108": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-109": { plan: "sprint", name: "7-Day Sprint Pass" },
+  "IPS-SPRINT-110": { plan: "sprint", name: "7-Day Sprint Pass" }
 };
 
 // Batch 2: Unified Standard Lifetime Series (IPS-VIP-101 through IPS-VIP-150)
@@ -11794,7 +11789,7 @@ window.openTmaInBrowser = function(url) {
     const isVip = (typeof isVipActive === "function" && isVipActive()) || window.isVipUser || (typeof localStorage !== "undefined" && localStorage.getItem("ips_vip_active") === "true");
     const voucher = (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
                     (typeof localStorage !== "undefined" && (localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_voucher"))) ||
-                    (isVip ? "VIPPASS2026" : "");
+                    "";
     if (voucher) params.set("voucher", voucher);
     if (isVip) params.set("vip", "1");
     const token = typeof localStorage !== "undefined" ? localStorage.getItem("ips_session_token") : null;
@@ -11851,6 +11846,26 @@ window.updateTmaFullscreenUI = function() {
   }
 };
 
+// Telegram In-App Browser Helper (Guides users to Safari/Chrome via top-right compass)
+(function checkTgInAppBrowser() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
+  const isTgWebView = /Telegram/i.test(navigator.userAgent) && !(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+  if (isTgWebView) {
+    try {
+      if (sessionStorage.getItem('ips_tg_inapp_dismissed')) return;
+    } catch (e) {}
+    const banner = document.createElement('div');
+    banner.id = 'tgInAppBanner';
+    banner.style.cssText = 'background:rgba(37,99,235,0.15); border-bottom:1px solid #2563EB; color:var(--text); padding:8px 12px; font-size:0.75rem; display:flex; align-items:center; justify-content:space-between; z-index:99999; font-family:Inter,sans-serif;';
+    banner.innerHTML = '<span>🧭 <b>Viewing in Telegram Webview:</b> Tap <b>🧭 Compass</b> (top right) to open in Safari / Chrome for permanent device sync.</span><button onclick="document.getElementById(\'tgInAppBanner\').style.display=\'none\'; try{sessionStorage.setItem(\'ips_tg_inapp_dismissed\',\'1\');}catch(e){}" style="background:none; border:none; color:var(--text); font-size:1rem; cursor:pointer; padding:0 6px; line-height:1;">&times;</button>';
+    if (document.body) {
+      document.body.prepend(banner);
+    } else {
+      document.addEventListener('DOMContentLoaded', () => document.body.prepend(banner));
+    }
+  }
+})();
+
 // Auto-listen to TMA events and auto-expand on boot
 if (typeof window !== "undefined") {
   window.addEventListener("DOMContentLoaded", () => {
@@ -11867,7 +11882,7 @@ if (typeof window !== "undefined") {
             window.isVipUser = true;
             try {
               localStorage.setItem("ips_vip_active", "true");
-              if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+              
             } catch (e) {}
           }
           if (typeof updateAuthUI === 'function') updateAuthUI();
@@ -12086,22 +12101,24 @@ window.checkAndExecutePendingVoucher = async function() {
 
 window.ADMIN_TG_ID = window.ADMIN_TG_ID || "7468650530";
 
-window.quickUnlockBrowserVip = function() {
+window.quickUnlockBrowserVip = async function() {
   const inp = document.getElementById("browserQuickVoucherInput");
-  const val = (inp ? inp.value : "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '') || "VIPPASS2026";
-  const modal = document.getElementById("authChoiceModal");
-  if (modal) modal.style.display = "none";
-  if (typeof activateVipPass === "function") {
-    activateVipPass("lifetime", val, true);
+  const fb = document.getElementById("browserQuickVoucherFeedback");
+  const val = (inp ? inp.value : "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+  if (!val) {
+    if (fb) fb.innerHTML = '<span style="color:var(--crimson); font-weight:600;">Please enter your voucher code.</span>';
+    return;
+  }
+  if (fb) fb.innerHTML = '<span style="color:var(--accent); font-weight:600;">Verifying voucher...</span>';
+  const ok = await redeemVoucherCode(val);
+  if (ok) {
+    if (fb) fb.innerHTML = '<span style="color:var(--green); font-weight:700;">VIP Pass Activated!</span>';
+    setTimeout(() => {
+      const modal = document.getElementById("authChoiceModal");
+      if (modal) modal.style.display = "none";
+    }, 600);
   } else {
-    try {
-      localStorage.setItem("ips_vip_active", "true");
-      localStorage.setItem("occ_vip_voucher", val);
-    } catch (e) {}
-    window.isVipUser = true;
-    if (typeof updateAuthUI === "function") updateAuthUI();
-    if (typeof refreshAllVipViews === "function") refreshAllVipViews();
-    if (typeof showToast === "function") showToast("🎉 Lifetime VIP Pass Activated!");
+    if (fb) fb.innerHTML = '<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your code.</span>';
   }
 };
 
@@ -12118,7 +12135,7 @@ window.quickUnlockBrowserVip = function() {
           window.isVipUser = true;
           try {
             localStorage.setItem("ips_vip_active", "true");
-            if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+            
           } catch (e) {}
         }
       } else if (!window.telegramUser && typeof localStorage !== 'undefined') {
@@ -12131,7 +12148,7 @@ window.quickUnlockBrowserVip = function() {
               window.isVipUser = true;
               try {
                 localStorage.setItem("ips_vip_active", "true");
-                if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+                
               } catch (e) {}
             }
           }
@@ -12189,13 +12206,13 @@ window.quickUnlockBrowserVip = function() {
       try {
         localStorage.setItem("ips_vip_active", "true");
         if (!localStorage.getItem("occ_vip_voucher")) {
-          localStorage.setItem("occ_vip_voucher", cleanCode || "VIPPASS2026");
+          if (cleanCode) localStorage.setItem("occ_vip_voucher", cleanCode);
         }
       } catch (e) {}
 
       setTimeout(() => {
         if (typeof activateVipPass === "function") {
-          try { activateVipPass("lifetime", cleanCode || "VIPPASS2026", false); } catch (e) {}
+          try { activateVipPass("lifetime", cleanCode || "", false); } catch (e) {}
         }
         if (typeof updateAuthUI === "function") updateAuthUI();
         if (typeof refreshAllVipViews === "function") refreshAllVipViews();
@@ -19756,7 +19773,7 @@ function openStudioInExternalBrowser(targetTab = 'aichat') {
   const isVip = (typeof isVipActive === 'function' && isVipActive()) || window.isVipUser || (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true');
   const voucher = (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) ||
                   (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) ||
-                  (isVip ? 'VIPPASS2026' : '');
+                  '';
   if (voucher) params.set('voucher', voucher);
   if (isVip) params.set('vip', '1');
 
@@ -20876,13 +20893,13 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
         <!-- Quick Passcode / Voucher Unlock Box -->
         <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px; padding:10px 12px; margin-top:2px;">
           <div style="font-size:0.78rem; font-weight:700; color:var(--text); margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-            <span>🔑 Have a VIP Voucher or Passcode?</span>
-            <span style="font-size:0.7rem; color:var(--green); cursor:pointer;" onclick="document.getElementById('browserQuickVoucherInput').value='VIPPASS2026'">Use VIPPASS2026</span>
+            <span><svg class="ui-icon" style="width:13px; height:13px; margin-right:4px;"><use href="#lucide-key"/></svg>Have a Pre-Minted VIP Voucher?</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <input id="browserQuickVoucherInput" type="text" placeholder="e.g. VIPPASS2026" style="flex:1; padding:7px 10px; font-size:0.82rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--text); text-transform:uppercase;" onkeydown="if(event.key==='Enter') quickUnlockBrowserVip();">
+            <input id="browserQuickVoucherInput" type="text" placeholder="Enter voucher code (e.g. IPS-LIFE-...)" style="flex:1; padding:7px 10px; font-size:0.82rem; background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--text); text-transform:uppercase;" onkeydown="if(event.key==='Enter') quickUnlockBrowserVip();">
             <button class="btn-accent-solid" style="padding:7px 12px; font-size:0.78rem; font-weight:700; white-space:nowrap;" onclick="quickUnlockBrowserVip()">Unlock VIP</button>
           </div>
+          <div id="browserQuickVoucherFeedback" style="font-size:0.72rem; margin-top:5px; min-height:14px;"></div>
         </div>
 
         <div style="display:flex; align-items:center; gap:10px; margin:2px 0;">

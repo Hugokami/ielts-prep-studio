@@ -768,7 +768,7 @@ _Or simply reply directly with any IELTS question below!_`,
 
     // 1-Click Desktop Browser Login Handshake (/login or /start desktop_login)
     if (text === "/login" || text.startsWith("/start desktop_login") || text.startsWith("/start web_login") || text.startsWith("/start login")) {
-      const voucher = (await getUserVipVoucher(env, userId)) || (isVip ? "VIPPASS2026" : "");
+      const voucher = (await getUserVipVoucher(env, userId)) || "";
       const studioBase = (env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app").replace(/\/+$/, "");
       const params = new URLSearchParams();
       params.set("tg_user", String(userId));
@@ -779,7 +779,29 @@ _Or simply reply directly with any IELTS question below!_`,
       const magicLoginUrl = `${studioBase}/?${params.toString()}`;
 
       const scholarName = (msg.from && msg.from.first_name) ? msg.from.first_name : "Scholar";
-      const loginMsg = `🚀 *1-Click Instant Desktop Browser Login*\n\nHello *${scholarName}*! Tap the button below to instantly authenticate and unlock your account in Chrome, Edge, or Firefox on this computer.\n\n${isVip ? `⭐ *VIP Status:* Active (Lifetime VIP Pass)\n🔑 *Your Voucher Code:* \`${voucher || "VIPPASS2026"}\`\n\n` : ""}_Tap the button below to open your session:_`;
+      let vipNote = "";
+      if (isVip) {
+        vipNote = "👑 *VIP Status:* Active (Lifetime VIP Pass)\n";
+        if (voucher) {
+          vipNote += "🔑 *Your Voucher Code:* `" + voucher + "`\n\n";
+        } else {
+          vipNote += "\n";
+        }
+      }
+
+      const loginMsg =
+`🚀 *1-Click Instant Desktop Browser Login*
+
+Hello *${scholarName}*! Tap the button below to authenticate your account.
+
+${vipNote}💻 *For Desktop Computer (Chrome / Edge / Firefox):*
+Copy and paste this direct 1-click login link into your computer's browser:
+\`${magicLoginUrl}\`
+
+📱 *Opening on iPhone / Android Phone?*
+When Telegram opens its in-app browser:
+• Tap the **🧭 Compass / Safari icon** at the top right to switch to real Safari / Chrome (keeps your session synced across devices).
+• _(Tip: In Telegram Settings ➔ Data and Storage ➔ Open Links In ➔ Safari / Chrome to always open externally.)_`;
 
       await sendTelegramMessage(botToken, chatId, loginMsg, {
         inline_keyboard: [
@@ -860,8 +882,8 @@ Select how you would like IELTS Prep Studio Bot to interact with you:
       }
     }
 
-    // 0.1: /invite command (Referral Engine: +7 VIP Days)
-    if (text === "/invite" || text.startsWith("/invite ") || text === "🎁 Invite Friends (+7d VIP)") {
+    // 0.1: /referral & /invite command (Referral Engine: +7 VIP Days)
+    if (text === "/referral" || text.startsWith("/referral") || text === "/invite" || text.startsWith("/invite") || text === "🎁 Referral Program" || text === "🎁 Referral (+7d VIP)" || text === "👥 Invite Friends (+7d VIP)") {
       const refLink = `https://t.me/${env.BOT_USERNAME || "IELTSPrepStudioBot"}?start=ref_${userId}`;
       let count = 0;
       try {
@@ -3180,26 +3202,20 @@ async function editTelegramMessageText(botToken, chatId, messageId, text, replyM
 // Telegram Bot Command Menu specifications
 const BOT_COMMANDS = [
   { command: "start", description: "🚀 Main Menu & Launch Studio" },
-  { command: "login", description: "🚀 1-Click Desktop Browser Login (Chrome/Edge)" },
-  { command: "app", description: "⚡ Open Telegram Mini App" },
+  { command: "login", description: "💻 1-Click Desktop Browser Login (Chrome/Edge)" },
+  { command: "referral", description: "🎁 Referral Program: Invite Friends & Earn +7 Days VIP" },
+  { command: "invite", description: "👥 Invite Link & Referral Stats (+7 Days VIP)" },
+  { command: "vip", description: "💎 VIP Pass Plans & Pricing (5,000 Ks / 97,000 Ks)" },
+  { command: "app", description: "📱 Open Telegram Mini App" },
   { command: "tools", description: "⚡ VIP Academic Lexicon & Topic Tools" },
-  { command: "cloze", description: "📖 Scholarly Cloze Drill (/cloze <topic>)" },
+  { command: "cloze", description: "🔬 Scholarly Cloze Drill (/cloze <topic>)" },
   { command: "podcast", description: "🎙️ Cambridge & BBC Podcasts (/podcast [bbc|cambridge])" },
-  { command: "collocate", description: "🔗 Collocations (/collocate <word>)" },
+  { command: "collocate", description: "📚 Collocations (/collocate <word>)" },
   { command: "syn", description: "💎 Band 8.5+ Synonyms (/syn <word>)" },
   { command: "read", description: "📖 Academic Topic Briefs (/read <topic>)" },
-  { command: "dict", description: "📚 Live Academic Dictionary (/dict <word>)" },
-  { command: "quote", description: "🧠 Scholar Thought & Rhetoric" },
-  { command: "vip", description: "👑 VIP Pass (1,350 ★ Stars (Lifetime) / 75 ★ Stars (7-Day Sprint) / 97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint))" },
-  { command: "buy", description: "⭐️ Instant Stars / Wallet Checkout" },
-  { command: "lang", description: "🌐 Switch Language (English / မြန်မာ)" },
-  { command: "curriculum", description: "📚 Cambridge CBT & Lexicon Catalog" },
-  { command: "pay", description: "💳 Payment Methods (Stars & Wallets)" },
-  { command: "status", description: "📊 My Study Progress & VIP Status" },
-  { command: "exam", description: "📅 Exam Countdown & Target Pacing" },
-  { command: "tip", description: "💡 Band 9 IELTS Trap & Collocation" },
-  { command: "support", description: "👨‍🏫 Instructor Support & Help" },
-  { command: "help", description: "📕 How to Use & Study Guide" }
+  { command: "dict", description: "📖 Live Academic Dictionary (/dict <word>)" },
+  { command: "sprint", description: "⏱️ Exam Focus Sprint (/sprint 20 or /sprint 40)" },
+  { command: "help", description: "❓ Student Guide & Commands Help" }
 ];
 
 async function getUserVipVoucher(env, userId) {
