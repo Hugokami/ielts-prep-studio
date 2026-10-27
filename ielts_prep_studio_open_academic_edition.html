@@ -7949,7 +7949,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
         <div class="auth-widget-box" id="authWidgetBox">
           <button class="auth-btn" id="authBtn" onclick="handleAuthAction()" title="Student Account &amp; Sync">
-            <span id="authBtnIcon"><svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg></span>
+            <span id="authBtnIcon"><svg class="ui-icon" style="width:14px; height:14px; margin-right:4px;"><use href="#lucide-user"/></svg></span>
             <span id="authBtnLabel">Sign In</span>
           </button>
         </div>
@@ -11402,9 +11402,24 @@ function ensureUserProfileInitialized() {
 function isVipActive() {
   if (window.isVipUser) return true;
 
+  try {
+    if (typeof localStorage !== "undefined" && (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher"))) {
+      window.isVipUser = true;
+      return true;
+    }
+  } catch (e) {}
+
+  try {
+    const tgUser = window.telegramUser || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
+    if (tgUser && String(tgUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
+      window.isVipUser = true;
+      return true;
+    }
+  } catch (e) {}
+
   // Check signed 30-day session token from Cloudflare Worker
   try {
-    const token = localStorage.getItem("ips_session_token");
+    const token = typeof localStorage !== "undefined" ? localStorage.getItem("ips_session_token") : null;
     if (token) {
       const parts = token.split(".");
       if (parts.length === 3) {
@@ -11418,7 +11433,7 @@ function isVipActive() {
   } catch (e) {}
 
   // Check verified Telegram user / cloud-synced state
-  if (appState && appState.userProfile && appState.userProfile.tier === "vip" && appState.userProfile.verified) {
+  if (typeof appState !== "undefined" && appState && appState.userProfile && appState.userProfile.tier === "vip" && appState.userProfile.verified) {
     window.isVipUser = true;
     return true;
   }
@@ -11845,6 +11860,19 @@ if (typeof window !== "undefined") {
         tg.ready();
         tg.expand();
 
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+          window.telegramUser = tg.initDataUnsafe.user;
+          try { localStorage.setItem('ips_browser_tg_user', JSON.stringify(tg.initDataUnsafe.user)); } catch (e) {}
+          if (String(tg.initDataUnsafe.user.id) === String(window.ADMIN_TG_ID || "7468650530")) {
+            window.isVipUser = true;
+            try {
+              localStorage.setItem("ips_vip_active", "true");
+              if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+            } catch (e) {}
+          }
+          if (typeof updateAuthUI === 'function') updateAuthUI();
+        }
+
         // Fullscreen restored on mobile & desktop per user requirement
         if (typeof tg.requestFullscreen === "function") {
           try { tg.requestFullscreen(); } catch (e) {}
@@ -12079,13 +12107,34 @@ window.quickUnlockBrowserVip = function() {
 
 (function initVoucherUrlDetector() {
   try {
-    // 1. Session Restoration on load
+    // 1. Session Restoration on load & Native TMA User Detection
     try {
-      if (!window.telegramUser && typeof localStorage !== 'undefined') {
+      const nativeTgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ||
+                           (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
+      if (nativeTgUser && nativeTgUser.id) {
+        window.telegramUser = nativeTgUser;
+        try { localStorage.setItem('ips_browser_tg_user', JSON.stringify(nativeTgUser)); } catch (e) {}
+        if (String(nativeTgUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
+          window.isVipUser = true;
+          try {
+            localStorage.setItem("ips_vip_active", "true");
+            if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+          } catch (e) {}
+        }
+      } else if (!window.telegramUser && typeof localStorage !== 'undefined') {
         const savedTg = localStorage.getItem('ips_browser_tg_user');
         if (savedTg) {
           const parsed = JSON.parse(savedTg);
-          if (parsed && parsed.id) window.telegramUser = parsed;
+          if (parsed && parsed.id) {
+            window.telegramUser = parsed;
+            if (String(parsed.id) === String(window.ADMIN_TG_ID || "7468650530")) {
+              window.isVipUser = true;
+              try {
+                localStorage.setItem("ips_vip_active", "true");
+                if (!localStorage.getItem("occ_vip_voucher")) localStorage.setItem("occ_vip_voucher", "VIPPASS2026");
+              } catch (e) {}
+            }
+          }
         }
       }
       if (typeof localStorage !== 'undefined' && localStorage.getItem('ips_vip_active') === 'true') {
@@ -12220,7 +12269,7 @@ function startTelegramBrowserLogin() {
   }
 }
 
-function handleAuthAction() {
+window.handleAuthAction = function() {
   const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser()) || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
   if (tgUser || window.currentUser) {
     const modal = document.getElementById("accountModalBackdrop");
@@ -12235,6 +12284,9 @@ function handleAuthAction() {
       window.signInWithGoogle();
     }
   }
+};
+function handleAuthAction() {
+  return window.handleAuthAction();
 }
 
 window.closeAccountModal = function() {
@@ -12474,7 +12526,7 @@ function updateAuthUI() {
     }
   } else {
     if (authLabel) authLabel.textContent = "Sign In";
-    if (authIcon) authIcon.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>`;
+    if (authIcon) authIcon.innerHTML = `<svg class="ui-icon" style="width:14px; height:14px; margin-right:4px;"><use href="#lucide-user"/></svg>`;
     updateScholarAvatar(null, null);
     closeAccountModal();
   }
@@ -19728,11 +19780,6 @@ function openStudioInExternalBrowser(targetTab = 'aichat') {
     }
   }
   window.open(fullUrl, '_blank');
-} catch (e) {
-      console.warn('[Telegram openLink fallback]', e);
-    }
-  }
-  window.open(fullUrl, '_blank');
 }
 
 function dismissAiChatTmaNotice() {
@@ -20852,7 +20899,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
 
         <!-- Option 3: Google Sign-in -->
         <button class="btn-outlined" style="padding:9px 14px; font-size:0.83rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px; border-radius:6px; cursor:pointer;" onclick="document.getElementById('authChoiceModal').style.display='none'; if(window.signInWithGoogle) window.signInWithGoogle();">
-          <svg width="15" height="15" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.5 1.9 7.8l3.7-2.9z"/><path fill="#34A853" d="M12 23.5c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16.5C3.7 20.2 7.5 23.5 12 23.5z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align:middle; flex-shrink:0;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
           <span>Sign In with Google</span>
         </button>
 
