@@ -799,7 +799,7 @@
     "title": "Passage 10: Epigenetics: Beyond the DNA Sequence",
     "category": "Ancient Science & Technology",
     "difficulty": "Band 8.0 CBT",
-    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "questionTypes": "Matching Headings • Matching Information • Multiple Choice",
     "paragraphs": [
       {
         "label": "A",
@@ -840,91 +840,177 @@
     "questions": [
       {
         "id": "rm10_q1",
-        "type": "GAP",
-        "q": "1. Paragraph B",
-        "options": [],
-        "ans": "v",
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "v. The definition of chemical tags and cellular differentiation",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
         "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q2",
-        "type": "GAP",
-        "q": "2. Paragraph C",
-        "options": [],
-        "ans": "vii",
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "vii. Environmental responsiveness and exogenous lifestyle triggers",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
         "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q3",
-        "type": "GAP",
-        "q": "3. Paragraph D",
-        "options": [],
-        "ans": "iv",
+        "type": "HEADING",
+        "q": "3. Choose the most suitable heading for Paragraph D:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "iv. Empirical historical evidence from wartime famine survivors",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
         "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q4",
-        "type": "GAP",
-        "q": "4. Paragraph E",
-        "options": [],
-        "ans": "iii",
+        "type": "HEADING",
+        "q": "4. Choose the most suitable heading for Paragraph E:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "iii. Debates surrounding transgenerational biological inheritance",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
         "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q5",
-        "type": "GAP",
-        "q": "5. Paragraph F",
-        "options": [],
-        "ans": "i",
+        "type": "HEADING",
+        "q": "5. Choose the most suitable heading for Paragraph F:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "i. Clinical therapeutic frontiers and reversible drug therapies",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
         "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q6",
-        "type": "GAP",
-        "q": "6. Paragraph G",
-        "options": [],
-        "ans": "vi",
+        "type": "HEADING",
+        "q": "6. Choose the most suitable heading for Paragraph G:",
+        "options": [
+          "i. Clinical therapeutic frontiers and reversible drug therapies",
+          "ii. The discovery of the double-helix crystallographic structure",
+          "iii. Debates surrounding transgenerational biological inheritance",
+          "iv. Empirical historical evidence from wartime famine survivors",
+          "v. The definition of chemical tags and cellular differentiation",
+          "vi. A philosophical shift away from biological fatalism",
+          "vii. Environmental responsiveness and exogenous lifestyle triggers",
+          "viii. Economic cost analysis of long-term cancer treatments"
+        ],
+        "ans": "vi. A philosophical shift away from biological fatalism",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
         "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. Reference to an outdated scientific belief regarding the erasure of cellular memory.",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F",
+          "Paragraph G"
+        ],
+        "ans": "Paragraph E",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. An explanation of how distinct cell types emerge from identical DNA.",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F",
+          "Paragraph G"
+        ],
+        "ans": "Paragraph B",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. Examples of specific modern pharmaceuticals targeting epigenetic errors.",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F",
+          "Paragraph G"
+        ],
+        "ans": "Paragraph F",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm10_q10",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "10. The original scientific assumption regarding the inflexibility of human traits.",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F",
+          "Paragraph G"
+        ],
+        "ans": "Paragraph A",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -933,28 +1019,12 @@
         "type": "MCQ",
         "q": "11. According to Paragraph B, how do epigenetic mechanisms primarily function?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. By permanently mutating the underlying DNA sequence.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. By creating entirely new genes to adapt to the environment.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. By utilizing chemical tags to control gene transcription.",
-            "is_correct": true
-          },
-          {
-            "id": "D",
-            "text": "D. By replacing structural histones with methyl groups.",
-            "is_correct": false
-          }
+          "A. By directly rearranging the sequence of adenine, thymine, cytosine, and guanine.",
+          "B. By replacing damaged DNA strands with synthesized laboratory proteins.",
+          "C. By attaching chemical tags to regulate whether specific genes are read or silenced.",
+          "D. By permanently deleting redundant genetic codes during fetal maturation."
         ],
-        "ans": "C",
+        "ans": "C. By attaching chemical tags to regulate whether specific genes are read or silenced.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -963,28 +1033,12 @@
         "type": "MCQ",
         "q": "12. The Dutch Hunger Winter study demonstrated that:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Famine only impacts the generation directly exposed to starvation.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Environmental stress in utero can cause long-term metabolic reprogramming.",
-            "is_correct": true
-          },
-          {
-            "id": "C",
-            "text": "C. Siblings born before the famine suffered similar obesity rates.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. Malnutrition strictly alters the genetic DNA sequences of fetuses.",
-            "is_correct": false
-          }
+          "A. Genetic mutations caused by severe malnutrition cannot be passed on.",
+          "B. Prenatal famine exposure led to long-term altered methylation and elevated metabolic risks in offspring.",
+          "C. Dutch survivors developed complete genetic immunity to cardiovascular disorders.",
+          "D. Calorie deprivation improved life expectancy across all demographic cohorts."
         ],
-        "ans": "B",
+        "ans": "B. Prenatal famine exposure led to long-term altered methylation and elevated metabolic risks in offspring.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -993,28 +1047,12 @@
         "type": "MCQ",
         "q": "13. Why is transgenerational epigenetic inheritance controversial in human studies?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. The scientific equipment is not sophisticated enough to detect it.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Animal models have consistently disproved the theory.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Epigenetic marks are scientifically proven to be permanently erased.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. The lengthy lifespan between human generations complicates data collection.",
-            "is_correct": true
-          }
+          "A. Epigenetic tags are completely nonexistent in mammalian gametes.",
+          "B. Scientists have been unable to replicate findings in laboratory rodents.",
+          "C. Human chromosomes lack the histones required for epigenetic binding.",
+          "D. Mammalian reproduction typically undergoes widespread enzymatic erasure of marks during fertilization."
         ],
-        "ans": "D",
+        "ans": "D. Mammalian reproduction typically undergoes widespread enzymatic erasure of marks during fertilization.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -1023,28 +1061,12 @@
         "type": "MCQ",
         "q": "14. What distinguishes epigenetic treatments (\"epi-drugs\") from treatments for genetic mutations?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. They capitalize on the reversible nature of epigenetic modifications.",
-            "is_correct": true
-          },
-          {
-            "id": "B",
-            "text": "B. They are capable of rewriting defective DNA sequences.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. They exclusively target neurodegenerative disorders.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. They intentionally silence protective tumor-suppressor genes.",
-            "is_correct": false
-          }
+          "A. They modify gene expression patterns reversibly without altering the underlying genetic sequence.",
+          "B. They introduce permanent synthetic genes into the human germline.",
+          "C. They require surgical excision of affected chromosomes.",
+          "D. They are only applicable to plant biology and agricultural crops."
         ],
-        "ans": "A",
+        "ans": "A. They modify gene expression patterns reversibly without altering the underlying genetic sequence.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       }
@@ -1056,7 +1078,7 @@
     "title": "Passage 11: The Architecture of Temporal Perception",
     "category": "Ancient Science & Technology",
     "difficulty": "Band 8.0 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "questionTypes": "True/False/Not Given • Matching Sentence Endings • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
@@ -1157,44 +1179,72 @@
       },
       {
         "id": "rm11_q6",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "6. During moments of extreme fear, the brain encodes memories so densely that",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "A. schedules are treated flexibly and interpersonal relationships take priority over strict punctuality.",
+          "B. years subjectively feel as though they are passing much faster due to fewer novel memories.",
+          "C. time retrospectively appears to dilate and stretch during intense fear.",
+          "D. individuals to maintain prolonged, uninterrupted concentration on complex tasks.",
+          "E. circadian biological pacemakers permanently halt normal cellular rhythms.",
+          "F. memory formation is completely disabled by elevated dopamine spikes."
+        ],
+        "ans": "C. time retrospectively appears to dilate and stretch during intense fear.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm11_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. Because older adults generally live highly routine lives,",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "A. schedules are treated flexibly and interpersonal relationships take priority over strict punctuality.",
+          "B. years subjectively feel as though they are passing much faster due to fewer novel memories.",
+          "C. time retrospectively appears to dilate and stretch during intense fear.",
+          "D. individuals to maintain prolonged, uninterrupted concentration on complex tasks.",
+          "E. circadian biological pacemakers permanently halt normal cellular rhythms.",
+          "F. memory formation is completely disabled by elevated dopamine spikes."
+        ],
+        "ans": "B. years subjectively feel as though they are passing much faster due to fewer novel memories.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm11_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. In societies characterized by polychronic cultural traits,",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "A. schedules are treated flexibly and interpersonal relationships take priority over strict punctuality.",
+          "B. years subjectively feel as though they are passing much faster due to fewer novel memories.",
+          "C. time retrospectively appears to dilate and stretch during intense fear.",
+          "D. individuals to maintain prolonged, uninterrupted concentration on complex tasks.",
+          "E. circadian biological pacemakers permanently halt normal cellular rhythms.",
+          "F. memory formation is completely disabled by elevated dopamine spikes."
+        ],
+        "ans": "A. schedules are treated flexibly and interpersonal relationships take priority over strict punctuality.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm11_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The continuous partial attention demanded by modern technology hinders the ability of",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "A. schedules are treated flexibly and interpersonal relationships take priority over strict punctuality.",
+          "B. years subjectively feel as though they are passing much faster due to fewer novel memories.",
+          "C. time retrospectively appears to dilate and stretch during intense fear.",
+          "D. individuals to maintain prolonged, uninterrupted concentration on complex tasks.",
+          "E. circadian biological pacemakers permanently halt normal cellular rhythms.",
+          "F. memory formation is completely disabled by elevated dopamine spikes."
+        ],
+        "ans": "D. individuals to maintain prolonged, uninterrupted concentration on complex tasks.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm11_q10",
         "type": "GAP",
-        "q": "10. Human time perception demonstrates remarkable {{gap_c1100000-0000-0000-0000-000000000022_0}}, differing greatly from the strict laws of physics. At a neurological level, the neurotransmitter {{gap_c1100000-0000-0000-0000-000000000022_1}} is heavily involved in regulating our internal clock. In frightening situations, the brain experiences {{gap_c1100000-0000-0000-0000-000000000022_2}}, a distortion where dense memory encoding makes time seem to stretch. Conversely, as people age, the prevalence of {{gap_c1100000-0000-0000-0000-000000000022_3}} results in fewer unique memories, creating the illusion that years are passing much faster.",
+        "q": "10. Complete the summary gap: Human time perception demonstrates remarkable [ 10 ], differing greatly from the strict laws of physics.",
         "options": [],
         "ans": "elasticity",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'elasticity'.",
@@ -1203,7 +1253,7 @@
       {
         "id": "rm11_q11",
         "type": "GAP",
-        "q": "11. ",
+        "q": "11. Complete the summary gap: At a neurological level, the neurotransmitter [ 11 ] is heavily involved in regulating our internal clock.",
         "options": [],
         "ans": "dopamine",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'dopamine'.",
@@ -1212,7 +1262,7 @@
       {
         "id": "rm11_q12",
         "type": "GAP",
-        "q": "12. ",
+        "q": "12. Complete the summary gap: In frightening situations, the brain experiences [ 12 ], a distortion where dense memory encoding makes time seem to stretch.",
         "options": [],
         "ans": "chronostasis",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'chronostasis'.",
@@ -1221,7 +1271,7 @@
       {
         "id": "rm11_q13",
         "type": "GAP",
-        "q": "13. ",
+        "q": "13. Complete the summary gap: Conversely, as people age, the prevalence of [ 13 ] results in fewer unique memories, creating the illusion that years pass faster.",
         "options": [],
         "ans": "routine",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'routine'.",
@@ -1410,7 +1460,7 @@
     "title": "Passage 13: The Architecture of Sound: Acoustics in Concert Halls",
     "category": "Engineering & Natural Science",
     "difficulty": "Band 7.0 CBT",
-    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "questionTypes": "Matching Headings • Matching Information • Multiple Choice",
     "paragraphs": [
       {
         "label": "A",
@@ -1446,91 +1496,173 @@
     "questions": [
       {
         "id": "rm13_q1",
-        "type": "GAP",
-        "q": "1. Paragraph A",
-        "options": [],
-        "ans": "v",
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph A:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "v. The historical evolution from guesswork to quantitative acoustic physics",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
         "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q2",
-        "type": "GAP",
-        "q": "2. Paragraph B",
-        "options": [],
-        "ans": "ii",
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "ii. Reverberation time as the central benchmark across musical genres",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
         "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q3",
-        "type": "GAP",
-        "q": "3. Paragraph C",
-        "options": [],
-        "ans": "iii",
+        "type": "HEADING",
+        "q": "3. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
         "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q4",
-        "type": "GAP",
-        "q": "4. Paragraph D",
-        "options": [],
-        "ans": "i",
+        "type": "HEADING",
+        "q": "4. Choose the most suitable heading for Paragraph D:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "i. The advent of tiered vineyard architecture and intimate sightlines",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
         "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q5",
-        "type": "GAP",
-        "q": "5. Paragraph E",
-        "options": [],
-        "ans": "vii",
+        "type": "HEADING",
+        "q": "5. Choose the most suitable heading for Paragraph E:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "vii. Contemporary predictive simulations and scaled physical testing",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
         "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q6",
-        "type": "GAP",
-        "q": "6. Paragraph F",
-        "options": [],
-        "ans": "iv",
+        "type": "HEADING",
+        "q": "6. Choose the most suitable heading for Paragraph F:",
+        "options": [
+          "i. The advent of tiered vineyard architecture and intimate sightlines",
+          "ii. Reverberation time as the central benchmark across musical genres",
+          "iii. The acoustic supremacy of the traditional shoebox rectangular hall",
+          "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
+          "v. The historical evolution from guesswork to quantitative acoustic physics",
+          "vi. Budgetary constraints in municipal opera house construction",
+          "vii. Contemporary predictive simulations and scaled physical testing",
+          "viii. The comparative advantages of open-air amphitheaters in antiquity"
+        ],
+        "ans": "iv. The psychoacoustic interplay between visual aesthetics and auditory perception",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
         "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. A reference to the earliest scientific measurements of room acoustics.",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph A",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. An explanation of why narrow concert halls produce superior sound envelopment.",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph C",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. Examples of techniques used by acousticians to predict sound before construction.",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph E",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm13_q10",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "10. The idea that what an audience sees visually can alter their evaluation of sound.",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph F",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -1539,28 +1671,12 @@
         "type": "MCQ",
         "q": "11. According to the passage, the \"shoebox\" design is acoustically successful primarily because:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. The high ceilings reduce the need for reverberation time.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. It provides strong lateral sound reflections to the audience.",
-            "is_correct": true
-          },
-          {
-            "id": "C",
-            "text": "C. It allows for more democratic and visually intimate seating.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. It limits the blending of large symphonic instruments.",
-            "is_correct": false
-          }
+          "A. It minimizes construction costs by using plain rectangular timber.",
+          "B. Its narrow walls provide strong early lateral reflections that create acoustic envelopment.",
+          "C. It permits over 5,000 spectators without requiring audio amplification.",
+          "D. It eliminates the need for padded chairs or ceiling diffusers."
         ],
-        "ans": "B",
+        "ans": "B. Its narrow walls provide strong early lateral reflections that create acoustic envelopment.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -1569,28 +1685,12 @@
         "type": "MCQ",
         "q": "12. The \"vineyard\" style of concert hall was originally developed to:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Maximize the natural lateral reflections of sound.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Lower the cost of construction by removing parallel walls.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Improve the audience’s visual connection to the performers.",
-            "is_correct": true
-          },
-          {
-            "id": "D",
-            "text": "D. Create a warmer sound using steep wooden terraces.",
-            "is_correct": false
-          }
+          "A. emulate open-air Greek theaters with stone seats.",
+          "B. allow heavy symphonic organs to reverberate beyond 3 seconds.",
+          "C. bring audiences closer to the stage while preserving sound clarity via tiered terraces.",
+          "D. reduce the volume of brass instruments in modern compositions."
         ],
-        "ans": "C",
+        "ans": "C. bring audiences closer to the stage while preserving sound clarity via tiered terraces.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -1599,28 +1699,12 @@
         "type": "MCQ",
         "q": "13. What does the passage say about reverberation time (RT)?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Different genres of music require different optimal RTs.",
-            "is_correct": true
-          },
-          {
-            "id": "B",
-            "text": "B. A long RT is always preferable to a short RT.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. RT was primarily used to fix the Fogg Art Museum.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. A short RT helps blend the sound of large symphonic works.",
-            "is_correct": false
-          }
+          "A. Optimal reverberation depends on musical genre, with cathedral choral music demanding longer RT than speech.",
+          "B. All musical performances require an identical reverberation time of exactly 1.2 seconds.",
+          "C. Reverberation time can only be measured after an auditorium is fully occupied.",
+          "D. Shorter reverberation times are consistently preferred by classical symphonic conductors."
         ],
-        "ans": "A",
+        "ans": "A. Optimal reverberation depends on musical genre, with cathedral choral music demanding longer RT than speech.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -1629,28 +1713,12 @@
         "type": "MCQ",
         "q": "14. The writer’s overall conclusion about concert hall acoustics is that:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Computer modeling will eventually make physical testing obsolete.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. The shoebox design is no longer relevant for modern orchestras.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Visual aesthetics are more important than physical acoustics.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. It remains a complex blend of objective science and subjective perception.",
-            "is_correct": true
-          }
+          "A. Computer modeling will soon make physical acoustic testing completely obsolete.",
+          "B. The shoebox design has been entirely abandoned by 21st-century architects.",
+          "C. Historical concert halls sound superior solely due to the aging of their wood.",
+          "D. Perfect acoustic design requires harmonizing rigorous objective physics with subjective human psychoacoustics."
         ],
-        "ans": "D",
+        "ans": "D. Perfect acoustic design requires harmonizing rigorous objective physics with subjective human psychoacoustics.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       }
@@ -1662,7 +1730,7 @@
     "title": "Passage 14: The Evolutionary Puzzle of Animal Play",
     "category": "Engineering & Natural Science",
     "difficulty": "Band 7.0 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "questionTypes": "True/False/Not Given • Matching Sentence Endings • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
@@ -1750,44 +1818,72 @@
       },
       {
         "id": "rm14_q5",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "5. The 'Motor Training' hypothesis assumes that play helps young animals",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "A. develop essential neuromuscular coordination and physical strength.",
+          "B. prepare for unpredictable emergencies by deliberately self-handicapping.",
+          "C. establish stable social hierarchies and bonds without lethal injury.",
+          "D. find the energy-expensive behavior intrinsically pleasurable and rewarding.",
+          "E. conserve caloric reserves during extreme winter droughts.",
+          "F. permanently eliminate competition between rival litters."
+        ],
+        "ans": "A. develop essential neuromuscular coordination and physical strength.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm14_q6",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "6. Play fighting in highly social species like wolves helps to",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "A. develop essential neuromuscular coordination and physical strength.",
+          "B. prepare for unpredictable emergencies by deliberately self-handicapping.",
+          "C. establish stable social hierarchies and bonds without lethal injury.",
+          "D. find the energy-expensive behavior intrinsically pleasurable and rewarding.",
+          "E. conserve caloric reserves during extreme winter droughts.",
+          "F. permanently eliminate competition between rival litters."
+        ],
+        "ans": "C. establish stable social hierarchies and bonds without lethal injury.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm14_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. According to the 'Cognitive Flexibility' hypothesis, animals play in order to",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "A. develop essential neuromuscular coordination and physical strength.",
+          "B. prepare for unpredictable emergencies by deliberately self-handicapping.",
+          "C. establish stable social hierarchies and bonds without lethal injury.",
+          "D. find the energy-expensive behavior intrinsically pleasurable and rewarding.",
+          "E. conserve caloric reserves during extreme winter droughts.",
+          "F. permanently eliminate competition between rival litters."
+        ],
+        "ans": "B. prepare for unpredictable emergencies by deliberately self-handicapping.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm14_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. The release of neurochemicals like dopamine during play ensures that animals",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "A. develop essential neuromuscular coordination and physical strength.",
+          "B. prepare for unpredictable emergencies by deliberately self-handicapping.",
+          "C. establish stable social hierarchies and bonds without lethal injury.",
+          "D. find the energy-expensive behavior intrinsically pleasurable and rewarding.",
+          "E. conserve caloric reserves during extreme winter droughts.",
+          "F. permanently eliminate competition between rival litters."
+        ],
+        "ans": "D. find the energy-expensive behavior intrinsically pleasurable and rewarding.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm14_q9",
         "type": "GAP",
-        "q": "9. The 'Cognitive Flexibility' hypothesis, proposed by Spinka and his colleagues, offers a compelling explanation for animal play. It suggests that play serves as a form of {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_0}} for unexpected real-world events. During play, animals deliberately place themselves in {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_1}} situations, such as falling over or losing a mock fight. This intentional self-handicapping helps them learn how to rapidly {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_2}} both physically and emotionally. Consequently, when faced with genuine {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_3}} in the future, they are better equipped to cope. The underlying mechanism for this behavior relies on the brain’s reward system, particularly the release of {{gap_dde76efb-00f2-4464-be48-d3a431ae08ce_4}}, which makes the activity inherently pleasurable.",
+        "q": "9. Complete the summary gap: The 'Cognitive Flexibility' hypothesis suggests play serves as a form of [ 9 ] for unexpected real-world events.",
         "options": [],
         "ans": "preparation",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'preparation'.",
@@ -1796,7 +1892,7 @@
       {
         "id": "rm14_q10",
         "type": "GAP",
-        "q": "10. ",
+        "q": "10. Complete the summary gap: During play, animals deliberately place themselves in [ 10 ] situations, such as losing a mock fight.",
         "options": [],
         "ans": "vulnerable",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vulnerable'.",
@@ -1805,7 +1901,7 @@
       {
         "id": "rm14_q11",
         "type": "GAP",
-        "q": "11. ",
+        "q": "11. Complete the summary gap: This intentional self-handicapping helps them learn how to rapidly [ 11 ] both physically and emotionally.",
         "options": [],
         "ans": "recover",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'recover'.",
@@ -1814,7 +1910,7 @@
       {
         "id": "rm14_q12",
         "type": "GAP",
-        "q": "12. ",
+        "q": "12. Complete the summary gap: Consequently, when faced with genuine [ 12 ] in the future, they are better equipped to cope.",
         "options": [],
         "ans": "emergencies",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'emergencies'.",
@@ -1823,7 +1919,7 @@
       {
         "id": "rm14_q13",
         "type": "GAP",
-        "q": "13. ",
+        "q": "13. Complete the summary gap: The underlying mechanism relies on the release of [ 13 ], making the activity pleasurable.",
         "options": [],
         "ans": "dopamine",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'dopamine'.",
@@ -2050,7 +2146,7 @@
     "title": "Passage 16: The Ecology of Soil Microbiomes and Agricultural Resilience",
     "category": "Advanced Biosciences & Ecology",
     "difficulty": "Band 8.0 CBT",
-    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "questionTypes": "Matching Headings • Matching Information • Multiple Choice",
     "paragraphs": [
       {
         "label": "A",
@@ -2086,100 +2182,189 @@
     "questions": [
       {
         "id": "rm16_q1",
-        "type": "GAP",
-        "q": "1. Paragraph A",
-        "options": [],
-        "ans": "ii",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
-        "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph A:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "ii. Overturning the misconception of soil as an inert substance",
+        "expEn": "Paragraph A overturns the historical belief that soil is merely an inert physical anchor, revealing it as a vibrant ecosystem.",
+        "expMm": "စာပိုဒ် (A) သည် မြေဆီလွှာကို ရုပ်ပိုင်းဆိုင်ရာ သက်မဲ့အရာအဖြစ် ရှုမြင်ခဲ့သော အယူအဆဟောင်းကို ပယ်ဖျက်ပြီး သက်ရှိဂေဟစနစ်အဖြစ် ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q2",
-        "type": "GAP",
-        "q": "2. Paragraph B",
-        "options": [],
-        "ans": "i",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
-        "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "i. Symbiotic fungal networks and subterranean soil stabilization",
+        "expEn": "Paragraph B details how mycorrhizal fungi form symbiotic secondary root networks and secrete glomalin to stabilize soil particles.",
+        "expMm": "စာပိုဒ် (B) တွင် မှိုမျှင်ကွန်ရက်များ၏ အမြစ်များနှင့် အကျိုးပြုဆက်ဆံရေးနှင့် glomalin ပရိုတင်းဖြင့် မြေဆီလွှာဖွဲ့စည်းပုံ ခိုင်မာစေခြင်းကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q3",
-        "type": "GAP",
-        "q": "3. Paragraph C",
-        "options": [],
-        "ans": "v",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
-        "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "3. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+        "expEn": "Paragraph C examines the devastation wrought by mechanical tillage and synthetic chemical fertilizers that induce chemical dependency.",
+        "expMm": "စာပိုဒ် (C) တွင် ထယ်ထိုးခြင်းနှင့် ဓာတုမြေသြဇာ အလွန်အကျွံသုံးစွဲခြင်းကြောင့် မြေဆီလွှာအဏုဇီဝများ ပျက်စီးရခြင်းကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q4",
-        "type": "GAP",
-        "q": "4. Paragraph D",
-        "options": [],
-        "ans": "vi",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
-        "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "4. Choose the most suitable heading for Paragraph D:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "vi. Natural immunological defences and drought survival mechanisms",
+        "expEn": "Paragraph D explains how intact microbiomes prime plant immunity and transport deep water reserves during severe droughts.",
+        "expMm": "စာပိုဒ် (D) သည် အဏုဇီဝများက အပင်၏ သဘာဝရောဂါကာကွယ်ရေးကို လှုံ့ဆော်ပေးပြီး မိုးခေါင်ရေရှားမှုဒဏ်ကို ခံနိုင်ရည်ရှိစေပုံကို ဖော်ပြသည်။"
       },
       {
         "id": "rm16_q5",
-        "type": "GAP",
-        "q": "5. Paragraph E",
-        "options": [],
-        "ans": "iii",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
-        "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "5. Choose the most suitable heading for Paragraph E:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "iii. The regenerative transition and the financial challenge of initial yield drops",
+        "expEn": "Paragraph E outlines regenerative farming techniques and the temporary yield drops farmers experience during biological restoration.",
+        "expMm": "စာပိုဒ် (E) တွင် သဘာဝမြေဆီလွှာ ပြန်လည်မွေးမြူရေးနည်းလမ်းများနှင့် စတင်ချိန်တွင် ကြုံတွေ့ရသော သီးနှံထွက်နှုန်း ယာယီကျဆင်းမှုကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q6",
-        "type": "GAP",
-        "q": "6. Paragraph F",
-        "options": [],
-        "ans": "iv",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
-        "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "type": "HEADING",
+        "q": "6. Choose the most suitable heading for Paragraph F:",
+        "options": [
+          "i. Symbiotic fungal networks and subterranean soil stabilization",
+          "ii. Overturning the misconception of soil as an inert substance",
+          "iii. The regenerative transition and the financial challenge of initial yield drops",
+          "iv. The future convergence of digital mapping and genomic microbial engineering",
+          "v. Destructive impacts of industrialised tillage and synthetic nutrient overload",
+          "vi. Natural immunological defences and drought survival mechanisms",
+          "vii. International subsidies favoring legacy chemical manufacturing",
+          "viii. Historical precedents of traditional crop rotation in pre-industrial Europe"
+        ],
+        "ans": "iv. The future convergence of digital mapping and genomic microbial engineering",
+        "expEn": "Paragraph F looks ahead to precision microbial mapping and genomic sequencing to engineer specific bacterial strains.",
+        "expMm": "စာပိုဒ် (F) တွင် အနာဂတ်စိုက်ပျိုးရေးအတွက် ဒီဂျစ်တယ်မြေပုံထုတ်ခြင်းနှင့် မျိုးရိုးဗီဇခွဲခြမ်းစိတ်ဖြာမှု ပေါင်းစပ်အသုံးချမှုကို ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. A description of a specific protein that maintains the structural integrity of the earth.",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph B",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm16_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. An explanation of why transitioning to sustainable farming methods initially reduces harvest output.",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph E",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm16_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The estimated quantity of microscopic organisms found in a tiny, undisturbed soil sample.",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph A",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm16_q10",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "10. How an intact microbiome can help crops survive severe, prolonged water shortages.",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph D",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm16_q11",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "11. The practice of evaluating a specific farm's biological deficits using modern genomic technology.",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph F",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -2188,90 +2373,42 @@
         "type": "MCQ",
         "q": "12. According to Paragraph C, the heavy application of synthetic fertilisers ultimately results in",
         "options": [
-          {
-            "id": "A",
-            "text": "A. an uncontrollable overgrowth of fungal hyphae.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. plants actively ceasing to feed their microbial partners.",
-            "is_correct": true
-          },
-          {
-            "id": "C",
-            "text": "C. an immediate and permanent collapse of all crop yields.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. the physical destruction of the soil's geometric structure.",
-            "is_correct": false
-          }
+          "A. an uncontrollable overgrowth of fungal hyphae.",
+          "B. plants actively ceasing to feed their microbial partners.",
+          "C. an immediate and permanent collapse of all crop yields.",
+          "D. the physical destruction of the soil's geometric structure."
         ],
-        "ans": "B",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
-        "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "ans": "B. plants actively ceasing to feed their microbial partners.",
+        "expEn": "Paragraph C explicitly notes that artificial nutrient abundance causes plants to register excess and actively cease releasing root exudates.",
+        "expMm": "စာပိုဒ် (C) တွင် ဓာတုအာဟာရများ အလွန်အကျွံရှိနေသောအခါ အပင်များသည် အမြစ်မှ အာဟာရရည်များ ထုတ်လွှတ်မှုကို ရပ်တန့်လိုက်ကြောင်း ရှင်းပြထားသည်။"
       },
       {
         "id": "rm16_q13",
         "type": "MCQ",
         "q": "13. What is a key benefit of the enzymatic compounds produced by certain soil bacteria, as mentioned in Paragraph D?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. They directly attack and kill agricultural pests.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. They act as a total substitute for water during droughts.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. They proactively stimulate the plant's natural immune defences.",
-            "is_correct": true
-          },
-          {
-            "id": "D",
-            "text": "D. They prevent the need for any future chemical interventions.",
-            "is_correct": false
-          }
+          "A. They directly attack and kill agricultural pests.",
+          "B. They act as a total substitute for water during droughts.",
+          "C. They proactively stimulate the plant's natural immune defences.",
+          "D. They prevent the need for any future chemical interventions."
         ],
-        "ans": "C",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
-        "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "ans": "C. They proactively stimulate the plant's natural immune defences.",
+        "expEn": "Paragraph D states that enzymatic compounds produced by certain bacteria actively prime the host plant's innate immune system.",
+        "expMm": "စာပိုဒ် (D) တွင် ဘက်တီးရီးယားများမှ ထုတ်ပေးသော အင်ဇိုင်းများသည် အပင်၏ မွေးရာပါ ကိုယ်ခံအားစနစ်ကို ကြိုတင်လှုံ့ဆော်ပေးကြောင်း ဖော်ပြထားသည်။"
       },
       {
         "id": "rm16_q14",
         "type": "MCQ",
         "q": "14. What is the primary purpose of the writer in this passage?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. To argue strictly against all forms of modern technological agriculture.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. To calculate the economic benefits of reducing synthetic fertiliser usage.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. To detail the exhaustive history of farming practices since the industrial revolution.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. To highlight the profound ecological importance of the soil microbiome and its restoration.",
-            "is_correct": true
-          }
+          "A. To argue strictly against all forms of modern technological agriculture.",
+          "B. To calculate the economic benefits of reducing synthetic fertiliser usage.",
+          "C. To detail the exhaustive history of farming practices since the industrial revolution.",
+          "D. To highlight the profound ecological importance of the soil microbiome and its restoration."
         ],
-        "ans": "D",
-        "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
-        "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
+        "ans": "D. To highlight the profound ecological importance of the soil microbiome and its restoration.",
+        "expEn": "The entire passage is dedicated to illustrating the indispensable ecological role of soil microbiomes and advocating for regenerative recovery.",
+        "expMm": "စာတမ်းတစ်ခုလုံးသည် မြေဆီလွှာအဏုဇီဝများ၏ ဂေဟစနစ်ဆိုင်ရာ အရေးပါမှုနှင့် ၎င်းတို့ကို ပြန်လည်ထိန်းသိမ်းရန် လိုအပ်ချက်ကို မီးမောင်းထိုးပြထားသည်။"
       }
     ]
   },
@@ -2281,7 +2418,7 @@
     "title": "Passage 17: The Illusion of Conscious Will: Neurobiological Perspectives",
     "category": "Advanced Biosciences & Ecology",
     "difficulty": "Band 8.0 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "questionTypes": "True/False/Not Given • Matching Sentence Endings • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
@@ -2382,44 +2519,72 @@
       },
       {
         "id": "rm17_q6",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "6. The presence of the \"readiness potential\" in Libet's experiments indicates that",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "A. conscious reflection can completely override pre-conscious motor signals.",
+          "B. genuine moral accountability and culpability cannot logically exist.",
+          "C. neural preparation begins hundreds of milliseconds before conscious decision awareness.",
+          "D. simple laboratory button-pressing does not reflect nuanced real-world decisions.",
+          "E. conscious will does not cause motor actions but acts as an interpretive observer.",
+          "F. brain surgery can mechanically restore free will to violent offenders."
+        ],
+        "ans": "C. neural preparation begins hundreds of milliseconds before conscious decision awareness.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm17_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. Daniel Wegner’s epiphenomenalist perspective proposes that",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "A. conscious reflection can completely override pre-conscious motor signals.",
+          "B. genuine moral accountability and culpability cannot logically exist.",
+          "C. neural preparation begins hundreds of milliseconds before conscious decision awareness.",
+          "D. simple laboratory button-pressing does not reflect nuanced real-world decisions.",
+          "E. conscious will does not cause motor actions but acts as an interpretive observer.",
+          "F. brain surgery can mechanically restore free will to violent offenders."
+        ],
+        "ans": "E. conscious will does not cause motor actions but acts as an interpretive observer.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm17_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. The philosophical stance of incompatibilism argues that if neurobiology is strictly deterministic, then",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "A. conscious reflection can completely override pre-conscious motor signals.",
+          "B. genuine moral accountability and culpability cannot logically exist.",
+          "C. neural preparation begins hundreds of milliseconds before conscious decision awareness.",
+          "D. simple laboratory button-pressing does not reflect nuanced real-world decisions.",
+          "E. conscious will does not cause motor actions but acts as an interpretive observer.",
+          "F. brain surgery can mechanically restore free will to violent offenders."
+        ],
+        "ans": "B. genuine moral accountability and culpability cannot logically exist.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm17_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. Critics urge caution regarding the findings of Libet and Haynes, pointing out that",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "A. conscious reflection can completely override pre-conscious motor signals.",
+          "B. genuine moral accountability and culpability cannot logically exist.",
+          "C. neural preparation begins hundreds of milliseconds before conscious decision awareness.",
+          "D. simple laboratory button-pressing does not reflect nuanced real-world decisions.",
+          "E. conscious will does not cause motor actions but acts as an interpretive observer.",
+          "F. brain surgery can mechanically restore free will to violent offenders."
+        ],
+        "ans": "D. simple laboratory button-pressing does not reflect nuanced real-world decisions.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm17_q10",
         "type": "GAP",
-        "q": "10. Neurobiological research has significantly challenged the traditional concept of free will. Libet's studies revealed that brain activity, known as a {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_0}}, begins milliseconds prior to a person's conscious decision to move. Wegner built upon this to describe consciousness as an {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_1}}, suggesting it does not cause actions but merely observes them. More recently, Haynes used sophisticated {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_2}} technology to predict decisions seconds in advance. These findings raise profound questions about moral responsibility and the foundations of our {{gap_f9320d56-0d69-4024-a831-e384b7244fe0_3}} system.",
+        "q": "10. Complete the summary gap: Benjamin Libet discovered that motor preparation, called the [ 10 ], precedes conscious awareness by several hundred milliseconds.",
         "options": [],
         "ans": "readiness potential",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'readiness potential'.",
@@ -2428,7 +2593,7 @@
       {
         "id": "rm17_q11",
         "type": "GAP",
-        "q": "11. ",
+        "q": "11. Complete the summary gap: Psychologist Daniel Wegner argued that our feeling of intentional control is an [ 11 ]—a retrospective narrative.",
         "options": [],
         "ans": "epiphenomenon",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'epiphenomenon'.",
@@ -2437,7 +2602,7 @@
       {
         "id": "rm17_q12",
         "type": "GAP",
-        "q": "12. ",
+        "q": "12. Complete the summary gap: More recently, Haynes used sophisticated [ 12 ] technology to predict decisions seconds in advance.",
         "options": [],
         "ans": "fMRI",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'fMRI'.",
@@ -2446,7 +2611,7 @@
       {
         "id": "rm17_q13",
         "type": "GAP",
-        "q": "13. ",
+        "q": "13. Complete the summary gap: These findings raise profound questions about moral responsibility and the foundations of our [ 13 ] system.",
         "options": [],
         "ans": "justice",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'justice'.",
@@ -2630,7 +2795,7 @@
     "title": "Passage 19: The Economics of Attention in the Digital Anthropocene",
     "category": "Linguistics & Quantum Sciences",
     "difficulty": "Band 9.0 CBT",
-    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "questionTypes": "Matching Headings • Matching Information • Multiple Choice",
     "paragraphs": [
       {
         "label": "A",
@@ -2666,91 +2831,173 @@
     "questions": [
       {
         "id": "rm19_q1",
-        "type": "GAP",
-        "q": "1. Paragraph A",
-        "options": [],
-        "ans": "vii",
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph A:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "vii. The economic reality of attention scarcity in an age of data glut",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vii'.",
         "expMm": "အဖြေမှန်: 'vii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q2",
-        "type": "GAP",
-        "q": "2. Paragraph B",
-        "options": [],
-        "ans": "i",
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "i. Human neurological limits and targeted technological exploitation",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
         "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q3",
-        "type": "GAP",
-        "q": "3. Paragraph C",
-        "options": [],
-        "ans": "ii",
+        "type": "HEADING",
+        "q": "3. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "ii. Psychological conditioning through unpredictable reward frequencies",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
         "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q4",
-        "type": "GAP",
-        "q": "4. Paragraph D",
-        "options": [],
-        "ans": "v",
+        "type": "HEADING",
+        "q": "4. Choose the most suitable heading for Paragraph D:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "v. Surveillance capitalism and the monetisation of behavioral surplus",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
         "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q5",
-        "type": "GAP",
-        "q": "5. Paragraph E",
-        "options": [],
-        "ans": "iii",
+        "type": "HEADING",
+        "q": "5. Choose the most suitable heading for Paragraph E:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "iii. Detrimental societal and cognitive costs of fragmented focus",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
         "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q6",
-        "type": "GAP",
-        "q": "6. Paragraph F",
-        "options": [],
-        "ans": "iv",
+        "type": "HEADING",
+        "q": "6. Choose the most suitable heading for Paragraph F:",
+        "options": [
+          "i. Human neurological limits and targeted technological exploitation",
+          "ii. Psychological conditioning through unpredictable reward frequencies",
+          "iii. Detrimental societal and cognitive costs of fragmented focus",
+          "iv. Emerging regulatory paradigms and the right to disconnect",
+          "v. Surveillance capitalism and the monetisation of behavioral surplus",
+          "vi. Hardware advances enabling higher smartphone refresh rates",
+          "vii. The economic reality of attention scarcity in an age of data glut",
+          "viii. The commercial rise of television advertising in the mid-twentieth century"
+        ],
+        "ans": "iv. Emerging regulatory paradigms and the right to disconnect",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
         "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. A description of how unstructured, volatile digital streams degrade democratic interactions.",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph E",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. An explanation of why the unpredictability of digital rewards forces compulsive user behavior.",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph C",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The assertion that users are treated merely as territories to be mined for data.",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph D",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm19_q10",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "10. Mention of a proposal to legally safeguard an individual's right to detach from digital networks.",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph F",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -2759,28 +3006,12 @@
         "type": "MCQ",
         "q": "11. According to Paragraph B, tech companies successfully manipulate users by:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Expanding the neurobiological capacity of the human brain.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Overwhelming users with rational, highly complex arguments.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Circumventing rational thought to stimulate foundational reward pathways.",
-            "is_correct": true
-          },
-          {
-            "id": "D",
-            "text": "D. Decreasing the exponential velocity of global data generation.",
-            "is_correct": false
-          }
+          "A. eliminating all commercial advertisements from feed algorithms.",
+          "B. forcing users to pay subscription fees for high-speed fiber data.",
+          "C. exploiting human biological cognitive bottlenecks and dopamine reward loops.",
+          "D. banning competitors from using machine learning algorithms."
         ],
-        "ans": "C",
+        "ans": "C. exploiting human biological cognitive bottlenecks and dopamine reward loops.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -2789,28 +3020,12 @@
         "type": "MCQ",
         "q": "12. Shoshana Zuboff's concept of \"surveillance capitalism\" implies that:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Users directly purchase predictive models from technology conglomerates.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Human experiences are commodified into speculative assets traded by algorithms.",
-            "is_correct": true
-          },
-          {
-            "id": "C",
-            "text": "C. Targeted advertising is the sole mechanism of revenue generation.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. Consumers maintain ownership over their granular behavioral data.",
-            "is_correct": false
-          }
+          "A. users maintain full ownership and control over their personal data footprints.",
+          "B. human behavioral surplus is extracted, analyzed, and traded as predictive commodities.",
+          "C. governments directly monitor all private internet communications without warrants.",
+          "D. digital devices operate entirely without user telemetry."
         ],
-        "ans": "B",
+        "ans": "B. human behavioral surplus is extracted, analyzed, and traded as predictive commodities.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -2819,28 +3034,12 @@
         "type": "MCQ",
         "q": "13. What is the primary consequence of \"continuous partial attention\" as identified in the text?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. A heightened ability to process emotionally incendiary content.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. An improvement in multi-tasking and operational efficiency.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. A decrease in cortisol levels during prolonged digital exposure.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. An inability to engage in profound focus or meaningful empathy.",
-            "is_correct": true
-          }
+          "A. It enhances multi-tasking skills and analytical reading speeds.",
+          "B. It eliminates stress and improves empathetic listening.",
+          "C. It prevents memory retention of basic vocabulary.",
+          "D. It fragments focus and impairs the ability to engage in prolonged deep cognitive work."
         ],
-        "ans": "D",
+        "ans": "D. It fragments focus and impairs the ability to engage in prolonged deep cognitive work.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -2849,28 +3048,12 @@
         "type": "MCQ",
         "q": "14. The author's stance on resolving the cognitive crisis involves:",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Shifting corporate metrics from engagement duration to user well-being.",
-            "is_correct": true
-          },
-          {
-            "id": "B",
-            "text": "B. Enhancing the variable ratio schedules used in platform interfaces.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Rejecting all forms of European technological regulation.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. Acknowledging that information abundance is fundamentally irreversible.",
-            "is_correct": false
-          }
+          "A. Establishing cognitive ergonomics, ethical design standards, and legal rights to disconnect.",
+          "B. Completely dismantling all global telecommunications networks.",
+          "C. Replacing smartphones with printed daily periodicals.",
+          "D. Relying exclusively on consumer willpower without systemic policy changes."
         ],
-        "ans": "A",
+        "ans": "A. Establishing cognitive ergonomics, ethical design standards, and legal rights to disconnect.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       }
@@ -2882,7 +3065,7 @@
     "title": "Passage 20: Quantum Biology: Navigating the Subatomic Frontier of Life",
     "category": "Linguistics & Quantum Sciences",
     "difficulty": "Band 9.0 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "questionTypes": "True/False/Not Given • Matching Sentence Endings • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
@@ -2983,44 +3166,72 @@
       },
       {
         "id": "rm20_q6",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "6. The discovery of avian magnetoreception suggests that European Robins can",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "A. traverse multiple molecular routes simultaneously to find the most efficient reaction center.",
+          "B. tunnel directly through prohibitive electrostatic energy barriers.",
+          "C. detect specific molecular vibrational frequencies rather than purely spatial geometric shapes.",
+          "D. perceive Earth's weak magnetic field through entangled radical electron pairs in cryptochrome.",
+          "E. eliminate thermal noise completely at warm ambient temperatures.",
+          "F. synthesize artificial glucose in the absence of sunlight."
+        ],
+        "ans": "D. perceive Earth's weak magnetic field through entangled radical electron pairs in cryptochrome.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm20_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. Because excitation energy exists in a state of quantum coherence, it can",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "A. traverse multiple molecular routes simultaneously to find the most efficient reaction center.",
+          "B. tunnel directly through prohibitive electrostatic energy barriers.",
+          "C. detect specific molecular vibrational frequencies rather than purely spatial geometric shapes.",
+          "D. perceive Earth's weak magnetic field through entangled radical electron pairs in cryptochrome.",
+          "E. eliminate thermal noise completely at warm ambient temperatures.",
+          "F. synthesize artificial glucose in the absence of sunlight."
+        ],
+        "ans": "A. traverse multiple molecular routes simultaneously to find the most efficient reaction center.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm20_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. By utilizing the probabilistic subatomic wave function, cellular enzymes help particles",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "A. traverse multiple molecular routes simultaneously to find the most efficient reaction center.",
+          "B. tunnel directly through prohibitive electrostatic energy barriers.",
+          "C. detect specific molecular vibrational frequencies rather than purely spatial geometric shapes.",
+          "D. perceive Earth's weak magnetic field through entangled radical electron pairs in cryptochrome.",
+          "E. eliminate thermal noise completely at warm ambient temperatures.",
+          "F. synthesize artificial glucose in the absence of sunlight."
+        ],
+        "ans": "B. tunnel directly through prohibitive electrostatic energy barriers.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm20_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The failure of the traditional lock-and-key model of olfaction led to the hypothesis that receptors might",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "A. traverse multiple molecular routes simultaneously to find the most efficient reaction center.",
+          "B. tunnel directly through prohibitive electrostatic energy barriers.",
+          "C. detect specific molecular vibrational frequencies rather than purely spatial geometric shapes.",
+          "D. perceive Earth's weak magnetic field through entangled radical electron pairs in cryptochrome.",
+          "E. eliminate thermal noise completely at warm ambient temperatures.",
+          "F. synthesize artificial glucose in the absence of sunlight."
+        ],
+        "ans": "C. detect specific molecular vibrational frequencies rather than purely spatial geometric shapes.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm20_q10",
         "type": "GAP",
-        "q": "10. Quantum biology explains how living organisms exploit quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_0}} to perform highly efficient processes. For example, avian magnetoreception relies on the quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_1}} of radical electron pairs. Similarly, the near-perfect efficiency of photosynthesis is driven by quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_2}}, allowing energy to find optimal pathways. Furthermore, enzymes rapidly catalyze reactions via quantum {{gap_150caf5f-f4dc-424d-b001-99c64eefcf73_3}}, enabling particles to bypass massive energy barriers.",
+        "q": "10. Complete the summary gap: Quantum biology explains how living organisms exploit quantum [ 10 ] to perform highly efficient processes.",
         "options": [],
         "ans": "anomalies",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'anomalies'.",
@@ -3029,7 +3240,7 @@
       {
         "id": "rm20_q11",
         "type": "GAP",
-        "q": "11. ",
+        "q": "11. Complete the summary gap: Avian magnetoreception relies on the quantum [ 11 ] of radical electron pairs in cryptochromes.",
         "options": [],
         "ans": "entanglement",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'entanglement'.",
@@ -3038,7 +3249,7 @@
       {
         "id": "rm20_q12",
         "type": "GAP",
-        "q": "12. ",
+        "q": "12. Complete the summary gap: The near-perfect efficiency of photosynthesis is driven by quantum [ 12 ], allowing energy to find optimal pathways.",
         "options": [],
         "ans": "coherence",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'coherence'.",
@@ -3047,7 +3258,7 @@
       {
         "id": "rm20_q13",
         "type": "GAP",
-        "q": "13. ",
+        "q": "13. Complete the summary gap: Furthermore, enzymes rapidly catalyze reactions via quantum [ 13 ], enabling particles to bypass energy barriers.",
         "options": [],
         "ans": "tunneling",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'tunneling'.",
@@ -3231,7 +3442,7 @@
     "title": "Passage 22: The Psychology of Urban Design",
     "category": "Urban Design & Cryptography",
     "difficulty": "Band 8.5 CBT",
-    "questionTypes": "Summary Completion & Multiple Choice (14 Items)",
+    "questionTypes": "Matching Headings • Matching Information • Multiple Choice",
     "paragraphs": [
       {
         "label": "A",
@@ -3267,100 +3478,189 @@
     "questions": [
       {
         "id": "rm22_q1",
-        "type": "GAP",
-        "q": "1. Paragraph A",
-        "options": [],
-        "ans": "ii",
+        "type": "HEADING",
+        "q": "1. Choose the most suitable heading for Paragraph A:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "ii. Moving beyond mere functionalism to mental well-being in city planning",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'ii'.",
         "expMm": "အဖြေမှန်: 'ii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q2",
-        "type": "GAP",
-        "q": "2. Paragraph B",
-        "options": [],
-        "ans": "v",
+        "type": "HEADING",
+        "q": "2. Choose the most suitable heading for Paragraph B:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "v. The restorative psychological and biological benefits of natural elements",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'v'.",
         "expMm": "အဖြေမှန်: 'v' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q3",
-        "type": "GAP",
-        "q": "3. Paragraph C",
-        "options": [],
-        "ans": "i",
+        "type": "HEADING",
+        "q": "3. Choose the most suitable heading for Paragraph C:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "i. Spatial legibility and the reduction of cognitive navigation strain",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'i'.",
         "expMm": "အဖြေမှန်: 'i' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q4",
-        "type": "GAP",
-        "q": "4. Paragraph D",
-        "options": [],
-        "ans": "iv",
+        "type": "HEADING",
+        "q": "4. Choose the most suitable heading for Paragraph D:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "iv. Architectural facades and sensory reactions to varied textures",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iv'.",
         "expMm": "အဖြေမှန်: 'iv' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q5",
-        "type": "GAP",
-        "q": "5. Paragraph E",
-        "options": [],
-        "ans": "iii",
+        "type": "HEADING",
+        "q": "5. Choose the most suitable heading for Paragraph E:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "iii. Public communal squares and the prevention of urban isolation",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'iii'.",
         "expMm": "အဖြေမှန်: 'iii' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q6",
-        "type": "GAP",
-        "q": "6. Paragraph F",
-        "options": [],
-        "ans": "vi",
+        "type": "HEADING",
+        "q": "6. Choose the most suitable heading for Paragraph F:",
+        "options": [
+          "i. Spatial legibility and the reduction of cognitive navigation strain",
+          "ii. Moving beyond mere functionalism to mental well-being in city planning",
+          "iii. Public communal squares and the prevention of urban isolation",
+          "iv. Architectural facades and sensory reactions to varied textures",
+          "v. The restorative psychological and biological benefits of natural elements",
+          "vi. Biometric technologies and human-centered design for future cities",
+          "vii. High-speed rail infrastructure and suburban real estate valuation",
+          "viii. Architectural preservation of medieval fortress walls"
+        ],
+        "ans": "vi. Biometric technologies and human-centered design for future cities",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'vi'.",
         "expMm": "အဖြေမှန်: 'vi' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. An explanation of how confusing street layouts can increase anxiety.",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph C",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. The psychological term describing human attraction to nature.",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph B",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The role of public squares in combating urban loneliness.",
-        "options": [],
-        "ans": "E",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph E",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'E'.",
         "expMm": "အဖြေမှန်: 'E' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q10",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "10. The emotional reaction often caused by imposing concrete structures.",
-        "options": [],
-        "ans": "D",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph D",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'D'.",
         "expMm": "အဖြေမှန်: 'D' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm22_q11",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "11. The implementation of biometric feedback to design better cities.",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "Paragraph A",
+          "Paragraph B",
+          "Paragraph C",
+          "Paragraph D",
+          "Paragraph E",
+          "Paragraph F"
+        ],
+        "ans": "Paragraph F",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -3369,28 +3669,12 @@
         "type": "MCQ",
         "q": "12. According to Paragraph B, what is a physiological benefit of access to green spaces?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. A significant reduction in the primary stress hormone.",
-            "is_correct": true
-          },
-          {
-            "id": "B",
-            "text": "B. An increase in physical fitness due to more walking.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. Complete immunity to sensory overload.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. A faster recovery from physical illnesses.",
-            "is_correct": false
-          }
+          "A. Decreased cortisol levels, reduced blood pressure, and restored attentional capacity.",
+          "B. Complete elimination of respiratory illnesses in city residents.",
+          "C. Instant enhancement of foreign language acquisition speeds.",
+          "D. Increased metabolic burn rates regardless of physical exercise."
         ],
-        "ans": "A",
+        "ans": "A. Decreased cortisol levels, reduced blood pressure, and restored attentional capacity.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -3399,28 +3683,12 @@
         "type": "MCQ",
         "q": "13. Brutalist architecture is mentioned in Paragraph D primarily to illustrate",
         "options": [
-          {
-            "id": "A",
-            "text": "A. the cost-effectiveness of using concrete in modern cities.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. how certain building materials can provoke feelings of alienation.",
-            "is_correct": true
-          },
-          {
-            "id": "C",
-            "text": "C. the historical progression of urban design trends.",
-            "is_correct": false
-          },
-          {
-            "id": "D",
-            "text": "D. why skyscrapers are more psychologically exhausting than smaller buildings.",
-            "is_correct": false
-          }
+          "A. the timeless beauty of historical mid-century architecture.",
+          "B. how monotonous, unbroken concrete facades induce cognitive sensory underload.",
+          "C. how low construction costs benefit impoverished urban neighborhoods.",
+          "D. the structural superiority of reinforced concrete over timber."
         ],
-        "ans": "B",
+        "ans": "B. how monotonous, unbroken concrete facades induce cognitive sensory underload.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
@@ -3429,28 +3697,12 @@
         "type": "MCQ",
         "q": "14. What is the overall message of the passage regarding urban design?",
         "options": [
-          {
-            "id": "A",
-            "text": "A. Cities should prioritize traffic flow to reduce economic losses.",
-            "is_correct": false
-          },
-          {
-            "id": "B",
-            "text": "B. Historical architecture should be entirely replaced by modern structures.",
-            "is_correct": false
-          },
-          {
-            "id": "C",
-            "text": "C. The physical environment fundamentally influences human emotional health.",
-            "is_correct": true
-          },
-          {
-            "id": "D",
-            "text": "D. People naturally prefer living in rural areas over urban ones.",
-            "is_correct": false
-          }
+          "A. Cities should prioritize vehicular transit capacity above all pedestrian infrastructure.",
+          "B. Modern skyscrapers should be demolished and replaced with rural villages.",
+          "C. Urban design must proactively cultivate human psychological health through nature, legibility, and social spaces.",
+          "D. Psychological testing should determine where citizens are legally permitted to reside."
         ],
-        "ans": "C",
+        "ans": "C. Urban design must proactively cultivate human psychological health through nature, legibility, and social spaces.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       }
@@ -3462,7 +3714,7 @@
     "title": "Passage 23: Quantum Computing and the Future of Cryptography",
     "category": "Urban Design & Cryptography",
     "difficulty": "Band 8.5 CBT",
-    "questionTypes": "TFNG & Summary Completion (13 Items)",
+    "questionTypes": "True/False/Not Given • Matching Sentence Endings • Summary Completion",
     "paragraphs": [
       {
         "label": "A",
@@ -3563,44 +3815,72 @@
       },
       {
         "id": "rm23_q6",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "6. Classical computers process information",
-        "options": [],
-        "ans": "C",
+        "options": [
+          "A. the extreme mathematical difficulty of factorising enormous prime numbers.",
+          "B. develop mathematical ciphers that remain impervious to both classical and quantum attacks.",
+          "C. deterministically using binary bits that exist strictly as either zero or one.",
+          "D. revert banking systems to physical paper ledgers and analog communications.",
+          "E. permanently prevent quantum decoherence at room temperature.",
+          "F. theoretically factorise large composite integers in polynomial rather than exponential time."
+        ],
+        "ans": "C. deterministically using binary bits that exist strictly as either zero or one.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'C'.",
         "expMm": "အဖြေမှန်: 'C' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm23_q7",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "7. The security of the RSA algorithm relies heavily on",
-        "options": [],
-        "ans": "A",
+        "options": [
+          "A. the extreme mathematical difficulty of factorising enormous prime numbers.",
+          "B. develop mathematical ciphers that remain impervious to both classical and quantum attacks.",
+          "C. deterministically using binary bits that exist strictly as either zero or one.",
+          "D. revert banking systems to physical paper ledgers and analog communications.",
+          "E. permanently prevent quantum decoherence at room temperature.",
+          "F. theoretically factorise large composite integers in polynomial rather than exponential time."
+        ],
+        "ans": "A. the extreme mathematical difficulty of factorising enormous prime numbers.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'A'.",
         "expMm": "အဖြေမှန်: 'A' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm23_q8",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "8. Shor's algorithm poses a massive security threat because it can",
-        "options": [],
-        "ans": "F",
+        "options": [
+          "A. the extreme mathematical difficulty of factorising enormous prime numbers.",
+          "B. develop mathematical ciphers that remain impervious to both classical and quantum attacks.",
+          "C. deterministically using binary bits that exist strictly as either zero or one.",
+          "D. revert banking systems to physical paper ledgers and analog communications.",
+          "E. permanently prevent quantum decoherence at room temperature.",
+          "F. theoretically factorise large composite integers in polynomial rather than exponential time."
+        ],
+        "ans": "F. theoretically factorise large composite integers in polynomial rather than exponential time.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'F'.",
         "expMm": "အဖြေမှန်: 'F' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm23_q9",
-        "type": "GAP",
+        "type": "MATCH",
         "q": "9. The primary goal of post-quantum cryptography is to",
-        "options": [],
-        "ans": "B",
+        "options": [
+          "A. the extreme mathematical difficulty of factorising enormous prime numbers.",
+          "B. develop mathematical ciphers that remain impervious to both classical and quantum attacks.",
+          "C. deterministically using binary bits that exist strictly as either zero or one.",
+          "D. revert banking systems to physical paper ledgers and analog communications.",
+          "E. permanently prevent quantum decoherence at room temperature.",
+          "F. theoretically factorise large composite integers in polynomial rather than exponential time."
+        ],
+        "ans": "B. develop mathematical ciphers that remain impervious to both classical and quantum attacks.",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'B'.",
         "expMm": "အဖြေမှန်: 'B' - စာပိုဒ်ပါ အချက်အလက်များနှင့် တိုက်ဆိုင်စစ်ဆေးပါ။"
       },
       {
         "id": "rm23_q10",
         "type": "GAP",
-        "q": "10. The advent of quantum computers severely threatens traditional {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_0}}. Unlike classical bits, {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_1}} utilise phenomena such as superposition to process vast amounts of data concurrently. To counter the decryption threat posed by mathematical formulas like Shor's algorithm, scientists are creating entirely new, complex structures, such as {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_2}} models. The global race to achieve quantum {{gap_284aeb97-c356-4a34-a3d8-3d4886607364_3}} is driving rapid innovation, spurred on by the urgent need to protect encrypted data from future attacks.",
+        "q": "10. Complete the summary gap: The advent of quantum computers severely threatens traditional [ 10 ].",
         "options": [],
         "ans": "cryptography",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'cryptography'.",
@@ -3609,7 +3889,7 @@
       {
         "id": "rm23_q11",
         "type": "GAP",
-        "q": "11. ",
+        "q": "11. Complete the summary gap: Unlike classical bits, [ 11 ] utilise phenomena such as superposition to process vast amounts of data concurrently.",
         "options": [],
         "ans": "qubits",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'qubits'.",
@@ -3618,7 +3898,7 @@
       {
         "id": "rm23_q12",
         "type": "GAP",
-        "q": "12. ",
+        "q": "12. Complete the summary gap: To counter decryption threats posed by formulas like Shor's algorithm, scientists are creating new [ 12 ] models.",
         "options": [],
         "ans": "lattice-based",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'lattice-based'.",
@@ -3627,7 +3907,7 @@
       {
         "id": "rm23_q13",
         "type": "GAP",
-        "q": "13. ",
+        "q": "13. Complete the summary gap: The global race to achieve quantum [ 13 ] is driving rapid innovation to protect encrypted communications.",
         "options": [],
         "ans": "supremacy",
         "expEn": "Refer to the target paragraph in Passage to locate the evidence for 'supremacy'.",

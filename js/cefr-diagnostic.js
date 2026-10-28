@@ -4292,16 +4292,16 @@
         </div>
 
         <!-- Batch Selector Bar -->
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; margin-bottom:16px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">TEST FORM:</span>
-            <select onchange="window.switchCefrBatch(this.value, '${targetId}')" style="background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:4px 10px; font-size:0.8rem; font-weight:700; cursor:pointer;" ${isSubmitted ? 'disabled' : ''}>
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; margin-bottom:16px; box-sizing:border-box; max-width:100%;">
+          <div style="display:flex; align-items:center; gap:8px; flex:1 1 220px; min-width:0; max-width:100%;">
+            <span style="font-size:0.78rem; font-weight:700; color:var(--text-secondary); white-space:nowrap; flex-shrink:0;">TEST FORM:</span>
+            <select onchange="window.switchCefrBatch(this.value, '${targetId}')" style="background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:0.8rem; font-weight:700; cursor:pointer; flex:1; min-width:0; max-width:100%; text-overflow:ellipsis; box-sizing:border-box;" ${isSubmitted ? 'disabled' : ''}>
               ${RAW_BATCHES.map((b, idx) => `
                 <option value="${b.id}" ${b.id === activeBatchId ? 'selected' : ''}>Batch ${idx + 1}: ${b.name}</option>
               `).join('')}
             </select>
           </div>
-          <div style="font-size:0.76rem; color:var(--text-secondary); font-weight:600;">
+          <div style="font-size:0.76rem; color:var(--text-secondary); font-weight:600; flex-shrink:0;">
             Stratified: 10 B1 · 15 B2 · 15 C1 · 10 C2
           </div>
         </div>

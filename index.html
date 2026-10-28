@@ -10726,7 +10726,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div id="at-topic-results" class="at-results-card">
             <div style="color:var(--text-secondary); font-size:0.88rem; padding:24px; text-align:center;">
               <p style="margin:0 0 12px 0;">Select any of the <strong>12 Core Cambridge Argument Matrices</strong> above or search an essay theme to explore Band 9.0 Thesis statements, Pro/Con claims, Concessions, and Collocations!</p>
-              <button class="btn-accent-solid" onclick="window.loadArgumentThemeById('ai_workplace')" style="padding:8px 18px; font-weight:700; font-size:0.85rem;"><svg class="ui-icon ui-icon-xs"><use href="#lucide-book-open"/></svg> Load Featured Blueprint: AI &amp; Workplace Automation</button>
+              <button class="btn-accent-solid" onclick="window.loadArgumentThemeById('ai_workplace')" style="padding:10px 16px; font-weight:700; font-size:0.85rem; max-width:100%; white-space:normal; line-height:1.35; box-sizing:border-box; text-align:center; display:inline-flex; align-items:center; justify-content:center; word-break:break-word; border-radius:8px;"><svg class="ui-icon ui-icon-xs" style="flex-shrink:0; margin-right:6px;"><use href="#lucide-book-open"/></svg> <span>Load Featured Blueprint: AI &amp; Workplace Automation</span></button>
             </div>
           </div>
         </div>
@@ -16863,12 +16863,16 @@ function loadReadingMock() {
           </div>
           <div>
             ${isGap ? `
-              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="Type exact word from the passage (ONE WORD ONLY)..." oninput="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})">
-            ` : q.options.map(opt => `
-              <label class="q-opt">
-                <input type="radio" name="rmq_${qi}" value="${opt}" onchange="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})"> <span>${opt}</span>
+              <input type="text" id="rmq_gap_${qi}" class="occ-input" style="width:100%;" placeholder="${(q.ans && /^[A-H]$/i.test(q.ans.trim())) ? 'Enter paragraph letter (A, B, C...)...' : ((q.ans && /^[ivx]+$/i.test(q.ans.trim())) ? 'Enter heading Roman numeral (i, ii, iii...)...' : 'Type exact word from the passage (ONE WORD ONLY)...')}" oninput="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})">
+            ` : q.options.map(opt => {
+              const optVal = (typeof opt === 'object' && opt !== null) ? (opt.text || opt.id || '') : String(opt);
+              const optText = (typeof opt === 'object' && opt !== null) ? (opt.text || opt.label || opt.id || '') : String(opt);
+              return `
+              <label class="q-opt" style="display:flex; align-items:flex-start; gap:8px; margin:6px 0; cursor:pointer;">
+                <input type="radio" name="rmq_${qi}" value="${escapeHtml(optVal)}" onchange="onReadingAnswerChanged(${qi})" onfocus="focusCbtQuestion(${qi})" style="margin-top:3px; flex-shrink:0;"> <span>${escapeHtml(optText)}</span>
               </label>
-            `).join("")}
+            `;
+            }).join("")}
           </div>
           <div id="rmq_exp_${qi}" class="q-exp"></div>
         </div>
@@ -16941,8 +16945,12 @@ function gradeReading(idx) {
       isCorrect = userVal === q.ans.trim().toLowerCase();
     } else {
       const sel = document.querySelector(`input[name="rmq_${qi}"]:checked`);
-      const val = sel ? sel.value : null;
-      isCorrect = val === q.ans;
+      const val = sel ? sel.value.trim() : null;
+      const targetAns = (q.ans || "").trim();
+      isCorrect = (val === targetAns) ||
+        (val && targetAns && val.toLowerCase() === targetAns.toLowerCase()) ||
+        (val && targetAns && (val.startsWith(targetAns + '.') || val.startsWith(targetAns + ' '))) ||
+        (val && targetAns && (targetAns.startsWith(val + '.') || targetAns.startsWith(val + ' ')));
     }
 
     // Fully unlocked Burmese answer evidence (Open Academic Edition)
@@ -25345,7 +25353,43 @@ async function initLiveExamWriting() {
 // =========================================================================
 // 3. LIVE EXAM READING CBT RECALLS SUB-TAB (In #view-reading ONLY)
 // =========================================================================
+// State for In-Subtab Live Reading Viewer
+window.currentLiveRecallId = null;
+window.currentLiveRecallMode = 'practice'; // 'practice' or 'answers'
+window.liveRecallAnswers = {};
+window.liveRecallSubmitted = false;
+
+function getAvailableLiveRecallPassages() {
+  let list = [];
+  if (window.radarData && Array.isArray(window.radarData.reading)) {
+    list = [...window.radarData.reading];
+  }
+  if (typeof READING_MOCKS !== 'undefined' && Array.isArray(READING_MOCKS)) {
+    const liveIds = ['rm16', 'rm10', 'rm13', 'rm19', 'rm22', 'rm1', 'rm2', 'rm3'];
+    READING_MOCKS.forEach(m => {
+      if (liveIds.includes(m.id) && !list.some(r => r.id === m.id)) {
+        list.push({
+          id: m.id,
+          code: m.code || `RECALL ${m.id}`,
+          title: m.title,
+          category: m.category,
+          difficulty: m.difficulty,
+          exam_date: 'Oct 2026 Test Room',
+          passage_number: m.id.replace('rm', ''),
+          question_types: m.questionTypes,
+          paragraphs: m.paragraphs || [],
+          questions: m.questions || [],
+          is_free_sample: true,
+          locked: false
+        });
+      }
+    });
+  }
+  return list;
+}
+
 async function initLiveExamReading() {
+  window.currentLiveRecallId = null;
   const mount = document.getElementById('liveReadingMount');
   const vipMount = document.getElementById('readingRadarVipMount');
   if (!mount) return;
@@ -25361,47 +25405,56 @@ async function initLiveExamReading() {
       : `<span style="font-size:0.75rem; color:var(--text-secondary);">Free Tier: Top 2 Passages Unlocked &bull; <a href="javascript:void(0)" onclick="openVipPassModal()" style="color:var(--accent); font-weight:800;">Unlock All Passages</a></span>`;
   }
 
-  if (!data || !data.reading) {
+  const recallPassages = getAvailableLiveRecallPassages();
+
+  if (recallPassages.length === 0) {
     mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live reading exam recalls...</div>`;
     return;
   }
 
-  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">`;
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:16px;">`;
 
-  data.reading.forEach(r => {
+  recallPassages.forEach((r, idx) => {
     const isLocked = r.locked && !isVip;
+    const qCount = (r.questions || []).length;
+    const pCount = (r.paragraphs || []).length;
 
     html += `
-      <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:18px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+      <div class="occ-card" style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:12px; padding:18px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 4px 16px rgba(0,0,0,0.06);">
         <div>
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
-            <div style="display:flex; gap:6px; align-items:center;">
-              <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">READING P${r.passage_number || 1}</span>
-              <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(r.difficulty || 'Band 7.5')}</span>
-              <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(r.exam_date || '')}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:2px 7px; border-radius:4px;">RECALL P${r.passage_number || (idx + 1)}</span>
+              <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:2px 7px; border-radius:4px;">${escapeHtml(r.difficulty || 'Band 8.0 CBT')}</span>
+              <span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">${escapeHtml(r.exam_date || 'Oct 2026')}</span>
             </div>
-            ${r.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE FULL TEST</span>` : (isVip ? `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP TEST</span>`)}
+            ${r.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE FULL ACCESS</span>` : (isVip ? `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP TEST</span>`)}
           </div>
 
           <h3 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(r.title)}</h3>
-          <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:8px; font-weight:600;">Category: ${escapeHtml(r.category || '')} &bull; Types: ${escapeHtml(r.question_types || '')}</div>
+          <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:12px; font-weight:600;">Category: ${escapeHtml(r.category || 'Academic')} &bull; ${qCount} Questions</div>
         </div>
 
         ${isLocked ? `
-          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:14px; text-align:center; margin-top:8px;">
+          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:8px; padding:14px; text-align:center; margin-top:8px;">
             <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Passage paragraphs, question battery &amp; bilingual answers locked</div>
             <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
               <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock All CBT Recalls with VIP
             </button>
           </div>
         ` : `
-          <div style="margin-top:8px;">
+          <div style="margin-top:8px; border-top:1px dashed var(--border-subtle); padding-top:12px;">
             <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
-              Includes ${(r.paragraphs||[]).length} sections with complete paragraph summaries in Burmese and ${(r.questions||[]).length} interactive CBT questions with explanation citations.
+              Includes ${pCount} paragraphs with complete Burmese summaries and ${qCount} calibrated CBT questions with examiner citations.
             </div>
-            <button class="btn-accent-solid" onclick="launchRadarReadingCbt('${escapeHtml(r.id)}')" style="font-size:0.78rem; padding:8px 14px; font-weight:800; border-radius:6px; width:100%; box-sizing:border-box;">
-              📖 Start CBT Simulation Practice &rarr;
-            </button>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <button class="btn-accent-solid" onclick="openLiveRecallInSubtab('${escapeHtml(r.id)}', 'practice')" style="font-size:0.82rem; padding:9px 14px; font-weight:800; border-radius:6px; width:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <span>📖 Practice CBT in Sub-tab</span> <span>&rarr;</span>
+              </button>
+              <button class="btn-outlined" onclick="openLiveRecallInSubtab('${escapeHtml(r.id)}', 'answers')" style="font-size:0.78rem; padding:8px 12px; font-weight:700; border-radius:6px; width:100%; box-sizing:border-box; border-color:var(--border-accent); color:var(--accent); display:flex; align-items:center; justify-content:center; gap:6px;">
+                <span>💡 View All Answers &amp; Burmese Evidence</span>
+              </button>
+            </div>
           </div>
         `}
       </div>
@@ -25412,110 +25465,268 @@ async function initLiveExamReading() {
   mount.innerHTML = html;
 }
 
-// Utility Helpers
-function toggleRadarModelEssay(divId) {
-  const el = document.getElementById(divId);
-  if (el) el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+// In-Subtab Passage & Answer Viewer
+function openLiveRecallInSubtab(id, initialMode = 'practice') {
+  const mount = document.getElementById('liveReadingMount');
+  if (!mount) return;
+
+  const passages = getAvailableLiveRecallPassages();
+  const passage = passages.find(p => p.id === id);
+  if (!passage) return;
+
+  window.currentLiveRecallId = id;
+  window.currentLiveRecallMode = initialMode;
+  window.liveRecallAnswers = {};
+  window.liveRecallSubmitted = (initialMode === 'answers');
+
+  renderLiveRecallPassageView(mount, passage);
+  mount.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function pronounceRadarWord(word) {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'en-GB';
-  u.rate = 0.92;
-  window.speechSynthesis.speak(u);
+function renderLiveRecallPassageView(mount, passage) {
+  const allPassages = getAvailableLiveRecallPassages();
+  const isAnswersMode = window.currentLiveRecallMode === 'answers' || window.liveRecallSubmitted;
+  const questions = passage.questions || [];
+  const paragraphs = passage.paragraphs || [];
+
+  let correctCount = 0;
+  if (isAnswersMode) {
+    questions.forEach((q, idx) => {
+      const uVal = (window.liveRecallAnswers[q.id] || '').trim();
+      const targetAns = (q.ans || '').trim();
+      const isCorrect = (uVal === targetAns) ||
+        (uVal && targetAns && uVal.toLowerCase() === targetAns.toLowerCase()) ||
+        (uVal && targetAns && (uVal.startsWith(targetAns + '.') || uVal.startsWith(targetAns + ' '))) ||
+        (uVal && targetAns && (targetAns.startsWith(uVal + '.') || targetAns.startsWith(uVal + ' ')));
+      if (isCorrect) correctCount++;
+    });
+  }
+
+  let html = `
+    <div style="background:var(--bg-card); border:1.5px solid var(--border-accent); border-radius:12px; padding:20px; box-sizing:border-box; box-shadow:0 6px 24px rgba(0,0,0,0.12);">
+      
+      <!-- Top Navigation Toolbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding-bottom:14px; border-bottom:1px solid var(--border); margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button class="btn-outlined" onclick="initLiveExamReading()" style="padding:6px 14px; font-size:0.8rem; font-weight:700; border-radius:6px;">
+            &larr; Back to All Recalls Grid
+          </button>
+          
+          <select onchange="openLiveRecallInSubtab(this.value, '${window.currentLiveRecallMode}')" style="background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:0.8rem; font-weight:700; cursor:pointer; max-width:260px;">
+            ${allPassages.map(p => `
+              <option value="${p.id}" ${p.id === passage.id ? 'selected' : ''}>${p.title}</option>
+            `).join('')}
+          </select>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="${!isAnswersMode ? 'btn-accent-solid' : 'btn-outlined'}" onclick="setLiveRecallMode('practice')" style="padding:6px 14px; font-size:0.78rem; font-weight:800; border-radius:6px;">
+            📖 Practice CBT Mode
+          </button>
+          <button type="button" class="${isAnswersMode ? 'btn-accent-solid' : 'btn-outlined'}" onclick="setLiveRecallMode('answers')" style="padding:6px 14px; font-size:0.78rem; font-weight:800; border-radius:6px;">
+            💡 Decoded Answer &amp; Evidence Key
+          </button>
+        </div>
+      </div>
+
+      <!-- Passage Title & Subhead -->
+      <div style="margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+          <span class="occ-ver-pill" style="background:#10B981; color:#fff; font-weight:800; font-size:0.72rem; padding:3px 8px; border-radius:4px;">CAMBRIDGE CBT RECALL</span>
+          <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:600;">${escapeHtml(passage.category || 'Academic')} &bull; ${escapeHtml(passage.difficulty || 'Band 8.0')}</span>
+        </div>
+        <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.3;">${escapeHtml(passage.title)}</h2>
+        <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">${escapeHtml(passage.question_types || 'Academic Reading Battery')}</div>
+      </div>
+
+      <!-- 2-Column Split Layout -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; align-items:start;">
+        
+        <!-- Left Column: Passage Text -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:18px; max-height:750px; overflow-y:auto; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border-subtle);">
+            <strong style="font-size:0.85rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em;">READING PASSAGE</strong>
+            <span style="font-size:0.72rem; color:var(--text-muted);">Click [Passage (Letter)] in questions to locate</span>
+          </div>
+
+          ${paragraphs.map(p => `
+            <div id="live_para_${p.label.toLowerCase()}" style="margin-bottom:18px; padding-bottom:14px; border-bottom:1px dashed var(--border-subtle);">
+              <p style="font-size:0.92rem; line-height:1.78; color:var(--text); margin:0 0 8px 0;">
+                <span style="display:inline-block; font-weight:900; background:var(--accent); color:#fff; padding:1px 7px; border-radius:4px; margin-right:8px; font-size:0.78rem;">${p.label}</span>
+                ${p.text}
+              </p>
+              ${p.mmSummary ? `
+                <div class="burmese" style="margin-top:8px; padding:8px 12px; background:rgba(16,185,129,0.08); border-left:3px solid #10B981; border-radius:4px; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
+                  <strong style="color:var(--text);">🇲🇲 စာပိုဒ်အနှစ်ချုပ်:</strong> ${p.mmSummary}
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Right Column: Question Battery -->
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:18px; max-height:750px; overflow-y:auto; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; gap:8px;">
+            <strong style="font-size:0.85rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.04em;">QUESTIONS (1–${questions.length})</strong>
+            ${isAnswersMode ? `
+              <span class="occ-ver-pill" style="background:#10B981; color:#fff; font-weight:800; font-size:0.75rem; padding:2px 8px; border-radius:4px;">
+                Score: ${correctCount} / ${questions.length} (Band ${rawToAcademicReadingBand(Math.round((correctCount/questions.length)*40))})
+              </span>
+            ` : `
+              <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">Select answers &amp; verify</span>
+            `}
+          </div>
+
+          <!-- Questions List -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            ${questions.map((q, qi) => {
+              const uVal = (window.liveRecallAnswers[q.id] || '').trim();
+              const targetAns = (q.ans || '').trim();
+              const isCorrect = (uVal === targetAns) ||
+                (uVal && targetAns && uVal.toLowerCase() === targetAns.toLowerCase()) ||
+                (uVal && targetAns && (uVal.startsWith(targetAns + '.') || uVal.startsWith(targetAns + ' '))) ||
+                (uVal && targetAns && (targetAns.startsWith(uVal + '.') || targetAns.startsWith(uVal + ' ')));
+              const isGap = q.type === "GAP" || !Array.isArray(q.options) || q.options.length === 0;
+
+              const paraMatch = (q.expEn && q.expEn.match(/paragraph\s+([A-H])/i)) || (q.q && q.q.match(/paragraph\s+([A-H])/i));
+              const targetPara = paraMatch ? paraMatch[1].toUpperCase() : "";
+
+              return `
+                <div class="q-card" style="background:var(--bg-card); border:1px solid ${isAnswersMode ? (isCorrect ? '#10B981' : '#EF4444') : 'var(--border)'}; border-radius:8px; padding:14px; box-sizing:border-box;">
+                  
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px;">
+                    <div style="font-size:0.88rem; font-weight:700; color:var(--text); line-height:1.4;">
+                      <span style="background:var(--accent-soft); color:var(--accent); padding:2px 6px; border-radius:3px; margin-right:6px; font-size:0.75rem; font-weight:800;">Q${qi + 1}</span>
+                      ${q.q}
+                    </div>
+                    ${targetPara ? `
+                      <button type="button" class="btn-outlined" onclick="jumpToLivePassageParagraph('${targetPara}')" style="padding:2px 8px; font-size:0.7rem; white-space:nowrap; border-color:var(--border-accent); color:var(--accent); min-height:26px; border-radius:4px; cursor:pointer;" title="Locate in passage">
+                        Passage (${targetPara})
+                      </button>
+                    ` : ''}
+                  </div>
+
+                  <!-- Options / Input -->
+                  <div>
+                    ${isGap ? `
+                      <input type="text" class="occ-input" 
+                        value="${escapeHtml(uVal)}"
+                        placeholder="${(q.ans && /^[A-H]$/i.test(q.ans.trim())) ? 'Enter paragraph letter (A, B, C...)...' : ((q.ans && /^[ivx]+$/i.test(q.ans.trim())) ? 'Enter heading Roman numeral (i, ii, iii...)...' : 'Type exact word from the passage...')}"
+                        oninput="window.liveRecallAnswers['${q.id}'] = this.value;"
+                        style="width:100%; box-sizing:border-box; padding:8px 10px; font-size:0.85rem;"
+                        ${isAnswersMode ? 'disabled' : ''}>
+                    ` : q.options.map(opt => {
+                      const optVal = (typeof opt === 'object' && opt !== null) ? (opt.text || opt.id || '') : String(opt);
+                      const optText = (typeof opt === 'object' && opt !== null) ? (opt.text || opt.label || opt.id || '') : String(opt);
+                      const isSelected = uVal === optVal;
+                      const isTargetCorrectOpt = isAnswersMode && (optVal === targetAns || optVal.startsWith(targetAns + '.') || optVal.startsWith(targetAns + ' '));
+
+                      let optBg = 'transparent';
+                      let optColor = 'var(--text)';
+                      if (isAnswersMode) {
+                        if (isTargetCorrectOpt) {
+                          optBg = 'rgba(16, 185, 129, 0.15)';
+                          optColor = '#10B981';
+                        } else if (isSelected && !isCorrect) {
+                          optBg = 'rgba(239, 68, 68, 0.15)';
+                          optColor = '#EF4444';
+                        }
+                      }
+
+                      return `
+                        <label class="q-opt" style="display:flex; align-items:flex-start; gap:8px; margin:6px 0; cursor:pointer; background:${optBg}; color:${optColor}; padding:4px 8px; border-radius:4px;">
+                          <input type="radio" name="livereq_${qi}" value="${escapeHtml(optVal)}" 
+                            ${isSelected ? 'checked' : ''} 
+                            onchange="window.liveRecallAnswers['${q.id}'] = this.value;" 
+                            style="margin-top:3px; flex-shrink:0;" 
+                            ${isAnswersMode ? 'disabled' : ''}>
+                          <span style="font-size:0.84rem; line-height:1.45;">${escapeHtml(optText)}</span>
+                        </label>
+                      `;
+                    }).join('')}
+                  </div>
+
+                  <!-- Explanations & Evidence (Shown in Answers Mode or after Verify) -->
+                  ${isAnswersMode ? `
+                    <div style="margin-top:10px; padding:10px 12px; background:rgba(0,0,0,0.03); border-radius:6px; border-left:3px solid ${isCorrect ? '#10B981' : '#EF4444'};">
+                      <div style="font-size:0.75rem; font-weight:800; color:${isCorrect ? '#10B981' : '#EF4444'}; margin-bottom:4px;">
+                        ${isCorrect ? '✓ CORRECT' : '✗ INCORRECT'} &bull; Target Answer: <strong>${escapeHtml(q.ans)}</strong>
+                      </div>
+                      ${q.expEn ? `<div style="font-size:0.8rem; color:var(--text); line-height:1.5;">${escapeHtml(q.expEn)}</div>` : ''}
+                      ${q.expMm ? `<div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px; line-height:1.45;">${escapeHtml(q.expMm)}</div>` : ''}
+                    </div>
+                  ` : ''}
+
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Bottom Action Buttons -->
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            ${!isAnswersMode ? `
+              <button class="btn-accent-solid" onclick="gradeLiveRecallInSubtab()" style="padding:10px 20px; font-size:0.85rem; font-weight:800; border-radius:6px;">
+                Verify Answers &amp; View Burmese Evidence &rarr;
+              </button>
+              <button class="btn-outlined" onclick="setLiveRecallMode('answers')" style="padding:8px 16px; font-size:0.8rem; font-weight:700; border-radius:6px;">
+                💡 Reveal All Answers
+              </button>
+            ` : `
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="occ-ver-pill" style="background:#10B981; color:#fff; font-weight:900; font-size:0.82rem; padding:4px 12px; border-radius:6px;">
+                  SCORE: ${correctCount} / ${questions.length}
+                </span>
+                <span style="font-size:0.8rem; font-weight:700; color:var(--accent);">
+                  Projected Band: ${rawToAcademicReadingBand(Math.round((correctCount/questions.length)*40))}
+                </span>
+              </div>
+              <button class="btn-outlined" onclick="setLiveRecallMode('practice')" style="padding:8px 16px; font-size:0.8rem; font-weight:700; border-radius:6px;">
+                🔄 Reset &amp; Practice Again
+              </button>
+            `}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  mount.innerHTML = html;
 }
 
-function addRadarWordToSRS(word, phonetic, pos, defEn, defMm) {
-  try {
-    let srs = JSON.parse(localStorage.getItem('vocabSRS') || '{}');
-    const now = Date.now();
-    srs[word] = {
-      word: word,
-      phonetic: phonetic || '',
-      pos: pos || 'n.',
-      definition: defEn || '',
-      burmese: defMm || '',
-      interval: 1,
-      nextReview: now + 86400000,
-      history: [{ date: now, rating: 'good' }]
-    };
-    localStorage.setItem('vocabSRS', JSON.stringify(srs));
-    if (typeof showToast === 'function') {
-      showToast(`⚡ Added "${word}" to your 1-3-7 Spaced Repetition deck!`);
-    } else {
-      alert(`⚡ Added "${word}" to your 1-3-7 Spaced Repetition deck!`);
-    }
-  } catch(e) {
-    console.warn('[SRS Add Error]', e);
+function setLiveRecallMode(mode) {
+  window.currentLiveRecallMode = mode;
+  window.liveRecallSubmitted = (mode === 'answers');
+  const mount = document.getElementById('liveReadingMount');
+  const passages = getAvailableLiveRecallPassages();
+  const passage = passages.find(p => p.id === window.currentLiveRecallId);
+  if (mount && passage) {
+    renderLiveRecallPassageView(mount, passage);
   }
 }
 
-function loadRadarWritingToDesk(id) {
-  if (!window.radarData || !window.radarData.writing) return;
-  const item = window.radarData.writing.find(w => w.id === id);
-  if (!item) return;
-
-  if (typeof switchView === 'function') switchView('writing');
-  if (typeof switchSubTab === 'function') switchSubTab('writing', 'desk');
-
-  setTimeout(() => {
-    const promptInput = document.getElementById('wCustomPrompt') || document.getElementById('wPromptInput') || document.getElementById('wPromptArea');
-    if (promptInput) {
-      promptInput.value = item.prompt;
-    }
-    const select = document.getElementById('wSelect');
-    if (select) {
-      let opt = Array.from(select.options).find(o => o.value === item.id);
-      if (!opt) {
-        opt = document.createElement('option');
-        opt.value = item.id;
-        opt.textContent = `[Live Recall] ${item.title}`;
-        select.prepend(opt);
-      }
-      select.value = item.id;
-    }
-
-    if (typeof showToast === 'function') {
-      showToast(`✍️ Loaded "${item.title}" into Writing Desk!`);
-    }
-  }, 100);
+function gradeLiveRecallInSubtab() {
+  window.liveRecallSubmitted = true;
+  window.currentLiveRecallMode = 'answers';
+  const mount = document.getElementById('liveReadingMount');
+  const passages = getAvailableLiveRecallPassages();
+  const passage = passages.find(p => p.id === window.currentLiveRecallId);
+  if (mount && passage) {
+    renderLiveRecallPassageView(mount, passage);
+  }
 }
 
+function jumpToLivePassageParagraph(paraLabel) {
+  if (!paraLabel) return;
+  const el = document.getElementById(`live_para_${paraLabel.toLowerCase()}`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Keep backward compatibility
 function launchRadarReadingCbt(id) {
-  if (!window.radarData || !window.radarData.reading) return;
-  const item = window.radarData.reading.find(r => r.id === id);
-  if (!item) return;
-
-  if (typeof switchView === 'function') switchView('reading');
-  if (typeof switchSubTab === 'function') switchSubTab('reading', 'reading');
-
-  setTimeout(() => {
-    if (typeof window.loadCustomReadingPassage === 'function') {
-      window.loadCustomReadingPassage(item);
-    } else if (typeof READING_DATA !== 'undefined' && Array.isArray(READING_DATA)) {
-      const existing = READING_DATA.find(p => p.id === item.id);
-      if (!existing) {
-        READING_DATA.unshift({
-          id: item.id,
-          code: `RECALL ${item.passage_number || 1}`,
-          title: item.title,
-          category: item.category,
-          difficulty: item.difficulty,
-          questionTypes: item.question_types,
-          paragraphs: item.paragraphs || [],
-          questions: item.questions || []
-        });
-      }
-      if (typeof renderReadingSelector === 'function') renderReadingSelector();
-      if (typeof loadReadingPassage === 'function') loadReadingPassage(item.id);
-    }
-
-    if (typeof showToast === 'function') {
-      showToast(`📖 Loaded "${item.title}" into Reading CBT Simulator!`);
-    }
-  }, 100);
+  openLiveRecallInSubtab(id, 'practice');
 }
 </script>
 
