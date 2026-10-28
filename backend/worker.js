@@ -86,6 +86,10 @@ if (url.pathname === "/webhook" && request.method === "POST") {
         return await handleTelegramAvatar(request, env);
       }
 
+      if (url.pathname === "/api/radar/feed" && request.method === "GET") {
+        return await handleRadarFeed(request, env);
+      }
+
       return new Response("Not Found", { status: 404, headers: corsHeaders() });
     } catch (err) {
       console.error("[Worker Unhandled Error]", err);
@@ -749,11 +753,13 @@ Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has 
 
 📅 *Valid Until:* ${expiryDateStr} (7 Full Days)
 ✨ *What is now unlocked for you:*
-• 🔤 All 1,162 Vocabulary items, Native Audio & 1-3-7 Spaced Repetition (SRS)
-• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• ⚡ Live Exam Lexicons & 1-Click 1-3-7 SRS Spaced Repetition Synchronization
+• 🔤 All 1,162 Academic Vocabulary items, Native Audio & Pronunciation Lab
+• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Live Recalls)
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
 • 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
-• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
 
 💻 *Your Desktop / PC Activation Voucher:*
 Code: \`${voucherCode}\`
@@ -770,11 +776,13 @@ _Need assistance? Lead Instructor: @hyuguo_`
 Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has permanent, unrestricted access to the entire IELTS Prep Studio curriculum.
 
 ✨ *What is now unlocked for you:*
-• 🔤 All 1,162 Vocabulary items, Native Audio & 1-3-7 Spaced Repetition (SRS)
-• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• ⚡ Live Exam Lexicons & 1-Click 1-3-7 SRS Spaced Repetition Synchronization
+• 🔤 All 1,162 Academic Vocabulary items, Native Audio & Pronunciation Lab
+• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Live Recalls)
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
 • 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
-• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
 
 💻 *Your Desktop / PC Activation Voucher:*
 Code: \`${voucherCode}\`
@@ -1441,11 +1449,13 @@ Open ${env.STUDIO_WEB_URL || "https://ielts-prep-studio.web.app"} on computer an
 💎 *One-Time Investment:* *97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)* သို့မဟုတ် *750 ★ Telegram Stars* (တစ်သက်တာ အသုံးပြုခွင့် • No Monthly Fees)
 
 🎁 *ပါဝင်သော အချက်များ:*
+• 🔥 Live Real Exam Radar (အပတ်စဉ် အသစ်စစ်စစ် Writing & Reading CBT စာမေးပွဲမေးခွန်းများ)
+• ⚡ Live Exam Lexicons (စာမေးပွဲသုံး စကားလုံးများနှင့် 1-Click 1-3-7 SRS စနစ်)
 • 🔤 All 1,162 Vocabulary Items, Native Audio & 1-3-7 SRS
-• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• 📖 All 23 Cambridge Reading CBT Passages + အပတ်စဉ် Real Exam Recalls
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Analyzer
 • 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
-• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
 • ☁️ Multi-Device Cloud Sync + Desktop PC VIP Voucher Code
 
 👇 *ငွေပေးချေမှု စနစ်ကို အောက်ပါ Menu မှ ရွေးချယ်နိုင်ပါသည်:*`
@@ -1458,11 +1468,13 @@ Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps
 _One-Time Investment • Lifetime Access • Zero Subscriptions_
 
 🎁 *Everything You Unlock Forever:*
-• 🔤 All 1,162 Vocabulary Items, Native Audio & 1-3-7 SRS
-• 📖 All 23 Cambridge Reading CBT Passages (231 Questions)
+• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• ⚡ Live Exam Lexicons with 1-Click 1-3-7 SRS Synchronization
+• 🔤 All 1,162 Academic Vocabulary Items, Native Audio & 1-3-7 SRS
+• 📖 All 23 Cambridge Reading CBT Passages + Weekly Real Exam Recalls
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 Analyzer
-• 🎙️ All 30 Speaking Forecast Topics & 5 Frameworks
-• ⚡ Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
+• 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
+• 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
 • ☁️ Multi-Device Cloud Sync + Desktop PC VIP Voucher Code
 
 👇 *Choose your preferred checkout method below:*`;
@@ -3624,6 +3636,19 @@ function getModuleKeyboard(moduleId, env, isVip = false) {
 }
 
 const CURRICULUM_MODULES = {
+  mod_radar: {
+    title: "🔥 Real Exam Recall & Forecast Radar",
+    content: 
+`🔥 *Real Exam Recall & Forecast Radar (Live Updating)*
+━━━━━━━━━━━━━━━━━━━━
+🎯 *Direct from Actual IELTS Test Centers:*
+• Weekly Writing Task 1 & Task 2 prompts recalled from real test sessions
+• Band 8.5+ model essays with examiner scoring breakdowns
+• Actual Reading CBT Passages with True/False/Not Given, Headings & MCQ sets
+• Real-time automated scoring and paragraph-linked bilingual answer keys
+• Weekly Live Exam Lexicon Radar with 1-click 1-3-7 SRS Synchronization
+• Paraphrase bridges (Band 6.0 ➔ Band 8.5+) and Reading trap warnings`
+  },
   mod_lexicon: {
     title: "🔤 Band 8.5/9.0 Lexicon Engine",
     content: 
@@ -8454,5 +8479,171 @@ async function handleTelegramAvatar(request, env) {
   } catch (err) {
     console.error("[Telegram Avatar Proxy Error]", err);
     return svgResponse(initial);
+  }
+}
+
+
+async function handleRadarFeed(request, env) {
+  try {
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId") || url.searchParams.get("telegram_id") || "";
+    const voucherParam = url.searchParams.get("voucher") || "";
+    const authHeader = request.headers.get("Authorization") || "";
+
+    let isVip = false;
+    if (userId) {
+      try {
+        const user = await env.DB.prepare(
+          "SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ?"
+        ).bind(userId).first();
+        if (user && (user.is_vip === 1 || (user.vip_expires_at && user.vip_expires_at > Date.now()))) {
+          isVip = true;
+        }
+      } catch (e) {
+        console.error("[Radar User Check Error]", e);
+      }
+    }
+
+    if (!isVip && (voucherParam || authHeader.startsWith("Bearer "))) {
+      const token = (voucherParam || authHeader.replace("Bearer ", "")).trim();
+      try {
+        const voucher = await env.DB.prepare(
+          "SELECT is_active, plan_type FROM vip_vouchers WHERE code_hash = ? AND is_active = 1"
+        ).bind(token).first();
+        if (voucher) isVip = true;
+      } catch (e) {
+        console.error("[Radar Voucher Check Error]", e);
+      }
+    }
+
+    const cacheKey = `radar_feed_${isVip ? "vip" : "free"}`;
+    if (env.VIP_KV) {
+      try {
+        const cached = await env.VIP_KV.get(cacheKey, { type: "json" });
+        if (cached) {
+          return jsonResponse(cached, 200, {
+            "Cache-Control": "public, max-age=1800, s-maxage=1800",
+            ...corsHeaders()
+          });
+        }
+      } catch (e) {
+        console.error("[Radar KV Cache Error]", e);
+      }
+    }
+
+    const writingRecalls = await env.DB.prepare(
+      "SELECT * FROM exam_recalls_writing ORDER BY exam_date DESC LIMIT 30"
+    ).all();
+
+    const readingRecalls = await env.DB.prepare(
+      "SELECT * FROM exam_recalls_reading ORDER BY exam_date DESC LIMIT 20"
+    ).all();
+
+    const lexiconRecalls = await env.DB.prepare(
+      "SELECT * FROM exam_recalls_lexicon ORDER BY created_at DESC LIMIT 60"
+    ).all();
+
+    const writing = (writingRecalls.results || []).map((item, idx) => {
+      const unlocked = isVip || item.is_free_sample === 1 || idx < 3;
+      let highlights = [];
+      try { highlights = JSON.parse(item.lexical_highlights || "[]"); } catch (e) {}
+      return {
+        id: item.id,
+        exam_date: item.exam_date,
+        test_type: item.test_type,
+        task_type: item.task_type,
+        topic_category: item.topic_category,
+        title: item.title,
+        prompt: item.prompt,
+        model_essay: unlocked ? item.model_essay : null,
+        band_score: item.band_score,
+        lexical_highlights: highlights,
+        examiner_notes: unlocked ? item.examiner_notes : null,
+        is_free_sample: item.is_free_sample,
+        locked: !unlocked
+      };
+    });
+
+    const reading = (readingRecalls.results || []).map((item, idx) => {
+      const unlocked = isVip || item.is_free_sample === 1 || idx < 2;
+      let paragraphs = [];
+      let questions = [];
+      try {
+        if (unlocked) {
+          paragraphs = JSON.parse(item.paragraphs_json || "[]");
+          questions = JSON.parse(item.questions_json || "[]");
+        }
+      } catch (e) {}
+      return {
+        id: item.id,
+        exam_date: item.exam_date,
+        test_type: item.test_type,
+        passage_number: item.passage_number,
+        title: item.title,
+        category: item.category,
+        difficulty: item.difficulty,
+        question_types: item.question_types,
+        paragraphs: paragraphs,
+        questions: questions,
+        is_free_sample: item.is_free_sample,
+        locked: !unlocked
+      };
+    });
+
+    const lexicon = (lexiconRecalls.results || []).map((item, idx) => {
+      const unlocked = isVip || item.is_free_sample === 1 || idx < 10;
+      let collocations = [];
+      let paraphrase = {};
+      try {
+        if (unlocked) {
+          collocations = JSON.parse(item.collocations_json || "[]");
+          paraphrase = JSON.parse(item.paraphrase_json || "{}");
+        }
+      } catch (e) {}
+      return {
+        id: item.id,
+        word: item.word,
+        phonetic: item.phonetic,
+        pos: item.pos,
+        band_tier: item.band_tier,
+        topic_category: item.topic_category,
+        definition_en: unlocked ? item.definition_en : null,
+        definition_mm: unlocked ? item.definition_mm : null,
+        source_test_ref: item.source_test_ref,
+        real_exam_sentence: unlocked ? item.real_exam_sentence : null,
+        collocations: collocations,
+        paraphrase: paraphrase,
+        trap_notes: unlocked ? item.trap_notes : null,
+        is_free_sample: item.is_free_sample,
+        locked: !unlocked
+      };
+    });
+
+    const payload = {
+      isVip,
+      updated_at: new Date().toISOString(),
+      counts: {
+        writing: writing.length,
+        reading: reading.length,
+        lexicon: lexicon.length
+      },
+      writing,
+      reading,
+      lexicon
+    };
+
+    if (env.VIP_KV) {
+      try {
+        await env.VIP_KV.put(cacheKey, JSON.stringify(payload), { expirationTtl: 1800 });
+      } catch (e) {}
+    }
+
+    return jsonResponse(payload, 200, {
+      "Cache-Control": "public, max-age=1800, s-maxage=1800",
+      ...corsHeaders()
+    });
+  } catch (err) {
+    console.error("[Radar Feed Error]", err);
+    return jsonResponse({ error: err.message }, 500, corsHeaders());
   }
 }
