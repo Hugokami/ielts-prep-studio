@@ -513,6 +513,7 @@ function getDeviceId() {
             initData: initData,
             telegramId: tgUser ? tgUser.id : (state && state.userProfile && state.userProfile.telegramId) || 0,
             voucher: clientVoucher,
+            deviceId: getDeviceId(),
             progress: state,
             srsDueCount: dueCount
           })
@@ -833,7 +834,12 @@ function getDeviceId() {
     'ips_user_target_band',
     'ielts_target_band',
     'ielts_target_exam_date',
-    'ips_target_score_onboarded'
+    'ips_target_score_onboarded',
+    'ips_ai_chat_history',
+    'ips_listening_answers',
+    'ips_listening_history',
+    'ips_reading_history',
+    'ips_reading_answers'
   ];
 
   function collectV6State() {
@@ -871,6 +877,9 @@ function getDeviceId() {
       }
       if (typeof window.renderTodayPlanCard === 'function') {
         window.renderTodayPlanCard('todayPlanMount');
+      }
+      if (typeof window.loadAiChatHistoryFromStorage === 'function') {
+        window.loadAiChatHistoryFromStorage();
       }
     } catch (e) {}
   }

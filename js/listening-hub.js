@@ -17,6 +17,15 @@
     [10, 4.0], [8, 3.5], [6, 3.0], [4, 2.5], [0, 2.0]
   ];
 
+  
+  function loadSavedAnswersForExam(examId) {
+    try {
+      const saved = localStorage.getItem('ips_listening_answers_' + examId);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return {};
+  }
+
   function calcListeningBand(rawScore) {
     for (const [minScore, band] of BAND_SCALE) {
       if (rawScore >= minScore) return band;
@@ -410,10 +419,11 @@
           let optionsHtml = q.options.map((opt, optIdx) => {
             const letter = String.fromCharCode(65 + optIdx); // A, B, C...
             const isChecked = val.toUpperCase() === letter.toUpperCase();
+            const cleanOpt = String(opt).replace(/^[A-Z][\)\.]\s*/, '').trim();
             return `
               <label class="q-opt" style="cursor:pointer; display:flex; align-items:flex-start; gap:10px; padding:8px 12px; border-radius:6px; border:1px solid ${isChecked ? 'var(--accent)' : 'var(--border)'}; background:${isChecked ? 'rgba(59,130,246,0.06)' : 'transparent'}; transition:all 0.15s ease;">
                 <input type="radio" name="lis_q_${q.id}" value="${letter}" ${isChecked ? "checked" : ""} onchange="window.saveListeningAnswer(${q.id}, '${letter}')" style="margin-top:3px; accent-color:var(--accent);" />
-                <span style="font-size:0.88rem; color:var(--text); line-height:1.5;">${opt}</span>
+                <span style="font-size:0.88rem; color:var(--text); line-height:1.5;"><strong>${letter})</strong> ${cleanOpt}</span>
               </label>
             `;
           }).join("");
@@ -469,7 +479,8 @@
   window.launchListeningTestAndSection = function(idx, sec) {
     currentExamIdx = parseInt(idx, 10) || 0;
     currentSection = sec;
-    userAnswers = {};
+    const exam = LISTENING_DATA && LISTENING_DATA[currentExamIdx];
+    userAnswers = exam ? loadSavedAnswersForExam(exam.id) : {};
     flaggedQuestions.clear();
     isGraded = false;
     showDirectory = false;
@@ -480,7 +491,8 @@
   window.switchListeningExam = function(idx) {
     currentExamIdx = parseInt(idx, 10) || 0;
     currentSection = 1;
-    userAnswers = {};
+    const exam = LISTENING_DATA && LISTENING_DATA[currentExamIdx];
+    userAnswers = exam ? loadSavedAnswersForExam(exam.id) : {};
     flaggedQuestions.clear();
     isGraded = false;
     stopAudio();
@@ -507,6 +519,20 @@
   window.saveListeningAnswer = function(qid, val) {
     userAnswers[qid] = val;
     renderPalette();
+    try {
+      const exam = LISTENING_DATA && LISTENING_DATA[currentExamIdx];
+      if (exam) {
+        localStorage.setItem('ips_listening_answers_' + exam.id, JSON.stringify(userAnswers));
+        let allAnswers = {};
+        try { allAnswers = JSON.parse(localStorage.getItem('ips_listening_answers') || '{}'); } catch (e) {}
+        allAnswers[exam.id] = userAnswers;
+        localStorage.setItem('ips_listening_answers', JSON.stringify(allAnswers));
+        if (window.appState) {
+          if (!window.appState.listening_answers) window.appState.listening_answers = {};
+          window.appState.listening_answers[exam.id] = userAnswers;
+        }
+      }
+    } catch (e) {}
   };
 
   window.toggleListeningFlag = function(qid) {
@@ -615,7 +641,8 @@
 
         let isCorrect = false;
         if (q.type === "mcq") {
-          isCorrect = userAns.toUpperCase() === q.answer.trim().toUpperCase();
+          const allowed = (q.acceptable && q.acceptable.length > 0 ? q.acceptable : [q.answer]).map(a => String(a).trim().toUpperCase());
+          isCorrect = allowed.includes(userAns.toUpperCase());
         } else {
           const userNorm = userAns.toLowerCase().replace(/[^a-z0-9]/g, '');
           const allowed = (q.acceptable && q.acceptable.length > 0 ? q.acceptable : [q.answer]).map(a => 
@@ -645,6 +672,28 @@
 
     const band = calcListeningBand(score);
     isGraded = true;
+    try {
+      const historyItem = {
+        examId: exam.id,
+        title: exam.title,
+        score: score,
+        total: total,
+        band: band,
+        date: new Date().toISOString()
+      };
+      let history = [];
+      try { history = JSON.parse(localStorage.getItem('ips_listening_history') || '[]'); } catch (e) {}
+      history.unshift(historyItem);
+      if (history.length > 50) history = history.slice(0, 50);
+      localStorage.setItem('ips_listening_history', JSON.stringify(history));
+      if (window.appState) {
+        if (!window.appState.listening_history) window.appState.listening_history = [];
+        window.appState.listening_history = history;
+      }
+      if (window.StorageManager && typeof window.StorageManager.syncServerless === 'function') {
+        window.StorageManager.syncServerless(window.appState);
+      }
+    } catch (e) {}
     if (typeof window.syncAndRenderStudyStreak === "function") {
       window.syncAndRenderStudyStreak(true);
     }

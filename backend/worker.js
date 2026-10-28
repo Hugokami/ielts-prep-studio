@@ -388,7 +388,7 @@ async function handleTelegramWidgetAuth(request, env) {
 async function handleSync(request, env) {
   const body = await request.json();
   const authHeader = request.headers.get("Authorization") || "";
-  const { initData, progress, srsDueCount } = body || {};
+  const { initData, progress, srsDueCount, deviceId, voucher, telegramId: bodyTgId } = body || {};
 
   let telegramId = 0;
   let username = "";
@@ -405,6 +405,8 @@ async function handleSync(request, env) {
       username = user.username || "";
       firstName = user.first_name || "";
     }
+  } else if (bodyTgId && typeof bodyTgId === "number") {
+    telegramId = bodyTgId;
   }
 
   // 2. Verify Bearer session token
@@ -425,6 +427,8 @@ async function handleSync(request, env) {
   // Query D1 user record
   let userRow = null;
   let vipExpiresAt = 0;
+  let savedProgress = null;
+
   if (telegramId) {
     userRow = await env.DB.prepare("SELECT is_vip, vip_expires_at, progress_json FROM users WHERE telegram_id = ?").bind(telegramId).first();
     if (userRow && userRow.is_vip === 1) {
@@ -437,22 +441,48 @@ async function handleSync(request, env) {
         isVip = true;
       }
     }
+    if (userRow && userRow.progress_json) {
+      try { savedProgress = JSON.parse(userRow.progress_json); } catch (e) {}
+    }
   }
 
-  // Persist progress if telegramId is authenticated (NEVER trust client self-tier)
-  const progressJson = progress ? JSON.stringify(progress) : "{}";
+  // Multi-tier cloud persistence: D1 for Telegram + KV for voucher/deviceId
+  const cleanVoucher = voucher ? String(voucher).trim().toUpperCase() : "";
+  const cleanDeviceId = deviceId ? String(deviceId).trim() : "";
+  const progressJson = progress ? JSON.stringify(progress) : null;
   const dueCount = typeof srsDueCount === "number" ? srsDueCount : 0;
+
   if (telegramId) {
-    await env.DB.prepare(`
-      INSERT INTO users (telegram_id, username, first_name, srs_due_count, progress_json, updated_at)
-      VALUES (?, ?, ?, ?, ?, unixepoch())
-      ON CONFLICT(telegram_id) DO UPDATE SET
-        username = CASE WHEN excluded.username != '' THEN excluded.username ELSE users.username END,
-        first_name = CASE WHEN excluded.first_name != '' THEN excluded.first_name ELSE users.first_name END,
-        srs_due_count = excluded.srs_due_count,
-        progress_json = excluded.progress_json,
-        updated_at = unixepoch()
-    `).bind(telegramId, username, firstName, dueCount, progressJson).run();
+    if (progressJson) {
+      await env.DB.prepare(`
+        INSERT INTO users (telegram_id, username, first_name, srs_due_count, progress_json, updated_at)
+        VALUES (?, ?, ?, ?, ?, unixepoch())
+        ON CONFLICT(telegram_id) DO UPDATE SET
+          username = CASE WHEN excluded.username != '' THEN excluded.username ELSE users.username END,
+          first_name = CASE WHEN excluded.first_name != '' THEN excluded.first_name ELSE users.first_name END,
+          srs_due_count = excluded.srs_due_count,
+          progress_json = excluded.progress_json,
+          updated_at = unixepoch()
+      `).bind(telegramId, username, firstName, dueCount, progressJson).run();
+      if (env.VIP_KV) {
+        try { await env.VIP_KV.put("SYNC_TG_" + telegramId, progressJson, { expirationTtl: 86400 * 90 }); } catch (e) {}
+      }
+    }
+  } else {
+    // Non-Telegram / Web / BYOK cloud sync via KV
+    if (env.VIP_KV) {
+      const syncKey = cleanVoucher ? ("SYNC_VCH_" + cleanVoucher) : (cleanDeviceId ? ("SYNC_DEV_" + cleanDeviceId) : null);
+      if (syncKey) {
+        if (progressJson) {
+          try { await env.VIP_KV.put(syncKey, progressJson, { expirationTtl: 86400 * 90 }); } catch (e) {}
+        } else if (!savedProgress) {
+          try {
+            const kvSaved = await env.VIP_KV.get(syncKey, "json");
+            if (kvSaved) savedProgress = kvSaved;
+          } catch (e) {}
+        }
+      }
+    }
   }
 
   // Issue signed session token for VIP users
@@ -476,7 +506,7 @@ async function handleSync(request, env) {
     isVip: !!isVip,
     vipExpiresAt: vipExpiresAt,
     sessionToken: sessionToken,
-    savedProgress: userRow && userRow.progress_json ? JSON.parse(userRow.progress_json) : null,
+    savedProgress: savedProgress,
     vipData: vipData
   });
 }

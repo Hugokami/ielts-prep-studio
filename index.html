@@ -18776,6 +18776,9 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
       } else if (hubId === 'tools') {
         if (typeof fetchVipToolsQuota === 'function') fetchVipToolsQuota();
       } else if (hubId === 'aichat') {
+        if (typeof window.loadAiChatHistoryFromStorage === 'function') {
+          window.loadAiChatHistoryFromStorage();
+        }
         if (typeof initAiMentorTab === 'function') initAiMentorTab();
       }
     } catch (hydrateErr) {
@@ -22095,6 +22098,37 @@ PEDAGOGICAL & CRITERIA RULES:
 
 let aiChatMessages = [];
 
+function saveAiChatHistoryToStorage() {
+  try {
+    const toSave = (aiChatMessages || []).slice(-80);
+    localStorage.setItem('ips_ai_chat_history', JSON.stringify(toSave));
+    if (window.appState) {
+      window.appState.ai_chats = toSave;
+    }
+  } catch (e) {}
+}
+
+window.loadAiChatHistoryFromStorage = function() {
+  try {
+    const raw = localStorage.getItem('ips_ai_chat_history');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        aiChatMessages = parsed;
+        const stream = document.getElementById('aiChatStream');
+        const hero = document.getElementById('geminiHero');
+        if (hero) hero.style.display = 'none';
+        if (stream && stream.children.length === 0) {
+          stream.innerHTML = '';
+          aiChatMessages.forEach(msg => {
+            appendAiChatMessage(msg.role, msg.content, msg.imageSrc || null);
+          });
+        }
+      }
+    }
+  } catch (e) {}
+};
+
 function isTelegramMiniApp() {
   if (typeof window === 'undefined') return false;
   const tg = window.Telegram && window.Telegram.WebApp;
@@ -22398,6 +22432,13 @@ function handleAiChatKeydown(e) {
 
 function startNewGeminiChat() {
   aiChatMessages = [];
+  try {
+    localStorage.removeItem('ips_ai_chat_history');
+    if (window.appState) window.appState.ai_chats = [];
+    if (window.StorageManager && typeof window.StorageManager.syncServerless === 'function' && window.appState) {
+      window.StorageManager.syncServerless(window.appState);
+    }
+  } catch (e) {}
   const stream = document.getElementById('aiChatStream');
   if (stream) stream.innerHTML = '';
   const hero = document.getElementById('geminiHero');
@@ -22721,11 +22762,9 @@ async function sendAiChatMessage() {
   if (sendBtn) sendBtn.disabled = true;
   if (status) status.textContent = `Status: Synthesizing with Cambridge AI...`;
 
-  // Maintain sliding window conversation history (last 6 turns)
-  aiChatMessages.push({ role: 'user', content: promptText });
-  if (aiChatMessages.length > 6) {
-    aiChatMessages = aiChatMessages.slice(-6);
-  }
+  // Save user message to persistent history and cloud sync state
+  aiChatMessages.push({ role: 'user', content: promptText, imageSrc: attachedImg?.dataUrl || null });
+  saveAiChatHistoryToStorage();
 
   // Auto-detect if user pasted a BYOK Gemini API key directly in chat (/byok AQ... or AQ... or AIza...)
   const byokMatch = (promptText || '').trim().replace(/^[\"\']|[\"\']$/g, '').match(/^(?:\/(?:byok|apikey|key)\s+)?((?:AIza[0-9A-Za-z_-]{30,50}|AQ\.[0-9A-Za-z_.-]{30,70}))$/i);
@@ -22754,7 +22793,7 @@ async function sendAiChatMessage() {
     if (status) status.textContent = attachedImg ? 'Status: Analyzing image with Google Gemini Vision...' : 'Status: Synthesizing with your personal BYOK Gemini Key...';
     try {
       const imagePayload = attachedImg ? { mimeType: attachedImg.mimeType, data: attachedImg.base64 } : null;
-      const byokRes = await window.callByokAiMentorChat(aiChatMessages, AI_MENTOR_SYSTEM_PROMPT, imagePayload);
+      const byokRes = await window.callByokAiMentorChat(aiChatMessages.slice(-8), AI_MENTOR_SYSTEM_PROMPT, imagePayload);
       if (byokRes && byokRes.text) {
         replyText = byokRes.text;
  providerUsed = byokRes.modelUsed || (attachedImg ? ' BYOK Gemini Vision' : ' BYOK Gemini');
@@ -22784,7 +22823,7 @@ async function sendAiChatMessage() {
     const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
     const messagesPayload = [
       { role: 'system', content: AI_MENTOR_SYSTEM_PROMPT },
-      ...aiChatMessages
+      ...aiChatMessages.slice(-8)
     ];
 
     const response = await fetch(WORKER_AI_ENDPOINT, {
@@ -22824,7 +22863,7 @@ async function sendAiChatMessage() {
           model: "openai",
           messages: [
             { role: "system", content: AI_MENTOR_SYSTEM_PROMPT },
-            ...aiChatMessages
+            ...aiChatMessages.slice(-8)
           ],
           seed: 42
         }),
@@ -22850,6 +22889,10 @@ async function sendAiChatMessage() {
 
   if (replyText) {
     aiChatMessages.push({ role: 'assistant', content: replyText });
+    saveAiChatHistoryToStorage();
+    if (window.StorageManager && typeof window.StorageManager.syncServerless === 'function' && window.appState) {
+      window.StorageManager.syncServerless(window.appState);
+    }
     appendAiChatMessage('assistant', replyText);
     if (status) status.textContent = `Status: Ready (${providerUsed})`;
   } else {
@@ -22881,7 +22924,7 @@ async function sendAiChatMessage() {
 
 
 function retryLastAiPrompt() {
-  const lastUser = [...aiChatMessages].reverse().find(m => m.role === 'user');
+  const lastUser = [...aiChatMessages.slice(-8)].reverse().find(m => m.role === 'user');
   if (!lastUser) return;
   const input = document.getElementById('aiChatInput');
   if (input) input.value = lastUser.content;

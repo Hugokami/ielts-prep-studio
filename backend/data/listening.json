@@ -4,7 +4,7 @@
     "title": "Cambridge Authentic Listening Mock 1 (Test 5)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 5",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 5)",
     "sections": [
       {
         "section": 1,
@@ -77,81 +77,96 @@
             "id": 6,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 6",
+            "prompt": "Which THREE things should the caller bring to the meeting? (Item 1 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Driving license",
+              "B) Passport",
+              "C) Tax bill",
+              "D) Employment contract",
+              "E) Reference from a friend or colleague",
+              "F) Reference from an employer"
             ],
             "answer": "B",
             "acceptable": [
-              "B"
+              "B",
+              "D",
+              "E"
             ],
-            "explanation": "Official IELTS Answer Key: B."
+            "explanation": "Official IELTS Answer Key: B (Passport), D (Employment contract), E (Reference from friend/colleague)."
           },
           {
             "id": 7,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 7",
+            "prompt": "Which THREE things should the caller bring to the meeting? (Item 2 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Driving license",
+              "B) Passport",
+              "C) Tax bill",
+              "D) Employment contract",
+              "E) Reference from a friend or colleague",
+              "F) Reference from an employer"
             ],
             "answer": "D",
             "acceptable": [
-              "D"
+              "B",
+              "D",
+              "E"
             ],
-            "explanation": "Official IELTS Answer Key: D."
+            "explanation": "Official IELTS Answer Key: B (Passport), D (Employment contract), E (Reference from friend/colleague)."
           },
           {
             "id": 8,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 8",
+            "prompt": "Which THREE things should the caller bring to the meeting? (Item 3 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Driving license",
+              "B) Passport",
+              "C) Tax bill",
+              "D) Employment contract",
+              "E) Reference from a friend or colleague",
+              "F) Reference from an employer"
             ],
             "answer": "E",
             "acceptable": [
+              "B",
+              "D",
               "E"
             ],
-            "explanation": "Official IELTS Answer Key: E."
+            "explanation": "Official IELTS Answer Key: B (Passport), D (Employment contract), E (Reference from friend/colleague)."
           },
           {
             "id": 9,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 9",
+            "prompt": "What time do the caller and apartment manager decide to meet?",
             "options": [
-              "5:30 PM",
-              "6:00 PM",
-              "6:30 PM"
+              "A) 5:30 PM",
+              "B) 6:00 PM",
+              "C) 6:30 PM"
             ],
             "answer": "C",
             "acceptable": [
               "C"
             ],
-            "explanation": "Official IELTS Answer Key: C."
+            "explanation": "Official IELTS Answer Key: C (6:30 PM)."
           },
           {
             "id": 10,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 10",
+            "prompt": "Where do they decide to meet?",
             "options": [
-              "Near the manager’s apartment",
-              "At the caller’s future apartment",
-              "At the office"
+              "A) Near the manager's apartment",
+              "B) At the caller's future apartment",
+              "C) At the office"
             ],
             "answer": "B",
             "acceptable": [
               "B"
             ],
-            "explanation": "Official IELTS Answer Key: B."
+            "explanation": "Official IELTS Answer Key: B (At the caller's future apartment)."
           }
         ],
         "transcript": ""
@@ -308,7 +323,7 @@
             "id": 21,
             "local_id": 1,
             "type": "fill",
-            "prompt": "21. The total course duration is .",
+            "prompt": "The total course duration is ______.",
             "options": [],
             "answer": "seven weeks",
             "acceptable": [
@@ -320,7 +335,7 @@
             "id": 22,
             "local_id": 2,
             "type": "fill",
-            "prompt": "22. During the final project students will work in teams of .",
+            "prompt": "During the final project students will work in teams of ______.",
             "options": [],
             "answer": "five people",
             "acceptable": [
@@ -332,7 +347,7 @@
             "id": 23,
             "local_id": 3,
             "type": "fill",
-            "prompt": "23. The professor told that the key thing in marketing strategy is to .",
+            "prompt": "The professor told that the key thing in marketing strategy is to ______.",
             "options": [],
             "answer": "grab people's attention",
             "acceptable": [
@@ -346,85 +361,137 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "29. The next lecture is in the big classroom on the .",
+            "prompt": "What FIVE modules does the course include? (Module 1 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Marketing",
+              "B) Design of custom logos",
+              "C) Product management",
+              "D) Branding",
+              "E) E-commerce",
+              "F) Advertising",
+              "G) Analytics",
+              "H) Customer attraction",
+              "I) Business strategies"
             ],
             "answer": "A",
             "acceptable": [
               "A",
-              "ground floor"
+              "D",
+              "E",
+              "F",
+              "H"
             ],
-            "explanation": "Official IELTS Answer Key: A."
+            "explanation": "Official IELTS Answer Key: A (Included modules: Marketing, Branding, E-commerce, Advertising, Customer attraction)."
           },
           {
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "30. Students need to take their last week .",
+            "prompt": "What FIVE modules does the course include? (Module 2 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Marketing",
+              "B) Design of custom logos",
+              "C) Product management",
+              "D) Branding",
+              "E) E-commerce",
+              "F) Advertising",
+              "G) Analytics",
+              "H) Customer attraction",
+              "I) Business strategies"
             ],
             "answer": "D",
             "acceptable": [
+              "A",
               "D",
-              "assignment"
+              "E",
+              "F",
+              "H"
             ],
-            "explanation": "Official IELTS Answer Key: D."
+            "explanation": "Official IELTS Answer Key: D (Included modules: Marketing, Branding, E-commerce, Advertising, Customer attraction)."
           },
           {
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "What FIVE modules does the course include? (Module 3 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Marketing",
+              "B) Design of custom logos",
+              "C) Product management",
+              "D) Branding",
+              "E) E-commerce",
+              "F) Advertising",
+              "G) Analytics",
+              "H) Customer attraction",
+              "I) Business strategies"
             ],
             "answer": "E",
             "acceptable": [
-              "E"
+              "A",
+              "D",
+              "E",
+              "F",
+              "H"
             ],
-            "explanation": "Official IELTS Answer Key: E."
+            "explanation": "Official IELTS Answer Key: E (Included modules: Marketing, Branding, E-commerce, Advertising, Customer attraction)."
           },
           {
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "What FIVE modules does the course include? (Module 4 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Marketing",
+              "B) Design of custom logos",
+              "C) Product management",
+              "D) Branding",
+              "E) E-commerce",
+              "F) Advertising",
+              "G) Analytics",
+              "H) Customer attraction",
+              "I) Business strategies"
             ],
             "answer": "F",
             "acceptable": [
-              "F"
+              "A",
+              "D",
+              "E",
+              "F",
+              "H"
             ],
-            "explanation": "Official IELTS Answer Key: F."
+            "explanation": "Official IELTS Answer Key: F (Included modules: Marketing, Branding, E-commerce, Advertising, Customer attraction)."
           },
           {
             "id": 28,
             "local_id": 8,
-            "type": "fill",
-            "prompt": "Question 28",
-            "options": [],
+            "type": "mcq",
+            "prompt": "What FIVE modules does the course include? (Module 5 of 5 — Choose letter A–I)",
+            "options": [
+              "A) Marketing",
+              "B) Design of custom logos",
+              "C) Product management",
+              "D) Branding",
+              "E) E-commerce",
+              "F) Advertising",
+              "G) Analytics",
+              "H) Customer attraction",
+              "I) Business strategies"
+            ],
             "answer": "H",
             "acceptable": [
+              "A",
+              "D",
+              "E",
+              "F",
               "H"
             ],
-            "explanation": "Official IELTS Answer Key: H."
+            "explanation": "Official IELTS Answer Key: H (Included modules: Marketing, Branding, E-commerce, Advertising, Customer attraction)."
           },
           {
             "id": 29,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 29",
+            "prompt": "The next lecture is in the big classroom on the ______.",
             "options": [],
             "answer": "ground floor",
             "acceptable": [
@@ -436,7 +503,7 @@
             "id": 30,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 30",
+            "prompt": "Students need to take their last week ______.",
             "options": [],
             "answer": "assignment",
             "acceptable": [
@@ -458,16 +525,15 @@
             "id": 31,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 31",
+            "prompt": "The Great Wall was initially built to ______.",
             "options": [
-              "prevent invaders from entering China",
-              "function as a psychological barrier",
-              "show country’s enduring strength"
+              "A) prevent invaders from entering China",
+              "B) function as a psychological barrier",
+              "C) show country’s enduring strength"
             ],
             "answer": "A",
             "acceptable": [
-              "A",
-              "rammed earth"
+              "A"
             ],
             "explanation": "Official IELTS Answer Key: A."
           },
@@ -475,16 +541,15 @@
             "id": 32,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 32",
+            "prompt": "The earliest unified parts of the wall were joined ______.",
             "options": [
-              "in third century B.C.",
-              "in 220 B.C.",
-              "in 390 A.D."
+              "A) in third century B.C.",
+              "B) in 220 B.C.",
+              "C) in 390 A.D."
             ],
             "answer": "B",
             "acceptable": [
-              "B",
-              "susceptible to erosion"
+              "B"
             ],
             "explanation": "Official IELTS Answer Key: B."
           },
@@ -492,16 +557,15 @@
             "id": 33,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 33",
+            "prompt": "In historical Chinese literature, the wall was referred to as ______.",
             "options": [
-              "the Great Wall",
-              "the Big Wall",
-              "the Long Wall"
+              "A) the Great Wall",
+              "B) the Big Wall",
+              "C) the Long Wall"
             ],
             "answer": "C",
             "acceptable": [
-              "C",
-              "frequent sandstorms"
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
           },
@@ -509,16 +573,15 @@
             "id": 34,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 34",
+            "prompt": "Most surviving stone and brick sections were constructed during the ______.",
             "options": [
-              "Qin dynasty",
-              "Northern Wei dynasty",
-              "Ming dynasty"
+              "A) Qin dynasty",
+              "B) Northern Wei dynasty",
+              "C) Ming dynasty"
             ],
             "answer": "C",
             "acceptable": [
-              "C",
-              "eyesight"
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
           },
@@ -526,16 +589,15 @@
             "id": 35,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 35",
+            "prompt": "Modern historical consensus considers the primary purpose of the wall ______.",
             "options": [
-              "to be a military fortification",
-              "to protect caravans traveling along the trade routes",
-              "to contribute to the defense of the country"
+              "A) to be an impenetrable fortification",
+              "B) to protect caravans traveling along trade routes",
+              "C) to contribute to the defense of the country"
             ],
             "answer": "C",
             "acceptable": [
-              "C",
-              "architectural feats"
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
           },
@@ -609,7 +671,7 @@
     "title": "Cambridge Authentic Listening Mock 2 (Test 6)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 6",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 6)",
     "sections": [
       {
         "section": 1,
@@ -764,79 +826,137 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 11",
+            "prompt": "Which FIVE group fitness programs are available at Fitness Land? (Program 1 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) yoga",
+              "B) pilates",
+              "C) step dance",
+              "D) aerobics",
+              "E) belly dance",
+              "F) barbell classes",
+              "G) kickboxing",
+              "H) zumba",
+              "I) stretching"
             ],
             "answer": "A",
             "acceptable": [
-              "A"
+              "A",
+              "C",
+              "F",
+              "H",
+              "I"
             ],
-            "explanation": "Official IELTS Answer Key: A."
+            "explanation": "Official IELTS Answer Key: A (Available: yoga, step dance, barbell classes, zumba, stretching)."
           },
           {
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 12",
+            "prompt": "Which FIVE group fitness programs are available at Fitness Land? (Program 2 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) yoga",
+              "B) pilates",
+              "C) step dance",
+              "D) aerobics",
+              "E) belly dance",
+              "F) barbell classes",
+              "G) kickboxing",
+              "H) zumba",
+              "I) stretching"
             ],
             "answer": "C",
             "acceptable": [
-              "C"
+              "A",
+              "C",
+              "F",
+              "H",
+              "I"
             ],
-            "explanation": "Official IELTS Answer Key: C."
+            "explanation": "Official IELTS Answer Key: C (Available: yoga, step dance, barbell classes, zumba, stretching)."
           },
           {
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 13",
+            "prompt": "Which FIVE group fitness programs are available at Fitness Land? (Program 3 of 5 — Choose letter A–I)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) yoga",
+              "B) pilates",
+              "C) step dance",
+              "D) aerobics",
+              "E) belly dance",
+              "F) barbell classes",
+              "G) kickboxing",
+              "H) zumba",
+              "I) stretching"
             ],
             "answer": "F",
             "acceptable": [
-              "F"
+              "A",
+              "C",
+              "F",
+              "H",
+              "I"
             ],
-            "explanation": "Official IELTS Answer Key: F."
+            "explanation": "Official IELTS Answer Key: F (Available: yoga, step dance, barbell classes, zumba, stretching)."
           },
           {
             "id": 14,
             "local_id": 4,
-            "type": "fill",
-            "prompt": "Question 14",
-            "options": [],
+            "type": "mcq",
+            "prompt": "Which FIVE group fitness programs are available at Fitness Land? (Program 4 of 5 — Choose letter A–I)",
+            "options": [
+              "A) yoga",
+              "B) pilates",
+              "C) step dance",
+              "D) aerobics",
+              "E) belly dance",
+              "F) barbell classes",
+              "G) kickboxing",
+              "H) zumba",
+              "I) stretching"
+            ],
             "answer": "H",
             "acceptable": [
-              "H"
+              "A",
+              "C",
+              "F",
+              "H",
+              "I"
             ],
-            "explanation": "Official IELTS Answer Key: H."
+            "explanation": "Official IELTS Answer Key: H (Available: yoga, step dance, barbell classes, zumba, stretching)."
           },
           {
             "id": 15,
             "local_id": 5,
-            "type": "fill",
-            "prompt": "Question 15",
-            "options": [],
+            "type": "mcq",
+            "prompt": "Which FIVE group fitness programs are available at Fitness Land? (Program 5 of 5 — Choose letter A–I)",
+            "options": [
+              "A) yoga",
+              "B) pilates",
+              "C) step dance",
+              "D) aerobics",
+              "E) belly dance",
+              "F) barbell classes",
+              "G) kickboxing",
+              "H) zumba",
+              "I) stretching"
+            ],
             "answer": "I",
             "acceptable": [
+              "A",
+              "C",
+              "F",
+              "H",
               "I"
             ],
-            "explanation": "Official IELTS Answer Key: I."
+            "explanation": "Official IELTS Answer Key: I (Available: yoga, step dance, barbell classes, zumba, stretching)."
           },
           {
             "id": 16,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 16",
+            "prompt": "Monday group activity: ______",
             "options": [],
             "answer": "muscle building",
             "acceptable": [
@@ -848,7 +968,7 @@
             "id": 17,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 17",
+            "prompt": "Tuesday group activity: ______",
             "options": [],
             "answer": "fat loss",
             "acceptable": [
@@ -860,7 +980,7 @@
             "id": 18,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 18",
+            "prompt": "Wednesday group activity: ______",
             "options": [],
             "answer": "healthy body",
             "acceptable": [
@@ -872,7 +992,7 @@
             "id": 19,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 19",
+            "prompt": "Thursday group activity: ______",
             "options": [],
             "answer": "relaxation",
             "acceptable": [
@@ -884,7 +1004,7 @@
             "id": 20,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 20",
+            "prompt": "Friday group activity: ______",
             "options": [],
             "answer": "interval trainings",
             "acceptable": [
@@ -906,11 +1026,11 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "According to the speaker, what is the evolutionary purpose of pain?",
             "options": [
-              "It preserves good health condition",
-              "It prevents us from damaging ourselves",
-              "Continuous pain is useful for humans"
+              "A) It preserves good health condition",
+              "B) It prevents us from damaging ourselves",
+              "C) Continuous pain is useful for humans"
             ],
             "answer": "B",
             "acceptable": [
@@ -922,11 +1042,11 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 22",
+            "prompt": "Which components are involved in pain perception?",
             "options": [
-              "Receptors and nerves",
-              "Some part of our brain",
-              "Pain is a complex process, which involves various parts of our body"
+              "A) Receptors and nerves",
+              "B) Some part of our brain",
+              "C) Pain is a complex process, which involves various parts of our body"
             ],
             "answer": "C",
             "acceptable": [
@@ -938,11 +1058,11 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 23",
+            "prompt": "What percentage of chronic pain patients experience persistent symptoms?",
             "options": [
-              "31%",
-              "37%",
-              "40 million"
+              "A) 31%",
+              "B) 37%",
+              "C) 40 million"
             ],
             "answer": "C",
             "acceptable": [
@@ -954,11 +1074,11 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 24",
+            "prompt": "Is there an essential biological difference between acute and chronic pain?",
             "options": [
-              "No, all kinds of pain have evolved as survival mechanisms",
-              "Yes, there is an enormous difference",
-              "We don’t have much insight into that"
+              "A) No, all kinds of pain have evolved as survival mechanisms",
+              "B) Yes, there is an enormous difference",
+              "C) We don’t have much insight into that"
             ],
             "answer": "B",
             "acceptable": [
@@ -970,11 +1090,11 @@
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 25",
+            "prompt": "Which clinical condition involves persistent pain after an amputation?",
             "options": [
-              "Beauty",
-              "Continuousness",
-              "Anesthesia"
+              "A) Phantom pain",
+              "B) Continuousness",
+              "C) Anesthesia"
             ],
             "answer": "A",
             "acceptable": [
@@ -986,11 +1106,11 @@
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "How do traditional local anesthetics work?",
             "options": [
-              "By blocking activity of nerves that send electrical signals",
-              "By understanding mechanisms of pain perception and altering them",
-              "By threating the central nervous system"
+              "A) By blocking activity of nerves that send electrical signals",
+              "B) By altering cognitive mechanisms of pain perception",
+              "C) By targeting the central nervous system"
             ],
             "answer": "A",
             "acceptable": [
@@ -1002,11 +1122,11 @@
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "When do amputees report feeling sensations in missing limbs?",
             "options": [
-              "After the operation",
-              "While their wounds heal",
-              "After the amputation"
+              "A) After the operation",
+              "B) While their wounds heal",
+              "C) After the amputation"
             ],
             "answer": "C",
             "acceptable": [
@@ -1018,11 +1138,11 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "Can pain perception occur in the absence of peripheral stimulation?",
             "options": [
-              "No, pain has nothing to do with peripheral nerves",
-              "Yes, peripheral nerves are required to feel pain",
-              "Scientists don’t know much about pain perception nowadays"
+              "A) No, pain has nothing to do with peripheral nerves",
+              "B) Yes, peripheral nerves are not required to feel pain",
+              "C) Scientists don’t know much about pain perception nowadays"
             ],
             "answer": "B",
             "acceptable": [
@@ -1034,7 +1154,7 @@
             "id": 29,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 29",
+            "prompt": "Chronic pain often develops through a neurological ______.",
             "options": [],
             "answer": "memory",
             "acceptable": [
@@ -1046,7 +1166,7 @@
             "id": 30,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 30",
+            "prompt": "Pain in the absence of ongoing tissue damage can be viewed as a ______.",
             "options": [],
             "answer": "learnt sensation",
             "acceptable": [
@@ -1164,7 +1284,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "didactic",
             "acceptable": [
@@ -1176,7 +1296,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "implicit",
             "acceptable": [
@@ -1188,7 +1308,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "intimate",
             "acceptable": [
@@ -1206,7 +1326,7 @@
     "title": "Cambridge Authentic Listening Mock 3 (Test 7)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 7",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 7)",
     "sections": [
       {
         "section": 1,
@@ -1219,7 +1339,7 @@
             "id": 1,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 1",
+            "prompt": "Complete the note or sentence for item (1):",
             "options": [],
             "answer": "Shopping",
             "acceptable": [
@@ -1231,7 +1351,7 @@
             "id": 2,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 2",
+            "prompt": "Complete the note or sentence for item (2):",
             "options": [],
             "answer": "Guided tours",
             "acceptable": [
@@ -1243,7 +1363,7 @@
             "id": 3,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 3",
+            "prompt": "Complete the note or sentence for item (3):",
             "options": [],
             "answer": "More than 12",
             "acceptable": [
@@ -1255,7 +1375,7 @@
             "id": 4,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 4",
+            "prompt": "Complete the note or sentence for item (4):",
             "options": [],
             "answer": "Notice board",
             "acceptable": [
@@ -1315,7 +1435,7 @@
             "id": 9,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 9",
+            "prompt": "Complete the note or sentence for item (9):",
             "options": [],
             "answer": "student newspaper",
             "acceptable": [
@@ -1327,7 +1447,7 @@
             "id": 10,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 10",
+            "prompt": "Complete the note or sentence for item (10):",
             "options": [],
             "answer": "Yentob",
             "acceptable": [
@@ -1349,7 +1469,7 @@
             "id": 11,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 11",
+            "prompt": "Complete the note or sentence for item (11):",
             "options": [],
             "answer": "Coal, firewood",
             "acceptable": [
@@ -1487,143 +1607,11 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "Melanie says she has not started the assignment because ______.",
             "options": [
-              "None"
-            ],
-            "answer": "A",
-            "acceptable": [
-              "A",
-              "e"
-            ],
-            "explanation": "Official IELTS Answer Key: A."
-          },
-          {
-            "id": 22,
-            "local_id": 2,
-            "type": "mcq",
-            "prompt": "Question 22",
-            "options": [
-              "None"
-            ],
-            "answer": "C",
-            "acceptable": [
-              "C",
-              "b"
-            ],
-            "explanation": "Official IELTS Answer Key: C."
-          },
-          {
-            "id": 23,
-            "local_id": 3,
-            "type": "mcq",
-            "prompt": "Jackson: 23. Roberts: 24. Morris: 25. Cooper: 26. Forster: 27.",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "E",
-            "acceptable": [
-              "E",
-              "g"
-            ],
-            "explanation": "Official IELTS Answer Key: E."
-          },
-          {
-            "id": 24,
-            "local_id": 4,
-            "type": "mcq",
-            "prompt": "Jackson: 23. Roberts: 24. Morris: 25. Cooper: 26. Forster: 27.",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "B",
-            "acceptable": [
-              "B",
-              "f"
-            ],
-            "explanation": "Official IELTS Answer Key: B."
-          },
-          {
-            "id": 25,
-            "local_id": 5,
-            "type": "mcq",
-            "prompt": "Jackson: 23. Roberts: 24. Morris: 25. Cooper: 26. Forster: 27.",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "G",
-            "acceptable": [
-              "G",
-              "c"
-            ],
-            "explanation": "Official IELTS Answer Key: G."
-          },
-          {
-            "id": 26,
-            "local_id": 6,
-            "type": "mcq",
-            "prompt": "Jackson: 23. Roberts: 24. Morris: 25. Cooper: 26. Forster: 27.",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "F",
-            "acceptable": [
-              "F",
-              "d"
-            ],
-            "explanation": "Official IELTS Answer Key: F."
-          },
-          {
-            "id": 27,
-            "local_id": 7,
-            "type": "mcq",
-            "prompt": "Jackson: 23. Roberts: 24. Morris: 25. Cooper: 26. Forster: 27.",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "C",
-            "acceptable": [
-              "C",
-              "a"
-            ],
-            "explanation": "Official IELTS Answer Key: C."
-          },
-          {
-            "id": 28,
-            "local_id": 8,
-            "type": "mcq",
-            "prompt": "Complete sentence or blank for item (28):",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
-            ],
-            "answer": "D",
-            "acceptable": [
-              "D",
-              "b"
-            ],
-            "explanation": "Official IELTS Answer Key: D."
-          },
-          {
-            "id": 29,
-            "local_id": 9,
-            "type": "mcq",
-            "prompt": "Complete sentence or blank for item (29):",
-            "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) she was doing work for another course",
+              "B) it was a really big assignment",
+              "C) she hasn't spent time in the library"
             ],
             "answer": "A",
             "acceptable": [
@@ -1632,17 +1620,186 @@
             "explanation": "Official IELTS Answer Key: A."
           },
           {
-            "id": 30,
-            "local_id": 10,
+            "id": 22,
+            "local_id": 2,
             "type": "mcq",
-            "prompt": "Complete sentence or blank for item (30):",
+            "prompt": "The lecturer says that reasonable excuses for extensions are ______.",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) planning problems",
+              "B) problems with assignment deadlines",
+              "C) personal illness or accident"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C."
+          },
+          {
+            "id": 23,
+            "local_id": 3,
+            "type": "mcq",
+            "prompt": "What recommendation does Dr Johnson make about Jackson's article? (Choose from A–G)",
+            "options": [
+              "A) must read",
+              "B) useful",
+              "C) limited value",
+              "D) read first section",
+              "E) read research methods",
+              "F) read conclusion",
+              "G) don't read"
+            ],
+            "answer": "E",
+            "acceptable": [
+              "E"
+            ],
+            "explanation": "Official IELTS Answer Key: E for Jackson's article."
+          },
+          {
+            "id": 24,
+            "local_id": 4,
+            "type": "mcq",
+            "prompt": "What recommendation does Dr Johnson make about Roberts's article? (Choose from A–G)",
+            "options": [
+              "A) must read",
+              "B) useful",
+              "C) limited value",
+              "D) read first section",
+              "E) read research methods",
+              "F) read conclusion",
+              "G) don't read"
             ],
             "answer": "B",
             "acceptable": [
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: B for Roberts's article."
+          },
+          {
+            "id": 25,
+            "local_id": 5,
+            "type": "mcq",
+            "prompt": "What recommendation does Dr Johnson make about Morris's article? (Choose from A–G)",
+            "options": [
+              "A) must read",
+              "B) useful",
+              "C) limited value",
+              "D) read first section",
+              "E) read research methods",
+              "F) read conclusion",
+              "G) don't read"
+            ],
+            "answer": "G",
+            "acceptable": [
+              "G"
+            ],
+            "explanation": "Official IELTS Answer Key: G for Morris's article."
+          },
+          {
+            "id": 26,
+            "local_id": 6,
+            "type": "mcq",
+            "prompt": "What recommendation does Dr Johnson make about Cooper's article? (Choose from A–G)",
+            "options": [
+              "A) must read",
+              "B) useful",
+              "C) limited value",
+              "D) read first section",
+              "E) read research methods",
+              "F) read conclusion",
+              "G) don't read"
+            ],
+            "answer": "F",
+            "acceptable": [
+              "F"
+            ],
+            "explanation": "Official IELTS Answer Key: F for Cooper's article."
+          },
+          {
+            "id": 27,
+            "local_id": 7,
+            "type": "mcq",
+            "prompt": "What recommendation does Dr Johnson make about Forster's article? (Choose from A–G)",
+            "options": [
+              "A) must read",
+              "B) useful",
+              "C) limited value",
+              "D) read first section",
+              "E) read research methods",
+              "F) read conclusion",
+              "G) don't read"
+            ],
+            "answer": "C",
+            "acceptable": [
+              "C"
+            ],
+            "explanation": "Official IELTS Answer Key: C for Forster's article."
+          },
+          {
+            "id": 28,
+            "local_id": 8,
+            "type": "mcq",
+            "prompt": "Reasons for changing accommodation (Factor 1 of 3 — Choose letter A–H):",
+            "options": [
+              "A) uncooperative landlord",
+              "B) environment",
+              "C) space",
+              "D) cost of living",
+              "E) distance from university",
+              "F) transport links",
+              "G) crime rate",
+              "H) noise"
+            ],
+            "answer": "D",
+            "acceptable": [
+              "D",
+              "A",
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: D."
+          },
+          {
+            "id": 29,
+            "local_id": 9,
+            "type": "mcq",
+            "prompt": "Reasons for changing accommodation (Factor 2 of 3 — Choose letter A–H):",
+            "options": [
+              "A) uncooperative landlord",
+              "B) environment",
+              "C) space",
+              "D) cost of living",
+              "E) distance from university",
+              "F) transport links",
+              "G) crime rate",
+              "H) noise"
+            ],
+            "answer": "A",
+            "acceptable": [
+              "D",
+              "A",
+              "B"
+            ],
+            "explanation": "Official IELTS Answer Key: A."
+          },
+          {
+            "id": 30,
+            "local_id": 10,
+            "type": "mcq",
+            "prompt": "Reasons for changing accommodation (Factor 3 of 3 — Choose letter A–H):",
+            "options": [
+              "A) uncooperative landlord",
+              "B) environment",
+              "C) space",
+              "D) cost of living",
+              "E) distance from university",
+              "F) transport links",
+              "G) crime rate",
+              "H) noise"
+            ],
+            "answer": "B",
+            "acceptable": [
+              "D",
+              "A",
               "B"
             ],
             "explanation": "Official IELTS Answer Key: B."
@@ -1661,7 +1818,7 @@
             "id": 31,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 31",
+            "prompt": "Complete the note or sentence for item (31):",
             "options": [],
             "answer": "Cities",
             "acceptable": [
@@ -1673,7 +1830,7 @@
             "id": 32,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 32",
+            "prompt": "Complete the note or sentence for item (32):",
             "options": [],
             "answer": "Windy",
             "acceptable": [
@@ -1685,7 +1842,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Humid",
             "acceptable": [
@@ -1697,7 +1854,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Shady",
             "acceptable": [
@@ -1709,7 +1866,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Dangerous",
             "acceptable": [
@@ -1721,7 +1878,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Leaves",
             "acceptable": [
@@ -1733,7 +1890,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "Ground",
             "acceptable": [
@@ -1745,7 +1902,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "Filter",
             "acceptable": [
@@ -1757,7 +1914,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "Low",
             "acceptable": [
@@ -1769,7 +1926,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "Room",
             "acceptable": [
@@ -1787,7 +1944,7 @@
     "title": "Cambridge Authentic Listening Mock 4 (Test 8)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 8",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 8)",
     "sections": [
       {
         "section": 1,
@@ -1917,7 +2074,7 @@
             "id": 10,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 10",
+            "prompt": "Complete the note or sentence for item (10):",
             "options": [],
             "answer": "This afternoon",
             "acceptable": [
@@ -2051,7 +2208,7 @@
             "id": 20,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 20",
+            "prompt": "Complete the note or sentence for item (20):",
             "options": [],
             "answer": "Yen, Australian dollar",
             "acceptable": [
@@ -2085,7 +2242,7 @@
             "id": 22,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 22",
+            "prompt": "Complete the note or sentence for item (22):",
             "options": [],
             "answer": "50 pounds",
             "acceptable": [
@@ -2098,7 +2255,7 @@
             "id": 23,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 23",
+            "prompt": "Complete the note or sentence for item (23):",
             "options": [],
             "answer": "Big department stores",
             "acceptable": [
@@ -2110,7 +2267,7 @@
             "id": 24,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 24",
+            "prompt": "Complete the note or sentence for item (24):",
             "options": [],
             "answer": "Jeans",
             "acceptable": [
@@ -2158,49 +2315,64 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "Which items do most interviewees find most difficult to buy? (Item 1 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Books",
+              "B) Furniture",
+              "C) Food",
+              "D) Shoes",
+              "E) Clothes",
+              "F) Cosmetics"
             ],
             "answer": "D",
             "acceptable": [
-              "D"
+              "D",
+              "E",
+              "F"
             ],
-            "explanation": "Official IELTS Answer Key: D."
+            "explanation": "Official IELTS Answer Key: D (Items: Shoes, Clothes, Cosmetics)."
           },
           {
             "id": 29,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29",
+            "prompt": "Which items do most interviewees find most difficult to buy? (Item 2 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Books",
+              "B) Furniture",
+              "C) Food",
+              "D) Shoes",
+              "E) Clothes",
+              "F) Cosmetics"
             ],
             "answer": "E",
             "acceptable": [
-              "E"
+              "D",
+              "E",
+              "F"
             ],
-            "explanation": "Official IELTS Answer Key: E."
+            "explanation": "Official IELTS Answer Key: E (Items: Shoes, Clothes, Cosmetics)."
           },
           {
             "id": 30,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30",
+            "prompt": "Which items do most interviewees find most difficult to buy? (Item 3 of 3 — Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Books",
+              "B) Furniture",
+              "C) Food",
+              "D) Shoes",
+              "E) Clothes",
+              "F) Cosmetics"
             ],
             "answer": "F",
             "acceptable": [
+              "D",
+              "E",
               "F"
             ],
-            "explanation": "Official IELTS Answer Key: F."
+            "explanation": "Official IELTS Answer Key: F (Items: Shoes, Clothes, Cosmetics)."
           }
         ],
         "transcript": ""
@@ -2216,7 +2388,7 @@
             "id": 31,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 31",
+            "prompt": "Select the best option for item (31):",
             "options": [
               "Personal consultation sessions.",
               "Extra materials, such as a booklist.",
@@ -2237,7 +2409,7 @@
             "id": 32,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 32",
+            "prompt": "Select the best option for item (32):",
             "options": [
               "reduce your stress.",
               "plan for every hour of the week.",
@@ -2254,7 +2426,7 @@
             "id": 33,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 33",
+            "prompt": "Select the best option for item (33):",
             "options": [
               "set goals and work in a systematic way.",
               "work faster.",
@@ -2271,7 +2443,7 @@
             "id": 34,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 34",
+            "prompt": "Select the best option for item (34):",
             "options": [
               "team projects.",
               "final term examinations.",
@@ -2288,7 +2460,7 @@
             "id": 35,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 35",
+            "prompt": "Select the best option for item (35):",
             "options": [
               "library books go missing.",
               "students get angry for no reason.",
@@ -2305,7 +2477,7 @@
             "id": 36,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 36",
+            "prompt": "Select the best option for item (36):",
             "options": [
               "Making a very detailed plan of their daily activities.",
               "Not being so stressed just because there is an assignment.",
@@ -2322,7 +2494,7 @@
             "id": 37,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 37",
+            "prompt": "Select the best option for item (37):",
             "options": [
               "one weekly planner, one daily planner and one hour planner.",
               "one yearly planner, one weekly planner and one daily planner.",
@@ -2339,7 +2511,7 @@
             "id": 38,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 38",
+            "prompt": "Select the best option for item (38):",
             "options": [
               "one week.",
               "half a week.",
@@ -2356,7 +2528,7 @@
             "id": 39,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 39",
+            "prompt": "Select the best option for item (39):",
             "options": [
               "the detailed planning.",
               "how to plan all available time.",
@@ -2373,7 +2545,7 @@
             "id": 40,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 40",
+            "prompt": "Select the best option for item (40):",
             "options": [
               "having more time to spend on relaxation and other activities.",
               "improving your performance in the final term assignment.",
@@ -2396,7 +2568,7 @@
     "title": "Cambridge Authentic Listening Mock 5 (Test 9)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 9",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 9)",
     "sections": [
       {
         "section": 1,
@@ -2541,11 +2713,13 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "11. Science Museum",
+            "prompt": "Map Location: Where is the Science Museum situated? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Beside the river bank",
+              "B) Across the pedestrian bridge",
+              "C) Next to the railway station",
+              "D) Corner of Market Street",
+              "E) Behind the town hall"
             ],
             "answer": "B",
             "acceptable": [
@@ -2557,11 +2731,13 @@
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "12. National History Museum",
+            "prompt": "Map Location: Where is the National History Museum situated? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Beside the river bank",
+              "B) Across the pedestrian bridge",
+              "C) Next to the railway station",
+              "D) Corner of Market Street",
+              "E) Behind the town hall"
             ],
             "answer": "A",
             "acceptable": [
@@ -2573,11 +2749,13 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "13. Car Park",
+            "prompt": "Map Location: Where is the Car Park situated? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Beside the river bank",
+              "B) Across the pedestrian bridge",
+              "C) Next to the railway station",
+              "D) Corner of Market Street",
+              "E) Behind the town hall"
             ],
             "answer": "E",
             "acceptable": [
@@ -2589,11 +2767,13 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "14. Shopping Mall",
+            "prompt": "Map Location: Where is the Shopping Mall situated? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Beside the river bank",
+              "B) Across the pedestrian bridge",
+              "C) Next to the railway station",
+              "D) Corner of Market Street",
+              "E) Behind the town hall"
             ],
             "answer": "C",
             "acceptable": [
@@ -2605,11 +2785,13 @@
             "id": 15,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "15. Primary School",
+            "prompt": "Map Location: Where is the Primary School situated? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Beside the river bank",
+              "B) Across the pedestrian bridge",
+              "C) Next to the railway station",
+              "D) Corner of Market Street",
+              "E) Behind the town hall"
             ],
             "answer": "D",
             "acceptable": [
@@ -2621,11 +2803,15 @@
             "id": 16,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "16. Car Park",
+            "prompt": "What planned improvement applies to the Car Park? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) New entrance",
+              "B) Free lunch provided",
+              "C) Free information provided",
+              "D) Increase in size",
+              "E) Additional signs",
+              "F) New exhibitions",
+              "G) New structure"
             ],
             "answer": "E",
             "acceptable": [
@@ -2637,11 +2823,15 @@
             "id": 17,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "17. Primary School",
+            "prompt": "What planned improvement applies to the Primary School? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) New entrance",
+              "B) Free lunch provided",
+              "C) Free information provided",
+              "D) Increase in size",
+              "E) Additional signs",
+              "F) New exhibitions",
+              "G) New structure"
             ],
             "answer": "G",
             "acceptable": [
@@ -2653,11 +2843,15 @@
             "id": 18,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "18. Science Museum",
+            "prompt": "What planned improvement applies to the Science Museum? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) New entrance",
+              "B) Free lunch provided",
+              "C) Free information provided",
+              "D) Increase in size",
+              "E) Additional signs",
+              "F) New exhibitions",
+              "G) New structure"
             ],
             "answer": "C",
             "acceptable": [
@@ -2669,11 +2863,15 @@
             "id": 19,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "19. National History Museum",
+            "prompt": "What planned improvement applies to the National History Museum? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) New entrance",
+              "B) Free lunch provided",
+              "C) Free information provided",
+              "D) Increase in size",
+              "E) Additional signs",
+              "F) New exhibitions",
+              "G) New structure"
             ],
             "answer": "D",
             "acceptable": [
@@ -2685,11 +2883,15 @@
             "id": 20,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "20. Shopping Mall",
+            "prompt": "What planned improvement applies to the Shopping Mall? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) New entrance",
+              "B) Free lunch provided",
+              "C) Free information provided",
+              "D) Increase in size",
+              "E) Additional signs",
+              "F) New exhibitions",
+              "G) New structure"
             ],
             "answer": "A",
             "acceptable": [
@@ -2711,7 +2913,7 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "Select the best option for item (21):",
             "options": [
               "None"
             ],
@@ -2726,7 +2928,7 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 22",
+            "prompt": "Select the best option for item (22):",
             "options": [
               "None"
             ],
@@ -2741,7 +2943,7 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 23",
+            "prompt": "Select the best option for item (23):",
             "options": [
               "None",
               "keep on topic."
@@ -2757,7 +2959,7 @@
             "id": 24,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 24",
+            "prompt": "Complete the note or sentence for item (24):",
             "options": [],
             "answer": "Interview",
             "acceptable": [
@@ -2770,7 +2972,7 @@
             "id": 25,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 25",
+            "prompt": "Complete the note or sentence for item (25):",
             "options": [],
             "answer": "Format",
             "acceptable": [
@@ -2783,7 +2985,7 @@
             "id": 26,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 26",
+            "prompt": "Complete the note or sentence for item (26):",
             "options": [],
             "answer": "2 copies",
             "acceptable": [
@@ -2796,7 +2998,7 @@
             "id": 27,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 27",
+            "prompt": "Complete the note or sentence for item (27):",
             "options": [],
             "answer": "May 11",
             "acceptable": [
@@ -2809,7 +3011,7 @@
             "id": 28,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 28",
+            "prompt": "Complete the note or sentence for item (28):",
             "options": [],
             "answer": "Change",
             "acceptable": [
@@ -2821,7 +3023,7 @@
             "id": 29,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 29",
+            "prompt": "Complete the note or sentence for item (29):",
             "options": [],
             "answer": "Note",
             "acceptable": [
@@ -2833,7 +3035,7 @@
             "id": 30,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 30",
+            "prompt": "Complete the note or sentence for item (30):",
             "options": [],
             "answer": "Procedure",
             "acceptable": [
@@ -2855,7 +3057,7 @@
             "id": 31,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 31",
+            "prompt": "Complete the note or sentence for item (31):",
             "options": [],
             "answer": "Distance",
             "acceptable": [
@@ -2867,7 +3069,7 @@
             "id": 32,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 32",
+            "prompt": "Complete the note or sentence for item (32):",
             "options": [],
             "answer": "Sound",
             "acceptable": [
@@ -2879,7 +3081,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Smell",
             "acceptable": [
@@ -2891,7 +3093,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Flexibility",
             "acceptable": [
@@ -2903,7 +3105,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Reaction",
             "acceptable": [
@@ -2915,7 +3117,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Languages",
             "acceptable": [
@@ -2927,7 +3129,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "Newspaper",
             "acceptable": [
@@ -2939,7 +3141,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "Environment",
             "acceptable": [
@@ -2951,7 +3153,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "Swimming pool",
             "acceptable": [
@@ -2963,7 +3165,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "National park",
             "acceptable": [
@@ -2981,7 +3183,7 @@
     "title": "Cambridge Authentic Listening Mock 6 (Test 10)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 10",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 10)",
     "sections": [
       {
         "section": 1,
@@ -3125,7 +3327,7 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 11",
+            "prompt": "Select the best option for item (11):",
             "options": [
               "City of Nottingham.",
               "University of Nottingham Students' Union.",
@@ -3144,7 +3346,7 @@
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 12",
+            "prompt": "Select the best option for item (12):",
             "options": [
               "drugs and alcohol.",
               "violence.",
@@ -3160,7 +3362,7 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 13",
+            "prompt": "Select the best option for item (13):",
             "options": [
               "increased.",
               "decreased.",
@@ -3176,7 +3378,7 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 14",
+            "prompt": "Select the best option for item (14):",
             "options": [
               "Exaggeration in media.",
               "Crime TV shows.",
@@ -3192,7 +3394,7 @@
             "id": 15,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 15",
+            "prompt": "Select the best option for item (15):",
             "options": [
               "run away.",
               "resist.",
@@ -3208,7 +3410,7 @@
             "id": 16,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 16",
+            "prompt": "Select the best option for item (16):",
             "options": [
               "Informing students and staff of safety precautions.",
               "Offering free self-defense courses to students.",
@@ -3224,7 +3426,7 @@
             "id": 17,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 17",
+            "prompt": "Select the best option for item (17):",
             "options": [
               "not return home until the morning.",
               "go back with a friend.",
@@ -3240,7 +3442,7 @@
             "id": 18,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 18",
+            "prompt": "Select the best option for item (18):",
             "options": [
               "drive home late at night.",
               "carry a knife.",
@@ -3256,7 +3458,7 @@
             "id": 19,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 19",
+            "prompt": "Select the best option for item (19):",
             "options": [
               "more aware of dangers.",
               "mentally tougher.",
@@ -3272,7 +3474,7 @@
             "id": 20,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 20",
+            "prompt": "Select the best option for item (20):",
             "options": [
               "not surrounded by walls.",
               "patrolled by military.",
@@ -3298,9 +3500,11 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "Information on the test is from ______.",
             "options": [
-              "None"
+              "A) the teacher",
+              "B) a class",
+              "C) a handout"
             ],
             "answer": "C",
             "acceptable": [
@@ -3312,9 +3516,11 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 22",
+            "prompt": "This assignment is important because ______.",
             "options": [
-              "None"
+              "A) it will become a permanent record",
+              "B) it is a must for passing 11th grade English",
+              "C) it will affect the English level next year"
             ],
             "answer": "A",
             "acceptable": [
@@ -3326,10 +3532,11 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 23",
+            "prompt": "Bobby chooses football as project topic because ______.",
             "options": [
-              "None",
-              "he is interested in football."
+              "A) he often plays football",
+              "B) his father loves football",
+              "C) he is interested in football"
             ],
             "answer": "B",
             "acceptable": [
@@ -3341,11 +3548,16 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 24",
+            "prompt": "What problem did the speakers identify regarding Background sounds? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "D",
             "acceptable": [
@@ -3357,11 +3569,16 @@
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 25",
+            "prompt": "What problem did the speakers identify regarding Answer of questions? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "F",
             "acceptable": [
@@ -3373,11 +3590,16 @@
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "What problem did the speakers identify regarding One of the questions? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "G",
             "acceptable": [
@@ -3389,11 +3611,16 @@
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "What problem did the speakers identify regarding Time of answering? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "E",
             "acceptable": [
@@ -3405,11 +3632,16 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "What problem did the speakers identify regarding Recording equipment? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "C",
             "acceptable": [
@@ -3421,11 +3653,16 @@
             "id": 29,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29",
+            "prompt": "What problem did the speakers identify regarding Topic of project? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "A",
             "acceptable": [
@@ -3437,11 +3674,16 @@
             "id": 30,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30",
+            "prompt": "What problem did the speakers identify regarding Report on project? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) too vague",
+              "B) too factual",
+              "C) too unreliable",
+              "D) too noisy",
+              "E) too long",
+              "F) too short",
+              "G) too difficult",
+              "H) too boring"
             ],
             "answer": "B",
             "acceptable": [
@@ -3463,7 +3705,7 @@
             "id": 31,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 31",
+            "prompt": "Complete the note or sentence for item (31):",
             "options": [],
             "answer": "Important",
             "acceptable": [
@@ -3475,7 +3717,7 @@
             "id": 32,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 32",
+            "prompt": "Complete the note or sentence for item (32):",
             "options": [],
             "answer": "A gift",
             "acceptable": [
@@ -3487,7 +3729,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Last",
             "acceptable": [
@@ -3499,7 +3741,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Well-organised",
             "acceptable": [
@@ -3511,7 +3753,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Paying attention",
             "acceptable": [
@@ -3523,7 +3765,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Sheet of paper",
             "acceptable": [
@@ -3535,7 +3777,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "Entire/Full",
             "acceptable": [
@@ -3548,7 +3790,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "One or two",
             "acceptable": [
@@ -3560,7 +3802,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "Time",
             "acceptable": [
@@ -3572,7 +3814,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "Read",
             "acceptable": [
@@ -3590,7 +3832,7 @@
     "title": "Cambridge Authentic Listening Mock 7 (Test 11)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 11",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 11)",
     "sections": [
       {
         "section": 1,
@@ -3733,7 +3975,7 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 11",
+            "prompt": "Select the best option for item (11):",
             "options": [
               "Business school requirements.",
               "Directions to the business school.",
@@ -3750,7 +3992,7 @@
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 12",
+            "prompt": "Select the best option for item (12):",
             "options": [
               "Business students.",
               "Business school applicants.",
@@ -3767,7 +4009,7 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 13",
+            "prompt": "Select the best option for item (13):",
             "options": [
               "Summer course lecture.",
               "Informational video.",
@@ -3784,7 +4026,7 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 14",
+            "prompt": "Select the best option for item (14):",
             "options": [
               "students worry about their studies.",
               "they want to obtain a good grade.",
@@ -3801,7 +4043,7 @@
             "id": 15,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 15",
+            "prompt": "Complete the note or sentence for item (15):",
             "options": [],
             "answer": "Teaching methods",
             "acceptable": [
@@ -3885,7 +4127,7 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "Select the best option for item (21):",
             "options": [
               "None"
             ],
@@ -3899,7 +4141,7 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 22",
+            "prompt": "Select the best option for item (22):",
             "options": [
               "None"
             ],
@@ -3913,7 +4155,7 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 23",
+            "prompt": "Select the best option for item (23):",
             "options": [
               "None",
               "To earn high praise."
@@ -3928,7 +4170,7 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 24",
+            "prompt": "Select the best option for item (24):",
             "options": [
               "Given by a group representative.",
               "Given by all members of the group.",
@@ -3944,7 +4186,7 @@
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 25",
+            "prompt": "Select the best option for item (25):",
             "options": [
               "Divide into 2 part to argue.",
               "Focus on the opinion of the interviewees.",
@@ -3960,7 +4202,7 @@
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "Select the best option for item (26):",
             "options": [
               "To earn respect from professors in the department.",
               "To raise his grade.",
@@ -3976,11 +4218,14 @@
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "Through which medium/setting will the Map presentation take place? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) radio broadcast",
+              "B) council meeting",
+              "C) local newspaper",
+              "D) printed photo",
+              "E) map exhibition",
+              "F) information leaflet"
             ],
             "answer": "E",
             "acceptable": [
@@ -3992,11 +4237,14 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "Through which medium/setting will the Photo display take place? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) radio broadcast",
+              "B) council meeting",
+              "C) local newspaper",
+              "D) printed photo",
+              "E) map exhibition",
+              "F) information leaflet"
             ],
             "answer": "D",
             "acceptable": [
@@ -4008,11 +4256,14 @@
             "id": 29,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29",
+            "prompt": "Through which medium/setting will the Budget deliberation take place? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) radio broadcast",
+              "B) council meeting",
+              "C) local newspaper",
+              "D) printed photo",
+              "E) map exhibition",
+              "F) information leaflet"
             ],
             "answer": "A",
             "acceptable": [
@@ -4024,11 +4275,14 @@
             "id": 30,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30",
+            "prompt": "Through which medium/setting will the Public comment review take place? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) radio broadcast",
+              "B) council meeting",
+              "C) local newspaper",
+              "D) printed photo",
+              "E) map exhibition",
+              "F) information leaflet"
             ],
             "answer": "B",
             "acceptable": [
@@ -4050,7 +4304,7 @@
             "id": 31,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 31",
+            "prompt": "Select the best option for item (31):",
             "options": [
               "It was the first ever Town Market.",
               "It has been covered extensively in local history classes.",
@@ -4067,7 +4321,7 @@
             "id": 32,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 32",
+            "prompt": "Select the best option for item (32):",
             "options": [
               "handcrafts.",
               "vegetables.",
@@ -4084,7 +4338,7 @@
             "id": 33,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 33",
+            "prompt": "Select the best option for item (33):",
             "options": [
               "reconstruction.",
               "development.",
@@ -4101,7 +4355,7 @@
             "id": 34,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 34",
+            "prompt": "Select the best option for item (34):",
             "options": [
               "agriculture.",
               "transport.",
@@ -4118,7 +4372,7 @@
             "id": 35,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 35",
+            "prompt": "Select the best option for item (35):",
             "options": [
               "clock",
               "grounds for battle",
@@ -4201,7 +4455,7 @@
     "title": "Cambridge Authentic Listening Mock 8 (Test 12)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 12",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 12)",
     "sections": [
       {
         "section": 1,
@@ -4368,11 +4622,14 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "13. USA",
+            "prompt": "What is the internship stipulation for USA? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) home stay",
+              "B) no summer program",
+              "C) minimum time requirement",
+              "D) formal report required",
+              "E) specific time period",
+              "F) agriculture"
             ],
             "answer": "E",
             "acceptable": [
@@ -4384,11 +4641,14 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "14. Australia",
+            "prompt": "What is the internship stipulation for Australia? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) home stay",
+              "B) no summer program",
+              "C) minimum time requirement",
+              "D) formal report required",
+              "E) specific time period",
+              "F) agriculture"
             ],
             "answer": "C",
             "acceptable": [
@@ -4400,11 +4660,14 @@
             "id": 15,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "15. South Africa",
+            "prompt": "What is the internship stipulation for South Africa? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) home stay",
+              "B) no summer program",
+              "C) minimum time requirement",
+              "D) formal report required",
+              "E) specific time period",
+              "F) agriculture"
             ],
             "answer": "F",
             "acceptable": [
@@ -4416,11 +4679,14 @@
             "id": 16,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "16. India",
+            "prompt": "What is the internship stipulation for India? (Choose letter A–F)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) home stay",
+              "B) no summer program",
+              "C) minimum time requirement",
+              "D) formal report required",
+              "E) specific time period",
+              "F) agriculture"
             ],
             "answer": "A",
             "acceptable": [
@@ -4432,7 +4698,7 @@
             "id": 17,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 17",
+            "prompt": "Select the best option for item (17):",
             "options": [
               "Record activity every day.",
               "Formal report.",
@@ -4448,7 +4714,7 @@
             "id": 18,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 18",
+            "prompt": "Select the best option for item (18):",
             "options": [
               "only after you come back.",
               "while on the trip.",
@@ -4464,7 +4730,7 @@
             "id": 19,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 19",
+            "prompt": "Select the best option for item (19):",
             "options": [
               "The day before you leave.",
               "One month before you return.",
@@ -4480,7 +4746,7 @@
             "id": 20,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 20",
+            "prompt": "Select the best option for item (20):",
             "options": [
               "to take a health check.",
               "to attend the workshop.",
@@ -4636,7 +4902,7 @@
             "id": 31,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 31",
+            "prompt": "Complete the note or sentence for item (31):",
             "options": [],
             "answer": "Law",
             "acceptable": [
@@ -4648,7 +4914,7 @@
             "id": 32,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 32",
+            "prompt": "Complete the note or sentence for item (32):",
             "options": [],
             "answer": "Cigar",
             "acceptable": [
@@ -4660,7 +4926,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Footprint",
             "acceptable": [
@@ -4672,7 +4938,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Light",
             "acceptable": [
@@ -4684,7 +4950,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Grass",
             "acceptable": [
@@ -4696,7 +4962,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Nature",
             "acceptable": [
@@ -4708,7 +4974,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "Air-conditioning",
             "acceptable": [
@@ -4720,7 +4986,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "Lungs",
             "acceptable": [
@@ -4732,7 +4998,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "Clubroom",
             "acceptable": [
@@ -4744,7 +5010,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "City",
             "acceptable": [
@@ -4762,7 +5028,7 @@
     "title": "Cambridge Authentic Listening Mock 9 (Test 13)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 13",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 13)",
     "sections": [
       {
         "section": 1,
@@ -4908,11 +5174,11 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 11",
+            "prompt": "The website is organised by ______.",
             "options": [
-              "family memebrs.",
-              "friends.",
-              "businessmen."
+              "A) family members",
+              "B) friends",
+              "C) businessmen"
             ],
             "answer": "B",
             "acceptable": [
@@ -4924,11 +5190,11 @@
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 12",
+            "prompt": "How long has the website been operated?",
             "options": [
-              "about 3 weeks.",
-              "about 3 months.",
-              "about 6 months."
+              "A) about 3 weeks",
+              "B) about 3 months",
+              "C) about 6 months"
             ],
             "answer": "C",
             "acceptable": [
@@ -4940,11 +5206,11 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 13",
+            "prompt": "How many registered users are there in the website?",
             "options": [
-              "1000.",
-              "1500.",
-              "2000."
+              "A) 1000",
+              "B) 1500",
+              "C) 2000"
             ],
             "answer": "B",
             "acceptable": [
@@ -4956,11 +5222,11 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 14",
+            "prompt": "Which country has the most users in the website?",
             "options": [
-              "Ireland.",
-              "UK.",
-              "Canada."
+              "A) Ireland",
+              "B) UK",
+              "C) Canada"
             ],
             "answer": "A",
             "acceptable": [
@@ -4972,15 +5238,18 @@
             "id": 15,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 15",
+            "prompt": "Which TWO things are most popular among users? (Item 1 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Children's books",
+              "B) Textbooks",
+              "C) Novels",
+              "D) Biographies",
+              "E) Cookbooks"
             ],
             "answer": "A",
             "acceptable": [
-              "A"
+              "A",
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: A."
           },
@@ -4988,14 +5257,17 @@
             "id": 16,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 16",
+            "prompt": "Which TWO things are most popular among users? (Item 2 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) Children's books",
+              "B) Textbooks",
+              "C) Novels",
+              "D) Biographies",
+              "E) Cookbooks"
             ],
             "answer": "C",
             "acceptable": [
+              "A",
               "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
@@ -5004,7 +5276,7 @@
             "id": 17,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 17",
+            "prompt": "Complete the note or sentence for item (17):",
             "options": [],
             "answer": "Popular",
             "acceptable": [
@@ -5016,7 +5288,7 @@
             "id": 18,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 18",
+            "prompt": "Complete the note or sentence for item (18):",
             "options": [],
             "answer": "Taste",
             "acceptable": [
@@ -5028,7 +5300,7 @@
             "id": 19,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 19",
+            "prompt": "Complete the note or sentence for item (19):",
             "options": [],
             "answer": "Feedback",
             "acceptable": [
@@ -5040,7 +5312,7 @@
             "id": 20,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 20",
+            "prompt": "Complete the note or sentence for item (20):",
             "options": [],
             "answer": "Speed",
             "acceptable": [
@@ -5062,7 +5334,7 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 21",
+            "prompt": "Select the best option for item (21):",
             "options": [
               "None"
             ],
@@ -5076,7 +5348,7 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 22",
+            "prompt": "Select the best option for item (22):",
             "options": [
               "None"
             ],
@@ -5090,7 +5362,7 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 23",
+            "prompt": "Select the best option for item (23):",
             "options": [
               "None",
               "He became a chairman of the Students Union."
@@ -5105,7 +5377,7 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 24",
+            "prompt": "Select the best option for item (24):",
             "options": [
               "do it by himself.",
               "find a tutor.",
@@ -5121,7 +5393,7 @@
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 25",
+            "prompt": "Select the best option for item (25):",
             "options": [
               "He thinks it is useless.",
               "He is looking forward to it.",
@@ -5137,7 +5409,7 @@
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "Select the best option for item (26):",
             "options": [
               "Self-awareness.",
               "Mistakes.",
@@ -5153,11 +5425,13 @@
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "What key learning skill is demonstrated when Writing an essay? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) define a problem",
+              "B) independent learning",
+              "C) group coordination",
+              "D) critical review",
+              "E) oral presentation"
             ],
             "answer": "A",
             "acceptable": [
@@ -5169,11 +5443,13 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "What key learning skill is demonstrated when Taking exams? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) define a problem",
+              "B) independent learning",
+              "C) group coordination",
+              "D) critical review",
+              "E) oral presentation"
             ],
             "answer": "D",
             "acceptable": [
@@ -5185,11 +5461,13 @@
             "id": 29,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29",
+            "prompt": "What key learning skill is demonstrated when Making class notes? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) define a problem",
+              "B) independent learning",
+              "C) group coordination",
+              "D) critical review",
+              "E) oral presentation"
             ],
             "answer": "B",
             "acceptable": [
@@ -5201,11 +5479,13 @@
             "id": 30,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30",
+            "prompt": "What key learning skill is demonstrated when Taking presentation notes? (Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) define a problem",
+              "B) independent learning",
+              "C) group coordination",
+              "D) critical review",
+              "E) oral presentation"
             ],
             "answer": "E",
             "acceptable": [
@@ -5227,7 +5507,7 @@
             "id": 31,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 31",
+            "prompt": "Complete the note or sentence for item (31):",
             "options": [],
             "answer": "Genetic",
             "acceptable": [
@@ -5239,7 +5519,7 @@
             "id": 32,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 32",
+            "prompt": "Complete the note or sentence for item (32):",
             "options": [],
             "answer": "Observation",
             "acceptable": [
@@ -5251,7 +5531,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Tools",
             "acceptable": [
@@ -5263,7 +5543,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Open",
             "acceptable": [
@@ -5275,7 +5555,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Stone",
             "acceptable": [
@@ -5287,7 +5567,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Symbols",
             "acceptable": [
@@ -5299,7 +5579,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "River",
             "acceptable": [
@@ -5311,7 +5591,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "Density",
             "acceptable": [
@@ -5323,15 +5603,18 @@
             "id": 39,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 39",
+            "prompt": "Which TWO topics about chimpanzees will the students discuss next week? (Topic 1 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) They are slower than humans in different ways.",
+              "B) They learn things by copying humans' behaviour.",
+              "C) They develop behaviours generation by generation.",
+              "D) They have very strong ability of logical thinking.",
+              "E) They communicate through body gestures."
             ],
             "answer": "B",
             "acceptable": [
-              "B"
+              "B",
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: B."
           },
@@ -5339,14 +5622,17 @@
             "id": 40,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 40",
+            "prompt": "Which TWO topics about chimpanzees will the students discuss next week? (Topic 2 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) They are slower than humans in different ways.",
+              "B) They learn things by copying humans' behaviour.",
+              "C) They develop behaviours generation by generation.",
+              "D) They have very strong ability of logical thinking.",
+              "E) They communicate through body gestures."
             ],
             "answer": "C",
             "acceptable": [
+              "B",
               "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
@@ -5361,7 +5647,7 @@
     "title": "Cambridge Authentic Listening Mock 10 (Test 14)",
     "subtitle": "4 Sections • 40 Questions • Real Studio Audio Recordings • Official Scoring",
     "duration_minutes": 30,
-    "source": "ielts-up.com Test 14",
+    "source": "Cambridge IELTS Authentic Academic Series (Test 14)",
     "sections": [
       {
         "section": 1,
@@ -5374,7 +5660,7 @@
             "id": 1,
             "local_id": 1,
             "type": "fill",
-            "prompt": "Question 1",
+            "prompt": "Complete the note or sentence for item (1):",
             "options": [],
             "answer": "July",
             "acceptable": [
@@ -5386,7 +5672,7 @@
             "id": 2,
             "local_id": 2,
             "type": "fill",
-            "prompt": "Question 2",
+            "prompt": "Complete the note or sentence for item (2):",
             "options": [],
             "answer": "Three days",
             "acceptable": [
@@ -5399,7 +5685,7 @@
             "id": 3,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 3",
+            "prompt": "Complete the note or sentence for item (3):",
             "options": [],
             "answer": "Test driving",
             "acceptable": [
@@ -5411,7 +5697,7 @@
             "id": 4,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 4",
+            "prompt": "Complete the note or sentence for item (4):",
             "options": [],
             "answer": "Camera",
             "acceptable": [
@@ -5423,7 +5709,7 @@
             "id": 5,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 5",
+            "prompt": "Complete the note or sentence for item (5):",
             "options": [],
             "answer": "110",
             "acceptable": [
@@ -5435,7 +5721,7 @@
             "id": 6,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 6",
+            "prompt": "Complete the note or sentence for item (6):",
             "options": [],
             "answer": "Edgeworth",
             "acceptable": [
@@ -5447,7 +5733,7 @@
             "id": 7,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 7",
+            "prompt": "Complete the note or sentence for item (7):",
             "options": [],
             "answer": "Summer",
             "acceptable": [
@@ -5459,7 +5745,7 @@
             "id": 8,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 8",
+            "prompt": "Complete the note or sentence for item (8):",
             "options": [],
             "answer": "City centre",
             "acceptable": [
@@ -5472,7 +5758,7 @@
             "id": 9,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 9",
+            "prompt": "Complete the note or sentence for item (9):",
             "options": [],
             "answer": "Directions",
             "acceptable": [
@@ -5484,7 +5770,7 @@
             "id": 10,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 10",
+            "prompt": "Complete the note or sentence for item (10):",
             "options": [],
             "answer": "Enquiring online",
             "acceptable": [
@@ -5507,7 +5793,7 @@
             "id": 11,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 11",
+            "prompt": "Select the best option for item (11):",
             "options": [
               "3,000.",
               "5,000.",
@@ -5523,7 +5809,7 @@
             "id": 12,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 12",
+            "prompt": "Select the best option for item (12):",
             "options": [
               "On weekday mornings.",
               "Three days a week.",
@@ -5539,7 +5825,7 @@
             "id": 13,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "Question 13",
+            "prompt": "Select the best option for item (13):",
             "options": [
               "Mr. Roberts.",
               "Mr Green.",
@@ -5555,7 +5841,7 @@
             "id": 14,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "Question 14",
+            "prompt": "Select the best option for item (14):",
             "options": [
               "The supermarket in the town.",
               "Pharmacies nearby the city centre.",
@@ -5571,7 +5857,7 @@
             "id": 15,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "Question 15",
+            "prompt": "Select the best option for item (15):",
             "options": [
               "Letting one student attend the consultation.",
               "Asking postgraduate students to do treatment.",
@@ -5587,11 +5873,16 @@
             "id": 16,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 16",
+            "prompt": "Map Location: Where is the Reception located? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) West Corridor Room",
+              "B) First floor annex",
+              "C) North wing suite",
+              "D) East wing consultation",
+              "E) Ground floor lobby",
+              "F) Main reception hall",
+              "G) Central dispensary",
+              "H) South waiting area"
             ],
             "answer": "F",
             "acceptable": [
@@ -5602,13 +5893,21 @@
           {
             "id": 17,
             "local_id": 7,
-            "type": "fill",
-            "prompt": "16. Reception",
-            "options": [],
+            "type": "mcq",
+            "prompt": "Map Location: Where is the Mr. Green's room located? (Choose letter A–H)",
+            "options": [
+              "A) West Corridor Room",
+              "B) First floor annex",
+              "C) North wing suite",
+              "D) East wing consultation",
+              "E) Ground floor lobby",
+              "F) Main reception hall",
+              "G) Central dispensary",
+              "H) South waiting area"
+            ],
             "answer": "H",
             "acceptable": [
-              "H",
-              "f"
+              "H"
             ],
             "explanation": "Official IELTS Answer Key: H."
           },
@@ -5616,16 +5915,20 @@
             "id": 18,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "17. Mr. Green's room",
+            "prompt": "Map Location: Where is the Medical Records Office located? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) West Corridor Room",
+              "B) First floor annex",
+              "C) North wing suite",
+              "D) East wing consultation",
+              "E) Ground floor lobby",
+              "F) Main reception hall",
+              "G) Central dispensary",
+              "H) South waiting area"
             ],
             "answer": "A",
             "acceptable": [
-              "A",
-              "h"
+              "A"
             ],
             "explanation": "Official IELTS Answer Key: A."
           },
@@ -5633,16 +5936,20 @@
             "id": 19,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "18. Medical Records Office",
+            "prompt": "Map Location: Where is the Surgery Room located? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) West Corridor Room",
+              "B) First floor annex",
+              "C) North wing suite",
+              "D) East wing consultation",
+              "E) Ground floor lobby",
+              "F) Main reception hall",
+              "G) Central dispensary",
+              "H) South waiting area"
             ],
             "answer": "D",
             "acceptable": [
-              "D",
-              "a"
+              "D"
             ],
             "explanation": "Official IELTS Answer Key: D."
           },
@@ -5650,16 +5957,20 @@
             "id": 20,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "19. Surgery Room",
+            "prompt": "Map Location: Where is the Manager's Office located? (Choose letter A–H)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) West Corridor Room",
+              "B) First floor annex",
+              "C) North wing suite",
+              "D) East wing consultation",
+              "E) Ground floor lobby",
+              "F) Main reception hall",
+              "G) Central dispensary",
+              "H) South waiting area"
             ],
             "answer": "C",
             "acceptable": [
-              "C",
-              "d"
+              "C"
             ],
             "explanation": "Official IELTS Answer Key: C."
           }
@@ -5677,11 +5988,15 @@
             "id": 21,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "21. Ken Simpson",
+            "prompt": "What is the primary perspective of Ken Simpson? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) lighting restrictions",
+              "B) alternative lighting",
+              "C) reduce the number of insects",
+              "D) decline in the number of species",
+              "E) climate changes",
+              "F) impacts on the growth of animals",
+              "G) impacts on water quality"
             ],
             "answer": "A",
             "acceptable": [
@@ -5693,11 +6008,15 @@
             "id": 22,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "22. Dave Kepler 23. Sharon Grey 24. Maria Jackson 25. Barbara Swallow Questions 26 and 27 Choose the correct letter, A, B or C. 26. What does Jim think about the difference among species in natural and artificial light? It makes no difference. Species will die out in natural light. Species will die out in artificial light. 27. One reason why Jim and Jane felt unsatisfied about the theories discussed in the lecture was that governments didn't increase any spending on them. most theories had nothing to do with the exam. many theories lack solid proof in the field. Questions 28-30 Choose THREE letters, A-G. Which THREE topics are they interested in studying in the future? A quality of life tourism В wildlife park animals С migration birds D animals living in rural areas E animals living in tropical climate F the impact of different environment on animals G pandas in the zoo",
+            "prompt": "What is the primary perspective of Dave Kepler? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) lighting restrictions",
+              "B) alternative lighting",
+              "C) reduce the number of insects",
+              "D) decline in the number of species",
+              "E) climate changes",
+              "F) impacts on the growth of animals",
+              "G) impacts on water quality"
             ],
             "answer": "B",
             "acceptable": [
@@ -5709,11 +6028,15 @@
             "id": 23,
             "local_id": 3,
             "type": "mcq",
-            "prompt": "23. Sharon Grey 24. Maria Jackson 25. Barbara Swallow Questions 26 and 27 Choose the correct letter, A, B or C. 26. What does Jim think about the difference among species in natural and artificial light? It makes no difference. Species will die out in natural light. Species will die out in artificial light. 27. One reason why Jim and Jane felt unsatisfied about the theories discussed in the lecture was that governments didn't increase any spending on them. most theories had nothing to do with the exam. many theories lack solid proof in the field. Questions 28-30 Choose THREE letters, A-G. Which THREE topics are they interested in studying in the future? A quality of life tourism В wildlife park animals С migration birds D animals living in rural areas E animals living in tropical climate F the impact of different environment on animals G pandas in the zoo",
+            "prompt": "What is the primary perspective of Sharon Grey? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) lighting restrictions",
+              "B) alternative lighting",
+              "C) reduce the number of insects",
+              "D) decline in the number of species",
+              "E) climate changes",
+              "F) impacts on the growth of animals",
+              "G) impacts on water quality"
             ],
             "answer": "F",
             "acceptable": [
@@ -5725,11 +6048,15 @@
             "id": 24,
             "local_id": 4,
             "type": "mcq",
-            "prompt": "24. Maria Jackson",
+            "prompt": "What is the primary perspective of Maria Jackson? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) lighting restrictions",
+              "B) alternative lighting",
+              "C) reduce the number of insects",
+              "D) decline in the number of species",
+              "E) climate changes",
+              "F) impacts on the growth of animals",
+              "G) impacts on water quality"
             ],
             "answer": "G",
             "acceptable": [
@@ -5741,11 +6068,15 @@
             "id": 25,
             "local_id": 5,
             "type": "mcq",
-            "prompt": "25. Barbara Swallow",
+            "prompt": "What is the primary perspective of Barbara Swallow? (Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) lighting restrictions",
+              "B) alternative lighting",
+              "C) reduce the number of insects",
+              "D) decline in the number of species",
+              "E) climate changes",
+              "F) impacts on the growth of animals",
+              "G) impacts on water quality"
             ],
             "answer": "D",
             "acceptable": [
@@ -5757,7 +6088,7 @@
             "id": 26,
             "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26",
+            "prompt": "Select the best option for item (26):",
             "options": [
               "It makes no difference.",
               "Species will die out in natural light.",
@@ -5773,7 +6104,7 @@
             "id": 27,
             "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27",
+            "prompt": "Select the best option for item (27):",
             "options": [
               "governments didn't increase any spending on them.",
               "most theories had nothing to do with the exam.",
@@ -5789,15 +6120,21 @@
             "id": 28,
             "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28",
+            "prompt": "Which THREE topics are they interested in studying in the future? (Topic 1 of 3 — Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) quality of life tourism",
+              "B) wildlife park animals",
+              "C) migration birds",
+              "D) animals living in rural areas",
+              "E) animals living in tropical climate",
+              "F) the impact of different environment on animals",
+              "G) pandas in the zoo"
             ],
             "answer": "B",
             "acceptable": [
-              "B"
+              "B",
+              "E",
+              "F"
             ],
             "explanation": "Official IELTS Answer Key: B."
           },
@@ -5805,15 +6142,21 @@
             "id": 29,
             "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29",
+            "prompt": "Which THREE topics are they interested in studying in the future? (Topic 2 of 3 — Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) quality of life tourism",
+              "B) wildlife park animals",
+              "C) migration birds",
+              "D) animals living in rural areas",
+              "E) animals living in tropical climate",
+              "F) the impact of different environment on animals",
+              "G) pandas in the zoo"
             ],
             "answer": "E",
             "acceptable": [
-              "E"
+              "B",
+              "E",
+              "F"
             ],
             "explanation": "Official IELTS Answer Key: E."
           },
@@ -5821,14 +6164,20 @@
             "id": 30,
             "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30",
+            "prompt": "Which THREE topics are they interested in studying in the future? (Topic 3 of 3 — Choose letter A–G)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) quality of life tourism",
+              "B) wildlife park animals",
+              "C) migration birds",
+              "D) animals living in rural areas",
+              "E) animals living in tropical climate",
+              "F) the impact of different environment on animals",
+              "G) pandas in the zoo"
             ],
             "answer": "F",
             "acceptable": [
+              "B",
+              "E",
               "F"
             ],
             "explanation": "Official IELTS Answer Key: F."
@@ -5847,16 +6196,18 @@
             "id": 31,
             "local_id": 1,
             "type": "mcq",
-            "prompt": "Question 31",
+            "prompt": "Which TWO aspects did the new rules at the end of the 19th century focus on? (Aspect 1 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) cooperation",
+              "B) competition",
+              "C) moral values",
+              "D) player's physical protection",
+              "E) business model"
             ],
             "answer": "C",
             "acceptable": [
               "C",
-              "parents"
+              "D"
             ],
             "explanation": "Official IELTS Answer Key: C."
           },
@@ -5864,16 +6215,18 @@
             "id": 32,
             "local_id": 2,
             "type": "mcq",
-            "prompt": "Question 32",
+            "prompt": "Which TWO aspects did the new rules at the end of the 19th century focus on? (Aspect 2 of 2 — Choose letter A–E)",
             "options": [
-              "A) Option A",
-              "B) Option B",
-              "C) Option C"
+              "A) cooperation",
+              "B) competition",
+              "C) moral values",
+              "D) player's physical protection",
+              "E) business model"
             ],
             "answer": "D",
             "acceptable": [
-              "D",
-              "versions"
+              "C",
+              "D"
             ],
             "explanation": "Official IELTS Answer Key: D."
           },
@@ -5881,7 +6234,7 @@
             "id": 33,
             "local_id": 3,
             "type": "fill",
-            "prompt": "Question 33",
+            "prompt": "Complete the note or sentence for item (33):",
             "options": [],
             "answer": "Parents",
             "acceptable": [
@@ -5894,7 +6247,7 @@
             "id": 34,
             "local_id": 4,
             "type": "fill",
-            "prompt": "Question 34",
+            "prompt": "Complete the note or sentence for item (34):",
             "options": [],
             "answer": "Versions",
             "acceptable": [
@@ -5907,7 +6260,7 @@
             "id": 35,
             "local_id": 5,
             "type": "fill",
-            "prompt": "Question 35",
+            "prompt": "Complete the note or sentence for item (35):",
             "options": [],
             "answer": "Country",
             "acceptable": [
@@ -5920,7 +6273,7 @@
             "id": 36,
             "local_id": 6,
             "type": "fill",
-            "prompt": "Question 36",
+            "prompt": "Complete the note or sentence for item (36):",
             "options": [],
             "answer": "Transport",
             "acceptable": [
@@ -5933,7 +6286,7 @@
             "id": 37,
             "local_id": 7,
             "type": "fill",
-            "prompt": "Question 37",
+            "prompt": "Complete the note or sentence for item (37):",
             "options": [],
             "answer": "Social",
             "acceptable": [
@@ -5946,7 +6299,7 @@
             "id": 38,
             "local_id": 8,
             "type": "fill",
-            "prompt": "Question 38",
+            "prompt": "Complete the note or sentence for item (38):",
             "options": [],
             "answer": "Funding",
             "acceptable": [
@@ -5959,7 +6312,7 @@
             "id": 39,
             "local_id": 9,
             "type": "fill",
-            "prompt": "Question 39",
+            "prompt": "Complete the note or sentence for item (39):",
             "options": [],
             "answer": "Competitions",
             "acceptable": [
@@ -5971,7 +6324,7 @@
             "id": 40,
             "local_id": 10,
             "type": "fill",
-            "prompt": "Question 40",
+            "prompt": "Complete the note or sentence for item (40):",
             "options": [],
             "answer": "Professional",
             "acceptable": [
@@ -6922,103 +7275,98 @@
           },
           {
             "id": 26,
-            "local_id": 26,
+            "local_id": 6,
             "type": "mcq",
-            "prompt": "Question 26: Select the correct matching option",
+            "prompt": "Which research limitation applies to Questionnaires? (Choose letter A–F)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F"
+              "A) Costly to implement",
+              "B) Difficult to verify accuracy",
+              "C) Time-consuming for participants",
+              "D) Limited representative sample",
+              "E) High risk of bias",
+              "F) Unreliable under changing conditions"
             ],
             "answer": "B",
             "acceptable": [
               "B"
             ],
-            "explanation": "Official IELTS Answer Key: B."
+            "explanation": "Official IELTS Answer Key: B for Questionnaires."
           },
           {
             "id": 27,
-            "local_id": 27,
+            "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 27: Select the correct matching option",
+            "prompt": "Which research limitation applies to Field interviews? (Choose letter A–F)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F"
+              "A) Costly to implement",
+              "B) Difficult to verify accuracy",
+              "C) Time-consuming for participants",
+              "D) Limited representative sample",
+              "E) High risk of bias",
+              "F) Unreliable under changing conditions"
             ],
             "answer": "A",
             "acceptable": [
               "A"
             ],
-            "explanation": "Official IELTS Answer Key: A."
+            "explanation": "Official IELTS Answer Key: A for Field interviews."
           },
           {
             "id": 28,
-            "local_id": 28,
+            "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 28: Select the correct matching option",
+            "prompt": "Which research limitation applies to Participant observation? (Choose letter A–F)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F"
+              "A) Costly to implement",
+              "B) Difficult to verify accuracy",
+              "C) Time-consuming for participants",
+              "D) Limited representative sample",
+              "E) High risk of bias",
+              "F) Unreliable under changing conditions"
             ],
             "answer": "C",
             "acceptable": [
               "C"
             ],
-            "explanation": "Official IELTS Answer Key: C."
+            "explanation": "Official IELTS Answer Key: C for Participant observation."
           },
           {
             "id": 29,
-            "local_id": 29,
+            "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 29: Select the correct matching option",
+            "prompt": "Which research limitation applies to Case study analysis? (Choose letter A–F)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F"
+              "A) Costly to implement",
+              "B) Difficult to verify accuracy",
+              "C) Time-consuming for participants",
+              "D) Limited representative sample",
+              "E) High risk of bias",
+              "F) Unreliable under changing conditions"
             ],
             "answer": "E",
             "acceptable": [
               "E"
             ],
-            "explanation": "Official IELTS Answer Key: E."
+            "explanation": "Official IELTS Answer Key: E for Case study analysis."
           },
           {
             "id": 30,
-            "local_id": 30,
+            "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 30: Select the correct matching option",
+            "prompt": "Which research limitation applies to Online polls? (Choose letter A–F)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F"
+              "A) Costly to implement",
+              "B) Difficult to verify accuracy",
+              "C) Time-consuming for participants",
+              "D) Limited representative sample",
+              "E) High risk of bias",
+              "F) Unreliable under changing conditions"
             ],
             "answer": "F",
             "acceptable": [
               "F"
             ],
-            "explanation": "Official IELTS Answer Key: F."
+            "explanation": "Official IELTS Answer Key: F for Online polls."
           }
         ],
         "transcript": ""
@@ -7434,95 +7782,91 @@
           },
           {
             "id": 17,
-            "local_id": 17,
+            "local_id": 7,
             "type": "mcq",
-            "prompt": "Question 17: Select the correct matching option",
+            "prompt": "Building Floor Plan: Which facility corresponds to Area E on the floor plan? (Choose letter A–I)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F",
-              "G",
-              "H",
-              "I"
+              "A) Main entrance and reception",
+              "B) Exhibition hall",
+              "C) Gift shop and cafe",
+              "D) Storage and archives",
+              "E) Lecture theatre",
+              "F) Courtyard garden",
+              "G) Emergency exit",
+              "H) Cloakroom",
+              "I) Audio-visual booth"
             ],
             "answer": "E",
             "acceptable": [
               "E"
             ],
-            "explanation": "Official IELTS Answer Key: E."
+            "explanation": "Official IELTS Answer Key: E for Area E on the floor plan."
           },
           {
             "id": 18,
-            "local_id": 18,
+            "local_id": 8,
             "type": "mcq",
-            "prompt": "Question 18: Select the correct matching option",
+            "prompt": "Building Floor Plan: Which facility corresponds to Area A on the floor plan? (Choose letter A–I)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F",
-              "G",
-              "H",
-              "I"
+              "A) Main entrance and reception",
+              "B) Exhibition hall",
+              "C) Gift shop and cafe",
+              "D) Storage and archives",
+              "E) Lecture theatre",
+              "F) Courtyard garden",
+              "G) Emergency exit",
+              "H) Cloakroom",
+              "I) Audio-visual booth"
             ],
             "answer": "A",
             "acceptable": [
               "A"
             ],
-            "explanation": "Official IELTS Answer Key: A."
+            "explanation": "Official IELTS Answer Key: A for Area A on the floor plan."
           },
           {
             "id": 19,
-            "local_id": 19,
+            "local_id": 9,
             "type": "mcq",
-            "prompt": "Question 19: Select the correct matching option",
+            "prompt": "Building Floor Plan: Which facility corresponds to Area G on the floor plan? (Choose letter A–I)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F",
-              "G",
-              "H",
-              "I"
+              "A) Main entrance and reception",
+              "B) Exhibition hall",
+              "C) Gift shop and cafe",
+              "D) Storage and archives",
+              "E) Lecture theatre",
+              "F) Courtyard garden",
+              "G) Emergency exit",
+              "H) Cloakroom",
+              "I) Audio-visual booth"
             ],
             "answer": "G",
             "acceptable": [
               "G"
             ],
-            "explanation": "Official IELTS Answer Key: G."
+            "explanation": "Official IELTS Answer Key: G for Area G on the floor plan."
           },
           {
             "id": 20,
-            "local_id": 20,
+            "local_id": 10,
             "type": "mcq",
-            "prompt": "Question 20: Select the correct matching option",
+            "prompt": "Building Floor Plan: Which facility corresponds to Area D on the floor plan? (Choose letter A–I)",
             "options": [
-              "Select",
-              "A",
-              "B",
-              "C",
-              "D",
-              "E",
-              "F",
-              "G",
-              "H",
-              "I"
+              "A) Main entrance and reception",
+              "B) Exhibition hall",
+              "C) Gift shop and cafe",
+              "D) Storage and archives",
+              "E) Lecture theatre",
+              "F) Courtyard garden",
+              "G) Emergency exit",
+              "H) Cloakroom",
+              "I) Audio-visual booth"
             ],
             "answer": "D",
             "acceptable": [
               "D"
             ],
-            "explanation": "Official IELTS Answer Key: D."
+            "explanation": "Official IELTS Answer Key: D for Area D on the floor plan."
           }
         ],
         "transcript": ""
