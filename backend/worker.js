@@ -680,7 +680,7 @@ async function handleWebhook(request, env, ctx = null) {
   }
   const update = await request.json();
   const botToken = env.BOT_TOKEN;
-  const adminId = env.ADMIN_TG_ID;
+  const adminId = String(env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || '7468650530');
 
   if (!botToken) {
     return jsonResponse({ error: "BOT_TOKEN not configured" }, 500);
@@ -707,6 +707,19 @@ async function handleWebhook(request, env, ctx = null) {
     const userId = msg.from ? msg.from.id : chatId;
     const from = msg.from || {};
     const text = (msg.text || "").trim();
+
+    // Strict Admin Command Access Guard (Hugo Only: 7468650530)
+    const ADMIN_COMMAND_PREFIXES = [
+      "/admin", "/stats", "/mint", "/gen_codes", "/broadcast", "/broadcast_vip",
+      "/broadcast_free", "/export", "/customers", "/csv", "/spreadsheet",
+      "/lookup", "/setup_commands"
+    ];
+
+    const isRestrictedCmd = ADMIN_COMMAND_PREFIXES.some(prefix => text === prefix || text.startsWith(prefix + " ") || text.startsWith(prefix + "@")) || text.startsWith("/vip ");
+    if (isRestrictedCmd && String(userId) !== String(adminId)) {
+      await sendTelegramMessage(botToken, chatId, "⛔ *Access Denied.*\n\nThis administrative utility is restricted exclusively to the Lead Instructor / Administrator (@hyuguo).");
+      return jsonResponse({ ok: true });
+    }
 
     // Handle Telegram Stars Successful Payment (Auto-Provisioning)
     if (msg.successful_payment) {
@@ -2146,6 +2159,17 @@ Admin မှ အချက်အလက်များ တိုက်ဆိုင
     const cbUserId = cb.from ? cb.from.id : 0;
     const cbChatId = cb.message ? cb.message.chat.id : cbUserId;
     const cbMessageId = cb.message ? cb.message.message_id : null;
+
+    // Strict Admin Callback Query Guard (Hugo Only: 7468650530)
+    const ADMIN_CALLBACK_PREFIXES = [
+      "approve:", "reject:", "mint_quick:", "admin_export_csv", "admin_vip_toggle:"
+    ];
+
+    const isRestrictedCallback = ADMIN_CALLBACK_PREFIXES.some(prefix => data.startsWith(prefix) || data === prefix);
+    if (isRestrictedCallback && String(cbUserId) !== String(adminId)) {
+      await answerCallbackQuery(botToken, cb.id, "⛔ Access Denied: Administrator authorization required.", true);
+      return jsonResponse({ ok: true });
+    }
 
     let isVip = false;
     try {
