@@ -11662,6 +11662,11 @@ function isVipActive() {
 
   if (window.isVipUser) return true;
 
+  if (typeof window !== "undefined" && window.radarData && window.radarData.isVip) {
+    window.isVipUser = true;
+    return true;
+  }
+
   try {
     if (typeof localStorage !== "undefined" && (localStorage.getItem("ips_vip_active") === "true" || localStorage.getItem("occ_vip_voucher"))) {
       window.isVipUser = true;
@@ -12147,8 +12152,18 @@ if (typeof window !== "undefined") {
             window.isVipUser = true;
             try {
               localStorage.setItem("ips_vip_active", "true");
-              
             } catch (e) {}
+          }
+          // Universal Instant Cloud VIP Check for ALL users on launch
+          if (window.StorageManager && typeof window.StorageManager.syncServerless === "function") {
+            window.StorageManager.syncServerless(window.appState).then(res => {
+              if (res && res.isVip) {
+                window.isVipUser = true;
+                try { localStorage.setItem("ips_vip_active", "true"); } catch (e) {}
+                if (typeof updateAuthUI === 'function') updateAuthUI();
+                if (typeof refreshAllVipViews === 'function') refreshAllVipViews();
+              }
+            }).catch(() => {});
           }
           if (typeof updateAuthUI === 'function') updateAuthUI();
         }
@@ -24689,6 +24704,10 @@ async function fetchRadarData() {
   if (cached) {
     try {
       window.radarData = JSON.parse(cached);
+      if (window.radarData && window.radarData.isVip) {
+        window.isVipUser = true;
+        try { localStorage.setItem('ips_vip_active', 'true'); } catch(e){}
+      }
     } catch(e){}
   }
 
@@ -24696,6 +24715,8 @@ async function fetchRadarData() {
     let userId = '';
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user && window.Telegram.WebApp.initDataUnsafe.user.id) {
       userId = String(window.Telegram.WebApp.initDataUnsafe.user.id);
+    } else if (window.telegramUser && window.telegramUser.id) {
+      userId = String(window.telegramUser.id);
     } else if (window.scholarUser && window.scholarUser.userId) {
       userId = String(window.scholarUser.userId);
     } else {
@@ -24721,6 +24742,20 @@ async function fetchRadarData() {
       const data = await res.json();
       window.radarData = data;
       localStorage.setItem('ips_radar_cache', JSON.stringify(data));
+
+      // UNIVERSAL VIP AUTO-PROMOTION: If server confirms user is VIP from D1/vouchers/KV, promote client instantly!
+      if (data && data.isVip) {
+        window.isVipUser = true;
+        try {
+          localStorage.setItem('ips_vip_active', 'true');
+        } catch(e){}
+        if (typeof activateVipPass === 'function') {
+          activateVipPass('lifetime', voucher || 'SERVER_VERIFIED_VIP', false);
+        }
+        if (typeof refreshAllVipViews === 'function') {
+          refreshAllVipViews();
+        }
+      }
       return data;
     }
   } catch(err) {
@@ -24737,7 +24772,9 @@ async function initLiveExamLexicons() {
   const vipMount = document.getElementById('lexiconRadarVipMount');
   if (!mount) return;
 
-  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  const data = await fetchRadarData();
+  const isVip = (typeof isVipActive === 'function' ? isVipActive() : false) || (data && data.isVip === true);
+
   if (vipMount) {
     vipMount.innerHTML = isVip
       ? `<div style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 6px rgba(245,158,11,0.25);">
@@ -24749,7 +24786,6 @@ async function initLiveExamLexicons() {
          </div>`;
   }
 
-  const data = await fetchRadarData();
   if (!data || !data.lexicon) {
     mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live exam vocabulary...</div>`;
     return;
@@ -24776,7 +24812,7 @@ function renderLiveLexiconCards() {
   const mount = document.getElementById('liveLexiconMount');
   if (!mount || !window.radarData) return;
 
-  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  const isVip = (typeof isVipActive === 'function' ? isVipActive() : false) || (window.radarData && window.radarData.isVip === true);
   const filter = window.radarLexiconFilter;
   const q = window.radarLexiconSearch;
 
@@ -24809,98 +24845,92 @@ function renderLiveLexiconCards() {
       html += `
         <div style="background:var(--bg-card); border:1px dashed var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800;">🔒 VIP EXCLUSIVE</span>
-            <span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(item.band_tier || 'BAND 8.0')}</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(item.pos || 'n.')}</span>
+            </div>
+            <span style="font-size:0.7rem; color:#F59E0B; font-weight:800;">🔒 VIP LOCK</span>
           </div>
-          <div style="font-size:1.18rem; font-weight:900; color:var(--text); margin-bottom:2px;">
-            ${escapeHtml(item.word)} <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">${escapeHtml(item.phonetic || '')}</span>
-            <span style="font-size:0.7rem; color:var(--text-secondary); font-style:italic;">(${escapeHtml(item.pos || '')})</span>
-          </div>
-          <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">Source: ${escapeHtml(item.source_test_ref || 'Recent Exam Paper')}</div>
-          
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; text-align:center;">
-            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Unlock full Burmese gloss, collocations, paraphrase bridges &amp; 1-click SRS sync</div>
-            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box; max-width:100%; white-space:normal; line-height:1.35;">
-              <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock 500+ Live Exam Words with VIP
+
+          <h3 style="font-size:1.1rem; font-weight:800; color:var(--text); margin:0 0 4px 0;">${escapeHtml(item.word)}</h3>
+          <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">${escapeHtml(item.phonetic || '')} &bull; ${escapeHtml(item.topic_category || '')}</div>
+
+          <div style="font-size:0.83rem; color:var(--text); margin-bottom:4px; font-weight:600;">${escapeHtml(item.definition_en || '')}</div>
+          <div style="font-size:0.82rem; color:var(--accent); margin-bottom:10px; font-weight:600;">${escapeHtml(item.definition_mm || '')}</div>
+
+          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:10px; text-align:center;">
+            <div style="font-size:0.74rem; color:var(--text-secondary); margin-bottom:6px;">Paraphrase bridges, academic collocations &amp; exam trap alerts locked</div>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.74rem; font-weight:800; padding:6px 12px; border-radius:5px; width:100%; box-sizing:border-box;">
+              <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock with VIP Pass
             </button>
           </div>
         </div>
       `;
-    } else {
-      const collocs = item.collocations || [];
-      const paraphrase = item.paraphrase || {};
-
-      html += `
-        <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.15s ease, border-color 0.15s ease;" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-mid)'">
-          <!-- Compartment 1: Badges & SRS Sync -->
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
-              <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap;">
-                <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">LIVE EXAM</span>
-                <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(item.band_tier || 'Band 8.5+')}</span>
-                <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
-              </div>
-              <button class="btn-outlined" onclick="addRadarWordToSRS('${escapeHtml(item.word)}', '${escapeHtml(item.phonetic||'')}', '${escapeHtml(item.pos||'')}', '${escapeHtml(item.definition_en||'').replace(/'/g, "\'")}', '${escapeHtml(item.definition_mm||'').replace(/'/g, "\'")}')" style="font-size:0.72rem; padding:3px 9px; font-weight:700; border-radius:5px; white-space:nowrap; border-color:var(--accent); color:var(--accent);" title="Schedule for 1-3-7 Spaced Repetition">
-                <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-plus"/></svg> Add to 1-3-7 SRS
-              </button>
-            </div>
-
-            <!-- Compartment 2: Word, Audio & Burmese Meaning (NEVER BLANK) -->
-            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:6px; margin-bottom:4px;">
-              <div style="font-size:1.24rem; font-weight:900; color:var(--text); letter-spacing:-0.01em;">
-                ${escapeHtml(item.word)}
-                <span style="font-size:0.78rem; font-weight:normal; color:var(--text-muted); font-family:monospace; margin-left:4px;">${escapeHtml(item.phonetic || '')}</span>
-                <span style="font-size:0.7rem; color:var(--text-secondary); font-style:italic; margin-left:2px;">(${escapeHtml(item.pos || '')})</span>
-              </div>
-              <button onclick="pronounceRadarWord('${escapeHtml(item.word)}')" style="background:none; border:none; cursor:pointer; color:var(--accent); padding:2px 4px;" title="Listen British Pronunciation">
-                <svg class="ui-icon" style="width:16px; height:16px;"><use href="#lucide-volume-2"/></svg>
-              </button>
-            </div>
-
-            <div style="font-size:0.94rem; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.45;" class="burmese">
-              ${escapeHtml(item.definition_mm || '')}
-            </div>
-
-            <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.5;">
-              ${escapeHtml(item.definition_en || '')}
-            </div>
-
-            <!-- Compartment 3: Exam Sentence Citation -->
-            ${item.real_exam_sentence ? `
-              <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:8px 10px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:0.78rem; line-height:1.5; color:var(--text);">
-                <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">📌 Real Exam Citation (${escapeHtml(item.source_test_ref || '')}):</div>
-                <em>"${escapeHtml(item.real_exam_sentence)}"</em>
-              </div>
-            ` : ''}
-
-            <!-- Collocations -->
-            ${collocs.length > 0 ? `
-              <div style="margin-bottom:8px; font-size:0.76rem;">
-                <span style="font-weight:700; color:var(--text-secondary);">Exam Collocations:</span>
-                <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:3px;">
-                  ${collocs.map(c => `<span style="background:rgba(255,255,255,0.05); border:1px solid var(--border-subtle); padding:1px 6px; border-radius:4px; color:var(--text);">${escapeHtml(c)}</span>`).join('')}
-                </div>
-              </div>
-            ` : ''}
-
-            <!-- Paraphrase Bridge -->
-            ${paraphrase.band6 || paraphrase.band8 ? `
-              <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:0.74rem;">
-                <span style="font-weight:800; color:#10B981;">⚡ Paraphrase Bridge:</span>
-                <span style="color:var(--text-secondary); margin-left:4px;">${escapeHtml(paraphrase.band6 || '')} (B6) &rarr; ${escapeHtml(paraphrase.band7 || '')} (B7) &rarr; <strong style="color:var(--text);">${escapeHtml(paraphrase.band8 || '')} (B8.5+)</strong></span>
-              </div>
-            ` : ''}
-
-            <!-- Trap Alert -->
-            ${item.trap_notes ? `
-              <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.25); border-radius:6px; padding:6px 8px; font-size:0.73rem; color:var(--text-secondary); line-height:1.4;">
-                <strong style="color:#F59E0B;">⚠️ Exam Trap:</strong> ${escapeHtml(item.trap_notes)}
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      `;
+      return;
     }
+
+    // Unlocked Card (Universal VIP & Free Samples)
+    const par = item.paraphrase || {};
+    const collocList = item.collocations || [];
+
+    html += `
+      <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(item.band_tier || 'BAND 8.0')}</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(item.pos || 'n.')}</span>
+            </div>
+            ${item.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE SAMPLE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>`}
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text); margin:0;">${escapeHtml(item.word)}</h3>
+            <button class="btn-icon" onclick="pronounceRadarWord('${escapeHtml(item.word)}')" title="Pronounce" style="padding:4px; border-radius:50%; background:rgba(255,255,255,0.06);">
+              🔊
+            </button>
+          </div>
+          <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">${escapeHtml(item.phonetic || '')} &bull; ${escapeHtml(item.topic_category || '')}</div>
+
+          <div style="font-size:0.84rem; color:var(--text); margin-bottom:4px; font-weight:600; line-height:1.4;">${escapeHtml(item.definition_en || '')}</div>
+          <div style="font-size:0.83rem; color:var(--accent); margin-bottom:10px; font-weight:600; line-height:1.4;">${escapeHtml(item.definition_mm || '')}</div>
+
+          ${item.real_exam_sentence ? `
+            <div style="background:rgba(255,255,255,0.03); border-left:2px solid var(--accent); padding:8px 10px; margin-bottom:10px; font-size:0.78rem; color:var(--text); line-height:1.45;">
+              <span style="color:var(--text-muted); font-size:0.7rem; display:block; margin-bottom:2px;">Real Exam Context:</span>
+              "${escapeHtml(item.real_exam_sentence)}"
+            </div>
+          ` : ''}
+
+          ${collocList.length ? `
+            <div style="margin-bottom:10px;">
+              <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; margin-bottom:4px; text-transform:uppercase;">Academic Collocations:</div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                ${collocList.map(c => `<span style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px; font-size:0.73rem; color:var(--text);">${escapeHtml(c)}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${(par.band6_5 || par.band9_0) ? `
+            <div style="background:rgba(37,99,235,0.08); border:1px solid rgba(37,99,235,0.25); border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.76rem;">
+              <div style="color:#60A5FA; font-weight:800; font-size:0.68rem; margin-bottom:2px;">BAND 6.5 &rarr; 8.5+ PARAPHRASE BRIDGE:</div>
+              <div style="color:var(--text-muted);">Common: <span style="text-decoration:line-through;">${escapeHtml(par.band6_5 || '')}</span></div>
+              <div style="color:var(--text); font-weight:700;">Band 8.5+: <span>${escapeHtml(par.band9_0 || '')}</span></div>
+            </div>
+          ` : ''}
+
+          ${item.trap_notes ? `
+            <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:6px 10px; margin-bottom:10px; font-size:0.74rem; color:#FCA5A5;">
+              ⚠️ <strong>Exam Trap:</strong> ${escapeHtml(item.trap_notes)}
+            </div>
+          ` : ''}
+        </div>
+
+        <button class="btn-accent-solid" onclick="addRadarWordToSRS('${escapeHtml(item.word)}', '${escapeHtml(item.phonetic || '')}', '${escapeHtml(item.pos || '')}', '${escapeHtml(item.definition_en || '')}', '${escapeHtml(item.definition_mm || '')}')" style="font-size:0.75rem; padding:6px 10px; font-weight:800; border-radius:6px; width:100%; box-sizing:border-box; margin-top:8px;">
+          + Add to 1-3-7 SRS Review
+        </button>
+      </div>
+    `;
   });
 
   html += `</div>`;
@@ -24915,7 +24945,9 @@ async function initLiveExamWriting() {
   const vipMount = document.getElementById('writingRadarVipMount');
   if (!mount) return;
 
-  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  const data = await fetchRadarData();
+  const isVip = (typeof isVipActive === 'function' ? isVipActive() : false) || (data && data.isVip === true);
+
   if (vipMount) {
     vipMount.innerHTML = isVip
       ? `<span style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
@@ -24924,7 +24956,6 @@ async function initLiveExamWriting() {
       : `<span style="font-size:0.75rem; color:var(--text-secondary);">Free Tier: Top 3 Prompts Unlocked &bull; <a href="javascript:void(0)" onclick="openVipPassModal()" style="color:var(--accent); font-weight:800;">Unlock All Models</a></span>`;
   }
 
-  const data = await fetchRadarData();
   if (!data || !data.writing) {
     mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live writing exam recalls...</div>`;
     return;
@@ -24944,7 +24975,7 @@ async function initLiveExamWriting() {
               <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">Band ${w.band_score || 8.5} Model</span>
               <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(w.exam_date || '')}</span>
             </div>
-            ${w.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE SAMPLE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP RECALL</span>`}
+            ${w.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE SAMPLE</span>` : (isVip ? `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP RECALL</span>`)}
           </div>
 
           <h3 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(w.title)}</h3>
@@ -24994,7 +25025,9 @@ async function initLiveExamReading() {
   const vipMount = document.getElementById('readingRadarVipMount');
   if (!mount) return;
 
-  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  const data = await fetchRadarData();
+  const isVip = (typeof isVipActive === 'function' ? isVipActive() : false) || (data && data.isVip === true);
+
   if (vipMount) {
     vipMount.innerHTML = isVip
       ? `<span style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
@@ -25003,7 +25036,6 @@ async function initLiveExamReading() {
       : `<span style="font-size:0.75rem; color:var(--text-secondary);">Free Tier: Top 2 Passages Unlocked &bull; <a href="javascript:void(0)" onclick="openVipPassModal()" style="color:var(--accent); font-weight:800;">Unlock All Passages</a></span>`;
   }
 
-  const data = await fetchRadarData();
   if (!data || !data.reading) {
     mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live reading exam recalls...</div>`;
     return;
@@ -25023,7 +25055,7 @@ async function initLiveExamReading() {
               <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(r.difficulty || 'Band 7.5')}</span>
               <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(r.exam_date || '')}</span>
             </div>
-            ${r.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE FULL TEST</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP TEST</span>`}
+            ${r.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE FULL TEST</span>` : (isVip ? `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP TEST</span>`)}
           </div>
 
           <h3 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(r.title)}</h3>
@@ -25082,20 +25114,16 @@ function addRadarWordToSRS(word, phonetic, pos, defEn, defMm) {
       burmese: defMm || '',
       interval: 1,
       nextReview: now + 86400000,
-      history: [{ date: new Date().toISOString(), result: 'added_from_exam_radar' }]
+      history: [{ date: now, rating: 'good' }]
     };
     localStorage.setItem('vocabSRS', JSON.stringify(srs));
     if (typeof showToast === 'function') {
-      showToast(`✅ "${word}" added to your 1-3-7 SRS deck! Review due tomorrow.`);
-    } else if (typeof showStudioNotification === 'function') {
-      showStudioNotification(`✅ "${word}" added to your 1-3-7 SRS deck!`);
+      showToast(`⚡ Added "${word}" to your 1-3-7 Spaced Repetition deck!`);
     } else {
-      alert(`"${word}" added to your 1-3-7 SRS deck!`);
+      alert(`⚡ Added "${word}" to your 1-3-7 Spaced Repetition deck!`);
     }
-
-    if (typeof updateSRSDueBadge === 'function') updateSRSDueBadge();
-  } catch (e) {
-    console.error('[Add Radar Word Error]', e);
+  } catch(e) {
+    console.warn('[SRS Add Error]', e);
   }
 }
 
@@ -25118,12 +25146,12 @@ function loadRadarWritingToDesk(id) {
       if (!opt) {
         opt = document.createElement('option');
         opt.value = item.id;
-        opt.textContent = `[REAL EXAM] ${item.title}`;
+        opt.textContent = `[Live Recall] ${item.title}`;
         select.prepend(opt);
       }
       select.value = item.id;
-      if (typeof handleWSelectChange === 'function') handleWSelectChange();
     }
+
     if (typeof showToast === 'function') {
       showToast(`✍️ Loaded "${item.title}" into Writing Desk!`);
     }

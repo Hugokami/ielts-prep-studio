@@ -8486,29 +8486,37 @@ async function handleTelegramAvatar(request, env) {
 async function handleRadarFeed(request, env) {
   try {
     const url = new URL(request.url);
-    const userId = url.searchParams.get("userId") || url.searchParams.get("telegram_id") || "";
+    let userId = url.searchParams.get("userId") || url.searchParams.get("telegram_id") || "";
     const voucherParam = url.searchParams.get("voucher") || "";
     const clientVip = url.searchParams.get("clientVip") === "1";
     const authHeader = request.headers.get("Authorization") || "";
+    const initDataParam = request.headers.get("X-Telegram-Init-Data") || url.searchParams.get("initData") || "";
 
     let isVip = false;
 
-    // 1. Direct Admin / Lead Instructor check (Hugo: 7468650530)
-    if (userId === "7468650530" || (env.ADMIN_TG_ID && userId === env.ADMIN_TG_ID)) {
+    // 1. Direct Admin / Lead Instructor check (Universal, env-driven)
+    const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
+    if (userId && String(userId) === String(adminId)) {
       isVip = true;
     }
 
-    // 2. Client-side verified VIP state
-    if (!isVip && clientVip) {
-      isVip = true;
+    // 2. Telegram WebApp HMAC verification if initData provided
+    if (!isVip && initDataParam) {
+      try {
+        const tgUser = await verifyTelegramInitData(initDataParam, env.BOT_TOKEN);
+        if (tgUser && tgUser.id) {
+          userId = String(tgUser.id);
+          if (String(tgUser.id) === String(adminId)) isVip = true;
+        }
+      } catch (e) {}
     }
 
-    // 3. Database user VIP check
+    // 3. Database user VIP check for ALL paying students with active VIP status in D1
     if (!isVip && userId) {
       try {
         const user = await env.DB.prepare(
-          "SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ?"
-        ).bind(userId).first();
+          "SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)"
+        ).bind(userId, userId).first();
         if (user && (user.is_vip === 1 || (user.vip_expires_at && user.vip_expires_at > Date.now()))) {
           isVip = true;
         }
@@ -8517,17 +8525,63 @@ async function handleRadarFeed(request, env) {
       }
     }
 
-    // 4. Voucher check
-    if (!isVip && (voucherParam || authHeader.startsWith("Bearer "))) {
-      const token = (voucherParam || authHeader.replace("Bearer ", "")).trim();
+    // 4. Session token check (Signed JWT in Authorization header or voucherParam)
+    const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
+    const rawToken = (authHeader.startsWith("Bearer ") ? authHeader.slice(7) : voucherParam).trim();
+    if (!isVip && rawToken && rawToken.includes(".")) {
       try {
-        const voucher = await env.DB.prepare(
-          "SELECT is_active, plan_type FROM vip_vouchers WHERE code_hash = ? AND is_active = 1"
-        ).bind(token).first();
-        if (voucher) isVip = true;
-      } catch (e) {
-        console.error("[Radar Voucher Check Error]", e);
+        const payload = await verifySessionToken(rawToken, signingKey);
+        if (payload && (payload.tier === "vip" || payload.tier === "sprint")) {
+          if (!payload.exp || payload.exp > Math.floor(Date.now() / 1000)) {
+            isVip = true;
+          }
+        }
+      } catch (e) {}
+    }
+
+    // 5. Voucher code / Promo code verification across vouchers, promo_codes, and vip_vouchers
+    if (!isVip && rawToken && !rawToken.includes(".")) {
+      const cleanCode = rawToken.toUpperCase().replace(/[^A-Z0-9\-]/g, "");
+      const codeHash = await sha256Hex(cleanCode);
+      try {
+        const vRow = await env.DB.prepare(
+          "SELECT tier, revoked, expires_at FROM vouchers WHERE code_hash = ?"
+        ).bind(codeHash).first();
+        if (vRow && vRow.revoked !== 1 && (!vRow.expires_at || vRow.expires_at === 0 || vRow.expires_at > Date.now())) {
+          isVip = true;
+        }
+      } catch (e) {}
+
+      if (!isVip) {
+        try {
+          const pRow = await env.DB.prepare(
+            "SELECT plan_type FROM promo_codes WHERE code = ?"
+          ).bind(cleanCode).first();
+          if (pRow) isVip = true;
+        } catch (e) {}
       }
+
+      if (!isVip) {
+        try {
+          const vvRow = await env.DB.prepare(
+            "SELECT is_active FROM vip_vouchers WHERE (code_hash = ? OR code_hash = ?) AND is_active = 1"
+          ).bind(cleanCode, codeHash).first();
+          if (vvRow) isVip = true;
+        } catch (e) {}
+      }
+    }
+
+    // 6. Cloudflare KV VIP registry check
+    if (!isVip && env.VIP_KV && userId) {
+      try {
+        const kvVip = await env.VIP_KV.get("vip:" + userId);
+        if (kvVip === "1" || kvVip === "true") isVip = true;
+      } catch (e) {}
+    }
+
+    // 7. Client-side verified VIP state
+    if (!isVip && clientVip) {
+      isVip = true;
     }
 
     // KV Edge Cache (personalized by VIP status)
@@ -8539,7 +8593,7 @@ async function handleRadarFeed(request, env) {
           // If cached data is found, ensure isVip matches current session
           cached.isVip = isVip;
           return jsonResponse(cached, 200, {
-            "Cache-Control": "public, max-age=600, s-maxage=600",
+            "Cache-Control": "public, max-age=300, s-maxage=300",
             ...corsHeaders()
           });
         }
