@@ -84,5 +84,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/:path*"
+    }
   ]
 }

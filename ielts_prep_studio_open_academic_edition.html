@@ -12253,21 +12253,32 @@ window.quickUnlockBrowserVip = async function() {
   try {
     // 1. Session Restoration on load & Native TMA User Detection
     try {
+      function getStudioApiBase() {
+        if (typeof window !== 'undefined') {
+          if (window.STUDIO_API_URL) return window.STUDIO_API_URL.replace(/\/+$/, '');
+          if (window.location && window.location.origin) {
+            const orig = window.location.origin;
+            if (orig.includes('vercel.app') || orig.includes('localhost') || orig.includes('127.0.0.1')) {
+              return '';
+            }
+          }
+        }
+        return 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+      }
+      window.getStudioApiBase = getStudioApiBase;
+
       const nativeTgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ||
                            (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
       if (nativeTgUser && nativeTgUser.id) {
-        const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+        const apiBase = getStudioApiBase();
         nativeTgUser.avatar_proxy = `${apiBase}/api/telegram-avatar?userId=${nativeTgUser.id}&name=${encodeURIComponent(nativeTgUser.first_name || '')}`;
-        if (!nativeTgUser.photo_url) {
-          nativeTgUser.photo_url = nativeTgUser.avatar_proxy;
-        }
+        nativeTgUser.photo_url = nativeTgUser.avatar_proxy;
         window.telegramUser = nativeTgUser;
         try { localStorage.setItem('ips_browser_tg_user', JSON.stringify(nativeTgUser)); } catch (e) {}
         if (String(nativeTgUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
           window.isVipUser = true;
           try {
             localStorage.setItem("ips_vip_active", "true");
-            
           } catch (e) {}
         }
       } else if (!window.telegramUser && typeof localStorage !== 'undefined') {
@@ -12275,17 +12286,14 @@ window.quickUnlockBrowserVip = async function() {
         if (savedTg) {
           const parsed = JSON.parse(savedTg);
           if (parsed && parsed.id) {
-            const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+            const apiBase = getStudioApiBase();
             parsed.avatar_proxy = `${apiBase}/api/telegram-avatar?userId=${parsed.id}&name=${encodeURIComponent(parsed.first_name || '')}`;
-            if (!parsed.photo_url) {
-              parsed.photo_url = parsed.avatar_proxy;
-            }
+            parsed.photo_url = parsed.avatar_proxy;
             window.telegramUser = parsed;
             if (String(parsed.id) === String(window.ADMIN_TG_ID || "7468650530")) {
               window.isVipUser = true;
               try {
                 localStorage.setItem("ips_vip_active", "true");
-                
               } catch (e) {}
             }
           }
@@ -12309,16 +12317,15 @@ window.quickUnlockBrowserVip = async function() {
     if (tgId) {
       const cleanId = String(tgId).trim().replace(/[^0-9]/g, '');
       if (cleanId) {
-        const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+        const apiBase = (typeof getStudioApiBase === 'function') ? getStudioApiBase() : '';
         const rawName = params.get("name") || params.get("first_name") || (window.telegramUser && window.telegramUser.first_name) || "IELTS Scholar";
         const proxyAvatar = `${apiBase}/api/telegram-avatar?userId=${cleanId}&name=${encodeURIComponent(rawName)}`;
-        const existingPhoto = (window.telegramUser && window.telegramUser.photo_url) || params.get("photo_url") || params.get("avatar") || "";
 
         window.telegramUser = {
           id: cleanId,
           first_name: rawName,
           username: params.get("username") || (window.telegramUser && window.telegramUser.username) || "",
-          photo_url: existingPhoto || proxyAvatar,
+          photo_url: proxyAvatar,
           avatar_proxy: proxyAvatar
         };
         try {
@@ -12498,42 +12505,64 @@ function triggerCloudSync() {
   if (modal) modal.style.display = "flex";
 }
 
+function getStudioApiBase() {
+  if (typeof window !== 'undefined') {
+    if (window.STUDIO_API_URL) return window.STUDIO_API_URL.replace(/\/+$/, '');
+    if (window.location && window.location.origin) {
+      const orig = window.location.origin;
+      if (orig.includes('vercel.app') || orig.includes('localhost') || orig.includes('127.0.0.1')) {
+        return '';
+      }
+    }
+  }
+  return 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+}
+window.getStudioApiBase = getStudioApiBase;
+
 function getEffectiveAvatarUrl(user, displayName) {
-  const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+  const apiBase = getStudioApiBase();
   if (!user) return null;
   const uid = user.id || user.uid;
+  if (uid) {
+    return `${apiBase}/api/telegram-avatar?userId=${uid}&name=${encodeURIComponent(displayName || user.first_name || '')}`;
+  }
   if (user.photo_url && typeof user.photo_url === 'string' && !user.photo_url.includes('undefined')) return user.photo_url;
   if (user.photoURL && typeof user.photoURL === 'string' && !user.photoURL.includes('undefined')) return user.photoURL;
   if (user.avatar_proxy) return user.avatar_proxy;
-  if (uid) return `${apiBase}/api/telegram-avatar?userId=${uid}&name=${encodeURIComponent(displayName || user.first_name || '')}`;
   return null;
 }
 
 function handleAvatarError(imgEl, proxyUrl, initial, context) {
   if (!imgEl) return;
-  // Step 1: If direct Telegram CDN failed (e.g. 403 on iOS WebKit), try backend proxy
+  // Step 1: If direct URL failed, try proxy URL if different
   if (proxyUrl && !imgEl.dataset.proxyTried && imgEl.src !== proxyUrl) {
     imgEl.dataset.proxyTried = "true";
     imgEl.src = proxyUrl;
     return;
   }
-  // Step 2: Fall back cleanly to high-contrast monogram initial (no broken image icon)
+  // Step 2: Fall back cleanly to monogram initial
   imgEl.onerror = null;
+  imgEl.style.display = "none";
   const parent = imgEl.parentElement;
   if (!parent) return;
 
   const letter = (initial || 'S').toUpperCase();
   if (context === 'scholar') {
-    parent.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${letter}</span>`;
     const wrap = document.getElementById("scholarAvatarWrap");
     if (wrap) {
       wrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
       wrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
     }
+    const mono = parent.querySelector('.scholar-monogram-initial');
+    if (mono) {
+      mono.style.display = 'flex';
+    } else {
+      parent.innerHTML = `<span class="scholar-monogram-initial" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${letter}</span>`;
+    }
   } else if (context === 'auth') {
-    parent.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${letter}</span>`;
+    parent.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:linear-gradient(135deg, #F59E0B, #D97706);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${letter}</span>`;
   } else if (context === 'dropdown') {
-    parent.innerHTML = `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${letter}</div>`;
+    parent.innerHTML = `<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg, #F59E0B, #D97706);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${letter}</div>`;
   }
 }
 window.getEffectiveAvatarUrl = getEffectiveAvatarUrl;
@@ -12559,27 +12588,27 @@ function updateScholarAvatar(photoUrl, displayName) {
   const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
   const effectivePhoto = photoUrl || getEffectiveAvatarUrl(tgUser, displayName);
   const tgId = (tgUser && tgUser.id) || '';
-  const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+  const apiBase = getStudioApiBase();
   const proxyUrl = tgId ? `${apiBase}/api/telegram-avatar?userId=${tgId}&name=${encodeURIComponent(displayName || '')}` : '';
 
+  // 1. Maintain rich Studio Gold background at all times so it NEVER flashes white
+  if (avatarWrap) {
+    avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+    avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
+    avatarWrap.style.position = 'relative';
+    avatarWrap.style.overflow = 'hidden';
+  }
+
   if (effectivePhoto) {
-    avatarInner.innerHTML = `<img src="${effectivePhoto}" alt="Scholar Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'scholar')">`;
-    if (avatarWrap) {
-      avatarWrap.style.background = 'transparent';
-      avatarWrap.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
-    }
+    // Show monogram initial immediately, and smoothly fade in image when loaded
+    avatarInner.innerHTML = `
+      <span class="scholar-monogram-initial" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:800;color:#fff;">${initial}</span>
+      <img src="${effectivePhoto}" alt="Scholar Avatar" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;opacity:0;transition:opacity 0.25s ease;" onload="this.style.opacity='1';const m=this.previousElementSibling;if(m)m.style.display='none';if(document.getElementById('scholarAvatarWrap'))document.getElementById('scholarAvatarWrap').style.background='transparent';" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'scholar')">
+    `;
   } else if (displayName) {
-    avatarInner.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${initial}</span>`;
-    if (avatarWrap) {
-      avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
-      avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
-    }
+    avatarInner.innerHTML = `<span class="scholar-monogram-initial" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${initial}</span>`;
   } else {
-    avatarInner.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">S</span>`;
-    if (avatarWrap) {
-      avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
-      avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
-    }
+    avatarInner.innerHTML = `<span class="scholar-monogram-initial" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">S</span>`;
   }
 }
 window.updateScholarAvatar = updateScholarAvatar;
@@ -12635,22 +12664,30 @@ function updateAuthUI() {
     const initial = (displayName && displayName.trim()[0] ? displayName.trim()[0] : 'T').toUpperCase();
     const effectivePhoto = getEffectiveAvatarUrl(tgUser, displayName);
     const tgId = tgUser.id || '';
-    const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+    const apiBase = getStudioApiBase();
     const proxyUrl = tgId ? `${apiBase}/api/telegram-avatar?userId=${tgId}&name=${encodeURIComponent(displayName || '')}` : '';
 
     if (authLabel) authLabel.textContent = displayName;
     if (authIcon) {
       if (effectivePhoto) {
-        authIcon.innerHTML = `<img src="${effectivePhoto}" class="auth-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'auth')">`;
+        authIcon.innerHTML = `
+          <span style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg, #F59E0B, #D97706);color:#fff;font-size:10px;font-weight:700;overflow:hidden;vertical-align:middle;margin-right:2px;flex-shrink:0;">
+            <span>${initial}</span>
+            <img src="${effectivePhoto}" class="auth-avatar" alt="Avatar" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;border-radius:50%;opacity:0;transition:opacity 0.2s ease;" onload="this.style.opacity='1';const p=this.previousElementSibling;if(p)p.style.display='none';" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'auth')">
+          </span>
+        `;
       } else {
-        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${initial}</span>`;
+        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:linear-gradient(135deg, #F59E0B, #D97706);color:#fff;border-radius:50%;font-size:10px;font-weight:700;margin-right:2px;">${initial}</span>`;
       }
     }
     updateScholarAvatar(effectivePhoto, displayName);
     if (dd) {
       dd.innerHTML = `
         <div class="account-dropdown-header">
-          ${effectivePhoto ? `<img src="${effectivePhoto}" class="account-dropdown-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'dropdown')">` : `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${initial}</div>`}
+          <div style="position:relative;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg, #F59E0B, #D97706);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;overflow:hidden;flex-shrink:0;">
+            <span>${initial}</span>
+            ${effectivePhoto ? `<img src="${effectivePhoto}" class="account-dropdown-avatar" alt="Avatar" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:none;border-radius:50%;opacity:0;transition:opacity 0.2s ease;" onload="this.style.opacity='1';const m=this.previousElementSibling;if(m)m.style.display='none';" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'dropdown')">` : ''}
+          </div>
           <div style="min-width:0;">
             <div class="account-dropdown-name">${escapeHtml(displayName)}</div>
             <div class="account-dropdown-email" style="color:var(--accent);">${escapeHtml(displayHandle)}</div>
