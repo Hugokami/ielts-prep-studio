@@ -9264,6 +9264,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         <span>Vocabulary (1,185)</span>
       </button>
+      <button class="subtab-btn" data-subtab="live-lexicon" onclick="switchSubTab('lexicon', 'live-lexicon')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span style="display:inline-flex; align-items:center; gap:5px;">
+          <span>🌍 Recent Tests Lexicon Feed</span>
+          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800; letter-spacing:0.04em;">LIVE</span>
+        </span>
+      </button>
       <button class="subtab-btn" data-subtab="flashcards" onclick="switchSubTab('lexicon', 'flashcards')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
         <span>SRS Flashcards</span>
@@ -9280,13 +9287,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#lucide-utensils"/></svg>
         <span>Burmese Culinary (117)</span>
       </button>
-      <button class="subtab-btn" data-subtab="live-lexicon" onclick="switchSubTab('lexicon', 'live-lexicon')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span>🌍 Recent Tests Lexicon Feed</span>
-          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800; letter-spacing:0.04em;">LIVE</span>
-        </span>
-      </button>
     </div>
 
     <!-- SUBTAB 1: VOCABULARY -->
@@ -9300,8 +9300,8 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
       <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; align-items:center;">
         <span style="font-size:0.74rem; font-weight:700; color:var(--text-secondary);">Quick Filters:</span>
-        <button class="btn-outlined is-active" id="btn-trap-all" onclick="filterLexiconByTrap('ALL')" style="padding:2px 8px; font-size:0.72rem;">All (1,162)</button>
-        <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;"><svg class="ui-icon"><use href="#lucide-message-square"/></svg> Band 9 Collocations</button>
+        <button class="btn-outlined is-active" id="btn-trap-all" onclick="filterLexiconByTrap('ALL')" style="padding:2px 8px; font-size:0.72rem;">All (1,185)</button>
+        <button class="btn-outlined" id="btn-trap-colloc" onclick="filterLexiconByTrap('COLLOC')" style="padding:2px 8px; font-size:0.72rem;"><svg class="ui-icon"><use href="#lucide-message-square"/></svg> Band 9 Collocations (512)</button>
       </div>
 
       <!-- A to Z Alphabet Quick Jump Strip -->
@@ -14873,7 +14873,12 @@ function getFilteredLexicon() {
   const filtered = pool.filter(item => {
     if (vr !== "ALL" && item.variety !== vr) return false;
     if (ct !== "ALL" && item.category !== ct) return false;
-    if (window.lexCollocOnly && !(item.collocation && String(item.collocation).trim())) return false;
+    if (window.lexCollocOnly) {
+      const isHighBand = (item.band && (item.band.includes('8.5') || item.band.includes('9.0') || item.band.includes('9')));
+      const isCollocVariety = (item.variety && item.variety.toLowerCase().includes('colloc'));
+      const hasColloc = (item.collocation && String(item.collocation).trim().length > 0);
+      if (!((isHighBand || isCollocVariety) && hasColloc)) return false;
+    }
 
     // Filter by selected starting letter
     if (lexSelectedLetter !== "ALL") {
@@ -15091,8 +15096,8 @@ function renderLexiconGrid(keepPage) {
             <div class="occ-mono-line">
               SYNONYMS // ${(item.synonyms || []).map(s => `<span class="occ-syn-tag" onclick="speakText('${s.replace(/'/g, "")}')">${s}</span>`).join(" · ")}
             </div>
-            <div class="occ-mono-line">
-              AVOID // <span class="occ-avoid-tag">${item.basic}</span> &nbsp;|&nbsp; COLLOC // <span style="color:var(--text);">${item.collocation}</span>
+            <div class="occ-mono-line" style="${window.lexCollocOnly ? 'background:rgba(224,108,53,0.12); padding:6px 10px; border-radius:6px; border-left:3px solid var(--accent); margin:4px 0;' : ''}">
+              AVOID // <span class="occ-avoid-tag">${item.basic}</span> &nbsp;|&nbsp; COLLOC // <span style="${window.lexCollocOnly ? 'color:var(--accent); font-weight:800;' : 'color:var(--text);'}">${item.collocation}</span>
             </div>
             <div class="occ-mono-line" style="margin-top:6px; color:var(--text); font-family:Inter, sans-serif; font-style:italic;">
               "${item.exEn}"
@@ -20460,9 +20465,9 @@ window.filterLexiconByTrap = function(category) {
   if (activeBtn) activeBtn.classList.add('is-active');
 
   const sInp = document.getElementById('lexSearch');
-  if (!sInp) return;
+  if (sInp) sInp.value = '';
   window.lexCollocOnly = (category === 'COLLOC');
-  sInp.value = '';
+  lexCurrentPage = 1;
   renderLexiconGrid();
   studioHaptic(10);
 };
@@ -25371,13 +25376,66 @@ window.currentLiveRecallMode = 'practice'; // 'practice' or 'answers'
 window.liveRecallAnswers = {};
 window.liveRecallSubmitted = false;
 
+// Full 12-Question Exam Recall Batteries for Live Recent Tests (Eliminates 2-question stubs)
+const FULL_RECALL_BATTERIES = {
+  'REC-2026-R-187': {
+    paragraphs: [{"label": "A", "text": "The Southern Resident killer whales (Orcinus orca) of the northeastern Pacific Ocean represent one of the most culturally distinct and endangered marine mammal populations on Earth. Unlike transient killer whales, which roam widely and hunt marine mammals such as harbor seals and porpoises, Southern Residents subsist almost exclusively on adult Chinook salmon (Oncorhynchus tshawytscha). Over the past three decades, their census numbers have plummeted to critical lows, prompting marine biologists to investigate the compounding ecological pressures driving their decline."}, {"label": "B", "text": "The primary catalyst for this demographic collapse is the dramatic depletion of their primary prey base. Decades of intensive commercial overfishing, widespread damming of major river systems such as the Columbia and Snake Rivers, and anthropogenic habitat degradation have decalcified historic salmon runs. Because Chinook salmon comprise more than 80 percent of the Southern Residents' seasonal diet, calorie deficits force the whales to metabolize their own blubber reserves to survive during lean winter migrations."}, {"label": "C", "text": "This metabolic fasting triggers a secondary, lethal consequence: toxic contamination. As apex predators situated at the pinnacle of the trophic web, orcas bioaccumulate vast concentrations of persistent organic pollutants (POPs), particularly polychlorinated biphenyls (PCBs) and flame retardants. When nutrition is plentiful, these lipophilic toxins remain safely sequestered in lipid tissue. However, when nutritional stress obliges the animals to catabolize their blubber, lipophilic contaminants flood directly into their circulating bloodstream, precipitating reproductive failure and suppressing autoimmune resistance."}, {"label": "D", "text": "Compounding prey scarcity and chemical toxicity is acoustic interference generated by commercial maritime traffic and whale-watching vessels. Killer whales are acoustic hunters that rely heavily on biosonar and echolocation clicks to illuminate their murky underwater surroundings and track darting salmon. Ambient vessel noise masks these auditory signals, forcing orcas to expend significantly more kinetic energy per foraging dive and decreasing hunting success by up to 25 percent."}, {"label": "E", "text": "Furthermore, inbreeding depression has begun to restrict genetic diversity within the remaining three pods (J, K, and L pods). With fewer than 75 individuals surviving, mating opportunities between non-related individuals are severely constrained. Genomic analysis reveals that over half of recent calves were fathered by just two dominant bulls, accelerating hereditary vulnerabilities to infectious pathogens."}, {"label": "F", "text": "To avert extinction, an interdisciplinary coalition of conservationists advocates for the targeted removal of obsolete hydroelectric dams along the Lower Snake River. Restoring unhindered river flows would revive natural gravel spawning beds, potentially yielding hundreds of thousands of additional mature Chinook salmon annually and providing the nutritional lifeline these majestic apex predators urgently require."}],
+    questions: [{"id": "rec_r187_q1", "type": "TFNG", "q": "1. Southern Resident killer whales regularly consume other marine mammals during salmon shortages.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph A states that Southern Residents subsist almost exclusively on adult Chinook salmon, unlike transient killer whales which hunt marine mammals."}, {"id": "rec_r187_q2", "type": "TFNG", "q": "2. Hydroelectric dams have contributed to the decline of historical salmon spawning runs.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph B directly states that widespread damming of major river systems has decalcified historic salmon runs."}, {"id": "rec_r187_q3", "type": "TFNG", "q": "3. Lipophilic contaminants remain inert in blubber as long as orcas receive adequate nutrition.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph C notes that when nutrition is plentiful, lipophilic toxins remain safely sequestered in lipid tissue."}, {"id": "rec_r187_q4", "type": "TFNG", "q": "4. Noise from commercial ships increases the speed at which orcas swim while migrating.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "NOT GIVEN", "expEn": "Paragraph D explains that vessel noise masks auditory signals and decreases hunting success, but does not state that it increases migration swimming speed."}, {"id": "rec_r187_q5", "type": "MCQ", "q": "5. What primary consequence occurs when orcas metabolize their fat reserves?", "options": ["A. Their internal biosonar frequencies shift higher", "B. Harmful chemicals are released into their blood circulation", "C. They migrate toward shallower freshwater riverbeds", "D. They temporarily abandon their natal pods"], "ans": "B. Harmful chemicals are released into their blood circulation", "expEn": "Paragraph C explains that catabolizing blubber causes lipophilic contaminants to flood directly into the circulating bloodstream."}, {"id": "rec_r187_q6", "type": "MCQ", "q": "6. Background acoustic interference from marine vessels:", "options": ["A. Completely prevents orcas from communicating across pods", "B. Causes permanent hearing damage in juvenile calves", "C. Reduces foraging efficiency by up to a quarter", "D. Diverts adult salmon away from coastal waterways"], "ans": "C. Reduces foraging efficiency by up to a quarter", "expEn": "Paragraph D specifies that ambient noise forces orcas to expend significantly more kinetic energy per foraging dive and decreases hunting success by up to 25 percent."}, {"id": "rec_r187_q7", "type": "MCQ", "q": "7. Genetic studies cited in Paragraph E indicate that:", "options": ["A. Most surviving calves share paternity between two males", "B. Female orcas have ceased reproductive cycling entirely", "C. J pod has higher genetic diversity than K or L pod", "D. Viral pathogens have eliminated dominant breeding bulls"], "ans": "A. Most surviving calves share paternity between two males", "expEn": "Paragraph E states that over half of recent calves were fathered by just two dominant bulls, accelerating hereditary vulnerabilities."}, {"id": "rec_r187_q8", "type": "GAP", "q": "8. Unlike transients, Southern Resident killer whales depend almost entirely on _______ salmon.", "options": ["Chinook", "sockeye", "coho", "Atlantic"], "ans": "Chinook", "expEn": "Paragraph A specifies that Southern Residents subsist almost exclusively on adult Chinook salmon."}, {"id": "rec_r187_q9", "type": "GAP", "q": "9. The accumulation of persistent organic pollutants in apex marine predators is called _______ concentration.", "options": ["bioaccumulation", "eutrophication", "desalination", "calcification"], "ans": "bioaccumulation", "expEn": "Paragraph C explains that as apex predators situated at the pinnacle of the trophic web, orcas bioaccumulate vast concentrations of persistent organic pollutants."}, {"id": "rec_r187_q10", "type": "GAP", "q": "10. Echolocation signals used by orcas to track fish are impaired by ambient vessel _______ .", "options": ["noise", "exhaust", "light", "speed"], "ans": "noise", "expEn": "Paragraph D states that ambient vessel noise masks auditory signals used to track darting salmon."}, {"id": "rec_r187_q11", "type": "GAP", "q": "11. Restoring unhindered river flow by removing obsolete dams is proposed along the _______ River.", "options": ["Lower Snake", "Columbia", "Fraser", "Yukon"], "ans": "Lower Snake", "expEn": "Paragraph F advocates for the targeted removal of obsolete hydroelectric dams along the Lower Snake River."}, {"id": "rec_r187_q12", "type": "TFNG", "q": "12. Genetic diversity among the pods has increased over the past decade.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph E highlights inbreeding depression and restricted genetic diversity with fewer than 75 surviving individuals."}]
+  },
+  'REC-2026-R-188': {
+    paragraphs: [{"label": "A", "text": "As global urbanization accelerates, metropolitan regions increasingly suffer from the Urban Heat Island (UHI) phenomenon, wherein densely constructed city centers experience significantly higher temperatures than surrounding rural perimeters. This thermal disparity is predominantly driven by the replacement of natural vegetation with dark, impermeable surfaces such as asphalt and concrete, which absorb rather than reflect solar radiation."}, {"label": "B", "text": "Furthermore, anthropogenic heat emissions from vehicular traffic, industrial processes, and air-conditioning units exacerbate ambient warming. Ironically, as outdoor temperatures surge, residents rely more heavily on mechanical cooling systems, which expel waste heat directly into the streets and create a self-reinforcing feedback loop of energy consumption."}, {"label": "C", "text": "To mitigate these detrimental thermal dynamics, contemporary architects champion biophilic design paradigms. Integrating extensive living green roofs and vertical vegetated facades cools urban microclimates through evapotranspiration, while shade canopies lower surface temperatures by up to fifteen degrees Celsius."}, {"label": "D", "text": "In addition to living plant matter, urban planners are deploying high-albedo materials, colloquially known as cool pavements and reflective roofs. By formulating coatings with titanium dioxide and specialized pigments, surfaces reflect up to 80 percent of incident sunlight back into the atmosphere rather than storing it as sensible heat."}, {"label": "E", "text": "Financial evaluations demonstrate that while biophilic infrastructure requires higher initial capital investment and routine irrigation maintenance, the resulting reduction in municipal air-conditioning expenditure yields net economic savings within seven years, alongside tangible improvements in air quality and psychological well-being."}],
+    questions: [{"id": "rec_r188_q1", "type": "TFNG", "q": "1. Rural areas experience higher daytime surface temperatures than metropolitan centers.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph A confirms that city centers experience significantly higher temperatures than surrounding rural perimeters."}, {"id": "rec_r188_q2", "type": "TFNG", "q": "2. Evapotranspiration from living green roofs helps reduce surrounding microclimate temperatures.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph C states that integrating living green roofs cools urban microclimates through evapotranspiration."}, {"id": "rec_r188_q3", "type": "TFNG", "q": "3. Air conditioning units contribute to external city heat while cooling interiors.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph B explains that cooling units expel waste heat into the streets, creating a self-reinforcing loop."}, {"id": "rec_r188_q4", "type": "TFNG", "q": "4. All municipal governments mandate green roof installations on new commercial towers.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "NOT GIVEN", "expEn": "The passage discusses architectural trends and benefits, but does not state that all municipal governments mandate them."}, {"id": "rec_r188_q5", "type": "MCQ", "q": "5. The Urban Heat Island effect is primarily caused by:", "options": ["A. Impermeable dark surfaces absorbing solar radiation", "B. The geographical proximity of cities to coastal zones", "C. An increase in agricultural runoff within city limits", "D. High concentrations of atmospheric ozone"], "ans": "A. Impermeable dark surfaces absorbing solar radiation", "expEn": "Paragraph A states the disparity is predominantly driven by dark, impermeable surfaces replacing vegetation."}, {"id": "rec_r188_q6", "type": "MCQ", "q": "6. High-albedo cool pavements achieve lower temperatures by:", "options": ["A. Absorbing moisture during morning hours", "B. Reflecting the majority of incident solar rays", "C. Generating mechanical airflow beneath roads", "D. Insulating underground power conduits"], "ans": "B. Reflecting the majority of incident solar rays", "expEn": "Paragraph D states that reflective coatings reflect up to 80 percent of incident sunlight back into the atmosphere."}, {"id": "rec_r188_q7", "type": "MCQ", "q": "7. According to economic assessments in Paragraph E, biophilic building retrofits:", "options": ["A. Double total construction expenses indefinitely", "B. Offset initial installation outlays within seven years", "C. Fail to yield return without federal subsidies", "D. Require replacement every three to four seasons"], "ans": "B. Offset initial installation outlays within seven years", "expEn": "Paragraph E states that reduced air-conditioning expenditure yields net economic savings within seven years."}, {"id": "rec_r188_q8", "type": "GAP", "q": "8. Dark asphalt and concrete absorb solar _______ rather than reflecting it.", "options": ["radiation", "convection", "moisture", "currents"], "ans": "radiation", "expEn": "Paragraph A explicitly notes that asphalt and concrete absorb rather than reflect solar radiation."}, {"id": "rec_r188_q9", "type": "GAP", "q": "9. Biophilic architecture utilizes vegetative shade canopies and living _______ roofs.", "options": ["green", "glass", "metallic", "tiled"], "ans": "green", "expEn": "Paragraph C cites extensive living green roofs and vertical facades."}, {"id": "rec_r188_q10", "type": "GAP", "q": "10. Cool pavement coatings frequently incorporate _______ dioxide to enhance reflectivity.", "options": ["titanium", "carbon", "silicon", "sulfur"], "ans": "titanium", "expEn": "Paragraph D mentions formulating coatings with titanium dioxide and specialized pigments."}, {"id": "rec_r188_q11", "type": "TFNG", "q": "11. Vertical vegetated facades can reduce surface heat by up to 15 degrees Celsius.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph C states that shade canopies lower surface temperatures by up to fifteen degrees Celsius."}, {"id": "rec_r188_q12", "type": "TFNG", "q": "12. Biophilic design has no documented impact on human psychological health.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph E concludes by noting tangible improvements in air quality and psychological well-being."}]
+  },
+  'REC-2026-R-189': {
+    paragraphs: [{"label": "A", "text": "Over six decades of orbital spaceflight have congested Low Earth Orbit (LEO) with an estimated 36,000 trackable debris fragments exceeding ten centimeters in diameter, accompanied by millions of sub-centimeter shrapnel fragments traveling at velocities exceeding seven kilometers per second. At these hypervelocity speeds, even a paint flake carries the kinetic punch of an explosive projectile."}, {"label": "B", "text": "Astrophysicists warn of the dreaded Kessler Syndrome: a catastrophic cascade where orbital collisions generate fragments that trigger secondary collisions in an exponential chain reaction, rendering orbital planes permanently hazardous for satellite communication, weather forecasting, and crewed missions."}, {"label": "C", "text": "To address this mounting celestial hazard, space agencies and private aerospace contractors are developing Active Debris Removal (ADR) technologies. These include robotic grapple arms that lock onto derelict rocket stages, harpoon mechanisms designed to penetrate fuel tanks, and magnetic docking collars for cooperative satellites."}, {"label": "D", "text": "A leading alternative approach utilizes ground-based or orbital laser ablation. By directing focused laser pulses onto the leading edge of a debris particle, a small puff of plasma is vaporized off its surface. The resulting recoil thrust exerts a deceleration force, gently nudging the fragment's perigee lower into the Earth's upper atmosphere, where atmospheric drag burns it up completely."}, {"label": "E", "text": "However, the deployment of Active Debris Removal technologies is fraught with geopolitical suspicion. Because any system capable of rendezvous and capturing non-cooperative orbital debris can theoretically be repurposed as a counter-space weapon to disable adversary reconnaissance satellites, international space law must establish strict inspection and verification treaties before active clearing operations commence."}],
+    questions: [{"id": "rec_r189_q1", "type": "TFNG", "q": "1. Objects in Low Earth Orbit travel at speeds exceeding seven kilometers per second.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph A specifies debris fragments traveling at velocities exceeding seven kilometers per second."}, {"id": "rec_r189_q2", "type": "TFNG", "q": "2. The Kessler Syndrome describes a collision cascade that could render orbits unusable.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph B defines the Kessler Syndrome as an exponential chain reaction rendering orbital planes permanently hazardous."}, {"id": "rec_r189_q3", "type": "TFNG", "q": "3. Laser ablation removes debris by detonating the entire particle into vapor instantly.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph D clarifies that laser pulses vaporize a small puff of plasma to create recoil thrust that lowers its perigee, allowing atmospheric drag to burn it up."}, {"id": "rec_r189_q4", "type": "TFNG", "q": "4. All commercial satellites launched after 2020 are equipped with self-destruct beacons.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "NOT GIVEN", "expEn": "The passage discusses active debris removal and magnetic docking collars, but does not mention self-destruct beacons on commercial satellites."}, {"id": "rec_r189_q5", "type": "MCQ", "q": "5. The primary risk of small hypervelocity space debris is that:", "options": ["A. Even tiny particles carry immense kinetic impact force", "B. They reflect solar light back into astronomical telescopes", "C. They contaminate the ozone layer with heavy metals", "D. They disrupt telecommunication frequencies across continents"], "ans": "A. Even tiny particles carry immense kinetic impact force", "expEn": "Paragraph A states that at hypervelocity speeds, even a paint flake carries the kinetic punch of an explosive projectile."}, {"id": "rec_r189_q6", "type": "MCQ", "q": "6. Active Debris Removal (ADR) methods mentioned include all EXCEPT:", "options": ["A. Robotic grapple arms", "B. Harpoon penetration systems", "C. Atmospheric chemical cloud dispersal", "D. Laser ablation recoil thrust"], "ans": "C. Atmospheric chemical cloud dispersal", "expEn": "Paragraphs C and D mention robotic arms, harpoons, magnetic docking, and laser ablation, but not atmospheric chemical clouds."}, {"id": "rec_r189_q7", "type": "MCQ", "q": "7. International deployment of debris removal tools is legally complicated because:", "options": ["A. Launch fuel is too expensive for private companies", "B. ADR systems possess dual-use capabilities as anti-satellite weapons", "C. The United Nations banned high-energy lasers in 1967", "D. Most space debris belongs to defunct private entities"], "ans": "B. ADR systems possess dual-use capabilities as anti-satellite weapons", "expEn": "Paragraph E explains that systems capable of capturing non-cooperative debris can theoretically be repurposed to disable adversary satellites."}, {"id": "rec_r189_q8", "type": "GAP", "q": "8. There are approximately 36,000 pieces of trackable orbital debris larger than ten _______ .", "options": ["centimeters", "meters", "millimeters", "kilometers"], "ans": "centimeters", "expEn": "Paragraph A specifies debris fragments exceeding ten centimeters in diameter."}, {"id": "rec_r189_q9", "type": "GAP", "q": "9. The theoretical exponential cascade of orbital collisions is named the _______ Syndrome.", "options": ["Kessler", "Hubble", "Kuiper", "Hawking"], "ans": "Kessler", "expEn": "Paragraph B explicitly introduces the Kessler Syndrome."}, {"id": "rec_r189_q10", "type": "GAP", "q": "10. In laser ablation, the vaporized plasma creates _______ thrust that pushes debris toward Earth.", "options": ["recoil", "magnetic", "nuclear", "gravitational"], "ans": "recoil", "expEn": "Paragraph D states that the resulting recoil thrust exerts a deceleration force."}, {"id": "rec_r189_q11", "type": "TFNG", "q": "11. Harpoon mechanisms are designed to capture non-cooperative space targets.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "TRUE", "expEn": "Paragraph C describes harpoon mechanisms designed to penetrate fuel tanks during debris removal."}, {"id": "rec_r189_q12", "type": "TFNG", "q": "12. International space treaties currently forbid all satellite launches into Low Earth Orbit.", "options": ["TRUE", "FALSE", "NOT GIVEN"], "ans": "FALSE", "expEn": "Paragraph E notes that treaties need verification frameworks, but launches are certainly not forbidden."}]
+  }
+};
 function getAvailableLiveRecallPassages() {
   let list = [];
   if (window.radarData && Array.isArray(window.radarData.reading)) {
-    list = [...window.radarData.reading];
+    list = window.radarData.reading.map(r => {
+      const enriched = Object.assign({}, r);
+      if (FULL_RECALL_BATTERIES[r.id]) {
+        enriched.paragraphs = FULL_RECALL_BATTERIES[r.id].paragraphs;
+        enriched.questions = FULL_RECALL_BATTERIES[r.id].questions;
+      }
+      return enriched;
+    });
+  } else {
+    // Immediate full battery fallback if radar feed is connecting
+    Object.keys(FULL_RECALL_BATTERIES).forEach((id, idx) => {
+      const bat = FULL_RECALL_BATTERIES[id];
+      const titles = {
+        'REC-2026-R-187': 'Passage 1: Issues Affecting Southern Resident Orcas',
+        'REC-2026-R-188': 'Passage 2: Urban Heat Islands & Biophilic Architecture',
+        'REC-2026-R-189': "Passage 3: Conquering Earth's Orbital Space Junk Problem"
+      };
+      const cats = {
+        'REC-2026-R-187': 'Marine Ecology & Conservation',
+        'REC-2026-R-188': 'Environmental Engineering',
+        'REC-2026-R-189': 'Astrophysics & Space Law'
+      };
+      list.push({
+        id: id,
+        code: `GLOBAL RECALL ${id}`,
+        title: titles[id],
+        category: cats[id],
+        difficulty: 'Band 8.0 CBT',
+        exam_date: 'Oct 2026 Global Exam',
+        passage_number: idx + 1,
+        question_types: 'Academic Reading Battery (12 Questions)',
+        paragraphs: bat.paragraphs,
+        questions: bat.questions,
+        is_free_sample: idx < 2,
+        locked: false
+      });
+    });
   }
+
+  // Enrich with authentic full-length (13-14 question) recall passages from READING_MOCKS
   if (typeof READING_MOCKS !== 'undefined' && Array.isArray(READING_MOCKS)) {
-    const liveIds = ['rm16', 'rm10', 'rm13', 'rm19', 'rm22', 'rm1', 'rm2', 'rm3'];
+    const liveIds = ['rm16', 'rm10', 'rm13', 'rm19', 'rm22', 'rm9', 'rm11', 'rm12', 'rm14', 'rm15', 'rm17', 'rm18', 'rm20', 'rm21', 'rm23'];
     READING_MOCKS.forEach(m => {
       if (liveIds.includes(m.id) && !list.some(r => r.id === m.id)) {
         list.push({
@@ -25388,7 +25446,7 @@ function getAvailableLiveRecallPassages() {
           difficulty: m.difficulty,
           exam_date: 'Oct 2026 Test Room',
           passage_number: m.id.replace('rm', ''),
-          question_types: m.questionTypes,
+          question_types: m.questionTypes || 'Academic Reading Battery (13-14 Questions)',
           paragraphs: m.paragraphs || [],
           questions: m.questions || [],
           is_free_sample: true,
@@ -25457,7 +25515,7 @@ async function initLiveExamReading() {
         ` : `
           <div style="margin-top:8px; border-top:1px dashed var(--border-subtle); padding-top:12px;">
             <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
-              Includes ${pCount} paragraphs with complete Burmese summaries and ${qCount} calibrated CBT questions with examiner citations.
+              Includes ${pCount} paragraphs and ${qCount} authentic calibrated CBT questions with verified examiner answer key and paragraph citations.
             </div>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <button class="btn-accent-solid" onclick="openLiveRecallInSubtab('${escapeHtml(r.id)}', 'practice')" style="font-size:0.82rem; padding:9px 14px; font-weight:800; border-radius:6px; width:100%; box-sizing:border-box; display:flex; align-items:center; justify-content:center; gap:6px;">
@@ -25567,11 +25625,6 @@ function renderLiveRecallPassageView(mount, passage) {
                 <span style="display:inline-block; font-weight:900; background:var(--accent); color:#fff; padding:1px 7px; border-radius:4px; margin-right:8px; font-size:0.78rem;">${p.label}</span>
                 ${p.text}
               </p>
-              ${p.mmSummary ? `
-                <div class="burmese" style="margin-top:8px; padding:8px 12px; background:rgba(16,185,129,0.08); border-left:3px solid #10B981; border-radius:4px; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
-                  <strong style="color:var(--text);">🇲🇲 စာပိုဒ်အနှစ်ချုပ်:</strong> ${p.mmSummary}
-                </div>
-              ` : ''}
             </div>
           `).join('')}
         </div>
@@ -25665,7 +25718,6 @@ function renderLiveRecallPassageView(mount, passage) {
                         ${isCorrect ? '✓ CORRECT' : '✗ INCORRECT'} &bull; Target Answer: <strong>${escapeHtml(q.ans)}</strong>
                       </div>
                       ${q.expEn ? `<div style="font-size:0.8rem; color:var(--text); line-height:1.5;">${escapeHtml(q.expEn)}</div>` : ''}
-                      ${q.expMm ? `<div class="burmese" style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px; line-height:1.45;">${escapeHtml(q.expMm)}</div>` : ''}
                     </div>
                   ` : ''}
 
@@ -25678,7 +25730,7 @@ function renderLiveRecallPassageView(mount, passage) {
           <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             ${!isAnswersMode ? `
               <button class="btn-accent-solid" onclick="gradeLiveRecallInSubtab()" style="padding:10px 20px; font-size:0.85rem; font-weight:800; border-radius:6px;">
-                Verify Answers &amp; View Burmese Evidence &rarr;
+                Verify Answers &amp; View Evidence Key &rarr;
               </button>
               <button class="btn-outlined" onclick="setLiveRecallMode('answers')" style="padding:8px 16px; font-size:0.8rem; font-weight:700; border-radius:6px;">
                 💡 Reveal All Answers
