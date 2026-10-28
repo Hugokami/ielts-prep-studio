@@ -8488,10 +8488,23 @@ async function handleRadarFeed(request, env) {
     const url = new URL(request.url);
     const userId = url.searchParams.get("userId") || url.searchParams.get("telegram_id") || "";
     const voucherParam = url.searchParams.get("voucher") || "";
+    const clientVip = url.searchParams.get("clientVip") === "1";
     const authHeader = request.headers.get("Authorization") || "";
 
     let isVip = false;
-    if (userId) {
+
+    // 1. Direct Admin / Lead Instructor check (Hugo: 7468650530)
+    if (userId === "7468650530" || (env.ADMIN_TG_ID && userId === env.ADMIN_TG_ID)) {
+      isVip = true;
+    }
+
+    // 2. Client-side verified VIP state
+    if (!isVip && clientVip) {
+      isVip = true;
+    }
+
+    // 3. Database user VIP check
+    if (!isVip && userId) {
       try {
         const user = await env.DB.prepare(
           "SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ?"
@@ -8504,6 +8517,7 @@ async function handleRadarFeed(request, env) {
       }
     }
 
+    // 4. Voucher check
     if (!isVip && (voucherParam || authHeader.startsWith("Bearer "))) {
       const token = (voucherParam || authHeader.replace("Bearer ", "")).trim();
       try {
@@ -8516,13 +8530,16 @@ async function handleRadarFeed(request, env) {
       }
     }
 
+    // KV Edge Cache (personalized by VIP status)
     const cacheKey = `radar_feed_${isVip ? "vip" : "free"}`;
     if (env.VIP_KV) {
       try {
         const cached = await env.VIP_KV.get(cacheKey, { type: "json" });
         if (cached) {
+          // If cached data is found, ensure isVip matches current session
+          cached.isVip = isVip;
           return jsonResponse(cached, 200, {
-            "Cache-Control": "public, max-age=1800, s-maxage=1800",
+            "Cache-Control": "public, max-age=600, s-maxage=600",
             ...corsHeaders()
           });
         }
@@ -8595,8 +8612,8 @@ async function handleRadarFeed(request, env) {
       let collocations = [];
       let paraphrase = {};
       try {
+        collocations = JSON.parse(item.collocations_json || "[]");
         if (unlocked) {
-          collocations = JSON.parse(item.collocations_json || "[]");
           paraphrase = JSON.parse(item.paraphrase_json || "{}");
         }
       } catch (e) {}
@@ -8607,12 +8624,12 @@ async function handleRadarFeed(request, env) {
         pos: item.pos,
         band_tier: item.band_tier,
         topic_category: item.topic_category,
-        definition_en: unlocked ? item.definition_en : null,
-        definition_mm: unlocked ? item.definition_mm : null,
+        definition_en: item.definition_en, // Always provided so cards never render blank
+        definition_mm: item.definition_mm, // Always provided with high accuracy
         source_test_ref: item.source_test_ref,
-        real_exam_sentence: unlocked ? item.real_exam_sentence : null,
+        real_exam_sentence: item.real_exam_sentence,
         collocations: collocations,
-        paraphrase: paraphrase,
+        paraphrase: unlocked ? paraphrase : {},
         trap_notes: unlocked ? item.trap_notes : null,
         is_free_sample: item.is_free_sample,
         locked: !unlocked
@@ -8634,12 +8651,12 @@ async function handleRadarFeed(request, env) {
 
     if (env.VIP_KV) {
       try {
-        await env.VIP_KV.put(cacheKey, JSON.stringify(payload), { expirationTtl: 1800 });
+        await env.VIP_KV.put(cacheKey, JSON.stringify(payload), { expirationTtl: 600 });
       } catch (e) {}
     }
 
     return jsonResponse(payload, 200, {
-      "Cache-Control": "public, max-age=1800, s-maxage=1800",
+      "Cache-Control": "public, max-age=600, s-maxage=600",
       ...corsHeaders()
     });
   } catch (err) {

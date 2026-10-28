@@ -8459,6 +8459,88 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     <!-- 7. SUBTAB 1: DASHBOARD -->
     <div class="subtab-panel active" data-subtab="dash">
+      <!-- REAL EXAM RADAR DASHBOARD FEATURE WIDGET -->
+      <div id="overviewRadarWidget" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:20px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase;">
+              <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
+              LIVE EXAM RADAR
+            </span>
+            <h3 style="margin:0; font-size:1.15rem; font-weight:900; color:var(--text);">Weekly Real Test Recalls</h3>
+          </div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">
+            Decoded from Recent Exam Sessions &bull; Updated: <strong style="color:var(--text);">28 Oct 2026</strong>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+          <!-- Card 1: Today's Live Exam Word -->
+          <div style="background:var(--bg); border:1px solid var(--border-mid); border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.68rem; font-weight:800;">🔤 LIVE EXAM WORD</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">Band 8.5+</span>
+              </div>
+              <div style="font-size:1.15rem; font-weight:900; color:var(--text); margin-bottom:2px;">
+                predominantly <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">/prɪˈdɒm.ɪ.nənt.li/</span>
+              </div>
+              <div class="burmese" style="font-size:0.86rem; font-weight:700; color:var(--text); margin-bottom:6px;">
+                အဓိကအားဖြင့်၊ အများအားဖြင့်
+              </div>
+              <div style="font-size:0.76rem; color:var(--text-secondary); line-height:1.45; margin-bottom:8px;">
+                <em>"This thermal disparity is predominantly driven by..."</em>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center; margin-top:8px;">
+              <button class="btn-outlined" onclick="addRadarWordToSRS('predominantly', '/prɪˈdɒm.ɪ.nənt.li/', 'adv', 'Chiefly; mainly.', 'အဓိကအားဖြင့်၊ အများအားဖြင့်')" style="font-size:0.72rem; padding:5px 8px; flex:1; border-color:var(--accent); color:var(--accent); font-weight:700; box-sizing:border-box;">
+                + Add to 1-3-7 SRS
+              </button>
+              <button class="btn-accent-solid" onclick="switchView('lexicon'); switchSubTab('lexicon', 'live-lexicon');" style="font-size:0.72rem; padding:5px 10px; font-weight:800; box-sizing:border-box;">
+                All 20+ Words &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Latest Writing Task 2 Recall -->
+          <div style="background:var(--bg); border:1px solid var(--border-mid); border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="occ-ver-pill" style="background:#2563EB; color:#fff; border:none; font-size:0.68rem; font-weight:800;">✍️ REAL WRITING RECALL</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">24 Oct 2026</span>
+              </div>
+              <div style="font-size:0.98rem; font-weight:800; color:var(--text); margin-bottom:4px; line-height:1.35;">
+                Global Fashion Trends &amp; Cultural Heritage
+              </div>
+              <div style="font-size:0.76rem; color:var(--text-secondary); line-height:1.45; margin-bottom:8px;">
+                Task 2 Opinion Essay &bull; Band 8.5 Model with examiner criteria analysis and lexical highlights.
+              </div>
+            </div>
+            <button class="btn-outlined" onclick="switchView('writing'); switchSubTab('writing', 'live-writing');" style="font-size:0.75rem; padding:6px 12px; font-weight:700; width:100%; border-radius:6px; box-sizing:border-box;">
+              View Model Essay &amp; Prompts &rarr;
+            </button>
+          </div>
+
+          <!-- Card 3: Latest Reading CBT Recall -->
+          <div style="background:var(--bg); border:1px solid var(--border-mid); border-radius:8px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.68rem; font-weight:800;">📖 REAL READING CBT</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">Passage 1</span>
+              </div>
+              <div style="font-size:0.98rem; font-weight:800; color:var(--text); margin-bottom:4px; line-height:1.35;">
+                Issues Affecting Southern Resident Orcas
+              </div>
+              <div style="font-size:0.76rem; color:var(--text-secondary); line-height:1.45; margin-bottom:8px;">
+                Marine Ecology &bull; TFNG &amp; Multiple Choice &bull; Full interactive CBT timer and bilingual explanations.
+              </div>
+            </div>
+            <button class="btn-accent-solid" onclick="switchView('reading'); switchSubTab('reading', 'live-reading');" style="font-size:0.75rem; padding:6px 12px; font-weight:800; width:100%; border-radius:6px; box-sizing:border-box;">
+              Launch CBT Simulation &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="speak-value-card">
         <div class="speak-chart-wrap">
           <div class="speak-chart-header">
@@ -9195,10 +9277,10 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#lucide-utensils"/></svg>
         <span>Burmese Culinary (117)</span>
       </button>
-      <button class="subtab-btn" data-subtab="radar" onclick="switchSubTab('lexicon', 'radar')">
+      <button class="subtab-btn" data-subtab="live-lexicon" onclick="switchSubTab('lexicon', 'live-lexicon')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="m12 12 7-7"/></svg>
         <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span>🔥 Live Exam Radar</span>
+          <span>🔥 Live Exam Lexicons</span>
           <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800; letter-spacing:0.04em;">LIVE</span>
         </span>
       </button>
@@ -9451,10 +9533,56 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div id="at-pane-culinary" class="at-pane active" style="display:block;"></div>
     </div>
 
-    <!-- SUBTAB 6: LIVE EXAM RADAR & REAL RECALLS -->
-    <div class="subtab-panel" data-subtab="radar" id="subtab-radar" style="padding:16px 0;">
-      <div id="radarMount">
-        <!-- Live Exam Radar Container rendered dynamically -->
+    <!-- SUBTAB 6: LIVE EXAM LEXICONS RADAR (ONLY LEXICONS) -->
+    <div class="subtab-panel" data-subtab="live-lexicon" id="subtab-lexicon-live" style="padding:16px 0;">
+      <!-- Balanced 2-Column Bento Header (Redesigned per Image 2) -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
+            LIVE TEST-CENTER INTELLIGENCE FEED
+          </div>
+          <div id="lexiconRadarVipMount">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center; margin-bottom:14px;">
+          <div>
+            <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.25;">🔥 Real Exam Lexicon Radar</h2>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent);">High-Yield Band 8.5/9.0 Vocabulary, Collocations &amp; Traps</div>
+          </div>
+          <!-- Description cleanly placed on right filling awkward whitespace per user sketch -->
+          <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
+            Weekly authentic vocabulary, examiner collocations, paraphrase bridges &amp; reading trap alerts freshly decoded from recent exam sessions across Southeast Asia, Australia, and the UK.
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:10px; font-size:0.78rem;">
+          <span style="color:var(--text-muted); font-weight:700;">Radar Ingestion:</span>
+          <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⚡ 20 Live Exam Words</span>
+          <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">💎 Band 8.5+ Collocations</span>
+          <span class="occ-ver-pill" style="background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3); font-weight:700;">⚠️ Reading Traps</span>
+          <span style="margin-left:auto; font-size:0.72rem; color:var(--text-muted);">Updated: 28 Oct 2026</span>
+        </div>
+      </div>
+
+      <!-- Lexicon Quick Filter Chips & Search Toolbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <button class="btn-outlined is-active" id="btn-lex-radar-all" onclick="filterLiveLexiconTab('ALL')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">All (20)</button>
+          <button class="btn-outlined" id="btn-lex-radar-free" onclick="filterLiveLexiconTab('FREE')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px; border-color:#10B981; color:#10B981;">🌟 Free Samples (10)</button>
+          <button class="btn-outlined" id="btn-lex-radar-colloc" onclick="filterLiveLexiconTab('COLLOC')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">💎 Band 8.5+ Collocations</button>
+          <button class="btn-outlined" id="btn-lex-radar-traps" onclick="filterLiveLexiconTab('TRAPS')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">⚠️ Reading Traps</button>
+        </div>
+        <div style="flex:1; min-width:220px; max-width:340px;">
+          <input type="text" id="liveLexiconSearchInput" class="occ-input" placeholder="Search word, meaning, collocation..." oninput="handleLiveLexiconSearch(this.value)" style="width:100%; font-size:0.8rem; padding:6px 12px; border-radius:6px; box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Lexicon Bento Grid Mount -->
+      <div id="liveLexiconMount">
+        <!-- Rendered dynamically -->
       </div>
     </div>
 </section>
@@ -9510,6 +9638,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <button class="subtab-btn" data-subtab="tfng" onclick="switchSubTab('reading', 'tfng'); if(typeof window.renderTfngArbiterPanel==='function') window.renderTfngArbiterPanel('tfngArbiterContainer');">
         <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-target"/></svg>
         <span>False vs Not Given Arbiter</span>
+      </button>
+      <button class="subtab-btn" data-subtab="live-reading" onclick="switchSubTab('reading', 'live-reading')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10"/><path d="m12 12 7-7"/><circle cx="12" cy="12" r="10"/></svg>
+        <span style="display:inline-flex; align-items:center; gap:5px;">
+          <span>🔥 Live Recalls</span>
+          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
+        </span>
       </button>
     </div>
 
@@ -9687,6 +9822,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <button class="subtab-btn" data-subtab="phrases" onclick="switchSubTab('writing', 'phrases')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         <span>Reference &amp; Phrases</span>
+      </button>
+      <button class="subtab-btn" data-subtab="live-writing" onclick="switchSubTab('writing', 'live-writing')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 12 7-7"/><circle cx="12" cy="12" r="10"/></svg>
+        <span style="display:inline-flex; align-items:center; gap:5px;">
+          <span>🔥 Live Recalls</span>
+          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
+        </span>
       </button>
     </div>
 
@@ -18697,9 +18839,9 @@ function switchSubTab(hubId, subTabId) {
         if (typeof window.initBurmeseCulinaryLexicon === 'function') {
           window.initBurmeseCulinaryLexicon();
         }
-      } else if (subTabId === 'radar') {
-        if (typeof window.initLiveExamRadar === 'function') {
-          window.initLiveExamRadar();
+      } else if (subTabId === 'live-lexicon' || subTabId === 'radar') {
+        if (typeof window.initLiveExamLexicons === 'function') {
+          window.initLiveExamLexicons();
         }
       }
       if (subTabId === 'flashcards') {
@@ -18714,8 +18856,16 @@ function switchSubTab(hubId, subTabId) {
           if (typeof generateDrill === 'function') generateDrill(false);
         }
       }
-    } else if (hubId === 'writing' && subTabId === 'models') {
-      if (typeof renderWritingModelsDirectory === 'function') renderWritingModelsDirectory();
+    } else if (hubId === 'writing') {
+      if (subTabId === 'models') {
+        if (typeof renderWritingModelsDirectory === 'function') renderWritingModelsDirectory();
+      } else if (subTabId === 'live-writing') {
+        if (typeof window.initLiveExamWriting === 'function') window.initLiveExamWriting();
+      }
+    } else if (hubId === 'reading') {
+      if (subTabId === 'live-reading') {
+        if (typeof window.initLiveExamReading === 'function') window.initLiveExamReading();
+      }
     }
   } catch (e) {
     console.warn('[switchSubTab hook notice]', e);
@@ -24522,99 +24672,118 @@ window.triggerOpenAlexFromMain = async function() {
 
 
 <!-- =========================================================
-     LIVE EXAM RECALL & FORECAST RADAR ENGINE (v6.5)
-     Tri-Module: Live Exam Lexicon • Writing Recalls • Reading CBT Recalls
+     LIVE EXAM RECALL & FORECAST RADAR ENGINE (v6.5 - MODULAR CATEGORIES)
+     Categorized: Live Lexicon Hub • Writing Recalls Hub • Reading CBT Hub
      1-Click 1-3-7 SRS Sync • Native British Audio • Role-Aware Gating
      ========================================================= -->
 <script>
 window.radarData = null;
-window.radarFilter = 'ALL';
-window.radarSearch = '';
+window.radarLexiconFilter = 'ALL';
+window.radarLexiconSearch = '';
 
-async function initLiveExamRadar() {
-  const mount = document.getElementById('radarMount');
-  if (!mount) return;
+// Shared Central Feed Loader
+async function fetchRadarData() {
+  if (window.radarData) return window.radarData;
 
-  // 1. Instant Render from LocalStorage Cache (Offline-First, 0ms)
-  if (!window.radarData) {
-    const cached = localStorage.getItem('ips_radar_cache');
-    if (cached) {
-      try {
-        window.radarData = JSON.parse(cached);
-        renderLiveExamRadarUI();
-      } catch (e) {
-        console.warn('[Radar Cache Parse Error]', e);
-      }
-    }
+  const cached = localStorage.getItem('ips_radar_cache');
+  if (cached) {
+    try {
+      window.radarData = JSON.parse(cached);
+    } catch(e){}
   }
 
-  if (!window.radarData) {
-    mount.innerHTML = `
-      <div style="padding:40px 20px; text-align:center; color:var(--text-secondary);">
-        <div style="font-size:1.8rem; margin-bottom:12px; animation:spin 1.5s linear infinite;">⚡</div>
-        <div style="font-size:1rem; font-weight:800; color:var(--text);">Connecting to Real Exam Intelligence Radar...</div>
-        <div style="font-size:0.82rem; margin-top:4px;">Retrieving latest test-center recalls from Cloudflare Edge...</div>
-      </div>
-    `;
-  }
-
-  // 2. Fetch Fresh Live Feed from Cloudflare Worker
   try {
     let userId = '';
-    if (window.scholarUser && window.scholarUser.userId) {
-      userId = window.scholarUser.userId;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user && window.Telegram.WebApp.initDataUnsafe.user.id) {
+      userId = String(window.Telegram.WebApp.initDataUnsafe.user.id);
+    } else if (window.scholarUser && window.scholarUser.userId) {
+      userId = String(window.scholarUser.userId);
     } else {
-      const stored = localStorage.getItem('ips_scholar_auth');
-      if (stored) {
-        try { userId = JSON.parse(stored).userId || ''; } catch(e){}
+      userId = localStorage.getItem('ips_telegram_uid') || localStorage.getItem('ips_user_id') || '';
+      if (!userId) {
+        try {
+          const auth = localStorage.getItem('ips_scholar_auth');
+          if (auth) userId = String(JSON.parse(auth).userId || '');
+        } catch(e){}
       }
     }
 
-    const voucher = localStorage.getItem('ips_vip_voucher') || '';
+    const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher') || localStorage.getItem('ips_session_token') || '';
+    const isClientVip = (typeof isVipActive === 'function' && isVipActive()) ? '1' : '0';
+
     const query = new URLSearchParams();
     if (userId) query.set('userId', userId);
     if (voucher) query.set('voucher', voucher);
+    query.set('clientVip', isClientVip);
 
     const res = await fetch('/api/radar/feed?' + query.toString());
     if (res.ok) {
       const data = await res.json();
       window.radarData = data;
       localStorage.setItem('ips_radar_cache', JSON.stringify(data));
-      renderLiveExamRadarUI();
-    } else {
-      if (window.radarData) renderLiveExamRadarUI();
+      return data;
     }
-  } catch (err) {
+  } catch(err) {
     console.warn('[Radar Fetch Error]', err);
-    if (window.radarData) renderLiveExamRadarUI();
   }
+  return window.radarData;
 }
 
-function setRadarFilter(filterName) {
-  window.radarFilter = filterName || 'ALL';
-  renderLiveExamRadarUI();
+// =========================================================================
+// 1. LIVE EXAM LEXICONS SUB-TAB (In #view-lexicon ONLY)
+// =========================================================================
+async function initLiveExamLexicons() {
+  const mount = document.getElementById('liveLexiconMount');
+  const vipMount = document.getElementById('lexiconRadarVipMount');
+  if (!mount) return;
+
+  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  if (vipMount) {
+    vipMount.innerHTML = isVip
+      ? `<div style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 6px rgba(245,158,11,0.25);">
+           <svg class="ui-icon" style="color:#000; width:13px; height:13px;"><use href="#lucide-crown"/></svg> VIP UNLIMITED PASS ACTIVE
+         </div>`
+      : `<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid var(--border-mid); padding:4px 10px; border-radius:8px;">
+           <span style="font-size:0.75rem; color:var(--text-secondary);">Free Scholar: Top 10 Words Unlocked</span>
+           <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.72rem; font-weight:800; padding:3px 9px; border-radius:4px; cursor:pointer;">Upgrade VIP</button>
+         </div>`;
+  }
+
+  const data = await fetchRadarData();
+  if (!data || !data.lexicon) {
+    mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live exam vocabulary...</div>`;
+    return;
+  }
+
+  renderLiveLexiconCards();
 }
 
-function handleRadarSearch(val) {
-  window.radarSearch = (val || '').toLowerCase().trim();
-  renderLiveExamRadarUI();
+function filterLiveLexiconTab(filterName) {
+  window.radarLexiconFilter = filterName || 'ALL';
+  ['all', 'free', 'colloc', 'traps'].forEach(k => {
+    const btn = document.getElementById('btn-lex-radar-' + k);
+    if (btn) btn.classList.toggle('is-active', k.toUpperCase() === window.radarLexiconFilter);
+  });
+  renderLiveLexiconCards();
 }
 
-function renderLiveExamRadarUI() {
-  const mount = document.getElementById('radarMount');
+function handleLiveLexiconSearch(val) {
+  window.radarLexiconSearch = (val || '').toLowerCase().trim();
+  renderLiveLexiconCards();
+}
+
+function renderLiveLexiconCards() {
+  const mount = document.getElementById('liveLexiconMount');
   if (!mount || !window.radarData) return;
 
-  const data = window.radarData;
-  const isVip = !!data.isVip || (typeof isVipActive === 'function' && isVipActive());
-  const filter = window.radarFilter;
-  const q = window.radarSearch;
+  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  const filter = window.radarLexiconFilter;
+  const q = window.radarLexiconSearch;
 
-  // Filter items
-  const lexiconList = (data.lexicon || []).filter(item => {
+  const list = (window.radarData.lexicon || []).filter(item => {
     if (filter === 'FREE' && !item.is_free_sample) return false;
     if (filter === 'COLLOC' && (!item.collocations || !item.collocations.length)) return false;
     if (filter === 'TRAPS' && (!item.trap_notes || !item.trap_notes.length)) return false;
-    if (filter === 'WRITING' || filter === 'READING') return false;
 
     if (q) {
       const matchWord = (item.word || '').toLowerCase().includes(q);
@@ -24626,223 +24795,149 @@ function renderLiveExamRadarUI() {
     return true;
   });
 
-  const writingList = (data.writing || []).filter(item => {
-    if (filter === 'FREE' && !item.is_free_sample) return false;
-    if (filter === 'LEXICON' || filter === 'COLLOC' || filter === 'TRAPS' || filter === 'READING') return false;
-
-    if (q) {
-      const matchTitle = (item.title || '').toLowerCase().includes(q);
-      const matchCat = (item.topic_category || '').toLowerCase().includes(q);
-      const matchPrompt = (item.prompt || '').toLowerCase().includes(q);
-      return matchTitle || matchCat || matchPrompt;
-    }
-    return true;
-  });
-
-  const readingList = (data.reading || []).filter(item => {
-    if (filter === 'FREE' && !item.is_free_sample) return false;
-    if (filter === 'LEXICON' || filter === 'COLLOC' || filter === 'TRAPS' || filter === 'WRITING') return false;
-
-    if (q) {
-      const matchTitle = (item.title || '').toLowerCase().includes(q);
-      const matchCat = (item.category || '').toLowerCase().includes(q);
-      return matchTitle || matchCat;
-    }
-    return true;
-  });
-
-  const counts = data.counts || { writing: 5, reading: 3, lexicon: 20 };
-
-  let html = `
-    <!-- Top Radar Banner -->
-    <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:20px; margin-bottom:16px; box-sizing:border-box;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-        <div style="min-width:0; flex:1;">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;">
-            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
-            LIVE TEST-CENTER INTELLIGENCE FEED
-          </div>
-          <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0;">🔥 Real Exam Recall &amp; Forecast Radar</h2>
-          <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.5;">
-            Weekly authentic test papers, CBT reading passages &amp; high-yield vocabulary recalled from recent exam sessions across Southeast Asia, Australia, and the UK.
-          </div>
-        </div>
-
-        <div style="text-align:right; flex-shrink:0;">
-          ${isVip ? `
-            <div style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 6px rgba(245,158,11,0.25);">
-              <svg class="ui-icon" style="color:#000; width:13px; height:13px;"><use href="#lucide-crown"/></svg> VIP UNLIMITED PASS ACTIVE
-            </div>
-          ` : `
-            <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid var(--border-mid); padding:4px 10px; border-radius:8px;">
-              <span style="font-size:0.75rem; color:var(--text-secondary);">Free Scholar: Top 10 Words, 3 Writing &amp; 2 Reading</span>
-              <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.72rem; font-weight:800; padding:3px 9px; border-radius:4px; cursor:pointer;">Upgrade VIP</button>
-            </div>
-          `}
-        </div>
-      </div>
-
-      <!-- Live Counters -->
-      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:12px; font-size:0.78rem;">
-        <span style="color:var(--text-muted); font-weight:700;">Radar Ingestion:</span>
-        <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⚡ ${counts.lexicon || 20} Live Exam Words</span>
-        <span class="occ-ver-pill" style="background:rgba(59,130,246,0.12); color:#3B82F6; border:1px solid rgba(59,130,246,0.3); font-weight:700;">✍️ ${counts.writing || 5} Writing Recalls</span>
-        <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">📖 ${counts.reading || 3} Reading CBT Passages</span>
-        <span style="margin-left:auto; font-size:0.72rem; color:var(--text-muted);">Updated: ${new Date(data.updated_at || Date.now()).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</span>
-      </div>
-    </div>
-
-    <!-- Filter Strip & Search Toolbar -->
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
-      <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-        <button class="btn-outlined ${filter==='ALL'?'is-active':''}" onclick="setRadarFilter('ALL')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">All (${(data.lexicon||[]).length + (data.writing||[]).length + (data.reading||[]).length})</button>
-        <button class="btn-outlined ${filter==='FREE'?'is-active':''}" onclick="setRadarFilter('FREE')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px; border-color:#10B981; color:#10B981;">🌟 Free Samples (15)</button>
-        <button class="btn-outlined ${filter==='LEXICON'?'is-active':''}" onclick="setRadarFilter('LEXICON')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">🔤 Live Lexicons (${(data.lexicon||[]).length})</button>
-        <button class="btn-outlined ${filter==='WRITING'?'is-active':''}" onclick="setRadarFilter('WRITING')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">✍️ Writing Recalls (${(data.writing||[]).length})</button>
-        <button class="btn-outlined ${filter==='READING'?'is-active':''}" onclick="setRadarFilter('READING')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">📖 Reading CBT (${(data.reading||[]).length})</button>
-        <button class="btn-outlined ${filter==='COLLOC'?'is-active':''}" onclick="setRadarFilter('COLLOC')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">💎 Band 8.5+ Collocations</button>
-        <button class="btn-outlined ${filter==='TRAPS'?'is-active':''}" onclick="setRadarFilter('TRAPS')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">⚠️ Reading Traps</button>
-      </div>
-
-      <div style="flex:1; min-width:220px; max-width:340px;">
-        <input type="text" class="occ-input" value="${q}" placeholder="Search word, collocation, Burmese meaning..." oninput="handleRadarSearch(this.value)" style="width:100%; font-size:0.8rem; padding:6px 12px; border-radius:6px; box-sizing:border-box;">
-      </div>
-    </div>
-  `;
-
-  // SECTION 1: LIVE EXAM LEXICONS
-  if (lexiconList.length > 0) {
-    html += `
-      <div style="margin-bottom:28px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="font-size:0.92rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
-            <span>🔤 Real Exam Lexical Radar</span>
-            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:normal;">(${lexiconList.length} items)</span>
-          </div>
-          <div style="font-size:0.75rem; color:var(--text-secondary);">Click <strong>+ Add to 1-3-7 SRS</strong> to sync directly with your memory deck</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px;">
-    `;
-
-    lexiconList.forEach(item => {
-      if (item.locked && !isVip) {
-        // Locked Bento Card
-        html += `
-          <div style="background:var(--bg-card); border:1px dashed var(--border-mid); border-radius:10px; padding:16px; position:relative; overflow:hidden; box-sizing:border-box;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800;">🔒 VIP RADAR EXCLUSIVE</span>
-              <span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
-            </div>
-            <div style="font-size:1.15rem; font-weight:800; color:var(--text); margin-bottom:2px;">${escapeHtml(item.word)} <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">${escapeHtml(item.phonetic || '')}</span></div>
-            <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:12px;">Source: ${escapeHtml(item.source_test_ref || 'Recent Exam Paper')}</div>
-            <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; text-align:center;">
-              <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Unlock full Burmese gloss, collocations, paraphrase bridges &amp; 1-click SRS sync</div>
-              <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:6px 12px; border-radius:6px; width:100%; box-sizing:border-box; max-width:100%; white-space:normal;">
-                <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock with VIP (97,000 MMK / 75 Stars)
-              </button>
-            </div>
-          </div>
-        `;
-      } else {
-        // Unlocked Bento Card
-        const collocs = item.collocations || [];
-        const paraphrase = item.paraphrase || {};
-
-        html += `
-          <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.15s ease, border-color 0.15s ease;" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-mid)'">
-            <!-- Compartment 1: Meta & Action -->
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
-                <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap;">
-                  <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">LIVE EXAM</span>
-                  <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(item.band_tier || 'Band 8.5+')}</span>
-                  <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
-                </div>
-                <button class="btn-outlined" onclick="addRadarWordToSRS('${escapeHtml(item.word)}', '${escapeHtml(item.phonetic||'')}', '${escapeHtml(item.pos||'')}', '${escapeHtml(item.definition_en||'').replace(/'/g, "\'")}', '${escapeHtml(item.definition_mm||'').replace(/'/g, "\'")}')" style="font-size:0.72rem; padding:3px 9px; font-weight:700; border-radius:5px; white-space:nowrap; border-color:var(--accent); color:var(--accent);" title="Schedule for 1-3-7 Spaced Repetition">
-                  <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-plus"/></svg> Add to 1-3-7 SRS
-                </button>
-              </div>
-
-              <!-- Compartment 2: Word & Burmese Gloss -->
-              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:6px; margin-bottom:4px;">
-                <div style="font-size:1.24rem; font-weight:900; color:var(--text); letter-spacing:-0.01em;">
-                  ${escapeHtml(item.word)}
-                  <span style="font-size:0.78rem; font-weight:normal; color:var(--text-muted); font-family:monospace; margin-left:4px;">${escapeHtml(item.phonetic || '')}</span>
-                  <span style="font-size:0.7rem; color:var(--text-secondary); font-style:italic; margin-left:2px;">(${escapeHtml(item.pos || '')})</span>
-                </div>
-                <button onclick="pronounceRadarWord('${escapeHtml(item.word)}')" style="background:none; border:none; cursor:pointer; color:var(--accent); padding:2px 4px;" title="Listen British Pronunciation">
-                  <svg class="ui-icon" style="width:16px; height:16px;"><use href="#lucide-volume-2"/></svg>
-                </button>
-              </div>
-
-              <div style="font-size:0.92rem; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.45;" class="burmese">
-                ${escapeHtml(item.definition_mm || '')}
-              </div>
-
-              <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.5;">
-                ${escapeHtml(item.definition_en || '')}
-              </div>
-
-              <!-- Compartment 3: Real Exam Context Citation -->
-              ${item.real_exam_sentence ? `
-                <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:8px 10px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:0.78rem; line-height:1.5; color:var(--text);">
-                  <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">📌 Real Exam Citation (${escapeHtml(item.source_test_ref || '')}):</div>
-                  <em>"${escapeHtml(item.real_exam_sentence)}"</em>
-                </div>
-              ` : ''}
-
-              <!-- Collocations -->
-              ${collocs.length > 0 ? `
-                <div style="margin-bottom:8px; font-size:0.76rem;">
-                  <span style="font-weight:700; color:var(--text-secondary);">Exam Collocations:</span>
-                  <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:3px;">
-                    ${collocs.map(c => `<span style="background:rgba(255,255,255,0.05); border:1px solid var(--border-subtle); padding:1px 6px; border-radius:4px; color:var(--text);">${escapeHtml(c)}</span>`).join('')}
-                  </div>
-                </div>
-              ` : ''}
-
-              <!-- Paraphrase Bridge -->
-              ${paraphrase.band6 || paraphrase.band8 ? `
-                <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:0.74rem;">
-                  <span style="font-weight:800; color:#10B981;">⚡ Paraphrase Bridge:</span>
-                  <span style="color:var(--text-secondary); margin-left:4px;">${escapeHtml(paraphrase.band6 || '')} (B6) &rarr; ${escapeHtml(paraphrase.band7 || '')} (B7) &rarr; <strong style="color:var(--text);">${escapeHtml(paraphrase.band8 || '')} (B8.5+)</strong></span>
-                </div>
-              ` : ''}
-
-              <!-- Trap Alert -->
-              ${item.trap_notes ? `
-                <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.25); border-radius:6px; padding:6px 8px; font-size:0.73rem; color:var(--text-secondary); line-height:1.4;">
-                  <strong style="color:#F59E0B;">⚠️ Exam Trap:</strong> ${escapeHtml(item.trap_notes)}
-                </div>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }
-    });
-
-    html += `</div></div>`;
+  if (list.length === 0) {
+    mount.innerHTML = `<div style="padding:30px; text-align:center; color:var(--text-muted); font-size:0.86rem; border:1px dashed var(--border-mid); border-radius:8px;">No matching exam vocabulary found for this filter.</div>`;
+    return;
   }
 
-  // SECTION 2: WRITING RECALLS
-  if (writingList.length > 0) {
-    html += `
-      <div style="margin-bottom:28px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="font-size:0.92rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
-            <span>✍️ Real Exam Writing Recalls</span>
-            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:normal;">(${writingList.length} prompts)</span>
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px;">`;
+
+  list.forEach(item => {
+    const isLocked = item.locked && !isVip;
+
+    if (isLocked) {
+      html += `
+        <div style="background:var(--bg-card); border:1px dashed var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800;">🔒 VIP EXCLUSIVE</span>
+            <span style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
+          </div>
+          <div style="font-size:1.18rem; font-weight:900; color:var(--text); margin-bottom:2px;">
+            ${escapeHtml(item.word)} <span style="font-size:0.75rem; color:var(--text-muted); font-family:monospace;">${escapeHtml(item.phonetic || '')}</span>
+            <span style="font-size:0.7rem; color:var(--text-secondary); font-style:italic;">(${escapeHtml(item.pos || '')})</span>
+          </div>
+          <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">Source: ${escapeHtml(item.source_test_ref || 'Recent Exam Paper')}</div>
+          
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Unlock full Burmese gloss, collocations, paraphrase bridges &amp; 1-click SRS sync</div>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box; max-width:100%; white-space:normal; line-height:1.35;">
+              <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock 500+ Live Exam Words with VIP
+            </button>
           </div>
         </div>
+      `;
+    } else {
+      const collocs = item.collocations || [];
+      const paraphrase = item.paraphrase || {};
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">
-    `;
-
-    writingList.forEach((w, idx) => {
-      const isLocked = w.locked && !isVip;
       html += `
-        <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:18px; box-sizing:border-box;">
+        <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:16px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.15s ease, border-color 0.15s ease;" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--border-mid)'">
+          <!-- Compartment 1: Badges & SRS Sync -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
+              <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap;">
+                <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">LIVE EXAM</span>
+                <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(item.band_tier || 'Band 8.5+')}</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(item.topic_category || '')}</span>
+              </div>
+              <button class="btn-outlined" onclick="addRadarWordToSRS('${escapeHtml(item.word)}', '${escapeHtml(item.phonetic||'')}', '${escapeHtml(item.pos||'')}', '${escapeHtml(item.definition_en||'').replace(/'/g, "\'")}', '${escapeHtml(item.definition_mm||'').replace(/'/g, "\'")}')" style="font-size:0.72rem; padding:3px 9px; font-weight:700; border-radius:5px; white-space:nowrap; border-color:var(--accent); color:var(--accent);" title="Schedule for 1-3-7 Spaced Repetition">
+                <svg class="ui-icon" style="color:var(--accent);"><use href="#lucide-plus"/></svg> Add to 1-3-7 SRS
+              </button>
+            </div>
+
+            <!-- Compartment 2: Word, Audio & Burmese Meaning (NEVER BLANK) -->
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:6px; margin-bottom:4px;">
+              <div style="font-size:1.24rem; font-weight:900; color:var(--text); letter-spacing:-0.01em;">
+                ${escapeHtml(item.word)}
+                <span style="font-size:0.78rem; font-weight:normal; color:var(--text-muted); font-family:monospace; margin-left:4px;">${escapeHtml(item.phonetic || '')}</span>
+                <span style="font-size:0.7rem; color:var(--text-secondary); font-style:italic; margin-left:2px;">(${escapeHtml(item.pos || '')})</span>
+              </div>
+              <button onclick="pronounceRadarWord('${escapeHtml(item.word)}')" style="background:none; border:none; cursor:pointer; color:var(--accent); padding:2px 4px;" title="Listen British Pronunciation">
+                <svg class="ui-icon" style="width:16px; height:16px;"><use href="#lucide-volume-2"/></svg>
+              </button>
+            </div>
+
+            <div style="font-size:0.94rem; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.45;" class="burmese">
+              ${escapeHtml(item.definition_mm || '')}
+            </div>
+
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px; line-height:1.5;">
+              ${escapeHtml(item.definition_en || '')}
+            </div>
+
+            <!-- Compartment 3: Exam Sentence Citation -->
+            ${item.real_exam_sentence ? `
+              <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:8px 10px; border-radius:0 6px 6px 0; margin-bottom:10px; font-size:0.78rem; line-height:1.5; color:var(--text);">
+                <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">📌 Real Exam Citation (${escapeHtml(item.source_test_ref || '')}):</div>
+                <em>"${escapeHtml(item.real_exam_sentence)}"</em>
+              </div>
+            ` : ''}
+
+            <!-- Collocations -->
+            ${collocs.length > 0 ? `
+              <div style="margin-bottom:8px; font-size:0.76rem;">
+                <span style="font-weight:700; color:var(--text-secondary);">Exam Collocations:</span>
+                <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:3px;">
+                  ${collocs.map(c => `<span style="background:rgba(255,255,255,0.05); border:1px solid var(--border-subtle); padding:1px 6px; border-radius:4px; color:var(--text);">${escapeHtml(c)}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Paraphrase Bridge -->
+            ${paraphrase.band6 || paraphrase.band8 ? `
+              <div style="background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:0.74rem;">
+                <span style="font-weight:800; color:#10B981;">⚡ Paraphrase Bridge:</span>
+                <span style="color:var(--text-secondary); margin-left:4px;">${escapeHtml(paraphrase.band6 || '')} (B6) &rarr; ${escapeHtml(paraphrase.band7 || '')} (B7) &rarr; <strong style="color:var(--text);">${escapeHtml(paraphrase.band8 || '')} (B8.5+)</strong></span>
+              </div>
+            ` : ''}
+
+            <!-- Trap Alert -->
+            ${item.trap_notes ? `
+              <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.25); border-radius:6px; padding:6px 8px; font-size:0.73rem; color:var(--text-secondary); line-height:1.4;">
+                <strong style="color:#F59E0B;">⚠️ Exam Trap:</strong> ${escapeHtml(item.trap_notes)}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  html += `</div>`;
+  mount.innerHTML = html;
+}
+
+// =========================================================================
+// 2. LIVE EXAM WRITING RECALLS SUB-TAB (In #view-writing ONLY)
+// =========================================================================
+async function initLiveExamWriting() {
+  const mount = document.getElementById('liveWritingMount');
+  const vipMount = document.getElementById('writingRadarVipMount');
+  if (!mount) return;
+
+  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  if (vipMount) {
+    vipMount.innerHTML = isVip
+      ? `<span style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
+           <svg class="ui-icon" style="color:#000; width:13px; height:13px;"><use href="#lucide-crown"/></svg> VIP ALL PROMPTS &amp; MODELS UNLOCKED
+         </span>`
+      : `<span style="font-size:0.75rem; color:var(--text-secondary);">Free Tier: Top 3 Prompts Unlocked &bull; <a href="javascript:void(0)" onclick="openVipPassModal()" style="color:var(--accent); font-weight:800;">Unlock All Models</a></span>`;
+  }
+
+  const data = await fetchRadarData();
+  if (!data || !data.writing) {
+    mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live writing exam recalls...</div>`;
+    return;
+  }
+
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">`;
+
+  data.writing.forEach((w, idx) => {
+    const isLocked = w.locked && !isVip;
+
+    html += `
+      <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:18px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
             <div style="display:flex; gap:6px; align-items:center;">
               <span class="occ-ver-pill" style="background:#2563EB; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">${escapeHtml(w.task_type || 'TASK 2')}</span>
@@ -24852,61 +24947,76 @@ function renderLiveExamRadarUI() {
             ${w.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE SAMPLE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP RECALL</span>`}
           </div>
 
-          <h3 style="font-size:1.02rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(w.title)}</h3>
+          <h3 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(w.title)}</h3>
           <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px; font-weight:600;">Category: ${escapeHtml(w.topic_category || '')}</div>
 
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:6px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:var(--text); line-height:1.55;">
+          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; margin-bottom:12px; font-size:0.84rem; color:var(--text); line-height:1.55;">
             ${escapeHtml(w.prompt)}
           </div>
+        </div>
 
-          ${isLocked ? `
-            <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; text-align:center;">
-              <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Band 8.5+ model essay &amp; criteria breakdown locked</div>
-              <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:6px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
-                <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock Model Essay with VIP
+        ${isLocked ? `
+          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:12px; text-align:center;">
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Band 8.5+ model essay &amp; criteria breakdown locked</div>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
+              <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock Model Essay with VIP
+            </button>
+          </div>
+        ` : `
+          <div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+              <button class="btn-outlined" onclick="toggleRadarModelEssay('writing_essay_${idx}')" style="font-size:0.76rem; padding:5px 10px; font-weight:700;">
+                👁 Toggle Band 8.5 Model Essay
+              </button>
+              <button class="btn-accent-solid" onclick="loadRadarWritingToDesk('${escapeHtml(w.id)}')" style="font-size:0.76rem; padding:5px 12px; font-weight:800; border-radius:5px;">
+                ✍️ Practice in Writing Desk &rarr;
               </button>
             </div>
-          ` : `
-            <div>
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-                <button class="btn-outlined" onclick="toggleRadarModelEssay('essay_${idx}')" style="font-size:0.76rem; padding:4px 10px; font-weight:700;">
-                  👁 Toggle Band 8.5 Model Essay
-                </button>
-                <button class="btn-accent-solid" onclick="loadRadarWritingToDesk('${escapeHtml(w.id)}')" style="font-size:0.76rem; padding:4px 12px; font-weight:800; border-radius:5px;">
-                  ✍️ Practice in Writing Desk &rarr;
-                </button>
-              </div>
 
-              <div id="essay_${idx}" style="display:none; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; font-size:0.82rem; line-height:1.65; color:var(--text); white-space:pre-line; margin-top:8px;">
-                ${escapeHtml(w.model_essay || '')}
-              </div>
+            <div id="writing_essay_${idx}" style="display:none; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; font-size:0.82rem; line-height:1.65; color:var(--text); white-space:pre-line; margin-top:8px;">
+              ${escapeHtml(w.model_essay || '')}
             </div>
-          `}
-        </div>
-      `;
-    });
+          </div>
+        `}
+      </div>
+    `;
+  });
 
-    html += `</div></div>`;
+  html += `</div>`;
+  mount.innerHTML = html;
+}
+
+// =========================================================================
+// 3. LIVE EXAM READING CBT RECALLS SUB-TAB (In #view-reading ONLY)
+// =========================================================================
+async function initLiveExamReading() {
+  const mount = document.getElementById('liveReadingMount');
+  const vipMount = document.getElementById('readingRadarVipMount');
+  if (!mount) return;
+
+  const isVip = typeof isVipActive === 'function' ? isVipActive() : false;
+  if (vipMount) {
+    vipMount.innerHTML = isVip
+      ? `<span style="background:linear-gradient(135deg, #F59E0B, #D97706); color:#000; font-weight:800; font-size:0.74rem; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:5px;">
+           <svg class="ui-icon" style="color:#000; width:13px; height:13px;"><use href="#lucide-crown"/></svg> VIP ALL CBT PASSAGES UNLOCKED
+         </span>`
+      : `<span style="font-size:0.75rem; color:var(--text-secondary);">Free Tier: Top 2 Passages Unlocked &bull; <a href="javascript:void(0)" onclick="openVipPassModal()" style="color:var(--accent); font-weight:800;">Unlock All Passages</a></span>`;
   }
 
-  // SECTION 3: READING CBT RECALLS
-  if (readingList.length > 0) {
+  const data = await fetchRadarData();
+  if (!data || !data.reading) {
+    mount.innerHTML = `<div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving live reading exam recalls...</div>`;
+    return;
+  }
+
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">`;
+
+  data.reading.forEach(r => {
+    const isLocked = r.locked && !isVip;
+
     html += `
-      <div style="margin-bottom:20px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="font-size:0.92rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:6px;">
-            <span>📖 Real Exam Reading CBT Recalls</span>
-            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:normal;">(${readingList.length} tests)</span>
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">
-    `;
-
-    readingList.forEach(r => {
-      const isLocked = r.locked && !isVip;
-      html += `
-        <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:18px; box-sizing:border-box;">
+      <div style="background:var(--bg-card); border:1px solid var(--border-mid); border-radius:10px; padding:18px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
             <div style="display:flex; gap:6px; align-items:center;">
               <span class="occ-ver-pill" style="background:#10B981; color:#fff; border:none; font-size:0.65rem; font-weight:800; padding:1px 6px; border-radius:4px;">READING P${r.passage_number || 1}</span>
@@ -24916,36 +25026,36 @@ function renderLiveExamRadarUI() {
             ${r.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE FULL TEST</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">🔒 VIP TEST</span>`}
           </div>
 
-          <h3 style="font-size:1.02rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(r.title)}</h3>
+          <h3 style="font-size:1.05rem; font-weight:800; color:var(--text); margin:0 0 6px 0; line-height:1.4;">${escapeHtml(r.title)}</h3>
           <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:8px; font-weight:600;">Category: ${escapeHtml(r.category || '')} &bull; Types: ${escapeHtml(r.question_types || '')}</div>
-
-          ${isLocked ? `
-            <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:14px; text-align:center; margin-top:8px;">
-              <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Passage paragraphs, question battery &amp; bilingual answers locked</div>
-              <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:6px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
-                <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock All CBT Recalls with VIP
-              </button>
-            </div>
-          ` : `
-            <div>
-              <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
-                Includes ${(r.paragraphs||[]).length} sections with complete paragraph summaries in Burmese and ${(r.questions||[]).length} interactive CBT questions with explanation citations.
-              </div>
-              <button class="btn-accent-solid" onclick="launchRadarReadingCbt('${escapeHtml(r.id)}')" style="font-size:0.78rem; padding:6px 14px; font-weight:800; border-radius:5px; width:100%; box-sizing:border-box;">
-                📖 Start CBT Simulation Practice &rarr;
-              </button>
-            </div>
-          `}
         </div>
-      `;
-    });
 
-    html += `</div></div>`;
-  }
+        ${isLocked ? `
+          <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border-subtle); border-radius:6px; padding:14px; text-align:center; margin-top:8px;">
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:8px;">Passage paragraphs, question battery &amp; bilingual answers locked</div>
+            <button class="btn-accent-solid" onclick="openVipPassModal()" style="font-size:0.78rem; font-weight:800; padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
+              <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-crown"/></svg> Unlock All CBT Recalls with VIP
+            </button>
+          </div>
+        ` : `
+          <div style="margin-top:8px;">
+            <div style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+              Includes ${(r.paragraphs||[]).length} sections with complete paragraph summaries in Burmese and ${(r.questions||[]).length} interactive CBT questions with explanation citations.
+            </div>
+            <button class="btn-accent-solid" onclick="launchRadarReadingCbt('${escapeHtml(r.id)}')" style="font-size:0.78rem; padding:8px 14px; font-weight:800; border-radius:6px; width:100%; box-sizing:border-box;">
+              📖 Start CBT Simulation Practice &rarr;
+            </button>
+          </div>
+        `}
+      </div>
+    `;
+  });
 
+  html += `</div>`;
   mount.innerHTML = html;
 }
 
+// Utility Helpers
 function toggleRadarModelEssay(divId) {
   const el = document.getElementById(divId);
   if (el) el.style.display = (el.style.display === 'none') ? 'block' : 'none';
@@ -24970,7 +25080,7 @@ function addRadarWordToSRS(word, phonetic, pos, defEn, defMm) {
       pos: pos || 'n.',
       definition: defEn || '',
       burmese: defMm || '',
-      interval: 1, // Due in 1 day (1-3-7 Spaced Repetition)
+      interval: 1,
       nextReview: now + 86400000,
       history: [{ date: new Date().toISOString(), result: 'added_from_exam_radar' }]
     };
@@ -25004,7 +25114,6 @@ function loadRadarWritingToDesk(id) {
     }
     const select = document.getElementById('wSelect');
     if (select) {
-      // Create option if missing
       let opt = Array.from(select.options).find(o => o.value === item.id);
       if (!opt) {
         opt = document.createElement('option');
@@ -25030,11 +25139,9 @@ function launchRadarReadingCbt(id) {
   if (typeof switchSubTab === 'function') switchSubTab('reading', 'reading');
 
   setTimeout(() => {
-    // If CBT reader has custom load method
     if (typeof window.loadCustomReadingPassage === 'function') {
       window.loadCustomReadingPassage(item);
     } else if (typeof READING_DATA !== 'undefined' && Array.isArray(READING_DATA)) {
-      // Check if already in READING_DATA
       const existing = READING_DATA.find(p => p.id === item.id);
       if (!existing) {
         READING_DATA.unshift({
