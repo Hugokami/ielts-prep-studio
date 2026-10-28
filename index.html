@@ -2528,6 +2528,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid var(--accent);
+    display: block;
   }
 
   .account-dropdown {
@@ -2551,7 +2552,9 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    object-fit: cover;
     border: 2px solid var(--accent);
+    display: block;
   }
   .account-dropdown-name {
     font-weight: 700;
@@ -12253,6 +12256,11 @@ window.quickUnlockBrowserVip = async function() {
       const nativeTgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) ||
                            (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
       if (nativeTgUser && nativeTgUser.id) {
+        const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+        nativeTgUser.avatar_proxy = `${apiBase}/api/telegram-avatar?userId=${nativeTgUser.id}&name=${encodeURIComponent(nativeTgUser.first_name || '')}`;
+        if (!nativeTgUser.photo_url) {
+          nativeTgUser.photo_url = nativeTgUser.avatar_proxy;
+        }
         window.telegramUser = nativeTgUser;
         try { localStorage.setItem('ips_browser_tg_user', JSON.stringify(nativeTgUser)); } catch (e) {}
         if (String(nativeTgUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
@@ -12267,6 +12275,11 @@ window.quickUnlockBrowserVip = async function() {
         if (savedTg) {
           const parsed = JSON.parse(savedTg);
           if (parsed && parsed.id) {
+            const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+            parsed.avatar_proxy = `${apiBase}/api/telegram-avatar?userId=${parsed.id}&name=${encodeURIComponent(parsed.first_name || '')}`;
+            if (!parsed.photo_url) {
+              parsed.photo_url = parsed.avatar_proxy;
+            }
             window.telegramUser = parsed;
             if (String(parsed.id) === String(window.ADMIN_TG_ID || "7468650530")) {
               window.isVipUser = true;
@@ -12296,17 +12309,24 @@ window.quickUnlockBrowserVip = async function() {
     if (tgId) {
       const cleanId = String(tgId).trim().replace(/[^0-9]/g, '');
       if (cleanId) {
+        const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+        const rawName = params.get("name") || params.get("first_name") || (window.telegramUser && window.telegramUser.first_name) || "IELTS Scholar";
+        const proxyAvatar = `${apiBase}/api/telegram-avatar?userId=${cleanId}&name=${encodeURIComponent(rawName)}`;
+        const existingPhoto = (window.telegramUser && window.telegramUser.photo_url) || params.get("photo_url") || params.get("avatar") || "";
+
         window.telegramUser = {
           id: cleanId,
-          first_name: params.get("name") || params.get("first_name") || "IELTS Scholar",
-          username: params.get("username") || ""
+          first_name: rawName,
+          username: params.get("username") || (window.telegramUser && window.telegramUser.username) || "",
+          photo_url: existingPhoto || proxyAvatar,
+          avatar_proxy: proxyAvatar
         };
         try {
           localStorage.setItem('ips_browser_tg_user', JSON.stringify(window.telegramUser));
         } catch (e) {}
         userChanged = true;
 
-        if (cleanId === String(window.ADMIN_TG_ID)) {
+        if (cleanId === String(window.ADMIN_TG_ID || "7468650530")) {
           vipChanged = true;
         }
       }
@@ -12478,6 +12498,47 @@ function triggerCloudSync() {
   if (modal) modal.style.display = "flex";
 }
 
+function getEffectiveAvatarUrl(user, displayName) {
+  const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+  if (!user) return null;
+  const uid = user.id || user.uid;
+  if (user.photo_url && typeof user.photo_url === 'string' && !user.photo_url.includes('undefined')) return user.photo_url;
+  if (user.photoURL && typeof user.photoURL === 'string' && !user.photoURL.includes('undefined')) return user.photoURL;
+  if (user.avatar_proxy) return user.avatar_proxy;
+  if (uid) return `${apiBase}/api/telegram-avatar?userId=${uid}&name=${encodeURIComponent(displayName || user.first_name || '')}`;
+  return null;
+}
+
+function handleAvatarError(imgEl, proxyUrl, initial, context) {
+  if (!imgEl) return;
+  // Step 1: If direct Telegram CDN failed (e.g. 403 on iOS WebKit), try backend proxy
+  if (proxyUrl && !imgEl.dataset.proxyTried && imgEl.src !== proxyUrl) {
+    imgEl.dataset.proxyTried = "true";
+    imgEl.src = proxyUrl;
+    return;
+  }
+  // Step 2: Fall back cleanly to high-contrast monogram initial (no broken image icon)
+  imgEl.onerror = null;
+  const parent = imgEl.parentElement;
+  if (!parent) return;
+
+  const letter = (initial || 'S').toUpperCase();
+  if (context === 'scholar') {
+    parent.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${letter}</span>`;
+    const wrap = document.getElementById("scholarAvatarWrap");
+    if (wrap) {
+      wrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+      wrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
+    }
+  } else if (context === 'auth') {
+    parent.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${letter}</span>`;
+  } else if (context === 'dropdown') {
+    parent.innerHTML = `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${letter}</div>`;
+  }
+}
+window.getEffectiveAvatarUrl = getEffectiveAvatarUrl;
+window.handleAvatarError = handleAvatarError;
+
 function updateScholarAvatar(photoUrl, displayName) {
   const avatarWrap = document.getElementById("scholarAvatarWrap");
   const avatarInner = document.getElementById("scholarAvatarInner");
@@ -12494,21 +12555,27 @@ function updateScholarAvatar(photoUrl, displayName) {
   }
 
   if (!avatarInner) return;
-  if (photoUrl) {
-    avatarInner.innerHTML = `<img src="${photoUrl}" alt="Scholar Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;">`;
+  const initial = (displayName && displayName.trim()[0] ? displayName.trim()[0] : 'S').toUpperCase();
+  const tgUser = window.telegramUser || (window.StorageManager && window.StorageManager.getTelegramUser && window.StorageManager.getTelegramUser());
+  const effectivePhoto = photoUrl || getEffectiveAvatarUrl(tgUser, displayName);
+  const tgId = (tgUser && tgUser.id) || '';
+  const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+  const proxyUrl = tgId ? `${apiBase}/api/telegram-avatar?userId=${tgId}&name=${encodeURIComponent(displayName || '')}` : '';
+
+  if (effectivePhoto) {
+    avatarInner.innerHTML = `<img src="${effectivePhoto}" alt="Scholar Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'scholar')">`;
     if (avatarWrap) {
       avatarWrap.style.background = 'transparent';
       avatarWrap.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
     }
   } else if (displayName) {
-    const initial = (displayName.trim()[0] || 'S').toUpperCase();
     avatarInner.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">${initial}</span>`;
     if (avatarWrap) {
       avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
       avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
     }
   } else {
- avatarInner.innerHTML = `<span></span>`;
+    avatarInner.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.25rem;font-weight:800;color:#fff;">S</span>`;
     if (avatarWrap) {
       avatarWrap.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
       avatarWrap.style.boxShadow = '0 4px 16px rgba(245, 158, 11, 0.3)';
@@ -12565,19 +12632,25 @@ function updateAuthUI() {
     // 1. Authenticated natively via Telegram Mini App
     const displayName = tgUser.first_name ? `${tgUser.first_name}${tgUser.last_name ? ' ' + tgUser.last_name : ''}` : (tgUser.username || "Telegram User");
     const displayHandle = tgUser.username ? `@${tgUser.username}` : `UID: ${tgUser.id}`;
+    const initial = (displayName && displayName.trim()[0] ? displayName.trim()[0] : 'T').toUpperCase();
+    const effectivePhoto = getEffectiveAvatarUrl(tgUser, displayName);
+    const tgId = tgUser.id || '';
+    const apiBase = (window.STUDIO_API_URL) || 'https://ielts-prep-studio-backend.lyan123-lh.workers.dev';
+    const proxyUrl = tgId ? `${apiBase}/api/telegram-avatar?userId=${tgId}&name=${encodeURIComponent(displayName || '')}` : '';
+
     if (authLabel) authLabel.textContent = displayName;
     if (authIcon) {
-      if (tgUser.photo_url) {
-        authIcon.innerHTML = `<img src="${tgUser.photo_url}" class="auth-avatar" alt="Avatar">`;
+      if (effectivePhoto) {
+        authIcon.innerHTML = `<img src="${effectivePhoto}" class="auth-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'auth')">`;
       } else {
-        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${(displayName || 'T')[0].toUpperCase()}</span>`;
+        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${initial}</span>`;
       }
     }
-    updateScholarAvatar(tgUser.photo_url, displayName);
+    updateScholarAvatar(effectivePhoto, displayName);
     if (dd) {
       dd.innerHTML = `
         <div class="account-dropdown-header">
-          ${tgUser.photo_url ? `<img src="${tgUser.photo_url}" class="account-dropdown-avatar" alt="Avatar">` : `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${(displayName || 'T')[0].toUpperCase()}</div>`}
+          ${effectivePhoto ? `<img src="${effectivePhoto}" class="account-dropdown-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '${proxyUrl}', '${initial}', 'dropdown')">` : `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${initial}</div>`}
           <div style="min-width:0;">
             <div class="account-dropdown-name">${escapeHtml(displayName)}</div>
             <div class="account-dropdown-email" style="color:var(--accent);">${escapeHtml(displayHandle)}</div>
@@ -12641,9 +12714,15 @@ function updateAuthUI() {
       `;
     }
   } else if (window.currentUser) {
-    if (authLabel) authLabel.textContent = window.currentUser.displayName || "Account";
+    const displayName = window.currentUser.displayName || "Account";
+    const initial = (displayName.trim()[0] || "A").toUpperCase();
+    if (authLabel) authLabel.textContent = displayName;
     if (authIcon) {
-      authIcon.innerHTML = `<img src="${window.currentUser.photoURL}" class="auth-avatar" alt="Avatar">`;
+      if (window.currentUser.photoURL) {
+        authIcon.innerHTML = `<img src="${window.currentUser.photoURL}" class="auth-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '', '${initial}', 'auth')">`;
+      } else {
+        authIcon.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--accent);color:#fff;border-radius:50%;font-size:10px;font-weight:700;">${initial}</span>`;
+      }
     }
     updateScholarAvatar(window.currentUser.photoURL, window.currentUser.displayName);
     if (dd) {
@@ -12652,7 +12731,7 @@ function updateAuthUI() {
       const drlQuota = canUseParaphraseDrill();
       dd.innerHTML = `
         <div class="account-dropdown-header">
-          <img src="${window.currentUser.photoURL}" class="account-dropdown-avatar" alt="Avatar">
+          ${window.currentUser.photoURL ? `<img src="${window.currentUser.photoURL}" class="account-dropdown-avatar" alt="Avatar" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="handleAvatarError(this, '', '${initial}', 'dropdown')">` : `<div style="width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05rem;">${initial}</div>`}
           <div style="min-width:0;">
             <div class="account-dropdown-name">${window.currentUser.displayName}</div>
             <div class="account-dropdown-email">${window.currentUser.email || "Google Account"}</div>

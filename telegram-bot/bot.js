@@ -29,11 +29,12 @@ const ACCOUNT_NAME = process.env.ACCOUNT_NAME || 'Lyan Htet';
 const PRICE_MMK = process.env.PRICE_MMK || '97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)';
 const WEB_URL = process.env.STUDIO_WEB_URL || 'https://ielts-prep-studio-olive.vercel.app';
 
-function getLaunchUrl(userId = null, voucher = null) {
+function getLaunchUrl(userId = null, voucher = null, name = null) {
   const base = WEB_URL.replace(/\/+$/, '');
   const params = [];
   if (voucher) params.push(`voucher=${encodeURIComponent(voucher)}`);
   if (userId) params.push(`tg_user=${encodeURIComponent(userId)}`);
+  if (name) params.push(`name=${encodeURIComponent(name)}`);
   return params.length ? `${base}/?${params.join('&')}` : `${base}/`;
 }
 

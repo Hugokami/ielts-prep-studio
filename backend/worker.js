@@ -82,6 +82,10 @@ if (url.pathname === "/webhook" && request.method === "POST") {
         return jsonResponse({ status: "ok", time: new Date().toISOString() });
       }
 
+      if ((url.pathname === "/api/telegram-avatar" || url.pathname === "/api/avatar") && request.method === "GET") {
+        return await handleTelegramAvatar(request, env);
+      }
+
       return new Response("Not Found", { status: 404, headers: corsHeaders() });
     } catch (err) {
       console.error("[Worker Unhandled Error]", err);
@@ -3483,11 +3487,12 @@ async function getUserVipVoucher(env, userId) {
   return null;
 }
 
-function getStudioLaunchUrl(env, userId = null, voucher = null) {
+function getStudioLaunchUrl(env, userId = null, voucher = null, name = null) {
   const base = (env.STUDIO_WEB_URL || "https://ielts-prep-studio-olive.vercel.app").replace(/\/+$/, "");
   const params = [];
   if (voucher) params.push(`voucher=${encodeURIComponent(voucher)}`);
   if (userId) params.push(`tg_user=${encodeURIComponent(userId)}`);
+  if (name) params.push(`name=${encodeURIComponent(name)}`);
   return params.length ? `${base}/?${params.join("&")}` : `${base}/`;
 }
 
@@ -8327,4 +8332,127 @@ Tap below to launch the studio:`;
 
   });
 
+}
+
+// Telegram Avatar Proxy & Monogram SVG Generator
+async function handleTelegramAvatar(request, env) {
+  const url = new URL(request.url);
+  const rawId = url.searchParams.get("userId") || 
+                url.searchParams.get("user_id") || 
+                url.searchParams.get("id") || 
+                url.searchParams.get("uid");
+  const name = url.searchParams.get("name") || url.searchParams.get("first_name") || "Scholar";
+  const initial = (name.trim()[0] || "S").toUpperCase();
+
+  // Helper for generating vector monogram SVG avatar
+  const makeMonogramSvg = (letter) => `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="50" fill="url(#avatarGrad)"/>
+  <text x="50" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="44" font-weight="800" fill="#ffffff" text-anchor="middle" dominant-baseline="central">${letter}</text>
+</svg>`.trim();
+
+  const svgResponse = (letter) => new Response(makeMonogramSvg(letter), {
+    status: 200,
+    headers: {
+      "Content-Type": "image/svg+xml",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=86400, s-maxage=86400",
+      "Vary": "Accept-Encoding"
+    }
+  });
+
+  if (!rawId) {
+    return svgResponse(initial);
+  }
+
+  const userId = String(rawId).replace(/[^0-9]/g, '');
+  if (!userId) {
+    return svgResponse(initial);
+  }
+
+  const botToken = env.BOT_TOKEN;
+  if (!botToken) {
+    return svgResponse(initial);
+  }
+
+  try {
+    // 1. Fetch user profile photos metadata
+    const photosRes = await fetch(`https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${userId}&limit=1`, {
+      cf: { cacheTtl: 3600, cacheEverything: true }
+    });
+
+    if (!photosRes.ok) {
+      return svgResponse(initial);
+    }
+
+    const photosData = await photosRes.json();
+    if (!photosData.ok || !photosData.result || !photosData.result.photos || photosData.result.photos.length === 0) {
+      return svgResponse(initial);
+    }
+
+    const photoSizes = photosData.result.photos[0];
+    if (!photoSizes || photoSizes.length === 0) {
+      return svgResponse(initial);
+    }
+
+    // Pick ~320px width or largest available
+    const targetPhoto = photoSizes.find(p => p.width >= 320) || photoSizes[photoSizes.length - 1];
+    if (!targetPhoto || !targetPhoto.file_id) {
+      return svgResponse(initial);
+    }
+
+    // 2. Fetch file path from Telegram
+    const fileRes = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${encodeURIComponent(targetPhoto.file_id)}`, {
+      cf: { cacheTtl: 3600, cacheEverything: true }
+    });
+
+    if (!fileRes.ok) {
+      return svgResponse(initial);
+    }
+
+    const fileData = await fileRes.json();
+    if (!fileData.ok || !fileData.result || !fileData.result.file_path) {
+      return svgResponse(initial);
+    }
+
+    // 3. Determine correct MIME
+    const filePath = fileData.result.file_path;
+    const ext = filePath.includes('.') ? filePath.toLowerCase().split('.').pop() : 'jpg';
+    const mimeMap = {
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      webp: 'image/webp'
+    };
+    const contentType = mimeMap[ext] || 'image/jpeg';
+
+    // 4. Fetch actual binary image from Telegram File API
+    const imageRes = await fetch(`https://api.telegram.org/file/bot${botToken}/${filePath}`, {
+      cf: { cacheTtl: 86400, cacheEverything: true }
+    });
+
+    if (!imageRes.ok) {
+      return svgResponse(initial);
+    }
+
+    return new Response(imageRes.body, {
+      status: 200,
+      headers: {
+        "Content-Type": contentType,
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=43200",
+        "ETag": `"${targetPhoto.file_unique_id || targetPhoto.file_id}"`,
+        "X-Content-Type-Options": "nosniff"
+      }
+    });
+  } catch (err) {
+    console.error("[Telegram Avatar Proxy Error]", err);
+    return svgResponse(initial);
+  }
 }
