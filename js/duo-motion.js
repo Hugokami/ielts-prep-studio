@@ -1282,19 +1282,19 @@
             <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-house"/></svg>Home Overview</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Journey tree, daily quests &amp; streak tracker</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book-open"/></svg>Lexicon &amp; Drills</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">1,162 AWL words &amp; 1-3-7 Spaced Repetition</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book-open"/></svg>Lexicon &amp; Drills</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">1,322+ Academic, culinary &amp; recent test words with 1-3-7 SRS</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
             <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-headphones"/></svg>Listening CBT</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">160 Cambridge audio tests with transcripts</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book"/></svg>CBT Reading</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">23 Full Passages with split highlighter</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-book"/></svg>CBT Reading</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">47 Full Passages (551 Qs) with split highlighter</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-pen-tool"/></svg>Writing Lab</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">Task 1 charts &amp; Task 2 AI CEFR evaluator</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-pen-tool"/></svg>Writing Lab</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">43+ Task 1 &amp; Task 2 models with AI CEFR evaluator</span>
           </div>
           <div style="padding:8px 10px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border);font-size:0.78rem;">
-            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-mic"/></svg>Speaking Studio</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">35 Forecasts, auto-cue cards &amp; live weather</span>
+            <strong><svg class="ui-icon" style="display:inline-block;vertical-align:-2px;margin-right:4px;"><use href="#lucide-mic"/></svg>Speaking Studio</strong><br><span style="color:var(--text-secondary);font-size:0.72rem;">50 Forecast topics (164 Qs) &amp; 5 strategic frameworks</span>
           </div>
         </div>
       `,
@@ -1542,12 +1542,12 @@
             <div class="duo-path-node" onclick="switchView('speaking')" title="Step 4: Speaking 3-Part Mock Simulator">
               <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#8B5CF6;" aria-hidden="true"><use href="#lucide-mic"/></svg></div>
               <div class="duo-node-label">Speaking</div>
-              <div class="duo-node-crowns"><svg class="ui-icon" style="width:11px;height:11px;" aria-hidden="true"><use href="#lucide-lock"/></svg> Next</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="color:#8B5CF6;width:11px;height:11px;" aria-hidden="true"><use href="#lucide-mic"/></svg> Studio</div>
             </div>
             <div class="duo-path-node" onclick="switchView('writing')" title="Step 5: Task 2 Academic Essay Lab">
               <div class="duo-node-circle"><svg class="ui-icon" style="width:24px;height:24px;color:#EC4899;" aria-hidden="true"><use href="#lucide-pen-tool"/></svg></div>
               <div class="duo-node-label">Writing</div>
-              <div class="duo-node-crowns"><svg class="ui-icon" style="width:11px;height:11px;" aria-hidden="true"><use href="#lucide-lock"/></svg> Lab</div>
+              <div class="duo-node-crowns"><svg class="ui-icon" style="color:#EC4899;width:11px;height:11px;" aria-hidden="true"><use href="#lucide-pen-tool"/></svg> Essay</div>
             </div>
           </div>
         </div>

@@ -8001,7 +8001,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <!-- Top Right Utilities -->
       <div class="top-utils">
         <div id="duoTopHudMount" class="duo-top-hud-mount"></div>
-        <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,162 words &amp; 124 tests (Ctrl+K)">
+        <button class="util-icon-btn" onclick="openQuickSearchModal()" title="Quick Search across all 1,322 words, 47 reading tests &amp; 43 writing models (Ctrl+K)">
           <svg class="ui-icon"><use href="#lucide-search"/></svg> <span class="search-btn-label">Search</span> <kbd style="font-size:0.65rem; padding:1px 4px; border:1px solid var(--border-mid); border-radius:2px;">Ctrl+K</kbd>
         </button>
         <button class="util-icon-btn" onclick="jumpToDueSRS()" id="srsDueTopBtn" title="Review Spaced Repetition Words Due Today">
@@ -8234,7 +8234,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         Master Cambridge IELTS on a quieter kind of preparation.
       </h1>
       <p class="cirrus-subtext">
-        47 Computer-Based Reading Mocks, 1,162 Academic Lexicon flashcards with 1-3-7 day Leitner SRS, and instant CEFR writing evaluation. Crafted for serious scholars aiming for Band 8.5+.
+        47 Computer-Based Reading Mocks, 1,322 Academic &amp; Culinary Lexicon entries with 1-3-7 day Leitner SRS, and instant CEFR writing evaluation. Crafted for serious scholars aiming for Band 8.5+.
       </p>
       <div class="cirrus-action-pills">
         <button class="cirrus-btn-dark" onclick="switchView('reading')">
@@ -8242,7 +8242,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
         </button>
         <button class="cirrus-btn-light" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
-          <span>Explore 1,162 Lexicon</span>
+          <span>Explore 1,322+ Lexicon</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
       </div>
@@ -8311,7 +8311,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div class="speak-streak-flame"><svg class="ui-icon" style="width:22px; height:22px; color:#F97316;"><use href="#lucide-flame"/></svg></div>
         <div style="flex:1;">
           <div class="speak-streak-title"><span id="streakCountVal">1 Day</span> <span class="shiny-text">Study Streak</span></div>
-          <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,162</strong> <span class="rot" data-words="academic collocations | high-yield IELTS traps | C1/C2 CEFR vocabulary | Band 8.5–9.0 expressions">academic collocations</span>. Paraphrase accuracy on track.</div>
+          <div class="speak-streak-sub">Nice work today! You've mastered <strong id="hero-progress-val">0 / 1,322</strong> <span class="rot" data-words="academic collocations | high-yield IELTS traps | Burmese culinary terms | recent exam vocabulary | C1/C2 CEFR vocabulary | Band 8.5–9.0 expressions">academic collocations</span>. Paraphrase accuracy on track.</div>
         </div>
         <button class="speak-streak-btn star-btn" onclick="switchView('lexicon'); toggleFlashcardDrawer();">
           Review SRS Flashcards <svg class="ui-icon" style="width:13px;height:13px;display:inline-block;vertical-align:-1px;margin-left:2px;"><use href="#lucide-external-link"/></svg>
@@ -8340,36 +8340,36 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
       <div class="telemetry-bento-grid">
         <!-- Card 1: Lexicon & Traps -->
-        <div class="telemetry-bento-card" onclick="switchView('lexicon'); toggleFlashcardDrawer();" role="button" tabindex="0" title="Review 1,162 Vocabulary Flashcards">
+        <div class="telemetry-bento-card" onclick="switchView('lexicon'); toggleFlashcardDrawer();" role="button" tabindex="0" title="Review 1,322+ Vocabulary Flashcards &amp; Burmese Culinary Lexicon">
           <div class="bento-card-top">
             <span class="bento-badge badge-orange">Vocab Deck</span>
             <span class="bento-arrow">↗</span>
           </div>
-          <div class="bento-metric-val">1,162</div>
-          <div class="bento-metric-label">Academic Words &amp; Traps</div>
-          <div class="bento-metric-sub">Oxford 3000 + Cambridge trap frequency with SRS</div>
+          <div class="bento-metric-val">1,322+</div>
+          <div class="bento-metric-label">Academic &amp; Cultural Lexicon</div>
+          <div class="bento-metric-sub">1,185 AWL Words + 117 Burmese Culinary + Recent Tests with SRS</div>
         </div>
 
         <!-- Card 2: CBT Reading Simulations -->
-        <div class="telemetry-bento-card" onclick="switchView('reading')" role="button" tabindex="0" title="Start Computer-Based Reading Mocks">
+        <div class="telemetry-bento-card" onclick="switchView('reading')" role="button" tabindex="0" title="Start Computer-Based Reading Mocks (47 Passages)">
           <div class="bento-card-top">
             <span class="bento-badge badge-blue">CBT Reading</span>
             <span class="bento-arrow">↗</span>
           </div>
-          <div class="bento-metric-val">23 Mocks</div>
-          <div class="bento-metric-label">Computer-Based Tests</div>
-          <div class="bento-metric-sub">Split-pane passages &amp; instant answer evaluation</div>
+          <div class="bento-metric-val">47 Passages</div>
+          <div class="bento-metric-label">Computer-Based Tests (551 Qs)</div>
+          <div class="bento-metric-sub">23 Cambridge Full-Length + 24 Recent Global CBT Tests</div>
         </div>
 
         <!-- Card 3: Writing Models & Diagnostic AI -->
-        <div class="telemetry-bento-card" onclick="switchView('writing')" role="button" tabindex="0" title="Open Writing Lab">
+        <div class="telemetry-bento-card" onclick="switchView('writing')" role="button" tabindex="0" title="Open Writing Lab (43+ Models)">
           <div class="bento-card-top">
             <span class="bento-badge badge-emerald">Writing Lab</span>
             <span class="bento-arrow">↗</span>
           </div>
-          <div class="bento-metric-val">40 Models</div>
+          <div class="bento-metric-val">43+ Models</div>
           <div class="bento-metric-label">Band 8.5–9.0 Essays</div>
-          <div class="bento-metric-sub">Annotated structures &amp; CEFR automated scoring</div>
+          <div class="bento-metric-sub">Annotated structures, CEFR AI scoring &amp; Global Models</div>
         </div>
       </div>
     </div>
@@ -8384,7 +8384,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="speak-well well-peach"><svg class="ui-icon ui-icon-xl" style="color:#EA580C;"><use href="#lucide-landmark"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Word Smart</div>
-            <div class="speak-jumpin-sub">1,162 Must-know academic words &amp; AWL sublists</div>
+            <div class="speak-jumpin-sub">1,322+ Must-know academic, culinary &amp; recent test words</div>
           </div>
           <div class="speak-jumpin-arrow">→</div>
         </div>
@@ -8402,7 +8402,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="speak-well well-blue"><svg class="ui-icon ui-icon-xl" style="color:#0284C7;"><use href="#lucide-mic"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Speaking Forecast</div>
-            <div class="speak-jumpin-sub">50 Real exam topics &amp; 160 questions</div>
+            <div class="speak-jumpin-sub">50 Global topics (164 questions) &amp; 5 frameworks</div>
           </div>
           <div class="speak-jumpin-arrow">→</div>
         </div>
@@ -8411,7 +8411,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <div class="speak-well well-mint"><svg class="ui-icon ui-icon-xl" style="color:#059669;"><use href="#lucide-file-text"/></svg></div>
           <div class="speak-jumpin-content">
             <div class="speak-jumpin-title">Writing Lab</div>
-            <div class="speak-jumpin-sub">40 High-scoring model essays &amp; CEFR practice evaluator</div>
+            <div class="speak-jumpin-sub">43+ High-scoring model essays &amp; CEFR practice evaluator</div>
           </div>
           <div class="speak-jumpin-arrow">→</div>
         </div>
@@ -8621,13 +8621,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
               <div class="occ-card-identity">
                 <div class="occ-icon-box" onclick="switchView('lexicon')">LX</div>
                 <div>
-                  <div class="occ-word-title"><span class="shiny-text">1,162-Entry Lexicon &amp; Traps</span> + 1-3-7 Day SRS</div>
+                  <div class="occ-word-title"><span class="shiny-text">1,322+ Comprehensive Lexicon</span> + 1-3-7 Day SRS</div>
                   <div class="occ-word-sub">26 Varieties &amp; Trap Banks • 16 Word Families • 30 Synonym Sets</div>
                 </div>
               </div>
               <div class="occ-meta-right">
                 <span class="occ-ver-pill">Band 7.5–9.0</span>
-                <div class="occ-size-sub" id="card-kpi-vocab">0 / 1,162 Mastered</div>
+                <div class="occ-size-sub" id="card-kpi-vocab">0 / 1,322 Mastered</div>
               </div>
             </div>
             <div class="occ-body-mm burmese">
@@ -9262,7 +9262,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <div class="subtab-bar" role="tablist" aria-label="Lexicon &amp; Drills Sub-Navigation">
       <button class="subtab-btn active" data-subtab="vocab" onclick="switchSubTab('lexicon', 'vocab')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        <span>Vocabulary (1,162)</span>
+        <span>Vocabulary (1,185)</span>
       </button>
       <button class="subtab-btn" data-subtab="flashcards" onclick="switchSubTab('lexicon', 'flashcards')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/></svg>
@@ -9294,7 +9294,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div id="lex-cards-sec">
       <div class="sec-eyebrow">VOCABULARY &amp; SYNONYM ARCHITECTURE</div>
       <div class="sec-header-row">
-        <h2 class="sec-title">High-Frequency IELTS Lexicon &amp; Traps <span class="ver-muted">1,162 Entries · 26 Varieties · 1-3-7 Day SRS</span></h2>
+        <h2 class="sec-title">High-Frequency IELTS Lexicon &amp; Traps <span class="ver-muted">1,185 AWL Entries + 117 Culinary + Recent Tests · 1-3-7 Day SRS</span></h2>
         <div class="sec-timestamp">Click <svg class="ui-icon"><use href="#lucide-volume-2"/></svg> to hear British pronunciation • Click any synonym to pronounce</div>
       </div>
 
@@ -9320,7 +9320,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <select id="lexVariety" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Variety"></select>
         <select id="lexCat" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Category"></select>
         <select id="lexStatus" class="occ-select" onchange="renderLexiconGrid()" aria-label="Filter by Mastery or SRS Status">
-          <option value="ALL">All Status (1,162 Entries)</option>
+          <option value="ALL">All Status (1,185 Core Entries)</option>
           <option value="DUE">Due Today (SRS Queue)</option>
           <option value="UNMASTERED">To Review Only</option>
           <option value="MASTERED">Mastered (Easy 7d) Only</option>
@@ -9636,7 +9636,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <div class="subtab-bar" role="tablist" aria-label="Reading CBT Sub-Navigation">
       <button class="subtab-btn active" data-subtab="reading" onclick="switchSubTab('reading', 'reading')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        <span>Reading CBT (23 Passages)</span>
+        <span>Cambridge Core CBT (23 Passages)</span>
       </button>
       <button class="subtab-btn" data-subtab="tactics" onclick="switchSubTab('reading', 'tactics')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -9660,7 +9660,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div id="rd-cbt-sec">
       <div class="sec-eyebrow">COMPUTER-BASED READING SIMULATION</div>
       <div class="sec-header-row">
-        <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">23 Passages · 231 Questions</span></h2>
+        <h2 class="sec-title">Cambridge Academic Reading CBT Mocks <span class="ver-muted">47 Passages · 551 Questions</span></h2>
         <div class="sec-timestamp" id="rMetaBadge"></div>
       </div>
 
@@ -9862,7 +9862,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </button>
       <button class="subtab-btn" data-subtab="models" onclick="switchSubTab('writing', 'models')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        <span>Model Essays (40)</span>
+        <span>Model Essays (43+)</span>
       </button>
       <button class="subtab-btn" data-subtab="phrases" onclick="switchSubTab('writing', 'phrases')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -9882,7 +9882,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div id="wr-workspace-sec">
       <div class="sec-eyebrow">ACADEMIC WRITING LABORATORY</div>
       <div class="sec-header-row">
-        <h2 class="sec-title">Writing Task 1 &amp; Task 2 Models <span class="ver-muted">40 Models</span></h2>
+        <h2 class="sec-title">Writing Task 1 &amp; Task 2 Models <span class="ver-muted">43+ Models</span></h2>
         <div class="sec-timestamp" id="wTypeLabel"></div>
       </div>
 
@@ -12370,7 +12370,7 @@ function activateVipPass(planType, voucherCode, isNewActivation = false) {
     } else if (window.currentUser && window.syncUserDataToCloud) {
       window.syncUserDataToCloud();
     }
- showStudioNotification(` ${plan.name} Activated! All 1,162 VIP Modules Unlocked.`);
+ showStudioNotification(` ${plan.name} Activated! All 1,322+ Lexicon &amp; 47 CBT Passages Unlocked.`);
   }
   refreshAllVipViews();
 }
@@ -12984,7 +12984,7 @@ function updateAuthUI() {
           ${isVip ? `
           <div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(34,197,94,0.12); border:1px solid var(--green); border-radius:6px; color:var(--green); font-size:0.8rem; font-weight:700;">
  <span style="font-size:1.05rem;"></span>
-            <span>VIP Lifetime Active (1,162 Entries Unlocked)</span>
+            <span>VIP Lifetime Active (1,322+ Entries Unlocked)</span>
           </div>
           ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
@@ -13052,7 +13052,7 @@ function updateAuthUI() {
           ${isVip ? `
           <div style="display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(34,197,94,0.12); border:1px solid var(--green); border-radius:6px; color:var(--green); font-size:0.8rem; font-weight:700;">
  <span style="font-size:1.05rem;"></span>
-            <span>VIP Lifetime Active (1,162 Entries Unlocked)</span>
+            <span>VIP Lifetime Active (1,322+ Entries Unlocked)</span>
           </div>
           ` : `
           <button class="btn-outlined" style="width:100%; font-size:0.8rem; text-align:left; justify-content:flex-start; padding:8px 12px;" onclick="openVipPassModal(); closeAccountModal();">
@@ -14494,11 +14494,14 @@ function getAccessibleLexicon() {
 
 function updateLexiconCounters() {
   const isVip = isVipActive();
-  const countStr = isVip ? `${VOCAB_DATA.length}` : `${LEXICON_FREE_LIMIT}`;
-  const totalCount = isVip ? VOCAB_DATA.length : 1162;
+  const baseVocab = (VOCAB_DATA && VOCAB_DATA.length) ? VOCAB_DATA.length : 1185;
+  const culinaryCount = (window.BURMESE_CUISINE_DATA && Array.isArray(window.BURMESE_CUISINE_DATA)) ? window.BURMESE_CUISINE_DATA.length : 117;
+  const radarLexCount = (window.radarData && Array.isArray(window.radarData.lexicon)) ? window.radarData.lexicon.length : 20;
+  const totalComprehensive = baseVocab + culinaryCount + radarLexCount;
+  const totalFormatted = totalComprehensive.toLocaleString();
   const tabLex = document.getElementById("tab-lexicon");
   if (tabLex) {
-    tabLex.textContent = isVip ? `Lexicon & Drills (${VOCAB_DATA.length})` : `Lexicon & Drills`;
+    tabLex.textContent = isVip ? `Lexicon & Drills (${totalFormatted})` : `Lexicon & Drills`;
   }
   const guideTitle = document.querySelector("#view-lexicon .section-guide-title");
   if (guideTitle) {
@@ -24137,7 +24140,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
             <span class="occ-ver-pill" style="background:linear-gradient(135deg, #D97706, #B45309); color:#FFFFFF !important; border:none; font-weight:800; white-space:nowrap;">1,350 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> STARS • 97,000 MMK (or 75 Stars / 5,000 MMK Sprint)</span>
           </div>
           <p style="font-size:0.84rem; color:var(--text-secondary); margin:0; line-height:1.55;">
-            Master Band 8.0+ on your first attempt. Unlock all 1,162 academic vocabulary items + 117 Burmese culinary terms, 23 Cambridge Reading CBT simulations (231 questions), 40 writing models, Live Band Surgery (5.5 &rarr; 8.5+), 18 Deadly Cliche &amp; Trap X-Ray, 12-Theme Argument Matrix, 60s Cue Card Lifeline, Speech Diagnostics 2.0, TFNG Decisive Arbiter, 4-Axis Competency Radar, 1-Click Night-Before Cheat Sheet PDF, and Obsidian &amp; Gold Prestige Theme.
+            Master Band 8.0+ on your first attempt. Unlock all 1,185 academic vocabulary items + 117 Burmese culinary terms, 47 Cambridge Reading CBT simulations (231 questions), 40 writing models, Live Band Surgery (5.5 &rarr; 8.5+), 18 Deadly Cliche &amp; Trap X-Ray, 12-Theme Argument Matrix, 60s Cue Card Lifeline, Speech Diagnostics 2.0, TFNG Decisive Arbiter, 4-Axis Competency Radar, 1-Click Night-Before Cheat Sheet PDF, and Obsidian &amp; Gold Prestige Theme.
           </p>
           <div id="vipLiveCurrencyPills" style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; align-items:center;"></div>
         </div>
@@ -24150,7 +24153,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
           <div style="margin-bottom:8px;"><svg class="ui-icon" style="width:52px; height:52px; color:#F59E0B;"><use href="#lucide-crown"/></svg></div>
           <h2 style="font-size:1.4rem; font-weight:900; color:var(--text); margin:0 0 6px 0;">VIP Lifetime Active</h2>
           <div style="display:inline-flex; align-items:center; gap:6px; background:var(--green); color:#000; font-weight:800; font-size:0.75rem; padding:3px 14px; border-radius:12px; margin-bottom:14px;">
-            <svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg> ALL 1,162 VOCABULARY ITEMS &amp; CBT MODULES UNLOCKED
+            <svg class="ui-icon" style="color:var(--green);"><use href="#lucide-check"/></svg> ALL 1,322+ VOCABULARY ITEMS &amp; 47 CBT MODULES UNLOCKED
           </div>
           <p style="font-size:0.86rem; color:var(--text-secondary); max-width:500px; margin:0 auto 16px; line-height:1.55;">
             You have permanent, unrestricted lifetime access across all official Cambridge CBT reading mocks, Band 8.5/9.0 lexicon, writing models, speaking topic forecasts, and cross-device cloud sync.
@@ -24252,7 +24255,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
               <span style="font-size:1.05rem; font-weight:900; color:var(--accent);">97,000 MMK (Lifetime)</span>
             </div>
             <ul style="margin:0; padding-left:16px; font-size:0.78rem; color:var(--text); line-height:1.65;">
-              <li><strong>All 1,162 Lexicon Items + 117 Burmese Culinary Terms</strong> + 1-3-7 SRS</li>
+              <li><strong>All 1,185 AWL Lexicon Items + 117 Burmese Culinary Terms + Recent Tests</strong> + 1-3-7 SRS</li>
               <li><strong>All 47 Reading CBT Passages</strong> + TFNG Decisive Arbiter</li>
               <li><strong>Live Band Surgery (5.5 &rarr; 8.5+)</strong> + 18 Deadly Cliche &amp; Trap X-Ray</li>
               <li><strong>12 Cambridge Themes Argument Matrix</strong> (Pro/Con/Thesis Generator)</li>
@@ -24272,7 +24275,7 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                 <span class="occ-ver-pill" style="background:#2563EB; color:#FFF; font-weight:800; font-size:0.68rem; padding:2px 8px; border-radius:4px;">EXAM SPRINT</span>
                 <strong style="font-size:1.05rem; color:var(--text);">7-Day Full Access Sprint Pass</strong>
               </div>
-              <div style="font-size:0.8rem; color:var(--text-secondary); max-width:440px;">All 47 CBTs, Live Band Surgery, 1,162 Lexicon &amp; VIP tools for 7 full days. Perfect for quick exam revision.</div>
+              <div style="font-size:0.8rem; color:var(--text-secondary); max-width:440px;">All 47 CBTs, Live Band Surgery, 1,322+ Lexicon &amp; VIP tools for 7 full days. Perfect for quick exam revision.</div>
             </div>
             <div style="text-align:right;">
               <div style="font-size:1.35rem; font-weight:900; color:var(--accent); line-height:1.2;">75 <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-star"/></svg> Stars <span style="font-size:0.95rem; color:var(--text);"><br>or 5,000 MMK</span></div>
@@ -24305,10 +24308,10 @@ function bookmarkPhraseToSrs(phraseText, translation, btnEl) {
                 <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>⚡ Live Exam Lexicons</strong> with 1-Click 1-3-7 SRS Spaced Repetition Synchronization</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 1,162 Academic Lexicon &amp; 117 Burmese Culinary Items</strong> (1-3-7 Day SRS &amp; Audio)</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 1,185 Academic Lexicon &amp; 117 Burmese Culinary Items</strong> (1-3-7 Day SRS &amp; Audio)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
-                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 23 Cambridge Reading CBT Passages</strong> (231 Questions + TFNG Decisive Arbiter)</span>
+                <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>All 47 Cambridge Reading CBT Passages</strong> (231 Questions + TFNG Decisive Arbiter)</span>
               </div>
               <div style="display:flex; align-items:center; gap:8px; color:var(--text);">
                 <svg class="ui-icon" style="color:var(--green); margin-right:4px;"><use href="#lucide-check"/></svg> <span><strong>Live Band Surgery (5.5 &rarr; 8.5+)</strong> + 18 Deadly Cliche &amp; Trap X-Ray</span>
