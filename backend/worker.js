@@ -806,10 +806,10 @@ Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has 
 
 📅 *Valid Until:* ${expiryDateStr} (7 Full Days)
 ✨ *What is now unlocked for you:*
-• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• 🌍 Recent Tests Across the World (Weekly Writing & Reading CBT Tests direct from Test Centers)
 • ⚡ Live Exam Lexicons & 1-Click 1-3-7 SRS Spaced Repetition Synchronization
 • 🔤 All 1,162 Academic Vocabulary items, Native Audio & Pronunciation Lab
-• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Live Recalls)
+• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Recent Tests Across the World)
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
 • 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
 • 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
@@ -829,10 +829,10 @@ _Need assistance? Lead Instructor: @hyuguo_`
 Thank you for your enrollment, *${fullName || "Scholar"}*! Your account now has permanent, unrestricted access to the entire IELTS Prep Studio curriculum.
 
 ✨ *What is now unlocked for you:*
-• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• 🌍 Recent Tests Across the World (Weekly Writing & Reading CBT Tests direct from Test Centers)
 • ⚡ Live Exam Lexicons & 1-Click 1-3-7 SRS Spaced Repetition Synchronization
 • 🔤 All 1,162 Academic Vocabulary items, Native Audio & Pronunciation Lab
-• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Live Recalls)
+• 📖 Full Cambridge Reading CBT Library (23 Passages / 231 Questions + Recent Tests Across the World)
 • ✍️ All 40 Writing Task 1 & Task 2 Models + CEFR 90/10 AI Evaluator
 • 🎙️ All 30 Speaking Forecast Topics & 5 Strategic Frameworks
 • 💎 Unlimited VIP Academic Tools (/collocate, /syn, /read, /dict, /quote)
@@ -1521,7 +1521,7 @@ Examiner-Grade CBT Mocks • Band 9 Models • 1,162 Academic Lexicon & Traps
 _One-Time Investment • Lifetime Access • Zero Subscriptions_
 
 🎁 *Everything You Unlock Forever:*
-• 🔥 Live Real Exam Radar (Weekly Writing & Reading CBT Recalls direct from Test Centers)
+• 🌍 Recent Tests Across the World (Weekly Writing & Reading CBT Tests direct from Test Centers)
 • ⚡ Live Exam Lexicons with 1-Click 1-3-7 SRS Synchronization
 • 🔤 All 1,162 Academic Vocabulary Items, Native Audio & 1-3-7 SRS
 • 📖 All 23 Cambridge Reading CBT Passages + Weekly Real Exam Recalls
