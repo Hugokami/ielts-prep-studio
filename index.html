@@ -8283,6 +8283,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
     </div>
 
+    <!-- 1.5. CEFR DIAGNOSTIC & PERSONALIZED LEXICON PATHWAY -->
+    <div id="cirrusCefrPathwayWidget"></div>
+
     <!-- 2. DAILY CAMBRIDGE TARGET DRILL HERO CARD -->
     <div class="speak-hero-lesson-card uiv-animate-enter uiv-delay-2">
         <div class="speak-hero-top">
@@ -9322,10 +9325,14 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <option value="UNMASTERED">To Review Only</option>
           <option value="MASTERED">Mastered (Easy 7d) Only</option>
         </select>
+        <button id="lexCefrLevelFilterBtn" class="btn-outlined" onclick="window.toggleCefrLevelFilter()" style="display:inline-flex; font-size:0.78rem; font-weight:800; border-radius:4px; height:36px; padding:0 12px; align-items:center; gap:6px;">🎯 Level Focus</button>
         <button class="btn-accent-solid" id="fcDrawerBtn" onclick="toggleFlashcardDrawer()">Flashcard Mode ↗</button>
       </div>
 
       <!-- Top Pagination & Results Summary Bar -->
+      <!-- CEFR Diagnostic Personalized Recommendation Banner -->
+      <div id="lexCefrRecommendationBanner" style="display:none; margin-bottom:14px;"></div>
+
       <div id="lexTopPaginationBar" style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding:10px 14px; background:var(--bg-card); border:1px solid var(--border); border-radius:4px;"></div>
 
       <div id="lexGrid" class="occ-grid-3"></div>
@@ -14646,6 +14653,199 @@ function buildPaginationHtml(totalItems, currentPage, pageSize, isTop) {
   `;
 }
 
+// ==========================================
+// CEFR DIAGNOSTIC & PERSONALIZED LEXICON ENGINE
+// ==========================================
+window.lexCefrFilterActive = false;
+window.activeCefrLevelCode = null;
+
+window.getBandsForCefrLevel = function(code) {
+  switch (String(code || '').toUpperCase()) {
+    case 'C2': return ['8.5', '9.0'];
+    case 'C1': return ['7.5', '8.0', '8.5'];
+    case 'B2': return ['7.0', '7.5', '8.0'];
+    case 'B1': return ['7.0', '7.5'];
+    default: return ['7.5', '8.0', '8.5'];
+  }
+};
+
+window.getCefrAssessmentFromProfile = function() {
+  if (typeof appState !== "undefined" && appState && appState.userProfile && appState.userProfile.cefrAssessment) {
+    return appState.userProfile.cefrAssessment;
+  }
+  try {
+    const raw = localStorage.getItem('ips_latest_cefr_assessment');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+};
+
+window.updateCefrFilterButtonState = function() {
+  const btn = document.getElementById("lexCefrLevelFilterBtn");
+  if (!btn) return;
+  const assessment = window.getCefrAssessmentFromProfile();
+  if (!assessment) {
+    btn.style.display = "none";
+    return;
+  }
+  btn.style.display = "inline-flex";
+  const code = window.activeCefrLevelCode || assessment.cefrCode || 'C1';
+  if (window.lexCefrFilterActive) {
+    btn.className = "btn-accent-solid";
+    btn.innerHTML = `<svg class="ui-icon ui-icon-xs" style="color:#FFF;"><use href="#lucide-check"/></svg> For ${code} (${window.getBandsForCefrLevel(code).join(', ')})`;
+  } else {
+    btn.className = "btn-outlined";
+    btn.innerHTML = `🎯 Filter for ${code} Level`;
+  }
+};
+
+window.toggleCefrLevelFilter = function(explicitCode) {
+  const assessment = window.getCefrAssessmentFromProfile();
+  const code = explicitCode || (assessment ? assessment.cefrCode : 'C1');
+  window.activeCefrLevelCode = code;
+
+  if (explicitCode) {
+    window.lexCefrFilterActive = true;
+  } else {
+    window.lexCefrFilterActive = !window.lexCefrFilterActive;
+  }
+
+  window.updateCefrFilterButtonState();
+  if (typeof renderLexiconGrid === 'function') {
+    renderLexiconGrid();
+  }
+};
+
+window.filterLexiconByCefrLevel = function(code) {
+  window.toggleCefrLevelFilter(code);
+};
+
+window.renderCefrPathwayWidget = function() {
+  const widget = document.getElementById("cirrusCefrPathwayWidget");
+  if (!widget) return;
+
+  const assessment = window.getCefrAssessmentFromProfile();
+
+  if (!assessment) {
+    // State A: Not Taken Yet
+    widget.innerHTML = `
+      <div class="occ-card uiv-animate-enter" style="padding:22px; border-radius:14px; background:var(--bg-card); border:1.5px solid var(--border); box-shadow:0 8px 30px rgba(0,0,0,0.06); margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <div style="max-width:620px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span class="occ-ver-pill" style="background:var(--accent); color:#FFF; font-weight:800; font-size:0.72rem; padding:4px 10px; border-radius:4px;">50-QUESTION PLACEMENT</span>
+              <span style="font-size:0.78rem; color:var(--text-secondary); font-weight:700;">Cambridge Standard Diagnostic</span>
+            </div>
+            <h3 style="margin:0 0 6px 0; font-size:1.22rem; font-weight:800; color:var(--text); letter-spacing:-0.015em;">
+              Calibrate Your Exact CEFR Level &amp; Projected IELTS Band
+            </h3>
+            <p style="margin:0; font-size:0.86rem; color:var(--text-secondary); line-height:1.5;">
+              Complete the 50-question diagnostic test across B1, B2, C1, and C2 levels to unlock personalized daily lexicon recommendations tailored directly to your language gaps.
+            </p>
+          </div>
+          <button class="cirrus-btn-dark" onclick="switchView('tools'); switchAcademicToolsTab('cefr');" style="padding:10px 22px; font-size:0.86rem; font-weight:800; display:inline-flex; align-items:center; gap:8px; cursor:pointer;">
+            <span>Start 50-Question Assessment</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // State B: Completed
+  const cefrCode = assessment.cefrCode || 'C1';
+  let levelColor = '#10B981';
+  if (cefrCode === 'C2') levelColor = '#F59E0B';
+  else if (cefrCode === 'B2') levelColor = '#0284C7';
+  else if (cefrCode === 'B1') levelColor = '#64748B';
+
+  const targetBands = window.getBandsForCefrLevel(cefrCode);
+  const matchedWords = (VOCAB_DATA || []).filter(v => {
+    const band = (v.band || "");
+    return targetBands.some(tb => band.includes(tb));
+  });
+
+  const powerWords = matchedWords.slice(0, 4);
+
+  widget.innerHTML = `
+    <div class="occ-card uiv-animate-enter" style="padding:22px; border-radius:14px; background:var(--bg-card); border:1.5px solid ${levelColor}; box-shadow:0 8px 30px rgba(0,0,0,0.08); margin-bottom:20px;">
+      
+      <!-- Top Diagnostic Level Summary -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:18px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="occ-ver-pill" style="background:${levelColor}; color:#FFF; font-weight:800; font-size:0.74rem; padding:4px 10px; border-radius:4px;">
+              DIAGNOSED: ${assessment.diagnosedLevel}
+            </span>
+            <span style="font-size:0.78rem; color:var(--text-secondary); font-weight:700;">Score: ${assessment.score}/50 (${assessment.accuracy}% Accuracy)</span>
+          </div>
+          <h3 style="margin:0 0 4px 0; font-size:1.25rem; font-weight:800; color:var(--text);">
+            Projected IELTS Score: <span style="color:${levelColor};">${assessment.projectedBand}</span>
+          </h3>
+          <div class="burmese" style="font-size:0.84rem; color:var(--text-secondary);">
+            သင့်အဆင့်မှာ ${assessment.diagnosedLevel} ဖြစ်ပြီး အောက်ပါနေ့စဉ်ဝေါဟာရများကို လေ့ကျင့်ပါက ရမှတ်ပိုမိုတိုးတက်စေမည်ဖြစ်ပါသည်။
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-outlined" onclick="switchView('tools'); switchAcademicToolsTab('cefr');" style="padding:8px 16px; font-size:0.8rem; font-weight:700; border-radius:6px;">
+            <svg class="ui-icon ui-icon-xs"><use href="#lucide-refresh-cw"/></svg> Retake (New Batch)
+          </button>
+          <button class="btn-accent-solid" onclick="switchView('lexicon'); window.filterLexiconByCefrLevel('${cefrCode}');" style="padding:8px 18px; font-size:0.8rem; font-weight:800; border-radius:6px;">
+            🎯 Study ${cefrCode} Lexicons →
+          </button>
+        </div>
+      </div>
+
+      <!-- Personalized Power Words Grid -->
+      ${powerWords.length > 0 ? `
+        <div style="margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:0.8rem; font-weight:800; color:var(--text); text-transform:uppercase; letter-spacing:0.04em;">
+              🎯 Recommended Power Lexicons for Your Level (${cefrCode} Target):
+            </div>
+            <a href="javascript:void(0)" onclick="switchView('lexicon'); window.filterLexiconByCefrLevel('${cefrCode}');" style="font-size:0.78rem; font-weight:700; color:var(--accent); text-decoration:none;">
+              View all ${matchedWords.length} words ↗
+            </a>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+            ${powerWords.map(w => `
+              <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <strong style="font-size:0.95rem; color:var(--text);">${w.word}</strong>
+                    <span style="font-size:0.68rem; font-weight:800; color:var(--accent); background:rgba(224,108,53,0.1); padding:2px 6px; border-radius:3px;">${w.band}</span>
+                  </div>
+                  <div style="font-size:0.75rem; color:var(--text-secondary); font-style:italic; margin-bottom:4px;">${w.collocation || w.basic || ''}</div>
+                  <div class="burmese" style="font-size:0.8rem; color:var(--text); line-height:1.35;">${w.mmMeaning || ''}</div>
+                </div>
+                <div style="margin-top:8px; display:flex; justify-content:flex-end;">
+                  <button class="btn-outlined" onclick="speakText('${(w.word || '').replace(/'/g, "\\'")}'); event.stopPropagation();" style="padding:2px 8px; font-size:0.72rem; font-weight:700; border-radius:4px;" title="Listen to pronunciation">
+                    <svg class="ui-icon ui-icon-xs" style="vertical-align:-1px;"><use href="#lucide-volume-2"/></svg> Listen
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+    </div>
+  `;
+};
+
+// Global listener for live updates
+window.addEventListener('cefrAssessmentUpdated', function(e) {
+  if (typeof window.renderCefrPathwayWidget === 'function') {
+    window.renderCefrPathwayWidget();
+  }
+  if (typeof window.updateCefrFilterButtonState === 'function') {
+    window.updateCefrFilterButtonState();
+  }
+});
+
 function getFilteredLexicon() {
   const q = (document.getElementById("lexSearch")?.value || "").trim().toLowerCase();
   const vr = document.getElementById("lexVariety")?.value || "ALL";
@@ -14681,6 +14881,14 @@ function getFilteredLexicon() {
     if (st === "DUE" && !isDue) return false;
     if (st === "MASTERED" && !isM) return false;
     if (st === "UNMASTERED" && isM) return false;
+
+    // Filter by diagnosed CEFR level recommendation
+    if (window.lexCefrFilterActive && window.activeCefrLevelCode) {
+      const targetBands = window.getBandsForCefrLevel(window.activeCefrLevelCode);
+      const itemBand = (item.band || "");
+      const matchesTarget = targetBands.some(tb => itemBand.includes(tb));
+      if (!matchesTarget) return false;
+    }
     if (!q) return true;
     return (
       (item.word && item.word.toLowerCase().includes(q)) ||
@@ -14739,6 +14947,36 @@ function renderLexiconGrid(keepPage) {
   const topPagBar = document.getElementById("lexTopPaginationBar");
   const botPagBar = document.getElementById("lexPaginationBar");
   if (!grid) return;
+
+  // Update CEFR Recommendation Banner
+  const cefrBanner = document.getElementById("lexCefrRecommendationBanner");
+  if (cefrBanner) {
+    const assessment = window.getCefrAssessmentFromProfile();
+    if (window.lexCefrFilterActive && assessment) {
+      cefrBanner.style.display = "block";
+      cefrBanner.innerHTML = `
+        <div style="padding:14px 18px; background:linear-gradient(135deg, rgba(2,132,199,0.08), rgba(16,185,129,0.08)); border:1.5px solid #0284C7; border-radius:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="occ-ver-pill" style="background:#0284C7; color:#FFF; font-weight:800; font-size:0.72rem; padding:3px 8px; border-radius:4px;">🎯 PERSONALIZED CEFR SELECTION</span>
+              <span style="font-size:0.8rem; font-weight:800; color:var(--text);">${assessment.diagnosedLevel} · ${assessment.projectedBand}</span>
+            </div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.4;">
+              Showing <strong>${fullList.length} prioritized academic words</strong> calibrated to elevate your English from <strong>${assessment.cefrCode}</strong> to the next band tier.
+            </div>
+          </div>
+          <button class="btn-outlined" onclick="window.toggleCefrLevelFilter();" style="padding:6px 14px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer;">
+            Show All 1,185 Entries
+          </button>
+        </div>
+      `;
+    } else {
+      cefrBanner.style.display = "none";
+    }
+  }
+  if (typeof window.updateCefrFilterButtonState === 'function') {
+    window.updateCefrFilterButtonState();
+  }
 
   if (!keepPage) {
     lexCurrentPage = 1;
@@ -14822,6 +15060,12 @@ function renderLexiconGrid(keepPage) {
             </div>
             <div class="occ-meta-right">
               <span class="occ-ver-pill ${isHighBand ? 'high-band-pill' : ''}">${item.band}</span>
+              ${(function() {
+                const assess = window.getCefrAssessmentFromProfile();
+                if (!assess) return '';
+                const tb = window.getBandsForCefrLevel(assess.cefrCode);
+                return tb.some(b => (item.band || '').includes(b)) ? `<span class="occ-ver-pill" style="background:rgba(224,108,53,0.15); color:var(--accent); font-weight:800; font-size:0.68rem; padding:2px 6px; border-radius:3px;">⭐ FOR ${assess.cefrCode}</span>` : '';
+              })()}
               <div class="occ-size-sub">${item.category}</div>
             </div>
           </div>
@@ -19107,6 +19351,12 @@ window.renderWritingModelsDirectory = renderWritingModelsDirectory;
     // Auto-init Listening CBT Hub if selected
     if (hubId === 'listening' && typeof window.initListeningHub === 'function') {
       window.initListeningHub();
+    }
+    if (hubId === 'overview' && typeof window.renderCefrPathwayWidget === 'function') {
+      window.renderCefrPathwayWidget();
+    }
+    if (hubId === 'lexicon' && typeof window.updateCefrFilterButtonState === 'function') {
+      window.updateCefrFilterButtonState();
     }
 
     // 3. Highlight active nav button
