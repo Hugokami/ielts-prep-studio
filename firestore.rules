@@ -186,7 +186,7 @@ service cloud.firestore {
         (!('checkoutStatus' in profile) || (profile.checkoutStatus is string && profile.checkoutStatus.size() <= 50));
     }
 
-    // Check if the user document includes an approved promotional / partner voucher code or initial batch series
+    // Check if the user document includes an approved initial voucher batch series
     function hasValidVoucherCode(data) {
       return data != null &&
         'userProfile' in data &&
@@ -194,8 +194,6 @@ service cloud.firestore {
         'voucherCode' in data.userProfile &&
         data.userProfile.voucherCode is string &&
         data.userProfile.voucherCode in [
-          // Campaign & Partners
-          'VIPPASS2026', 'BAND9VIP', 'SCHOLAR9', 'BURMA2026', 'ENGNOVATE',
           // Existing customer passes (unified Lifetime access)
           'IPS-LIFE-901', 'IPS-LIFE-902', 'IPS-LIFE-903', 'IPS-LIFE-904', 'IPS-LIFE-905', 'IPS-LIFE-906', 'IPS-LIFE-907', 'IPS-LIFE-908', 'IPS-LIFE-909', 'IPS-LIFE-910',
           'IPS-INT-301', 'IPS-INT-302', 'IPS-INT-303', 'IPS-INT-304', 'IPS-INT-305', 'IPS-INT-306', 'IPS-INT-307', 'IPS-INT-308', 'IPS-INT-309', 'IPS-INT-310',

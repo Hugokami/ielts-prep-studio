@@ -71,13 +71,8 @@ CREATE TABLE IF NOT EXISTS daily_quota (
   PRIMARY KEY (telegram_id, date_str)
 );
 
--- Seed initial partner & emergency promo codes
+-- Seed initial one-time customer & sprint promo codes
 INSERT OR IGNORE INTO promo_codes (code, is_used, plan_type) VALUES
-  ('VIPPASS2026', 0, 'lifetime'),
-  ('BAND9VIP', 0, 'lifetime'),
-  ('SCHOLAR9', 0, 'lifetime'),
-  ('BURMA2026', 0, 'lifetime'),
-  ('ENGNOVATE', 0, 'lifetime'),
   ('IPS-VIP-101', 0, 'lifetime'),
   ('IPS-VIP-102', 0, 'lifetime'),
   ('IPS-VIP-103', 0, 'lifetime'),
