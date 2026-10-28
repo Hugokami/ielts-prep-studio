@@ -11596,9 +11596,6 @@ function verifyVoucherChecksum(code) {
     if (payload.length !== 4 || checksum.length !== 4) return false;
     return generateVoucherChecksum(payload) === checksum;
   }
-  if (parts.length === 3 && parts[0] === 'VIP') {
-    return parts[1].length === 4 && parts[2].length === 4;
-  }
   return false;
 }
 
@@ -12371,7 +12368,7 @@ function activateVipPass(planType, voucherCode, isNewActivation = false) {
 async function redeemVoucherCode(explicitCode) {
   const inp = document.getElementById("vipVoucherInput");
   const rawCode = explicitCode || (inp ? inp.value : "");
-  const code = (rawCode || "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+  const code = (rawCode || "").trim().toUpperCase().replace(/[^A-Z0-9\-]/g, "");
   if (inp && !explicitCode) inp.value = code;
   const fb = document.getElementById("vipVoucherFeedback");
 
@@ -12380,9 +12377,9 @@ async function redeemVoucherCode(explicitCode) {
     return false;
   }
 
-  // 1. Try TMA / Cloudflare Serverless redemption first if in Telegram
+  // 1. Primary Authority: Cloudflare Serverless D1/KV Voucher Redemption
   if (window.StorageManager && typeof window.StorageManager.redeemActivationCode === "function") {
- if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;"> Verifying code with server...</span>`;
+    if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">Verifying code with server...</span>`;
     try {
       const res = await window.StorageManager.redeemActivationCode(code);
       if (res && res.success) {
@@ -12390,17 +12387,21 @@ async function redeemVoucherCode(explicitCode) {
         activateVipPass(isSprint ? "sprint" : "lifetime", code, true);
         if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✅ Valid Code! ${isSprint ? "7-Day Sprint Pass" : "Lifetime VIP Pass"} Unlocked.</span>`;
         return true;
+      } else if (res && res.error) {
+        if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">❌ ${escapeHtml(res.error)}</span>`;
+        return false;
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn("[Voucher Server Verification Notice]", e);
+    }
   }
 
   // 2. Cloud-backed One-Time Voucher Verification (Firestore) if authenticated
   if (window.firebaseDbInstance && window.currentUser) {
- if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;"> Verifying voucher with cloud registry...</span>`;
+    if (fb) fb.innerHTML = `<span style="color:var(--accent); font-weight:600;">Verifying voucher with cloud registry...</span>`;
     try {
       const vRef = window.firebaseDbInstance.collection("vouchers").doc(code);
       const vDoc = await vRef.get();
-
       if (vDoc.exists) {
         const vData = vDoc.data();
         if (vData.isOneTime && vData.redeemed) {
@@ -12409,11 +12410,10 @@ async function redeemVoucherCode(explicitCode) {
             activateVipPass(vData.plan || "lifetime", code, true);
             return true;
           } else {
- if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;"> This one-time voucher has already been redeemed by another user.</span>`;
+            if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:700;">❌ This one-time voucher has already been redeemed by another user.</span>`;
             return false;
           }
         }
-
         if (vData.isOneTime) {
           await vRef.update({
             redeemed: true,
@@ -12422,9 +12422,8 @@ async function redeemVoucherCode(explicitCode) {
             redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
           });
         }
-
         activateVipPass(vData.plan || "lifetime", code, true);
- if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;"> Valid Code! ${vData.name || "Lifetime Studio Pass"} activated.</span>`;
+        if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✅ Valid Code! ${vData.name || "Lifetime Studio Pass"} activated.</span>`;
         return true;
       }
     } catch (err) {
@@ -12432,20 +12431,19 @@ async function redeemVoucherCode(explicitCode) {
     }
   }
 
-  // 3. Verified Whitelist Code or Cryptographic Random Checksum Pass
+  // 3. Fallback check ONLY for legacy pre-minted batch whitelist (IPS-VIP-101 to 150)
   const found = VALID_VOUCHER_CODES[code];
-  const isAlgorithmicValid = (typeof verifyVoucherChecksum === 'function') ? verifyVoucherChecksum(code) : false;
-
-  if (found || isAlgorithmicValid) {
-    const planType = (found && found.plan) || (code.includes("SPRINT") ? "sprint" : "lifetime");
-    const passName = (found && found.name) || (planType === "sprint" ? "7-Day Sprint Pass" : "Lifetime Studio Pass");
+  if (found) {
+    const planType = found.plan || (code.includes("SPRINT") ? "sprint" : "lifetime");
+    const passName = found.name || (planType === "sprint" ? "7-Day Sprint Pass" : "Lifetime Studio Pass");
     activateVipPass(planType, code, true);
- if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;"> Valid Code! ${passName} applied to your account.</span>`;
+    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✅ Valid Code! ${passName} applied to your account.</span>`;
     return true;
-  } else {
-    if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact @hyuguo.</span>`;
-    return false;
   }
+
+  if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact @hyuguo.</span>`;
+  return false;
+}
 }
 
 // 1-Click Magic Link Auto-Redemption Engine
