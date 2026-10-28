@@ -413,8 +413,8 @@ async function handleSync(request, env) {
       username = user.username || "";
       firstName = user.first_name || "";
     }
-  } else if (bodyTgId && typeof bodyTgId === "number") {
-    telegramId = bodyTgId;
+  } else if (bodyTgId) {
+    telegramId = parseInt(bodyTgId, 10) || bodyTgId;
   }
 
   // 2. Verify Bearer session token
@@ -438,7 +438,7 @@ async function handleSync(request, env) {
   let savedProgress = null;
 
   if (telegramId) {
-    userRow = await env.DB.prepare("SELECT is_vip, vip_expires_at, progress_json FROM users WHERE telegram_id = ?").bind(telegramId).first();
+    userRow = await env.DB.prepare("SELECT is_vip, vip_expires_at, progress_json FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(telegramId, telegramId).first();
     if (userRow && userRow.is_vip === 1) {
       vipExpiresAt = userRow.vip_expires_at || 0;
       if (vipExpiresAt > 0 && Date.now() > vipExpiresAt) {
@@ -456,6 +456,24 @@ async function handleSync(request, env) {
 
   // Multi-tier cloud persistence: D1 for Telegram + KV for voucher/deviceId
   const cleanVoucher = voucher ? String(voucher).trim().toUpperCase() : "";
+
+  // Multi-source voucher verification if not already VIP
+  if (!isVip && cleanVoucher) {
+    const codeHash = await sha256Hex(cleanVoucher);
+    try {
+      const vRow = await env.DB.prepare("SELECT tier, revoked, expires_at FROM vouchers WHERE code_hash = ?").bind(codeHash).first();
+      if (vRow && vRow.revoked !== 1 && (!vRow.expires_at || vRow.expires_at === 0 || vRow.expires_at > Date.now())) {
+        isVip = true;
+        if (vRow.expires_at) vipExpiresAt = vRow.expires_at;
+      }
+    } catch (e) {}
+    if (!isVip) {
+      try {
+        const pRow = await env.DB.prepare("SELECT plan_type FROM promo_codes WHERE code = ?").bind(cleanVoucher).first();
+        if (pRow) isVip = true;
+      } catch (e) {}
+    }
+  }
   const cleanDeviceId = deviceId ? String(deviceId).trim() : "";
   const progressJson = progress ? JSON.stringify(progress) : null;
   const dueCount = typeof srsDueCount === "number" ? srsDueCount : 0;
@@ -8026,9 +8044,23 @@ async function handleAiChat(request, env) {
       const tgUser = await verifyTelegramInitData(body.initData, env.BOT_TOKEN);
       if (tgUser && tgUser.id) {
         userId = String(tgUser.id);
-        const u = await env.DB.prepare("SELECT is_vip FROM users WHERE telegram_id = ?").bind(tgUser.id).first();
-        if (u && u.is_vip === 1) isVip = true;
+        const u = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(tgUser.id, tgUser.id).first();
+        if (u && (u.is_vip === 1 || (u.vip_expires_at && u.vip_expires_at > Date.now()))) isVip = true;
       }
+    } else if (body.telegramId || body.userId) {
+      const uId = body.telegramId || body.userId;
+      const u = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(uId, uId).first();
+      if (u && (u.is_vip === 1 || (u.vip_expires_at && u.vip_expires_at > Date.now()))) {
+        isVip = true;
+        userId = String(uId);
+      }
+    }
+
+    if (!isVip && body.voucher) {
+      isVip = await resolveIsVip(env, userId, body.voucher);
+    }
+    if (userId && String(userId) === String(env.ADMIN_TG_ID || "7468650530")) {
+      isVip = true;
     }
 
     // Enforce quota check
