@@ -167,7 +167,7 @@ async function createSessionToken(payload, secretKeyStr) {
   const enc = new TextEncoder();
   const header = { alg: "HS256", typ: "JWT" };
   const now = Math.floor(Date.now() / 1000);
-  const fullPayload = { ...payload, iat: now, exp: now + (30 * 86400) }; // 30-day token
+  const fullPayload = { exp: now + (30 * 86400), ...payload, iat: now }; // 30-day token
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(fullPayload));
   const data = `${encodedHeader}.${encodedPayload}`;
