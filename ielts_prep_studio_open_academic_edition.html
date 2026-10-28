@@ -9378,6 +9378,59 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   
     </div>
 
+    <!-- SUBTAB 6: LIVE EXAM LEXICONS RADAR (ONLY LEXICONS) -->
+    <div class="subtab-panel" data-subtab="live-lexicon" id="subtab-lexicon-live" style="padding:16px 0;">
+      <!-- Balanced 2-Column Bento Header (Redesigned per Image 2) -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
+            RECENT EXAM VOCABULARY ACROSS THE WORLD
+          </div>
+          <div id="lexiconRadarVipMount">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center; margin-bottom:14px;">
+          <div>
+            <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.25;">🌍 Recent Tests Lexicon Feed</h2>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent);">High-Yield Band 8.5/9.0 Vocabulary, Collocations &amp; Traps</div>
+          </div>
+          <!-- Description cleanly placed on right filling awkward whitespace per user sketch -->
+          <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
+            Weekly authentic vocabulary, examiner collocations, paraphrase bridges &amp; reading trap alerts freshly decoded from recent exam sessions across Southeast Asia, Australia, and the UK.
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:10px; font-size:0.78rem;">
+          <span style="color:var(--text-muted); font-weight:700;">Radar Ingestion:</span>
+          <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⚡ 20 Live Exam Words</span>
+          <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">💎 Band 8.5+ Collocations</span>
+          <span class="occ-ver-pill" style="background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3); font-weight:700;">⚠️ Reading Traps</span>
+          <span style="margin-left:auto; font-size:0.72rem; color:var(--text-muted);">Updated: 28 Oct 2026</span>
+        </div>
+      </div>
+
+      <!-- Lexicon Quick Filter Chips & Search Toolbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <button class="btn-outlined is-active" id="btn-lex-radar-all" onclick="filterLiveLexiconTab('ALL')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">All (20)</button>
+          <button class="btn-outlined" id="btn-lex-radar-free" onclick="filterLiveLexiconTab('FREE')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px; border-color:#10B981; color:#10B981;">🌟 Free Samples (10)</button>
+          <button class="btn-outlined" id="btn-lex-radar-colloc" onclick="filterLiveLexiconTab('COLLOC')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">💎 Band 8.5+ Collocations</button>
+          <button class="btn-outlined" id="btn-lex-radar-traps" onclick="filterLiveLexiconTab('TRAPS')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">⚠️ Reading Traps</button>
+        </div>
+        <div style="flex:1; min-width:220px; max-width:340px;">
+          <input type="text" id="liveLexiconSearchInput" class="occ-input" placeholder="Search word, meaning, collocation..." oninput="handleLiveLexiconSearch(this.value)" style="width:100%; font-size:0.8rem; padding:6px 12px; border-radius:6px; box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Lexicon Bento Grid Mount -->
+      <div id="liveLexiconMount">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
     <!-- SUBTAB 2: SRS FLASHCARDS -->
     <div class="subtab-panel" data-subtab="flashcards">
       <div class="section-guide-banner" style="margin-bottom:20px;">
@@ -9540,58 +9593,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <div id="at-pane-culinary" class="at-pane active" style="display:block;"></div>
     </div>
 
-    <!-- SUBTAB 6: LIVE EXAM LEXICONS RADAR (ONLY LEXICONS) -->
-    <div class="subtab-panel" data-subtab="live-lexicon" id="subtab-lexicon-live" style="padding:16px 0;">
-      <!-- Balanced 2-Column Bento Header (Redesigned per Image 2) -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">
-            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
-            RECENT EXAM VOCABULARY ACROSS THE WORLD
-          </div>
-          <div id="lexiconRadarVipMount">
-            <!-- Rendered dynamically -->
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center; margin-bottom:14px;">
-          <div>
-            <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.25;">🌍 Recent Tests Lexicon Feed</h2>
-            <div style="font-size:0.8rem; font-weight:700; color:var(--accent);">High-Yield Band 8.5/9.0 Vocabulary, Collocations &amp; Traps</div>
-          </div>
-          <!-- Description cleanly placed on right filling awkward whitespace per user sketch -->
-          <div style="background:rgba(255,255,255,0.03); border-left:3px solid var(--accent); padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
-            Weekly authentic vocabulary, examiner collocations, paraphrase bridges &amp; reading trap alerts freshly decoded from recent exam sessions across Southeast Asia, Australia, and the UK.
-          </div>
-        </div>
-
-        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:10px; font-size:0.78rem;">
-          <span style="color:var(--text-muted); font-weight:700;">Radar Ingestion:</span>
-          <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⚡ 20 Live Exam Words</span>
-          <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">💎 Band 8.5+ Collocations</span>
-          <span class="occ-ver-pill" style="background:rgba(239,68,68,0.12); color:#EF4444; border:1px solid rgba(239,68,68,0.3); font-weight:700;">⚠️ Reading Traps</span>
-          <span style="margin-left:auto; font-size:0.72rem; color:var(--text-muted);">Updated: 28 Oct 2026</span>
-        </div>
-      </div>
-
-      <!-- Lexicon Quick Filter Chips & Search Toolbar -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
-        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-          <button class="btn-outlined is-active" id="btn-lex-radar-all" onclick="filterLiveLexiconTab('ALL')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">All (20)</button>
-          <button class="btn-outlined" id="btn-lex-radar-free" onclick="filterLiveLexiconTab('FREE')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px; border-color:#10B981; color:#10B981;">🌟 Free Samples (10)</button>
-          <button class="btn-outlined" id="btn-lex-radar-colloc" onclick="filterLiveLexiconTab('COLLOC')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">💎 Band 8.5+ Collocations</button>
-          <button class="btn-outlined" id="btn-lex-radar-traps" onclick="filterLiveLexiconTab('TRAPS')" style="font-size:0.75rem; padding:4px 10px; font-weight:700; border-radius:6px;">⚠️ Reading Traps</button>
-        </div>
-        <div style="flex:1; min-width:220px; max-width:340px;">
-          <input type="text" id="liveLexiconSearchInput" class="occ-input" placeholder="Search word, meaning, collocation..." oninput="handleLiveLexiconSearch(this.value)" style="width:100%; font-size:0.8rem; padding:6px 12px; border-radius:6px; box-sizing:border-box;">
-        </div>
-      </div>
-
-      <!-- Lexicon Bento Grid Mount -->
-      <div id="liveLexiconMount">
-        <!-- Rendered dynamically -->
-      </div>
-    </div>
+    
 </section>
 
 
@@ -9638,6 +9640,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         <span>Cambridge Core CBT (23 Passages)</span>
       </button>
+      <button class="subtab-btn" data-subtab="live-reading" onclick="switchSubTab('reading', 'live-reading')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span style="display:inline-flex; align-items:center; gap:5px;">
+          <span>🌍 Recent Tests Across the World</span>
+          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
+        </span>
+      </button>
       <button class="subtab-btn" data-subtab="tactics" onclick="switchSubTab('reading', 'tactics')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <span>Reading Tactics &amp; Traps</span>
@@ -9645,13 +9654,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <button class="subtab-btn" data-subtab="tfng" onclick="switchSubTab('reading', 'tfng'); if(typeof window.renderTfngArbiterPanel==='function') window.renderTfngArbiterPanel('tfngArbiterContainer');">
         <svg class="ui-icon ui-icon-xs" style="color:var(--accent);"><use href="#lucide-target"/></svg>
         <span>False vs Not Given Arbiter</span>
-      </button>
-      <button class="subtab-btn" data-subtab="live-reading" onclick="switchSubTab('reading', 'live-reading')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span>🌍 Recent Tests Across the World</span>
-          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
-        </span>
       </button>
     </div>
 
@@ -9759,43 +9761,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       </div>
     </div>
 
-    <!-- SUBTAB 2: READING TACTICS & TRAPS -->
-    <div class="subtab-panel" data-subtab="tactics">
-      <div class="sec-block" id="rd-tactics-sec">
-        <div class="sec-eyebrow">EXAM ESSENTIALS PART 22 // READING QUESTION TYPES &amp; SIGNAL WORDS</div>
-        <div class="sec-header-row">
-          <h3 class="sec-title">Reading Question Strategies &amp; Signal Words</h3>
-          <div class="sec-timestamp">Spot contrast, cause-effect, and absolute distractor words immediately</div>
-        </div>
-        <div class="occ-grid-2">
-          <div class="occ-card">
-            <div class="sec-eyebrow">5 CORE QUESTION TYPE TACTICS</div>
-            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
-              • <strong>Matching Headings:</strong> Read the whole paragraph for the main idea; eliminate headings that only mention a minor detail.<br>
-              • <strong>True / False / Not Given:</strong> <em>True</em> = same meaning in synonyms; <em>False</em> = directly contradicts the passage; <em>Not Given</em> = not mentioned. Watch out for extreme words like <em>all, always, never, only, every</em>.<br>
-              • <strong>Yes / No / Not Given:</strong> Tests the writer's opinions/claims rather than factual data.<br>
-              • <strong>Multiple Choice:</strong> Eliminate extreme options or distractors that copy passage words but twist the logic.<br>
-              • <strong>Summary / Sentence Completion:</strong> Obey the strict word limit (e.g., ONE WORD ONLY) and verify whether the blank requires a noun, verb, or adjective.
-            </div>
-          </div>
-          <div class="occ-card">
-            <div class="sec-eyebrow">SIGNAL WORDS THAT POINT TO ANSWERS</div>
-            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
-              • <strong>Contrast (High Exam Frequency):</strong> <em>however, but, whereas, despite, in contrast</em> (answers frequently appear right after a contrast marker).<br>
-              • <strong>Cause &amp; Effect:</strong> <em>because, therefore, as a result, leads to, due to</em>.<br>
-              • <strong>Examples:</strong> <em>for example, such as, including, for instance</em>.<br>
-              • <strong>Emphasis:</strong> <em>particularly, especially, notably, above all</em>.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SUBTAB 3: TRUE / FALSE / NOT GIVEN DECISIVE ARBITER -->
-    <div class="subtab-panel" data-subtab="tfng">
-      <div id="tfngArbiterContainer" style="padding-top:4px;"></div>
-    </div>
-
     <!-- SUBTAB 4: LIVE CBT READING RECALLS -->
     <div class="subtab-panel" data-subtab="live-reading" id="subtab-reading-live" style="padding:16px 0;">
       <!-- Balanced 2-Column Bento Header -->
@@ -9833,6 +9798,45 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving recent tests across the world...</div>
       </div>
     </div>
+
+    <!-- SUBTAB 2: READING TACTICS & TRAPS -->
+    <div class="subtab-panel" data-subtab="tactics">
+      <div class="sec-block" id="rd-tactics-sec">
+        <div class="sec-eyebrow">EXAM ESSENTIALS PART 22 // READING QUESTION TYPES &amp; SIGNAL WORDS</div>
+        <div class="sec-header-row">
+          <h3 class="sec-title">Reading Question Strategies &amp; Signal Words</h3>
+          <div class="sec-timestamp">Spot contrast, cause-effect, and absolute distractor words immediately</div>
+        </div>
+        <div class="occ-grid-2">
+          <div class="occ-card">
+            <div class="sec-eyebrow">5 CORE QUESTION TYPE TACTICS</div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
+              • <strong>Matching Headings:</strong> Read the whole paragraph for the main idea; eliminate headings that only mention a minor detail.<br>
+              • <strong>True / False / Not Given:</strong> <em>True</em> = same meaning in synonyms; <em>False</em> = directly contradicts the passage; <em>Not Given</em> = not mentioned. Watch out for extreme words like <em>all, always, never, only, every</em>.<br>
+              • <strong>Yes / No / Not Given:</strong> Tests the writer's opinions/claims rather than factual data.<br>
+              • <strong>Multiple Choice:</strong> Eliminate extreme options or distractors that copy passage words but twist the logic.<br>
+              • <strong>Summary / Sentence Completion:</strong> Obey the strict word limit (e.g., ONE WORD ONLY) and verify whether the blank requires a noun, verb, or adjective.
+            </div>
+          </div>
+          <div class="occ-card">
+            <div class="sec-eyebrow">SIGNAL WORDS THAT POINT TO ANSWERS</div>
+            <div style="font-size:0.84rem; color:var(--text-secondary); line-height:1.65;">
+              • <strong>Contrast (High Exam Frequency):</strong> <em>however, but, whereas, despite, in contrast</em> (answers frequently appear right after a contrast marker).<br>
+              • <strong>Cause &amp; Effect:</strong> <em>because, therefore, as a result, leads to, due to</em>.<br>
+              • <strong>Examples:</strong> <em>for example, such as, including, for instance</em>.<br>
+              • <strong>Emphasis:</strong> <em>particularly, especially, notably, above all</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBTAB 3: TRUE / FALSE / NOT GIVEN DECISIVE ARBITER -->
+    <div class="subtab-panel" data-subtab="tfng">
+      <div id="tfngArbiterContainer" style="padding-top:4px;"></div>
+    </div>
+
+    
   </section>
 
 
@@ -9860,6 +9864,13 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span>Essay Desk</span>
       </button>
+      <button class="subtab-btn" data-subtab="live-writing" onclick="switchSubTab('writing', 'live-writing')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span style="display:inline-flex; align-items:center; gap:5px;">
+          <span>🌍 Recent Tests Across the World</span>
+          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
+        </span>
+      </button>
       <button class="subtab-btn" data-subtab="models" onclick="switchSubTab('writing', 'models')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <span>Model Essays (43+)</span>
@@ -9867,13 +9878,6 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
       <button class="subtab-btn" data-subtab="phrases" onclick="switchSubTab('writing', 'phrases')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         <span>Reference &amp; Phrases</span>
-      </button>
-      <button class="subtab-btn" data-subtab="live-writing" onclick="switchSubTab('writing', 'live-writing')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span>🌍 Recent Tests Across the World</span>
-          <span style="font-size:0.62rem; background:linear-gradient(135deg, #10B981, #059669); color:#fff; padding:1px 5px; border-radius:10px; font-weight:800;">LIVE</span>
-        </span>
       </button>
     </div>
 
@@ -10084,6 +10088,44 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     
     </div>
 
+    <!-- SUBTAB 4: LIVE WRITING RECALLS -->
+    <div class="subtab-panel" data-subtab="live-writing" id="subtab-writing-live" style="padding:16px 0;">
+      <!-- Balanced 2-Column Bento Header -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
+            RECENT TESTS ACROSS THE WORLD (WRITING)
+          </div>
+          <div id="writingRadarVipMount">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center; margin-bottom:14px;">
+          <div>
+            <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.25;">🌍 Recent Tests Across the World (Writing)</h2>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent);">Latest Real Test Prompts &amp; Band 8.5+ Official Model Essays from Global Exam Rooms</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.03); border-left:3px solid #2563EB; padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
+            Weekly scraped authentic Task 1 &amp; Task 2 prompts from recent test sessions across the world with examiner criteria breakdowns, lexical highlights, and 1-click loading into the Writing Desk.
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:10px; font-size:0.78rem;">
+          <span style="color:var(--text-muted); font-weight:700;">Live Inventory:</span>
+          <span class="occ-ver-pill" style="background:rgba(37,99,235,0.12); color:#60A5FA; border:1px solid rgba(37,99,235,0.3); font-weight:700;">✍️ Task 1 &amp; Task 2 Real Tests</span>
+          <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⭐ Band 8.5+ Model Essays</span>
+          <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">⚡ 1-Click Writing Desk Practice</span>
+        </div>
+      </div>
+
+      <!-- Live Writing Cards Mount -->
+      <div id="liveWritingMount">
+        <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving recent tests across the world...</div>
+      </div>
+    </div>
+
     <!-- SUBTAB 2: MODEL ESSAYS (40) -->
     <div class="subtab-panel" data-subtab="models">
       <div class="sec-block">
@@ -10129,43 +10171,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     </div>
 
-    <!-- SUBTAB 4: LIVE WRITING RECALLS -->
-    <div class="subtab-panel" data-subtab="live-writing" id="subtab-writing-live" style="padding:16px 0;">
-      <!-- Balanced 2-Column Bento Header -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(16, 185, 129, 0.12); border:1px solid #10B981; color:#10B981; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;">
-            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; display:inline-block; animation:pulse 2s infinite;"></span>
-            RECENT TESTS ACROSS THE WORLD (WRITING)
-          </div>
-          <div id="writingRadarVipMount">
-            <!-- Rendered dynamically -->
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; align-items:center; margin-bottom:14px;">
-          <div>
-            <h2 style="font-size:1.35rem; font-weight:900; color:var(--text); margin:0 0 4px 0; line-height:1.25;">🌍 Recent Tests Across the World (Writing)</h2>
-            <div style="font-size:0.8rem; font-weight:700; color:var(--accent);">Latest Real Test Prompts &amp; Band 8.5+ Official Model Essays from Global Exam Rooms</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03); border-left:3px solid #2563EB; padding:10px 14px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">
-            Weekly scraped authentic Task 1 &amp; Task 2 prompts from recent test sessions across the world with examiner criteria breakdowns, lexical highlights, and 1-click loading into the Writing Desk.
-          </div>
-        </div>
-
-        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border-subtle); padding-top:10px; font-size:0.78rem;">
-          <span style="color:var(--text-muted); font-weight:700;">Live Inventory:</span>
-          <span class="occ-ver-pill" style="background:rgba(37,99,235,0.12); color:#60A5FA; border:1px solid rgba(37,99,235,0.3); font-weight:700;">✍️ Task 1 &amp; Task 2 Real Tests</span>
-          <span class="occ-ver-pill" style="background:rgba(245,158,11,0.12); color:#F59E0B; border:1px solid rgba(245,158,11,0.3); font-weight:700;">⭐ Band 8.5+ Model Essays</span>
-          <span class="occ-ver-pill" style="background:rgba(16,185,129,0.12); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:700;">⚡ 1-Click Writing Desk Practice</span>
-        </div>
-      </div>
-
-      <!-- Live Writing Cards Mount -->
-      <div id="liveWritingMount">
-        <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:0.85rem;">Retrieving recent tests across the world...</div>
-      </div>
-    </div>
+    
   </section>
 
 
