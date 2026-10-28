@@ -212,16 +212,22 @@ def sync_to_cloudflare_d1(recalls_reading, recalls_writing, dry_run=False):
         print("[Info] No statements to execute.")
         return
 
+    import os
+    backend_dir = os.path.abspath("backend")
+    sql_path = os.path.join(backend_dir, "temp_sync.sql")
     sql_payload = "\n".join(statements)
-    with open("temp_sync.sql", "w", encoding="utf-8") as f:
+    with open(sql_path, "w", encoding="utf-8") as f:
         f.write(sql_payload)
 
     print(f"[Cloudflare D1] Executing {len(statements)} statements on remote ielts-prep-db...")
-    cmd = ["npx", "wrangler", "d1", "execute", "ielts-prep-db", "--remote", "--file=temp_sync.sql"]
-    res = subprocess.run(cmd, cwd="backend", capture_output=True, text=True, shell=True)
-    print(res.stdout)
+    cmd = f'npx wrangler d1 execute ielts-prep-db --remote --file=temp_sync.sql'
+    res = subprocess.run(cmd, cwd=backend_dir, capture_output=True, text=True, encoding="utf-8", errors="replace", shell=True)
+    if res.stdout:
+        print(res.stdout)
     if res.returncode == 0:
         print("[Success] Exam Recalls successfully ingested into Cloudflare D1!")
+        if os.path.exists(sql_path):
+            os.remove(sql_path)
     else:
         print(f"[Error executing D1 import] {res.stderr}")
 
