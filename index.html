@@ -22740,56 +22740,176 @@ function copyVipTopicContent() {
 async function executeVipDictSearch() {
   const atInp = document.getElementById('at-dict-input');
   const vtInp = document.getElementById('vt-dict-input');
-  const word = ((atInp && atInp.value.trim()) || (vtInp && vtInp.value.trim()) || '').trim();
-  if (!word) {
+  const rawWord = ((atInp && atInp.value.trim()) || (vtInp && vtInp.value.trim()) || '').trim();
+  if (!rawWord) {
     alert('Please enter a word to lookup in the academic dictionary.');
     return;
   }
-  if (atInp) atInp.value = word;
-  if (vtInp) vtInp.value = word;
+  const cleanW = rawWord.toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (atInp) atInp.value = rawWord;
+  if (vtInp) vtInp.value = rawWord;
 
- renderAcademicToolResult('dict', `<div style="text-align:center; padding:24px; color:var(--text-secondary);"> Querying Live Academic Dictionary...</div>`);
+  renderAcademicToolResult('dict', getAcademicToolLoadingHtml('Dictionary'));
 
   try {
-    const res = await callVipToolApi('dict', { word });
-    if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+    let d = null;
+    let localMatch = null;
 
-    if (!res || !res.success) {
-      renderAcademicToolResult('dict', `<div style="padding:14px; background:rgba(224, 86, 36, 0.1); border:1px solid rgba(224, 86, 36, 0.3); border-radius:8px; color:var(--crimson); font-size:0.85rem;">
- <strong>️ ${res.error || 'Failed to fetch definition.'}</strong>
- ${res && res.quota && !res.quota.allowed ? `<div style="margin-top:8px;"><button class="btn-accent-solid" onclick="openVipPassModal();" style="padding:6px 14px; font-size:0.8rem; font-weight:700;"> Upgrade to VIP Pass (97,000 MMK / 5,000 MMK)</button></div>` : ''}
+    // Fast-path: Check Local Lexicon first (VOCAB_DATA & CURATED_ACADEMIC_LEXICON)
+    if (typeof VOCAB_DATA !== 'undefined' && Array.isArray(VOCAB_DATA)) {
+      localMatch = VOCAB_DATA.find(v => v.word && v.word.toLowerCase() === cleanW);
+    }
+    const curatedMatch = (typeof CURATED_ACADEMIC_LEXICON !== 'undefined' && CURATED_ACADEMIC_LEXICON[cleanW]) ? CURATED_ACADEMIC_LEXICON[cleanW] : null;
+
+    // 1. Try VIP Tool API (Cloudflare Worker or StorageManager)
+    try {
+      const res = await callVipToolApi('dict', { word: cleanW });
+      if (res && res.quota) updateVipToolsQuotaUI(res.quota);
+      if (res && res.success && res.data) {
+        d = res.data;
+      }
+    } catch (apiErr) {
+      console.warn('[executeVipDictSearch Worker API failed, trying direct client fallbacks]', apiErr);
+    }
+
+    // 2. Direct Client Fallback 1: Free Dictionary API (if d has no definitions)
+    if (!d || (!d.definitions && !d.meanings && !d.defs)) {
+      try {
+        const fRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanW)}`);
+        if (fRes.ok) {
+          const fJson = await fRes.json();
+          if (Array.isArray(fJson) && fJson.length) {
+            d = fJson[0];
+          }
+        }
+      } catch (fErr) {
+        console.warn('[executeVipDictSearch FreeDict failed]', fErr);
+      }
+    }
+
+    // 3. Direct Client Fallback 2: Datamuse Dictionary API (md=dp)
+    if (!d || (!d.definitions && !d.meanings && !d.defs)) {
+      try {
+        const dmRes = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(cleanW)}&md=dp&max=1`);
+        if (dmRes.ok) {
+          const dmJson = await dmRes.json();
+          if (Array.isArray(dmJson) && dmJson.length && dmJson[0].defs) {
+            d = {
+              word: dmJson[0].word || cleanW,
+              pos: (dmJson[0].tags || []).find(t => ['n', 'v', 'adj', 'adv'].includes(t)) || 'academic',
+              defs: dmJson[0].defs
+            };
+          }
+        }
+      } catch (dmErr) {
+        console.warn('[executeVipDictSearch Datamuse failed]', dmErr);
+      }
+    }
+
+    // Normalize definitions from all possible sources
+    let definitions = [];
+    if (d && Array.isArray(d.definitions) && d.definitions.length) {
+      definitions = d.definitions.map(item => ({
+        pos: item.pos || d.pos || 'academic',
+        definition: typeof item === 'string' ? item : (item.definition || ''),
+        example: item.example || ''
+      }));
+    } else if (d && Array.isArray(d.meanings) && d.meanings.length) {
+      d.meanings.forEach(m => {
+        (m.definitions || []).forEach(def => {
+          definitions.push({
+            pos: m.partOfSpeech || d.pos || 'academic',
+            definition: typeof def === 'string' ? def : (def.definition || ''),
+            example: def.example || ''
+          });
+        });
+      });
+    } else if (d && Array.isArray(d.defs) && d.defs.length) {
+      d.defs.forEach(rawDef => {
+        const parts = rawDef.split('\t');
+        definitions.push({
+          pos: parts[0] || d.pos || 'academic',
+          definition: parts[1] ? parts[1].trim() : rawDef,
+          example: ''
+        });
+      });
+    }
+
+    // 4. Local Lexicon Fallback (if still no definitions)
+    if (!definitions.length && (localMatch || curatedMatch)) {
+      const src = localMatch || curatedMatch;
+      definitions.push({
+        pos: src.pos || 'academic',
+        definition: src.basic || src.definition || (src.collocations && src.collocations.frame) || 'Academic vocabulary item.',
+        example: src.exEn || ''
+      });
+    }
+
+    if (!definitions.length) {
+      renderAcademicToolResult('dict', `<div style="padding:14px; color:var(--text-secondary); text-align:center;">
+        No dictionary definitions found for "<strong>${escapeHtml(rawWord)}</strong>".<br>
+        <span style="font-size:0.78rem; opacity:0.8;">Try standard academic words like <em>catalyst, paradigm, disparity, mitigate, tenable</em>.</span>
       </div>`);
       return;
     }
 
-    const d = res.data;
-    if (!d || !d.definitions || !d.definitions.length) {
-      renderAcademicToolResult('dict', `<div style="padding:14px; color:var(--text-secondary); text-align:center;">No definitions found for "${word}". Try academic words like <em>ubiquitous, mitigate, exacerbate, viable</em>.</div>`);
-      return;
-    }
+    // Enrich metadata
+    const wordDisplay = (d && d.word) || (localMatch && localMatch.word) || rawWord;
+    const posDisplay = (d && d.pos) || (localMatch && localMatch.pos) || (curatedMatch && curatedMatch.pos) || definitions[0].pos || 'academic';
+    const phoneticDisplay = (d && (d.phonetic || (d.phonetics && d.phonetics[0] && d.phonetics[0].text))) || (localMatch && localMatch.ipa) || '';
+    const meaningMm = (d && (d.meaning_mm || d.mm)) || (localMatch && localMatch.mmMeaning) || (curatedMatch && curatedMatch.meaning_mm) || '';
+    const bandBadge = (localMatch && localMatch.band) ? `<span class="occ-ver-pill" style="font-size:0.72rem; color:var(--accent); font-weight:700;">${localMatch.band}</span>` : '';
+    const exEn = (localMatch && localMatch.exEn) || (definitions[0] && definitions[0].example) || '';
+    const exMm = (localMatch && localMatch.exMm) || '';
 
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:16px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:1.15rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
-          <span class="occ-ver-pill" style="font-size:0.72rem;">${d.pos}</span>
- <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 6px; font-size:0.8rem;"> Listen</button>
+    let html = `
+      <div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${escapeHtml(wordDisplay)}</span>
+            ${phoneticDisplay ? `<span style="font-size:0.82rem; font-family:monospace; color:var(--text-secondary);">${escapeHtml(phoneticDisplay)}</span>` : ''}
+            <span class="occ-ver-pill" style="font-size:0.72rem; text-transform:uppercase; font-weight:700;">${escapeHtml(posDisplay)}</span>
+            ${bandBadge}
+            <button class="util-icon-btn" onclick="speakWord('${escapeHtml(wordDisplay)}')" title="Listen to Pronunciation" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('collocations'); setVipToolInput('collocations', '${escapeHtml(wordDisplay)}'); executeVipCollocationsSearch();">⚡ Collocations ↗</button>
+            <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('synonyms'); setVipToolInput('synonyms', '${escapeHtml(wordDisplay)}'); executeVipSynonymsSearch();">📚 Synonyms ↗</button>
+          </div>
         </div>
-        <div style="display:flex; gap:6px;">
- <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="switchAcademicToolsTab('collocations'); setVipToolInput('collocations', '${d.word}'); executeVipCollocationsSearch();"> Collocations</button>
- <button class="btn-outlined" style="padding:2px 8px; font-size:0.75rem;" onclick="switchAcademicToolsTab('synonyms'); setVipToolInput('synonyms', '${d.word}'); executeVipSynonymsSearch();"> Synonyms</button>
+
+        ${meaningMm ? `
+          <div style="margin:0 0 14px 0; padding:8px 12px; background:rgba(59, 130, 246, 0.08); border-left:3px solid #3B82F6; border-radius:4px; font-size:0.88rem; color:var(--text); font-weight:600;">
+            🇲🇲 <span style="color:var(--text-secondary); font-size:0.78rem; font-weight:700; margin-right:4px;">မြန်မာအဓိပ္ပာယ်:</span> ${escapeHtml(meaningMm)}
+          </div>
+        ` : ''}
+
+        <div style="margin-bottom:14px;">
+          <span style="font-size:0.78rem; font-weight:800; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:8px;">Academic Definitions:</span>
+          <ol style="margin:0; padding-left:20px; font-size:0.88rem; color:var(--text); line-height:1.65;">
+            ${definitions.slice(0, 4).map(item => `
+              <li style="margin-bottom:6px;">
+                <span style="font-weight:700; color:var(--accent); font-size:0.75rem; text-transform:uppercase;">(${escapeHtml(item.pos)})</span> 
+                ${escapeHtml(item.definition)}
+                ${item.example ? `<div style="font-size:0.78rem; color:var(--text-secondary); font-style:italic; margin-top:2px;">"${escapeHtml(item.example)}"</div>` : ''}
+              </li>
+            `).join('')}
+          </ol>
+        </div>
+
+        ${exEn ? `
+          <div style="margin-top:12px; padding:10px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px;">
+            <div style="font-size:0.72rem; font-weight:800; color:var(--accent); text-transform:uppercase; margin-bottom:4px;">IELTS Task 2 Exemplar Sentence:</div>
+            <div style="font-size:0.84rem; color:var(--text); line-height:1.5;">${escapeHtml(exEn)}</div>
+            ${exMm ? `<div class="burmese" style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;">${escapeHtml(exMm)}</div>` : ''}
+          </div>
+        ` : ''}
+
+        <div style="font-size:0.74rem; color:var(--text-secondary); border-top:1px dashed var(--border); padding-top:8px; margin-top:12px;">
+          💡 <strong>IELTS Application:</strong> Verify precise definition boundaries to eliminate register mismatches and false friend errors in Lexical Resource.
         </div>
       </div>
-      ${(d.meaning_mm || d.mm) ? `<div style="margin:0 0 12px 0; padding:6px 12px; background:rgba(59, 130, 246, 0.08); border-left:3px solid #3B82F6; border-radius:4px; font-size:0.88rem; color:var(--text); font-weight:600;">🇲🇲 <span style="color:var(--text-secondary); font-size:0.78rem; font-weight:700; margin-right:4px;">မြန်မာအဓိပ္ပာယ်:</span> ${d.meaning_mm || d.mm}</div>` : ''}
-      <div style="margin-bottom:12px;">
-        <ol style="margin:0; padding-left:20px; font-size:0.86rem; color:var(--text); line-height:1.65;">
-          ${d.definitions.map(item => `<li><span style="font-weight:700; color:var(--text-secondary); font-size:0.78rem;">(${item.pos})</span> ${item.definition}</li>`).join('')}
-        </ol>
-      </div>
-      <div style="font-size:0.75rem; color:var(--text-secondary); border-top:1px dashed var(--border); padding-top:8px;">
- <strong>IELTS Application:</strong> Verify precise definition boundaries to avoid false friend usage errors under Grammatical Range &amp; Accuracy.
-      </div>
-    </div>`;
+    `;
 
     renderAcademicToolResult('dict', html);
   } catch (err) {

@@ -274,17 +274,87 @@ function getDeviceId() {
     if (toolName === 'dict') {
       try {
         const cleanW = word.replace(/[^a-z0-9-]/g, '');
-        const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanW)}`);
-        const json = await res.json();
-        if (Array.isArray(json) && json.length) {
-          const entry = json[0];
+        let definitions = [];
+        let phonetic = '';
+        let pos = 'academic';
+        let meaning_mm = '';
+
+        // Check local curated lexicon
+        if (typeof CURATED_ACADEMIC_LEXICON !== 'undefined' && CURATED_ACADEMIC_LEXICON[cleanW]) {
+          const c = CURATED_ACADEMIC_LEXICON[cleanW];
+          meaning_mm = c.meaning_mm || '';
+          pos = c.pos || pos;
+        }
+
+        // 1. Try Free Dictionary API
+        try {
+          const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanW)}`);
+          if (res.ok) {
+            const json = await res.json();
+            if (Array.isArray(json) && json.length) {
+              const entry = json[0];
+              phonetic = entry.phonetic || (entry.phonetics && entry.phonetics[0] && entry.phonetics[0].text) || '';
+              (entry.meanings || []).forEach(m => {
+                if (!pos || pos === 'academic') pos = m.partOfSpeech || pos;
+                (m.definitions || []).forEach(def => {
+                  definitions.push({
+                    pos: m.partOfSpeech || pos,
+                    definition: def.definition,
+                    example: def.example || ''
+                  });
+                });
+              });
+            }
+          }
+        } catch (e1) {}
+
+        // 2. Fallback to Datamuse API (md=dp)
+        if (!definitions.length) {
+          try {
+            const res2 = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(cleanW)}&md=dp&max=1`);
+            if (res2.ok) {
+              const json2 = await res2.json();
+              if (Array.isArray(json2) && json2.length && json2[0].defs) {
+                const item = json2[0];
+                pos = (item.tags || []).find(t => ['n', 'v', 'adj', 'adv'].includes(t)) || pos;
+                (item.defs || []).forEach(d => {
+                  const parts = d.split('\t');
+                  definitions.push({
+                    pos: parts[0] || pos,
+                    definition: parts[1] ? parts[1].trim() : d,
+                    example: ''
+                  });
+                });
+              }
+            }
+          } catch (e2) {}
+        }
+
+        // 3. Fallback to local VOCAB_DATA
+        if (!definitions.length && typeof VOCAB_DATA !== 'undefined' && Array.isArray(VOCAB_DATA)) {
+          const localMatch = VOCAB_DATA.find(v => v.word && v.word.toLowerCase() === cleanW);
+          if (localMatch) {
+            pos = localMatch.pos || pos;
+            phonetic = localMatch.ipa || phonetic;
+            meaning_mm = localMatch.mmMeaning || meaning_mm;
+            definitions.push({
+              pos: localMatch.pos || 'academic',
+              definition: localMatch.basic || 'Academic vocabulary item.',
+              example: localMatch.exEn || ''
+            });
+          }
+        }
+
+        if (definitions.length) {
           return {
             success: true,
             quota: { allowed: true, count: 1, limit: 10, remaining: 9 },
             data: {
               word: cleanW,
-              phonetic: entry.phonetic || (entry.phonetics && entry.phonetics[0] && entry.phonetics[0].text) || '',
-              meanings: entry.meanings || []
+              pos,
+              phonetic,
+              meaning_mm,
+              definitions: definitions.slice(0, 5)
             }
           };
         }

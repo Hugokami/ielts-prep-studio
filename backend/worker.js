@@ -6302,32 +6302,65 @@ async function fetchDictionary(rawWord) {
     meaning_mm = LEXICON_BURMESE_MAP[word].mm;
   }
 
+  // 1. Try Free Dictionary API
+  try {
+    const fResp = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+    if (fResp.ok) {
+      const fJson = await fResp.json();
+      if (Array.isArray(fJson) && fJson.length) {
+        const entry = fJson[0];
+        const parsedDefs = [];
+        let pos = "academic";
+        (entry.meanings || []).forEach(m => {
+          if (!pos || pos === "academic") pos = m.partOfSpeech || pos;
+          (m.definitions || []).forEach(def => {
+            parsedDefs.push({
+              pos: m.partOfSpeech || pos,
+              definition: def.definition,
+              example: def.example || ""
+            });
+          });
+        });
+        if (parsedDefs.length) {
+          return {
+            word: entry.word || word,
+            pos,
+            phonetic: entry.phonetic || (entry.phonetics && entry.phonetics[0] && entry.phonetics[0].text) || "",
+            meaning_mm,
+            definitions: parsedDefs.slice(0, 4)
+          };
+        }
+      }
+    }
+  } catch (e) {}
+
+  // 2. Datamuse fallback
   try {
     const resp = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=dp&max=1`);
-    if (!resp.ok) return null;
-    const json = await resp.json();
-    if (!json || !json.length) return null;
-
-    const item = json[0];
-    const defs = item.defs || [];
-    const parsedDefs = defs.map(d => {
-      const parts = d.split("\t");
-      return { pos: parts[0] || "n", definition: parts[1] ? parts[1].trim() : d };
-    });
-
-    const tags = item.tags || [];
-    const pos = tags.filter(t => ["n", "v", "adj", "adv"].includes(t));
-
-    return {
-      word: item.word || word,
-      pos: pos.length ? pos.join(", ") : (parsedDefs[0] ? parsedDefs[0].pos : "n"),
-      meaning_mm,
-      definitions: parsedDefs.slice(0, 3)
-    };
+    if (resp.ok) {
+      const json = await resp.json();
+      if (json && json.length) {
+        const item = json[0];
+        const defs = item.defs || [];
+        const parsedDefs = defs.map(d => {
+          const parts = d.split("\t");
+          return { pos: parts[0] || "n", definition: parts[1] ? parts[1].trim() : d };
+        });
+        const tags = item.tags || [];
+        const pos = tags.filter(t => ["n", "v", "adj", "adv"].includes(t));
+        return {
+          word: item.word || word,
+          pos: pos.length ? pos.join(", ") : (parsedDefs[0] ? parsedDefs[0].pos : "n"),
+          meaning_mm,
+          definitions: parsedDefs.slice(0, 4)
+        };
+      }
+    }
   } catch (err) {
     console.error("[fetchDictionary Error]", err);
-    return null;
   }
+
+  return null;
 }
 
 const SCHOLAR_QUOTES_BANK = [
