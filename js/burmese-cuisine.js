@@ -3915,7 +3915,7 @@
         </div>
 
         <!-- Cards Grid Mount -->
-        <div id="${containerId === 'at-pane-culinary' ? 'at-culinary-grid' : 'vt-culinary-grid'}" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;">
+        <div id="${containerId === 'at-pane-culinary' ? 'at-culinary-grid' : 'vt-culinary-grid'}" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 14px;">
           ${renderCardsHtml(window.BURMESE_CUISINE_DATA)}
         </div>
       </div>

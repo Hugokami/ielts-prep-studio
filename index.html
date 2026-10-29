@@ -25451,6 +25451,70 @@ function handleLiveLexiconSearch(val) {
   renderLiveLexiconCards();
 }
 
+// =========================================================================
+// RECENT TESTS / LIVE RADAR INTERACTIVE HELPERS
+// =========================================================================
+function pronounceRadarWord(word) {
+  if (!word) return;
+  if (typeof speakWord === 'function') {
+    speakWord(word);
+  } else if (typeof speakText === 'function') {
+    speakText(word);
+  }
+}
+
+function toggleRadarModelEssay(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
+  }
+}
+
+function addRadarWordToSRS(word, phonetic, pos, defEn, defMm) {
+  if (!word) return;
+  const cleanW = word.trim().toLowerCase();
+  if (typeof rateWordSRS === 'function') {
+    rateWordSRS(cleanW, 1, true);
+  } else if (window.appState && window.appState.srsSchedule) {
+    window.appState.srsSchedule[cleanW] = {
+      days: 1,
+      due: Date.now() + 86400 * 1000,
+      lastRated: new Date().toISOString().slice(0, 10),
+      phonetic: phonetic || '',
+      pos: pos || '',
+      definition_en: defEn || '',
+      definition_mm: defMm || ''
+    };
+    if (typeof saveAppState === 'function') saveAppState();
+  }
+  if (typeof showToast === 'function') {
+    showToast(`Added "${word}" to 1-3-7 SRS review!`);
+  } else if (typeof window.duoCelebrate === 'function') {
+    window.duoCelebrate();
+  }
+}
+
+function loadRadarWritingToDesk(id) {
+  const cached = window._cachedRadarData || (window.radarData || {});
+  const writingList = (cached && cached.writing) || [];
+  const item = writingList.find(w => w.id === id) || writingList[0];
+  if (item) {
+    const promptBox = document.getElementById('wPromptBox');
+    const titleLabel = document.getElementById('wTitleLabel');
+    if (promptBox) promptBox.textContent = item.prompt || item.title || '';
+    if (titleLabel) titleLabel.textContent = item.title || 'Writing Task 2';
+  }
+  if (typeof switchView === 'function') switchView('writing');
+  if (typeof switchSubTab === 'function') switchSubTab('writing', 'practice');
+  setTimeout(() => {
+    const ea = document.getElementById('essayArea');
+    if (ea) {
+      ea.focus();
+      ea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 150);
+}
+
 function renderLiveLexiconCards() {
   const mount = document.getElementById('liveLexiconMount');
   if (!mount || !window.radarData) return;
@@ -25479,7 +25543,7 @@ function renderLiveLexiconCards() {
     return;
   }
 
-  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:14px;">`;
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap:14px;">`;
 
   list.forEach(item => {
     const isLocked = item.locked && !isVip;
@@ -25527,8 +25591,8 @@ function renderLiveLexiconCards() {
             ${item.is_free_sample ? `<span style="font-size:0.68rem; color:#10B981; font-weight:800;">FREE SAMPLE</span>` : `<span style="font-size:0.68rem; color:#F59E0B; font-weight:800;">👑 VIP ACTIVE</span>`}
           </div>
 
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text); margin:0;">${escapeHtml(item.word)}</h3>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; flex-wrap:wrap; gap:6px;">
+            <h3 style="font-size:1.15rem; font-weight:800; color:var(--text); margin:0; word-break:break-word;">${escapeHtml(item.word)}</h3>
             <button class="btn-icon" onclick="pronounceRadarWord('${escapeHtml(item.word)}')" title="Pronounce" style="padding:4px; border-radius:50%; background:rgba(255,255,255,0.06);">
               🔊
             </button>
@@ -25604,7 +25668,7 @@ async function initLiveExamWriting() {
     return;
   }
 
-  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:14px;">`;
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:14px;">`;
 
   data.writing.forEach((w, idx) => {
     const isLocked = w.locked && !isVip;
@@ -25775,7 +25839,7 @@ async function initLiveExamReading() {
     return;
   }
 
-  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:16px;">`;
+  let html = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:16px;">`;
 
   recallPassages.forEach((r, idx) => {
     const isLocked = r.locked && !isVip;
@@ -25903,7 +25967,7 @@ function renderLiveRecallPassageView(mount, passage) {
       </div>
 
       <!-- 2-Column Split Layout -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px; align-items:start;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap:20px; align-items:start;">
         
         <!-- Left Column: Passage Text -->
         <div style="background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:18px; max-height:750px; overflow-y:auto; box-sizing:border-box;">
