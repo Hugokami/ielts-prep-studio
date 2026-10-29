@@ -25,6 +25,7 @@
   <script src="js/cefr-diagnostic.js?v=11.0"></script>
   <script src="js/collocations-bank.js?v=10.0"></script>
   <script src="js/daily-master-planner.js?v=10.0"></script>
+  <script src="js/lockscreen-audio-srs.js?v=10.0"></script>
 
 
 <!-- Firebase App (Compat), Auth, and Firestore SDKs -->
@@ -4511,20 +4512,34 @@
   }
 
   .btn-outlined {
-    border: 1.5px solid var(--border-mid) !important;
-    background: var(--bg-card) !important;
-    color: var(--text) !important;
-    border-radius: var(--r-pill) !important;
-    font-weight: 600 !important;
-    padding: 0 20px !important;
+    border: 1.5px solid var(--border-mid);
+    background: var(--bg-card);
+    color: var(--text);
+    border-radius: var(--r-pill);
+    font-weight: 600;
+    padding: 0 20px;
     height: 44px;
-    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  /* Compact button scoping: Prevents horizontal overflow on mobile tool cards */
+  .btn-outlined.btn-sm,
+  .btn-outlined-sm,
+  .at-results-card .btn-outlined,
+  .at-pane .btn-outlined:not(.at-search-bar-wrap .btn-outlined),
+  button.btn-outlined[style*="padding"] {
+    height: auto !important;
+    min-height: 28px !important;
+    border-radius: 6px !important;
+    font-size: 0.76rem !important;
+    box-sizing: border-box !important;
   }
   .btn-outlined:hover {
     border-color: var(--accent) !important;
@@ -7899,7 +7914,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   <symbol id="lucide-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
   <symbol id="lucide-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></symbol>
   <symbol id="lucide-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></symbol>
-  <symbol id="lucide-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="lucide-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/><path d="M16 2v3"/><path d="M12 2v3"/><path d="M8 2v3"/></symbol>
   <symbol id="lucide-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
   <symbol id="lucide-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></symbol>
   <symbol id="lucide-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
@@ -8462,6 +8477,51 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
     <!-- 7. SUBTAB 1: DASHBOARD -->
     <div class="subtab-panel active" data-subtab="dash">
+      <!-- INTERACTIVE EXAM COUNTDOWN & DYNAMIC PACING ENGINE -->
+      <div id="homeExamCountdownWidget" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:16px; box-sizing:border-box;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.3rem;">⏰</span>
+            <div>
+              <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:var(--text); line-height:1.2;">Target Exam Countdown &amp; Dynamic Pacing</h3>
+              <div style="font-size:0.75rem; color:var(--text-muted);">Calibrated for Cambridge Band 8.5+ Mastery</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <input type="date" id="homeTargetExamDateInput" onchange="window.updateExamTargetDate(this.value)" style="background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:5px 8px; font-size:0.78rem; font-weight:700; cursor:pointer;" aria-label="Target Exam Date">
+            <span class="occ-ver-pill" id="homeExamDaysBadge" style="background:var(--accent); color:#FFF; font-weight:900; font-size:0.75rem; padding:4px 10px;">21 Days Left</span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap:10px; margin-bottom:14px;">
+          <div style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+            <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">DAILY VOCAB TARGET</div>
+            <div style="font-size:1.2rem; font-weight:900; color:var(--accent);" id="homePacingVocab">15 words / day</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">1-3-7 Spaced Repetition</div>
+          </div>
+          <div style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+            <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">CBT READING PACING</div>
+            <div style="font-size:1.2rem; font-weight:900; color:#10B981;" id="homePacingReading">1 test / 2 days</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">Passages 1, 2 &amp; 3</div>
+          </div>
+          <div style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+            <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">WRITING DESK PACING</div>
+            <div style="font-size:1.2rem; font-weight:900; color:#2563EB;" id="homePacingWriting">2 essays / week</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">Task 1 &amp; Task 2 Drafts</div>
+          </div>
+          <div style="padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px;">
+            <div style="font-size:0.68rem; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">EXAM READINESS INDEX</div>
+            <div style="font-size:1.2rem; font-weight:900; color:#F59E0B;" id="homePacingReadiness">68% Ready</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">Projected Band 8.5</div>
+          </div>
+        </div>
+
+        <!-- Readiness Progress Bar -->
+        <div style="width:100%; height:6px; background:var(--border); border-radius:3px; overflow:hidden;">
+          <div id="homeReadinessProgressBar" style="width:68%; height:100%; background:linear-gradient(90deg, #F59E0B, #10B981); transition:width 0.3s ease;"></div>
+        </div>
+      </div>
+
       <!-- REAL EXAM RADAR DASHBOARD FEATURE WIDGET -->
       <div id="overviewRadarWidget" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:20px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
@@ -9284,7 +9344,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <span>Speed Drills</span>
       </button>
       <button class="subtab-btn" data-subtab="culinary" onclick="switchSubTab('lexicon', 'culinary')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/><path d="M16 2v3"/><path d="M12 2v3"/><path d="M8 2v3"/></svg>
         <span>Burmese Culinary (117)</span>
       </button>
     </div>
@@ -9326,6 +9386,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
           <option value="MASTERED">Mastered (Easy 7d) Only</option>
         </select>
         <button id="lexCefrLevelFilterBtn" class="btn-outlined" onclick="window.toggleCefrLevelFilter()" style="display:inline-flex; font-size:0.78rem; font-weight:800; border-radius:4px; height:36px; padding:0 12px; align-items:center; gap:6px;">🎯 Level Focus</button>
+        <button class="btn-outlined" id="commuteAudioModeBtn" onclick="window.LockscreenAudioSRS.toggle()" style="display:inline-flex; font-size:0.78rem; font-weight:800; border-radius:4px; height:36px; padding:0 12px; align-items:center; gap:6px; border-color:var(--accent-gold); color:var(--accent-gold);" title="Commute Mode: Hands-free audio playback with lockscreen & headphone controls">
+          <svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-headphones"/></svg> Commute Audio Mode
+        </button>
         <button class="btn-accent-solid" id="fcDrawerBtn" onclick="toggleFlashcardDrawer()">Flashcard Mode ↗</button>
       </div>
 
@@ -9993,6 +10056,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
             <button class="btn-accent-solid" id="geminiEssayGradeBtn" onclick="gradeEssayWithGemini()" style="background:linear-gradient(135deg, #e06c35 0%, #ff8c42 100%); font-weight:700;"><svg class="ui-icon" style="color:var(--accent-gold);"><use href="#lucide-sparkles"/></svg> AI Examiner Grade</button>
             <button class="btn-outlined" id="runWritingAuditBtn" onclick="runManualWritingAudit()"><svg class="ui-icon"><use href="#lucide-search"/></svg> Full CEFR &amp; Trap Audit (5 Free/Mo)</button>
             <button class="btn-outlined" style="border-color:#D97706; color:#D97706; font-weight:700;" onclick="window.openBandSurgeryFromEditor()" title="Open Live Band Surgery (5.5 &rarr; 8.5+ Sentence Upgrader)"><svg class="ui-icon" style="color:#D97706;"><use href="#lucide-sparkles"/></svg> Band Surgery</button>
+            <button class="btn-accent-solid" id="btnLexicalHeatmap" onclick="window.toggleLexicalHeatmap()" style="background:linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color:#000; font-weight:800; border:none; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon" style="color:#000;"><use href="#lucide-sparkles"/></svg> 🎨 Lexical Heatmap</button>
             <button class="btn-accent-solid" id="btnTrapXray" onclick="window.runBand6TrapXRay()" style="background:linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color:#FFF; font-weight:800; border:none; display:inline-flex; align-items:center; gap:6px;"><svg class="ui-icon" style="color:#FFF;"><use href="#lucide-target"/></svg> Band-6 Trap X-Ray</button>
             <button class="btn-outlined" onclick="insertEssaySkeleton()">Insert Skeleton</button>
             <button class="btn-outlined" onclick="document.getElementById('essayArea').value=''; runLiveWritingDiagnostics();">Clear</button>
@@ -10000,6 +10064,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
 
           <!-- Examiner Band-6 Trap X-Ray Drawer -->
           <div id="writingTrapXrayDrawer" style="display:none;"></div>
+
+          <!-- Visual Lexical Density & 90/10 Heatmap Drawer -->
+          <div id="writingLexicalHeatmapDrawer" style="display:none; margin-top:14px; background:var(--bg-card); border:1px solid var(--border-accent); border-radius:10px; padding:18px; box-sizing:border-box;"></div>
 
           <!-- Free-Tier BYOK Inline Configuration Bar -->
           <div style="margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
@@ -13818,11 +13885,11 @@ class ClampedVocabSimulation {
     this.links = [];
     this.animId = null;
     this.iteration = 0;
-    this.maxIterations = 140;
-    this.kRepulse = 85;  // Coulomb Repulsion (kr = 85px)
-    this.lSpring = 120;  // Hooke's Elastic Attraction (L0 = 120px)
-    this.kSpring = 0.04; // Elastic constant (ks = 0.04)
-    this.damping = 0.80;
+    this.maxIterations = 130;
+    this.kRepulse = 75;
+    this.lSpring = 120;
+    this.kSpring = 0.032;
+    this.damping = 0.76;
     this.dragNode = null;
     this.dragOffset = { x: 0, y: 0 };
     this.width = 360;
@@ -13840,8 +13907,8 @@ class ClampedVocabSimulation {
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       const r = this.dragNode.r || 24;
-      const padX = r + 12;
-      const padY = r + 12;
+      const padX = r + 16;
+      const padY = r + 16;
       const newX = clientX - rect.left - this.dragOffset.x;
       const newY = clientY - rect.top - this.dragOffset.y;
       this.dragNode.x = Math.max(padX, Math.min(this.width - padX, newX));
@@ -13883,7 +13950,7 @@ class ClampedVocabSimulation {
     this.links = [];
     this.iteration = 0;
 
-    // Center Node (Focus Word) - Card size is ~140x50px
+    // Center Node (Focus Word)
     const centerNode = {
       id: centerWord.id,
       word: centerWord.word,
@@ -13902,117 +13969,137 @@ class ClampedVocabSimulation {
     };
     this.nodes.push(centerNode);
 
-    // Synonyms (Attraction edges with Hooke's Elasticity) - Spread gracefully on upper-right/right
-    (syns || []).slice(0, 4).forEach((syn, i) => {
-      const angle = (i / 4) * Math.PI * 0.95 - (Math.PI * 0.45);
-      const dist = isMob ? 115 : 130;
-      const n = {
-        id: `syn-${i}`,
-        word: syn,
-        type: 'synonym',
-        cls: 'node-syn',
-        sub: isMob ? 'BAND 8+ SYN' : 'BAND 8+ SYNONYM',
-        r: 18,
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: 0,
-        vy: 0,
-        fixed: false,
-        action: () => speakText(syn.replace(/'/g, ''))
-      };
-      this.nodes.push(n);
-      this.links.push({
-        source: centerNode,
-        target: n,
-        length: dist,
-        color: isDark ? 'rgba(224, 108, 53, 0.65)' : 'rgba(200, 82, 26, 0.55)',
-        dash: ''
+    // 1. Synonyms: Spread gracefully in Right / Upper-Right quadrant (-45° to +25°)
+    const safeSyns = (syns || []).slice(0, 4);
+    if (safeSyns.length) {
+      const span = Math.PI * (70 / 180);
+      const startAngle = -Math.PI * (45 / 180);
+      safeSyns.forEach((syn, i) => {
+        const angle = startAngle + (i + 0.5) * (span / safeSyns.length);
+        const dist = isMob ? 118 : 135;
+        const n = {
+          id: `syn-${i}`,
+          word: syn,
+          type: 'synonym',
+          cls: 'node-syn',
+          sub: isMob ? 'BAND 8+ SYN' : 'BAND 8+ SYNONYM',
+          r: 18,
+          x: cx + Math.cos(angle) * dist,
+          y: cy + Math.sin(angle) * dist,
+          vx: 0,
+          vy: 0,
+          fixed: false,
+          action: () => speakText(syn.replace(/'/g, ''))
+        };
+        this.nodes.push(n);
+        this.links.push({
+          source: centerNode,
+          target: n,
+          length: dist,
+          color: isDark ? 'rgba(224, 108, 53, 0.65)' : 'rgba(200, 82, 26, 0.55)',
+          dash: ''
+        });
       });
-    });
+    }
 
-    // Avoid / Band 5 Traps (Red dashed repulsive edges) - Placed safely at bottom
-    (avoids || []).slice(0, 1).forEach((av, i) => {
-      const angle = Math.PI * 0.55 + (i * 0.3);
-      const dist = isMob ? 130 : 145;
-      const n = {
-        id: `av-${i}`,
-        word: av,
-        type: 'avoid',
-        cls: 'node-avoid',
-        sub: isMob ? 'AVOID (B5)' : 'AVOID (BAND 5)',
-        r: 18,
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: 0,
-        vy: 0,
-        fixed: false,
-        action: () => speakText(av.replace(/'/g, ''))
-      };
-      this.nodes.push(n);
-      this.links.push({
-        source: centerNode,
-        target: n,
-        length: dist,
-        color: isDark ? 'rgba(248, 113, 113, 0.55)' : 'rgba(220, 38, 38, 0.45)',
-        dash: '3,3'
+    // 2. Avoid / Traps: Placed cleanly at bottom quadrant (+65° to +105°)
+    const safeAvoids = (avoids || []).slice(0, 2);
+    if (safeAvoids.length) {
+      const span = Math.PI * (40 / 180);
+      const startAngle = Math.PI * (65 / 180);
+      safeAvoids.forEach((av, i) => {
+        const angle = startAngle + (i + 0.5) * (span / safeAvoids.length);
+        const dist = isMob ? 125 : 140;
+        const n = {
+          id: `av-${i}`,
+          word: av,
+          type: 'avoid',
+          cls: 'node-avoid',
+          sub: isMob ? 'AVOID (B5)' : 'AVOID (BAND 5)',
+          r: 18,
+          x: cx + Math.cos(angle) * dist,
+          y: cy + Math.sin(angle) * dist,
+          vx: 0,
+          vy: 0,
+          fixed: false,
+          action: () => speakText(av.replace(/'/g, ''))
+        };
+        this.nodes.push(n);
+        this.links.push({
+          source: centerNode,
+          target: n,
+          length: dist,
+          color: isDark ? 'rgba(248, 113, 113, 0.55)' : 'rgba(220, 38, 38, 0.45)',
+          dash: '3,3'
+        });
       });
-    });
+    }
 
-    // Opposite / Antonyms (Amber dashed edges) - Placed at lower-left
-    (antonyms || []).slice(0, 2).forEach((ant, i) => {
-      const angle = Math.PI * 0.75 + (i * 0.3);
-      const dist = isMob ? 135 : 150;
-      const n = {
-        id: `ant-${i}`,
-        word: ant,
-        type: 'avoid',
-        cls: 'node-avoid',
-        sub: isMob ? 'OPPOSITE' : '↔ OPPOSITE',
-        r: 18,
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: 0,
-        vy: 0,
-        fixed: false,
-        action: () => speakText(ant.replace(/'/g, ''))
-      };
-      this.nodes.push(n);
-      this.links.push({
-        source: centerNode,
-        target: n,
-        length: dist,
-        color: isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.45)',
-        dash: '4,3'
+    // 3. Antonyms: Placed at lower-left quadrant (+125° to +165°)
+    const safeAnts = (antonyms || []).slice(0, 2);
+    if (safeAnts.length) {
+      const span = Math.PI * (40 / 180);
+      const startAngle = Math.PI * (125 / 180);
+      safeAnts.forEach((ant, i) => {
+        const angle = startAngle + (i + 0.5) * (span / safeAnts.length);
+        const dist = isMob ? 125 : 140;
+        const n = {
+          id: `ant-${i}`,
+          word: ant,
+          type: 'avoid',
+          cls: 'node-avoid',
+          sub: isMob ? 'OPPOSITE' : '↔ OPPOSITE',
+          r: 18,
+          x: cx + Math.cos(angle) * dist,
+          y: cy + Math.sin(angle) * dist,
+          vx: 0,
+          vy: 0,
+          fixed: false,
+          action: () => speakText(ant.replace(/'/g, ''))
+        };
+        this.nodes.push(n);
+        this.links.push({
+          source: centerNode,
+          target: n,
+          length: dist,
+          color: isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.45)',
+          dash: '4,3'
+        });
       });
-    });
+    }
 
-    // Peers in same Category (Blue dashed edges) - Placed at upper-left
-    (peers || []).slice(0, 3).forEach((p, i) => {
-      const angle = -Math.PI * 0.65 - (i * 0.35);
-      const dist = isMob ? 140 : 160;
-      const n = {
-        id: `peer-${p.id}`,
-        word: p.word,
-        type: 'peer',
-        cls: 'node-peer',
-        sub: isMob ? 'PEER' : 'CATEGORY PEER',
-        r: 18,
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: 0,
-        vy: 0,
-        fixed: false,
-        action: () => selectGraphWord(p.id)
-      };
-      this.nodes.push(n);
-      this.links.push({
-        source: centerNode,
-        target: n,
-        length: dist,
-        color: isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.40)',
-        dash: '5,4'
+    // 4. Peers: Placed at top/upper-left quadrant (-160° to -80°)
+    const safePeers = (peers || []).slice(0, 3);
+    if (safePeers.length) {
+      const span = Math.PI * (80 / 180);
+      const startAngle = -Math.PI * (160 / 180);
+      safePeers.forEach((p, i) => {
+        const angle = startAngle + (i + 0.5) * (span / safePeers.length);
+        const dist = isMob ? 130 : 150;
+        const n = {
+          id: `peer-${p.id}`,
+          word: p.word,
+          type: 'peer',
+          cls: 'node-peer',
+          sub: isMob ? 'PEER' : 'CATEGORY PEER',
+          r: 18,
+          x: cx + Math.cos(angle) * dist,
+          y: cy + Math.sin(angle) * dist,
+          vx: 0,
+          vy: 0,
+          fixed: false,
+          action: () => selectGraphWord(p.id)
+        };
+        this.nodes.push(n);
+        this.links.push({
+          source: centerNode,
+          target: n,
+          length: dist,
+          color: isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.40)',
+          dash: '5,4'
+        });
       });
-    });
+    }
 
     // Mount DOM Nodes Once
     this.mountDomNodes(isMob);
@@ -14065,6 +14152,8 @@ class ClampedVocabSimulation {
   startSimulation() {
     if (this.animId) cancelAnimationFrame(this.animId);
     const isMob = window.innerWidth <= 640;
+    const cx = this.width / 2;
+    const cy = this.height / 2;
 
     const step = () => {
       if (this.iteration >= this.maxIterations) {
@@ -14073,15 +14162,15 @@ class ClampedVocabSimulation {
       }
       this.iteration++;
 
-      // 1. Coulomb Pairwise Repulsion: F_repulse = (kr^2 / d^2) * u_ij (kr = 85px)
-      for (let i = 0; i < this.nodes.length; i++) {
+      // 1. Coulomb Repulsion between satellite pairs
+      for (let i = 1; i < this.nodes.length; i++) {
         for (let j = i + 1; j < this.nodes.length; j++) {
           const n1 = this.nodes[i];
           const n2 = this.nodes[j];
           let dx = n2.x - n1.x;
           let dy = n2.y - n1.y;
           let distSq = dx * dx + dy * dy;
-          if (distSq < 48400) { // 220^2 max interaction radius
+          if (distSq < 28900) { // 170px radius
             let dist = Math.sqrt(distSq) || 1;
             let force = (this.kRepulse * this.kRepulse) / (distSq || 1);
             let fx = (dx / dist) * force;
@@ -14092,9 +14181,7 @@ class ClampedVocabSimulation {
         }
       }
 
-      // 2. Hooke's Elastic Attraction along Edges: F_spring = (d - L0) * ks * u_ji
-      // Stretched (d > L0): pulls target towards source (-fx, -fy)
-      // Compressed (d < L0): pushes target away from source (+fx, +fy)
+      // 2. Hooke's Elastic Attraction along Edges
       this.links.forEach(l => {
         let dx = l.target.x - l.source.x;
         let dy = l.target.y - l.source.y;
@@ -14108,25 +14195,42 @@ class ClampedVocabSimulation {
       });
 
       // 3. Update Positions & Damping
-      this.nodes.forEach(n => {
+      for (let i = 1; i < this.nodes.length; i++) {
+        const n = this.nodes[i];
         if (!n.fixed) {
           n.x += n.vx * this.damping;
           n.y += n.vy * this.damping;
           n.vx *= this.damping;
           n.vy *= this.damping;
         }
-      });
+      }
 
-      // 4. Strict Card Box Collision & Center Separation
-      // Guarantees ZERO visual overlap between center node card and satellite nodes
-      for (let i = 0; i < this.nodes.length; i++) {
+      // 4a. HARD CENTER ELLIPTICAL EXCLUSION ZONE (Absolute zero center overlap guarantee)
+      const Rx = isMob ? 110 : 125;
+      const Ry = isMob ? 55 : 62;
+      for (let i = 1; i < this.nodes.length; i++) {
+        const n = this.nodes[i];
+        if (!n.fixed) {
+          const dx = n.x - cx;
+          const dy = n.y - cy;
+          const normDist = Math.sqrt((dx * dx) / (Rx * Rx) + (dy * dy) / (Ry * Ry)) || 0.001;
+          if (normDist < 1.0) {
+            const push = 1.02 / normDist;
+            n.x = cx + dx * push;
+            n.y = cy + dy * push;
+            n.vx = 0;
+            n.vy = 0;
+          }
+        }
+      }
+
+      // 4b. Strict Satellite-to-Satellite Card Box Collision
+      const minDx = isMob ? 76 : 88;
+      const minDy = isMob ? 36 : 42;
+      for (let i = 1; i < this.nodes.length; i++) {
         for (let j = i + 1; j < this.nodes.length; j++) {
           const n1 = this.nodes[i];
           const n2 = this.nodes[j];
-          const isCenter = (n1.type === 'center' || n2.type === 'center');
-          const minDx = isCenter ? (isMob ? 115 : 125) : (isMob ? 80 : 90);
-          const minDy = isCenter ? (isMob ? 54 : 60) : (isMob ? 38 : 44);
-
           let dx = n2.x - n1.x;
           let dy = n2.y - n1.y;
           if (Math.abs(dx) < minDx && Math.abs(dy) < minDy) {
@@ -14158,14 +14262,15 @@ class ClampedVocabSimulation {
       }
 
       // 5. Strict Boundary Clamping (Zero mobile scrollbar triggers)
-      this.nodes.forEach(n => {
+      for (let i = 1; i < this.nodes.length; i++) {
+        const n = this.nodes[i];
         if (!n.fixed) {
-          const padX = isMob ? 36 : 42;
-          const padY = isMob ? 24 : 28;
+          const padX = isMob ? 38 : 44;
+          const padY = isMob ? 26 : 30;
           n.x = Math.max(padX, Math.min(this.width - padX, n.x | 0));
           n.y = Math.max(padY, Math.min(this.height - padY, n.y | 0));
         }
-      });
+      }
 
       this.render();
       this.animId = requestAnimationFrame(step);
@@ -14196,7 +14301,6 @@ class ClampedVocabSimulation {
   }
 }
 
-// Backward compatibility aliases
 window.ClampedVocabSimulation = ClampedVocabSimulation;
 window.VocabGraphSimulation = ClampedVocabSimulation;
 window.currentVocabGraphSim = null;
@@ -14255,10 +14359,17 @@ function renderConstellation(wordId) {
     window.currentVocabGraphSim.dom = domEl;
   }
 
+  // Deduplicate avoid trap so it does not collide with synonyms or focus word
+  const synList = center.synonyms || [];
+  const cleanAvoids = (shortAvoid ? [shortAvoid] : []).filter(a => {
+    const al = a.toLowerCase();
+    return al !== center.word.toLowerCase() && !synList.some(s => s.toLowerCase() === al);
+  });
+
   window.currentVocabGraphSim.init(
     center,
-    center.synonyms || [],
-    shortAvoid ? [shortAvoid] : [],
+    synList,
+    cleanAvoids,
     center.antonyms || [],
     peers
   );
@@ -22461,13 +22572,15 @@ async function executeVipCollocationsSearch() {
 
     const col = d.collocations;
     let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
-          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
+          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase; word-break:break-word;">${d.word}</span>
           <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:700; flex-shrink:0;">${d.pos || 'term'}</span>
           <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
         </div>
-        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem; flex-shrink:0;" onclick="openVipToolsModal('synonyms', '${d.word}')">View Synonyms ↗</button>
+        <div style="display:flex; gap:6px; align-items:center; flex-shrink:0; max-width:100%;">
+          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem; white-space:nowrap;" onclick="openVipToolsModal('synonyms', '${d.word}')">View Synonyms ↗</button>
+        </div>
       </div>`;
     if (d.meaning_mm) {
       html += `<div style="margin:0 0 14px 0; padding:6px 12px; background:rgba(59, 130, 246, 0.08); border-left:3px solid #3B82F6; border-radius:4px; font-size:0.88rem; color:var(--text); font-weight:600;">🇲🇲 <span style="color:var(--text-secondary); font-size:0.78rem; font-weight:700; margin-right:4px;">မြန်မာအဓိပ္ပာယ်:</span> ${d.meaning_mm}</div>`;
@@ -22573,26 +22686,28 @@ async function executeVipSynonymsSearch() {
     }
 
     let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
-          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
+          <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase; word-break:break-word;">${d.word}</span>
           <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
         </div>
-        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${d.word}')">View Collocations ↗</button>
+        <div style="display:flex; gap:6px; align-items:center; flex-shrink:0; max-width:100%;">
+          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem; white-space:nowrap;" onclick="openVipToolsModal('collocations', '${d.word}')">View Collocations ↗</button>
+        </div>
       </div>`;
 
     if (d.items && d.items.length) {
-      html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">`;
+      html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px; width:100%; min-width:0; box-sizing:border-box;">`;
       d.items.forEach(item => {
         html += `<div style="border:1px solid var(--border); border-radius:6px; padding:12px; background:rgba(0,0,0,0.02); max-width:100%; box-sizing:border-box; overflow:hidden;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
               <span style="font-size:1rem; font-weight:800; color:var(--text); word-break:break-word;">${item.term}</span>
               <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; background:rgba(16, 185, 129, 0.12); color:#059669; flex-shrink:0;">${item.register || 'C1 Academic'}</span>
             </div>
-            <div style="display:flex; gap:6px; flex-wrap:wrap; flex-shrink:0;">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-left:auto; max-width:100%;">
               <button class="util-icon-btn" onclick="speakWord('${item.term}')" style="padding:2px 6px; font-size:0.75rem; flex-shrink:0;" title="Listen">🔊 Listen</button>
-              <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${item.term}')">Collocations</button>
+              <button class="btn-outlined btn-sm" style="padding:3px 8px; font-size:0.72rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${item.term}')">Collocations</button>
             </div>
           </div>
           <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; line-height:1.5;">${item.nuance}</div>
@@ -25454,6 +25569,71 @@ function handleLiveLexiconSearch(val) {
 // =========================================================================
 // RECENT TESTS / LIVE RADAR INTERACTIVE HELPERS
 // =========================================================================
+window.renderExamCountdownUI = function() {
+  const dateInput = document.getElementById('homeTargetExamDateInput');
+  const daysBadge = document.getElementById('homeExamDaysBadge');
+  const vocabEl = document.getElementById('homePacingVocab');
+  const readEl = document.getElementById('homePacingReading');
+  const writeEl = document.getElementById('homePacingWriting');
+  const readyEl = document.getElementById('homePacingReadiness');
+  const progEl = document.getElementById('homeReadinessProgressBar');
+
+  let cd = { targetDateStr: '', daysRemaining: 21, readinessScore: 68, targetBand: '8.5' };
+  if (typeof window.getExamCountdownData === 'function') {
+    cd = window.getExamCountdownData();
+  } else {
+    let saved = localStorage.getItem('ielts_target_exam_date');
+    if (!saved) {
+      const d = new Date();
+      d.setDate(d.getDate() + 21);
+      saved = d.toISOString().split('T')[0];
+      localStorage.setItem('ielts_target_exam_date', saved);
+    }
+    const diff = Math.max(0, Math.ceil((new Date(saved) - new Date()) / (1000 * 60 * 60 * 24)));
+    cd.targetDateStr = saved;
+    cd.daysRemaining = diff;
+  }
+
+  if (dateInput && cd.targetDateStr) {
+    dateInput.value = cd.targetDateStr;
+  }
+  if (daysBadge) {
+    daysBadge.textContent = cd.daysRemaining === 0 ? 'Exam Today! 🔥' : `${cd.daysRemaining} Days Left`;
+    daysBadge.style.background = cd.daysRemaining <= 7 ? '#EF4444' : (cd.daysRemaining <= 14 ? '#F59E0B' : 'var(--accent)');
+  }
+
+  const days = Math.max(1, cd.daysRemaining);
+  const dailyWords = Math.min(30, Math.max(10, Math.ceil(350 / days)));
+  if (vocabEl) vocabEl.textContent = `${dailyWords} words / day`;
+  if (readEl) readEl.textContent = days <= 14 ? '1 CBT test / day' : '1 test / 2 days';
+  if (writeEl) writeEl.textContent = days <= 14 ? '3 essays / week' : '2 essays / week';
+  
+  const score = cd.readinessScore || 68;
+  if (readyEl) readyEl.textContent = `${score}% Ready`;
+  if (progEl) progEl.style.width = `${Math.min(100, Math.max(15, score))}%`;
+};
+
+window.updateExamTargetDate = function(val) {
+  if (!val) return;
+  localStorage.setItem('ielts_target_exam_date', val);
+  if (window.appState) {
+    window.appState.targetExamDate = val;
+    if (typeof saveAppState === 'function') saveAppState();
+  }
+  window.renderExamCountdownUI();
+  if (typeof window.buildTodayPlan === 'function') window.buildTodayPlan();
+  if (typeof window.showAppToast === 'function') {
+    window.showAppToast(`Target exam date updated to ${val}! Pacing recalibrated.`, 'success');
+  }
+};
+
+// Auto-call renderExamCountdownUI upon dom readiness
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() { window.renderExamCountdownUI(); });
+} else {
+  setTimeout(function() { window.renderExamCountdownUI(); }, 200);
+}
+
 function pronounceRadarWord(word) {
   if (!word) return;
   if (typeof speakWord === 'function') {

@@ -1047,6 +1047,140 @@
       alternatives: ["in the final analysis, having evaluated both perspectives,", "to conclude,"],
       reason: "Informal signposting unsuited for university-level academic writing.",
       burmese: "ပေါ့ပေါ့ပါးပါး စကားပြောနိဂုံးစကားဖြစ်၍ တရားဝင် Academic နိဂုံးစကားသို့ ပြောင်းပါ။"
+    },
+    // ==========================================
+    // STEP 1.3: MYANMAR L1 INTERFERENCE & TRANSFER TRAP SUITE (မြန်မာကျောင်းသားများ အမှားအများဆုံး အချက်များ)
+    // ==========================================
+    {
+      id: "l1_uncountable_plural",
+      name: "Uncountable Noun Pluralization (မရေတွက်နိုင်သော နာမ်များ -s ထည့်မှားခြင်း)",
+      rx: /\b(informations|equipments|researches|advices|knowledges|accommodations|sceneries|furnitures|baggages|luggages)\b/gi,
+      severity: "Critical",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "information",
+      reason: "In Myanmar language, plural markers (များ) are added freely to conceptual nouns. In English, information, equipment, research, advice, and knowledge are strictly uncountable and never take '-s'.",
+      burmese: "မြန်မာစကားတွင် 'သတင်းအချက်အလက်များ'၊ 'ဗဟုသုတများ' ဟု သုံးလေ့ရှိသော်လည်း အင်္ဂလိပ်စာတွင် Information, Equipment, Research, Advice စသည်တို့သည် Uncountable ဖြစ်၍ -s လုံးဝမထည့်ရပါ။"
+    },
+    {
+      id: "l1_discuss_about",
+      name: '"Discuss About" Preposition Clash (Preposition အပိုထည့်မှားခြင်း)',
+      rx: /\b(discuss|discusses|discussed|discussing)\s+about\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "discuss",
+      alternatives: ["discuss", "deliberate upon", "examine"],
+      reason: "Direct literal translation from Burmese 'အကြောင်း ဆွေးနွေးသည်'. 'Discuss' is transitive and directly takes an object without 'about'.",
+      burmese: "မြန်မာလို 'အကြောင်း ဆွေးနွေးသည်' ကို direct translate လုပ်မိသဖြင့် about ထည့်မှားတတ်ပါသည်။ Discuss the issue ဟု တိုက်ရိုက်သုံးပါ။"
+    },
+    {
+      id: "l1_emphasize_on",
+      name: '"Emphasize On" Verb Preposition Error',
+      rx: /\b(emphasize|emphasizes|emphasized|emphasizing)\s+on\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "emphasize",
+      alternatives: ["emphasize", "place emphasis on", "underscore"],
+      reason: "Burmese speakers transfer 'အပေါ် အလေးထားသည်' into 'emphasize on'. The verb 'emphasize' takes a direct object without 'on'.",
+      burmese: "Verb အဖြစ်သုံးလျှင် on မလိုပါ။ Noun အဖြစ်သုံးမှသာ 'place emphasis on' သို့မဟုတ် 'lay stress upon' ဟု သုံးပါ။"
+    },
+    {
+      id: "l1_cope_up_with",
+      name: '"Cope Up With" Redundant Particle Error',
+      rx: /\b(cope|copes|coped|coping)\s+up\s+with\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "cope with",
+      alternatives: ["cope with", "withstand", "effectively manage"],
+      reason: "Redundant particle 'up'. The standard English idiom is strictly 'cope with' or 'manage'.",
+      burmese: "မြန်မာကျောင်းသားများ 'cope up with' ဟု မှားသုံးလေ့ရှိပါသည်။ အမှန်မှာ 'cope with' သာ ဖြစ်ပါသည်။"
+    },
+    {
+      id: "l1_explain_about",
+      name: '"Explain About" Redundant Preposition',
+      rx: /\b(explain|explains|explained|explaining)\s+about\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "explain",
+      alternatives: ["explain", "elucidate", "clarify"],
+      reason: "Literal translation of 'အကြောင်း ရှင်းပြသည်'. 'Explain' directly takes an object without 'about'.",
+      burmese: "'အကြောင်း ရှင်းပြသည်' ကို direct translate လုပ်မိသဖြင့် about ပါတတ်ပါသည်။ Explain the phenomenon ဟု တိုက်ရိုက်သုံးပါ။"
+    },
+    {
+      id: "l1_comprise_of",
+      name: '"Comprise Of" Phrasal Confusion',
+      rx: /\b(comprise|comprises|comprised|comprising)\s+of\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "consist of",
+      alternatives: ["consist of", "comprise", "is composed of"],
+      reason: "'Comprise of' is non-standard. Use 'comprise' directly or 'consist of' / 'is composed of'.",
+      burmese: "'comprise of' အသုံး မရှိပါ။ 'comprise' တိုက်ရိုက်သုံးပါ သို့မဟုတ် 'consist of' / 'is composed of' သို့ ပြောင်းပါ။"
+    },
+    {
+      id: "l1_do_exercise",
+      name: '"Do Exercise / Do Sport" Collocation Error',
+      rx: /\b(do|does|did|doing)\s+(more\s+)?(sport|sports|exercise)\b/gi,
+      severity: "Medium",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "engage in physical activity",
+      alternatives: ["engage in physical activity", "participate in athletic pursuits", "exercise regularly"],
+      reason: "Direct translation of Burmese 'လေ့ကျင့်ခန်း လုပ်သည်'. High-band writing uses 'engage in physical exercise' or 'participate in sports'.",
+      burmese: "မြန်မာလို 'လေ့ကျင့်ခန်း လုပ်သည်' ကို တိုက်ရိုက်ပြန်ဆိုခြင်းဖြစ်ပါသည်။ Academic စာစီစာကုံးတွင် 'engage in physical activity' ဟု သုံးပါ။"
+    },
+    {
+      id: "l1_take_exam",
+      name: '"Take Exam" Informal Spoken Collocation',
+      rx: /\btake\s+(an?\s+)?exams?\b/gi,
+      severity: "Medium",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "sit for an examination",
+      alternatives: ["sit for an examination", "undertake rigorous assessments"],
+      reason: "Conversational collocation. Academic IELTS requires 'sit for an examination' or 'undertake an assessment'.",
+      burmese: "'take exam' သည် နှုတ်ပြောအဆင့်သာ ဖြစ်သည်။ Academic Writing တွင် 'sit for an examination' ဟု သုံးပါ။"
+    },
+    {
+      id: "l1_every_people",
+      name: '"Every People" Subject-Verb Agreement Trap',
+      rx: /\bevery\s+people\b/gi,
+      severity: "Critical",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "everyone",
+      alternatives: ["everyone", "all individuals", "every citizen"],
+      reason: "'Every' must be followed by a singular countable noun. 'People' is plural.",
+      burmese: "Every နောက်တွင် Singular နာမ်သာ လိုက်ရပါသည်။ 'everyone' သို့မဟုတ် 'all individuals' ဟု ပြင်ဆင်ပါ။"
+    },
+    {
+      id: "l1_one_of_the_reason",
+      name: '"One of the [Singular Noun]" Agreement Trap',
+      rx: /\bone\s+of\s+the\s+(reason|problem|factor|advantage|disadvantage|issue)\b/gi,
+      severity: "Critical",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "one of the reasons",
+      alternatives: ["one of the primary reasons", "one of the salient factors"],
+      reason: "'One of the...' grammatically requires a plural noun because it selects one item from a group.",
+      burmese: "'One of the...' နောက်တွင် အမြဲ Plural Noun (s/es) လိုက်ရပါသည်။ (ဥပမာ: one of the primary reasons)."
+    },
+    {
+      id: "l1_more_better",
+      name: 'Double Comparative ("More Better / More Faster")',
+      rx: /\bmore\s+(better|easier|faster|harder|cheaper|higher|lower)\b/gi,
+      severity: "Critical",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "significantly better",
+      alternatives: ["significantly better", "far superior", "markedly easier"],
+      reason: "Double comparative. Never combine 'more' with an '-er' comparative adjective.",
+      burmese: "Comparative တွင် 'more' နှင့် '-er' နှစ်ခုထပ်သုံး၍ မရပါ။ 'significantly better' ဟု အဆင့်မြင့် Adverb ထည့်သုံးပါ။"
+    },
+    {
+      id: "l1_amount_of_people",
+      name: '"Amount of People" Countable/Uncountable Confusion',
+      rx: /\bamount\s+of\s+(people|students|children|workers|citizens|individuals)\b/gi,
+      severity: "High",
+      category: "🇲🇲 Myanmar L1 Transfer",
+      suggested: "number of individuals",
+      alternatives: ["number of individuals", "proportion of citizens", "demographic cohort"],
+      reason: "'Amount' is strictly for uncountable quantities. For people, use 'number' or 'proportion'.",
+      burmese: "လူဦးရေသည် ရေတွက်နိုင်သော Plural ဖြစ်သဖြင့် amount မသုံးရပါ။ 'number of individuals' သို့မဟုတ် 'proportion of citizens' ဟု သုံးပါ။"
     }
   ];
 
@@ -1084,6 +1218,30 @@
         // Handle contraction auto-expansion
         if (rule.id === "contractions" && CONTRACTION_EXPANSIONS[matchedLower]) {
           cleanRep = CONTRACTION_EXPANSIONS[matchedLower];
+        } else if (rule.id === "l1_uncountable_plural") {
+          const uncountMap = {
+            "informations": "information",
+            "equipments": "equipment",
+            "researches": "research",
+            "advices": "advice",
+            "knowledges": "knowledge",
+            "accommodations": "accommodation",
+            "sceneries": "scenery",
+            "furnitures": "furniture",
+            "baggages": "baggage",
+            "luggages": "luggage"
+          };
+          cleanRep = uncountMap[matchedLower] || "information";
+        } else if (rule.id === "l1_discuss_about") {
+          cleanRep = matchedLower.replace(/\s+about$/i, '');
+        } else if (rule.id === "l1_emphasize_on") {
+          cleanRep = matchedLower.replace(/\s+on$/i, '');
+        } else if (rule.id === "l1_explain_about") {
+          cleanRep = matchedLower.replace(/\s+about$/i, '');
+        } else if (rule.id === "l1_cope_up_with") {
+          cleanRep = matchedLower.replace(/\bup\s+/i, '');
+        } else if (rule.id === "l1_comprise_of") {
+          cleanRep = "consist of";
         } else if (rule.id === "empty_very") {
           const adj = match[2]?.toLowerCase();
           if (adj === 'important') cleanRep = 'imperative';
@@ -2544,6 +2702,263 @@ ${theme.collocations.map((c, i) => `${i+1}. ${c.phrase} (${c.burmese})`).join('\
     const el = document.getElementById('at-trapxray-input');
     if (!el || !el.value.trim()) return;
     window.insertSurgeryIntoWritingLab(el.value.trim());
+  };
+
+
+  // =========================================================================
+  // PILLAR 1: INTERACTIVE LEXICAL DENSITY HEATMAP & 90/10 VISUALIZER
+  // =========================================================================
+  window.toggleLexicalHeatmap = function() {
+    const drawer = document.getElementById('writingLexicalHeatmapDrawer');
+    if (!drawer) return;
+    if (drawer.style.display === 'block') {
+      drawer.style.display = 'none';
+    } else {
+      drawer.style.display = 'block';
+      window.renderLexicalHeatmap();
+      setTimeout(() => {
+        drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  };
+
+  window.inspectHeatmapWord = function(token, type, suggestedRep) {
+    const slot = document.getElementById('heatmapInspectorSlot');
+    if (!slot) return;
+    const clean = (token || '').toLowerCase().trim();
+    
+    // Check if we have dictionary / vocab data
+    let defText = 'Standard academic vocabulary token.';
+    let posText = 'term';
+    let mmText = '';
+    
+    if (window.CURATED_ACADEMIC_LEXICON && window.CURATED_ACADEMIC_LEXICON[clean]) {
+      const entry = window.CURATED_ACADEMIC_LEXICON[clean];
+      defText = entry.definition_en || (entry.synonyms && entry.synonyms[0] && entry.synonyms[0].nuance) || defText;
+      posText = entry.pos || posText;
+      mmText = entry.meaning_mm || '';
+    } else if (Array.isArray(window.VOCAB_DATA)) {
+      const found = window.VOCAB_DATA.find(v => (v.word || '').toLowerCase() === clean);
+      if (found) {
+        defText = found.defEn || found.definition_en || defText;
+        posText = found.pos || posText;
+        mmText = found.defMm || found.meaning_mm || '';
+      }
+    }
+
+    let actionButton = '';
+    if (type === 'trap' && suggestedRep) {
+      actionButton = `
+        <button class="btn-accent-solid" style="padding:5px 12px; font-size:0.78rem; font-weight:800; background:#10B981; border:none; border-radius:5px;" onclick="window.replaceWordInEssay(${JSON.stringify(token)}, ${JSON.stringify(suggestedRep)})">
+          ⚡ 1-Click Replace with "${escapeHtml(suggestedRep)}"
+        </button>
+      `;
+    } else {
+      actionButton = `
+        <button class="util-icon-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="speakWord ? speakWord(${JSON.stringify(token)}) : speakText(${JSON.stringify(token)})">
+          🔊 Listen
+        </button>
+      `;
+    }
+
+    const typeBadge = type === 'trap' 
+      ? '<span class="occ-ver-pill" style="background:#EF4444; color:#FFF; font-weight:800; font-size:0.7rem; padding:2px 7px;">BAND 6 TRAP / CLICHÉ</span>'
+      : (type === 'c1' 
+        ? '<span class="occ-ver-pill" style="background:#F59E0B; color:#000; font-weight:800; font-size:0.7rem; padding:2px 7px;">C1/C2 ACADEMIC PRECISION</span>'
+        : (type === 'colloc' 
+          ? '<span class="occ-ver-pill" style="background:#10B981; color:#FFF; font-weight:800; font-size:0.7rem; padding:2px 7px;">ACADEMIC COLLOCATION</span>'
+          : '<span class="occ-ver-pill" style="background:#38BDF8; color:#000; font-weight:800; font-size:0.7rem; padding:2px 7px;">B2 ACADEMIC REGISTER</span>'));
+
+    slot.innerHTML = `
+      <div style="padding:14px; background:var(--bg); border:1px solid var(--border-accent); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:12px; animation:fadeIn 0.2s ease;">
+        <div style="min-width:0; flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+            <strong style="font-size:1.1rem; color:var(--text); text-transform:uppercase;">${escapeHtml(token)}</strong>
+            <span class="occ-ver-pill" style="font-size:0.68rem; font-weight:700;">${escapeHtml(posText)}</span>
+            ${typeBadge}
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.45;">
+            ${escapeHtml(defText)}
+          </div>
+          ${mmText ? `<div class="burmese" style="font-size:0.8rem; color:var(--accent); font-weight:700; margin-top:3px;">${escapeHtml(mmText)}</div>` : ''}
+        </div>
+        <div style="flex-shrink:0;">
+          ${actionButton}
+        </div>
+      </div>
+    `;
+    slot.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  window.replaceWordInEssay = function(origWord, newWord) {
+    const el = document.getElementById('essayArea');
+    if (!el || !origWord || !newWord) return;
+    const escaped = origWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const rx = new RegExp(escaped, 'i');
+    el.value = el.value.replace(rx, newWord);
+    
+    if (typeof window.runLiveWritingDiagnostics === 'function') {
+      window.runLiveWritingDiagnostics();
+    }
+    window.renderLexicalHeatmap();
+    if (typeof window.showAppToast === 'function') {
+      window.showAppToast(`Upgraded "${origWord}" → "${newWord}" in essay!`, 'success');
+    }
+  };
+
+  window.renderLexicalHeatmap = function() {
+    const drawer = document.getElementById('writingLexicalHeatmapDrawer');
+    const el = document.getElementById('essayArea');
+    if (!drawer) return;
+
+    const raw = el ? el.value : '';
+    const trimmed = raw.trim();
+
+    if (!trimmed || trimmed.split(/\s+/).length < 10) {
+      drawer.innerHTML = `
+        <div style="padding:28px 20px; text-align:center; color:var(--text-secondary);">
+          <div style="font-size:2rem; margin-bottom:10px;">🎨</div>
+          <h4 style="margin:0 0 6px 0; font-size:1.1rem; font-weight:800; color:var(--text);">Lexical Density Heatmap Ready</h4>
+          <p style="margin:0 auto 14px auto; font-size:0.85rem; max-width:480px; line-height:1.5;">
+            Compose or paste at least 15 words in your Writing Desk to generate a real-time CEFR color-coded heatmap (90/10 Academic Zone, Collocations &amp; Clichés).
+          </p>
+          <button class="btn-outlined" onclick="document.getElementById('essayArea').focus();" style="font-size:0.78rem; font-weight:700; padding:6px 14px;">
+            Focus Writing Editor ✍️
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    // 1. Scan traps
+    const trapReport = typeof window.scanBand6Traps === 'function' ? window.scanBand6Traps(raw) : { totalTraps: 0, detections: [] };
+
+    // 2. High-Yield Academic Collocations list for multi-word matching
+    const commonCollocs = [
+      "play a pivotal role", "plays a pivotal role", "played a pivotal role",
+      "paramount importance", "critical factor", "indispensable component",
+      "salient feature", "vital prerequisite", "vitally important", "critically significant",
+      "profoundly impactful", "substantial proportion", "burgeoning number",
+      "alleviate poverty", "mitigate the crisis", "ameliorate the dilemma",
+      "engender divergent perspectives", "bifurcated viewpoints", "in the final analysis",
+      "empirical data", "rigorous investigation", "instrumental in", "exert a profound influence",
+      "adverse consequences", "salutary repercussions", "catalyst for change"
+    ];
+
+    // 3. Process paragraphs
+    const paragraphs = raw.split(/\n+/).filter(p => p.trim());
+    let totalWordCount = 0;
+    let c1Count = 0;
+    let b2Count = 0;
+    let collocHits = 0;
+    let trapHits = trapReport.totalTraps;
+
+    const b2Words = new Set(["moreover", "furthermore", "consequently", "nevertheless", "subsequently", "significant", "substantial", "demonstrate", "illustrate", "perceive", "comprehensive", "adequate", "perspective", "component", "facilitate", "generate", "maximize", "minimize", "prioritize", "potential", "sustainable", "urbanization", "infrastructure"]);
+
+    const renderedParagraphs = paragraphs.map(para => {
+      let paraHtml = escapeHtml(para);
+
+      // Multi-word Collocation matching (Highlight Emerald)
+      commonCollocs.forEach(c => {
+        const rx = new RegExp('\\b(' + c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'gi');
+        paraHtml = paraHtml.replace(rx, (m) => {
+          collocHits++;
+          return `<span class="heatmap-token" onclick="window.inspectHeatmapWord('${escapeHtml(m)}', 'colloc')" style="background:rgba(16,185,129,0.18); border-bottom:2px solid #10B981; color:var(--text); padding:1px 5px; border-radius:3px; font-weight:700; cursor:pointer;" title="Academic Collocation (Click to Inspect)">${m}</span>`;
+        });
+      });
+
+      // Trap matching (Highlight Crimson)
+      trapReport.detections.forEach(d => {
+        const rx = new RegExp('\\b(' + d.matchedText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')\\b', 'gi');
+        paraHtml = paraHtml.replace(rx, (m) => {
+          return `<span class="heatmap-token" onclick="window.inspectHeatmapWord('${escapeHtml(m)}', 'trap', '${escapeHtml(d.suggested)}')" style="background:rgba(239,68,68,0.18); border-bottom:2px dashed #EF4444; color:var(--text); padding:1px 5px; border-radius:3px; font-weight:800; cursor:pointer;" title="Band 6 Cliché/Trap: ${escapeHtml(d.reason)} (Click to Upgrade)">${m}</span>`;
+        });
+      });
+
+      // Single word C1/C2 & B2 token matching
+      const words = para.match(/[A-Za-z0-9'-]+/g) || [];
+      totalWordCount += words.length;
+
+      words.forEach(w => {
+        const clean = w.toLowerCase().replace(/[^a-z]/g, '');
+        if (clean.length >= 5) {
+          const isC1 = (window.C1C2_WORD_SET && window.C1C2_WORD_SET.has(clean)) || (window.CURATED_ACADEMIC_LEXICON && window.CURATED_ACADEMIC_LEXICON[clean]);
+          if (isC1) {
+            c1Count++;
+            const rx = new RegExp('\\b(' + w + ')\\b', 'g');
+            paraHtml = paraHtml.replace(rx, `<span class="heatmap-token" onclick="window.inspectHeatmapWord('${clean}', 'c1')" style="background:rgba(245,158,11,0.18); border-bottom:2px solid #F59E0B; color:var(--text); padding:1px 4px; border-radius:3px; font-weight:700; cursor:pointer;" title="C1/C2 Academic Precision (Click to Inspect)">${w}</span>`);
+          } else if (b2Words.has(clean)) {
+            b2Count++;
+            const rx = new RegExp('\\b(' + w + ')\\b', 'g');
+            paraHtml = paraHtml.replace(rx, `<span class="heatmap-token" onclick="window.inspectHeatmapWord('${clean}', 'b2')" style="background:rgba(56,189,248,0.12); color:var(--text); padding:1px 4px; border-radius:3px; font-weight:600; cursor:pointer;" title="B2 Academic Register">${w}</span>`);
+          }
+        }
+      });
+
+      return `<p style="margin:0 0 12px 0; font-size:0.92rem; line-height:1.75; color:var(--text); text-align:justify;">${paraHtml}</p>`;
+    }).join('');
+
+    const c1Pct = totalWordCount > 0 ? Math.round((c1Count / totalWordCount) * 100) : 0;
+    const isOptimalZone = c1Pct >= 5 && c1Pct <= 12;
+    const densityBadgeColor = isOptimalZone ? '#10B981' : (c1Pct > 12 ? '#F59E0B' : '#64748B');
+
+    drawer.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:var(--text); display:flex; align-items:center; gap:6px;">
+            <span>🎨</span> Visual Lexical Density Heatmap
+          </h3>
+          <span class="occ-ver-pill" style="background:${densityBadgeColor}; color:#FFF; font-weight:800; font-size:0.7rem; padding:3px 9px;">
+            ${c1Pct}% C1/C2 Precision (${isOptimalZone ? 'Optimal 90/10 Balance' : (c1Pct > 12 ? 'High C1 Density' : 'Need More C1 Collocations')})
+          </span>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn-outlined" style="padding:4px 10px; font-size:0.74rem; font-weight:700;" onclick="window.renderLexicalHeatmap()">
+            🔄 Refresh
+          </button>
+          <button class="util-icon-btn" style="padding:4px 8px; font-size:0.8rem;" onclick="window.toggleLexicalHeatmap()" title="Close Heatmap">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap:8px; margin-bottom:14px;">
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 12px; text-align:center;">
+          <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">TOTAL WORDS</div>
+          <div style="font-size:1.15rem; font-weight:900; color:var(--text);">${totalWordCount}</div>
+        </div>
+        <div style="background:var(--bg); border:1px solid rgba(245,158,11,0.3); border-radius:6px; padding:8px 12px; text-align:center;">
+          <div style="font-size:0.7rem; color:#F59E0B; font-weight:700;">C1/C2 PRECISION</div>
+          <div style="font-size:1.15rem; font-weight:900; color:#F59E0B;">${c1Count} <span style="font-size:0.75rem; font-weight:600;">(${c1Pct}%)</span></div>
+        </div>
+        <div style="background:var(--bg); border:1px solid rgba(16,185,129,0.3); border-radius:6px; padding:8px 12px; text-align:center;">
+          <div style="font-size:0.7rem; color:#10B981; font-weight:700;">COLLOCATIONS</div>
+          <div style="font-size:1.15rem; font-weight:900; color:#10B981;">${collocHits}</div>
+        </div>
+        <div style="background:var(--bg); border:1px solid rgba(239,68,68,0.3); border-radius:6px; padding:8px 12px; text-align:center;">
+          <div style="font-size:0.7rem; color:#EF4444; font-weight:700;">BAND 6 TRAPS</div>
+          <div style="font-size:1.15rem; font-weight:900; color:#EF4444;">${trapHits}</div>
+        </div>
+      </div>
+
+      <!-- Color Legend -->
+      <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; font-size:0.75rem; margin-bottom:14px; padding:8px 12px; background:var(--bg); border-radius:6px;">
+        <span style="font-weight:700; color:var(--text-secondary);">LEGEND:</span>
+        <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:12px; height:12px; background:#F59E0B; border-radius:2px;"></span> <strong>Gold:</strong> C1/C2 Academic</span>
+        <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:12px; height:12px; background:#10B981; border-radius:2px;"></span> <strong>Green:</strong> Collocation</span>
+        <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:12px; height:12px; background:#EF4444; border-radius:2px;"></span> <strong>Red:</strong> Band 6 Cliché / Trap</span>
+        <span style="display:inline-flex; align-items:center; gap:4px;"><span style="display:inline-block; width:12px; height:12px; background:#38BDF8; border-radius:2px;"></span> <strong>Blue:</strong> B2 Academic</span>
+      </div>
+
+      <!-- Clickable Paragraphs Container -->
+      <div style="background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:16px; max-height:480px; overflow-y:auto; box-sizing:border-box;">
+        ${renderedParagraphs}
+      </div>
+
+      <!-- Slot for dynamic click inspection -->
+      <div id="heatmapInspectorSlot"></div>
+    `;
   };
 
 })(window);

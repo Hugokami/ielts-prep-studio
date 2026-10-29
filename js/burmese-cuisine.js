@@ -3848,7 +3848,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
               <span style="display: inline-flex; width: 34px; height: 34px; border-radius: 8px; background: rgba(234, 88, 12, 0.12); align-items: center; justify-content: center; flex-shrink: 0;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/><path d="M16 2v3"/><path d="M12 2v3"/><path d="M8 2v3"/></svg>
               </span>
               <h3 style="margin: 0; font-size: 1.15rem; color: var(--text); font-weight: 800;">
                 Burmese Culinary Heritage &amp; Ingredients Lexicon

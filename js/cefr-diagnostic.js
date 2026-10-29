@@ -4293,13 +4293,15 @@
 
         <!-- Batch Selector Bar -->
         <div style="display:flex; flex-direction:column; gap:8px; padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; margin-bottom:16px; box-sizing:border-box; width:100%; max-width:100%; overflow:hidden;">
-          <div style="display:flex; align-items:center; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
             <span style="font-size:0.76rem; font-weight:800; color:var(--text-secondary); white-space:nowrap; flex-shrink:0; letter-spacing:0.04em;">TEST FORM:</span>
-            <select onchange="window.switchCefrBatch(this.value, '${targetId}')" style="background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:0.8rem; font-weight:700; cursor:pointer; flex:1; width:0; min-width:0; max-width:100%; text-overflow:ellipsis; overflow:hidden; box-sizing:border-box;" ${isSubmitted ? 'disabled' : ''}>
-              ${RAW_BATCHES.map((b, idx) => `
-                <option value="${b.id}" ${b.id === activeBatchId ? 'selected' : ''}>Batch ${idx + 1}: ${b.name}</option>
-              `).join('')}
-            </select>
+            <div style="flex:1 1 200px; min-width:0; max-width:100%; position:relative;">
+              <select onchange="window.switchCefrBatch(this.value, '${targetId}')" style="background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 28px 6px 10px; font-size:0.8rem; font-weight:700; cursor:pointer; width:100%; min-width:0; max-width:100%; text-overflow:ellipsis; overflow:hidden; box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat:no-repeat; background-position:right 10px center;" ${isSubmitted ? 'disabled' : ''}>
+                ${RAW_BATCHES.map((b, idx) => `
+                  <option value="${b.id}" ${b.id === activeBatchId ? 'selected' : ''}>Batch ${idx + 1}: ${b.name}</option>
+                `).join('')}
+              </select>
+            </div>
           </div>
           <div style="font-size:0.74rem; color:var(--text-secondary); font-weight:600; opacity:0.85; line-height:1.4;">
             Stratified: 10 B1 · 15 B2 · 15 C1 · 10 C2
