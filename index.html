@@ -13803,9 +13803,15 @@ window.focusDomainInConstellation = function(domainName) {
 // ======================================================================
 // MODULE 1: BARNES-HUT FORCE-DIRECTED CONSTELLATION SIMULATION ENGINE
 // ======================================================================
-class VocabGraphSimulation {
-  constructor(viewportEl, svgEl, domEl) {
-    this.viewport = viewportEl;
+// Drop-in Clamped Barnes-Hut Force-Directed Constellation Engine (Phase 2)
+// Formulation:
+// 1. Coulomb Repulsion: F_repulse = (kr^2 / d^2) * u_ij (kr = 75px)
+// 2. Hooke's Elastic Attraction: F_spring = ((d - L0) / ks) * u_ji (L0 = 105px, ks = 0.05)
+// 3. Boundary Clamping: xi = clamp(xi, ri + 12, W - ri - 12), yi = clamp(yi, ri + 12, H - ri - 12)
+class ClampedVocabSimulation {
+  constructor(containerEl, svgEl, domEl) {
+    this.container = containerEl;
+    this.viewport = containerEl;
     this.svg = svgEl;
     this.dom = domEl;
     this.nodes = [];
@@ -13813,7 +13819,9 @@ class VocabGraphSimulation {
     this.animId = null;
     this.iteration = 0;
     this.maxIterations = 140;
-    this.kRepulse = 75;
+    this.kRepulse = 75; // Coulomb Repulsion (kr = 75px)
+    this.lSpring = 105;  // Hooke's Elastic Attraction (L0 = 105px)
+    this.kSpring = 0.05; // Elastic constant (ks = 0.05)
     this.damping = 0.82;
     this.dragNode = null;
     this.dragOffset = { x: 0, y: 0 };
@@ -13831,8 +13839,9 @@ class VocabGraphSimulation {
       const rect = this.viewport.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      const padX = 42;
-      const padY = 30;
+      const r = this.dragNode.r || 24;
+      const padX = r + 12;
+      const padY = r + 12;
       const newX = clientX - rect.left - this.dragOffset.x;
       const newY = clientY - rect.top - this.dragOffset.y;
       this.dragNode.x = Math.max(padX, Math.min(this.width - padX, newX));
@@ -13883,6 +13892,7 @@ class VocabGraphSimulation {
       band: centerWord.band,
       pos: centerWord.pos,
       ipa: centerWord.ipa,
+      r: 28,
       x: cx,
       y: cy,
       vx: 0,
@@ -13892,16 +13902,17 @@ class VocabGraphSimulation {
     };
     this.nodes.push(centerNode);
 
-    // Synonyms (Attraction edges)
+    // Synonyms (Attraction edges with Hooke's Elasticity)
     (syns || []).slice(0, 4).forEach((syn, i) => {
       const angle = (i / 4) * Math.PI * 1.5 - (Math.PI * 0.4);
-      const dist = 105;
+      const dist = 95;
       const n = {
         id: `syn-${i}`,
         word: syn,
         type: 'synonym',
         cls: 'node-syn',
         sub: isMob ? 'BAND 8+ SYN' : 'BAND 8+ SYNONYM',
+        r: 18,
         x: cx + Math.cos(angle) * dist + (Math.random() - 0.5) * 15,
         y: cy + Math.sin(angle) * dist + (Math.random() - 0.5) * 15,
         vx: 0,
@@ -13913,7 +13924,7 @@ class VocabGraphSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: 105,
+        length: this.lSpring,
         color: isDark ? 'rgba(224, 108, 53, 0.65)' : 'rgba(200, 82, 26, 0.55)',
         dash: ''
       });
@@ -13929,6 +13940,7 @@ class VocabGraphSimulation {
         type: 'avoid',
         cls: 'node-avoid',
         sub: isMob ? 'AVOID (B5)' : 'AVOID (BAND 5)',
+        r: 18,
         x: cx + Math.cos(angle) * dist,
         y: cy + Math.sin(angle) * dist,
         vx: 0,
@@ -13955,7 +13967,8 @@ class VocabGraphSimulation {
         word: ant,
         type: 'avoid',
         cls: 'node-avoid',
-        sub: 'OPPOSITE',
+        sub: isMob ? 'OPPOSITE' : '↔ OPPOSITE',
+        r: 18,
         x: cx + Math.cos(angle) * dist,
         y: cy + Math.sin(angle) * dist,
         vx: 0,
@@ -13967,22 +13980,23 @@ class VocabGraphSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: 130,
+        length: 135,
         color: isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.45)',
         dash: '4,3'
       });
     });
 
-    // Category Peers (Cyan dashed edges - click to re-center)
+    // Peers in same Category (Blue dashed edges)
     (peers || []).slice(0, 3).forEach((p, i) => {
-      const angle = -Math.PI * 0.65 - (i * 0.45);
+      const angle = -Math.PI * 0.65 - (i * 0.4);
       const dist = 145;
       const n = {
-        id: p.id,
+        id: `peer-${p.id}`,
         word: p.word,
         type: 'peer',
         cls: 'node-peer',
-        sub: isMob ? 'FOCUS ↗' : 'CLICK TO FOCUS ↗',
+        sub: isMob ? 'PEER' : 'CATEGORY PEER',
+        r: 18,
         x: cx + Math.cos(angle) * dist,
         y: cy + Math.sin(angle) * dist,
         vx: 0,
@@ -14061,7 +14075,7 @@ class VocabGraphSimulation {
       const cx = this.width / 2;
       const cy = this.height / 2;
 
-      // 1. Pairwise Repulsion
+      // 1. Coulomb Pairwise Repulsion: F_repulse = (kr^2 / d^2) * u_ij (kr = 75px)
       for (let i = 0; i < this.nodes.length; i++) {
         for (let j = i + 1; j < this.nodes.length; j++) {
           const n1 = this.nodes[i];
@@ -14069,7 +14083,7 @@ class VocabGraphSimulation {
           let dx = n2.x - n1.x;
           let dy = n2.y - n1.y;
           let distSq = dx * dx + dy * dy;
-          if (distSq < 32400) { // 180^2
+          if (distSq < 32400) { // 180^2 max interaction radius
             let dist = Math.sqrt(distSq) || 1;
             let force = (this.kRepulse * this.kRepulse) / (distSq || 1);
             let fx = (dx / dist) * force;
@@ -14080,17 +14094,17 @@ class VocabGraphSimulation {
         }
       }
 
-      // 2. Spring Attraction along Edges
+      // 2. Hooke's Elastic Attraction along Edges: F_spring = (d - L0) * ks * u_ji (L0 = 105px)
       this.links.forEach(l => {
         let dx = l.target.x - l.source.x;
         let dy = l.target.y - l.source.y;
-        let dist = Math.hypot(dx, dy) || 1;
+        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
         let displacement = dist - l.length;
-        let force = displacement * 0.045;
+        let force = displacement * this.kSpring;
         let fx = (dx / dist) * force;
         let fy = (dy / dist) * force;
         if (!l.source.fixed) { l.source.vx += fx; l.source.vy += fy; }
-        if (!l.target.fixed) { l.target.vx -= fx; l.target.vy -= fy; }
+        if (!l.target.fixed) { l.target.vx += fx; l.target.vy += fy; }
       });
 
       // 3. Gentle Center Gravity
@@ -14101,17 +14115,19 @@ class VocabGraphSimulation {
         }
       });
 
-      // 4. Update Positions & Strict Clamping
-      const padX = 42;
-      const padY = 30;
+      // 4. Update Positions & Strict Boundary Clamping: xi = clamp(xi, ri + 12, W - ri - 12)
+      // Guarantees zero mobile scrollbar triggers
       this.nodes.forEach(n => {
         if (!n.fixed) {
           n.x += n.vx * this.damping;
           n.y += n.vy * this.damping;
           n.vx *= this.damping;
           n.vy *= this.damping;
-          n.x = Math.max(padX, Math.min(this.width - padX, n.x));
-          n.y = Math.max(padY, Math.min(this.height - padY, n.y));
+          const r = n.r || 18;
+          const padX = r + 12;
+          const padY = r + 12;
+          n.x = Math.max(padX, Math.min(this.width - padX, n.x | 0));
+          n.y = Math.max(padY, Math.min(this.height - padY, n.y | 0));
         }
       });
 
@@ -14123,7 +14139,7 @@ class VocabGraphSimulation {
   }
 
   render() {
-    // 1. Render SVG Lines
+    // 1. Render SVG Lines (Integer Truncation | 0)
     if (this.svg) {
       this.svg.innerHTML = this.links.map(l => `
         <line x1="${l.source.x | 0}" y1="${l.source.y | 0}"
@@ -14144,6 +14160,9 @@ class VocabGraphSimulation {
   }
 }
 
+// Backward compatibility aliases
+window.ClampedVocabSimulation = ClampedVocabSimulation;
+window.VocabGraphSimulation = ClampedVocabSimulation;
 window.currentVocabGraphSim = null;
 
 function renderConstellation(wordId) {
@@ -14190,10 +14209,11 @@ function renderConstellation(wordId) {
 
   const peers = VOCAB_DATA.filter(v => v.category === center.category && v.id !== center.id).slice(0, 4);
 
-  // Initialize or re-use simulation
+  // Initialize or re-use simulation with ClampedVocabSimulation (Phase 2)
   if (!window.currentVocabGraphSim) {
-    window.currentVocabGraphSim = new VocabGraphSimulation(vpEl, svgEl, domEl);
+    window.currentVocabGraphSim = new ClampedVocabSimulation(vpEl, svgEl, domEl);
   } else {
+    window.currentVocabGraphSim.container = vpEl;
     window.currentVocabGraphSim.viewport = vpEl;
     window.currentVocabGraphSim.svg = svgEl;
     window.currentVocabGraphSim.dom = domEl;
@@ -18635,9 +18655,112 @@ window.renderDomainReadinessRadar = function(containerId) {
 };
 
 // ======================================================================
-// MODULE 2: DEEPTUTOR ADAPTIVE SOCRATIC SCAFFOLDING & MASTERY ENGINE
+// MODULE 2: DEEPTUTOR 3-TIER SOCRATIC DIAGNOSTIC ENGINE (Phase 1)
 // ======================================================================
+class DeepTutorSocraticEngine {
+  constructor() {
+    this.storageKey = 'ielts_socratic_state_v1';
+    try {
+      this.memory = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+    } catch (e) {
+      this.memory = {};
+    }
+  }
+
+  evaluateDraft(essayText) {
+    const feedbackItems = [];
+
+    const trapRules = [
+      {
+        id: "informal_dynamic_verb",
+        regex: /\b(big|huge|large)\s+(increase|rise|growth)\b/gi,
+        domain: "Task 1 Dynamic Movement",
+        title: 'TASK 1 LEXICAL TRAP: Informal Dynamic Modifier ("big/huge increase")',
+        tier1: "Look closely at the modifier. In academic Task 1 reporting, what specific verb or adverb captures upward acceleration without informal hyperbole?",
+        tier2: "Collocation frame: [Verb] + [Adverb], e.g., 'surged _______' or 'escalated _______'.",
+        tier3: "Band 8+ Collocations: 'surged dramatically', 'witnessed an exponential increase', 'escalated markedly'.",
+        en: 'Replace informal "big/huge increase" with high-precision Task 1 verbs ("surged dramatically", "escalated markedly").',
+        mm: '"big increase" သို့မဟုတ် "huge growth" သည် စကားပြောဆန်သည်။ Task 1 တွင် "surged dramatically" သို့မဟုတ် "rose markedly" ကို သုံးပါ။',
+        severity: '#dc2626'
+      },
+      {
+        id: "evaluative_conversational_adjective",
+        regex: /\b(good|bad)\s+(thing|effect|impact)\b/gi,
+        domain: "Task 2 Evaluative Stance",
+        title: 'TASK 2 REGISTER TRAP: Conversational Adjective ("good/bad thing/effect")',
+        tier1: "The adjective lacks academic objectivity. How can you describe a positive or negative outcome without conversational bias?",
+        tier2: "Collocation hint: Consider academic adjectives starting with 'b...' (beneficial) or 's...' (salutary) or 'd...' (detrimental).",
+        tier3: "Band 8+ Academic Collocations: 'profoundly beneficial consequence', 'salutary influence', 'adverse / deleterious repercussion'.",
+        en: 'Avoid simplistic "good/bad thing". Use academic evaluative collocations ("beneficial consequence", "deleterious repercussion").',
+        mm: '"good thing" သို့မဟုတ် "bad impact" အစား "profoundly beneficial consequence" သို့မဟုတ် "detrimental repercussion" ဟု အဆင့်မြင့် ရေးပါ။',
+        severity: '#d97706'
+      },
+      {
+        id: "absolute_overgeneralization",
+        regex: /\b(proves that|everyone knows that|always leads to)\b/gi,
+        domain: "Task 2 Academic Hedging",
+        title: 'TASK 2 HEDGING VIOLATION: Absolute Overgeneralization',
+        tier1: "Absolute claims weaken academic essays. What modal verb or hedging phrase softens this generalization?",
+        tier2: "Hedging frame: 'Evidence suggests that...' or 'It is widely contended that...'",
+        tier3: "Band 8+ Hedging: 'Compelling empirical evidence indicates that...', 'This tendency arguably precipitates...'",
+        en: 'Academic writing avoids absolute dogma ("proves that / everyone knows that"). Use epistemic hedging ("Evidence suggests that...").',
+        mm: 'အင်္ဂလိပ် အကဲဖြတ်စာစီစာကုံးတွင် "လူတိုင်းသိသည်/အမြဲတမ်းဖြစ်သည်" ဟု အပိုင်မရေးရပါ။ Hedging (ခန့်မှန်းညွှန်းဆိုသော စကားလုံး) သုံးပါ။',
+        severity: '#ef4444'
+      }
+    ];
+
+    trapRules.forEach(rule => {
+      let match;
+      rule.regex.lastIndex = 0;
+      while ((match = rule.regex.exec(essayText)) !== null) {
+        const key = rule.id;
+        this.memory[key] = (this.memory[key] || 0) + 1;
+
+        feedbackItems.push({
+          id: rule.id,
+          matchText: match[0],
+          domain: rule.domain,
+          occurrences: this.memory[key],
+          tier1: rule.tier1,
+          tier2: rule.tier2,
+          tier3: rule.tier3,
+          title: rule.title,
+          en: rule.en,
+          mm: rule.mm,
+          severity: rule.severity
+        });
+      }
+    });
+
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.memory));
+    } catch (e) {}
+    return feedbackItems;
+  }
+}
+
+window.DeepTutorSocraticEngine = DeepTutorSocraticEngine;
+window.deepTutorEngine = new DeepTutorSocraticEngine();
+
 const SOCRATIC_TRAP_LADDER = {
+  'informal_dynamic_verb': {
+    tier1: "Look closely at 'big'. In academic Task 1 reporting, what specific verb captures upward acceleration?",
+    tier2: "Collocation frame: [Verb] + [Adverb], e.g., 'surged _______' or 'escalated _______'.",
+    tier3: "Band 8+ Collocations: 'surged dramatically', 'witnessed an exponential increase', 'escalated markedly'.",
+    mm: '"big increase" အစား "surged dramatically" သို့မဟုတ် "rose markedly" ကို သုံးပါ။'
+  },
+  'evaluative_conversational_adjective': {
+    tier1: "The adjective 'good/bad' lacks academic objectivity. How can you describe an outcome objectively?",
+    tier2: "Collocation hint: Consider academic adjectives starting with 'b...' (beneficial) or 's...' (salutary).",
+    tier3: "Band 8+ Collocations: 'profoundly beneficial consequence', 'salutary influence', 'favorable repercussion'.",
+    mm: '"good thing" အစား "profoundly beneficial consequence" ဟု အဆင့်မြင့် ရေးပါ။'
+  },
+  'absolute_overgeneralization': {
+    tier1: "Absolute claims weaken academic essays. What modal verb or hedging phrase softens this generalization?",
+    tier2: "Hedging frame: 'Evidence suggests that...' or 'It is widely contended that...'",
+    tier3: "Band 8+ Hedging: 'Compelling empirical evidence indicates that...', 'This tendency arguably precipitates...'",
+    mm: 'အပိုင်မရေးပါနှင့်။ "Evidence suggests that..." စသော Hedging သုံးပါ။'
+  },
   'popular-trap': {
     tier1: 'Connotation Alert: "Popular" implies positive social admiration. Does a critical societal crisis warrant public affection?',
     tier2: 'Academic Roots: Consider formal academic adjectives meaning "existing frequently or widely" (think roots: "pre-" or "wide-").',
@@ -18784,19 +18907,23 @@ function calculateBandMasteryIndex(text, activeTrapCount) {
 
 function renderSocraticCard(rule, hintLevel) {
   const ladder = SOCRATIC_TRAP_LADDER[rule.id] || {
-    tier1: `Semantic Cue: Examine the precision of "${rule.title}". Does this phrasing match formal academic style?`,
-    tier2: `Academic Rule: ${rule.en}`,
-    tier3: `Band 8.5 Solution: ${rule.en}`,
-    mm: rule.mm
+    tier1: rule.tier1 || `Semantic Cue: Examine the precision of "${rule.title}". Does this phrasing match formal academic style?`,
+    tier2: rule.tier2 || `Academic Rule: ${rule.en}`,
+    tier3: rule.tier3 || `Band 8.5 Solution: ${rule.en}`,
+    mm: rule.mm || ''
   };
 
   const currentHint = hintLevel === 1 ? ladder.tier1 : (hintLevel === 2 ? ladder.tier2 : ladder.tier3);
+  const encounterCount = (rule.occurrences || (window.deepTutorEngine && window.deepTutorEngine.memory[rule.id]) || 1);
 
   return `
     <div class="socratic-card" id="socratic-${rule.id}" style="background:var(--bg-card); border:1px solid var(--border-mid); border-left:4px solid ${rule.severity}; border-radius:6px; padding:12px; margin-bottom:8px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
         <span style="font-weight:700; color:${rule.severity}; font-size:0.82rem;">${rule.title}</span>
-        <span class="occ-ver-pill" style="font-size:0.68rem; border-color:${rule.severity};">Hint Tier ${hintLevel}/3</span>
+        <div style="display:flex; align-items:center; gap:6px;">
+          ${encounterCount > 1 ? `<span class="occ-ver-pill" style="font-size:0.65rem; color:#EF4444; border-color:#EF4444;">Seen ${encounterCount}x</span>` : ''}
+          <span class="occ-ver-pill" style="font-size:0.68rem; border-color:${rule.severity};">Hint Tier ${hintLevel}/3</span>
+        </div>
       </div>
       <div style="color:var(--text); font-size:0.84rem; line-height:1.45;">${currentHint}</div>
       <div class="burmese" style="color:var(--text-secondary); margin-top:5px; font-size:0.78rem;">${ladder.mm}</div>
@@ -18822,6 +18949,16 @@ function analyzeEssayTraps() {
   const text = editor.value;
   container.innerHTML = '';
   const alerts = [];
+
+  // 0. DeepTutor 3-Tier Socratic Diagnostic Engine (Phase 1)
+  if (!window.deepTutorEngine) {
+    window.deepTutorEngine = new DeepTutorSocraticEngine();
+  }
+  const socraticFeedback = window.deepTutorEngine.evaluateDraft(text);
+  socraticFeedback.forEach(item => {
+    alerts.push(item);
+    recordStudentTrapEncounter(item.id, false);
+  });
 
   // 1. Check Task 1 Zero-Data Overview Rule (Paragraph 2)
   if (task1Toggle && task1Toggle.checked) {
