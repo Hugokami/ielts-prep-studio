@@ -7899,7 +7899,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
   <symbol id="lucide-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></symbol>
   <symbol id="lucide-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></symbol>
   <symbol id="lucide-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></symbol>
-  <symbol id="lucide-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 2v19"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="lucide-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
   <symbol id="lucide-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
   <symbol id="lucide-help-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></symbol>
   <symbol id="lucide-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
@@ -9284,7 +9284,7 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         <span>Speed Drills</span>
       </button>
       <button class="subtab-btn" data-subtab="culinary" onclick="switchSubTab('lexicon', 'culinary')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><use href="#lucide-utensils"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
         <span>Burmese Culinary (117)</span>
       </button>
     </div>
@@ -13819,10 +13819,10 @@ class ClampedVocabSimulation {
     this.animId = null;
     this.iteration = 0;
     this.maxIterations = 140;
-    this.kRepulse = 75; // Coulomb Repulsion (kr = 75px)
-    this.lSpring = 105;  // Hooke's Elastic Attraction (L0 = 105px)
-    this.kSpring = 0.05; // Elastic constant (ks = 0.05)
-    this.damping = 0.82;
+    this.kRepulse = 85;  // Coulomb Repulsion (kr = 85px)
+    this.lSpring = 120;  // Hooke's Elastic Attraction (L0 = 120px)
+    this.kSpring = 0.04; // Elastic constant (ks = 0.04)
+    this.damping = 0.80;
     this.dragNode = null;
     this.dragOffset = { x: 0, y: 0 };
     this.width = 360;
@@ -13883,7 +13883,7 @@ class ClampedVocabSimulation {
     this.links = [];
     this.iteration = 0;
 
-    // Center Node (Focus Word)
+    // Center Node (Focus Word) - Card size is ~140x50px
     const centerNode = {
       id: centerWord.id,
       word: centerWord.word,
@@ -13892,7 +13892,7 @@ class ClampedVocabSimulation {
       band: centerWord.band,
       pos: centerWord.pos,
       ipa: centerWord.ipa,
-      r: 28,
+      r: 32,
       x: cx,
       y: cy,
       vx: 0,
@@ -13902,10 +13902,10 @@ class ClampedVocabSimulation {
     };
     this.nodes.push(centerNode);
 
-    // Synonyms (Attraction edges with Hooke's Elasticity)
+    // Synonyms (Attraction edges with Hooke's Elasticity) - Spread gracefully on upper-right/right
     (syns || []).slice(0, 4).forEach((syn, i) => {
-      const angle = (i / 4) * Math.PI * 1.5 - (Math.PI * 0.4);
-      const dist = 95;
+      const angle = (i / 4) * Math.PI * 0.95 - (Math.PI * 0.45);
+      const dist = isMob ? 115 : 130;
       const n = {
         id: `syn-${i}`,
         word: syn,
@@ -13913,8 +13913,8 @@ class ClampedVocabSimulation {
         cls: 'node-syn',
         sub: isMob ? 'BAND 8+ SYN' : 'BAND 8+ SYNONYM',
         r: 18,
-        x: cx + Math.cos(angle) * dist + (Math.random() - 0.5) * 15,
-        y: cy + Math.sin(angle) * dist + (Math.random() - 0.5) * 15,
+        x: cx + Math.cos(angle) * dist,
+        y: cy + Math.sin(angle) * dist,
         vx: 0,
         vy: 0,
         fixed: false,
@@ -13924,16 +13924,16 @@ class ClampedVocabSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: this.lSpring,
+        length: dist,
         color: isDark ? 'rgba(224, 108, 53, 0.65)' : 'rgba(200, 82, 26, 0.55)',
         dash: ''
       });
     });
 
-    // Avoid / Band 5 Traps (Red dashed repulsive edges)
+    // Avoid / Band 5 Traps (Red dashed repulsive edges) - Placed safely at bottom
     (avoids || []).slice(0, 1).forEach((av, i) => {
-      const angle = Math.PI * 0.85 + (i * 0.4);
-      const dist = 130;
+      const angle = Math.PI * 0.55 + (i * 0.3);
+      const dist = isMob ? 130 : 145;
       const n = {
         id: `av-${i}`,
         word: av,
@@ -13952,16 +13952,16 @@ class ClampedVocabSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: 130,
+        length: dist,
         color: isDark ? 'rgba(248, 113, 113, 0.55)' : 'rgba(220, 38, 38, 0.45)',
         dash: '3,3'
       });
     });
 
-    // Opposite / Antonyms (Amber dashed edges)
+    // Opposite / Antonyms (Amber dashed edges) - Placed at lower-left
     (antonyms || []).slice(0, 2).forEach((ant, i) => {
-      const angle = Math.PI * 0.45 + (i * 0.4);
-      const dist = 135;
+      const angle = Math.PI * 0.75 + (i * 0.3);
+      const dist = isMob ? 135 : 150;
       const n = {
         id: `ant-${i}`,
         word: ant,
@@ -13980,16 +13980,16 @@ class ClampedVocabSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: 135,
+        length: dist,
         color: isDark ? 'rgba(245, 158, 11, 0.55)' : 'rgba(217, 119, 6, 0.45)',
         dash: '4,3'
       });
     });
 
-    // Peers in same Category (Blue dashed edges)
+    // Peers in same Category (Blue dashed edges) - Placed at upper-left
     (peers || []).slice(0, 3).forEach((p, i) => {
-      const angle = -Math.PI * 0.65 - (i * 0.4);
-      const dist = 145;
+      const angle = -Math.PI * 0.65 - (i * 0.35);
+      const dist = isMob ? 140 : 160;
       const n = {
         id: `peer-${p.id}`,
         word: p.word,
@@ -14008,7 +14008,7 @@ class ClampedVocabSimulation {
       this.links.push({
         source: centerNode,
         target: n,
-        length: 145,
+        length: dist,
         color: isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.40)',
         dash: '5,4'
       });
@@ -14064,6 +14064,7 @@ class ClampedVocabSimulation {
 
   startSimulation() {
     if (this.animId) cancelAnimationFrame(this.animId);
+    const isMob = window.innerWidth <= 640;
 
     const step = () => {
       if (this.iteration >= this.maxIterations) {
@@ -14072,10 +14073,7 @@ class ClampedVocabSimulation {
       }
       this.iteration++;
 
-      const cx = this.width / 2;
-      const cy = this.height / 2;
-
-      // 1. Coulomb Pairwise Repulsion: F_repulse = (kr^2 / d^2) * u_ij (kr = 75px)
+      // 1. Coulomb Pairwise Repulsion: F_repulse = (kr^2 / d^2) * u_ij (kr = 85px)
       for (let i = 0; i < this.nodes.length; i++) {
         for (let j = i + 1; j < this.nodes.length; j++) {
           const n1 = this.nodes[i];
@@ -14083,7 +14081,7 @@ class ClampedVocabSimulation {
           let dx = n2.x - n1.x;
           let dy = n2.y - n1.y;
           let distSq = dx * dx + dy * dy;
-          if (distSq < 32400) { // 180^2 max interaction radius
+          if (distSq < 48400) { // 220^2 max interaction radius
             let dist = Math.sqrt(distSq) || 1;
             let force = (this.kRepulse * this.kRepulse) / (distSq || 1);
             let fx = (dx / dist) * force;
@@ -14094,7 +14092,9 @@ class ClampedVocabSimulation {
         }
       }
 
-      // 2. Hooke's Elastic Attraction along Edges: F_spring = (d - L0) * ks * u_ji (L0 = 105px)
+      // 2. Hooke's Elastic Attraction along Edges: F_spring = (d - L0) * ks * u_ji
+      // Stretched (d > L0): pulls target towards source (-fx, -fy)
+      // Compressed (d < L0): pushes target away from source (+fx, +fy)
       this.links.forEach(l => {
         let dx = l.target.x - l.source.x;
         let dy = l.target.y - l.source.y;
@@ -14104,28 +14104,64 @@ class ClampedVocabSimulation {
         let fx = (dx / dist) * force;
         let fy = (dy / dist) * force;
         if (!l.source.fixed) { l.source.vx += fx; l.source.vy += fy; }
-        if (!l.target.fixed) { l.target.vx += fx; l.target.vy += fy; }
+        if (!l.target.fixed) { l.target.vx -= fx; l.target.vy -= fy; }
       });
 
-      // 3. Gentle Center Gravity
-      this.nodes.forEach(n => {
-        if (!n.fixed) {
-          n.vx += (cx - n.x) * 0.008;
-          n.vy += (cy - n.y) * 0.008;
-        }
-      });
-
-      // 4. Update Positions & Strict Boundary Clamping: xi = clamp(xi, ri + 12, W - ri - 12)
-      // Guarantees zero mobile scrollbar triggers
+      // 3. Update Positions & Damping
       this.nodes.forEach(n => {
         if (!n.fixed) {
           n.x += n.vx * this.damping;
           n.y += n.vy * this.damping;
           n.vx *= this.damping;
           n.vy *= this.damping;
-          const r = n.r || 18;
-          const padX = r + 12;
-          const padY = r + 12;
+        }
+      });
+
+      // 4. Strict Card Box Collision & Center Separation
+      // Guarantees ZERO visual overlap between center node card and satellite nodes
+      for (let i = 0; i < this.nodes.length; i++) {
+        for (let j = i + 1; j < this.nodes.length; j++) {
+          const n1 = this.nodes[i];
+          const n2 = this.nodes[j];
+          const isCenter = (n1.type === 'center' || n2.type === 'center');
+          const minDx = isCenter ? (isMob ? 115 : 125) : (isMob ? 80 : 90);
+          const minDy = isCenter ? (isMob ? 54 : 60) : (isMob ? 38 : 44);
+
+          let dx = n2.x - n1.x;
+          let dy = n2.y - n1.y;
+          if (Math.abs(dx) < minDx && Math.abs(dy) < minDy) {
+            let ox = minDx - Math.abs(dx);
+            let oy = minDy - Math.abs(dy);
+            if (ox < oy) {
+              let sx = dx >= 0 ? 1 : -1;
+              if (!n1.fixed && !n2.fixed) {
+                n1.x -= ox * 0.5 * sx;
+                n2.x += ox * 0.5 * sx;
+              } else if (!n1.fixed) {
+                n1.x -= ox * sx;
+              } else if (!n2.fixed) {
+                n2.x += ox * sx;
+              }
+            } else {
+              let sy = dy >= 0 ? 1 : -1;
+              if (!n1.fixed && !n2.fixed) {
+                n1.y -= oy * 0.5 * sy;
+                n2.y += oy * 0.5 * sy;
+              } else if (!n1.fixed) {
+                n1.y -= oy * sy;
+              } else if (!n2.fixed) {
+                n2.y += oy * sy;
+              }
+            }
+          }
+        }
+      }
+
+      // 5. Strict Boundary Clamping (Zero mobile scrollbar triggers)
+      this.nodes.forEach(n => {
+        if (!n.fixed) {
+          const padX = isMob ? 36 : 42;
+          const padY = isMob ? 24 : 28;
           n.x = Math.max(padX, Math.min(this.width - padX, n.x | 0));
           n.y = Math.max(padY, Math.min(this.height - padY, n.y | 0));
         }
