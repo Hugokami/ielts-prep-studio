@@ -22460,14 +22460,14 @@ async function executeVipCollocationsSearch() {
     }
 
     const col = d.collocations;
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-        <div style="display:flex; align-items:center; gap:8px;">
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
           <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
-          <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:700;">${d.pos || 'term'}</span>
- <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem;"> Listen</button>
+          <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:700; flex-shrink:0;">${d.pos || 'term'}</span>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
         </div>
- <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem;" onclick="openVipToolsModal('synonyms', '${d.word}')"> View Synonyms ↗</button>
+        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem; flex-shrink:0;" onclick="openVipToolsModal('synonyms', '${d.word}')">View Synonyms ↗</button>
       </div>`;
     if (d.meaning_mm) {
       html += `<div style="margin:0 0 14px 0; padding:6px 12px; background:rgba(59, 130, 246, 0.08); border-left:3px solid #3B82F6; border-radius:4px; font-size:0.88rem; color:var(--text); font-weight:600;">🇲🇲 <span style="color:var(--text-secondary); font-size:0.78rem; font-weight:700; margin-right:4px;">မြန်မာအဓိပ္ပာယ်:</span> ${d.meaning_mm}</div>`;
@@ -22572,27 +22572,27 @@ async function executeVipSynonymsSearch() {
       return;
     }
 
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-        <div style="display:flex; align-items:center; gap:8px;">
+    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
           <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${d.word}</span>
- <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 8px; font-size:0.8rem;"> Listen</button>
+          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
         </div>
- <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem;" onclick="openVipToolsModal('collocations', '${d.word}')"> View Collocations ↗</button>
+        <button class="btn-outlined" style="padding:3px 10px; font-size:0.78rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${d.word}')">View Collocations ↗</button>
       </div>`;
 
     if (d.items && d.items.length) {
       html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">`;
       d.items.forEach(item => {
-        html += `<div style="border:1px solid var(--border); border-radius:6px; padding:12px; background:rgba(0,0,0,0.02);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:1rem; font-weight:800; color:var(--text);">${item.term}</span>
-              <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; background:rgba(16, 185, 129, 0.12); color:#059669;">${item.register || 'C1 Academic'}</span>
+        html += `<div style="border:1px solid var(--border); border-radius:6px; padding:12px; background:rgba(0,0,0,0.02); max-width:100%; box-sizing:border-box; overflow:hidden;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0;">
+              <span style="font-size:1rem; font-weight:800; color:var(--text); word-break:break-word;">${item.term}</span>
+              <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; background:rgba(16, 185, 129, 0.12); color:#059669; flex-shrink:0;">${item.register || 'C1 Academic'}</span>
             </div>
-            <div style="display:flex; gap:6px;">
- <button class="util-icon-btn" onclick="speakWord('${item.term}')" style="padding:2px 6px; font-size:0.75rem;" title="Listen"> Listen</button>
- <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem;" onclick="openVipToolsModal('collocations', '${item.term}')"> Collocations</button>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; flex-shrink:0;">
+              <button class="util-icon-btn" onclick="speakWord('${item.term}')" style="padding:2px 6px; font-size:0.75rem; flex-shrink:0;" title="Listen">🔊 Listen</button>
+              <button class="btn-outlined" style="padding:2px 6px; font-size:0.72rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${item.term}')">Collocations</button>
             </div>
           </div>
           <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; line-height:1.5;">${item.nuance}</div>

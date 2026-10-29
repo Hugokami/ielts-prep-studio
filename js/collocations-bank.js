@@ -186,13 +186,13 @@
         </div>
 
         <!-- Results Counter -->
-        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-secondary);">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-secondary); flex-wrap:wrap; gap:6px; margin-bottom:4px;">
           <span>Showing <strong>${Math.min(itemsToDisplay.length, 100)}</strong> of <strong>${itemsToDisplay.length}</strong> matching phrases</span>
           <span>Instant Client-Side Cache · 0ms Latency</span>
         </div>
 
         <!-- Collocations Grid -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px; max-height:650px; overflow-y:auto; padding-right:4px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap:12px; max-height:650px; overflow-y:auto; padding-right:4px;">
           ${itemsToDisplay.slice(0, 100).map(item => `
             <div style="padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; display:flex; flex-direction:column; justify-content:space-between; gap:10px; transition:border-color 0.2s ease;">
               
