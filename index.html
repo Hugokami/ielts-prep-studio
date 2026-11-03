@@ -22,7 +22,8 @@
   <script src="js/analytics-exam-kit.js?v=10.0"></script>
   <script src="js/today-plan.js?v=10.0"></script>
   <script src="js/conversion-prestige.js?v=10.0"></script>
-  <script src="js/cefr-diagnostic.js?v=12.0"></script>
+  <script src="js/cefr-diagnostic.js?v=13.0"></script>
+  <script src="js/studio-nextgen-suite.js?v=1.0"></script>
   <script src="js/collocations-bank.js?v=10.0"></script>
   <script src="js/daily-master-planner.js?v=10.0"></script>
   <script src="js/lockscreen-audio-srs.js?v=12.0"></script>
@@ -3178,6 +3179,109 @@
       touch-action: manipulation;
       -webkit-text-size-adjust: 100%;
     }
+  }
+
+  
+  /* =========================================================
+     TOOL RESULT CARDS & ITEM HEADERS MOBILE CONTAINMENT
+     (Prevents button overflow across Lexicon, Collocations, Synonyms & CEFR)
+     ========================================================= */
+  .tool-result-card,
+  .at-results-card > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .tool-result-header,
+  .tool-item-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .tool-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .tool-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .tool-header-actions button,
+  .tool-header-actions .btn-outlined,
+  .tool-header-actions .util-icon-btn {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
+  }
+
+  @media (max-width: 540px) {
+    .tool-result-header,
+    .tool-item-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+    }
+    .tool-header-actions {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      margin-left: 0 !important;
+      padding-top: 2px !important;
+    }
+    .tool-header-actions button,
+    .tool-header-actions .btn-outlined {
+      padding: 4px 10px !important;
+      font-size: 0.74rem !important;
+    }
+  }
+
+  #atCefrMount,
+  #atCefrMount .occ-card,
+  .cefr-batch-select,
+  #nextgenRadarStreakBar,
+  #nextgenStreakCard,
+  #nextgenRadarCard,
+  #lexiconDuelArena,
+  #lexiconDuelArena button {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #nextgenStreakCard,
+  #nextgenRadarCard,
+  #lexiconDuelArena {
+    overflow: hidden !important;
+  }
+
+  #nextgenRadarCard svg {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
   }
 
   /* Lexicon A-Z Fast-Jump & Pagination Styles */
@@ -8522,6 +8626,12 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
         </div>
       </div>
 
+      <!-- NEXT-GEN SUITE: 4-SKILL WEAKNESS DIAGNOSTIC RADAR & RONIN'S RESOLVE STREAK -->
+      <div id="nextgenRadarStreakBar" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap:14px; margin-bottom:20px; box-sizing:border-box; width:100%; min-width:0; max-width:100%;">
+        <div id="nextgenStreakCard" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:clamp(12px, 3.5vw, 20px); box-sizing:border-box; min-width:0; max-width:100%; overflow:hidden;"></div>
+        <div id="nextgenRadarCard" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:clamp(12px, 3.5vw, 20px); box-sizing:border-box; min-width:0; max-width:100%; overflow:hidden;"></div>
+      </div>
+
       <!-- REAL EXAM RADAR DASHBOARD FEATURE WIDGET -->
       <div id="overviewRadarWidget" style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:12px; padding:18px 20px; margin-bottom:20px; box-sizing:border-box;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
@@ -9594,6 +9704,9 @@ p, li, td, th, h1, h2, h3, h4, h5, h6,
     <!-- SUBTAB 4: SPEED DRILLS -->
     <div class="subtab-panel" data-subtab="drills" id="subpanel-paraphrase">
       <div id="view-paraphrase" class="drills-wrapper" style="display:block;">
+        <!-- NEXT-GEN SUITE: 60-SECOND BAND 9 LEXICON SPEED DUEL ARENA -->
+        <div id="lexiconDuelArena" style="margin-bottom:20px; box-sizing:border-box; width:100%;"></div>
+
         <div id="dr-quiz-sec">
       <div class="sec-eyebrow">CONTEXTUAL SYNONYM DRILL</div>
       <div class="sec-header-row">
@@ -22571,15 +22684,16 @@ async function executeVipCollocationsSearch() {
     }
 
     const col = d.collocations;
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
+    const safeWord = String(d.word || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    let html = `<div class="tool-result-card" style="border:1px solid var(--border-accent); border-radius:8px; padding:clamp(12px, 3vw, 18px); background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
+      <div class="tool-result-header" style="margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div class="tool-header-left">
           <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase; word-break:break-word;">${d.word}</span>
           <span class="occ-ver-pill" style="font-size:0.75rem; text-transform:uppercase; font-weight:700; flex-shrink:0;">${d.pos || 'term'}</span>
-          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
+          <button class="util-icon-btn" onclick="speakWord('${safeWord}')" title="Listen to Native Pronunciation" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
         </div>
-        <div style="display:flex; gap:6px; align-items:center; flex-shrink:0; max-width:100%;">
-          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem; white-space:nowrap;" onclick="openVipToolsModal('synonyms', '${d.word}')">View Synonyms ↗</button>
+        <div class="tool-header-actions">
+          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem;" onclick="openVipToolsModal('synonyms', '${safeWord}')">View Synonyms ↗</button>
         </div>
       </div>`;
     if (d.meaning_mm) {
@@ -22685,29 +22799,31 @@ async function executeVipSynonymsSearch() {
       return;
     }
 
-    let html = `<div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
+    const safeWord = String(d.word || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    let html = `<div class="tool-result-card" style="border:1px solid var(--border-accent); border-radius:8px; padding:clamp(12px, 3vw, 18px); background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
+      <div class="tool-result-header" style="margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div class="tool-header-left">
           <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase; word-break:break-word;">${d.word}</span>
-          <button class="util-icon-btn" onclick="speakWord('${d.word}')" title="Listen" style="padding:2px 8px; font-size:0.8rem; flex-shrink:0;">🔊 Listen</button>
+          <button class="util-icon-btn" onclick="speakWord('${safeWord}')" title="Listen" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
         </div>
-        <div style="display:flex; gap:6px; align-items:center; flex-shrink:0; max-width:100%;">
-          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem; white-space:nowrap;" onclick="openVipToolsModal('collocations', '${d.word}')">View Collocations ↗</button>
+        <div class="tool-header-actions">
+          <button class="btn-outlined btn-sm" style="padding:4px 10px; font-size:0.78rem;" onclick="openVipToolsModal('collocations', '${safeWord}')">View Collocations ↗</button>
         </div>
       </div>`;
 
     if (d.items && d.items.length) {
       html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px; width:100%; min-width:0; box-sizing:border-box;">`;
       d.items.forEach(item => {
-        html += `<div style="border:1px solid var(--border); border-radius:6px; padding:12px; background:rgba(0,0,0,0.02); max-width:100%; box-sizing:border-box; overflow:hidden;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px; width:100%; min-width:0; box-sizing:border-box;">
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; flex:1 1 auto;">
+        const safeTerm = String(item.term || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        html += `<div style="border:1px solid var(--border); border-radius:6px; padding:clamp(10px, 2.5vw, 12px); background:rgba(0,0,0,0.02); max-width:100%; box-sizing:border-box; overflow:hidden;">
+          <div class="tool-item-header" style="margin-bottom:8px;">
+            <div class="tool-header-left">
               <span style="font-size:1rem; font-weight:800; color:var(--text); word-break:break-word;">${item.term}</span>
               <span class="occ-ver-pill" style="font-size:0.72rem; font-weight:700; background:rgba(16, 185, 129, 0.12); color:#059669; flex-shrink:0;">${item.register || 'C1 Academic'}</span>
             </div>
-            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-left:auto; max-width:100%;">
-              <button class="util-icon-btn" onclick="speakWord('${item.term}')" style="padding:2px 6px; font-size:0.75rem; flex-shrink:0;" title="Listen">🔊 Listen</button>
-              <button class="btn-outlined btn-sm" style="padding:3px 8px; font-size:0.72rem; flex-shrink:0;" onclick="openVipToolsModal('collocations', '${item.term}')">Collocations</button>
+            <div class="tool-header-actions">
+              <button class="util-icon-btn" onclick="speakWord('${safeTerm}')" style="padding:2px 6px; font-size:0.75rem;" title="Listen">🔊 Listen</button>
+              <button class="btn-outlined btn-sm" style="padding:3px 8px; font-size:0.72rem;" onclick="openVipToolsModal('collocations', '${safeTerm}')">Collocations</button>
             </div>
           </div>
           <div style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; line-height:1.5;">${item.nuance}</div>
@@ -22978,18 +23094,18 @@ async function executeVipDictSearch() {
     const exMm = (localMatch && localMatch.exMm) || '';
 
     let html = `
-      <div style="border:1px solid var(--border-accent); border-radius:8px; padding:18px; background:var(--bg-card);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px; flex-wrap:wrap; gap:8px;">
-          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase;">${escapeHtml(wordDisplay)}</span>
+      <div class="tool-result-card" style="border:1px solid var(--border-accent); border-radius:8px; padding:clamp(12px, 3vw, 18px); background:var(--bg-card); max-width:100%; box-sizing:border-box; overflow:hidden;">
+        <div class="tool-result-header" style="margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+          <div class="tool-header-left">
+            <span style="font-size:1.25rem; font-weight:900; color:var(--accent); text-transform:uppercase; word-break:break-word;">${escapeHtml(wordDisplay)}</span>
             ${phoneticDisplay ? `<span style="font-size:0.82rem; font-family:monospace; color:var(--text-secondary);">${escapeHtml(phoneticDisplay)}</span>` : ''}
-            <span class="occ-ver-pill" style="font-size:0.72rem; text-transform:uppercase; font-weight:700;">${escapeHtml(posDisplay)}</span>
+            <span class="occ-ver-pill" style="font-size:0.72rem; text-transform:uppercase; font-weight:700; flex-shrink:0;">${escapeHtml(posDisplay)}</span>
             ${bandBadge}
-            <button class="util-icon-btn" onclick="speakWord('${escapeHtml(wordDisplay)}')" title="Listen to Pronunciation" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
+            <button class="util-icon-btn" onclick="speakWord('${escapeHtml(String(wordDisplay || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"))}')" title="Listen to Pronunciation" style="padding:2px 8px; font-size:0.8rem;">🔊 Listen</button>
           </div>
-          <div style="display:flex; gap:6px;">
-            <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('collocations'); setVipToolInput('collocations', '${escapeHtml(wordDisplay)}'); executeVipCollocationsSearch();">⚡ Collocations ↗</button>
-            <button class="btn-outlined" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('synonyms'); setVipToolInput('synonyms', '${escapeHtml(wordDisplay)}'); executeVipSynonymsSearch();">📚 Synonyms ↗</button>
+          <div class="tool-header-actions">
+            <button class="btn-outlined btn-sm" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('collocations'); setVipToolInput('collocations', '${escapeHtml(String(wordDisplay || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"))}'); executeVipCollocationsSearch();">⚡ Collocations ↗</button>
+            <button class="btn-outlined btn-sm" style="padding:3px 10px; font-size:0.75rem;" onclick="switchAcademicToolsTab('synonyms'); setVipToolInput('synonyms', '${escapeHtml(String(wordDisplay || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"))}'); executeVipSynonymsSearch();">📚 Synonyms ↗</button>
           </div>
         </div>
 
