@@ -13,6 +13,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BYOK_STORE_FILE = path.join(__dirname, 'byok_state.json');
+const USAGE_STORE_FILE = path.join(__dirname, 'usage_state.json');
+const LANG_STORE_FILE = path.join(__dirname, 'lang_state.json');
 import { Bot, InlineKeyboard } from 'grammy';
 import { voucherPool } from './voucherPool.js';
 import {
@@ -57,11 +59,33 @@ function isAdmin(ctx) {
 }
 
 // ==========================================
-// QUOTA & ACADEMIC TOOL CONFIG (10 queries/day)
+// QUOTA & ACADEMIC TOOL CONFIG (10 queries/day, disk-persisted)
 // ==========================================
-const dailyUsageMap = new Map(); // `${userId}:${dateStr}` -> count
+function loadJsonMap(filePath) {
+  try {
+    if (fs.existsSync(filePath)) {
+      const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      if (parsed && typeof parsed === 'object') {
+        return new Map(Object.entries(parsed));
+      }
+    }
+  } catch (e) {
+    console.warn(`[State Load Warning] ${path.basename(filePath)}:`, e.message);
+  }
+  return new Map();
+}
+
+function saveJsonMap(filePath, map) {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(Object.fromEntries(map.entries()), null, 2), 'utf8');
+  } catch (e) {
+    console.warn(`[State Save Warning] ${path.basename(filePath)}:`, e.message);
+  }
+}
+
+const dailyUsageMap = loadJsonMap(USAGE_STORE_FILE); // `${userId}:${dateStr}` -> count
 const userPendingActions = new Map(); // `${userId}` -> 'collocate' | 'syn' | 'dict' | 'read'
-const userLanguages = new Map(); // `${userId}` -> 'en' | 'my'
+const userLanguages = loadJsonMap(LANG_STORE_FILE); // `${userId}` -> 'en' | 'my'
 const FREE_DAILY_LIMIT = 10;
 
 function getUserLang(userId) {
@@ -70,6 +94,7 @@ function getUserLang(userId) {
 
 function setUserLang(userId, lang) {
   userLanguages.set(String(userId), lang === 'my' ? 'my' : 'en');
+  saveJsonMap(LANG_STORE_FILE, userLanguages);
 }
 
 function getYangonDateStr() {
@@ -105,7 +130,14 @@ function checkAndConsumeQuota(userId) {
     return { allowed: false, isVip: false, count: current, limit: FREE_DAILY_LIMIT, remaining: 0 };
   }
   const next = current + 1;
+  // Prune previous days so usage_state.json stays compact
+  for (const existingKey of dailyUsageMap.keys()) {
+    if (!existingKey.endsWith(`:${dateStr}`)) {
+      dailyUsageMap.delete(existingKey);
+    }
+  }
   dailyUsageMap.set(key, next);
+  saveJsonMap(USAGE_STORE_FILE, dailyUsageMap);
   return { allowed: true, isVip: false, count: next, limit: FREE_DAILY_LIMIT, remaining: FREE_DAILY_LIMIT - next };
 }
 
@@ -2788,11 +2820,10 @@ bot.command('redeem', async (ctx) => {
     return ctx.reply('🎟️ *Please provide a voucher code.*\n\nUsage: `/redeem IPS-SPRINT-701` or `/redeem IPS-VIP-101`', { parse_mode: 'Markdown' });
   }
 
-  const isChecksumValid = (typeof verifyVoucherChecksum === 'function') ? verifyVoucherChecksum(code) : false;
   let voucher = voucherPool.vouchers.find(v => v.code === code);
   const isSprint = code.includes('SPRINT') || (voucher && voucher.plan === 'sprint');
 
-  if (!voucher && !isChecksumValid) {
+  if (!voucher) {
     return ctx.reply(`❌ *Invalid voucher code:* \`${code}\`\n\nPlease check your code or contact @hyuguo.`, { parse_mode: 'Markdown' });
   }
 
@@ -2941,57 +2972,74 @@ bot.catch((err) => {
   console.error('[Telegram Bot Error Caught]:', err.error || err);
 });
 
-// Start Long-Polling Bot Engine
-bot.start({
-  onStart: async (botInfo) => {
-    console.log(`🚀 Telegram Bot is LIVE! Logged in as @${botInfo.username}`);
-    console.log(`👉 Student Entrypoint: https://t.me/${botInfo.username}`);
-    try {
-      await bot.api.setChatMenuButton({
-        menu_button: {
-          type: 'web_app',
-          text: 'Open App',
-          web_app: {
-            url: WEB_URL
-          }
-        }
-      });
-      console.log('✅ Telegram Bot "Open App" Web App Menu Button configured.');
-    } catch (btnErr) {
-      console.warn('[Menu Button Notice]', btnErr.message);
+// Start Long-Polling Bot Engine (guarded against live Cloudflare Webhook conflicts)
+async function startPollingEngine() {
+  const forcePolling = process.argv.includes('--force-polling') || process.env.FORCE_POLLING === '1';
+  try {
+    const webhookInfo = await bot.api.getWebhookInfo();
+    if (webhookInfo && webhookInfo.url && !forcePolling) {
+      console.warn(`⚠️ Active webhook detected (${webhookInfo.url}).`);
+      console.warn('🛑 Refusing to start local long-polling so Cloudflare Worker updates are not stolen.');
+      console.warn('💡 Re-run with --force-polling ONLY if you intentionally want local polling.');
+      return;
     }
-    try {
-      await bot.api.setMyCommands([
-        { command: 'start', description: '🎓 Launch Studio & Payment Options' },
-        { command: 'vip', description: '👑 Lifetime VIP Pass (1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) / 97k MMK)' },
-        { command: 'buy', description: '⭐️ Instant Stars / Wallet Checkout' },
-        { command: 'lang', description: '🌐 Switch Language (English / မြန်မာ)' },
-        { command: 'tools', description: '⚡ VIP Academic AI Tools (Collocations, Synonyms, etc.)' },
-        { command: 'collocate', description: '🔗 Academic Collocations & Word Pairings' },
-        { command: 'syn', description: '💎 Band 8.5+ Academic Synonyms' },
-        { command: 'dict', description: '📚 Academic Dictionary & Pronunciation' },
-        { command: 'read', description: '📖 Essay Topic Briefs & Arguments' },
-        { command: 'cloze', description: '📖 Peer-Reviewed Scholarly Cloze Drill' },
-        { command: 'podcast', description: '🎙️ Cambridge & BBC Native Podcasts' },
-        { command: 'quote', description: '🧠 Scholar Quotes for Task 2' },
-        { command: 'wotd', description: '🌟 Band 8.5+ Word of the Day' },
-        { command: 'quota', description: '📊 Check Daily AI Tool Usage (10/day)' },
-        { command: 'bands', description: '🎯 Band Score Table & Descriptors' },
-        { command: 'format', description: '📋 IELTS Academic Exam Format' },
-        { command: 'sprint', description: '⏱️ 20m / 40m Focus Study Sprint' },
-        { command: 'help', description: '📕 Study Guide & All Commands' }
-      ]);
-      console.log('✅ Telegram Bot Commands Menu configured.');
-    } catch (cmdErr) {
-      console.warn('[Commands Menu Notice]', cmdErr.message);
-    }
-    if (ADMIN_CHAT_ID) {
-      console.log(`🛡️ Admin Chat ID bound to: ${ADMIN_CHAT_ID}`);
-    } else {
-      console.warn(`⚠️ Warning: ADMIN_CHAT_ID is not set in .env! Slips will not be forwarded.`);
-    }
+  } catch (whErr) {
+    console.warn('[Webhook Guard Check Notice]', whErr.message);
   }
-});
+
+  bot.start({
+    onStart: async (botInfo) => {
+      console.log(`🚀 Telegram Bot is LIVE! Logged in as @${botInfo.username}`);
+      console.log(`👉 Student Entrypoint: https://t.me/${botInfo.username}`);
+      try {
+        await bot.api.setChatMenuButton({
+          menu_button: {
+            type: 'web_app',
+            text: 'Open App',
+            web_app: {
+              url: WEB_URL
+            }
+          }
+        });
+        console.log('✅ Telegram Bot "Open App" Web App Menu Button configured.');
+      } catch (btnErr) {
+        console.warn('[Menu Button Notice]', btnErr.message);
+      }
+      try {
+        await bot.api.setMyCommands([
+          { command: 'start', description: '🎓 Launch Studio & Payment Options' },
+          { command: 'vip', description: '👑 Lifetime VIP Pass (1,350 ★ Stars (Lifetime) / 75 ★ Stars (Sprint) / 97k MMK)' },
+          { command: 'buy', description: '⭐️ Instant Stars / Wallet Checkout' },
+          { command: 'lang', description: '🌐 Switch Language (English / မြန်မာ)' },
+          { command: 'tools', description: '⚡ VIP Academic AI Tools (Collocations, Synonyms, etc.)' },
+          { command: 'collocate', description: '🔗 Academic Collocations & Word Pairings' },
+          { command: 'syn', description: '💎 Band 8.5+ Academic Synonyms' },
+          { command: 'dict', description: '📚 Academic Dictionary & Pronunciation' },
+          { command: 'read', description: '📖 Essay Topic Briefs & Arguments' },
+          { command: 'cloze', description: '📖 Peer-Reviewed Scholarly Cloze Drill' },
+          { command: 'podcast', description: '🎙️ Cambridge & BBC Native Podcasts' },
+          { command: 'quote', description: '🧠 Scholar Quotes for Task 2' },
+          { command: 'wotd', description: '🌟 Band 8.5+ Word of the Day' },
+          { command: 'quota', description: '📊 Check Daily AI Tool Usage (10/day)' },
+          { command: 'bands', description: '🎯 Band Score Table & Descriptors' },
+          { command: 'format', description: '📋 IELTS Academic Exam Format' },
+          { command: 'sprint', description: '⏱️ 20m / 40m Focus Study Sprint' },
+          { command: 'help', description: '📕 Study Guide & All Commands' }
+        ]);
+        console.log('✅ Telegram Bot Commands Menu configured.');
+      } catch (cmdErr) {
+        console.warn('[Commands Menu Notice]', cmdErr.message);
+      }
+      if (ADMIN_CHAT_ID) {
+        console.log(`🛡️ Admin Chat ID bound to: ${ADMIN_CHAT_ID}`);
+      } else {
+        console.warn(`⚠️ Warning: ADMIN_CHAT_ID is not set in .env! Slips will not be forwarded.`);
+      }
+    }
+  });
+}
+
+startPollingEngine();
 
 // ==========================================
 // RENDER & CLOUD HEALTH-CHECK HTTP SERVER

@@ -31,11 +31,13 @@ BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ
 ADMIN_CHAT_ID=761262240
 PAYMENT_PHONE=09-768691939
 ACCOUNT_NAME=Lyan Htet
-PRICE_MMK=55,000 MMK
-STUDIO_WEB_URL=https://ielts-prep-studio.web.app
+PRICE_MMK=97,000 MMK (Lifetime) / 5,000 MMK (7-Day Sprint)
+STUDIO_WEB_URL=https://ielts-prep-studio-olive.vercel.app
 ```
 
 ### Step 4: Run the Bot
+> **Production Webhook Note:** Production traffic routes through the Cloudflare Worker (`backend/worker.js`) webhook. `bot.js` automatically detects an active Telegram webhook and refuses to steal updates unless started with `--force-polling` (`FORCE_POLLING=1`).
+
 From your terminal:
 
 ```bash
@@ -57,7 +59,7 @@ You will see:
 
 1. **Student Flow**:
    - Student taps `/start` on your bot.
-   - Bot displays KPay & WavePay payment details (`09-768691939`, 55,000 MMK) and asks for the transaction slip screenshot.
+   - Bot displays KPay & WavePay payment details (`09-768691939`, **97,000 MMK** / **1,350 ★** Lifetime or **5,000 MMK** / **75 ★** 7-Day Sprint) and asks for the transaction slip screenshot.
    - Student uploads screenshot.
    - Bot instantly replies: *"✅ စလစ်အား လက်ခံရရှိပါပြီ။ Admin ဘက်မှ အတည်ပြုပြီးပါက 1-Click Link ပေးပို့ပေးပါမည်။"*
 
@@ -69,8 +71,8 @@ You will see:
 3. **Automated Delivery**:
    - Bot automatically claims the next available voucher (e.g. `IPS-VIP-101`) from `IELTS_Studio_Voucher_Codes.csv`.
    - Bot sends the student a celebratory Burmese message with their unique **1-Click Magic Link**:
-     `https://ielts-prep-studio.web.app/?redeem=IPS-VIP-101`
-   - Student taps the link $\rightarrow$ signs in with Google $\rightarrow$ Lifetime VIP is unlocked in 2 seconds.
+     `https://ielts-prep-studio-olive.vercel.app/?redeem=IPS-VIP-101`
+   - Student taps the link $\rightarrow$ server verifies & activates VIP in D1/KV/Firestore in 2 seconds.
 
 ---
 

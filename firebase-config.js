@@ -16,10 +16,9 @@ window.FIREBASE_CONFIG = window.FIREBASE_CONFIG || {
   measurementId: "G-8GHWTW7NMD"
 };
 
-// 2. Google Gemini Generative AI Configuration
-const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
+// 2. Google Gemini Generative AI Configuration (BYOK only — never embed shared API keys in client code)
 window.GEMINI_CONFIG = window.GEMINI_CONFIG || {
-  apiKey: (typeof localStorage !== "undefined" && localStorage.getItem("ielts_gemini_api_key")) || _DEFAULT_GEMINI_KEY,
+  apiKey: (typeof localStorage !== "undefined" && (localStorage.getItem("ips_byok_api_key") || localStorage.getItem("ielts_gemini_api_key"))) || "",
   model: "gemini-3.5-flash-lite",
   fallbackModels: ["gemini-3.5-flash", "gemini-3.8-flash"]
 };

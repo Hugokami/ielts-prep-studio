@@ -30,8 +30,15 @@ export default {
       }
 
       if (url.pathname === "/api/setup-commands") {
+        if (!(await isAuthorizedAdminRequest(request, env))) {
+          return jsonResponse({ success: false, error: "Unauthorized: Invalid admin credentials" }, 401);
+        }
         const res = await registerBotCommands(env.BOT_TOKEN);
         return jsonResponse({ success: true, commands: BOT_COMMANDS, result: res });
+      }
+
+      if (url.pathname === "/api/vip-bundle" && request.method === "GET") {
+        return await handleGetVipBundle(request, env, url);
       }
 
       if (url.pathname === "/api/create-stars-invoice" && request.method === "POST") {
@@ -115,7 +122,16 @@ async function safeEqual(a, b) {
     crypto.subtle.digest("SHA-256", enc.encode(a)),
     crypto.subtle.digest("SHA-256", enc.encode(b))
   ]);
-  return crypto.subtle.timingSafeEqual(ha, hb);
+  if (typeof crypto.subtle.timingSafeEqual === "function") {
+    return crypto.subtle.timingSafeEqual(ha, hb);
+  }
+  const va = new Uint8Array(ha);
+  const vb = new Uint8Array(hb);
+  let diff = va.length ^ vb.length;
+  for (let i = 0; i < va.length; i++) {
+    diff |= va[i] ^ vb[i];
+  }
+  return diff === 0;
 }
 
 // ==========================================
@@ -125,7 +141,7 @@ function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Telegram-Init-Data",
     "Access-Control-Max-Age": "86400"
   };
 }
@@ -137,12 +153,13 @@ function handleCors() {
   });
 }
 
-function jsonResponse(data, status = 200) {
+function jsonResponse(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status: status,
     headers: {
       "Content-Type": "application/json",
-      ...corsHeaders()
+      ...corsHeaders(),
+      ...extraHeaders
     }
   });
 }
@@ -151,6 +168,25 @@ function jsonResponse(data, status = 200) {
 // ==========================================
 // CRYPTOGRAPHIC HELPERS & SESSION TOKENS
 // ==========================================
+function getSigningKey(env) {
+  const key = (env && (env.SESSION_SIGNING_KEY || env.BOT_TOKEN)) || "";
+  if (!key) {
+    throw new Error("Server signing secret (SESSION_SIGNING_KEY or BOT_TOKEN) is not configured");
+  }
+  return key;
+}
+
+async function isAuthorizedAdminRequest(request, env) {
+  const authHeader = request.headers.get("Authorization") || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  if (!token) return false;
+  const candidates = [env.ADMIN_SECRET_KEY, env.SESSION_SIGNING_KEY, env.BOT_TOKEN].filter(Boolean);
+  for (const secret of candidates) {
+    if (await safeEqual(token, String(secret))) return true;
+  }
+  return false;
+}
+
 async function sha256Hex(str) {
   const enc = new TextEncoder();
   const buf = await crypto.subtle.digest("SHA-256", enc.encode(str));
@@ -168,6 +204,9 @@ function base64UrlDecode(str) {
 }
 
 async function createSessionToken(payload, secretKeyStr) {
+  if (!secretKeyStr) {
+    throw new Error("Signing secret key is required");
+  }
   const enc = new TextEncoder();
   const header = { alg: "HS256", typ: "JWT" };
   const now = Math.floor(Date.now() / 1000);
@@ -178,7 +217,7 @@ async function createSessionToken(payload, secretKeyStr) {
 
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secretKeyStr || "ips-default-signing-secret"),
+    enc.encode(secretKeyStr),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -189,7 +228,7 @@ async function createSessionToken(payload, secretKeyStr) {
 }
 
 async function verifySessionToken(token, secretKeyStr) {
-  if (!token || typeof token !== "string") return null;
+  if (!token || typeof token !== "string" || !secretKeyStr) return null;
   const parts = token.split(".");
   if (parts.length !== 3) return null;
   const [encodedHeader, encodedPayload, signature] = parts;
@@ -199,7 +238,7 @@ async function verifySessionToken(token, secretKeyStr) {
     const enc = new TextEncoder();
     const key = await crypto.subtle.importKey(
       "raw",
-      enc.encode(secretKeyStr || "ips-default-signing-secret"),
+      enc.encode(secretKeyStr),
       { name: "HMAC", hash: "SHA-256" },
       false,
       ["verify"]
@@ -379,15 +418,29 @@ async function handleTelegramWidgetAuth(request, env) {
   }
 
   // If user is VIP, load VIP bundle from KV
+  const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "";
+  if (adminId && String(user.id) === String(adminId)) {
+    isVip = 1;
+  }
+
   let vipData = null;
   if (isVip === 1 && env.VIP_KV) {
     vipData = await env.VIP_KV.get("VIP_BUNDLE_JSON", "json");
   }
 
+  const signingKey = getSigningKey(env);
+  const sessionToken = await createSessionToken(
+    { sub: user.id, tier: isVip === 1 ? "vip" : "free", tgAuth: true },
+    signingKey
+  );
+  const vipVoucher = isVip === 1 ? await getUserVipVoucher(env, user.id) : null;
+
   return jsonResponse({
     success: true,
     isVip: isVip === 1,
     vipExpiresAt: vipExpiresAt,
+    sessionToken: sessionToken,
+    vipVoucher: vipVoucher,
     savedProgress: existing && existing.progress_json ? JSON.parse(existing.progress_json) : null,
     vipData: vipData,
     user: user
@@ -400,48 +453,54 @@ async function handleTelegramWidgetAuth(request, env) {
 async function handleSync(request, env) {
   const body = await request.json();
   const authHeader = request.headers.get("Authorization") || "";
-  const { initData, progress, srsDueCount, deviceId, voucher, telegramId: bodyTgId } = body || {};
+  const { initData, progress, srsDueCount, deviceId, voucher } = body || {};
 
   let telegramId = 0;
   let username = "";
   let firstName = "";
   let isVip = false;
+  let hasVerifiedTelegramIdentity = false;
 
-  const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
+  const signingKey = getSigningKey(env);
 
-  // 1. Verify Telegram WebApp initData
+  // 1. Verify Telegram WebApp initData (cryptographically signed)
   if (initData) {
     const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
     if (user && user.id) {
       telegramId = user.id;
       username = user.username || "";
       firstName = user.first_name || "";
+      hasVerifiedTelegramIdentity = true;
     }
-  } else if (bodyTgId) {
-    telegramId = parseInt(bodyTgId, 10) || bodyTgId;
   }
 
-  // 2. Verify Bearer session token
+  // 2. Verify Bearer session token (cryptographically signed by this Worker)
   let sessionPayload = null;
   if (authHeader.startsWith("Bearer ")) {
-    sessionPayload = await verifySessionToken(authHeader.slice(7), signingKey);
-    if (sessionPayload && sessionPayload.tier === "vip") {
-      isVip = true;
+    sessionPayload = await verifySessionToken(authHeader.slice(7).trim(), signingKey);
+    if (sessionPayload) {
+      if (sessionPayload.tier === "vip") {
+        isVip = true;
+      }
+      if (!telegramId && sessionPayload.sub && /^\d+$/.test(String(sessionPayload.sub))) {
+        telegramId = parseInt(String(sessionPayload.sub), 10);
+        hasVerifiedTelegramIdentity = true;
+      }
     }
   }
 
-  // Admin override
+  // Admin override (ONLY when telegramId came from verified initData or signed sessionToken)
   const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "";
-  if (telegramId && adminId && String(telegramId) === String(adminId)) {
+  if (hasVerifiedTelegramIdentity && telegramId && adminId && String(telegramId) === String(adminId)) {
     isVip = true;
   }
 
-  // Query D1 user record
+  // Query D1 user record (only for cryptographically verified telegramId)
   let userRow = null;
   let vipExpiresAt = 0;
   let savedProgress = null;
 
-  if (telegramId) {
+  if (hasVerifiedTelegramIdentity && telegramId) {
     userRow = await env.DB.prepare("SELECT is_vip, vip_expires_at, progress_json FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(telegramId, telegramId).first();
     if (userRow && userRow.is_vip === 1) {
       vipExpiresAt = userRow.vip_expires_at || 0;
@@ -471,10 +530,16 @@ async function handleSync(request, env) {
         if (vRow.expires_at) vipExpiresAt = vRow.expires_at;
       }
     } catch (e) {}
-    if (!isVip && telegramId) {
+    if (!isVip && hasVerifiedTelegramIdentity && telegramId) {
       try {
         const pRow = await env.DB.prepare("SELECT plan_type FROM promo_codes WHERE code = ? AND is_used = 1 AND used_by_tg_id = ?").bind(cleanVoucher, telegramId).first();
         if (pRow) isVip = true;
+      } catch (e) {}
+    }
+    if (!isVip) {
+      try {
+        const vvRow = await env.DB.prepare("SELECT is_active FROM vip_vouchers WHERE (code_hash = ? OR code_hash = ?) AND is_active = 1").bind(cleanVoucher, codeHash).first();
+        if (vvRow) isVip = true;
       } catch (e) {}
     }
   }
@@ -482,7 +547,7 @@ async function handleSync(request, env) {
   const progressJson = progress ? JSON.stringify(progress) : null;
   const dueCount = typeof srsDueCount === "number" ? srsDueCount : 0;
 
-  if (telegramId) {
+  if (hasVerifiedTelegramIdentity && telegramId) {
     if (progressJson) {
       await env.DB.prepare(`
         INSERT INTO users (telegram_id, username, first_name, srs_due_count, progress_json, updated_at)
@@ -499,9 +564,9 @@ async function handleSync(request, env) {
       }
     }
   } else {
-    // Non-Telegram / Web / BYOK cloud sync via KV
+    // Non-Telegram / Web / BYOK cloud sync via KV (only allow voucher sync if voucher is valid or session authenticated)
     if (env.VIP_KV) {
-      const syncKey = cleanVoucher ? ("SYNC_VCH_" + cleanVoucher) : (cleanDeviceId ? ("SYNC_DEV_" + cleanDeviceId) : null);
+      const syncKey = (cleanVoucher && isVip) ? ("SYNC_VCH_" + cleanVoucher) : (cleanDeviceId ? ("SYNC_DEV_" + cleanDeviceId) : null);
       if (syncKey) {
         if (progressJson) {
           try { await env.VIP_KV.put(syncKey, progressJson, { expirationTtl: 86400 * 90 }); } catch (e) {}
@@ -515,10 +580,12 @@ async function handleSync(request, env) {
     }
   }
 
-  // Issue signed session token for VIP users
+  // Issue signed session token for verified users
   let sessionToken = null;
   if (isVip) {
-    sessionToken = await createSessionToken({ sub: telegramId || "vip-desktop", tier: "vip" }, signingKey);
+    sessionToken = await createSessionToken({ sub: telegramId || "vip-desktop", tier: "vip", tgAuth: hasVerifiedTelegramIdentity }, signingKey);
+  } else if (hasVerifiedTelegramIdentity && telegramId) {
+    sessionToken = await createSessionToken({ sub: telegramId, tier: "free", tgAuth: true }, signingKey);
   }
 
   let vipData = null;
@@ -532,26 +599,88 @@ async function handleSync(request, env) {
 
   return jsonResponse({
     success: true,
-    telegramId: telegramId || null,
+    telegramId: hasVerifiedTelegramIdentity ? telegramId : null,
     isVip: !!isVip,
     vipExpiresAt: vipExpiresAt,
     sessionToken: sessionToken,
     savedProgress: savedProgress,
     vipData: vipData
-  });
+  }, 200, isVip ? { "Cache-Control": "private, no-store" } : {});
 }
 
 
 // ==========================================
-// 4. API: POST /api/redeem-code
+// 4. API: POST /api/redeem-code & GET /api/vip-bundle
 // ==========================================
+async function handleGetVipBundle(request, env, url) {
+  const authHeader = request.headers.get("Authorization") || "";
+  const initData = request.headers.get("X-Telegram-Init-Data") || url.searchParams.get("initData") || "";
+  const voucherParam = url.searchParams.get("voucher") || url.searchParams.get("code") || "";
+
+  let isVip = false;
+  let verifiedTelegramId = 0;
+
+  try {
+    const signingKey = getSigningKey(env);
+    if (authHeader.startsWith("Bearer ")) {
+      const payload = await verifySessionToken(authHeader.slice(7).trim(), signingKey);
+      if (payload) {
+        if (payload.tier === "vip" || payload.tier === "sprint") isVip = true;
+        if (payload.sub && /^\d+$/.test(String(payload.sub))) {
+          verifiedTelegramId = parseInt(String(payload.sub), 10);
+        }
+      }
+    }
+  } catch (e) {}
+
+  if (!isVip && initData) {
+    const tgUser = await verifyTelegramInitData(initData, env.BOT_TOKEN);
+    if (tgUser && tgUser.id) {
+      verifiedTelegramId = tgUser.id;
+    }
+  }
+
+  if (!isVip && (verifiedTelegramId || voucherParam)) {
+    isVip = await resolveIsVip(env, verifiedTelegramId, voucherParam);
+  }
+
+  if (!isVip) {
+    return jsonResponse({ success: false, error: "VIP authorization required" }, 403, { "Cache-Control": "private, no-store" });
+  }
+
+  const vipData = env.VIP_KV ? await env.VIP_KV.get("VIP_BUNDLE_JSON", "json") : null;
+  if (!vipData) {
+    return jsonResponse({ success: false, error: "VIP bundle unavailable" }, 503, { "Cache-Control": "private, no-store" });
+  }
+
+  return jsonResponse({ success: true, vipData }, 200, { "Cache-Control": "private, no-store" });
+}
+
 async function handleRedeemCode(request, env) {
   const body = await request.json();
+  const authHeader = request.headers.get("Authorization") || "";
   const { initData, code, deviceId } = body || {};
 
   const cleanCode = (code || "").trim().toUpperCase();
   if (!cleanCode) {
     return jsonResponse({ success: false, error: "Voucher code is required" }, 400);
+  }
+
+  // Resolve verified Telegram identity BEFORE voucher ownership check (prevents TDZ ReferenceError)
+  let telegramId = 0;
+  if (initData) {
+    const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
+    if (user && user.id) {
+      telegramId = user.id;
+    }
+  }
+  if (!telegramId && authHeader.startsWith("Bearer ")) {
+    try {
+      const pl = await verifySessionToken(authHeader.slice(7).trim(), getSigningKey(env));
+      if (pl && pl.sub && /^\d+$/.test(String(pl.sub))) {
+        telegramId = parseInt(String(pl.sub), 10);
+      }
+    } catch (e) {}
   }
 
   const codeHash = await sha256Hex(cleanCode);
@@ -583,7 +712,7 @@ async function handleRedeemCode(request, env) {
   }
 
   // Prevent multiple distinct telegram accounts from claiming the same voucher
-  if (voucher.telegram_id && telegramId && voucher.telegram_id !== telegramId) {
+  if (voucher.telegram_id && telegramId && Number(voucher.telegram_id) !== Number(telegramId)) {
     return jsonResponse({ success: false, error: "This one-time voucher has already been claimed by another account." }, 403);
   }
 
@@ -608,34 +737,29 @@ async function handleRedeemCode(request, env) {
   }
 
   // 3. Telegram user linkage if available
-  let telegramId = 0;
-  if (initData) {
-    const user = await verifyTelegramInitData(initData, env.BOT_TOKEN);
-    if (user && user.id) {
-      telegramId = user.id;
-      if (isSprint) {
-        await env.DB.prepare(`
-          INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
-          VALUES (?, 1, unixepoch(), ?, unixepoch())
-          ON CONFLICT(telegram_id) DO UPDATE SET
-            is_vip = 1,
-            vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
-            vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
-            updated_at = unixepoch()
-        `).bind(telegramId, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
-      } else {
-        await env.DB.prepare(`
-          INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
-          VALUES (?, 1, unixepoch(), 0, unixepoch())
-          ON CONFLICT(telegram_id) DO UPDATE SET
-            is_vip = 1,
-            vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
-            vip_expires_at = 0,
-            updated_at = unixepoch()
-        `).bind(telegramId).run();
-      }
-      await env.DB.prepare("UPDATE vouchers SET telegram_id = ? WHERE code_hash = ?").bind(telegramId, codeHash).run();
+  if (telegramId) {
+    if (isSprint) {
+      await env.DB.prepare(`
+        INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+        VALUES (?, 1, unixepoch(), ?, unixepoch())
+        ON CONFLICT(telegram_id) DO UPDATE SET
+          is_vip = 1,
+          vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+          vip_expires_at = CASE WHEN vip_expires_at > ? THEN vip_expires_at + ? ELSE ? + ? END,
+          updated_at = unixepoch()
+      `).bind(telegramId, nowMs + bonusMs, nowMs, bonusMs, nowMs, bonusMs).run();
+    } else {
+      await env.DB.prepare(`
+        INSERT INTO users (telegram_id, is_vip, vip_activated_at, vip_expires_at, updated_at)
+        VALUES (?, 1, unixepoch(), 0, unixepoch())
+        ON CONFLICT(telegram_id) DO UPDATE SET
+          is_vip = 1,
+          vip_activated_at = COALESCE(vip_activated_at, unixepoch()),
+          vip_expires_at = 0,
+          updated_at = unixepoch()
+      `).bind(telegramId).run();
     }
+    await env.DB.prepare("UPDATE vouchers SET telegram_id = ? WHERE code_hash = ?").bind(telegramId, codeHash).run();
   }
 
   if (legacyPromo) {
@@ -645,9 +769,9 @@ async function handleRedeemCode(request, env) {
   }
 
   // 4. Issue signed session token
-  const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
+  const signingKey = getSigningKey(env);
   const expSeconds = isSprint ? Math.floor((nowMs + bonusMs) / 1000) : Math.floor(nowMs / 1000) + (30 * 24 * 3600);
-  const sessionToken = await createSessionToken({ sub: telegramId || devId, tier: "vip", plan: isSprint ? "sprint" : "lifetime", exp: expSeconds }, signingKey);
+  const sessionToken = await createSessionToken({ sub: telegramId || devId, tier: "vip", plan: isSprint ? "sprint" : "lifetime", tgAuth: Boolean(telegramId), exp: expSeconds }, signingKey);
 
   let vipData = null;
   if (env.VIP_KV) {
@@ -665,7 +789,7 @@ async function handleRedeemCode(request, env) {
     sessionToken: sessionToken,
     message: isSprint ? "7-Day Sprint VIP Pass activated successfully!" : "Lifetime VIP Pass activated successfully!",
     vipData: vipData
-  });
+  }, 200, { "Cache-Control": "private, no-store" });
 }
 
 async function handleWebhook(request, env, ctx = null) {
@@ -3598,11 +3722,7 @@ function generateRandomCode() {
 }
 
 async function handleAdminMint(request, env) {
-  const authHeader = request.headers.get("Authorization") || "";
-  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-  const adminSecret = env.ADMIN_SECRET_KEY || env.SESSION_SIGNING_KEY || env.BOT_TOKEN;
-
-  if (!token || (token !== adminSecret && token !== env.BOT_TOKEN)) {
+  if (!(await isAuthorizedAdminRequest(request, env))) {
     return jsonResponse({ success: false, error: "Unauthorized: Invalid admin credentials" }, 401);
   }
 
@@ -3725,7 +3845,7 @@ async function getUserVipVoucher(env, userId) {
   if (!userId) return null;
   const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "";
   if (adminId && String(userId) === String(adminId)) {
-    return "VIP-5X2V-BQQK";
+    return env.ADMIN_VOUCHER_CODE || null;
   }
   try {
     const promo = await env.DB.prepare(
@@ -8164,15 +8284,47 @@ Put your phone on Do Not Disturb, silence all social notifications, and immerse 
 // HTTP API Handlers for Web App
 // ------------------------------------------
 
+async function resolveAuthenticatedToolCaller(request, env, url) {
+  let verifiedTelegramId = 0;
+  let isVip = false;
+
+  const authHeader = request.headers.get("Authorization") || "";
+  if (authHeader.startsWith("Bearer ")) {
+    try {
+      const payload = await verifySessionToken(authHeader.slice(7).trim(), getSigningKey(env));
+      if (payload) {
+        if (payload.tier === "vip" || payload.tier === "sprint") isVip = true;
+        if (payload.sub && /^\d+$/.test(String(payload.sub))) {
+          verifiedTelegramId = parseInt(String(payload.sub), 10);
+        }
+      }
+    } catch (e) {}
+  }
+
+  const initData = request.headers.get("X-Telegram-Init-Data") || url.searchParams.get("initData") || "";
+  if (!verifiedTelegramId && initData) {
+    const tgUser = await verifyTelegramInitData(initData, env.BOT_TOKEN);
+    if (tgUser && tgUser.id) {
+      verifiedTelegramId = tgUser.id;
+    }
+  }
+
+  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
+  if (!isVip && (verifiedTelegramId || voucher)) {
+    isVip = await resolveIsVip(env, verifiedTelegramId || 0, voucher);
+  }
+
+  const quotaId = verifiedTelegramId || getClientIdentifier(request, url, null);
+  return { quotaId, isVip };
+}
+
 async function handleApiCollocations(request, env, url) {
   const word = url.searchParams.get("word") || "";
   if (!word) return jsonResponse({ success: false, error: "Query parameter 'word' is required." }, 400);
 
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
 
-  const quota = await checkAndConsumeQuota(env, tgId, isVip);
+  const quota = await checkAndConsumeQuota(env, quotaId, isVip);
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
@@ -8189,11 +8341,9 @@ async function handleApiSynonyms(request, env, url) {
   const word = url.searchParams.get("word") || "";
   if (!word) return jsonResponse({ success: false, error: "Query parameter 'word' is required." }, 400);
 
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
 
-  const quota = await checkAndConsumeQuota(env, tgId, isVip);
+  const quota = await checkAndConsumeQuota(env, quotaId, isVip);
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
@@ -8210,11 +8360,9 @@ async function handleApiTopic(request, env, url) {
   const topic = url.searchParams.get("topic") || "";
   if (!topic) return jsonResponse({ success: false, error: "Query parameter 'topic' is required." }, 400);
 
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
 
-  const quota = await checkAndConsumeQuota(env, tgId, isVip);
+  const quota = await checkAndConsumeQuota(env, quotaId, isVip);
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
@@ -8231,11 +8379,9 @@ async function handleApiDict(request, env, url) {
   const word = url.searchParams.get("word") || "";
   if (!word) return jsonResponse({ success: false, error: "Query parameter 'word' is required." }, 400);
 
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
 
-  const quota = await checkAndConsumeQuota(env, tgId, isVip);
+  const quota = await checkAndConsumeQuota(env, quotaId, isVip);
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
@@ -8249,11 +8395,9 @@ async function handleApiDict(request, env, url) {
 }
 
 async function handleApiQuote(request, env, url) {
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
 
-  const quota = await checkAndConsumeQuota(env, tgId, isVip);
+  const quota = await checkAndConsumeQuota(env, quotaId, isVip);
   if (!quota.allowed) {
     return jsonResponse({
       success: false,
@@ -8267,10 +8411,8 @@ async function handleApiQuote(request, env, url) {
 }
 
 async function handleApiQuota(request, env, url) {
-  const tgId = getClientIdentifier(request, url, url.searchParams.get("telegram_id"));
-  const voucher = url.searchParams.get("code") || url.searchParams.get("voucher") || "";
-  const isVip = await resolveIsVip(env, tgId, voucher);
-  const quota = await getQuotaStatus(env, tgId, isVip);
+  const { quotaId, isVip } = await resolveAuthenticatedToolCaller(request, env, url);
+  const quota = await getQuotaStatus(env, quotaId, isVip);
   return jsonResponse({ success: true, quota });
 }
 
@@ -8281,46 +8423,55 @@ async function handleAiChat(request, env) {
   try {
     const body = await request.json();
     const authHeader = request.headers.get("Authorization") || "";
-    const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
+    const signingKey = getSigningKey(env);
 
     let isVip = false;
+    let verifiedTelegramId = 0;
     let userId = request.headers.get("cf-connecting-ip") || "anon-client";
 
     if (authHeader.startsWith("Bearer ")) {
-      const pl = await verifySessionToken(authHeader.slice(7), signingKey);
-      if (pl && pl.tier === "vip") {
-        isVip = true;
-        userId = String(pl.sub);
+      const pl = await verifySessionToken(authHeader.slice(7).trim(), signingKey);
+      if (pl) {
+        if (pl.tier === "vip" || pl.tier === "sprint") isVip = true;
+        if (pl.sub && /^\d+$/.test(String(pl.sub))) {
+          verifiedTelegramId = parseInt(String(pl.sub), 10);
+          userId = String(pl.sub);
+        } else if (pl.sub) {
+          userId = String(pl.sub);
+        }
       }
     }
 
-    if (body.initData) {
-      const tgUser = await verifyTelegramInitData(body.initData, env.BOT_TOKEN);
+    const initData = body.initData || request.headers.get("X-Telegram-Init-Data") || "";
+    if (initData) {
+      const tgUser = await verifyTelegramInitData(initData, env.BOT_TOKEN);
       if (tgUser && tgUser.id) {
+        verifiedTelegramId = tgUser.id;
         userId = String(tgUser.id);
         const u = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(tgUser.id, tgUser.id).first();
         if (u && (u.is_vip === 1 || (u.vip_expires_at && u.vip_expires_at > Date.now()))) isVip = true;
       }
-    } else if (body.telegramId || body.userId) {
-      const uId = body.telegramId || body.userId;
-      const u = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(uId, uId).first();
-      if (u && (u.is_vip === 1 || (u.vip_expires_at && u.vip_expires_at > Date.now()))) {
-        isVip = true;
-        userId = String(uId);
-      }
+    }
+
+    if (!isVip && verifiedTelegramId) {
+      const u = await env.DB.prepare("SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)").bind(verifiedTelegramId, verifiedTelegramId).first();
+      if (u && (u.is_vip === 1 || (u.vip_expires_at && u.vip_expires_at > Date.now()))) isVip = true;
     }
 
     if (!isVip && body.voucher) {
-      isVip = await resolveIsVip(env, userId, body.voucher);
+      isVip = await resolveIsVip(env, 0, body.voucher);
     }
-    if (userId && String(userId) === String(env.ADMIN_TG_ID || "7468650530")) {
+    const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "";
+    if (verifiedTelegramId && adminId && String(verifiedTelegramId) === String(adminId)) {
       isVip = true;
     }
 
-    // Enforce quota check
-    const quota = await checkAndConsumeQuota(env, userId, isVip);
+    // Enforce quota check (hash anonymous IP into numeric quota key)
+    const quotaKey = verifiedTelegramId || getClientIdentifier(request, null, null);
+    const quota = await checkAndConsumeQuota(env, quotaKey, isVip);
     if (!quota.allowed) {
       return jsonResponse({
+        success: false,
         error: "Daily free AI practice quota exceeded (10 queries/day). Upgrade to Lifetime VIP Pass for unlimited practice.",
         quotaExceeded: true
       }, 429);
@@ -8355,8 +8506,12 @@ async function handleAiChat(request, env) {
       temperature: 0.4
     });
 
+    const replyText = aiRes.response || "";
     return jsonResponse({
-      reply: aiRes.response || "",
+      success: true,
+      text: replyText,
+      reply: replyText,
+      modelUsed: selectedModel,
       model: selectedModel,
       isVip: isVip,
       remainingQuota: quota.remaining
@@ -8772,57 +8927,60 @@ async function handleTelegramAvatar(request, env) {
 async function handleRadarFeed(request, env) {
   try {
     const url = new URL(request.url);
-    let userId = url.searchParams.get("userId") || url.searchParams.get("telegram_id") || "";
+    let verifiedUserId = "";
     const voucherParam = url.searchParams.get("voucher") || "";
-    const clientVip = url.searchParams.get("clientVip") === "1";
     const authHeader = request.headers.get("Authorization") || "";
     const initDataParam = request.headers.get("X-Telegram-Init-Data") || url.searchParams.get("initData") || "";
 
     let isVip = false;
+    const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "";
+    const signingKey = getSigningKey(env);
 
-    // 1. Direct Admin / Lead Instructor check (Universal, env-driven)
-    const adminId = env.ADMIN_TG_ID || env.ADMIN_CHAT_ID || "7468650530";
-    if (userId && String(userId) === String(adminId)) {
-      isVip = true;
-    }
-
-    // 2. Telegram WebApp HMAC verification if initData provided
-    if (!isVip && initDataParam) {
+    // 1. Session token check (Signed JWT in Authorization header or voucherParam)
+    const rawToken = (authHeader.startsWith("Bearer ") ? authHeader.slice(7) : voucherParam).trim();
+    if (rawToken && rawToken.includes(".")) {
       try {
-        const tgUser = await verifyTelegramInitData(initDataParam, env.BOT_TOKEN);
-        if (tgUser && tgUser.id) {
-          userId = String(tgUser.id);
-          if (String(tgUser.id) === String(adminId)) isVip = true;
+        const payload = await verifySessionToken(rawToken, signingKey);
+        if (payload) {
+          if (payload.tier === "vip" || payload.tier === "sprint") {
+            if (!payload.exp || payload.exp > Math.floor(Date.now() / 1000)) {
+              isVip = true;
+            }
+          }
+          if (payload.sub && /^\d+$/.test(String(payload.sub))) {
+            verifiedUserId = String(payload.sub);
+          }
         }
       } catch (e) {}
     }
 
-    // 3. Database user VIP check for ALL paying students with active VIP status in D1
-    if (!isVip && userId) {
+    // 2. Telegram WebApp HMAC verification if initData provided
+    if (!verifiedUserId && initDataParam) {
+      try {
+        const tgUser = await verifyTelegramInitData(initDataParam, env.BOT_TOKEN);
+        if (tgUser && tgUser.id) {
+          verifiedUserId = String(tgUser.id);
+        }
+      } catch (e) {}
+    }
+
+    // 3. Direct Admin check ONLY on cryptographically verified Telegram ID
+    if (!isVip && verifiedUserId && adminId && String(verifiedUserId) === String(adminId)) {
+      isVip = true;
+    }
+
+    // 4. Database user VIP check ONLY for cryptographically verified Telegram user
+    if (!isVip && verifiedUserId) {
       try {
         const user = await env.DB.prepare(
           "SELECT is_vip, vip_expires_at FROM users WHERE telegram_id = ? OR telegram_id = CAST(? AS INTEGER)"
-        ).bind(userId, userId).first();
+        ).bind(verifiedUserId, verifiedUserId).first();
         if (user && (user.is_vip === 1 || (user.vip_expires_at && user.vip_expires_at > Date.now()))) {
           isVip = true;
         }
       } catch (e) {
         console.error("[Radar User Check Error]", e);
       }
-    }
-
-    // 4. Session token check (Signed JWT in Authorization header or voucherParam)
-    const signingKey = env.SESSION_SIGNING_KEY || env.BOT_TOKEN || "ips-secret-key-2026";
-    const rawToken = (authHeader.startsWith("Bearer ") ? authHeader.slice(7) : voucherParam).trim();
-    if (!isVip && rawToken && rawToken.includes(".")) {
-      try {
-        const payload = await verifySessionToken(rawToken, signingKey);
-        if (payload && (payload.tier === "vip" || payload.tier === "sprint")) {
-          if (!payload.exp || payload.exp > Math.floor(Date.now() / 1000)) {
-            isVip = true;
-          }
-        }
-      } catch (e) {}
     }
 
     // 5. Voucher code / Promo code verification across vouchers, promo_codes, and vip_vouchers
@@ -8838,11 +8996,11 @@ async function handleRadarFeed(request, env) {
         }
       } catch (e) {}
 
-      if (!isVip && userId) {
+      if (!isVip && verifiedUserId) {
         try {
           const pRow = await env.DB.prepare(
             "SELECT plan_type FROM promo_codes WHERE code = ? AND is_used = 1 AND used_by_tg_id = ?"
-          ).bind(cleanCode, userId).first();
+          ).bind(cleanCode, verifiedUserId).first();
           if (pRow) isVip = true;
         } catch (e) {}
       }
@@ -8857,21 +9015,17 @@ async function handleRadarFeed(request, env) {
       }
     }
 
-    // 6. Cloudflare KV VIP registry check
-    if (!isVip && env.VIP_KV && userId) {
+    // 6. Cloudflare KV VIP registry check (ONLY for verified userId)
+    if (!isVip && env.VIP_KV && verifiedUserId) {
       try {
-        const kvVip = await env.VIP_KV.get("vip:" + userId);
+        const kvVip = await env.VIP_KV.get("vip:" + verifiedUserId);
         if (kvVip === "1" || kvVip === "true") isVip = true;
       } catch (e) {}
     }
 
-    // 7. Client-side verified VIP state
-    if (!isVip && clientVip) {
-      isVip = true;
-    }
-
     // KV Edge Cache (personalized by VIP status)
     const cacheKey = `radar_feed_${isVip ? "vip" : "free"}`;
+    const radarCacheHeader = isVip ? "private, no-store" : "public, max-age=300, s-maxage=300";
     if (env.VIP_KV) {
       try {
         const cached = await env.VIP_KV.get(cacheKey, { type: "json" });
@@ -8879,7 +9033,7 @@ async function handleRadarFeed(request, env) {
           // If cached data is found, ensure isVip matches current session
           cached.isVip = isVip;
           return jsonResponse(cached, 200, {
-            "Cache-Control": "public, max-age=300, s-maxage=300",
+            "Cache-Control": radarCacheHeader,
             ...corsHeaders()
           });
         }
@@ -8996,7 +9150,7 @@ async function handleRadarFeed(request, env) {
     }
 
     return jsonResponse(payload, 200, {
-      "Cache-Control": "public, max-age=600, s-maxage=600",
+      "Cache-Control": isVip ? "private, no-store" : "public, max-age=600, s-maxage=600",
       ...corsHeaders()
     });
   } catch (err) {

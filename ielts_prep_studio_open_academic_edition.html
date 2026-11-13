@@ -11553,21 +11553,9 @@ async function loadStudioData() {
       SYNONYM_SETS_30 = spk.synonym_sets || [];
       SPEAKING_TOPIC_BANK_DATA = spk.topic_bank || [];
 
-      // If VIP is active, immediately load and merge full VIP curriculum bundle
-      if (typeof isVipActive === 'function' && isVipActive()) {
-        const vipPaths = ["public/data/vip-bundle.json", "data/vip-bundle.json"];
-        for (const vp of vipPaths) {
-          try {
-            const vRes = await fetch(vp);
-            if (vRes.ok) {
-              const vData = await vRes.json();
-              if (typeof window.mergeVipBundle === 'function') {
-                window.mergeVipBundle(vData);
-              }
-              break;
-            }
-          } catch (e) {}
-        }
+      // If VIP is active, immediately load and merge full VIP curriculum bundle from authenticated Worker API
+      if (typeof isVipActive === 'function' && isVipActive() && typeof window.ensureVipBundleLoaded === 'function') {
+        await window.ensureVipBundleLoaded();
       }
       return true;
     }
@@ -11714,86 +11702,6 @@ const VIP_PASS_PLANS = {
   lifetime: { name: "Lifetime Studio Pass", priceMmk: "97,000 MMK", stars: 1350, days: "lifetime" },
   intensive: { name: "Lifetime Studio Pass", priceMmk: "97,000 MMK", stars: 1350, days: "lifetime" }
 };
-
-const VALID_VOUCHER_CODES = {
-  // Pre-Minted Lifetime Customer Passes
-  "IPS-LIFE-901": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-902": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-903": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-904": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-905": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-906": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-907": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-908": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-909": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-LIFE-910": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-301": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-302": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-303": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-304": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-305": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-306": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-307": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-308": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-309": { plan: "lifetime", name: "Lifetime Studio Pass" },
-  "IPS-INT-310": { plan: "lifetime", name: "Lifetime Studio Pass" },
-
-  // Pre-Minted 7-Day Sprint Customer Passes
-  "IPS-SPRINT-101": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-102": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-103": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-104": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-105": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-106": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-107": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-108": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-109": { plan: "sprint", name: "7-Day Sprint Pass" },
-  "IPS-SPRINT-110": { plan: "sprint", name: "7-Day Sprint Pass" }
-};
-
-// Pre-Minted 7-Day Sprint Customer Passes (Batch 701-710)
-for (let i = 701; i <= 710; i++) {
-  VALID_VOUCHER_CODES[`IPS-SPRINT-${i}`] = { plan: "sprint", name: "7-Day Sprint Pass" };
-}
-
-// Batch 2: Unified Standard Lifetime Series (IPS-VIP-101 through IPS-VIP-150)
-for (let i = 101; i <= 150; i++) {
-  VALID_VOUCHER_CODES[`IPS-VIP-${i}`] = { plan: "lifetime", name: "Lifetime Studio Pass" };
-}
-
-// ==========================================
-// CRYPTOGRAPHIC RANDOMIZED PASS VERIFICATION
-// ==========================================
-const VOUCHER_SALT = "IELTS_STUDIO_VIP_2026_KEY";
-const VOUCHER_CHARSET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
-
-function generateVoucherChecksum(payload) {
-  let h1 = 0x811c9dc5 >>> 0;
-  let h2 = 0x5bd1e995 >>> 0;
-  const str = payload + ':' + VOUCHER_SALT;
-  for (let i = 0; i < str.length; i++) {
-    const c = str.charCodeAt(i);
-    h1 = (Math.imul(h1 ^ c, 0x01000193) >>> 0);
-    h2 = (Math.imul(h2 ^ (c << 3), 0x5bd1e995) >>> 0);
-  }
-  const idx0 = (h1 & 0x1F);
-  const idx1 = ((h1 >>> 5) & 0x1F);
-  const idx2 = (h2 & 0x1F);
-  const idx3 = ((h2 >>> 5) & 0x1F);
-  return VOUCHER_CHARSET[idx0] + VOUCHER_CHARSET[idx1] + VOUCHER_CHARSET[idx2] + VOUCHER_CHARSET[idx3];
-}
-
-function verifyVoucherChecksum(code) {
-  if (typeof code !== 'string') return false;
-  const parts = code.trim().toUpperCase().split('-');
-  if (parts.length === 4 && parts[0] === 'IPS' && parts[1] === 'VIP') {
-    const payload = parts[2];
-    const checksum = parts[3];
-    if (payload.length !== 4 || checksum.length !== 4) return false;
-    return generateVoucherChecksum(payload) === checksum;
-  }
-  return false;
-}
 
 const SPEAKING_FREE_MONTHLY_LIMIT = 10;
 const WRITING_FREE_MONTHLY_LIMIT = 5;
@@ -11943,8 +11851,9 @@ function isVipActive() {
   } catch (e) {}
 
   try {
-    const tgUser = window.telegramUser || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
-    if (tgUser && String(tgUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
+    const tgInitData = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || "";
+    const tmaUser = tgInitData ? (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) : null;
+    if (tmaUser && String(tmaUser.id) === String(window.ADMIN_TG_ID || "7468650530")) {
       window.isVipUser = true;
       return true;
     }
@@ -11956,7 +11865,8 @@ function isVipActive() {
     if (token) {
       const parts = token.split(".");
       if (parts.length === 3) {
-        const payload = JSON.parse(atob(parts[1]));
+        const b64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+        const payload = JSON.parse(atob(b64));
         if (payload.tier === "vip" && payload.exp && payload.exp > Math.floor(Date.now() / 1000)) {
           window.isVipUser = true;
           return true;
@@ -12476,41 +12386,32 @@ window.ensureVipBundleLoaded = async function() {
     window._vipBundleMerged = true;
     return;
   }
-  const vipPaths = ["public/data/vip-bundle.json", "data/vip-bundle.json"];
-  for (const p of vipPaths) {
-    try {
-      const res = await fetch(p);
-      if (res.ok) {
-        const data = await res.json();
-        if (typeof window.mergeVipBundle === "function") {
-          window.mergeVipBundle(data);
-          return;
-        }
-      }
-    } catch (err) {}
-  }
-  // Fallback to direct legacy JSON files if bundle unreachable
   try {
-    const [lRes, rRes, wRes, sRes] = await Promise.all([
-      fetch("data/lexicon.json"),
-      fetch("data/reading.json"),
-      fetch("data/writing.json"),
-      fetch("data/speaking.json")
-    ]);
-    if (lRes.ok) VOCAB_DATA = await lRes.json();
-    if (rRes.ok) READING_MOCKS = await rRes.json();
-    if (wRes.ok) WRITING_MOCKS = await wRes.json();
-    if (sRes.ok) {
-      const sData = await sRes.json();
-      SPEAKING_TOPIC_BANK_DATA = sData.topic_bank || [];
+    const apiBase = (window.StorageManager && typeof window.StorageManager.getApiBase === "function")
+      ? window.StorageManager.getApiBase()
+      : ((typeof getStudioApiBase === "function") ? getStudioApiBase() : "https://ielts-prep-studio-backend.lyan123-lh.workers.dev");
+    const sessionToken = (typeof localStorage !== "undefined" && localStorage.getItem("ips_session_token")) || "";
+    const initData = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || "";
+    const voucher = (typeof localStorage !== "undefined" && (localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_voucher"))) || "";
+    const query = new URLSearchParams();
+    if (voucher) query.set("code", voucher);
+    const headers = {};
+    if (sessionToken) headers["Authorization"] = `Bearer ${sessionToken}`;
+    if (initData) headers["X-Telegram-Init-Data"] = initData;
+
+    const url = `${apiBase}/api/vip-bundle${query.toString() ? "?" + query.toString() : ""}`;
+    const res = await fetch(url, { headers });
+    if (res.ok) {
+      const data = await res.json();
+      const bundle = (data && data.vipData) ? data.vipData : data;
+      if (bundle && typeof window.mergeVipBundle === "function") {
+        window.mergeVipBundle(bundle);
+        return;
+      }
     }
-    window._vipBundleMerged = true;
-    if (typeof updateLexiconCounters === "function") updateLexiconCounters();
-    if (typeof renderLexiconGrid === "function") renderLexiconGrid(true);
-    if (typeof initReadingMocks === "function") initReadingMocks();
-    if (typeof initWritingMocks === "function") initWritingMocks();
-    if (typeof initSpeakingStudio === "function") initSpeakingStudio();
-  } catch (e) {}
+  } catch (err) {
+    console.warn("[ensureVipBundleLoaded API notice]", err);
+  }
 };
 
 function activateVipPass(planType, voucherCode, isNewActivation = false) {
@@ -12627,17 +12528,7 @@ async function redeemVoucherCode(explicitCode) {
     }
   }
 
-  // 3. Fallback check ONLY for legacy pre-minted batch whitelist (IPS-VIP-101 to 150)
-  const found = VALID_VOUCHER_CODES[code];
-  if (found) {
-    const planType = found.plan || (code.includes("SPRINT") ? "sprint" : "lifetime");
-    const passName = found.name || (planType === "sprint" ? "7-Day Sprint Pass" : "Lifetime Studio Pass");
-    activateVipPass(planType, code, true);
-    if (fb) fb.innerHTML = `<span style="color:var(--green); font-weight:700;">✅ Valid Code! ${passName} applied to your account.</span>`;
-    return true;
-  }
-
-  if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code. Please check your transaction slip or contact @hyuguo.</span>`;
+  if (fb) fb.innerHTML = `<span style="color:var(--crimson); font-weight:600;">Invalid voucher code or unable to reach verification server. Please check your transaction slip or contact @hyuguo.</span>`;
   return false;
 }
 
@@ -12743,82 +12634,35 @@ window.quickUnlockBrowserVip = async function() {
       }
     } catch (e) {}
 
-    // 2. Query Parameter Detection
+    // 2. Query Parameter Detection (never trust unverified vip=1 or tg_user= URL params)
     const params = new URLSearchParams(window.location.search);
     const tgStartParam = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.start_param) || "";
     const rawCode = params.get("redeem") || params.get("voucher") || params.get("pass") || params.get("tgWebAppStartParam") || params.get("startapp") || tgStartParam;
-    const tgId = params.get("tg_user") || params.get("telegram_id") || params.get("tg_id") || params.get("uid");
-    const isVipParam = params.get("vip") === "1" || params.get("is_vip") === "1";
+    const rawToken = params.get("token") || "";
+    const hadLegacySpoofParams = Boolean(
+      params.get("tg_user") || params.get("telegram_id") || params.get("tg_id") || params.get("uid") ||
+      params.get("vip") || params.get("is_vip")
+    );
 
-    let userChanged = false;
-    let vipChanged = false;
-
-    if (tgId) {
-      const cleanId = String(tgId).trim().replace(/[^0-9]/g, '');
-      if (cleanId) {
-        const apiBase = (typeof getStudioApiBase === 'function') ? getStudioApiBase() : '';
-        const rawName = params.get("name") || params.get("first_name") || (window.telegramUser && window.telegramUser.first_name) || "IELTS Scholar";
-        const proxyAvatar = `${apiBase}/api/telegram-avatar?userId=${cleanId}&name=${encodeURIComponent(rawName)}`;
-
-        window.telegramUser = {
-          id: cleanId,
-          first_name: rawName,
-          username: params.get("username") || (window.telegramUser && window.telegramUser.username) || "",
-          photo_url: proxyAvatar,
-          avatar_proxy: proxyAvatar
-        };
-        try {
-          localStorage.setItem('ips_browser_tg_user', JSON.stringify(window.telegramUser));
-        } catch (e) {}
-        userChanged = true;
-
-        if (cleanId === String(window.ADMIN_TG_ID || "7468650530")) {
-          vipChanged = true;
+    // Accept signed Magic Link session token (?token=JWT) only as a credential to be verified by the server
+    if (rawToken && rawToken.split(".").length === 3) {
+      try {
+        const b64 = rawToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+        const payload = JSON.parse(atob(b64));
+        if (payload && payload.exp && payload.exp > Math.floor(Date.now() / 1000)) {
+          localStorage.setItem("ips_session_token", rawToken);
         }
-      }
-    }
-
-    if (isVipParam) {
-      vipChanged = true;
+      } catch (e) {}
     }
 
     const cleanCode = rawCode ? rawCode.trim().toUpperCase().replace(/[^A-Z0-9\-]/g, '') : "";
     if (cleanCode) {
+      // Stage for server redemption inside checkAndExecutePendingVoucher(); never grant VIP client-side unverified
       sessionStorage.setItem("ielts_pending_voucher", cleanCode);
-      try {
-        localStorage.setItem("occ_vip_voucher", cleanCode);
-      } catch (e) {}
-      vipChanged = true;
-    }
-
-    if (vipChanged) {
-      window.isVipUser = true;
-      try {
-        localStorage.setItem("ips_vip_active", "true");
-        if (!localStorage.getItem("occ_vip_voucher")) {
-          if (cleanCode) localStorage.setItem("occ_vip_voucher", cleanCode);
-        }
-      } catch (e) {}
-
-      setTimeout(() => {
-        if (typeof activateVipPass === "function") {
-          try { activateVipPass("lifetime", cleanCode || "", false); } catch (e) {}
-        }
-        if (typeof updateAuthUI === "function") updateAuthUI();
-        if (typeof refreshAllVipViews === "function") refreshAllVipViews();
-        if (typeof showToast === "function") {
-          const scholarName = (window.telegramUser && window.telegramUser.first_name) ? window.telegramUser.first_name : "Scholar";
-          showToast(`👋 Welcome ${scholarName}! Lifetime VIP Pass Active.`);
-        }
-      }, 300);
-    } else if (userChanged) {
-      setTimeout(() => {
-        if (typeof updateAuthUI === "function") updateAuthUI();
-      }, 200);
     }
 
     // Clean sensitive query parameters from address bar cleanly without page reload
-    if (tgId || cleanCode || isVipParam) {
+    if (hadLegacySpoofParams || cleanCode || rawToken) {
       try {
         params.delete("tg_user");
         params.delete("telegram_id");
@@ -17520,39 +17364,57 @@ function runManualWritingAudit() {
 // AI EXAMINER EVALUATION ENGINE (SERVERLESS CLOUDFLARE AI + GEMINI FALLBACK)
 // ==========================================
 async function callGeminiApi(promptText, systemInstruction, preferredModel = "@cf/meta/llama-3.1-8b-instruct") {
-  // 1. Primary Zero-Cost Engine: Cloudflare Workers AI ($0 developer out-of-pocket cost, no keys needed on client)
+  // 1. Primary Zero-Cost Engine: Cloudflare Workers AI ($0 developer out-of-pocket cost, server-verified quota)
   try {
-    const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
+    const apiBase = (typeof getStudioApiBase === "function") ? getStudioApiBase() : "https://ielts-prep-studio-backend.lyan123-lh.workers.dev";
+    const WORKER_AI_ENDPOINT = `${apiBase}/api/ai/chat`;
+    const sessionToken = (typeof localStorage !== "undefined" && localStorage.getItem("ips_session_token")) || "";
+    const initData = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || "";
+    const voucher = (typeof localStorage !== "undefined" && (localStorage.getItem("occ_vip_voucher") || localStorage.getItem("ips_vip_voucher"))) || "";
+    const headers = { "Content-Type": "application/json" };
+    if (sessionToken) headers["Authorization"] = `Bearer ${sessionToken}`;
+    if (initData) headers["X-Telegram-Init-Data"] = initData;
+
     const res = await fetch(WORKER_AI_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({
         prompt: promptText,
         systemInstruction: systemInstruction,
         model: preferredModel,
-        max_tokens: 1600
+        max_tokens: 1600,
+        initData,
+        voucher
       })
     });
 
     if (res.ok) {
       const data = await res.json();
-      if (data && data.success && data.text) {
-        const cleanModelName = (data.modelUsed || "Llama 3.1 8B").replace("@cf/meta/", "").replace("@cf/", "");
+      const aiText = (data && (data.text || data.reply)) ? String(data.text || data.reply) : "";
+      if (data && data.success && aiText) {
+        const cleanModelName = (data.modelUsed || data.model || "Llama 3.1 8B").replace("@cf/meta/", "").replace("@cf/", "");
         return {
-          text: data.text,
+          text: aiText,
           modelUsed: `Serverless AI (${cleanModelName})`
         };
       }
     }
   } catch (workerAiErr) {
-    console.warn("[Cloudflare Workers AI fetch notice, falling back to Gemini]", workerAiErr);
+    console.warn("[Cloudflare Workers AI fetch notice, falling back to BYOK Gemini]", workerAiErr);
   }
-  const _DEFAULT_GEMINI_KEY = atob("QVEuQWI4Uk42S0stb0JhZF9QeDJMcUljZmNqNnhseEZheUFjYmd6SGVJNW9GY2NGSUU5d0E=");
-  const config = window.GEMINI_CONFIG || {
-    apiKey: (typeof localStorage !== "undefined" && (localStorage.getItem("ips_byok_api_key") || localStorage.getItem("ielts_gemini_api_key"))) || _DEFAULT_GEMINI_KEY,
-    model: "gemini-3.5-flash-lite",
-    fallbackModels: ["gemini-3.5-flash", "gemini-3.8-flash"]
+
+  // 2. Optional User-Supplied BYOK Gemini Fallback (never ships an embedded developer API key)
+  const storedKey = (typeof localStorage !== "undefined" && (localStorage.getItem("ips_byok_api_key") || localStorage.getItem("ielts_gemini_api_key"))) || "";
+  const config = {
+    ...(window.GEMINI_CONFIG || {}),
+    apiKey: (window.GEMINI_CONFIG && window.GEMINI_CONFIG.apiKey) || storedKey,
+    model: (window.GEMINI_CONFIG && window.GEMINI_CONFIG.model) || "gemini-3.5-flash-lite",
+    fallbackModels: (window.GEMINI_CONFIG && window.GEMINI_CONFIG.fallbackModels) || ["gemini-3.5-flash", "gemini-3.8-flash"]
   };
+
+  if (!config.apiKey) {
+    throw new Error("Serverless AI quota reached or unavailable. Add your own Gemini API key (BYOK) in Settings to continue.");
+  }
 
   const modelsToTry = [config.model, ...(config.fallbackModels || ["gemini-3.5-flash", "gemini-3.8-flash"])];
 
@@ -23990,19 +23852,28 @@ async function sendAiChatMessage() {
     const primaryController = new AbortController();
     const primaryTimeout = setTimeout(() => primaryController.abort(), 25000);
 
-    const WORKER_AI_ENDPOINT = "https://ielts-prep-studio-backend.lyan123-lh.workers.dev/api/ai/chat";
+    const apiBase = (typeof getStudioApiBase === "function") ? getStudioApiBase() : "https://ielts-prep-studio-backend.lyan123-lh.workers.dev";
+    const WORKER_AI_ENDPOINT = `${apiBase}/api/ai/chat`;
     const messagesPayload = [
       { role: 'system', content: AI_MENTOR_SYSTEM_PROMPT },
       ...aiChatMessages.slice(-8)
     ];
+    const sessionToken = (typeof localStorage !== 'undefined' && localStorage.getItem('ips_session_token')) || '';
+    const initData = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || '';
+    const voucher = (typeof localStorage !== 'undefined' && (localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher'))) || '';
+    const aiHeaders = { 'Content-Type': 'application/json' };
+    if (sessionToken) aiHeaders['Authorization'] = `Bearer ${sessionToken}`;
+    if (initData) aiHeaders['X-Telegram-Init-Data'] = initData;
 
     const response = await fetch(WORKER_AI_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: aiHeaders,
       body: JSON.stringify({
         messages: messagesPayload,
         model: '@cf/meta/llama-3.2-3b-instruct',
-        max_tokens: 700
+        max_tokens: 700,
+        initData,
+        voucher
       }),
       signal: primaryController.signal
     });
@@ -24010,9 +23881,10 @@ async function sendAiChatMessage() {
 
     if (response.ok) {
       const resData = await response.json();
-      if (resData && resData.text && resData.text.trim().length > 0) {
-        replyText = resData.text.trim();
-        providerUsed = (resData.modelUsed || 'Llama 3.2 3B').replace('@cf/meta/', '').replace('@cf/', '');
+      const rawReply = (resData && (resData.text || resData.reply)) ? String(resData.text || resData.reply) : '';
+      if (rawReply.trim().length > 0) {
+        replyText = rawReply.trim();
+        providerUsed = (resData.modelUsed || resData.model || 'Llama 3.2 3B').replace('@cf/meta/', '').replace('@cf/', '');
       }
     }
   } catch (primaryErr) {
@@ -25603,15 +25475,18 @@ async function fetchRadarData() {
       }
     }
 
-    const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher') || localStorage.getItem('ips_session_token') || '';
-    const isClientVip = (typeof isVipActive === 'function' && isVipActive()) ? '1' : '0';
+    const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ips_vip_voucher') || '';
+    const sessionToken = localStorage.getItem('ips_session_token') || '';
+    const initData = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || '';
 
     const query = new URLSearchParams();
-    if (userId) query.set('userId', userId);
     if (voucher) query.set('voucher', voucher);
-    query.set('clientVip', isClientVip);
 
-    const res = await fetch('/api/radar/feed?' + query.toString());
+    const headers = {};
+    if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`;
+    if (initData) headers['X-Telegram-Init-Data'] = initData;
+
+    const res = await fetch('/api/radar/feed' + (query.toString() ? '?' + query.toString() : ''), { headers });
     if (res.ok) {
       const data = await res.json();
       window.radarData = data;

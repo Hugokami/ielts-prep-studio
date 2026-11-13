@@ -16,3 +16,4 @@ firestore.rules
 *.bat
 test_*.mjs
 test_*.js
+data/vip-bundle.json

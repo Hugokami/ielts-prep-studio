@@ -568,17 +568,20 @@ function getDeviceId() {
       const initData = this.getInitData();
       const tgUser = this.getTelegramUser();
       const clientVoucher = (state && state.userProfile && state.userProfile.voucherCode) || localStorage.getItem('occ_vip_voucher') || '';
-      if (!initData && !tgUser && !clientVoucher) return null; // Outside Telegram and no credentials
+      const sessionToken = (() => { try { return localStorage.getItem('ips_session_token') || ''; } catch (e) { return ''; } })();
+      if (!initData && !tgUser && !clientVoucher && !sessionToken) return null; // Outside Telegram and no credentials
 
       const dueCount = getDueSrsCount(state);
       const apiBase = getApiBase();
 
       try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`;
+        if (initData) headers['X-Telegram-Init-Data'] = initData;
+
         const response = await fetch(`${apiBase}/api/sync`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers,
           body: JSON.stringify({
             initData: initData,
             telegramId: tgUser ? tgUser.id : (state && state.userProfile && state.userProfile.telegramId) || 0,
@@ -595,6 +598,10 @@ function getDeviceId() {
 
         const data = await response.json();
         console.log('[StorageManager] Sync response:', data.isVip ? '👑 VIP User' : 'Free Mode');
+
+        if (data.sessionToken) {
+          try { localStorage.setItem('ips_session_token', data.sessionToken); } catch (e) {}
+        }
 
         // If server verified user is VIP and returned VIP bundle, merge it
         const isSprint = (data.plan === 'sprint' || (data.vipExpiresAt && data.vipExpiresAt > 0));
@@ -655,13 +662,16 @@ function getDeviceId() {
     async redeemActivationCode(code) {
       const initData = this.getInitData();
       const apiBase = getApiBase();
+      const sessionToken = (() => { try { return localStorage.getItem('ips_session_token') || ''; } catch (e) { return ''; } })();
 
       try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`;
+        if (initData) headers['X-Telegram-Init-Data'] = initData;
+
         const response = await fetch(`${apiBase}/api/redeem-code`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers,
           body: JSON.stringify({
             initData: initData,
             code: (code || '').trim().toUpperCase(),
@@ -708,10 +718,13 @@ function getDeviceId() {
           throw new Error(data.error || 'Failed to authenticate Telegram account.');
         }
 
-        // Store user in memory and localStorage for browser persistence
+        // Store user, signed session token, and server VIP status
         window.telegramUser = data.user;
         try {
           localStorage.setItem('ips_browser_tg_user', JSON.stringify(data.user));
+          if (data.sessionToken) {
+            localStorage.setItem('ips_session_token', data.sessionToken);
+          }
         } catch (e) {}
 
         // If user is VIP on server, unlock VIP pass & merge bundle
@@ -722,7 +735,7 @@ function getDeviceId() {
           }
           if (typeof window.activateVipPass === 'function') {
             // Pass isNewActivation = false to prevent toast popup spam and infinite sync loops on restore
-            window.activateVipPass(isWidgetSprint ? 'sprint' : 'lifetime', data.vipVoucher || clientVoucher, false);
+            window.activateVipPass(isWidgetSprint ? 'sprint' : 'lifetime', data.vipVoucher || '', false);
             if (isWidgetSprint && data.vipExpiresAt) {
               try { localStorage.setItem('ips_vip_expires_at', String(data.vipExpiresAt)); } catch (e) {}
             }
@@ -757,8 +770,13 @@ function getDeviceId() {
     signOutTelegramBrowser() {
       try {
         localStorage.removeItem('ips_browser_tg_user');
+        localStorage.removeItem('ips_session_token');
+        localStorage.removeItem('ips_vip_active');
+        localStorage.removeItem('occ_vip_voucher');
+        localStorage.removeItem('ips_vip_expires_at');
       } catch (e) {}
       window.telegramUser = null;
+      window.isVipUser = false;
       if (typeof window.appState !== 'undefined' && window.appState.userProfile) {
         window.appState.userProfile.tier = 'free';
         window.appState.userProfile.vipExpiresAt = null;
@@ -839,11 +857,9 @@ function getDeviceId() {
 
     async fetchVipTool(toolName, params = {}) {
       const apiBase = getApiBase();
-      const tgUser = this.getTelegramUser();
+      const initData = this.getInitData();
+      const sessionToken = (() => { try { return localStorage.getItem('ips_session_token') || ''; } catch (e) { return ''; } })();
       const query = new URLSearchParams(params);
-      if (tgUser && tgUser.id) {
-        query.set('telegram_id', tgUser.id);
-      }
       const voucher = localStorage.getItem('occ_vip_voucher') || localStorage.getItem('ielts_voucher_code') || (window.appState && window.appState.userProfile && window.appState.userProfile.voucherCode) || '';
       if (voucher) {
         query.set('code', voucher);
@@ -851,7 +867,13 @@ function getDeviceId() {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 7000);
-        const resp = await fetch(`${apiBase}/api/tools/${toolName}?${query.toString()}`, { signal: controller.signal });
+        const headers = {};
+        if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`;
+        if (initData) headers['X-Telegram-Init-Data'] = initData;
+        const resp = await fetch(`${apiBase}/api/tools/${toolName}?${query.toString()}`, {
+          headers,
+          signal: controller.signal
+        });
         clearTimeout(timeoutId);
         if (resp.ok) {
           const data = await resp.json();
@@ -866,7 +888,7 @@ function getDeviceId() {
     }
   };
 
-  // Auto-run sync on app boot if in Telegram
+  // Auto-run sync on app boot if in Telegram or holding a session/voucher token
   if (typeof window !== 'undefined') {
     window.StorageManager = StorageManager;
 
@@ -875,7 +897,17 @@ function getDeviceId() {
         window.updateAuthUI();
       }
       setTimeout(async () => {
-        if (StorageManager.isTelegram && typeof window.appState !== 'undefined') {
+        let hasCreds = StorageManager.isTelegram;
+        if (!hasCreds) {
+          try {
+            hasCreds = Boolean(
+              localStorage.getItem('ips_session_token') ||
+              localStorage.getItem('occ_vip_voucher') ||
+              localStorage.getItem('ips_browser_tg_user')
+            );
+          } catch (e) {}
+        }
+        if (hasCreds && typeof window.appState !== 'undefined') {
           console.log('[StorageManager] Booting auto-sync with Cloudflare Worker...');
           await StorageManager.syncServerless(window.appState);
         }

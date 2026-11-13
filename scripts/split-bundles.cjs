@@ -71,11 +71,9 @@ const freeBundleJson = JSON.stringify(freeBundle);
 fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'free-bundle.json'), freeBundleJson, 'utf8');
 fs.writeFileSync(path.join(DATA_DIR, 'free-bundle.json'), freeBundleJson, 'utf8');
 
-// Write vip-bundle.json to backend, public/data and data for universal availability
+// Write vip-bundle.json ONLY to backend/data so VIP curriculum stays gated behind Worker auth
 const vipBundleJson = JSON.stringify(vipBundle);
 fs.writeFileSync(path.join(BACKEND_DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
-fs.writeFileSync(path.join(PUBLIC_DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
-fs.writeFileSync(path.join(DATA_DIR, 'vip-bundle.json'), vipBundleJson, 'utf8');
 
 console.log('✅ Bundle splitting complete:');
 console.log(`- public/data/free-bundle.json: ${(freeBundleJson.length / 1024).toFixed(1)} KB`);

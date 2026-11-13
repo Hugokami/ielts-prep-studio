@@ -34,16 +34,18 @@ service cloud.firestore {
     //   - readingDone: list (optional, max 100 items) - Completed reading practice test IDs
     //   - errorLog: list (optional, max 1000 items) - SRS error logs and mistake bank
     //   - userProfile: map (optional) - Nested user status and tier
-    //       * tier: string (optional, max 20 chars; 'vip' requires valid voucher, existing vip, or admin)
+    //       * tier: string (optional, 'free' | 'vip'; 'vip' requires redeemed voucher, existing vip, or admin)
     //       * vipExpiresAt: timestamp | string | number | null (optional)
     //       * displayName: string (optional, <= 100 chars)
     //       * targetBand: number (optional, 0 <= band <= 9.0)
     //       * examDate: string (optional, <= 30 chars)
     //       * monthlyUsage: map (optional, max 50 keys) - Monthly usage counters
     //       * dailyUsage: map (optional, max 100 keys) - Daily usage counters
-    //       * voucherCode: string (optional, <= 30 chars) - Promotional / VIP voucher code
+    //       * voucherCode: string | null (optional, <= 30 chars) - Promotional / VIP voucher code
     //       * plan: string (optional, <= 50 chars) - Membership plan type
     //       * checkoutStatus: string (optional, <= 50 chars) - Checkout status
+    //       * verified: bool (optional; true requires redeemed voucher, existing vip, or admin)
+    //       * isVip: bool (optional; true requires redeemed voucher, existing vip, or admin)
     //   - theme: string (optional, 'light' | 'dark')
     //   - showBurmese: bool (optional)
     //   - fontScale: number (optional, 0.5 <= scale <= 3.0)
@@ -168,9 +170,10 @@ service cloud.firestore {
       return profile is map &&
         profile.keys().hasOnly([
           'tier', 'vipExpiresAt', 'displayName', 'targetBand', 'examDate',
-          'monthlyUsage', 'dailyUsage', 'voucherCode', 'plan', 'checkoutStatus'
+          'monthlyUsage', 'dailyUsage', 'voucherCode', 'plan', 'checkoutStatus',
+          'verified', 'isVip'
         ]) &&
-        (!('tier' in profile) || (profile.tier is string && profile.tier.size() <= 20)) &&
+        (!('tier' in profile) || (profile.tier is string && profile.tier in ['free', 'vip'])) &&
         (!('vipExpiresAt' in profile) ||
          profile.vipExpiresAt == null ||
          (profile.vipExpiresAt is timestamp && profile.vipExpiresAt > request.time) ||
@@ -181,30 +184,11 @@ service cloud.firestore {
         (!('examDate' in profile) || (profile.examDate is string && profile.examDate.size() <= 30)) &&
         (!('monthlyUsage' in profile) || (profile.monthlyUsage is map && profile.monthlyUsage.size() <= 50)) &&
         (!('dailyUsage' in profile) || (profile.dailyUsage is map && profile.dailyUsage.size() <= 100)) &&
-        (!('voucherCode' in profile) || (profile.voucherCode is string && profile.voucherCode.size() <= 30)) &&
+        (!('voucherCode' in profile) || profile.voucherCode == null || (profile.voucherCode is string && profile.voucherCode.size() <= 30)) &&
         (!('plan' in profile) || (profile.plan is string && profile.plan.size() <= 50)) &&
-        (!('checkoutStatus' in profile) || (profile.checkoutStatus is string && profile.checkoutStatus.size() <= 50));
-    }
-
-    // Check if the user document includes an approved initial voucher batch series
-    function hasValidVoucherCode(data) {
-      return data != null &&
-        'userProfile' in data &&
-        data.userProfile is map &&
-        'voucherCode' in data.userProfile &&
-        data.userProfile.voucherCode is string &&
-        data.userProfile.voucherCode in [
-          // Existing customer passes (unified Lifetime access)
-          'IPS-LIFE-901', 'IPS-LIFE-902', 'IPS-LIFE-903', 'IPS-LIFE-904', 'IPS-LIFE-905', 'IPS-LIFE-906', 'IPS-LIFE-907', 'IPS-LIFE-908', 'IPS-LIFE-909', 'IPS-LIFE-910',
-          'IPS-INT-301', 'IPS-INT-302', 'IPS-INT-303', 'IPS-INT-304', 'IPS-INT-305', 'IPS-INT-306', 'IPS-INT-307', 'IPS-INT-308', 'IPS-INT-309', 'IPS-INT-310',
-          'IPS-SPRINT-101', 'IPS-SPRINT-102', 'IPS-SPRINT-103', 'IPS-SPRINT-104', 'IPS-SPRINT-105', 'IPS-SPRINT-106', 'IPS-SPRINT-107', 'IPS-SPRINT-108', 'IPS-SPRINT-109', 'IPS-SPRINT-110',
-          // Standardized Lifetime series (IPS-VIP-101 to IPS-VIP-150)
-          'IPS-VIP-101', 'IPS-VIP-102', 'IPS-VIP-103', 'IPS-VIP-104', 'IPS-VIP-105', 'IPS-VIP-106', 'IPS-VIP-107', 'IPS-VIP-108', 'IPS-VIP-109', 'IPS-VIP-110',
-          'IPS-VIP-111', 'IPS-VIP-112', 'IPS-VIP-113', 'IPS-VIP-114', 'IPS-VIP-115', 'IPS-VIP-116', 'IPS-VIP-117', 'IPS-VIP-118', 'IPS-VIP-119', 'IPS-VIP-120',
-          'IPS-VIP-121', 'IPS-VIP-122', 'IPS-VIP-123', 'IPS-VIP-124', 'IPS-VIP-125', 'IPS-VIP-126', 'IPS-VIP-127', 'IPS-VIP-128', 'IPS-VIP-129', 'IPS-VIP-130',
-          'IPS-VIP-131', 'IPS-VIP-132', 'IPS-VIP-133', 'IPS-VIP-134', 'IPS-VIP-135', 'IPS-VIP-136', 'IPS-VIP-137', 'IPS-VIP-138', 'IPS-VIP-139', 'IPS-VIP-140',
-          'IPS-VIP-141', 'IPS-VIP-142', 'IPS-VIP-143', 'IPS-VIP-144', 'IPS-VIP-145', 'IPS-VIP-146', 'IPS-VIP-147', 'IPS-VIP-148', 'IPS-VIP-149', 'IPS-VIP-150'
-        ];
+        (!('checkoutStatus' in profile) || (profile.checkoutStatus is string && profile.checkoutStatus.size() <= 50)) &&
+        (!('verified' in profile) || profile.verified is bool) &&
+        (!('isVip' in profile) || profile.isVip is bool);
     }
 
     // Check if the user document references a valid voucher redeemed by this user in vouchers/{code}
@@ -216,40 +200,51 @@ service cloud.firestore {
         data.userProfile.voucherCode is string &&
         data.userProfile.voucherCode.size() > 0 &&
         data.userProfile.voucherCode.size() <= 30 &&
+        !data.userProfile.voucherCode.matches('.*/.*') &&
+        data.userProfile.voucherCode != '.' &&
+        data.userProfile.voucherCode != '..' &&
         (
           (exists(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)) &&
+           'redeemed' in get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
+           get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemed == true &&
            'redeemedBy' in get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
            get(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemedBy == request.auth.uid) ||
           (existsAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)) &&
+           'redeemed' in getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
+           getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemed == true &&
            'redeemedBy' in getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data &&
            getAfter(/databases/$(database)/documents/vouchers/$(data.userProfile.voucherCode)).data.redeemedBy == request.auth.uid)
         );
     }
 
-    // Prevent privilege escalation on create (cannot self-assign VIP tier unless valid voucher, redeemed voucher, or admin)
+    // Prevent privilege escalation on create (cannot self-assign VIP tier/flags unless redeemed voucher or admin)
     function isNotEscalatingVipTierOnCreate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
-      let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
-      return !hasTier ||
-        request.resource.data.userProfile.tier != 'vip' ||
-        hasValidVoucherCode(request.resource.data) ||
+      let requestsVip = hasProfile && (
+        ('tier' in request.resource.data.userProfile && request.resource.data.userProfile.tier == 'vip') ||
+        ('verified' in request.resource.data.userProfile && request.resource.data.userProfile.verified == true) ||
+        ('isVip' in request.resource.data.userProfile && request.resource.data.userProfile.isVip == true)
+      );
+      return !requestsVip ||
         hasRedeemedVoucher(request.resource.data) ||
         isAdmin();
     }
 
-    // Prevent privilege escalation on update (cannot self-assign VIP tier unless valid voucher, redeemed voucher, already VIP, or admin)
+    // Prevent privilege escalation on update (cannot self-assign VIP tier/flags unless already VIP, redeemed voucher, or admin)
     function isNotEscalatingVipTierOnUpdate() {
       let hasProfile = 'userProfile' in request.resource.data && request.resource.data.userProfile is map;
-      let hasTier = hasProfile && 'tier' in request.resource.data.userProfile;
+      let requestsVip = hasProfile && (
+        ('tier' in request.resource.data.userProfile && request.resource.data.userProfile.tier == 'vip') ||
+        ('verified' in request.resource.data.userProfile && request.resource.data.userProfile.verified == true) ||
+        ('isVip' in request.resource.data.userProfile && request.resource.data.userProfile.isVip == true)
+      );
       let wasVip = resource.data != null &&
                    'userProfile' in resource.data &&
                    resource.data.userProfile is map &&
                    'tier' in resource.data.userProfile &&
                    resource.data.userProfile.tier == 'vip';
-      return !hasTier ||
-        request.resource.data.userProfile.tier != 'vip' ||
+      return !requestsVip ||
         wasVip ||
-        hasValidVoucherCode(request.resource.data) ||
         hasRedeemedVoucher(request.resource.data) ||
         isAdmin();
     }
@@ -393,7 +388,12 @@ service cloud.firestore {
     // -------------------------------------------------------------
     match /vouchers/{voucherCode} {
       // Allow authenticated users to look up an unredeemed voucher (to inspect before redemption), their own redeemed voucher, or if admin
-      allow get: if request.auth != null && (resource == null || resource.data.redeemed == false || resource.data.redeemedBy == request.auth.uid || isAdmin());
+      allow get: if request.auth != null && (
+        resource == null ||
+        ('redeemed' in resource.data && resource.data.redeemed == false) ||
+        ('redeemedBy' in resource.data && resource.data.redeemedBy == request.auth.uid) ||
+        isAdmin()
+      );
 
       // Prevent any user from querying/listing all vouchers in the database
       allow list: if false;
@@ -405,10 +405,15 @@ service cloud.firestore {
       // - Only ['redeemed', 'redeemedBy', 'redeemedByEmail', 'redeemedAt'] can be modified
       allow update: if request.auth != null &&
         (!('isOneTime' in resource.data) || resource.data.isOneTime == true) &&
+        'redeemed' in resource.data &&
         resource.data.redeemed == false &&
         request.resource.data.redeemed == true &&
         request.resource.data.redeemedBy == request.auth.uid &&
-        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['redeemed', 'redeemedBy', 'redeemedByEmail', 'redeemedAt']);
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['redeemed', 'redeemedBy', 'redeemedByEmail', 'redeemedAt']) &&
+        (!('redeemedByEmail' in request.resource.data.diff(resource.data).affectedKeys()) ||
+         (request.resource.data.redeemedByEmail is string && request.resource.data.redeemedByEmail.size() <= 254)) &&
+        (!('redeemedAt' in request.resource.data.diff(resource.data).affectedKeys()) ||
+         request.resource.data.redeemedAt == request.time);
 
       // Disallow client creation and deletion (managed via Admin SDK)
       allow create, delete: if false;

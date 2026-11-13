@@ -2,7 +2,7 @@
 
 > **Examiner-Referenced IELTS Practice Suite • Offline PWA • Native Telegram Mini App • Serverless Edge AI**
 
-[![Live Demo](https://img.shields.io/badge/Live_App-hugokami.github.io%2Fielts--prep--studio-blue?style=for-the-badge&logo=googlechrome)](https://hugokami.github.io/ielts-prep-studio/)
+[![Live Demo](https://img.shields.io/badge/Live_App-ielts--prep--studio--olive.vercel.app-blue?style=for-the-badge&logo=vercel)](https://ielts-prep-studio-olive.vercel.app)
 [![Telegram Bot](https://img.shields.io/badge/Telegram_Bot-@IELTSPrepStudioBot-2CA5E0?style=for-the-badge&logo=telegram)](https://t.me/IELTSPrepStudioBot)
 [![Version](https://img.shields.io/badge/Version-8.8_Open_Academic-emerald?style=for-the-badge)](APP_BREAKDOWN.md)
 [![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](LICENSE)
@@ -25,7 +25,7 @@
 
 | Feature / Resource | Free Plan (Default Scholar) | Lifetime VIP Studio Pass (👑) |
 | :--- | :--- | :--- |
-| **Pricing** | **0 MMK / $0 Free Forever** | **55,000 MMK** (one-time lifetime) or **750 ★ Telegram Stars** |
+| **Pricing** | **0 MMK / $0 Free Forever** | **97,000 MMK** / **1,350 ★ Stars** (Lifetime) · **5,000 MMK** / **75 ★ Stars** (7-Day Sprint) |
 | **CBT Reading Tests** | **All 23 Passages (231 Questions) 100% Free** | **All 23 Passages (231 Questions) 100% Free** with split-screen CBT & band scoring |
 | **Academic Lexicon** | 250 Core Words | **1,162 Academic Items** + full 1-3-7 Leitner Spaced Repetition |
 | **Writing Model Essays** | 5 Models | **40 High-Scoring Models** (Task 1 charts/maps/processes + Task 2 arguments) |
@@ -66,7 +66,7 @@
 
 ### 1. Web / Desktop Usage
 Open the live Progressive Web App directly:  
-**[https://hugokami.github.io/ielts-prep-studio/](https://hugokami.github.io/ielts-prep-studio/)**
+**[https://ielts-prep-studio-olive.vercel.app](https://ielts-prep-studio-olive.vercel.app)**
 
 To run locally:
 ```bash
